@@ -1,0 +1,6 @@
+.storybook/**
+dist/**
+lib/**
+build/**
+node_modules/**
+storybook-static/**
