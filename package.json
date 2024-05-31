@@ -15,7 +15,10 @@
         }
     },
     "types": "dist/index.d.ts",
-    "files": ["dist", "lib"],
+    "files": [
+        "dist",
+        "lib"
+    ],
     "keywords": [
         "design",
         "system",
@@ -40,12 +43,12 @@
         "test:react": "start-server-and-test storybook:test-react http-get://localhost:6006 jest:integration"
     },
     "dependencies": {
-        "@daikinlab/dds-tokens": "^0.0.0",
+        "@daikin-oss/dds-tokens": "^0.0.0",
         "@netlify/classnames-template-literals": "^1.0.3",
         "lit": "^2.7.6"
     },
     "devDependencies": {
-        "@daikin-dsv/tailwind": "^1.0.0-alpha.2",
+        "@daikin-oss/tailwind": "^0.0.1",
         "@rollup/plugin-commonjs": "^25.0.4",
         "@rollup/plugin-node-resolve": "^15.2.1",
         "@storybook/addon-a11y": "7.6.17",

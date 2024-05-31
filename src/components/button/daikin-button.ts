@@ -4,7 +4,7 @@ import {
     buttonColorBackgroundPrimaryHover,
     buttonColorBackgroundPrimaryPress,
     buttonColorBackgroundPrimaryDisabled
-} from '@daikinlab/dds-tokens/js/daikin/Light/variables.js';
+} from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
 import ctl from '@netlify/classnames-template-literals';
 import { LitElement, html, css, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';

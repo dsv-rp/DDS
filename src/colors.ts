@@ -53,7 +53,7 @@ import {
     colorGreen90,
     colorGreen100,
     colorGreen110
-} from '@daikinlab/dds-tokens/js/daikin/Light/variables.js';
+} from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
 
 const DAIKIN_PRIMARY_BLUE = colorBrandPrimary;
 const DAIKIN_SECONDARY_BLUE = colorBrandSecondary;

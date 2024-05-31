@@ -66,7 +66,7 @@ npm run test
 ```
 import {
     buttonColorBackgroundPrimaryActive
-} from '@daikinlab/dds-tokens/js/daikin/Light/variables.js';
+} from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
 
 class DaikinButton extends LitElement implements DaikinButtonProps {
     static styles = css`
@@ -94,7 +94,7 @@ By default, out-of-the-box, the styles are for Daikin brand in light mode.
 For dark-mode support and non-daikin brands, you need to add the `tokens` package and include the CSS reference in your html:
 
 ```
-npm install '@daikinlab/dds-tokens
+npm install '@daikin-oss/dds-tokens
 ```
 
 #### Dark Mode
@@ -102,13 +102,13 @@ npm install '@daikinlab/dds-tokens
 Reference the CSS in HTML:
 
 ```
-<link rel="stylesheet" href="node_modules/@daikinlab/dds-tokens/build/css/DKN/Dark/buttons.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="node_modules/@daikin-oss/dds-tokens/build/css/DKN/Dark/buttons.css" media="(prefers-color-scheme: dark)">
 ```
 
 Using CSS `@import` with `prefers-color-scheme`:
 
 ```
-@import '@daikinlab/dds-tokens/css/daikin/Dark/buttons.css'
+@import '@daikin-oss/dds-tokens/css/daikin/Dark/buttons.css'
     (prefers-color-scheme: dark);
 
 ```
@@ -118,16 +118,16 @@ Using CSS `@import` with `prefers-color-scheme`:
 Reference the CSS in HTML:
 
 ```
-<link rel="stylesheet" href="node_modules/@daikinlab/dds-tokens/build/css/AAF/Dark/buttons.css" media="(prefers-color-scheme: light)">
-<link rel="stylesheet" href="node_modules/@daikinlab/dds-tokens/build/css/AAF/Dark/buttons.css" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css" media="(prefers-color-scheme: dark)">
 ```
 
 Using CSS `@import` with `prefers-color-scheme`:
 
 ```
-@import '@daikinlab/dds-tokens/css/aaf/Light/buttons.css'
+@import '@daikin-oss/dds-tokens/css/aaf/Light/buttons.css'
     (prefers-color-scheme: light);
-@import '@daikinlab/dds-tokens/css/aaf/Dark/buttons.css'
+@import '@daikin-oss/dds-tokens/css/aaf/Dark/buttons.css'
     (prefers-color-scheme: dark);
 ```
 

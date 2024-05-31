@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const daikinPlugin = require('@daikin-dsv/tailwind');
+const daikinPlugin = require('@daikin-oss/tailwind');
 
 module.exports = {
     content: ['./src/**/*.ts|js'],
