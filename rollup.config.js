@@ -1,3 +1,4 @@
+const { defineConfig } = require("rollup")
 const commonjs = require('@rollup/plugin-commonjs');
 const nodeResolve = require('@rollup/plugin-node-resolve');
 const glob = require('glob');
@@ -5,7 +6,7 @@ const discardComments = require('postcss-discard-comments');
 const postcss = require('rollup-plugin-postcss');
 const typescript = require('rollup-plugin-typescript2');
 
-module.exports = {
+module.exports = defineConfig({
     input: ['src/index.ts', ...glob.sync('src/?(components)/**/index.ts')],
     output: [
         {
@@ -44,4 +45,4 @@ module.exports = {
             exportConditions: ['node.default', 'node', 'import', 'default']
         })
     ]
-};
+});

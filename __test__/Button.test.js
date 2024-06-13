@@ -1,196 +1,110 @@
 describe('Button', () => {
-    describe('Primary', () => {
-        it('base', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--primary&viewMode=story'
-            );
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
+    const getPageURL = (variant, size) => 
+        `http://localhost:6006/iframe.html?viewMode=story&id=components-button--primary&args=variant:${variant};size:${size}`;
+    // vision test
+    describe.each(["primary", "secondary", "tertiary", "primary-danger"])("%s", (variant) => {
+        describe.each(["default", "condensed"])("%s", (size) => {
+            const baseURL = getPageURL(variant, size);
 
-            const image = await page.screenshot();
+            it('base', async () => {
+                await page.goto(baseURL);
 
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('hover', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--primary&viewMode=story'
-            );
+                // wait for element to be visible
+                const element = await page.waitForSelector('daikin-button', { visible: true });
+    
+                // take screenshot and check for diffs
+                const image = await element.screenshot();
+                expect(image).toMatchImageSnapshot();
+            });
+    
+            it('hover', async () => {
+                await page.goto(baseURL);
+    
+                // wait for element to be visible
+                const element = await page.waitForSelector('daikin-button', { visible: true });
 
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-            await page.hover('daikin-button');
+                // hover cursor on the element
+                await element.hover();
+    
+                // take screenshot and check for diffs
+                const image = await element.screenshot();
+                expect(image).toMatchImageSnapshot();
+            });
+    
+            it('press', async () => {
+                await page.goto(baseURL);
+    
+                // wait for element to be visible
+                const element = await page.waitForSelector('daikin-button', { visible: true });
+    
+                // hover cursor on the element and hold down mouse button on the element
+                await element.hover();
+                await page.mouse.down();
+    
+                // take screenshot and check for diffs
+                const image = await element.screenshot();
+                await page.mouse.up();
+                expect(image).toMatchImageSnapshot();
+            });
+    
+            it('focus', async () => {
+                await page.goto(baseURL);
+    
+                // wait for element to be visible
+                const element = await page.waitForSelector('daikin-button', { visible: true });
+                
+                // focus on the element
+                // daikin-button itself cannot have a focus as it is not a button element
+                // we have to focus on the internal button element
+                await page.evaluate((container) => {
+                    const button = container.shadowRoot.querySelector("button");
+                    button.focus();
+                }, element);
 
-            const image = await page.screenshot();
+                // take screenshot and check for diffs
+                const image = await element.screenshot();
+                expect(image).toMatchImageSnapshot();
+            });
+    
+            it('disabled', async () => {
+                // load page with disabled=true
+                await page.goto(`${baseURL};disabled:true`);
+    
+                // wait for element to be visible
+                const element = await page.waitForSelector('daikin-button', { visible: true });
 
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('disabled', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?args=disabled:true&id=components-button--primary&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-    });
-    describe('Secondary', () => {
-        it('base', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--secondary&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('hover', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--secondary&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-            await page.hover('daikin-button');
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('disabled', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?args=disabled:true&id=components-button--secondary&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
+                // take screenshot and check for diffs
+                const image = await element.screenshot();
+                expect(image).toMatchImageSnapshot();
+            });
         });
     });
-    describe('Tertiary', () => {
-        it('base', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--tertiary&viewMode=story'
-            );
+
+    // interaction test
+    describe("interaction test", () => {
+        const baseURL = getPageURL("primary", "default");
+        it("button can click when default", async () => {
+            await page.goto(baseURL);
 
             // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
+            await page.waitForSelector("daikin-button", { visible: true });
+            
+            // check button element is active
+            const isDisabled = await page.$eval("daikin-button", (button) => button.hasAttribute("disabled"))
+            expect(isDisabled).toBe(false)
+            
         });
-        it('hover', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--tertiary&viewMode=story'
-            );
+
+        it("button can not click when disabled", async () => {
+            await page.goto(`${baseURL};disabled:true`);
 
             // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-            await page.hover('daikin-button');
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('disabled', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?args=disabled:true&id=components-button--tertiary&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-    });
-    describe('Primary Danger', () => {
-        it('base', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--primary-danger&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('hover', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--primary-danger&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-            await page.hover('daikin-button');
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('focus', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?id=components-button--primary-danger&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-            await page.focus('daikin-button >>> button');
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
-        it('disabled', async () => {
-            // APIs from jest-puppeteer
-            await page.goto(
-                'http://localhost:6006/iframe.html?args=disabled:true&id=components-button--primary-danger&viewMode=story'
-            );
-
-            // wait for element to be visible
-            await page.waitForSelector('daikin-button', { visible: true });
-
-            const image = await page.screenshot();
-
-            // API from jest-image-snapshot
-            expect(image).toMatchImageSnapshot();
-        });
+            await page.waitForSelector("daikin-button", { visible: true });
+            
+            // check button element is active
+            const isDisabled = await page.$eval("daikin-button", (button) => button.hasAttribute("disabled"))
+            expect(isDisabled).toBe(true)
+            
+        })
     });
 });

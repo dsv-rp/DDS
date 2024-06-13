@@ -15,7 +15,9 @@ export const Primary: Story = {
     args: {
         variant: 'primary',
         disabled: false,
-        label: 'button'
+        label: 'button',
+        size: "default",
+        type:"button",
     }
 };
 
@@ -23,7 +25,9 @@ export const Secondary: Story = {
     args: {
         variant: 'secondary',
         disabled: false,
-        label: 'button'
+        label: 'button',
+        size: "default",
+        type:"button",
     }
 };
 
@@ -31,7 +35,9 @@ export const Tertiary: Story = {
     args: {
         variant: 'tertiary',
         disabled: false,
-        label: 'button'
+        label: 'button',
+        size: "default",
+        type:"button",
     }
 };
 
@@ -39,6 +45,8 @@ export const PrimaryDanger: Story = {
     args: {
         variant: 'primary-danger',
         disabled: false,
-        label: 'button'
+        label: 'button',
+        size: "default",
+        type:"button",
     }
 };

@@ -1,12 +1,10 @@
 {
     "compilerOptions": {
+        "composite": true,
         "target": "es2019",
         "module": "es2020",
         "lib": ["es2020", "DOM", "DOM.Iterable"],
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "inlineSources": true,
+        "jsx": "react",
         "experimentalDecorators": true,
         "useDefineForClassFields": false,
         "skipLibCheck": true,
@@ -14,7 +12,6 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "verbatimModuleSyntax": true,
-        "noEmit": true,
         /* Linting */
         "strict": true,
         "noUnusedLocals": true,
@@ -26,9 +23,4 @@
         "strictPropertyInitialization": false
     },
     "include": ["src", "globals.d.ts"],
-    "exclude": ["src/**/*.stories.ts", "src/**/*.stories.tsx"],
-    "references": [
-        {"path": "./tsconfig.node.json"},
-        {"path": "./tsconfig.story.json"}
-    ]
 }
