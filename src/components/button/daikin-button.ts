@@ -118,32 +118,59 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
         }
     `;
 
+    /**
+     * Type of variant.
+     */
     @property({ type: String })
     variant?: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
-
-    @property({ type: Boolean, reflect: true })
-    disabled? = false;
     
-    @property({ type: String, reflect: true })
-    label = "";
-
+    /**
+     * `true` if the button should be disabled.
+     */
+    @property({ type: Boolean, reflect: true })
+    disabled? = false
+    
+    /**
+     * Set a icon in the right of button label.
+     */
     @property({ type: String, reflect: true })
     rightIcon = "";
-
+    
+    /**
+     * Set a icon in the left of button label.
+     */
     @property({ type: String, reflect: true })
     leftIcon = "";
-
+    
+    /**
+     * Link `href`. If present, this button is rendered as `<a>`.
+     */
     @property({ type: String, reflect: true })
     href = "";
-
+    
+    /**
+     * Specify the button size.
+     */
     @property({type: String, reflect: true })
     size?: "default" | "condensed" = "default";
     
+    /**
+     * Specify the button type.
+     */
     @property({type: String, reflect: true })
     type?: "button" | "submit" | "reset" = "button";	
     
+    /**
+     * Specify the button role.
+     */
     @property({type: String, reflect: true })
     role: string = "button";
+    
+    /**
+     * Specify whether the button is loading.
+     */
+    @property({ type: Boolean })
+    isLoading = false;
 
     connectedCallback(): void {
         super.connectedCallback();
