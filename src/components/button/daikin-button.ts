@@ -91,7 +91,7 @@ export interface DaikinButtonProps {
     type?: 'button' | 'submit' | 'reset';
     role?: string;
     isLoading?: boolean;
-} 
+}
 
 /**
  * Primary UI component for user interaction
@@ -122,13 +122,13 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
      * Type of variant.
      */
     @property({ type: String })
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
+    variant: 'primary' | 'secondary' | 'tertiary' | 'primary-danger' = 'primary';
     
     /**
      * `true` if the button should be disabled.
      */
     @property({ type: Boolean, reflect: true })
-    disabled? = false
+    disabled = false
     
     /**
      * Set a icon in the right of button label.
@@ -152,13 +152,13 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
      * Specify the button size.
      */
     @property({type: String, reflect: true })
-    size?: "default" | "condensed" = "default";
+    size: "default" | "condensed" = "default";
     
     /**
      * Specify the button type.
      */
     @property({type: String, reflect: true })
-    type?: "button" | "submit" | "reset" = "button";	
+    type: "button" | "submit" | "reset" = "button";	
     
     /**
      * Specify the button role.
@@ -221,25 +221,30 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
             default:
                 CN += ` ${buttonSizeDefault}`;
         }
+
+        const content = html`
+                        <slot name="leftIcon"></slot>
+                        <span><slot></slot></span>
+                        <slot name="rightIcon"></slot>
+                        `;
         
         if(this.href) {
             return html`
-                <a href="${this.href}" class="${CN}" role="${this.role}">
-                    <slot name="leftIcon"></slot>
-                    <span><slot></slot></span>
-                    <slot name="rightIcon"></slot>
+                <a href="${this.href}" class="${CN}" role="${this.role as AnyRole}">
+                    ${content}
                 </a>`
         }
 
         return html`
-            <button class="${CN}" ?disabled="${this.disabled}" type="${this.type}" role="${this.role}">
-                <slot name="leftIcon"></slot>
-                <span><slot></slot></span>
-                <slot name="rightIcon"></slot>
+            <button class="${CN}" ?disabled="${this.disabled}" type="${this.type}" role="${this.role as AnyRole}">
+                ${content}
             </button>
         `;
     }
 }
+
+/** Alias of `any` for lit-plugin. We should use `string` for role type because role type can be extended. */
+type AnyRole = any;
 
 declare global {
     interface HTMLElementTagNameMap {
