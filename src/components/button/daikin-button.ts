@@ -13,19 +13,15 @@ import tailwindStyles from '../../tailwind.css';
 import styles from './button.css';
 
 const button = ctl(`
-  inline-block
+  flex
+  justify-center
+  items-center
   font-daikinSerif
-  rounded-lg 
-  text-base
-  px-4
-  py-2
-  shadow-lg
-  tracking-wide 
+  font-bold
+  rounded-lg
+  tracking-wide
+  text-wrap
   disabled:cursor-default 
-  disabled:shadow-none 
-
-  md:py-3
-  md:px-6
 `);
 
 const buttonSecondary = ctl(`
@@ -34,9 +30,13 @@ const buttonSecondary = ctl(`
   text-daikinBlue-500
   border-daikinBlue-500
 
-  hover:bg-daikinBlue-100
+  hover:text-daikinBlue-300
+  hover:border-daikinBlue-300
+  active:text-daikinBlue-600
+  active:border-daikinBlue-600
+  focus:text-daikinBlue-700
+  focus:border-daikinBlue-700
 
-  disabled:bg-white
   disabled:border-daikinNeutral-300
   disabled:text-daikinNeutral-400
   disabled:border
@@ -61,16 +61,37 @@ const buttonPrimaryDanger = ctl(`
   disabled:bg-daikinNeutral-300
 `);
 
+const buttonSizeDefault = ctl(`
+    max-w-[240px]
+    min-w-[88px]
+    min-h-[42px]
+    px-4
+    text-[14px]
+`)
+
+const buttonSizeCondensed = ctl(`
+    max-w-[160px]
+    min-w-[60px]
+    min-h-[32px]
+    px-[10px]
+    text-[12px]
+`)
+
 export interface DaikinButtonProps {
     /**
      * Type of action
      */
-    variant: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
     /**
      * Whether to show the disabled state
      */
     disabled?: boolean;
-}
+    href?: string;
+    size?: 'default' | 'condensed';
+    type?: 'button' | 'submit' | 'reset';
+    role?: string;
+    isLoading?: boolean;
+} 
 
 /**
  * Primary UI component for user interaction
@@ -97,11 +118,59 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
         }
     `;
 
+    /**
+     * Type of variant.
+     */
     @property({ type: String })
-    variant: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
-
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
+    
+    /**
+     * `true` if the button should be disabled.
+     */
     @property({ type: Boolean, reflect: true })
-    disabled = false;
+    disabled? = false
+    
+    /**
+     * Set a icon in the right of button label.
+     */
+    @property({ type: String, reflect: true })
+    rightIcon = "";
+    
+    /**
+     * Set a icon in the left of button label.
+     */
+    @property({ type: String, reflect: true })
+    leftIcon = "";
+    
+    /**
+     * Link `href`. If present, this button is rendered as `<a>`.
+     */
+    @property({ type: String, reflect: true })
+    href = "";
+    
+    /**
+     * Specify the button size.
+     */
+    @property({type: String, reflect: true })
+    size?: "default" | "condensed" = "default";
+    
+    /**
+     * Specify the button type.
+     */
+    @property({type: String, reflect: true })
+    type?: "button" | "submit" | "reset" = "button";	
+    
+    /**
+     * Specify the button role.
+     */
+    @property({type: String, reflect: true })
+    role: string = "button";
+    
+    /**
+     * Specify whether the button is loading.
+     */
+    @property({ type: Boolean })
+    isLoading = false;
 
     connectedCallback(): void {
         super.connectedCallback();
@@ -142,9 +211,31 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
                 CN += 'button-primary';
         }
 
+        switch (this.size) {
+            case 'default':
+                CN += ` ${buttonSizeDefault}`;
+                break;
+            case 'condensed':
+                CN += ` ${buttonSizeCondensed}`;
+                break;
+            default:
+                CN += ` ${buttonSizeDefault}`;
+        }
+        
+        if(this.href) {
+            return html`
+                <a href="${this.href}" class="${CN}" role="${this.role}">
+                    <slot name="leftIcon"></slot>
+                    <span><slot></slot></span>
+                    <slot name="rightIcon"></slot>
+                </a>`
+        }
+
         return html`
-            <button class="${CN}" ?disabled="${this.disabled}">
-                <slot></slot>
+            <button class="${CN}" ?disabled="${this.disabled}" type="${this.type}" role="${this.role}">
+                <slot name="leftIcon"></slot>
+                <span><slot></slot></span>
+                <slot name="rightIcon"></slot>
             </button>
         `;
     }

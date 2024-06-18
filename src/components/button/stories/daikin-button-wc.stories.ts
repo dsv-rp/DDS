@@ -13,10 +13,13 @@ const meta = {
             variant=${args.variant}
             ?disabled=${args.disabled}
             @click=${action('button-click')}
+            size=${args.size ?? "default"}
+            href=${args.href}
+            type=${args.type ?? "button"}
+            role=${args.role}
         >
             ${args.label}
-        </daikin-button>
-    `,
+        `,
     argTypes: {
         variant: {
             control: { type: 'select' },
@@ -25,7 +28,21 @@ const meta = {
         disabled: { type: 'boolean' },
         label: {
             type: 'string'
-        }
+        },
+        size: {
+            control: { type: 'select' },
+            options: ['default', 'condensed']
+        },
+        href: {
+            type: 'string'
+        },
+        type: {
+            control: { type: 'select' },
+            options: ['button' , 'submit' ,'reset']
+        },
+        role: {
+            type: 'string'
+        },
     }
 } satisfies Meta<DaikinButtonStoryArgs>;
 
