@@ -38,12 +38,15 @@
         "storybook:test": "storybook dev -p 6006 --ci",
         "storybook:test-react": "storybook dev -p 6006 --ci -c .storybook/react",
         "jest:integration": "jest -c __test__/jest.config.js",
+        "jest:update": "jest -c __test__/jest.config.js --updateSnapshot",
         "test": "npm run test:web-components && npm run test:react",
         "test:web-components": "start-server-and-test storybook:test http-get://localhost:6006 jest:integration",
-        "test:react": "start-server-and-test storybook:test-react http-get://localhost:6006 jest:integration"
+        "test:react": "start-server-and-test storybook:test-react http-get://localhost:6006 jest:integration",
+        "test:update": "start-server-and-test storybook:test http-get://localhost:6006 jest:update"
     },
     "dependencies": {
         "@daikin-oss/dds-tokens": "^0.0.0",
+        "@lit-labs/react": "^2.1.3",
         "@netlify/classnames-template-literals": "^1.0.3",
         "lit": "^2.7.6"
     },
