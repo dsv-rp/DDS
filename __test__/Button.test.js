@@ -7,7 +7,7 @@ describe('Button', () => {
             const baseURL = getPageURL(variant, size);
 
             it('base', async () => {
-                await page.goto(baseURL, { waitUntil: ["load", "networkidle0"] });
+                await page.goto(baseURL);
 
                 // wait for element to be visible
                 const element = await page.waitForSelector('daikin-button', { visible: true });
@@ -18,7 +18,7 @@ describe('Button', () => {
             });
     
             it('hover', async () => {
-                await page.goto(baseURL, { waitUntil: ["load", "networkidle0"] });
+                await page.goto(baseURL);
     
                 // wait for element to be visible
                 const element = await page.waitForSelector('daikin-button', { visible: true });
@@ -32,7 +32,7 @@ describe('Button', () => {
             });
     
             it('press', async () => {
-                await page.goto(baseURL, { waitUntil: ["load", "networkidle0"] });
+                await page.goto(baseURL);
     
                 // wait for element to be visible
                 const element = await page.waitForSelector('daikin-button', { visible: true });
@@ -48,7 +48,7 @@ describe('Button', () => {
             });
     
             it('focus', async () => {
-                await page.goto(baseURL, { waitUntil: ["load", "networkidle0"] });
+                await page.goto(baseURL);
     
                 // wait for element to be visible
                 const element = await page.waitForSelector('daikin-button', { visible: true });
@@ -68,7 +68,7 @@ describe('Button', () => {
     
             it('disabled', async () => {
                 // load page with disabled=true
-                await page.goto(`${baseURL};disabled:true`, { waitUntil: ["load", "networkidle0"] });
+                await page.goto(`${baseURL};disabled:true`);
     
                 // wait for element to be visible
                 const element = await page.waitForSelector('daikin-button', { visible: true });

@@ -3,7 +3,7 @@ const { configureToMatchImageSnapshot } = require('jest-image-snapshot');
 const toMatchImageSnapshot = configureToMatchImageSnapshot({
     failureThreshold: 0.01,
     failureThresholdType: 'percent',
-    blur: 1
+    blur: 0
 });
 
 expect.extend({ toMatchImageSnapshot });
