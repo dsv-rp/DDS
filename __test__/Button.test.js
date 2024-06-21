@@ -1,6 +1,8 @@
 describe('Button', () => {
     const getPageURL = (variant, size) => 
-        `http://localhost:6006/iframe.html?viewMode=story&id=components-button--primary&args=variant:${variant};size:${size}`;
+        // The button label is intentionally changed to a string that renders the local and CI environments the same
+        `http://localhost:6006/iframe.html?viewMode=story&id=components-button--primary&args=label:Button1;variant:${variant};size:${size}`;
+
     // vision test
     describe.each(["primary", "secondary", "tertiary", "primary-danger"])("%s", (variant) => {
         describe.each(["default", "condensed"])("%s", (size) => {
