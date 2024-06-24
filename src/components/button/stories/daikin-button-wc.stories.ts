@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/web-components';
 import { html } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 import '../daikin-button';
 import type { DaikinButtonStoryArgs } from './common.ts';
@@ -10,13 +11,13 @@ const meta = {
     tags: ['autodocs'],
     render: (args) => html`
         <daikin-button
-            variant=${args.variant}
+            variant=${ifDefined(args.variant)}
             ?disabled=${args.disabled}
             @click=${action('button-click')}
-            size=${args.size ?? "default"}
-            href=${args.href}
-            type=${args.type ?? "button"}
-            role=${args.role}
+            size=${ifDefined(args.size)}
+            href=${ifDefined(args.href)}
+            type=${ifDefined(args.type)}
+            role=${ifDefined(args.role)}
         >
             ${args.label}
         `,

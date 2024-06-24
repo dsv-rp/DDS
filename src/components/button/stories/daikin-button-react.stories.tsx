@@ -2,7 +2,7 @@ import React from 'react';
 
 import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
-
+import { ifDefined } from 'lit/directives/if-defined.js';
 import '../daikin-button';
 import type { DaikinButtonStoryArgs } from './common';
 
@@ -10,12 +10,12 @@ const Button: React.FC<DaikinButtonStoryArgs> = ({ variant, disabled, label, siz
     return (
         <daikin-button
             disabled={disabled ? true : undefined}
-            variant={variant}
+            variant={ifDefined(variant)}
             onClick={action('button-click')}
-            size={size ?? "default"}
-            href={href}
-            type={type ?? "button"}
-            role={role}
+            size={ifDefined(size)}
+            href={ifDefined(href)}
+            type={ifDefined(type)}
+            role={ifDefined(role)}
         >
             {label}
         </daikin-button>
