@@ -1,3 +1,6 @@
+const puppeteer = require('puppeteer');
+require('pptr-testing-library/extend');
+
 describe('Notification', () => {
     const getPageURL = (
         variant,
@@ -56,6 +59,127 @@ describe('Notification', () => {
                     }
                 });
             });
+        });
+    });
+
+    // interaction test
+    describe.only('interaction test', () => {
+        it('Can not find the close button by default', async () => {
+            await page.goto(
+                getPageURL(
+                    'toast',
+                    'positive',
+                    'single',
+                    '!true',
+                    '!false',
+                    '',
+                ),
+            );
+
+            // wait for element to be visible
+            await page.waitForSelector('daikin-notification', {
+                visible: true,
+            });
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> div[data-testid="daikin-notification"]',
+                ),
+            ).toHaveLength(1);
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> ::-p-aria([name="Close"][role="button"])',
+                ),
+            ).toHaveLength(0);
+        });
+        it('When `closeButton` is true, the close button is found and the Notification disappears when clicked', async () => {
+            const browser = await puppeteer.launch();
+            const page = await browser.newPage();
+            await page.goto(
+                getPageURL('toast', 'positive', 'single', '!true', '!true', ''),
+                { waitUntil: 'domcontentloaded' },
+            );
+
+            // wait for element to be visible
+            await page.waitForSelector('daikin-notification', {
+                visible: true,
+            });
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> div[data-testid="daikin-notification"]',
+                ),
+            ).toHaveLength(1);
+
+            const closeButton = await page.waitForSelector(
+                '::-p-aria([name="Close"][role="button"])',
+            );
+            await closeButton.click();
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> div[data-testid="daikin-notification"]',
+                ),
+            ).toHaveLength(0);
+        });
+        it('Can not find the action button by default inline notification', async () => {
+            await page.goto(
+                getPageURL(
+                    'inline',
+                    'positive',
+                    'single',
+                    '!true',
+                    '!false',
+                    '',
+                ),
+            );
+
+            // wait for element to be visible
+            await page.waitForSelector('daikin-notification', {
+                visible: true,
+            });
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> div[data-testid="daikin-notification"]',
+                ),
+            ).toHaveLength(1);
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> ::-p-aria([name="Action"][role="button"])',
+                ),
+            ).toHaveLength(0);
+        });
+        it('When `actionButtonLabel` has one or more characters, an action button is found in inline notification', async () => {
+            await page.goto(
+                getPageURL(
+                    'inline',
+                    'positive',
+                    'single',
+                    '!true',
+                    '!false',
+                    'Action',
+                ),
+            );
+
+            // wait for element to be visible
+            await page.waitForSelector('daikin-notification', {
+                visible: true,
+            });
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> div[data-testid="daikin-notification"]',
+                ),
+            ).toHaveLength(1);
+
+            expect(
+                await page.$$(
+                    'daikin-notification >>> ::-p-aria([name="Action"][role="button"])',
+                ),
+            ).toHaveLength(1);
         });
     });
 });

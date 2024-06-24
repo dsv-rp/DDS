@@ -78,6 +78,7 @@
         "lit-analyzer": "^2.0.0-pre.3",
         "postcss": "^8.4.28",
         "postcss-discard-comments": "^6.0.1",
+        "pptr-testing-library": "^0.8.0",
         "prettier": "^3.0.3",
         "puppeteer": "^21.4.0",
         "react": "^18.2.0",

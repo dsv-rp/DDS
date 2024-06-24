@@ -222,7 +222,10 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
         }
 
         return this.open
-            ? html`<div class="${notificationContainerClassName}">
+            ? html`<div
+                  class="${notificationContainerClassName}"
+                  data-testid="daikin-notification"
+              >
                   <div class="${notificationIconClassName}"></div>
                   <div class="flex items-center gap-5 p-[20px]">
                       <div class="${notificationTextAreaClassName}">
@@ -242,6 +245,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                       ${this.closeButton
                           ? html`
                                 <button
+                                    aria-label="Close"
                                     @click=${() => this.onClickDaikinClose()}
                                 >
                                     <img
