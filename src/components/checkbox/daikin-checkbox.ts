@@ -1,0 +1,196 @@
+import ctl from '@netlify/classnames-template-literals';
+import { LitElement, html, css, unsafeCSS } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+
+import tailwindStyles from '../../tailwind.css';
+
+const smallText = ctl(`
+    text-sm
+`)
+
+const largeText = ctl(`
+    text-base
+`)
+
+const baseCheckboxTextCN = ctl(`
+    leading-8
+    not-italic
+    font-normal
+    align-middle
+`)
+
+const baseCheckboxCN = ctl(`
+    appearance-none
+
+    inline-block
+    relative
+    rounded-sm
+    border-solid
+    border-2
+    border-daikinNeutral-400
+
+    hover:border-daikinBlue-300
+
+    active:border-daikinBlue-600
+    active:bg-daikinBlue-600
+
+    indeterminate:border-daikinBlue-600
+    indeterminate:bg-daikinBlue-600
+
+    checked:border-daikinBlue-600
+    checked:bg-daikinBlue-600
+
+    after:absolute
+    after:!w-full
+    after:!h-full
+    after:text-white
+
+    checked:after:i-daikin-checkbox-checked
+    indeterminate:after:i-daikin-checkbox-indeterminate
+
+    focus-visible:border-daikinBlue-700
+    focus-visible:outline-none
+
+    checked:focus-visible:border-daikinBlue-700
+    checked:focus-visible:bg-daikinBlue-700
+
+    indeterminate:focus-visible:border-daikinBlue-700
+    indeterminate:focus-visible:bg-daikinBlue-700
+
+    disabled:border-daikinNeutral-200
+    disabled:bg-white
+    indeterminate:disabled:bg-daikinNeutral-200
+    checked:disabled:bg-daikinNeutral-200
+`)
+
+const smallCheckbox = ctl(`
+    w-[18px]
+    h-[18px]
+`)
+
+const largeCheckbox = ctl(`
+    w-5
+    h-5
+`)
+
+export interface DaikinCheckBoxProps {
+    label: string
+    size: "small" | "large";
+    disabled: boolean;
+    labelPosition: "left" | "right";
+    readonly: boolean;
+    checkState: "unchecked" | "indeterminate" | "checked";
+    name: string;
+    value: string;
+    error: boolean;
+}
+
+/**
+ * Primary UI component for user interaction
+ */
+@customElement("daikin-checkbox")
+class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
+    static styles = css`
+        ${unsafeCSS(tailwindStyles)}
+
+        :host {
+            display: inline-block;
+        }
+    `;
+
+    private _handleClick(event: MouseEvent) {
+        if (this.readonly) {
+            event.preventDefault();
+        }
+    }
+
+    /**
+     * Specify the label text for check box
+     */
+    @property({ type: String })
+    label = "";
+    
+    /**
+     * Specify the component size
+     */
+    @property({ type: String })
+    size: "small" | "large"  = "small";
+
+    /**
+     * Specify the label position
+     * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
+     */
+    @property({ type: String, attribute: "label-position"})
+    labelPosition: "left" | "right" = "right";
+
+    /**
+     * Specify whether the Checkbox should be disabled
+     */
+    @property({ type: Boolean, reflect: true })
+    disabled = false;
+
+    /**
+     * Specify whether the checkbox is read only
+     */
+    @property({ type: Boolean, reflect: true })
+    readonly = false;
+    
+    /**
+     * Specify whether the checkbox is be checked
+     */
+    @property({ type: String , reflect: true, attribute: "check-state"})
+    checkState: "unchecked" | "indeterminate" | "checked"  = "unchecked";
+
+    /**
+     * The form name.
+     */
+    @property()
+    name= "";
+
+    /**
+     * The value.
+     */
+    @property()
+    value= "";
+
+    /**
+     * Specify whether the Checkbox is in a error state
+     */
+    @property({ type: Boolean , reflect: true})
+    error = false;
+
+    render() {
+        let textCN = baseCheckboxTextCN;
+        let checkboxCN = baseCheckboxCN;
+
+        // Specify the component size
+        switch (this.size) {
+            case 'large':
+                textCN += ` ${largeText}`;
+                checkboxCN += ` ${largeCheckbox}`;
+                break;
+
+            case 'small':
+            default:
+                textCN += ` ${smallText}`;
+                checkboxCN += ` ${smallCheckbox}`;
+                break;
+        }
+
+        const isChecked = this.checkState === 'checked';
+        const isIndeterminate = this.checkState === 'indeterminate';
+
+        const labelText = this.label ? html`<span class="${textCN}">${this.label}</span>` : html``;
+        const inputTag = html`<input class="${checkboxCN}" type="checkbox" name="${this.name}" value="${this.value}" .indeterminate=${isIndeterminate} .checked=${isChecked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}>`;
+        const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
+        return html`<label class="inline-flex gap-[10px] items-center">${inputArea}</label>`;
+    }
+}
+
+declare global {
+    interface HTMLElementTagNameMap {
+        'daikin-checkbox': DaikinCheckBox;
+    }
+}
+
+export default DaikinCheckBox;

@@ -49,6 +49,7 @@
     },
     "devDependencies": {
         "@daikin-oss/tailwind": "^0.0.1",
+        "@egoist/tailwindcss-icons": "^1.8.1",
         "@rollup/plugin-commonjs": "^25.0.4",
         "@rollup/plugin-node-resolve": "^15.2.1",
         "@storybook/addon-a11y": "7.6.17",
