@@ -20,6 +20,8 @@ type NotificationStatus =
     | 'warning'
     | 'alarm'
     | 'information';
+type NotificationVariant = 'toast' | 'inline';
+type NotificationLine = 'single' | 'multi';
 
 const notificationTextAreaBase = ctl(`
   flex
@@ -58,12 +60,38 @@ const notificationContainerVariantToast = ctl(`
   rounded-lg
   `);
 
+const CONTAINER_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
+    positive: 'notification-container-positive',
+    negative: 'notification-container-negative',
+    warning: 'notification-container-warning',
+    alarm: 'notification-container-alarm',
+    information: 'notification-container-information',
+};
+
+const CONTAINER_VARIANT_CLASS_MAP: Record<NotificationVariant, string> = {
+    toast: `notification-container-toast ${notificationContainerVariantToast}`,
+    inline: '',
+};
+
+const ICON_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
+    positive: 'notification-icon-positive',
+    negative: 'notification-icon-negative',
+    warning: 'notification-icon-warning',
+    alarm: 'notification-icon-alarm',
+    information: 'notification-icon-information',
+};
+
+const TEXT_AREA_LINE_CLASS_MAP: Record<NotificationLine, string> = {
+    single: notificationTextAreaLineSingle,
+    multi: notificationTextAreaLineMulti,
+};
+
 export interface DaikinNotificationProps {
     title?: string;
     description: string;
-    variant: 'toast' | 'inline';
+    variant: NotificationVariant;
     status: NotificationStatus;
-    line: 'single' | 'multi';
+    line: NotificationLine;
     open: boolean;
     closeButton?: boolean;
     actionButtonLabel?: string;
@@ -98,20 +126,19 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
      * Type of notification
      */
     @property({ type: String })
-    variant: 'toast' | 'inline' = 'toast';
+    variant: NotificationVariant = 'toast';
 
     /**
      * Status of notification
      */
     @property({ type: String })
-    status: 'positive' | 'negative' | 'warning' | 'alarm' | 'information' =
-        'positive';
+    status: NotificationStatus = 'positive';
 
     /**
      * Display in single or multiple lines
      */
     @property({ type: String })
-    line: 'single' | 'multi' = 'single';
+    line: NotificationLine = 'single';
 
     /**
      * Whether the component is open
@@ -168,58 +195,23 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
     }
 
     render() {
-        let notificationTextAreaClassName = `${notificationTextAreaBase}`;
-        let notificationIconClassName = `${notificationIconBase}`;
-        let notificationContainerClassName = `${notificationContainerBase}`;
-
-        switch (this.variant) {
-            case 'toast':
-                notificationContainerClassName += ` notification-container-toast ${notificationContainerVariantToast}`;
-                break;
-            case 'inline':
-                break;
-            default:
-                notificationContainerClassName += ` ${notificationContainerVariantToast}`;
-        }
-
-        switch (this.line) {
-            case 'single':
-                notificationTextAreaClassName += ` ${notificationTextAreaLineSingle}`;
-                break;
-            case 'multi':
-                notificationTextAreaClassName += ` ${notificationTextAreaLineMulti}`;
-                break;
-            default:
-                notificationTextAreaClassName += ` ${notificationTextAreaBase}`;
-        }
-
-        switch (this.status) {
-            case 'positive':
-                notificationContainerClassName +=
-                    ' notification-container-positive';
-                notificationIconClassName += ' notification-icon-positive';
-                break;
-            case 'negative':
-                notificationContainerClassName +=
-                    ' notification-container-negative';
-                notificationIconClassName += ' notification-icon-negative';
-                break;
-            case 'warning':
-                notificationContainerClassName +=
-                    ' notification-container-warning';
-                notificationIconClassName += ' notification-icon-warning';
-                break;
-            case 'alarm':
-                notificationContainerClassName +=
-                    ' notification-container-alarm';
-                notificationIconClassName += ' notification-icon-alarm';
-                break;
-            case 'information':
-                notificationContainerClassName +=
-                    ' notification-container-information';
-                notificationIconClassName += ' notification-icon-information';
-                break;
-        }
+        const notificationTextAreaClassName = [
+            notificationTextAreaBase,
+            TEXT_AREA_LINE_CLASS_MAP[this.line] ??
+                TEXT_AREA_LINE_CLASS_MAP.single,
+        ].join(' ');
+        const notificationIconClassName = [
+            notificationIconBase,
+            ICON_STATUS_CLASS_MAP[this.status] ??
+                ICON_STATUS_CLASS_MAP.positive,
+        ].join(' ');
+        const notificationContainerClassName = [
+            notificationContainerBase,
+            CONTAINER_STATUS_CLASS_MAP[this.status] ??
+                CONTAINER_STATUS_CLASS_MAP.positive,
+            CONTAINER_VARIANT_CLASS_MAP[this.variant] ??
+                CONTAINER_VARIANT_CLASS_MAP.toast,
+        ].join(' ');
 
         return this.open
             ? html`<div class="${notificationContainerClassName}">
