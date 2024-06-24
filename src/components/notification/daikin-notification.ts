@@ -222,10 +222,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
         }
 
         return this.open
-            ? html`<div
-                  class="${notificationContainerClassName}"
-                  data-testid="daikin-notification"
-              >
+            ? html`<div class="${notificationContainerClassName}">
                   <div class="${notificationIconClassName}"></div>
                   <div class="flex items-center gap-5 p-[20px]">
                       <div class="${notificationTextAreaClassName}">
