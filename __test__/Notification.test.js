@@ -81,10 +81,10 @@ describe('Notification', () => {
             expect(await page.$('daikin-notification >>> div')).toBeTruthy();
 
             expect(
-                await page.$$(
+                await page.$(
                     'daikin-notification >>> ::-p-aria([name="Close"][role="button"])',
                 ),
-            ).toHaveLength(0);
+            ).toBeFalsy();
         });
         it('When `closeButton` is true, the close button is found and the Notification disappears when clicked', async () => {
             await page.goto(
@@ -104,9 +104,7 @@ describe('Notification', () => {
             );
             await closeButton.click();
 
-            expect(await page.$$('daikin-notification >>> div')).toHaveLength(
-                0,
-            );
+            expect(await page.$('daikin-notification >>> div')).toBeFalsy();
         });
         it('Can not find the action button by default inline notification', async () => {
             await page.goto(
@@ -128,10 +126,10 @@ describe('Notification', () => {
             expect(await page.$('daikin-notification >>> div')).toBeTruthy();
 
             expect(
-                await page.$$(
+                await page.$(
                     'daikin-notification >>> ::-p-aria([name="Action"][role="button"])',
                 ),
-            ).toHaveLength(0);
+            ).toBeFalsy();
         });
         it('When `actionButtonLabel` has one or more characters, an action button is found in inline notification', async () => {
             await page.goto(
