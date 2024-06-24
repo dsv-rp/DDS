@@ -73,6 +73,18 @@ const largeCheckbox = ctl(`
     h-5
 `)
 
+
+const CHECKBOX_SIZE_CLASS_MAP = {
+    small: smallCheckbox,
+    large: largeCheckbox
+  } as const;
+
+
+const LABEL_SIZE_CLASS_MAP = {
+    small: smallText,
+    large: largeText
+  } as const;
+
 export interface DaikinCheckBoxProps {
     label: string
     size: "small" | "large";
@@ -160,22 +172,16 @@ class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
     error = false;
 
     render() {
-        let textCN = baseCheckboxTextCN;
-        let checkboxCN = baseCheckboxCN;
-
         // Specify the component size
-        switch (this.size) {
-            case 'large':
-                textCN += ` ${largeText}`;
-                checkboxCN += ` ${largeCheckbox}`;
-                break;
+        const textCN = [
+            baseCheckboxTextCN,
+            LABEL_SIZE_CLASS_MAP[this.size] ?? LABEL_SIZE_CLASS_MAP.small,
+          ].join(" ");
 
-            case 'small':
-            default:
-                textCN += ` ${smallText}`;
-                checkboxCN += ` ${smallCheckbox}`;
-                break;
-        }
+        const checkboxCN = [
+            baseCheckboxCN,
+            CHECKBOX_SIZE_CLASS_MAP[this.size] ?? CHECKBOX_SIZE_CLASS_MAP.small,
+          ].join(" ");
 
         const isChecked = this.checkState === 'checked';
         const isIndeterminate = this.checkState === 'indeterminate';
