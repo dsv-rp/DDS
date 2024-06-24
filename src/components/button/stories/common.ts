@@ -43,7 +43,7 @@ export const Tertiary: Story = {
 
 export const PrimaryDanger: Story = {
     args: {
-        variant: 'primary-danger',
+        variant: 'primaryDanger',
         disabled: false,
         label: 'button',
         size: "default",

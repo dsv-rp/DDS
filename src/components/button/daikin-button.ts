@@ -77,11 +77,23 @@ const buttonSizeCondensed = ctl(`
     text-[12px]
 `)
 
+const VARIANT_CLASS_MAP = {
+    primary: 'button-primary',
+    secondary: buttonSecondary,
+    tertiary: buttonTertiary,
+    primaryDanger: buttonPrimaryDanger,
+  } as const;
+
+const SIZE_CLASS_MAP = {
+    default: buttonSizeDefault,
+    condensed: buttonSizeCondensed
+  } as const;
+
 export interface DaikinButtonProps {
     /**
      * Type of action
      */
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'primary-danger';
+    variant?: 'primary' | 'secondary' | 'tertiary' | 'primaryDanger';
     /**
      * Whether to show the disabled state
      */
@@ -122,7 +134,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
      * Type of variant.
      */
     @property({ type: String })
-    variant: 'primary' | 'secondary' | 'tertiary' | 'primary-danger' = 'primary';
+    variant: 'primary' | 'secondary' | 'tertiary' | 'primaryDanger' = 'primary';
     
     /**
      * `true` if the button should be disabled.
@@ -192,35 +204,12 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
     }
 
     render() {
-        let CN = `${button} `;
 
-        switch (this.variant) {
-            case 'primary':
-                CN += 'button-primary';
-                break;
-            case 'secondary':
-                CN += buttonSecondary;
-                break;
-            case 'tertiary':
-                CN += buttonTertiary;
-                break;
-            case 'primary-danger':
-                CN += buttonPrimaryDanger;
-                break;
-            default:
-                CN += 'button-primary';
-        }
-
-        switch (this.size) {
-            case 'default':
-                CN += ` ${buttonSizeDefault}`;
-                break;
-            case 'condensed':
-                CN += ` ${buttonSizeCondensed}`;
-                break;
-            default:
-                CN += ` ${buttonSizeDefault}`;
-        }
+        const CN = [
+            button,
+            VARIANT_CLASS_MAP[this.variant] ?? VARIANT_CLASS_MAP.primary,
+            SIZE_CLASS_MAP[this.size] ?? SIZE_CLASS_MAP.default
+          ].join(" ");
 
         const content = html`
                         <slot name="leftIcon"></slot>

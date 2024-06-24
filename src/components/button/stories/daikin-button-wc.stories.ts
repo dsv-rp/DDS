@@ -23,7 +23,7 @@ const meta = {
     argTypes: {
         variant: {
             control: { type: 'select' },
-            options: ['primary', 'secondary', 'tertiary', 'primary-danger']
+            options: ['primary', 'secondary', 'tertiary', 'primaryDanger']
         },
         disabled: { type: 'boolean' },
         label: {
