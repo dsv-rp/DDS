@@ -20,6 +20,7 @@ const meta = {
             role=${ifDefined(args.role)}
         >
             ${args.label}
+        </daikin-button>
         `,
     argTypes: {
         variant: {
