@@ -1,4 +1,4 @@
-// Ddd this code to improve chrome browser rendering performance when test
+// Add this code to improve chrome browser rendering performance when test
 module.exports = {
   launch: {
     args: [
