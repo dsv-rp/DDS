@@ -102,6 +102,10 @@ export class DaikinTab extends mixinLifecycle(LitElement) {
     }
   }
 
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("button")?.focus(options);
+  }
+
   render() {
     const cn = [
       STYLE_COMMON,
@@ -114,6 +118,7 @@ export class DaikinTab extends mixinLifecycle(LitElement) {
         ?disabled="${this.disabled}"
         role="tab"
         aria-selected="${!this.disabled && this.active}"
+        tabindex=${this.active ? 0 : -1}
       >
         <slot></slot>
       </button>

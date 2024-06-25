@@ -77,6 +77,47 @@ export class DaikinTabGroup extends LitElement {
     this._updateValue(tab.value);
   }
 
+  private _handleKeyDown(event: KeyboardEvent): void {
+    const moveOffset =
+      event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+    if (!moveOffset) {
+      return;
+    }
+
+    if (!this._managingTabs.some(([tab]) => !tab.disabled)) {
+      return;
+    }
+
+    const activeTab = this._managingTabs.find(
+      ([element]) => !element.disabled && element.active
+    )?.[0];
+
+    const activeElement = document.activeElement;
+    const focusedTabIndex = activeElement
+      ? this._managingTabs.findIndex(([element]) =>
+          element.contains(activeElement)
+        )
+      : -1;
+
+    if (focusedTabIndex < 0) {
+      activeTab?.focus();
+      return;
+    }
+
+    for (let i = 1; i <= this._managingTabs.length; i++) {
+      const index =
+        (focusedTabIndex + moveOffset * i + this._managingTabs.length * i) %
+        this._managingTabs.length;
+      const candidate = this._managingTabs[index][0];
+      if (candidate.disabled) {
+        continue;
+      }
+
+      candidate.focus();
+      return;
+    }
+  }
+
   private _handleSlotChange(): void {
     const newTabs = Array.from(this.getElementsByTagName("daikin-tab"));
 
@@ -128,7 +169,11 @@ export class DaikinTabGroup extends LitElement {
 
   render() {
     return html`
-      <div class="inline-block w-full h-full" role="tablist">
+      <div
+        class="inline-block w-full h-full"
+        role="tablist"
+        @keydown=${this._handleKeyDown}
+      >
         <slot class="inline-flex" @slotchange=${this._handleSlotChange}></slot>
       </div>
     `;
