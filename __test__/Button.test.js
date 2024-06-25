@@ -54,13 +54,9 @@ describe('Button', () => {
     
                 // wait for element to be visible
                 const element = await page.waitForSelector('daikin-button', { visible: true });
-                
-                // focus on the element
-                // daikin-button itself cannot have a focus as it is not a button element
-                // we have to focus on the internal button element
+
                 await page.evaluate((container) => {
-                    const button = container.shadowRoot.querySelector("button");
-                    button.focus();
+                    container.focus();
                 }, element);
 
                 // take screenshot and check for diffs

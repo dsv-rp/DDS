@@ -110,6 +110,11 @@ export interface DaikinButtonProps {
  */
 @customElement('daikin-button')
 class DaikinButton extends LitElement implements DaikinButtonProps {
+
+    override focus() {
+        this.shadowRoot?.querySelector("button")?.focus();
+    }
+
     static styles = css`
         :host {
             --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
