@@ -50,14 +50,8 @@ const STYLE_MAP_SIZES = {
   `),
 };
 
-export interface DaikinTabProps {
-  size: "default" | "condensed";
-  active: boolean;
-  disabled: boolean;
-}
-
 @customElement("daikin-tab")
-export class DaikinTab extends mixinLifecycle(LitElement) implements DaikinTabProps {
+export class DaikinTab extends mixinLifecycle(LitElement) {
   static readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -72,6 +66,10 @@ export class DaikinTab extends mixinLifecycle(LitElement) implements DaikinTabPr
     }
   `;
 
+  /**
+   * A unique string that identifies a tab.
+   * Must be unique within the tab group.
+   */
   @property({ type: String })
   value: string = "";
 

@@ -4,15 +4,8 @@ import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css";
 import type { DaikinTab } from "./daikin-tab";
 
-export interface DaikinTabGroupProps {
-  /**
-   * Selected tab name
-   */
-  value: string;
-}
-
 @customElement("daikin-tab-group")
-export class DaikinTabGroup extends LitElement implements DaikinTabGroupProps {
+export class DaikinTabGroup extends LitElement {
   static readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -22,6 +15,10 @@ export class DaikinTabGroup extends LitElement implements DaikinTabGroupProps {
     }
   `;
 
+  /**
+   * `value` of the currently selected tab.
+   * see {@link DaikinTab.value}
+   */
   @property({ type: String, reflect: true })
   value: string = "";
 
