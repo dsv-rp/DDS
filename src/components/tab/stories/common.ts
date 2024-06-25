@@ -5,10 +5,12 @@ import type { DaikinTabGroup } from "../daikin-tab-group";
 
 export interface DaikinTabStoryArgs extends DaikinTab {
   /** Text input for users */
-  label?: string;
+  label: string;
 }
 
-export interface DaikinTabGroupStoryArgs extends DaikinTabGroup {}
+export interface DaikinTabGroupStoryArgs extends DaikinTabGroup {
+  size: DaikinTab["size"];
+}
 
 type TabStory = StoryObj<DaikinTabStoryArgs>;
 type TabGroupStory = StoryObj<DaikinTabGroupStoryArgs>;
@@ -25,5 +27,6 @@ export const Tab: TabStory = {
 export const TabGroup: TabGroupStory = {
   args: {
     value: "foo",
+    size: "default",
   },
 };
