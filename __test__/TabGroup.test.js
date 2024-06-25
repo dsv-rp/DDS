@@ -28,7 +28,7 @@ describe("Interaction Test", () => {
   const isActive = (elementHandle) =>
     page.evaluate((element) => element.active, elementHandle);
 
-  it.only("Active tab changes when enabled tab clicked", async () => {
+  it("Active tab changes when enabled tab clicked", async () => {
     await page.goto(baseURL);
 
     // wait for elements to be visible
