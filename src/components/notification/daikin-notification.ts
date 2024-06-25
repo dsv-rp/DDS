@@ -21,10 +21,21 @@ type NotificationStatus =
 type NotificationVariant = 'toast' | 'inline';
 type NotificationLine = 'single' | 'multi';
 
+const notificationContentsContainerBase = ctl(`
+    flex
+    justify-between
+    items-center
+    gap-5
+    p-[20px]
+    flex-none
+    flex-grow`);
+
 const notificationTextAreaBase = ctl(`
   flex
   justify-center
   gap-1
+  w-fit
+  flex-none
   `);
 
 const notificationTextAreaLineSingle = ctl(`
@@ -43,7 +54,7 @@ const notificationIconBase = ctl(`
   items-center
   w-[24px]
   h-[24px]
-  [flex:none]
+  flex-none
   `);
 
 const notificationIconContainerBase = ctl(`
@@ -51,12 +62,12 @@ const notificationIconContainerBase = ctl(`
   justify-center
   items-center
   w-[44px]
+  flex-none
   `);
 
 const notificationContainerBase = ctl(`
   flex
   box-border
-  w-[fit-content]
   bg-white
   overflow-hidden
   `);
@@ -131,6 +142,12 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
             --defaultColorFeedbackWarning: ${unsafeCSS(colorFeedbackWarning)};
             --defaultColorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
         }
+        :host([variant='toast']) {
+            width: max-content;
+        }
+        :host([variant='inline']) {
+            width: 100%;
+        }
     `;
 
     /**
@@ -148,7 +165,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
     /**
      * Type of notification
      */
-    @property({ type: String })
+    @property({ type: String, reflect: true })
     variant: NotificationVariant = 'toast';
 
     /**
@@ -246,28 +263,40 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                   <div class="${notificationIconContainerClassName}">
                       <span class=${notificationIconClassName}></span>
                   </div>
-                  <div class="flex items-center gap-5 p-[20px]">
+                  <div class="${notificationContentsContainerBase}">
                       <div class="${notificationTextAreaClassName}">
                           ${this.title &&
-                          html`<p class="text-[18px] font-bold">
+                          html`<p class="text-[18px] font-bold flex-none">
                               ${this.title}
                           </p>`}
-                          <p class="text-[18px]">${this.description}</p>
+                          <p class="text-[18px] flex-none">
+                              ${this.description}
+                          </p>
                       </div>
-                      ${this.variant === 'inline' && this.actionButtonLabel
-                          ? html`<daikin-button
-                                @click=${() => this.onClickDaikinAction()}
-                            >
-                                ${this.actionButtonLabel}
-                            </daikin-button>`
-                          : ''}
-                      ${this.closeButton
+                      ${(this.variant === 'inline' && this.actionButtonLabel) ||
+                      this.closeButton
                           ? html`
-                                <button
-                                    aria-label="Close"
-                                    @click=${() => this.onClickDaikinClose()}
-                                    class=${notificationCloseButton}
-                                ></button>
+                                <div class="flex items-center gap-5">
+                                    ${this.variant === 'inline' &&
+                                    this.actionButtonLabel
+                                        ? html`<daikin-button
+                                              @click=${() =>
+                                                  this.onClickDaikinAction()}
+                                          >
+                                              ${this.actionButtonLabel}
+                                          </daikin-button>`
+                                        : ''}
+                                    ${this.closeButton
+                                        ? html`
+                                              <button
+                                                  aria-label="Close"
+                                                  @click=${() =>
+                                                      this.onClickDaikinClose()}
+                                                  class=${notificationCloseButton}
+                                              ></button>
+                                          `
+                                        : ''}
+                                </div>
                             `
                           : ''}
                   </div>
