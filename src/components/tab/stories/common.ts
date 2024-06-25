@@ -1,14 +1,14 @@
 import type { StoryObj } from "@storybook/web-components";
 
-import type { DaikinTabProps } from "../daikin-tab";
-import { DaikinTabGroupProps } from "../daikin-tab-group";
+import type { DaikinTab } from "../daikin-tab";
+import type { DaikinTabGroup } from "../daikin-tab-group";
 
-export interface DaikinTabStoryArgs extends DaikinTabProps {
+export interface DaikinTabStoryArgs extends DaikinTab {
   /** Text input for users */
   label?: string;
 }
 
-export interface DaikinTabGroupStoryArgs extends DaikinTabGroupProps {}
+export interface DaikinTabGroupStoryArgs extends DaikinTabGroup {}
 
 type TabStory = StoryObj<DaikinTabStoryArgs>;
 type TabGroupStory = StoryObj<DaikinTabGroupStoryArgs>;
