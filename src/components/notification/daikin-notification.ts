@@ -7,8 +7,6 @@ import ctl from '@netlify/classnames-template-literals';
 import { LitElement, html, unsafeCSS, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
-import NOTIFICATION_CLOSE_ICON from './assets/daikin-notification-close.svg';
-
 import '../button';
 
 import tailwindStyles from '../../tailwind.css';
@@ -43,6 +41,15 @@ const notificationIconBase = ctl(`
   flex
   justify-center
   items-center
+  w-[24px]
+  h-[24px]
+  [flex:none]
+  `);
+
+const notificationIconContainerBase = ctl(`
+  flex
+  justify-center
+  items-center
   w-[44px]
   `);
 
@@ -60,6 +67,14 @@ const notificationContainerVariantToast = ctl(`
   rounded-lg
   `);
 
+const notificationCloseButton = ctl(`
+    flex
+    w-6
+    h-6
+    relative
+    i-daikin-notification-close
+    `);
+
 const CONTAINER_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
     positive: 'notification-container-positive',
     negative: 'notification-container-negative',
@@ -74,6 +89,14 @@ const CONTAINER_VARIANT_CLASS_MAP: Record<NotificationVariant, string> = {
 };
 
 const ICON_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
+    positive: 'i-daikin-notification-status-positive',
+    negative: 'i-daikin-notification-status-negative',
+    warning: 'i-daikin-notification-status-warning',
+    alarm: 'i-daikin-notification-status-alarm',
+    information: 'i-daikin-notification-status-information',
+};
+
+const ICON_CONTAINER_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
     positive: 'notification-icon-positive',
     negative: 'notification-icon-negative',
     warning: 'notification-icon-warning',
@@ -205,6 +228,11 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
             ICON_STATUS_CLASS_MAP[this.status] ??
                 ICON_STATUS_CLASS_MAP.positive,
         ].join(' ');
+        const notificationIconContainerClassName = [
+            notificationIconContainerBase,
+            ICON_CONTAINER_STATUS_CLASS_MAP[this.status] ??
+                ICON_CONTAINER_STATUS_CLASS_MAP.positive,
+        ].join(' ');
         const notificationContainerClassName = [
             notificationContainerBase,
             CONTAINER_STATUS_CLASS_MAP[this.status] ??
@@ -215,7 +243,9 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
 
         return this.open
             ? html`<div class="${notificationContainerClassName}">
-                  <div class="${notificationIconClassName}"></div>
+                  <div class="${notificationIconContainerClassName}">
+                      <span class=${notificationIconClassName}></span>
+                  </div>
                   <div class="flex items-center gap-5 p-[20px]">
                       <div class="${notificationTextAreaClassName}">
                           ${this.title &&
@@ -236,12 +266,8 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                                 <button
                                     aria-label="Close"
                                     @click=${() => this.onClickDaikinClose()}
-                                >
-                                    <img
-                                        src="${NOTIFICATION_CLOSE_ICON}"
-                                        alt="Notification close"
-                                    />
-                                </button>
+                                    class=${notificationCloseButton}
+                                ></button>
                             `
                           : ''}
                   </div>

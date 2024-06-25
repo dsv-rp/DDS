@@ -12,48 +12,54 @@
         var(--defaultColorFeedbackPositive)
     );
 }
+
 .notification-container-negative {
     border-color: var(
         --ColorFeedbackNegative,
         var(--defaultColorFeedbackNegative)
     );
 }
+
 .notification-container-warning {
     border-color: var(
         --ColorFeedbackWarning,
         var(--defaultColorFeedbackWarning)
     );
 }
+
 .notification-container-alarm {
     border-color: #f68c54;
 }
+
 .notification-container-information {
     border-color: #0097e0;
 }
+
 .notification-icon-positive {
-    background: var(
-            --ColorFeedbackPositive,
-            var(--defaultColorFeedbackPositive)
-        )
-        url('./assets/daikin-notification-status-positive.svg') no-repeat center;
+    background-color: var(
+        --ColorFeedbackPositive,
+        var(--defaultColorFeedbackPositive)
+    );
 }
+
 .notification-icon-negative {
-    background: var(
-            --ColorFeedbackNegative,
-            var(--defaultColorFeedbackNegative)
-        )
-        url('./assets/daikin-notification-status-negative.svg') no-repeat center;
+    background-color: var(
+        --ColorFeedbackNegative,
+        var(--defaultColorFeedbackNegative)
+    );
 }
+
 .notification-icon-warning {
-    background: var(--ColorFeedbackWarning, var(--defaultColorFeedbackWarning))
-        url('./assets/daikin-notification-status-warning.svg') no-repeat center;
+    background-color: var(
+        --ColorFeedbackWarning,
+        var(--defaultColorFeedbackWarning)
+    );
 }
+
 .notification-icon-alarm {
-    background: #f68c54 url('./assets/daikin-notification-status-alarm.svg')
-        no-repeat center;
+    background-color: #f68c54;
 }
+
 .notification-icon-information {
-    background: #0097e0
-        url('./assets/daikin-notification-status-information.svg') no-repeat
-        center;
+    background-color: #0097e0;
 }
