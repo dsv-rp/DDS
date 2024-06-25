@@ -6,7 +6,7 @@ on:
 
 jobs:
     visual-regression:
-        runs-on: macos-latest
+        runs-on: flyci-macos-large-latest-m1
 
         steps:
             - name: Checkout code
