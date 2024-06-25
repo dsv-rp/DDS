@@ -8,21 +8,21 @@
 
 .notification-container-positive {
     border-color: var(
-        --ColorFeedbackPositive,
+        --colorFeedbackPositive,
         var(--defaultColorFeedbackPositive)
     );
 }
 
 .notification-container-negative {
     border-color: var(
-        --ColorFeedbackNegative,
+        --colorFeedbackNegative,
         var(--defaultColorFeedbackNegative)
     );
 }
 
 .notification-container-warning {
     border-color: var(
-        --ColorFeedbackWarning,
+        --colorFeedbackWarning,
         var(--defaultColorFeedbackWarning)
     );
 }
@@ -37,21 +37,21 @@
 
 .notification-icon-positive {
     background-color: var(
-        --ColorFeedbackPositive,
+        --colorFeedbackPositive,
         var(--defaultColorFeedbackPositive)
     );
 }
 
 .notification-icon-negative {
     background-color: var(
-        --ColorFeedbackNegative,
+        --colorFeedbackNegative,
         var(--defaultColorFeedbackNegative)
     );
 }
 
 .notification-icon-warning {
     background-color: var(
-        --ColorFeedbackWarning,
+        --colorFeedbackWarning,
         var(--defaultColorFeedbackWarning)
     );
 }
