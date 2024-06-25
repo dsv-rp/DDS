@@ -141,6 +141,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
             --defaultColorFeedbackPositive: ${unsafeCSS(colorFeedbackPositive)};
             --defaultColorFeedbackWarning: ${unsafeCSS(colorFeedbackWarning)};
             --defaultColorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
+            display: block;
         }
         :host([variant='toast']) {
             width: max-content;
