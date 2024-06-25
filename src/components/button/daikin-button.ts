@@ -5,85 +5,59 @@ import {
     buttonColorBackgroundPrimaryPress,
     buttonColorBackgroundPrimaryDisabled
 } from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
-import ctl from '@netlify/classnames-template-literals';
 import { LitElement, html, css, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import tailwindStyles from '../../tailwind.css';
 import styles from './button.css';
+import { cva } from "class-variance-authority";
 
-const button = ctl(`
-  inline-flex
-  justify-center
-  items-center
-  font-daikinSerif
-  font-bold
-  rounded-lg
-  tracking-wide
-  text-wrap
-  disabled:cursor-default
-  h-full
-  w-full
-`);
-
-const buttonSecondary = ctl(`
-  border-2
-  bg-white
-  text-daikinBlue-500
-  border-daikinBlue-500
-
-  hover:text-daikinBlue-300
-  hover:border-daikinBlue-300
-  active:text-daikinBlue-600
-  active:border-daikinBlue-600
-  focus:text-daikinBlue-700
-  focus:border-daikinBlue-700
-
-  disabled:border-daikinNeutral-300
-  disabled:text-daikinNeutral-400
-  disabled:border
-`);
-
-const buttonTertiary = ctl(`
-  text-daikinBlue-400
-  bg-none
-  border-none
-  shadow-none
-
-  hover:bg-daikinNeutral-100
-  disabled:bg-transparent
-  disabled:text-daikinNeutral-400
-`);
-
-const buttonPrimaryDanger = ctl(`
-  bg-daikinRed
-  text-white 
-  hover:bg-daikinRed-400
-  focus:bg-daikinRed-700
-  disabled:bg-daikinNeutral-300
-`);
-
-const buttonSizeDefault = ctl(`
-    px-4
-    text-[14px]
-`)
-
-const buttonSizeCondensed = ctl(`
-    px-[10px]
-    text-[12px]
-`)
-
-const VARIANT_CLASS_MAP = {
-    primary: 'button-primary',
-    secondary: buttonSecondary,
-    tertiary: buttonTertiary,
-    primaryDanger: buttonPrimaryDanger,
-  } as const;
-
-const SIZE_CLASS_MAP = {
-    default: buttonSizeDefault,
-    condensed: buttonSizeCondensed
-  } as const;
+const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full"], {
+    variants: {
+        intent: {
+          primary: [
+            "button-primary"
+          ],
+          // **or**
+          // primary: "bg-blue-500 text-white border-transparent hover:bg-blue-600",
+          secondary: [
+            "border-2",
+            "bg-white",
+            "text-daikinBlue-500",
+            "border-daikinBlue-500",
+            "hover:text-daikinBlue-300",
+            "hover:border-daikinBlue-300",
+            "active:text-daikinBlue-600",
+            "active:border-daikinBlue-600",
+            "focus:text-daikinBlue-700",
+            "focus:border-daikinBlue-700",
+            "disabled:border-daikinNeutral-300",
+            "disabled:text-daikinNeutral-400",
+            "disabled:border"
+          ],
+          tertiary: [
+            "text-daikinBlue-400",
+            "bg-none",
+            "border-none",
+            "shadow-none",
+            "hover:bg-daikinNeutral-100",
+            "disabled:bg-transparent",
+            "disabled:text-daikinNeutral-400",
+          ],
+          primaryDanger: [
+            "bg-daikinRed",
+            "text-white",
+            "hover:bg-daikinRed-400",
+            "focus:bg-daikinRed-700",
+            "disabled:bg-daikinNeutral-300",
+          ]
+        },
+        size: {
+          default: ["px-4", "text-[14px]"],
+          condensed: ["px-[10px]", "text-[12px]"],
+        },
+      },
+});
 
 export interface DaikinButtonProps {
     /**
@@ -216,27 +190,21 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
 
     render() {
 
-        const CN = [
-            button,
-            VARIANT_CLASS_MAP[this.variant] ?? VARIANT_CLASS_MAP.primary,
-            SIZE_CLASS_MAP[this.size] ?? SIZE_CLASS_MAP.default
-          ].join(" ");
+        const buttonClassName = buttonCN({intent: this.variant, size: this.size})
 
         const content = html`
                         <slot name="leftIcon"></slot>
                         <span><slot></slot></span>
                         <slot name="rightIcon"></slot>
-                        `;
-        
+                        `; 
         if(this.href) {
             return html`
-                <a href="${this.href}" class="${CN}" role="${this.role as AnyRole}">
+                <a href="${this.href}" class="${buttonClassName}" role="${this.role as AnyRole}">
                     ${content}
                 </a>`
         }
-
         return html`
-            <button class="${CN}" ?disabled="${this.disabled}" type="${this.type}" role="${this.role as AnyRole}">
+            <button class="${buttonClassName}" ?disabled="${this.disabled}" type="${this.type}" role="${this.role as AnyRole}">
                 ${content}
             </button>
         `;
