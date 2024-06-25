@@ -1,23 +1,32 @@
 import { action } from "@storybook/addon-actions";
-import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import type { Meta } from "@storybook/react";
+import React from "react";
 
-import "../daikin-tab";
 import type { DaikinTabStoryArgs } from "./common";
+import { ReactDaikinTab } from "./react";
+
+const StoryTab: React.FC<DaikinTabStoryArgs> = ({
+  size,
+  active,
+  disabled,
+  label,
+}) => {
+  return (
+    <ReactDaikinTab
+      size={size}
+      active={active}
+      disabled={disabled}
+      onClick={action("click")}
+    >
+      {label}
+    </ReactDaikinTab>
+  );
+};
 
 const meta = {
   title: "Components/Tab",
   tags: ["autodocs"],
-  render: (args) => html`
-    <daikin-tab
-      size=${args.size}
-      ?active=${args.active}
-      ?disabled=${args.disabled}
-      @click=${action("click")}
-    >
-      ${args.label}
-    </daikin-tab>
-  `,
+  component: StoryTab,
   argTypes: {
     size: {
       control: { type: "select" },
