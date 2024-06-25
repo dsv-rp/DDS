@@ -2,7 +2,7 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css";
-import DaikinTab from "./daikin-tab";
+import type { DaikinTab } from "./daikin-tab";
 
 export interface DaikinTabGroupProps {
   /**
@@ -12,7 +12,7 @@ export interface DaikinTabGroupProps {
 }
 
 @customElement("daikin-tab-group")
-class DaikinTabGroup extends LitElement implements DaikinTabGroupProps {
+export class DaikinTabGroup extends LitElement implements DaikinTabGroupProps {
   static readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -143,5 +143,3 @@ declare global {
     "daikin-tab-group": DaikinTabGroup;
   }
 }
-
-export default DaikinTabGroup;

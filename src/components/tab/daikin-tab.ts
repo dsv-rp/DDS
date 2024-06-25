@@ -57,7 +57,7 @@ export interface DaikinTabProps {
 }
 
 @customElement("daikin-tab")
-class DaikinTab extends mixinLifecycle(LitElement) implements DaikinTabProps {
+export class DaikinTab extends mixinLifecycle(LitElement) implements DaikinTabProps {
   static readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -79,7 +79,7 @@ class DaikinTab extends mixinLifecycle(LitElement) implements DaikinTabProps {
    * Size of tab
    * @default "default"
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   size: "default" | "condensed" = "default";
 
   /**
@@ -128,5 +128,3 @@ declare global {
     "daikin-tab": DaikinTab;
   }
 }
-
-export default DaikinTab;
