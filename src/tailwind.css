@@ -1,6 +1,2 @@
-* {
-    text-rendering: geometricPrecision !important;
-}
-
 @tailwind base;
 @tailwind utilities;
