@@ -9,7 +9,7 @@ import type { DaikinCheckBoxStoryArgs } from './common';
 const CheckBox: React.FC<DaikinCheckBoxStoryArgs> = ({ size, disabled, readonly, labelPosition, label, checkState }) => {
     return (
         <daikin-checkbox
-            size={size ? size : "small"}
+            size={size}
             disabled={disabled ? true : undefined}
             onClick={action('checkbox-click')}
             readonly={readonly ? true : undefined}
