@@ -13,7 +13,7 @@ import tailwindStyles from '../../tailwind.css';
 import styles from './button.css';
 
 const button = ctl(`
-  flex
+  inline-flex
   justify-center
   items-center
   font-daikinSerif
@@ -21,7 +21,9 @@ const button = ctl(`
   rounded-lg
   tracking-wide
   text-wrap
-  disabled:cursor-default 
+  disabled:cursor-default
+  h-full
+  w-full
 `);
 
 const buttonSecondary = ctl(`
@@ -62,17 +64,11 @@ const buttonPrimaryDanger = ctl(`
 `);
 
 const buttonSizeDefault = ctl(`
-    max-w-[240px]
-    min-w-[88px]
-    min-h-[42px]
     px-4
     text-[14px]
 `)
 
 const buttonSizeCondensed = ctl(`
-    max-w-[160px]
-    min-w-[60px]
-    min-h-[32px]
     px-[10px]
     text-[12px]
 `)
@@ -132,6 +128,16 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
             --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
                 buttonColorBackgroundPrimaryDisabled
             )};
+        }
+        :host {
+            display: inline-block;
+            width: fit-content;
+            min-height: 42px;
+            height: 1px;
+        }
+
+        :host([size="condensed"]) {
+            min-height: 32px;
         }
     `;
 
