@@ -30,11 +30,11 @@ jobs:
                   path: |
                       node_modules
                       /Users/runner/.cache/puppeteer
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
+                  key: firefox-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
                   restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
+                      firefox-${{ runner.os }}-build-${{ env.cache-name }}-
+                      firefox-${{ runner.os }}-build-
+                      firefox-${{ runner.os }}-
 
             - name: Install dependencies
               run: npm i
