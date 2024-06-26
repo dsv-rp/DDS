@@ -23,6 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "verbatimModuleSyntax": true,
   },
-  "include": ["src", ".storybook"],
-  "exclude": ["**/tests", "**/*.test.ts"]
+  "include": ["src", ".storybook"]
 }

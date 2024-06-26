@@ -28,7 +28,8 @@
     "storybook:test": "storybook dev -p 6099 --ci",
     "storybook:test-react": "storybook dev -p 6099 --ci -c .storybook/react",
     "test:visual": "STORYBOOK_FW=web-components playwright test",
-    "test:visual-react": "STORYBOOK_FW=react playwright test"
+    "test:visual-react": "STORYBOOK_FW=react playwright test",
+    "test": "npm run test:visual && npm run test:visual-react"
   },
   "dependencies": {
     "@daikin-oss/dds-tokens": "^0.0.0",
@@ -55,8 +56,6 @@
     "@storybook/web-components-vite": "^8.1.9",
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/react": "^18.3.3",
-    "@vitest/browser": "^1.6.0",
-    "@vitest/ui": "^1.6.0",
     "autoprefixer": "^10.4.19",
     "class-variance-authority": "^0.7.0",
     "playwright": "^1.44.1",
@@ -69,7 +68,6 @@
     "typescript": "^5.4.5",
     "vite": "^5.2.10",
     "vite-plugin-dts": "^3.9.1",
-    "vite-plugin-externalize-deps": "^0.8.0",
-    "vitest": "^1.6.0"
+    "vite-plugin-externalize-deps": "^0.8.0"
   }
 }
