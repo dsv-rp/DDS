@@ -18,8 +18,6 @@ const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-dai
           primary: [
             "button-primary"
           ],
-          // **or**
-          // primary: "bg-blue-500 text-white border-transparent hover:bg-blue-600",
           secondary: [
             "border-2",
             "bg-white",
