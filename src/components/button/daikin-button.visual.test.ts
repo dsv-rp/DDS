@@ -73,7 +73,7 @@ describeEach(
 
       test("disabled", async ({ page }) => {
         // load page with disabled=true
-        await page.goto(`${baseURL};disabled:true`);
+        await page.goto(`${baseURL};disabled:!true`);
 
         // wait for element to be visible
         const element = await page.waitForSelector("daikin-button", {
