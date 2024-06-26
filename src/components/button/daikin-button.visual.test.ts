@@ -1,13 +1,14 @@
 import { test, expect } from "@playwright/test";
-import { clipFor } from "../../tests/visual";
+import { clipFor, describeEach } from "../../tests/visual";
 
 const getPageURL = (variant: string, size: string): string =>
   // The button label is intentionally changed to a string that renders the local and CI environments the same
   `/iframe.html?viewMode=story&id=components-button--primary&args=label:Button1;variant:${variant};size:${size}`;
 
-["primary", "secondary", "tertiary", "primaryDanger"].forEach((variant) => {
-  ["default", "condensed"].forEach((size) => {
-    test.describe(`${variant} ${size}`, () => {
+describeEach(
+  ["primary", "secondary", "tertiary", "primaryDanger"] as const,
+  (variant) => {
+    describeEach(["default", "condensed"] as const, (size) => {
       const baseURL = getPageURL(variant, size);
 
       test("base", async ({ page }) => {
@@ -83,5 +84,5 @@ const getPageURL = (variant: string, size: string): string =>
         await expect(page).toHaveScreenshot(await clipFor(element));
       });
     });
-  });
-});
+  }
+);
