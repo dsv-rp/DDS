@@ -1,7 +1,9 @@
 const { configureToMatchImageSnapshot } = require("jest-image-snapshot");
 
 const toMatchImageSnapshot = configureToMatchImageSnapshot({
-  failureThreshold: 0.1, // 10%, very large value; this will be changed after we run VRTs in a container
+  // We'll change this back to pixelmatch after we setup a container for running VRTs.
+  comparisonMethod: 'ssim',
+  failureThreshold: 0.01,
   failureThresholdType: "percent",
 });
 
