@@ -47,7 +47,6 @@
     "dependencies": {
         "@daikin-oss/dds-tokens": "^0.0.0",
         "@egoist/tailwindcss-icons": "^1.8.1",
-        "@lit/react": "^1.0.5",
         "@netlify/classnames-template-literals": "^1.0.3",
         "class-variance-authority": "^0.7.0",
         "lit": "^2.7.6"
@@ -55,6 +54,7 @@
     "devDependencies": {
         "@daikin-oss/tailwind": "^0.0.1",
         "@fontsource/roboto": "^5.0.13",
+        "@lit/react": "^1.0.5",
         "@rollup/plugin-commonjs": "^25.0.4",
         "@rollup/plugin-node-resolve": "^15.2.1",
         "@storybook/addon-a11y": "7.6.17",
