@@ -14,8 +14,10 @@ export async function clipFor(
     throw new Error("failed to get bounding box");
   }
 
-  const scrollX = await elementHandle.evaluate(() => window.scrollX);
-  const scrollY = await elementHandle.evaluate(() => window.scrollY);
+  const [scrollX, scrollY] = await elementHandle.evaluate(() => [
+    window.scrollX,
+    window.scrollY,
+  ]);
 
   return {
     clip: {
