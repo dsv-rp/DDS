@@ -63,6 +63,7 @@ const notificationContainerBase = ctl(`
   box-border
   bg-white
   overflow-hidden
+  font-daikinSerif
   `);
 
 const notificationContainerVariantToast = ctl(`
