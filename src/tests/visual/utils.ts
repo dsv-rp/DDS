@@ -23,7 +23,7 @@ export async function clipFor(
       x: Math.round(bBox.x) - MARGIN + scrollX,
       y: Math.round(bBox.y) - MARGIN + scrollY,
       width: Math.round(bBox.width) + MARGIN * 2,
-      height: Math.round(bBox.height) + MARGIN * 2 + 20,
+      height: Math.round(bBox.height) + MARGIN * 2,
     },
     fullPage: true,
   };
