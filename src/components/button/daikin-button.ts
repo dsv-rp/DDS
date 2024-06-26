@@ -10,7 +10,8 @@ import { customElement, property } from 'lit/decorators.js';
 
 import tailwindStyles from '../../tailwind.css';
 import styles from './button.css';
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
+import type { OmitNull } from "../../typeUtils";
 
 const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full", "outline-none"], {
     variants: {
@@ -57,17 +58,18 @@ const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-dai
       },
 });
 
+type ButtonProps = OmitNull<VariantProps<typeof buttonCN>>;
 export interface DaikinButtonProps {
     /**
      * Type of action
      */
-    variant?: 'primary' | 'secondary' | 'tertiary' | 'primaryDanger';
+    variant?: ButtonProps["intent"];
     /**
      * Whether to show the disabled state
      */
     disabled?: boolean;
     href?: string;
-    size?: 'default' | 'condensed';
+    size?: ButtonProps["size"];
     type?: 'button' | 'submit' | 'reset';
     role?: string;
     isLoading?: boolean;
@@ -117,7 +119,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
      * Type of variant.
      */
     @property({ type: String })
-    variant: 'primary' | 'secondary' | 'tertiary' | 'primaryDanger' = 'primary';
+    variant: ButtonProps["intent"] = "primary"
     
     /**
      * `true` if the button should be disabled.
@@ -147,7 +149,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
      * Specify the button size.
      */
     @property({type: String, reflect: true })
-    size: "default" | "condensed" = "default";
+    size: ButtonProps["size"] = "condensed"
     
     /**
      * Specify the button type.
