@@ -70,7 +70,7 @@ export class DaikinTab extends mixinLifecycle(LitElement) {
    * A unique string that identifies a tab.
    * Must be unique within the tab group.
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   value: string = "";
 
   /**

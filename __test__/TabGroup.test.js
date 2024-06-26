@@ -25,8 +25,12 @@ describe("VRT", () => {
 describe("Interaction Test", () => {
   const baseURL = getPageURL();
 
-  const isActive = (elementHandle) =>
-    page.evaluate((element) => element.active, elementHandle);
+  const isActive = (elementHandle) => {
+    if (!elementHandle) {
+      throw new Error("Element is null");
+    }
+    return page.evaluate((element) => element.active, elementHandle);
+  };
 
   it("Active tab changes when enabled tab clicked", async () => {
     await page.goto(baseURL);
@@ -36,8 +40,8 @@ describe("Interaction Test", () => {
       visible: true,
     });
 
-    const fooTab = await page.waitForSelector('daikin-tab[value="foo"]');
-    const bazTab = await page.waitForSelector('daikin-tab[value="baz"]');
+    const fooTab = await page.$('daikin-tab[value="foo"]');
+    const bazTab = await page.$('daikin-tab[value="baz"]');
 
     expect(await isActive(fooTab)).toBe(true);
     expect(await isActive(bazTab)).toBe(false);
@@ -57,8 +61,8 @@ describe("Interaction Test", () => {
       visible: true,
     });
 
-    const fooTab = await page.waitForSelector('daikin-tab[value="foo"]');
-    const barTab = await page.waitForSelector('daikin-tab[value="bar"]');
+    const fooTab = await page.$('daikin-tab[value="foo"]');
+    const barTab = await page.$('daikin-tab[value="bar"]');
 
     expect(await isActive(fooTab)).toBe(true);
     expect(await isActive(barTab)).toBe(false);
