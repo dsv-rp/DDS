@@ -13,11 +13,12 @@ import styles from './button.css';
 import { cva, type VariantProps } from "class-variance-authority";
 import type { OmitNull } from "../../typeUtils";
 
-const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full", "focus-visible:outline-none"], {
+const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full"], {
     variants: {
         intent: {
           primary: [
-            "button-primary"
+            "button-primary",
+            "focus-visible:outline-none"
           ],
           secondary: [
             "border-2",
@@ -32,7 +33,8 @@ const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-dai
             "focus-visible:border-daikinBlue-700",
             "disabled:border-daikinNeutral-300",
             "disabled:text-daikinNeutral-400",
-            "disabled:border"
+            "disabled:border",
+            "focus-visible:outline-none"
           ],
           tertiary: [
             "text-daikinBlue-400",
@@ -49,7 +51,8 @@ const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-dai
             "hover:bg-daikinRed-400",
             "focus-visible:bg-daikinRed-700",
             "disabled:bg-daikinNeutral-300",
-            "active:bg-daikinRed-700"
+            "active:bg-daikinRed-700",
+            "focus-visible:outline-none"
           ]
         },
         size: {
