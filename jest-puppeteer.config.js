@@ -6,6 +6,7 @@ module.exports = {
     args: [
       "--disable-gpu",
       "--disable-gpu-compositng",
+      "--disable-accelerated-2d-canvas",
       "--enable-gpu-rasterization",
       "--disable-dev-shm-usage",
       "--disable-setuid-sandbox",
