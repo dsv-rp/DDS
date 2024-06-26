@@ -3,21 +3,8 @@ import { LitElement, html, css, unsafeCSS } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import tailwindStyles from '../../tailwind.css';
-
-const smallText = ctl(`
-    text-sm
-`)
-
-const largeText = ctl(`
-    text-base
-`)
-
-const baseCheckboxTextCN = ctl(`
-    leading-8
-    not-italic
-    font-normal
-    align-middle
-`)
+import { cva, type VariantProps } from "class-variance-authority";
+import type { OmitNull } from "../../typeUtils";
 
 const baseCheckboxCN = ctl(`
     appearance-none
@@ -63,31 +50,37 @@ const baseCheckboxCN = ctl(`
     checked:disabled:bg-daikinNeutral-200
 `)
 
-const smallCheckbox = ctl(`
-    w-[18px]
-    h-[18px]
-`)
+const labelCN = cva(["leading-8", "not-italic", "font-normal", "align-middle"], {
+    variants: {
+            size: {
+                small: ["text-sm"],
+                large: ["text-base"],
+            },
+        },
+        defaultVariants: {
+            size: "small"
+        }
+});
 
-const largeCheckbox = ctl(`
-    w-5
-    h-5
-`)
+const checkboxCN = cva(baseCheckboxCN, {
+    variants: {
+            size: {
+                small: ["w-[18px]", "h-[18px]"],
+                large: ["w-5", "h-5"],
+            },
+        },
+        defaultVariants: {
+            size: "small"
+        }
+});
 
-
-const CHECKBOX_SIZE_CLASS_MAP = {
-    small: smallCheckbox,
-    large: largeCheckbox
-  } as const;
-
-
-const LABEL_SIZE_CLASS_MAP = {
-    small: smallText,
-    large: largeText
-  } as const;
+type labelProps = OmitNull<VariantProps<typeof labelCN>>;
+type checkboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
+type componentSize = labelProps["size"] & checkboxProps["size"];
 
 export interface DaikinCheckBoxProps {
     label: string
-    size: "small" | "large";
+    size: componentSize;
     disabled: boolean;
     labelPosition: "left" | "right";
     readonly: boolean;
@@ -126,7 +119,7 @@ class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
      * Specify the component size
      */
     @property({ type: String })
-    size: "small" | "large"  = "small";
+    size: componentSize  = "small";
 
     /**
      * Specify the label position
@@ -173,21 +166,14 @@ class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
 
     render() {
         // Specify the component size
-        const textCN = [
-            baseCheckboxTextCN,
-            LABEL_SIZE_CLASS_MAP[this.size] ?? LABEL_SIZE_CLASS_MAP.small,
-          ].join(" ");
-
-        const checkboxCN = [
-            baseCheckboxCN,
-            CHECKBOX_SIZE_CLASS_MAP[this.size] ?? CHECKBOX_SIZE_CLASS_MAP.small,
-          ].join(" ");
+        const labelClassName = labelCN({size: this.size})
+        const checkboxClassName = checkboxCN({size: this.size})
 
         const isChecked = this.checkState === 'checked';
         const isIndeterminate = this.checkState === 'indeterminate';
 
-        const labelText = this.label ? html`<span class="${textCN}">${this.label}</span>` : html``;
-        const inputTag = html`<input class="${checkboxCN}" type="checkbox" name="${this.name}" value="${this.value}" .indeterminate=${isIndeterminate} .checked=${isChecked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}>`;
+        const labelText = this.label ? html`<span class="${labelClassName}">${this.label}</span>` : html``;
+        const inputTag = html`<input class="${checkboxClassName}" type="checkbox" name="${this.name}" value="${this.value}" .indeterminate=${isIndeterminate} .checked=${isChecked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}>`;
         const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
         return html`<label class="inline-flex gap-[10px] items-center">${inputArea}</label>`;
     }
