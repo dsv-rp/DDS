@@ -56,6 +56,10 @@ const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-dai
           condensed: ["px-[10px]", "text-[12px]"],
         },
       },
+      defaultVariants: {
+        intent: "primary",
+        size: "condensed"
+      }
 });
 
 type ButtonProps = OmitNull<VariantProps<typeof buttonCN>>;
