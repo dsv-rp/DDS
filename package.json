@@ -34,6 +34,7 @@
   "dependencies": {
     "@daikin-oss/dds-tokens": "^0.0.0",
     "@netlify/classnames-template-literals": "^1.0.3",
+    "class-variance-authority": "^0.7.0",
     "lit": "^3.1.4"
   },
   "devDependencies": {
@@ -57,7 +58,6 @@
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/react": "^18.3.3",
     "autoprefixer": "^10.4.19",
-    "class-variance-authority": "^0.7.0",
     "playwright": "^1.44.1",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
