@@ -6,22 +6,15 @@ import {
 import ctl from '@netlify/classnames-template-literals';
 import { LitElement, html, unsafeCSS, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { VariantProps, cva } from 'class-variance-authority';
 
 import '../button';
 
 import tailwindStyles from '../../tailwind.css';
 import styles from './notification.css';
+import { OmitNull } from '../../typeUtils';
 
-type NotificationStatus =
-    | 'positive'
-    | 'negative'
-    | 'warning'
-    | 'alarm'
-    | 'information';
-type NotificationVariant = 'toast' | 'inline';
-type NotificationLine = 'single' | 'multi';
-
-const notificationContentsContainerBase = ctl(`
+const notificationContentsContainerClassName = ctl(`
     flex
     justify-between
     items-center
@@ -86,46 +79,81 @@ const notificationCloseButton = ctl(`
     i-daikin-notification-close
     `);
 
-const CONTAINER_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
-    positive: 'notification-container-positive',
-    negative: 'notification-container-negative',
-    warning: 'notification-container-warning',
-    alarm: 'notification-container-alarm',
-    information: 'notification-container-information',
-};
+type NotificationProps = OmitNull<
+    VariantProps<typeof notificationTextAreaClassName>
+> &
+    OmitNull<VariantProps<typeof notificationIconClassName>> &
+    OmitNull<VariantProps<typeof notificationIconContainerClassName>> &
+    OmitNull<VariantProps<typeof notificationContainerClassName>>;
 
-const CONTAINER_VARIANT_CLASS_MAP: Record<NotificationVariant, string> = {
-    toast: `notification-container-toast ${notificationContainerVariantToast}`,
-    inline: '',
-};
+const notificationTextAreaClassName = cva(notificationTextAreaBase, {
+    variants: {
+        line: {
+            single: notificationTextAreaLineSingle,
+            multi: notificationTextAreaLineMulti,
+        },
+    },
+    defaultVariants: {
+        line: 'single',
+    },
+});
 
-const ICON_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
-    positive: 'i-daikin-notification-status-positive',
-    negative: 'i-daikin-notification-status-negative',
-    warning: 'i-daikin-notification-status-warning',
-    alarm: 'i-daikin-notification-status-alarm',
-    information: 'i-daikin-notification-status-information',
-};
+const notificationIconClassName = cva(notificationIconBase, {
+    variants: {
+        status: {
+            positive: 'i-daikin-notification-status-positive',
+            negative: 'i-daikin-notification-status-negative',
+            warning: 'i-daikin-notification-status-warning',
+            alarm: 'i-daikin-notification-status-alarm',
+            information: 'i-daikin-notification-status-information',
+        },
+    },
+    defaultVariants: {
+        status: 'positive',
+    },
+});
 
-const ICON_CONTAINER_STATUS_CLASS_MAP: Record<NotificationStatus, string> = {
-    positive: 'notification-icon-positive',
-    negative: 'notification-icon-negative',
-    warning: 'notification-icon-warning',
-    alarm: 'notification-icon-alarm',
-    information: 'notification-icon-information',
-};
+const notificationIconContainerClassName = cva(notificationIconContainerBase, {
+    variants: {
+        status: {
+            positive: 'notification-icon-positive',
+            negative: 'notification-icon-negative',
+            warning: 'notification-icon-warning',
+            alarm: 'notification-icon-alarm',
+            information: 'notification-icon-information',
+        },
+    },
+    defaultVariants: {
+        status: 'positive',
+    },
+});
 
-const TEXT_AREA_LINE_CLASS_MAP: Record<NotificationLine, string> = {
-    single: notificationTextAreaLineSingle,
-    multi: notificationTextAreaLineMulti,
-};
+const notificationContainerClassName = cva(notificationContainerBase, {
+    variants: {
+        variant: {
+            toast: `notification-container-toast ${notificationContainerVariantToast}`,
+            inline: '',
+        },
+        status: {
+            positive: 'notification-container-positive',
+            negative: 'notification-container-negative',
+            warning: 'notification-container-warning',
+            alarm: 'notification-container-alarm',
+            information: 'notification-container-information',
+        },
+    },
+    defaultVariants: {
+        variant: 'toast',
+        status: 'positive',
+    },
+});
 
 export interface DaikinNotificationProps {
     title?: string;
     description: string;
-    variant: NotificationVariant;
-    status: NotificationStatus;
-    line: NotificationLine;
+    variant: NotificationProps['variant'];
+    status: NotificationProps['status'];
+    line: NotificationProps['line'];
     open: boolean;
     closeButton?: boolean;
     actionButtonLabel?: string;
@@ -167,19 +195,19 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
      * Type of notification
      */
     @property({ type: String, reflect: true })
-    variant: NotificationVariant = 'toast';
+    variant: NotificationProps['variant'] = 'toast';
 
     /**
      * Status of notification
      */
     @property({ type: String })
-    status: NotificationStatus = 'positive';
+    status: NotificationProps['status'] = 'positive';
 
     /**
      * Display in single or multiple lines
      */
     @property({ type: String })
-    line: NotificationLine = 'single';
+    line: NotificationProps['line'] = 'single';
 
     /**
      * Whether the component is open
@@ -236,36 +264,30 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
     }
 
     render() {
-        const notificationTextAreaClassName = [
-            notificationTextAreaBase,
-            TEXT_AREA_LINE_CLASS_MAP[this.line] ??
-                TEXT_AREA_LINE_CLASS_MAP.single,
-        ].join(' ');
-        const notificationIconClassName = [
-            notificationIconBase,
-            ICON_STATUS_CLASS_MAP[this.status] ??
-                ICON_STATUS_CLASS_MAP.positive,
-        ].join(' ');
-        const notificationIconContainerClassName = [
-            notificationIconContainerBase,
-            ICON_CONTAINER_STATUS_CLASS_MAP[this.status] ??
-                ICON_CONTAINER_STATUS_CLASS_MAP.positive,
-        ].join(' ');
-        const notificationContainerClassName = [
-            notificationContainerBase,
-            CONTAINER_STATUS_CLASS_MAP[this.status] ??
-                CONTAINER_STATUS_CLASS_MAP.positive,
-            CONTAINER_VARIANT_CLASS_MAP[this.variant] ??
-                CONTAINER_VARIANT_CLASS_MAP.toast,
-        ].join(' ');
-
         return this.open
-            ? html`<div class="${notificationContainerClassName}">
-                  <div class="${notificationIconContainerClassName}">
-                      <span class=${notificationIconClassName}></span>
+            ? html`<div
+                  class="${notificationContainerClassName({
+                      variant: this.variant,
+                      status: this.status,
+                  })}"
+              >
+                  <div
+                      class="${notificationIconContainerClassName({
+                          status: this.status,
+                      })}"
+                  >
+                      <span
+                          class=${notificationIconClassName({
+                              status: this.status,
+                          })}
+                      ></span>
                   </div>
-                  <div class="${notificationContentsContainerBase}">
-                      <div class="${notificationTextAreaClassName}">
+                  <div class="${notificationContentsContainerClassName}">
+                      <div
+                          class="${notificationTextAreaClassName({
+                              line: this.line,
+                          })}"
+                      >
                           ${this.title &&
                           html`<p class="text-[18px] font-bold flex-none">
                               ${this.title}
