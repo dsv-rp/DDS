@@ -19,7 +19,7 @@ const meta = {
             ?closeButton=${args.closeButton ?? false}
             actionButtonLabel=${args.actionButtonLabel ?? ''}
             @daikin-action=${action('daikin-action')}
-            @close=${action('close')}
+            @daikin-close=${action('daikin-close')}
         >
         </daikin-notification>
     `,

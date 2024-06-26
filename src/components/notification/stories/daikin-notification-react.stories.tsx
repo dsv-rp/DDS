@@ -13,7 +13,7 @@ const DaikinNotificationWC = createComponent({
     react: React,
     events: {
         daikinAction: 'daikin-action',
-        close: 'close',
+        daikinClose: 'daikin-close',
     },
 });
 
@@ -38,7 +38,7 @@ const Notification: React.FC<DaikinNotificationStoryArgs> = ({
             closeButton={closeButton}
             actionButtonLabel={actionButtonLabel}
             daikinAction={() => console.log('daikin-action')}
-            close={() => console.log('close')}
+            daikinClose={() => console.log('daikin-close')}
         />
     );
 };

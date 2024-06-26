@@ -5,16 +5,28 @@ import type { Meta } from '@storybook/react';
 
 import '../daikin-button';
 import type { DaikinButtonStoryArgs } from './common';
+import { createComponent } from '@lit/react';
+import DaikinButton from '../daikin-button';
 
-const Button: React.FC<DaikinButtonStoryArgs> = ({ variant, disabled, label }) => {
+const DaikinButtonWC = createComponent({
+    tagName: 'daikin-button',
+    elementClass: DaikinButton,
+    react: React,
+});
+
+const Button: React.FC<DaikinButtonStoryArgs> = ({
+    variant,
+    disabled,
+    label,
+}) => {
     return (
-        <daikin-button
+        <DaikinButtonWC
             disabled={disabled ? true : undefined}
             variant={variant}
             onClick={action('button-click')}
         >
             {label}
-        </daikin-button>
+        </DaikinButtonWC>
     );
 };
 
@@ -25,13 +37,13 @@ const meta = {
     argTypes: {
         variant: {
             control: { type: 'select' },
-            options: ['primary', 'secondary', 'tertiary', 'primary-danger']
+            options: ['primary', 'secondary', 'tertiary', 'primary-danger'],
         },
         disabled: { type: 'boolean' },
         label: {
-            type: 'string'
-        }
-    }
+            type: 'string',
+        },
+    },
 } satisfies Meta<DaikinButtonStoryArgs>;
 
 export default meta;

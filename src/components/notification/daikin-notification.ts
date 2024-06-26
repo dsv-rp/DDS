@@ -208,10 +208,10 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
     }
 
     /**
-     * Call the event registered in "close"
+     * Call the event registered in "daikin-close"
      */
     onClickDaikinClose() {
-        const event = new CustomEvent('close');
+        const event = new CustomEvent('daikin-close');
         this.open = false;
         this.dispatchEvent(event);
     }
@@ -286,7 +286,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                                           >
                                               ${this.actionButtonLabel}
                                           </daikin-button>`
-                                        : ''}
+                                        : null}
                                     ${this.closeButton
                                         ? html`
                                               <button
@@ -296,13 +296,13 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                                                   class=${notificationCloseButton}
                                               ></button>
                                           `
-                                        : ''}
+                                        : null}
                                 </div>
                             `
-                          : ''}
+                          : null}
                   </div>
               </div>`
-            : '';
+            : null;
     }
 }
 
