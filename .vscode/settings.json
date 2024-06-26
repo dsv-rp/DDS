@@ -1,0 +1,8 @@
+{
+    "tailwindCSS.experimental.classRegex": [
+        "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)"
+    ],
+    "cSpell.words": [
+        "daikin"
+    ]
+}

@@ -1,39 +1,24 @@
-import React from 'react';
+import { action } from "@storybook/addon-actions";
+import type { Meta } from "@storybook/react";
+import React from "react";
+import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
+import { ReactDaikinButton } from "./react";
 
-import { action } from '@storybook/addon-actions';
-import type { Meta } from '@storybook/react';
-
-import '../daikin-button';
-import type { DaikinButtonStoryArgs } from './common';
-
-const Button: React.FC<DaikinButtonStoryArgs> = ({ variant, disabled, label }) => {
-    return (
-        <daikin-button
-            disabled={disabled ? true : undefined}
-            variant={variant}
-            onClick={action('button-click')}
-        >
-            {label}
-        </daikin-button>
-    );
+const StoryDaikinButton = ({ label, ...props }: DaikinButtonStoryArgs) => {
+  return (
+    <ReactDaikinButton onClick={action("click")} {...props}>
+      {label}
+    </ReactDaikinButton>
+  );
 };
 
 const meta = {
-    title: 'Components/Button',
-    tags: ['autodocs'],
-    component: Button,
-    argTypes: {
-        variant: {
-            control: { type: 'select' },
-            options: ['primary', 'secondary', 'tertiary', 'primary-danger']
-        },
-        disabled: { type: 'boolean' },
-        label: {
-            type: 'string'
-        }
-    }
+  title: "Components/Button",
+  tags: ["autodocs"],
+  component: StoryDaikinButton,
+  argTypes: DAIKIN_BUTTON_ARG_TYPES,
 } satisfies Meta<DaikinButtonStoryArgs>;
 
 export default meta;
 
-export { Primary, Secondary, Tertiary, PrimaryDanger } from './common';
+export { Primary, PrimaryDanger, Secondary, Tertiary } from "./common";

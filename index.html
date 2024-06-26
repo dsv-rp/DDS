@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Example</title>
+    </head>
+    <body>
+        <h2>Attributes</h2>
+        <div>
+            <input id="checkbox" type="checkbox" />
+        </div>
+        <div>
+            <details>
+                Example
+            </details>
+        </div>
+    </body>
+    <script>
+        /** @type {HTMLInputElement} */
+        const element = document.querySelector("input#checkbox");
+        console.log("1", element.disabled, element.hasAttribute("disabled"));
+
+        element.setAttribute("disabled", "");
+        console.log("2", element.disabled, element.hasAttribute("disabled"));
+
+        element.disabled = false;
+        console.log("3", element.disabled, element.hasAttribute("disabled"));
+
+
+
+    </script>
+</html>

@@ -1,0 +1,27 @@
+{
+  // TSConfig for Node.js codes (build scripts)
+  "compilerOptions": {
+    "checkJs": true,
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2023"],
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "verbatimModuleSyntax": true,
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "playground", "dist", "src", ".storybook"]
+}

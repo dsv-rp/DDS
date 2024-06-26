@@ -1,0 +1,10 @@
+{
+  // TSConfig for test files
+  // Testing APIs are available in test files
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "types": ["vitest/globals"]
+  },
+  "include": ["src/**/tests", "src/**/*.test.ts"],
+  "exclude": []
+}

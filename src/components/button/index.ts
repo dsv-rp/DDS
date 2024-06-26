@@ -1,1 +1,1 @@
-import './daikin-button';
+export * from "./daikin-button";

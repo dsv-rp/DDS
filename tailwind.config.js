@@ -1,10 +1,19 @@
-/** @type {import('tailwindcss').Config} */
-const daikinPlugin = require('@daikin-oss/tailwind');
+// @ts-expect-error No type definition provided
+const daikinPlugin = require("@daikin-oss/tailwind");
 
-module.exports = {
-    content: ['./src/**/*.ts|js'],
-    theme: {
-        extend: {}
-    },
-    plugins: [daikinPlugin()]
-};
+/**
+ * @param {import("tailwindcss").Config} config
+ * @returns {import("tailwindcss").Config}
+ */
+function defineConfig(config) {
+  return config;
+}
+
+module.exports = defineConfig({
+  content: [
+    "./src/**/*.{js,ts}",
+    "!./src/**/*.stories.{js,ts}",
+    "!./src/**/*.test.{js,ts}",
+  ],
+  plugins: [daikinPlugin()],
+});

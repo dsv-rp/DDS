@@ -1,1 +1,1 @@
-import './button/index';
+export * from "./button";
