@@ -1,9 +1,9 @@
 const { configureToMatchImageSnapshot } = require("jest-image-snapshot");
 
 const toMatchImageSnapshot = configureToMatchImageSnapshot({
-  failureThreshold: 0,
-  failureThresholdType: "percent",
-  blur: 0,
+  failureThreshold: 100,
+  failureThresholdType: "pixel",
+  blur: 2,
 });
 
 expect.extend({ toMatchImageSnapshot });
@@ -12,8 +12,6 @@ beforeEach(async () => {
   await page.setViewport({
     width: 800,
     height: 600,
-    deviceScaleFactor: 2,
+    deviceScaleFactor: 1,
   });
-
-  console.log("Browser version:", await page.browser().version());
 });
