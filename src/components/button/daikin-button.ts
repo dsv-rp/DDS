@@ -12,7 +12,7 @@ import tailwindStyles from '../../tailwind.css';
 import styles from './button.css';
 import { cva } from "class-variance-authority";
 
-const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full"], {
+const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full", "outline-none"], {
     variants: {
         intent: {
           primary: [
