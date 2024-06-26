@@ -4,7 +4,9 @@
   "description": "Design system using web components",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
@@ -58,6 +60,7 @@
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/react": "^18.3.3",
     "autoprefixer": "^10.4.19",
+    "lightningcss": "^1.25.1",
     "playwright": "^1.44.1",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",

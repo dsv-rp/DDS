@@ -3,6 +3,7 @@
         "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)"
     ],
     "cSpell.words": [
-        "daikin"
+        "daikin",
+        "lightningcss"
     ]
 }

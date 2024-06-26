@@ -5,6 +5,7 @@ import { externalizeDeps } from "vite-plugin-externalize-deps";
 export default defineConfig({
   build: {
     minify: false,
+    cssMinify: "lightningcss",
     lib: {
       entry: "./src/index.ts",
       formats: ["es", "cjs"],
