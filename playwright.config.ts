@@ -4,6 +4,7 @@ import { defineConfig } from "@playwright/test";
 const mode = env.STORYBOOK_FW === "react" ? "react" : "web-components";
 
 export default defineConfig({
+  testMatch: "*.visual.test.ts",
   webServer: {
     command:
       mode === "react"
@@ -16,5 +17,10 @@ export default defineConfig({
   },
   use: {
     baseURL: "http://127.0.0.1:6099",
+  },
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.01,
+    },
   },
 });

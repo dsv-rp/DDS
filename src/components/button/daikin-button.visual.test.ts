@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { clipFor } from "../../tests/visualUtils";
+import { clipFor } from "../../tests/visual";
 
 const getPageURL = (variant: string, size: string): string =>
   // The button label is intentionally changed to a string that renders the local and CI environments the same
