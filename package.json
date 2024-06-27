@@ -29,6 +29,7 @@
     "build-storybook": "storybook build",
     "storybook:test": "storybook dev -p 6099 --ci",
     "storybook:test-react": "storybook dev -p 6099 --ci -c .storybook/react",
+    "lint": "eslint && prettier -c .",
     "test:visual": "STORYBOOK_FW=web-components playwright test",
     "test:visual-react": "STORYBOOK_FW=react playwright test",
     "test": "npm run test:visual && npm run test:visual-react"
