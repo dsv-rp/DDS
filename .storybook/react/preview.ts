@@ -1,4 +1,5 @@
 import type { Preview } from "@storybook/react";
+import React from "react";
 
 import "../previewCommon";
 
@@ -12,5 +13,7 @@ const preview: Preview = {
     },
   },
 };
+
+global.React = React;
 
 export default preview;
