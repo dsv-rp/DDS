@@ -2,10 +2,7 @@ import { action } from "@storybook/addon-actions";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import "../daikin-button";
-import {
-  DAIKIN_BUTTON_ARG_TYPES,
-  type DaikinButtonStoryArgs,
-} from "./common.ts";
+import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
 
 const meta = {
   title: "Components/Button",

@@ -6,7 +6,7 @@ import { ReactDaikinButton } from "./react";
 
 const StoryDaikinButton = ({ label, ...props }: DaikinButtonStoryArgs) => {
   return (
-    <ReactDaikinButton onClick={action("click")} {...props}>
+    <ReactDaikinButton {...props} onClick={action("click")}>
       {label}
     </ReactDaikinButton>
   );

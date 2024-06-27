@@ -1,7 +1,9 @@
 import type { StoryObj } from "@storybook/web-components";
-import type { DaikinButtonProps } from "../daikin-button";
+import type { ElementProps } from "../../../storybook";
+import type { DaikinButton } from "../daikin-button";
 
-export interface DaikinButtonStoryArgs extends Required<DaikinButtonProps> {
+export interface DaikinButtonStoryArgs
+  extends Required<ElementProps<DaikinButton>> {
   /**
    * Text input for users
    */

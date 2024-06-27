@@ -24,8 +24,9 @@ export default defineConfig({
       tsconfigPath: "tsconfig.lib.json",
       outDir: ["dist/es", "dist/cjs"],
       exclude: [
-        ".storybook/**/*",
         "**/node_modules",
+        ".storybook/**/*",
+        "**/storybook",
         "**/stories",
         "**/tests",
         "**/*.stories.*",

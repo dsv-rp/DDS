@@ -79,33 +79,21 @@ const buttonCN = cva(
   }
 );
 
-type ButtonProps = OmitNull<VariantProps<typeof buttonCN>>;
-export interface DaikinButtonProps {
-  /**
-   * Type of action
-   */
-  variant?: ButtonProps["intent"];
-  /**
-   * Whether to show the disabled state
-   */
-  disabled?: boolean;
-  href?: string;
-  size?: ButtonProps["size"];
-  type?: "button" | "submit" | "reset";
-  role?: string;
-  isLoading?: boolean;
-}
+type ButtonVariantProps = OmitNull<VariantProps<typeof buttonCN>>;
 
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-button")
-export class DaikinButton extends LitElement implements DaikinButtonProps {
+export class DaikinButton extends LitElement {
   override focus() {
     this.shadowRoot?.querySelector("button")?.focus();
   }
 
   static readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
+    ${unsafeCSS(styles)}
+
     :host {
       --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
         buttonColorBackgroundPrimaryActive
@@ -122,8 +110,7 @@ export class DaikinButton extends LitElement implements DaikinButtonProps {
       --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
         buttonColorBackgroundPrimaryDisabled
       )};
-    }
-    :host {
+
       display: inline-block;
       width: fit-content;
       min-height: 42px;
@@ -139,7 +126,7 @@ export class DaikinButton extends LitElement implements DaikinButtonProps {
    * Type of variant.
    */
   @property({ type: String })
-  variant: ButtonProps["intent"] = "primary";
+  variant: ButtonVariantProps["intent"] = "primary";
 
   /**
    * `true` if the button should be disabled.
@@ -169,7 +156,7 @@ export class DaikinButton extends LitElement implements DaikinButtonProps {
    * Specify the button size.
    */
   @property({ type: String, reflect: true })
-  size: ButtonProps["size"] = "default";
+  size: ButtonVariantProps["size"] = "default";
 
   /**
    * Specify the button type.
@@ -188,25 +175,6 @@ export class DaikinButton extends LitElement implements DaikinButtonProps {
    */
   @property({ type: Boolean })
   isLoading = false;
-
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    const tailwind = new CSSStyleSheet();
-    tailwind.replaceSync(tailwindStyles);
-
-    const buttonStyles = new CSSStyleSheet();
-    buttonStyles.replaceSync(styles);
-
-    const defaultsVariables = new CSSStyleSheet();
-    defaultsVariables.replaceSync(DaikinButton.styles.cssText);
-
-    (this.renderRoot as ShadowRoot).adoptedStyleSheets = [
-      tailwind,
-      defaultsVariables,
-      buttonStyles,
-    ];
-  }
 
   render() {
     const buttonClassName = buttonCN({ intent: this.variant, size: this.size });
