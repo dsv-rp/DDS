@@ -9,7 +9,7 @@
   );
   color: white;
 }
-.button-primary:focus {
+.button-primary:focus-visible {
   background-color: var(
     --buttonColorBackgroundPrimaryFocus,
     var(--defaultButtonColorBackgroundPrimaryFocus)

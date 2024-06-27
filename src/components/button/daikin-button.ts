@@ -8,13 +8,11 @@ import {
 import { cva, type VariantProps } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import type { AnyRole } from "../../lit-workaround-types";
 import type { OmitNull } from "../../typeUtils";
 
 import tailwindStyles from "../../tailwind.css?inline";
 import styles from "./button.css?inline";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyRole = any;
 
 const buttonCN = cva(
   [
@@ -29,12 +27,11 @@ const buttonCN = cva(
     "disabled:cursor-default",
     "h-full",
     "w-full",
-    "focus-visible:outline-none",
   ],
   {
     variants: {
       intent: {
-        primary: ["button-primary"],
+        primary: ["button-primary", "focus-visible:outline-none"],
         secondary: [
           "border-2",
           "bg-white",
@@ -49,6 +46,7 @@ const buttonCN = cva(
           "disabled:border-daikinNeutral-300",
           "disabled:text-daikinNeutral-400",
           "disabled:border",
+          "focus-visible:outline-none",
         ],
         tertiary: [
           "text-daikinBlue-400",
@@ -66,6 +64,7 @@ const buttonCN = cva(
           "focus-visible:bg-daikinRed-700",
           "disabled:bg-daikinNeutral-300",
           "active:bg-daikinRed-700",
+          "focus-visible:outline-none",
         ],
       },
       size: {
@@ -170,7 +169,7 @@ export class DaikinButton extends LitElement implements DaikinButtonProps {
    * Specify the button size.
    */
   @property({ type: String, reflect: true })
-  size: ButtonProps["size"] = "condensed";
+  size: ButtonProps["size"] = "default";
 
   /**
    * Specify the button type.
