@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { Meta } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
 import '../daikin-notification';
 import { DaikinNotificationStoryArgs } from './common';
@@ -37,8 +38,8 @@ const Notification: React.FC<DaikinNotificationStoryArgs> = ({
             open={open}
             closeButton={closeButton}
             actionButtonLabel={actionButtonLabel}
-            action={() => console.log('action')}
-            close={() => console.log('close')}
+            action={action('notification-action')}
+            close={action('notification-close')}
         />
     );
 };
