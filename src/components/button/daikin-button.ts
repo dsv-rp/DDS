@@ -8,7 +8,7 @@ import {
 import { cva, type VariantProps } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import type { AnyRole } from "../../lit-workaround-types";
+import type { ARIARole } from "../../litAnalyzerTypes";
 import type { OmitNull } from "../../typeUtils";
 
 import tailwindStyles from "../../tailwind.css?inline";
@@ -164,7 +164,7 @@ export class DaikinButton extends LitElement {
    * Specify the button role.
    */
   @property({ type: String, reflect: true })
-  role: string = "button";
+  role: ARIARole = "button";
 
   /**
    * Specify whether the button is loading.
@@ -184,7 +184,7 @@ export class DaikinButton extends LitElement {
       return html` <a
         href="${this.href}"
         class="${buttonClassName}"
-        role="${this.role as AnyRole}"
+        role="${this.role}"
       >
         ${content}
       </a>`;
@@ -194,7 +194,7 @@ export class DaikinButton extends LitElement {
         class="${buttonClassName}"
         ?disabled="${this.disabled}"
         type="${this.type}"
-        role="${this.role as AnyRole}"
+        role="${this.role}"
       >
         ${content}
       </button>
