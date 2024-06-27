@@ -38,10 +38,10 @@
         "storybook:test": "storybook dev -p 6006 --ci",
         "storybook:test-react": "storybook dev -p 6006 --ci -c .storybook/react",
         "jest:integration": "jest -c __test__/jest.config.js",
-        "jest:update": "jest -c __test__/jest.config.js --updateSnapshot",
         "test": "npm run test:web-components && npm run test:react",
         "test:web-components": "start-server-and-test storybook:test http-get://localhost:6006 jest:integration",
         "test:react": "start-server-and-test storybook:test-react http-get://localhost:6006 jest:integration",
+        "jest:update": "jest -c __test__/jest.config.js --updateSnapshot",
         "test:update": "start-server-and-test storybook:test http-get://localhost:6006 jest:update"
     },
     "dependencies": {
