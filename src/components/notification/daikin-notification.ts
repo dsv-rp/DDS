@@ -13,7 +13,6 @@ import '../button';
 import tailwindStyles from '../../tailwind.css';
 import styles from './notification.css';
 import { OmitNull } from '../../typeUtils';
-import { EVENT_ACTION, EVENT_CLOSE } from '../../constants/events';
 
 const notificationContentsContainerClassName = ctl(`
     flex
@@ -233,7 +232,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
      * Call the event registered in "action"
      */
     onClickAction() {
-        const event = new CustomEvent(EVENT_ACTION);
+        const event = new CustomEvent('action');
         this.dispatchEvent(event);
     }
 
@@ -241,7 +240,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
      * Call the event registered in "close"
      */
     onClickClose() {
-        const event = new CustomEvent(EVENT_CLOSE);
+        const event = new CustomEvent('close');
         this.open = false;
         this.dispatchEvent(event);
     }
