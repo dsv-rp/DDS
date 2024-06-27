@@ -86,10 +86,6 @@ type ButtonVariantProps = OmitNull<VariantProps<typeof buttonCN>>;
  */
 @customElement("daikin-button")
 export class DaikinButton extends LitElement {
-  override focus() {
-    this.shadowRoot?.querySelector("button")?.focus();
-  }
-
   static readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
     ${unsafeCSS(styles)}
@@ -203,6 +199,10 @@ export class DaikinButton extends LitElement {
         ${content}
       </button>
     `;
+  }
+
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("button")?.focus(options);
   }
 }
 
