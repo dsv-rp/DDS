@@ -11,14 +11,14 @@ const meta = {
     tags: ['autodocs'],
     render: (args) => html`
         <daikin-notification
-            title=${args.title ?? ''}
+            title=${ifDefined(args.title)}
             description=${args.description}
             variant=${ifDefined(args.variant)}
             status=${ifDefined(args.status)}
             line=${ifDefined(args.line)}
             ?open=${args.open}
-            ?closeButton=${args.closeButton ?? false}
-            actionButtonLabel=${args.actionButtonLabel ?? ''}
+            ?closeButton=${args.closeButton}
+            actionButtonLabel=${ifDefined(args.actionButtonLabel)}
             @action=${action('action')}
             @close=${action('close')}
         >
