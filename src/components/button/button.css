@@ -1,35 +1,35 @@
 .button {
-    font-family: var(--fontFamilyBase);
+  font-family: var(--fontFamilyBase);
 }
 
 .button-primary {
-    background-color: var(
-        --buttonColorBackgroundPrimaryActive,
-        var(--defaultButtonColorBackgroundPrimaryActive)
-    );
-    color: white;
+  background-color: var(
+    --buttonColorBackgroundPrimaryActive,
+    var(--defaultButtonColorBackgroundPrimaryActive)
+  );
+  color: white;
 }
 .button-primary:focus {
-    background-color: var(
-        --buttonColorBackgroundPrimaryFocus,
-        var(--defaultButtonColorBackgroundPrimaryFocus)
-    );
+  background-color: var(
+    --buttonColorBackgroundPrimaryFocus,
+    var(--defaultButtonColorBackgroundPrimaryFocus)
+  );
 }
 .button-primary:hover {
-    background-color: var(
-        --buttonColorBackgroundPrimaryHover,
-        var(--defaultButtonColorBackgroundPrimaryHover)
-    );
+  background-color: var(
+    --buttonColorBackgroundPrimaryHover,
+    var(--defaultButtonColorBackgroundPrimaryHover)
+  );
 }
 .button-primary:active {
-    background-color: var(
-        --buttonColorBackgroundPrimaryPress,
-        var(--defaultButtonColorBackgroundPrimaryPress)
-    );
+  background-color: var(
+    --buttonColorBackgroundPrimaryPress,
+    var(--defaultButtonColorBackgroundPrimaryPress)
+  );
 }
 .button-primary:disabled {
-    background-color: var(
-        --buttonColorBackgroundPrimaryDisabled,
-        var(--defaultButtonColorBackgroundPrimaryDisabled)
-    );
+  background-color: var(
+    --buttonColorBackgroundPrimaryDisabled,
+    var(--defaultButtonColorBackgroundPrimaryDisabled)
+  );
 }

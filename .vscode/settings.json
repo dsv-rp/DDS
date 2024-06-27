@@ -1,10 +1,6 @@
 {
-    "tailwindCSS.experimental.classRegex": [
-        "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)"
-    ],
-    "cSpell.words": [
-        "daikin",
-        "lightningcss",
-        "tseslint"
-    ]
+  "tailwindCSS.experimental.classRegex": [
+    "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)"
+  ],
+  "cSpell.words": ["daikin", "lightningcss", "tseslint"]
 }
