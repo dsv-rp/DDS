@@ -229,18 +229,18 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
     actionButtonLabel? = '';
 
     /**
-     * Call the event registered in "daikin-action"
+     * Call the event registered in "action"
      */
-    onClickDaikinAction() {
-        const event = new CustomEvent('daikin-action');
+    onClickAction() {
+        const event = new CustomEvent('action');
         this.dispatchEvent(event);
     }
 
     /**
-     * Call the event registered in "daikin-close"
+     * Call the event registered in "close"
      */
-    onClickDaikinClose() {
-        const event = new CustomEvent('daikin-close');
+    onClickClose() {
+        const event = new CustomEvent('close');
         this.open = false;
         this.dispatchEvent(event);
     }
@@ -305,7 +305,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                                     this.actionButtonLabel
                                         ? html`<daikin-button
                                               @click=${() =>
-                                                  this.onClickDaikinAction()}
+                                                  this.onClickAction()}
                                           >
                                               ${this.actionButtonLabel}
                                           </daikin-button>`
@@ -315,7 +315,7 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                                               <button
                                                   aria-label="Close"
                                                   @click=${() =>
-                                                      this.onClickDaikinClose()}
+                                                      this.onClickClose()}
                                                   class=${notificationCloseButton}
                                               ></button>
                                           `

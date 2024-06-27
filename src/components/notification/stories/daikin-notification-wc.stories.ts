@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 
 import '../daikin-notification.ts';
 import type { DaikinNotificationStoryArgs } from './common.ts';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 const meta = {
     title: 'Components/Notification',
@@ -12,14 +13,14 @@ const meta = {
         <daikin-notification
             title=${args.title ?? ''}
             description=${args.description}
-            variant=${args.variant}
-            status=${args.status}
-            line=${args.line}
+            variant=${ifDefined(args.variant)}
+            status=${ifDefined(args.status)}
+            line=${ifDefined(args.line)}
             ?open=${args.open}
             ?closeButton=${args.closeButton ?? false}
             actionButtonLabel=${args.actionButtonLabel ?? ''}
-            @daikin-action=${action('daikin-action')}
-            @daikin-close=${action('daikin-close')}
+            @action=${action('action')}
+            @close=${action('close')}
         >
         </daikin-notification>
     `,
