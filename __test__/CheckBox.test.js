@@ -90,27 +90,52 @@ describe('CheckBox', () => {
     // interaction test
     describe("interaction test", () => {
         const baseURL = getPageURL("small", "test label", "right", "unchecked");
-        it("checkbox can click when default", async () => {
+        it("click the checkbox and will be selected when default", async () => {
             await page.goto(baseURL);
 
             // wait for element to be visible
             await page.waitForSelector("daikin-checkbox", { visible: true });
+
+            // check daikin-checkbox not be selected
+            const isCheckedBefore = await page.$eval("daikin-checkbox", (checkbox) => {
+                const e = checkbox.shadowRoot.querySelector("input");
+                return e.checked;
+            })
+            expect(isCheckedBefore).toBe(false)
+
+            // click daikin-checkbox
+            await page.locator('daikin-checkbox').click();
             
-            // check checkbox element is active
-            const isDisabled = await page.$eval("daikin-checkbox", (checkbox) => checkbox.hasAttribute("disabled"))
-            expect(isDisabled).toBe(false)
-            
+            // check daikin-checkbox be selected
+            const isCheckedAfter = await page.$eval("daikin-checkbox", (checkbox) => {
+                const e = checkbox.shadowRoot.querySelector("input");
+                return e.checked;
+            })
+            expect(isCheckedAfter).toBe(true);
         });
 
-        it("checkbox can not click when disabled", async () => {
+        it("click the checkbox and will not be selected when disabled", async () => {
             await page.goto(`${baseURL};disabled:true`);
 
             // wait for element to be visible
             await page.waitForSelector("daikin-checkbox", { visible: true });
             
-            // check checkbox element is active
-            const isDisabled = await page.$eval("daikin-checkbox", (checkbox) => checkbox.hasAttribute("disabled"))
-            expect(isDisabled).toBe(true)
+            // check daikin-checkbox not be selected
+            const isCheckedBefore = await page.$eval("daikin-checkbox", (checkbox) => {
+                const e = checkbox.shadowRoot.querySelector("input");
+                return e.checked
+            })
+            expect(isCheckedBefore).toBe(false)
+
+            // click daikin-checkbox
+            await page.locator('daikin-checkbox').click();
+            
+            // check daikin-checkbox be selected
+            const isCheckedAfter = await page.$eval("daikin-checkbox", (checkbox) => {
+                const e = checkbox.shadowRoot.querySelector("input");
+                return e.checked
+            })
+            expect(isCheckedAfter).toBe(false);
             
         })
     });
