@@ -1,4 +1,3 @@
-// @ts-expect-error No type definition provided
 const daikinPlugin = require("@daikin-oss/tailwind");
 
 /**

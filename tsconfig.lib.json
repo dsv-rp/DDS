@@ -8,6 +8,7 @@
     "experimentalDecorators": true,
     "useDefineForClassFields": true,
     "skipLibCheck": true,
+    "types": [],
 
     /* Bundler mode */
     "moduleResolution": "Bundler",
@@ -21,7 +22,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true
   },
-  "include": ["src", ".storybook"]
+  "include": ["src", ".storybook/**/*"]
 }

@@ -13,6 +13,7 @@ import type { OmitNull } from "../../typeUtils";
 import tailwindStyles from "../../tailwind.css?inline";
 import styles from "./button.css?inline";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRole = any;
 
 const buttonCN = cva(
@@ -193,7 +194,7 @@ export class DaikinButton extends LitElement implements DaikinButtonProps {
     super.connectedCallback();
 
     const tailwind = new CSSStyleSheet();
-    tailwind.replace(tailwindStyles);
+    tailwind.replaceSync(tailwindStyles);
 
     const buttonStyles = new CSSStyleSheet();
     buttonStyles.replaceSync(styles);

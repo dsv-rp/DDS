@@ -1,0 +1,46 @@
+import eslint from "@eslint/js";
+import { configs as litConfig } from "eslint-plugin-lit";
+import {
+  configs as litA11yConfigLegacy,
+  rules as litA11yRules,
+} from "eslint-plugin-lit-a11y";
+import { configs as wcConfig } from "eslint-plugin-wc";
+import tseslint from "typescript-eslint";
+import prettierPkg from "eslint-config-prettier";
+
+const { rules: prettierRules } = prettierPkg;
+
+const litA11yConfigFlatRecommended = {
+  plugins: {
+    "lit-a11y": { rules: litA11yRules },
+  },
+  rules: { ...litA11yConfigLegacy.recommended.rules },
+};
+
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  wcConfig["flat/recommended"],
+  litConfig["flat/recommended"],
+  litA11yConfigFlatRecommended,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
+  { rules: prettierRules },
+  {
+    files: ["**/*.cjs"],
+    languageOptions: {
+      sourceType: "commonjs",
+    },
+    rules: {
+      "@typescript-eslint/no-require-imports": "off",
+    },
+  },
+  {
+    ignores: ["dist", "test-results"],
+  }
+);

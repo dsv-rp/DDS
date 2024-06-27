@@ -9,7 +9,7 @@ import dknLight from "@daikin-oss/dds-tokens/css/daikin/Light/variables.css?inli
 import "./previewCommon";
 
 // Map themes and modes to their respective stylesheets
-const stylesheets = {
+const THEME_MAP = {
   DKN: {
     Light: dknLight,
     Dark: dknDark,
@@ -21,20 +21,22 @@ const stylesheets = {
 };
 
 // Function to change the stylesheet
-function switchStylesheet(theme: string, mode: string) {
-  let themeStylesheetLink = document.getElementById(
+function switchStylesheet(
+  theme: keyof typeof THEME_MAP,
+  mode: keyof (typeof THEME_MAP)[keyof typeof THEME_MAP]
+) {
+  let themeStylesheet = document.getElementById(
     "theme-stylesheet"
-  ) as HTMLLinkElement;
+  ) as HTMLStyleElement | null;
 
-  if (!themeStylesheetLink) {
-    themeStylesheetLink = document.createElement("style") as HTMLLinkElement;
-    themeStylesheetLink.id = "theme-stylesheet";
-    themeStylesheetLink.rel = "stylesheet";
-    document.head.appendChild(themeStylesheetLink);
+  if (!themeStylesheet) {
+    themeStylesheet = document.createElement("style");
+    themeStylesheet.id = "theme-stylesheet";
+    document.head.appendChild(themeStylesheet);
   }
 
   // Apply the stylesheet content dynamically
-  themeStylesheetLink.innerHTML = stylesheets[theme][mode];
+  themeStylesheet.innerHTML = THEME_MAP[theme][mode];
 }
 
 const preview: Preview = {
@@ -69,12 +71,11 @@ const preview: Preview = {
   decorators: [
     (story, context) => {
       const [{ theme }] = useGlobals();
-      const background =
-        context.globals.backgrounds || context.parameters.backgrounds;
-
+      const background = (context.globals.backgrounds ||
+        context.parameters.backgrounds) as { value: string };
       const mode = background.value === "#000000" ? "Dark" : "Light";
 
-      switchStylesheet(theme, mode);
+      switchStylesheet(theme as "DKN" | "AAF", mode);
 
       return story();
     },
