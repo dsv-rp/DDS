@@ -30,6 +30,7 @@
     "storybook:test": "storybook dev -p 6099 --ci",
     "storybook:test-react": "storybook dev -p 6099 --ci -c .storybook/react",
     "lint": "eslint && prettier -c .",
+    "lint:lit": "lit-analyzer --strict src",
     "test:visual": "STORYBOOK_FW=web-components playwright test",
     "test:visual-react": "STORYBOOK_FW=react playwright test",
     "test": "npm run test:visual && npm run test:visual-react"
@@ -71,6 +72,7 @@
     "eslint-plugin-lit-a11y": "^4.1.3",
     "eslint-plugin-wc": "^2.1.0",
     "lightningcss": "^1.25.1",
+    "lit-analyzer": "^2.0.3",
     "playwright": "^1.44.1",
     "postcss": "^8.4.38",
     "prettier": "^3.3.2",
