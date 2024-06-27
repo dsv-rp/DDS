@@ -98,8 +98,8 @@ describe('CheckBox', () => {
 
             // check daikin-checkbox not be selected
             const isCheckedBefore = await page.$eval("daikin-checkbox", (checkbox) => {
-                const e = checkbox.shadowRoot.querySelector("input");
-                return e.checked;
+                const checkboxElement = checkbox.shadowRoot.querySelector("input");
+                return checkboxElement.checked;
             })
             expect(isCheckedBefore).toBe(false)
 
@@ -108,8 +108,8 @@ describe('CheckBox', () => {
             
             // check daikin-checkbox be selected
             const isCheckedAfter = await page.$eval("daikin-checkbox", (checkbox) => {
-                const e = checkbox.shadowRoot.querySelector("input");
-                return e.checked;
+                const checkboxElement = checkbox.shadowRoot.querySelector("input");
+                return checkboxElement.checked;
             })
             expect(isCheckedAfter).toBe(true);
         });
@@ -122,8 +122,8 @@ describe('CheckBox', () => {
             
             // check daikin-checkbox not be selected
             const isCheckedBefore = await page.$eval("daikin-checkbox", (checkbox) => {
-                const e = checkbox.shadowRoot.querySelector("input");
-                return e.checked
+                const checkboxElement = checkbox.shadowRoot.querySelector("input");
+                return checkboxElement.checked
             })
             expect(isCheckedBefore).toBe(false)
 
@@ -132,8 +132,8 @@ describe('CheckBox', () => {
             
             // check daikin-checkbox be selected
             const isCheckedAfter = await page.$eval("daikin-checkbox", (checkbox) => {
-                const e = checkbox.shadowRoot.querySelector("input");
-                return e.checked
+                const checkboxElement = checkbox.shadowRoot.querySelector("input");
+                return checkboxElement.checked
             })
             expect(isCheckedAfter).toBe(false);
             
