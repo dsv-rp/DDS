@@ -157,7 +157,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
      * Specify the button size.
      */
     @property({type: String, reflect: true })
-    size: ButtonProps["size"] = "condensed"
+    size: ButtonProps["size"] = "default"
     
     /**
      * Specify the button type.
