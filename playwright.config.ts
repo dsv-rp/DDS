@@ -9,18 +9,27 @@ export default defineConfig({
     command:
       mode === "react"
         ? "npm run storybook:test-react"
-        : "npm run storybook:test",
+        : "npm run storybook:test-wc",
     url: "http://127.0.0.1:6099",
     reuseExistingServer: !env.CI,
     stdout: "ignore",
     stderr: "pipe",
   },
   use: {
-    baseURL: "http://127.0.0.1:6099",
+    // See docker-compose.yml for baseURL and wsEndpoint
+    baseURL: "http://host.docker.internal:6099",
+    connectOptions: {
+      wsEndpoint: "ws://localhost:55744",
+    },
   },
+  // Default without platform suffix
+  // https://github.com/microsoft/playwright/blob/v1.45.0/packages/playwright/src/common/config.ts#L169
+  snapshotPathTemplate:
+    "{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{ext}",
   expect: {
     toHaveScreenshot: {
-      maxDiffPixelRatio: 0.01,
+      // Pixel-perfect
+      maxDiffPixels: 0,
     },
   },
 });

@@ -27,13 +27,13 @@
     "storybook": "storybook dev -p 6006",
     "storybook:react": "storybook dev -p 6007 -c .storybook/react",
     "build-storybook": "storybook build",
-    "storybook:test": "storybook dev -p 6099 --ci",
+    "storybook:test-wc": "storybook dev -p 6099 --ci",
     "storybook:test-react": "storybook dev -p 6099 --ci -c .storybook/react",
     "lint": "eslint && prettier -c .",
     "lint:lit": "lit-analyzer --strict src",
-    "test:visual": "STORYBOOK_FW=web-components playwright test",
+    "test:visual-wc": "STORYBOOK_FW=web-components playwright test",
     "test:visual-react": "STORYBOOK_FW=react playwright test",
-    "test": "npm run test:visual && npm run test:visual-react"
+    "test:visual": "npm run test:visual-wc && npm run test:visual-react"
   },
   "dependencies": {
     "@daikin-oss/dds-tokens": "^0.0.0",
