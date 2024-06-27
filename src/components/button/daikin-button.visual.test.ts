@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import { clipFor, describeEach } from "../../tests/visual";
 
 const getPageURL = (variant: string, size: string): string =>

@@ -1,6 +1,5 @@
 import { action } from "@storybook/addon-actions";
 import type { Meta } from "@storybook/react";
-import React from "react";
 import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
 import { ReactDaikinButton } from "./react";
 

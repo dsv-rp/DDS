@@ -1,5 +1,5 @@
-import { env } from "node:process";
 import { defineConfig } from "@playwright/test";
+import { env } from "node:process";
 
 const mode = env.STORYBOOK_FW === "react" ? "react" : "web-components";
 

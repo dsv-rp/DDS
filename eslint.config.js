@@ -1,4 +1,5 @@
 import eslint from "@eslint/js";
+import prettierPkg from "eslint-config-prettier";
 import { configs as litConfig } from "eslint-plugin-lit";
 import {
   configs as litA11yConfigLegacy,
@@ -6,7 +7,6 @@ import {
 } from "eslint-plugin-lit-a11y";
 import { configs as wcConfig } from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
-import prettierPkg from "eslint-config-prettier";
 
 const { rules: prettierRules } = prettierPkg;
 
