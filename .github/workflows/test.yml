@@ -6,7 +6,7 @@ on:
 
 jobs:
   visual-regression:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -39,6 +39,6 @@ jobs:
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: Diff Output attempt-${{ github.run_attempt }}
+          name: VRT-Result-PR${{ github.event.number }}-${{ github.run_number }}-${{ github.run_attempt }}
           path: test-results
           retention-days: 7
