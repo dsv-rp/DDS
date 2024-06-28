@@ -172,6 +172,8 @@ export class DaikinTabGroup extends LitElement {
       }
     }
 
+    selectedTab?.scrollIntoView();
+
     this._managingTabs = newManagingTabs;
   }
 
