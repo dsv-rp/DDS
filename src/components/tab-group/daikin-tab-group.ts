@@ -2,8 +2,13 @@ import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css";
-import type { DaikinTab } from "./daikin-tab";
+import type { DaikinTab } from "../tab/daikin-tab";
 
+/**
+ * Tab Group that automatically manages child tabs.
+ *
+ * NOTE: If there is no tab available in the child elements, i.e., zero tabs, or if all tabs are disabled, it is ILLEGAL.
+ */
 @customElement("daikin-tab-group")
 export class DaikinTabGroup extends LitElement {
   static readonly styles = css`
@@ -132,7 +137,7 @@ export class DaikinTabGroup extends LitElement {
     }
 
     const newManagingTabs: typeof this._managingTabs = [];
-    let tabSelected = false;
+    let selectedTab;
     for (const tab of newTabs) {
       let item = this._managingTabs.find(([item]) => item === tab);
       if (!item) {
@@ -149,14 +154,17 @@ export class DaikinTabGroup extends LitElement {
         ];
       }
 
-      const isActive = !tab.disabled && tab.value === this.value;
+      const isActive =
+        !selectedTab && !tab.disabled && tab.value === this.value;
       tab.active = isActive;
-      tabSelected ||= isActive;
+      if (isActive) {
+        selectedTab = tab;
+      }
 
       newManagingTabs.push(item);
     }
 
-    if (!tabSelected) {
+    if (!selectedTab) {
       const fallbackTab = newTabs.find((tab) => !tab.disabled);
       if (fallbackTab) {
         fallbackTab.active = true;
@@ -177,6 +185,32 @@ export class DaikinTabGroup extends LitElement {
         <slot class="inline-flex" @slotchange=${this._handleSlotChange}></slot>
       </div>
     `;
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (!changedProperties.has("value")) {
+      return;
+    }
+
+    let selectedTab;
+    for (const [tab] of this._managingTabs) {
+      const isActive =
+        !selectedTab && !tab.disabled && tab.value === this.value;
+      tab.active = isActive;
+      if (isActive) {
+        selectedTab = tab;
+      }
+    }
+
+    if (!selectedTab) {
+      selectedTab = this._managingTabs.find(([tab]) => !tab.disabled)?.[0];
+      if (selectedTab) {
+        selectedTab.active = true;
+        this._updateValue(selectedTab.value);
+      }
+    }
+
+    selectedTab?.scrollIntoView();
   }
 }
 
