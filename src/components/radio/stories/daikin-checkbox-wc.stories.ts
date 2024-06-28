@@ -16,7 +16,7 @@ const meta = {
             @click=${action('radio-click')}
             label=${args.label}
             label-position=${args.labelPosition}
-            check-state=${args.checkState}
+            ?checked=${args.checked}
         >
         </daikin-radio>
     `,

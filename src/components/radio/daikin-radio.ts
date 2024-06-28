@@ -17,23 +17,23 @@ const baseRadioCN = ctl(`
     after:absolute
     after:!w-full
     after:!h-full
-    after:i-daikin-checkbox-unchecked
+    after:i-daikin-radio-unchecked
     after:text-[#8C8C8C]
-    peer-checked:after:i-daikin-checkbox-checked
+    peer-checked:after:i-daikin-radio-checked
     peer-checked:after:text-daikinBlue-500
 
-    peer-hover:after:i-daikin-checkbox-checked
+    peer-hover:after:i-daikin-radio-checked
     peer-hover:after:text-daikinBlue-300
 
-    peer-active:after:i-daikin-checkbox-checked
+    peer-active:after:i-daikin-radio-checked
     peer-active:after:text-daikinBlue-500
 
-    peer-focus-visible:after:i-daikin-checkbox-unchecked
-    peer-focus-visible:peer-checked:after:i-daikin-checkbox-checked
+    peer-focus-visible:after:i-daikin-radio-unchecked
+    peer-focus-visible:peer-checked:after:i-daikin-radio-checked
     peer-focus-visible:after:text-daikinBlue-700
 
-    peer-disabled:after:i-daikin-checkbox-unchecked
-    peer-disabled:peer-checked:after:i-daikin-checkbox-checked
+    peer-disabled:after:i-daikin-radio-unchecked
+    peer-disabled:peer-checked:after:i-daikin-radio-checked
     peer-disabled:after:text-daikinNeutral-200
 `)
 
@@ -65,11 +65,11 @@ const radioCN = cva(baseRadioCN, {
 
 type labelProps = OmitNull<VariantProps<typeof labelCN>>;
 type radioProps = OmitNull<VariantProps<typeof radioCN>>;
-type componentSize = labelProps["size"] & radioProps["size"];
+type componentSizeProps = labelProps["size"] & radioProps["size"];
 
 export interface DaikinRadioProps {
     label: string
-    size: componentSize;
+    size: componentSizeProps;
     disabled: boolean;
     labelPosition: "left" | "right";
     readonly: boolean;
@@ -108,7 +108,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
      * Specify the component size
      */
     @property({ type: String })
-    size: componentSize  = "small";
+    size: componentSizeProps  = "small";
 
     /**
      * Specify the label position
@@ -133,7 +133,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
      * Specify whether the radio is be checked
      */
     @property({ type: Boolean , reflect: true})
-    checked: = false;
+    checked = false;
 
     /**
      * The form name.
@@ -158,11 +158,8 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
         const labelClassName = labelCN({size: this.size})
         const radioClassName = radioCN({size: this.size})
 
-        const isChecked = this.checkState === 'checked';
-        const isIndeterminate = this.checkState === 'indeterminate';
-
         const labelText = this.label ? html`<span class="${labelClassName}">${this.label}</span>` : html``;
-        const inputTag = html`<input class="${hideRadioCN}" type="radio" name="${this.name}" value="${this.value}" .indeterminate=${isIndeterminate} .checked=${isChecked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}><span class="${radioClassName}"></span>`;
+        const inputTag = html`<input class="${hideRadioCN}" type="radio" name="${this.name}" value="${this.value}" ?checked=${this.checked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}><span class="${radioClassName}"></span>`;
         const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
         return html`<label class="inline-flex gap-[8px] items-center">${inputArea}</label>`;
     }

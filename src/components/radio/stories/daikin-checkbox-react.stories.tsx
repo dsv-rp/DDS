@@ -6,7 +6,7 @@ import type { Meta } from '@storybook/react';
 import '../daikin-radio';
 import type { DaikinRadioStoryArgs } from './common';
 
-const Radio: React.FC<DaikinRadioStoryArgs> = ({ size, disabled, readonly, labelPosition, label, checkState }) => {
+const Radio: React.FC<DaikinRadioStoryArgs> = ({ size, disabled, readonly, labelPosition, label, checked }) => {
     return (
         <daikin-radio
             size={size}
@@ -15,7 +15,7 @@ const Radio: React.FC<DaikinRadioStoryArgs> = ({ size, disabled, readonly, label
             readonly={readonly ? true : undefined}
             label-position={labelPosition}
             label={label}
-            check-state={checkState}
+            checked={checked ? true : undefined}
         >
         </daikin-radio>
     );

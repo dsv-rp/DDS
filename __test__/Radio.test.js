@@ -1,6 +1,6 @@
 describe('Radio', () => {
-    const getPageURL = (size, label, labelPosition, checkState) => 
-        `http://localhost:6006/iframe.html?viewMode=story&id=components-radio--small&args=size:${size};label:${label};labelPosition:${labelPosition};checked:${checkState}`;
+    const getPageURL = (size, label, labelPosition, checked) => 
+        `http://localhost:6006/iframe.html?viewMode=story&id=components-radio--small&args=size:${size};label:${label};labelPosition:${labelPosition};checked:!${checked}`;
     // vision test
     describe.each(["small", "large"])("%s", (size) => {
         describe.each(["left", "right"])("%s", (labelPosition) => {
@@ -8,7 +8,7 @@ describe('Radio', () => {
                 const baseURL = getPageURL(size, "test label", labelPosition, checked);
 
                 it('enable', async () => {
-                    await page.goto(`${baseURL};checked:true`);
+                    await page.goto(baseURL);
 
                     // wait for element to be visible
                     const element = await page.waitForSelector('daikin-radio', { visible: true });
