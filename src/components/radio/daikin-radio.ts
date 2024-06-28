@@ -73,7 +73,7 @@ export interface DaikinRadioProps {
     disabled: boolean;
     labelPosition: "left" | "right";
     readonly: boolean;
-    checkState: "unchecked" | "indeterminate" | "checked";
+    checked: boolean;
     name: string;
     value: string;
     error: boolean;
@@ -132,8 +132,8 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
     /**
      * Specify whether the radio is be checked
      */
-    @property({ type: String , reflect: true, attribute: "check-state"})
-    checkState: "unchecked" | "indeterminate" | "checked"  = "unchecked";
+    @property({ type: Boolean , reflect: true})
+    checked: = false;
 
     /**
      * The form name.
@@ -164,7 +164,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
         const labelText = this.label ? html`<span class="${labelClassName}">${this.label}</span>` : html``;
         const inputTag = html`<input class="${hideRadioCN}" type="radio" name="${this.name}" value="${this.value}" .indeterminate=${isIndeterminate} .checked=${isChecked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}><span class="${radioClassName}"></span>`;
         const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
-        return html`<label class="inline-flex gap-[10px] items-center">${inputArea}</label>`;
+        return html`<label class="inline-flex gap-[8px] items-center">${inputArea}</label>`;
     }
 }
 

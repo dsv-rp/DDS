@@ -25,10 +25,7 @@ const meta = {
             control: { type: 'select' },
             options: ['small', 'large']
         },
-        checkState: {
-            control: { type: 'select' },
-            options: ['unchecked', 'indeterminate', 'checked']
-        },
+        checked: { type: 'boolean' },
         disabled: { type: 'boolean' },
         labelPosition: { type: 'string' },
         readonly: { type: 'boolean' },
