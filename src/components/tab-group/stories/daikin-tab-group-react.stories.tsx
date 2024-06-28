@@ -2,35 +2,42 @@ import { action } from "@storybook/addon-actions";
 import type { Meta } from "@storybook/react";
 import React from "react";
 
-import type { DaikinTabGroupStoryArgs } from "./common";
+import { parseTab, type DaikinTabGroupStoryArgs } from "./common";
 import { ReactDaikinTab } from "../../tab/stories/react";
 import { ReactDaikinTabGroup } from "./react";
 
-const StoryTabGroup: React.FC<DaikinTabGroupStoryArgs> = ({ size, value }) => {
+const StoryTabGroup: React.FC<DaikinTabGroupStoryArgs> = ({
+  tabs,
+  size,
+  value,
+}) => {
   return (
     <ReactDaikinTabGroup
       value={value}
       onBeforeChange={action("beforechange")}
       onChange={action("change")}
+      style={{ maxWidth: "600px", overflow: "auto" }}
     >
-      <ReactDaikinTab size={size} value="foo">
-        Foo
-      </ReactDaikinTab>
-      <ReactDaikinTab size={size} value="bar" disabled>
-        Bar
-      </ReactDaikinTab>
-      <ReactDaikinTab size={size} value="baz">
-        Baz
-      </ReactDaikinTab>
+      {tabs.map((tab) => {
+        const [label, value, disabled] = parseTab(tab);
+        return (
+          <ReactDaikinTab value={value} disabled={disabled}>
+            {label}
+          </ReactDaikinTab>
+        );
+      })}
     </ReactDaikinTabGroup>
   );
 };
 
 const meta = {
-  title: "Components/Tab",
+  title: "Components/TabGroup",
   tags: ["autodocs"],
   component: StoryTabGroup,
   argTypes: {
+    tabs: {
+      control: { type: "object" },
+    },
     size: {
       control: { type: "select" },
       options: ["default", "condensed"],
@@ -43,4 +50,4 @@ const meta = {
 
 export default meta;
 
-export { TabGroup } from "./common";
+export { TabGroup, TabGroupSingle, TabGroupMany } from "./common";

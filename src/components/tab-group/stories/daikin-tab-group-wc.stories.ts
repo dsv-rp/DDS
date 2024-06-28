@@ -4,23 +4,30 @@ import { html } from "lit";
 
 import "../../tab/daikin-tab";
 import "../daikin-tab-group";
-import type { DaikinTabGroupStoryArgs } from "./common";
+import { parseTab, type DaikinTabGroupStoryArgs } from "./common";
 
 const meta = {
-  title: "Components/Tab",
+  title: "Components/TabGroup",
   tags: ["autodocs"],
-  render: ({ size, value }) => html`
+  render: ({ tabs, size, value }) => html`
     <daikin-tab-group
       value=${value}
       @beforechange=${action("beforechange")}
       @change=${action("change")}
+      style="max-width:600px;overflow:auto;"
     >
-      <daikin-tab size=${size} value="foo">Foo</daikin-tab>
-      <daikin-tab size=${size} value="bar" disabled>Bar</daikin-tab>
-      <daikin-tab size=${size} value="baz">Baz</daikin-tab>
+      ${tabs.map((tab) => {
+        const [label, value, disabled] = parseTab(tab);
+        return html`<daikin-tab value=${value} ?disabled=${disabled}>
+          ${label}
+        </daikin-tab>`;
+      })}
     </daikin-tab-group>
   `,
   argTypes: {
+    tabs: {
+      control: { type: "object" },
+    },
     size: {
       control: { type: "select" },
       options: ["default", "condensed"],
@@ -33,4 +40,4 @@ const meta = {
 
 export default meta;
 
-export { TabGroup } from "./common";
+export { TabGroup, TabGroupSingle, TabGroupMany } from "./common";
