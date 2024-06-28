@@ -13,6 +13,9 @@ dist-ssr
 *.local
 *.tsbuildinfo
 
+# For migration from old project structure
+lib
+
 # Playwright test results
 test-results
 
