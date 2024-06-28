@@ -53,6 +53,7 @@
     "devDependencies": {
         "@daikin-oss/tailwind": "^0.0.1",
         "@fontsource/roboto": "^5.0.13",
+        "@lit/react": "^1.0.5",
         "@rollup/plugin-commonjs": "^25.0.4",
         "@rollup/plugin-node-resolve": "^15.2.1",
         "@storybook/addon-a11y": "7.6.17",
@@ -80,7 +81,7 @@
         "postcss": "^8.4.28",
         "postcss-discard-comments": "^6.0.1",
         "prettier": "^3.0.3",
-        "puppeteer": "^21.4.0",
+        "puppeteer": "^22.12.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "rollup-plugin-postcss": "^4.0.2",
