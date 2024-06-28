@@ -286,16 +286,11 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                       ${this.closeButton
                           ? html`
                                 <div class="flex items-center gap-5">
-                                    ${this.closeButton
-                                        ? html`
-                                              <button
-                                                  aria-label="Close"
-                                                  @click=${() =>
-                                                      this.onClickClose()}
-                                                  class=${notificationCloseButton}
-                                              ></button>
-                                          `
-                                        : null}
+                                    <button
+                                        aria-label="Close"
+                                        @click=${() => this.onClickClose()}
+                                        class=${notificationCloseButton}
+                                    ></button>
                                 </div>
                             `
                           : null}
