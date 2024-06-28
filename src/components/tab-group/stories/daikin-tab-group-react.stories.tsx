@@ -3,7 +3,8 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 
 import type { DaikinTabGroupStoryArgs } from "./common";
-import { ReactDaikinTab, ReactDaikinTabGroup } from "./react";
+import { ReactDaikinTab } from "../../tab/stories/react";
+import { ReactDaikinTabGroup } from "./react";
 
 const StoryTabGroup: React.FC<DaikinTabGroupStoryArgs> = ({ size, value }) => {
   return (

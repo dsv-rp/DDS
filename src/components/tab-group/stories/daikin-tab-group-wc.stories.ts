@@ -2,7 +2,7 @@ import { action } from "@storybook/addon-actions";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 
-import "../daikin-tab";
+import "../../tab/daikin-tab";
 import "../daikin-tab-group";
 import type { DaikinTabGroupStoryArgs } from "./common";
 
