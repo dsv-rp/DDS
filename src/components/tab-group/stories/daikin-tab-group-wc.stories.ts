@@ -18,7 +18,11 @@ const meta = {
     >
       ${tabs.map((tab) => {
         const [label, value, disabled] = parseTab(tab);
-        return html`<daikin-tab value=${value} ?disabled=${disabled}>
+        return html`<daikin-tab
+          size=${size}
+          value=${value}
+          ?disabled=${disabled}
+        >
           ${label}
         </daikin-tab>`;
       })}
