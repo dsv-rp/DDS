@@ -84,7 +84,7 @@ export class DaikinTab extends mixinLifecycle(LitElement) {
    * Whether to show the disabled state
    * @default false
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
@@ -92,7 +92,7 @@ export class DaikinTab extends mixinLifecycle(LitElement) {
    * ignored if `disabled` is `true`
    * @default false
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   active = false;
 
   @on("click", { capture: true })
