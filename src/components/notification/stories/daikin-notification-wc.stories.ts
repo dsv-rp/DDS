@@ -18,8 +18,6 @@ const meta = {
             line=${ifDefined(args.line)}
             ?open=${args.open}
             ?closeButton=${args.closeButton}
-            actionButtonLabel=${ifDefined(args.actionButtonLabel)}
-            @action=${action('action')}
             @close=${action('close')}
         >
         </daikin-notification>
@@ -66,11 +64,6 @@ const meta = {
             description: 'Whether to display the close button',
             defaultValue: false,
             type: 'boolean',
-        },
-        actionButtonLabel: {
-            description:
-                'Label text when using action button (Action buttons can only be used when variant is `inline`)',
-            type: 'string',
         },
     },
 } satisfies Meta<DaikinNotificationStoryArgs>;

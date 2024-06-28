@@ -157,7 +157,6 @@ export interface DaikinNotificationProps {
     line: NotificationProps['line'];
     open: boolean;
     closeButton?: boolean;
-    actionButtonLabel?: string;
 }
 
 /**
@@ -223,20 +222,6 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
     closeButton = false;
 
     /**
-     * Label text when using action button (Action buttons can only be used when variant is `inline`)
-     */
-    @property({ type: String })
-    actionButtonLabel? = '';
-
-    /**
-     * Call the event registered in "action"
-     */
-    onClickAction() {
-        const event = new CustomEvent('action');
-        this.dispatchEvent(event);
-    }
-
-    /**
      * Call the event registered in "close"
      */
     onClickClose() {
@@ -297,19 +282,9 @@ class DaikinNotification extends LitElement implements DaikinNotificationProps {
                               ${this.description}
                           </p>
                       </div>
-                      ${(this.variant === 'inline' && this.actionButtonLabel) ||
-                      this.closeButton
+                      ${this.closeButton
                           ? html`
                                 <div class="flex items-center gap-5">
-                                    ${this.variant === 'inline' &&
-                                    this.actionButtonLabel
-                                        ? html`<daikin-button
-                                              @click=${() =>
-                                                  this.onClickAction()}
-                                          >
-                                              ${this.actionButtonLabel}
-                                          </daikin-button>`
-                                        : null}
                                     ${this.closeButton
                                         ? html`
                                               <button

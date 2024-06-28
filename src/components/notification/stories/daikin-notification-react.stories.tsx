@@ -13,7 +13,6 @@ const DaikinNotificationWC = createComponent({
     elementClass: DaikinNotification,
     react: React,
     events: {
-        action: 'action',
         close: 'close',
     },
 });
@@ -26,7 +25,6 @@ const Notification: React.FC<DaikinNotificationStoryArgs> = ({
     line,
     open,
     closeButton,
-    actionButtonLabel,
 }) => {
     return (
         <DaikinNotificationWC
@@ -37,8 +35,6 @@ const Notification: React.FC<DaikinNotificationStoryArgs> = ({
             line={line}
             open={open}
             closeButton={closeButton}
-            actionButtonLabel={actionButtonLabel}
-            action={action('notification-action')}
             close={action('notification-close')}
         />
     );
@@ -90,11 +86,6 @@ const meta = {
             description: 'Whether to display the close button',
             defaultValue: false,
             type: 'boolean',
-        },
-        actionButtonLabel: {
-            description:
-                'Label text when using action button (Action buttons can only be used when variant is `inline`)',
-            type: 'string',
         },
     },
 } satisfies Meta<DaikinNotificationStoryArgs>;

@@ -15,7 +15,6 @@ export const Toast: Story = {
         line: 'single',
         open: true,
         closeButton: false,
-        actionButtonLabel: '',
     },
 };
 
@@ -28,6 +27,5 @@ export const Inline: Story = {
         line: 'single',
         open: true,
         closeButton: false,
-        actionButtonLabel: 'Action',
     },
 };
