@@ -22,6 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["."],
-  "exclude": ["node_modules", "playground", "dist", "src", ".storybook"]
+  "include": ["*", "build"]
 }
