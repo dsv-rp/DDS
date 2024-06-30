@@ -1,3 +1,8 @@
+const isChecked = (elementHandle) => page.evaluate((element) => {
+    const innerCheckbox = element.shadowRoot.querySelector("input");
+    return innerCheckbox.checked;
+}, elementHandle);
+
 describe('CheckBox', () => {
     const getPageURL = (size, label, labelPosition, checkState) => 
         `http://localhost:6006/iframe.html?viewMode=story&id=components-checkbox--small&args=size:${size};label:${label};labelPosition:${labelPosition};checkState:${checkState}`;
@@ -67,7 +72,7 @@ describe('CheckBox', () => {
                     expect(image).toMatchImageSnapshot();
                 });
         
-                it('disabled', async () => {
+                it('disabled-enable', async () => {
                     // load page with disabled=true
                     await page.goto(`${baseURL};disabled:true`);
         
@@ -77,6 +82,49 @@ describe('CheckBox', () => {
                     // take screenshot and check for diffs
                     const image = await element.screenshot();
                     expect(image).toMatchImageSnapshot();
+                });
+
+                it('disabled-hover', async () => {
+                    // load page with disabled=true
+                    await page.goto(`${baseURL};disabled:true`);
+        
+                    // wait for element to be visible
+                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+    
+                    // take screenshot when hover the checkbox when disabled
+                    await element.hover();
+                    const imageHover = await element.screenshot();
+                    expect(imageHover).toMatchImageSnapshot();
+                });
+
+                it('disabled-press', async () => {
+                    // load page with disabled=true
+                    await page.goto(`${baseURL};disabled:true`);
+        
+                    // wait for element to be visible
+                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+    
+                    // take screenshot when press the checkbox when disabled
+                    await element.hover();
+                    await page.mouse.down();        
+                    const imagePress = await element.screenshot();
+                    await page.mouse.up();
+                    expect(imagePress).toMatchImageSnapshot();
+                });
+
+                it('disabled-focus', async () => {
+                    // load page with disabled=true
+                    await page.goto(`${baseURL};disabled:true`);
+        
+                    // wait for element to be visible
+                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+    
+                    // take screenshot when focus the checkbox when disabled
+                    await page.evaluate((container) => {
+                        container.focus();
+                    }, element);
+                    const imageFocus = await element.screenshot();
+                    expect(imageFocus).toMatchImageSnapshot();
                 });
 
                 it('error', async () => {
@@ -94,23 +142,17 @@ describe('CheckBox', () => {
             await page.goto(baseURL);
 
             // wait for element to be visible
-            await page.waitForSelector("daikin-checkbox", { visible: true });
+            const daikinCheckbox = await page.waitForSelector("daikin-checkbox", { visible: true });
 
             // check daikin-checkbox not be selected
-            const isCheckedBefore = await page.$eval("daikin-checkbox", (checkbox) => {
-                const checkboxElement = checkbox.shadowRoot.querySelector("input");
-                return checkboxElement.checked;
-            })
+            const isCheckedBefore = await isChecked(daikinCheckbox);
             expect(isCheckedBefore).toBe(false)
 
             // click daikin-checkbox
             await page.locator('daikin-checkbox').click();
             
             // check daikin-checkbox be selected
-            const isCheckedAfter = await page.$eval("daikin-checkbox", (checkbox) => {
-                const checkboxElement = checkbox.shadowRoot.querySelector("input");
-                return checkboxElement.checked;
-            })
+            const isCheckedAfter = await isChecked(daikinCheckbox);
             expect(isCheckedAfter).toBe(true);
         });
 
@@ -118,23 +160,17 @@ describe('CheckBox', () => {
             await page.goto(`${baseURL};disabled:true`);
 
             // wait for element to be visible
-            await page.waitForSelector("daikin-checkbox", { visible: true });
+            const daikinCheckbox = await page.waitForSelector("daikin-checkbox", { visible: true });
             
             // check daikin-checkbox not be selected
-            const isCheckedBefore = await page.$eval("daikin-checkbox", (checkbox) => {
-                const checkboxElement = checkbox.shadowRoot.querySelector("input");
-                return checkboxElement.checked
-            })
+            const isCheckedBefore = await isChecked(daikinCheckbox);
             expect(isCheckedBefore).toBe(false)
 
             // click daikin-checkbox
             await page.locator('daikin-checkbox').click();
             
             // check daikin-checkbox be selected
-            const isCheckedAfter = await page.$eval("daikin-checkbox", (checkbox) => {
-                const checkboxElement = checkbox.shadowRoot.querySelector("input");
-                return checkboxElement.checked
-            })
+            const isCheckedAfter = await isChecked(daikinCheckbox);
             expect(isCheckedAfter).toBe(false);
             
         })

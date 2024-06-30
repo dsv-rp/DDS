@@ -41,13 +41,23 @@ const baseCheckboxCN = ctl(`
     checked:focus-visible:border-daikinBlue-700
     checked:focus-visible:bg-daikinBlue-700
 
+    checked:hover:border-daikinBlue-300
+    checked:hover:bg-daikinBlue-300
+    checked:active:border-daikinBlue-600
+    checked:active:bg-daikinBlue-600
+
+    indeterminate:active:border-daikinBlue-600
+    indeterminate:active:bg-daikinBlue-600
+    indeterminate:hover:border-daikinBlue-300
+    indeterminate:hover:bg-daikinBlue-300
+
     indeterminate:focus-visible:border-daikinBlue-700
     indeterminate:focus-visible:bg-daikinBlue-700
 
-    disabled:border-daikinNeutral-200
-    disabled:bg-white
-    indeterminate:disabled:bg-daikinNeutral-200
-    checked:disabled:bg-daikinNeutral-200
+    disabled:!border-daikinNeutral-200
+    disabled:!bg-white
+    indeterminate:disabled:!bg-daikinNeutral-200
+    checked:disabled:!bg-daikinNeutral-200
 `)
 
 const labelCN = cva(["leading-8", "not-italic", "font-normal", "align-middle"], {
