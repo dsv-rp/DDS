@@ -1,3 +1,3 @@
-export * from './colors';
+export * from "./colors";
 
-export * from './components/index';
+export * from "./components/index";
