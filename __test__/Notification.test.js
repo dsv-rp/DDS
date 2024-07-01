@@ -49,12 +49,12 @@ describe('Notification', () => {
                 visible: true,
             });
 
-            expect(await page.$('daikin-notification >>> div')).toBeTruthy();
+            expect(
+                await page.locator('::-p-text(Notification-title)'),
+            ).toBeTruthy();
 
             expect(
-                await page.$(
-                    'daikin-notification >>> ::-p-aria([name="Close"][role="button"])',
-                ),
+                await page.$('::-p-aria([name="Close"][role="button"])'),
             ).toBeFalsy();
         });
         it('When `closeButton` is true, the close button is found and the Notification disappears when clicked', async () => {
@@ -68,14 +68,16 @@ describe('Notification', () => {
                 visible: true,
             });
 
-            expect(await page.$('daikin-notification >>> div')).toBeTruthy();
+            expect(
+                await page.locator('::-p-text(Notification-title)'),
+            ).toBeTruthy();
 
             const closeButton = await page.waitForSelector(
                 '::-p-aria([name="Close"][role="button"])',
             );
             await closeButton.click();
 
-            expect(await page.$('daikin-notification >>> div')).toBeFalsy();
+            expect(await page.$('::-p-text(Notification-title)')).toBeFalsy();
         });
     });
 });
