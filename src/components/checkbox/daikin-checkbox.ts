@@ -180,7 +180,18 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
         const isIndeterminate = this.checkState === 'indeterminate';
 
         const labelText = this.label ? html`<span class="${labelClassName}">${this.label}</span>` : html``;
-        const inputTag = html`<input class="${checkboxClassName}" type="checkbox" name="${this.name}" value="${this.value}" .indeterminate=${isIndeterminate} .checked=${isChecked} ?readonly=${this.readonly} ?disabled=${this.disabled} @click=${this._handleClick}>`;
+        const inputTag = html`<input
+            class="${checkboxClassName}"
+            type="checkbox"
+            name="${this.name}"
+            value="${this.value}" 
+            .indeterminate=${isIndeterminate} 
+            .checked=${isChecked} 
+            ?readonly=${this.readonly} 
+            ?disabled=${this.disabled} 
+            @click=${this._handleClick}
+            @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+            >`;
         const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
         return html`<label class="inline-flex gap-[10px] items-center">${inputArea}</label>`;
     }

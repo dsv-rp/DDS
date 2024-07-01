@@ -9,5 +9,6 @@ export const ReactDaikinCheckbox = createComponent({
   react: React,
   events: {
     onChange: "change",
+    onClick: "click",
   },
 });

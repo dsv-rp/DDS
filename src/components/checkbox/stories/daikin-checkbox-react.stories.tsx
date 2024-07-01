@@ -11,12 +11,13 @@ const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({ size, disabled, readonly,
     return (
         <ReactDaikinCheckbox
             size={size}
-            disabled={disabled ? true : undefined}
-            onClick={action('checkbox-click')}
-            readonly={readonly ? true : undefined}
+            disabled={disabled}
+            readonly={readonly}
             label-position={labelPosition}
             label={label}
             check-state={checkState}
+            onChange={action('checkbox-change')}
+            onClick={action('checkbox-click')}
         >
         </ReactDaikinCheckbox>
     );
