@@ -84,13 +84,13 @@ const checkboxCN = cva(baseCheckboxCN, {
         }
 });
 
-type labelProps = OmitNull<VariantProps<typeof labelCN>>;
-type checkboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
-type componentSize = labelProps["size"] & checkboxProps["size"];
+type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
+type CheckboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
+type ComponentSize = LabelProps["size"] & CheckboxProps["size"];
 
-export interface DaikinCheckBoxProps {
+export interface DaikinCheckboxProps {
     label: string
-    size: componentSize;
+    size: ComponentSize;
     disabled: boolean;
     labelPosition: "left" | "right";
     readonly: boolean;
@@ -104,7 +104,7 @@ export interface DaikinCheckBoxProps {
  * Primary UI component for user interaction
  */
 @customElement("daikin-checkbox")
-class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
+class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     static styles = css`
         ${unsafeCSS(tailwindStyles)}
 
@@ -129,7 +129,7 @@ class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
      * Specify the component size
      */
     @property({ type: String })
-    size: componentSize  = "small";
+    size: ComponentSize  = "small";
 
     /**
      * Specify the label position
@@ -191,8 +191,8 @@ class DaikinCheckBox extends LitElement implements DaikinCheckBoxProps {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'daikin-checkbox': DaikinCheckBox;
+        'daikin-checkbox': DaikinCheckbox;
     }
 }
 
-export default DaikinCheckBox;
+export default DaikinCheckbox;

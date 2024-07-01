@@ -1,12 +1,12 @@
 import type { StoryObj } from '@storybook/web-components';
 
-import type { DaikinCheckBoxProps } from '../daikin-checkbox';
+import type { DaikinCheckboxProps } from '../daikin-checkbox';
 
-export interface DaikinCheckBoxStoryArgs extends DaikinCheckBoxProps {
+export interface DaikinCheckboxStoryArgs extends DaikinCheckboxProps {
 
 }
 
-type Story = StoryObj<DaikinCheckBoxStoryArgs>;
+type Story = StoryObj<DaikinCheckboxStoryArgs>;
 
 export const Small: Story = {
     args: {

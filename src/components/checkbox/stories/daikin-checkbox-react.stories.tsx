@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions';
 import type { Meta } from '@storybook/react';
 
 import '../daikin-checkbox';
-import type { DaikinCheckBoxStoryArgs } from './common';
+import type { DaikinCheckboxStoryArgs } from './common';
 
-const CheckBox: React.FC<DaikinCheckBoxStoryArgs> = ({ size, disabled, readonly, labelPosition, label, checkState }) => {
+const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({ size, disabled, readonly, labelPosition, label, checkState }) => {
     return (
         <daikin-checkbox
             size={size}
@@ -22,9 +22,9 @@ const CheckBox: React.FC<DaikinCheckBoxStoryArgs> = ({ size, disabled, readonly,
 };
 
 const meta = {
-    title: 'Components/CheckBox',
+    title: 'Components/Checkbox',
     tags: ['autodocs'],
-    component: CheckBox,
+    component: Checkbox,
     argTypes: {
         size: {
             control: { type: 'select' },
@@ -43,7 +43,7 @@ const meta = {
         name: { type: 'string' },
         value: { type: 'string' },
     }
-} satisfies Meta<DaikinCheckBoxStoryArgs>;
+} satisfies Meta<DaikinCheckboxStoryArgs>;
 
 export default meta;
 

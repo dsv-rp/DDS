@@ -3,10 +3,10 @@ import type { Meta } from '@storybook/web-components';
 import { html } from 'lit';
 
 import '../daikin-checkbox.ts';
-import type { DaikinCheckBoxStoryArgs } from './common.ts';
+import type { DaikinCheckboxStoryArgs } from './common.ts';
 
 const meta = {
-    title: 'Components/CheckBox',
+    title: 'Components/Checkbox',
     tags: ['autodocs'],
     render: (args) => html`
         <daikin-checkbox
@@ -38,7 +38,7 @@ const meta = {
         name: { type: 'string' },
         value: { type: 'string' },
     }
-} satisfies Meta<DaikinCheckBoxStoryArgs>;
+} satisfies Meta<DaikinCheckboxStoryArgs>;
 
 export default meta;
 

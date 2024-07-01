@@ -3,7 +3,7 @@ const isChecked = (elementHandle) => page.evaluate((element) => {
     return innerCheckbox.checked;
 }, elementHandle);
 
-describe('CheckBox', () => {
+describe('Checkbox', () => {
     const getPageURL = (size, label, labelPosition, checkState) => 
         `http://localhost:6006/iframe.html?viewMode=story&id=components-checkbox--small&args=size:${size};label:${label};labelPosition:${labelPosition};checkState:${checkState}`;
     // vision test
