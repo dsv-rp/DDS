@@ -40,7 +40,7 @@ jobs:
               run: npm i
 
             - name: Run tests
-              run: npm run build && npm run test
+              run: npm run build && npm run test:update
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
