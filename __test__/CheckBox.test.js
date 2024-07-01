@@ -4,127 +4,74 @@ const isChecked = (elementHandle) => page.evaluate((element) => {
 }, elementHandle);
 
 describe('Checkbox', () => {
-    const getPageURL = (size, label, labelPosition, checkState) => 
-        `http://localhost:6006/iframe.html?viewMode=story&id=components-checkbox--small&args=size:${size};label:${label};labelPosition:${labelPosition};checkState:${checkState}`;
+    const getPageURL = (size, label, labelPosition, checkState, disabled) => 
+        `http://localhost:6006/iframe.html?viewMode=story&id=components-checkbox--small&args=size:${size};label:${label};labelPosition:${labelPosition};checkState:${checkState};${disabled?"disabled:!true":""}`;
     // vision test
     describe.each(["small", "large"])("%s", (size) => {
         describe.each(["left", "right"])("%s", (labelPosition) => {
             describe.each(["unchecked", "indeterminate", "checked"])("%s", (checkState) => {
-                const baseURL = getPageURL(size, "test label", labelPosition, checkState);
+                describe.each([false, true])("%s", (disabled) => {
+                    const baseURL = getPageURL(size, "test label", labelPosition, checkState, disabled);
 
-                it('enable', async () => {
-                    await page.goto(baseURL);
+                    it('enable', async () => {
+                        await page.goto(baseURL);
 
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+                        // wait for element to be visible
+                        const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+            
+                        // take screenshot and check for diffs
+                        const image = await element.screenshot();
+                        expect(image).toMatchImageSnapshot();
+                    });
+            
+                    it('hover', async () => {
+                        await page.goto(baseURL);
+            
+                        // wait for element to be visible
+                        const element = await page.waitForSelector('daikin-checkbox', { visible: true });
         
-                    // take screenshot and check for diffs
-                    const image = await element.screenshot();
-                    expect(image).toMatchImageSnapshot();
-                });
+                        // hover cursor on the element
+                        await element.hover();
+            
+                        // take screenshot and check for diffs
+                        const image = await element.screenshot();
+                        expect(image).toMatchImageSnapshot();
+                    });
+            
+                    it('press', async () => {
+                        await page.goto(baseURL);
+            
+                        // wait for element to be visible
+                        const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+            
+                        // hover cursor on the element and hold down mouse checkbox on the element
+                        await element.hover();
+                        await page.mouse.down();
+            
+                        // take screenshot and check for diffs
+                        const image = await element.screenshot();
+                        await page.mouse.up();
+                        expect(image).toMatchImageSnapshot();
+                    });
+            
+                    it('focus', async () => {
+                        await page.goto(baseURL);
+            
+                        // wait for element to be visible
+                        const element = await page.waitForSelector('daikin-checkbox', { visible: true });
+                        
+                        // focus on the element
+                        // daikin-checkbox itself cannot have a focus as it is not a checkbox element
+                        // we have to focus on the internal checkbox element
+                        await page.evaluate((container) => {
+                            const checkbox = container.shadowRoot.querySelector("input");
+                            checkbox.focus();
+                        }, element);
         
-                it('hover', async () => {
-                    await page.goto(baseURL);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-    
-                    // hover cursor on the element
-                    await element.hover();
-        
-                    // take screenshot and check for diffs
-                    const image = await element.screenshot();
-                    expect(image).toMatchImageSnapshot();
-                });
-        
-                it('press', async () => {
-                    await page.goto(baseURL);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-        
-                    // hover cursor on the element and hold down mouse checkbox on the element
-                    await element.hover();
-                    await page.mouse.down();
-        
-                    // take screenshot and check for diffs
-                    const image = await element.screenshot();
-                    await page.mouse.up();
-                    expect(image).toMatchImageSnapshot();
-                });
-        
-                it('focus', async () => {
-                    await page.goto(baseURL);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-                    
-                    // focus on the element
-                    // daikin-checkbox itself cannot have a focus as it is not a checkbox element
-                    // we have to focus on the internal checkbox element
-                    await page.evaluate((container) => {
-                        const checkbox = container.shadowRoot.querySelector("input");
-                        checkbox.focus();
-                    }, element);
-    
-                    // take screenshot and check for diffs
-                    const image = await element.screenshot();
-                    expect(image).toMatchImageSnapshot();
-                });
-        
-                it('disabled-enable', async () => {
-                    // load page with disabled=true
-                    await page.goto(`${baseURL};disabled:true`);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-    
-                    // take screenshot and check for diffs
-                    const image = await element.screenshot();
-                    expect(image).toMatchImageSnapshot();
-                });
-
-                it('disabled-hover', async () => {
-                    // load page with disabled=true
-                    await page.goto(`${baseURL};disabled:true`);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-    
-                    // take screenshot when hover the checkbox when disabled
-                    await element.hover();
-                    const imageHover = await element.screenshot();
-                    expect(imageHover).toMatchImageSnapshot();
-                });
-
-                it('disabled-press', async () => {
-                    // load page with disabled=true
-                    await page.goto(`${baseURL};disabled:true`);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-    
-                    // take screenshot when press the checkbox when disabled
-                    await element.hover();
-                    await page.mouse.down();        
-                    const imagePress = await element.screenshot();
-                    await page.mouse.up();
-                    expect(imagePress).toMatchImageSnapshot();
-                });
-
-                it('disabled-focus', async () => {
-                    // load page with disabled=true
-                    await page.goto(`${baseURL};disabled:true`);
-        
-                    // wait for element to be visible
-                    const element = await page.waitForSelector('daikin-checkbox', { visible: true });
-    
-                    // take screenshot when focus the checkbox when disabled
-                    await page.evaluate((container) => {
-                        container.focus();
-                    }, element);
-                    const imageFocus = await element.screenshot();
-                    expect(imageFocus).toMatchImageSnapshot();
+                        // take screenshot and check for diffs
+                        const image = await element.screenshot();
+                        expect(image).toMatchImageSnapshot();
+                    });
                 });
 
                 it('error', async () => {
