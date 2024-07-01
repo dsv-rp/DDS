@@ -5,10 +5,11 @@ import type { Meta } from '@storybook/react';
 
 import '../daikin-checkbox';
 import type { DaikinCheckboxStoryArgs } from './common';
+import { ReactDaikinCheckbox } from "./react";
 
 const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({ size, disabled, readonly, labelPosition, label, checkState }) => {
     return (
-        <daikin-checkbox
+        <ReactDaikinCheckbox
             size={size}
             disabled={disabled ? true : undefined}
             onClick={action('checkbox-click')}
@@ -17,7 +18,7 @@ const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({ size, disabled, readonly,
             label={label}
             check-state={checkState}
         >
-        </daikin-checkbox>
+        </ReactDaikinCheckbox>
     );
 };
 
