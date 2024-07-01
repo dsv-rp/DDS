@@ -19,7 +19,7 @@ const baseCheckboxCN = ctl(`
     hover:border-daikinBlue-300
 
     active:border-daikinBlue-600
-    active:bg-daikinBlue-600
+    active:checked:bg-daikinBlue-600
 
     indeterminate:border-daikinBlue-600
     indeterminate:bg-daikinBlue-600
