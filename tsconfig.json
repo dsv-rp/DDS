@@ -1,29 +1,29 @@
 {
-    "compilerOptions": {
-        "target": "es2019",
-        "module": "es2020",
-        "lib": ["es2020", "DOM", "DOM.Iterable"],
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "experimentalDecorators": true,
-        "useDefineForClassFields": false,
-        "skipLibCheck": true,
-        "moduleResolution": "bundler",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "noFallthroughCasesInSwitch": true,
-        "strictPropertyInitialization": false
-    },
-    "include": ["src", "globals.d.ts"],
-    "exclude": ["src/**/*.stories.ts", "src/**/*.stories.tsx"]
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "es2020",
+    "lib": ["es2020", "DOM", "DOM.Iterable"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false
+  },
+  "include": ["src", "globals.d.ts"],
+  "exclude": ["src/**/*.stories.ts", "src/**/*.stories.tsx"]
 }

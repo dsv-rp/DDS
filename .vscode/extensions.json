@@ -1,6 +1,4 @@
 {
-    // List of extensions which should be recommended for users of this workspace.
-    "recommendations": [
-        "runem.lit-plugin"
-    ]
+  // List of extensions which should be recommended for users of this workspace.
+  "recommendations": ["runem.lit-plugin"]
 }

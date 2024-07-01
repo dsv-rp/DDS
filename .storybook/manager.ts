@@ -1,7 +1,7 @@
-import { addons } from '@storybook/manager-api';
+import { addons } from "@storybook/manager-api";
 
-import daikinTheme from './daikinTheme';
+import daikinTheme from "./daikinTheme";
 
 addons.setConfig({
-    theme: daikinTheme
+  theme: daikinTheme,
 });
