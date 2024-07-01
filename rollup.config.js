@@ -15,7 +15,7 @@ module.exports = {
             entryFileNames: '[name].js',
             sourcemap: true,
             compact: false,
-            dir: 'dist'
+            dir: 'dist',
         },
         {
             format: 'cjs',
@@ -25,8 +25,8 @@ module.exports = {
             sourcemap: true,
             compact: false,
             dir: 'lib',
-            exports: 'auto'
-        }
+            exports: 'auto',
+        },
     ],
     plugins: [
         commonjs(),
@@ -37,11 +37,12 @@ module.exports = {
             // Enable source maps for CSS
             sourceMap: true,
             // Minimize the CSS
-            minimize: false
+            minimize: false,
         }),
         typescript(),
         nodeResolve({
-            exportConditions: ['node.default', 'node', 'import', 'default']
-        })
-    ]
+            exportConditions: ['node.default', 'node', 'import', 'default'],
+        }),
+    ],
+    external: [/\.svg$/],
 };

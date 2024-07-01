@@ -1,7 +1,6 @@
 import aafDark from '@daikin-oss/dds-tokens/css/aaf/Dark/variables.css?inline';
 import aafLight from '@daikin-oss/dds-tokens/css/aaf/Light/variables.css?inline';
 import dknDark from '@daikin-oss/dds-tokens/css/daikin/Dark/variables.css?inline';
-// Importing the stylesheets
 import dknLight from '@daikin-oss/dds-tokens/css/daikin/Light/variables.css?inline';
 import { useGlobals } from '@storybook/preview-api';
 import type { Preview } from '@storybook/web-components';
