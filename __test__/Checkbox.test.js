@@ -4,16 +4,16 @@ const isChecked = (elementHandle) => page.evaluate((element) => {
 }, elementHandle);
 
 describe('Checkbox', () => {
-    const getPageURL = (size, label, labelPosition, checkState, disabled) => 
-        `http://localhost:6006/iframe.html?viewMode=story&id=components-checkbox--small&args=size:${size};label:${label};labelPosition:${labelPosition};checkState:${checkState};${disabled?"disabled:!true":""}`;
+    const getPageURL = (size, label, labelPosition, checkState, state) => 
+        `http://localhost:6006/iframe.html?viewMode=story&id=components-checkbox--small&args=size:${size};label:${label};labelPosition:${labelPosition};checkState:${checkState};${state=="disabled"?"disabled:!true":""}`;
     // vision test
     describe.each(["small", "large"])("%s", (size) => {
         describe.each(["left", "right"])("%s", (labelPosition) => {
             describe.each(["unchecked", "indeterminate", "checked"])("%s", (checkState) => {
-                describe.each([false, true])("%s", (disabled) => {
-                    const baseURL = getPageURL(size, "test label", labelPosition, checkState, disabled);
+                describe.each(["enabled", "disabled"])("%s", (state) => {
+                    const baseURL = getPageURL(size, "test label", labelPosition, checkState, state);
 
-                    it('enable', async () => {
+                    it('normal', async () => {
                         await page.goto(baseURL);
 
                         // wait for element to be visible
@@ -72,11 +72,6 @@ describe('Checkbox', () => {
                         const image = await element.screenshot();
                         expect(image).toMatchImageSnapshot();
                     });
-                });
-
-                it('error', async () => {
-                    // load page with disabled=true
-                    expect(true)
                 });
             })
         });
