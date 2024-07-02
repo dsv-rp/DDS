@@ -45,44 +45,32 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: {
+    ...Primary.args,
     variant: "secondary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
     onClick: fn(),
   },
 };
 
 export const Tertiary: Story = {
   args: {
+    ...Primary.args,
     variant: "tertiary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
     onClick: fn(),
   },
 };
 
 export const PrimaryDanger: Story = {
   args: {
+    ...Primary.args,
     variant: "primaryDanger",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
     onClick: fn(),
   },
 };
 
 export const Disabled: Story = {
   args: {
-    variant: "primary",
+    ...Primary.args,
     disabled: true,
-    label: "button",
-    size: "default",
-    type: "button",
     onClick: fn(),
   },
   async play({ args, canvasElement, step }) {
