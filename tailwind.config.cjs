@@ -12,9 +12,9 @@ function defineConfig(config) {
 
 module.exports = defineConfig({
   content: [
-    "./src/**/*.{js,ts}",
-    "!./src/**/*.stories.{js,ts}",
-    "!./src/**/*.test.{js,ts}",
+    "./src/**/*.ts",
+    "!./src/**/*.stories.*",
+    "!./src/**/*.test.*",
     "!**/stories/**",
     "!**/storybook/**",
     "!**/tests/**",

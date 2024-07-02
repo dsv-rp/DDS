@@ -19,7 +19,7 @@ export default defineConfig({
     stderr: "pipe",
   },
   use: {
-    // See docker-compose.yml for baseURL and wsEndpoint
+    // See `docker-compose.yml` for the `baseURL` and the `wsEndpoint`
     baseURL: "http://host.docker.internal:6099",
     connectOptions: {
       wsEndpoint: "ws://localhost:55744",

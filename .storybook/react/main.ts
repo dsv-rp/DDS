@@ -22,7 +22,7 @@ const config: StorybookConfig = {
     },
   },
   typescript: {
-    // react-docgen has interoperability issue with lit's decorators
+    // "react-docgen" (not "react-docgen-typescript") has interoperability issue with lit's decorators
     reactDocgen: "react-docgen-typescript",
   },
 };

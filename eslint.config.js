@@ -10,6 +10,7 @@ import tseslint from "typescript-eslint";
 
 const { rules: prettierRules } = prettierPkg;
 
+// convert eslint-plugin-lit-a11y's recommended config into a flat one
 const litA11yConfigFlatRecommended = {
   plugins: {
     "lit-a11y": { rules: litA11yRules },
