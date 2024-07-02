@@ -1,8 +1,11 @@
 import { argv, env, exit } from "node:process";
 
+export type StorybookEnvName = "development" | "production";
+export type StorybookFrameworkName = "web-components" | "react";
+
 export interface StorybookEnv {
-  STORYBOOK_ENV: "development" | "production";
-  STORYBOOK_FW: "web-components" | "react";
+  readonly STORYBOOK_ENV: StorybookEnvName;
+  readonly STORYBOOK_FW: StorybookFrameworkName;
 }
 
 export function getStorybookEnv(useArgv = false): StorybookEnv {

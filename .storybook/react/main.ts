@@ -1,10 +1,11 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 import { env } from "node:process";
+import { getAllStorybookFiles } from "../main-common";
 
 env.STORYBOOK_FW = "react";
 
 const config: StorybookConfig = {
-  stories: ["../../src/**/*.mdx", "../../src/**/*.stories.ts"],
+  stories: () => getAllStorybookFiles("react"),
   addons: [
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
