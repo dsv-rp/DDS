@@ -30,13 +30,19 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Build Storybook
+        run: npm run build
+
       - name: Interaction Test
-        run: npm run test:interaction
+        run: |
+          npm run test:interaction
+          STORYBOOK_ENV=production npm run test:interaction
 
       - name: Visual Regression Test
         run: |
           docker compose up -d
           npm run test:visual
+          STORYBOOK_ENV=production npm run test:visual
           docker compose down
 
       - name: Upload artifacts
