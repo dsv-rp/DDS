@@ -3,7 +3,7 @@ import { clipFor, describeEach } from "../../tests/visual";
 
 const getPageURL = (variant: string, size: string): string =>
   // The button label is intentionally changed to a string that renders the local and CI environments the same
-  `/iframe.html?viewMode=story&id=components-button--primary&args=label:Button1;variant:${variant};size:${size}`;
+  `/iframe?viewMode=story&id=components-button--primary&args=label:Button1;variant:${variant};size:${size}`;
 
 describeEach(
   ["primary", "secondary", "tertiary", "primaryDanger"] as const,
