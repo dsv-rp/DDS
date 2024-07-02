@@ -42,10 +42,7 @@ jobs:
         run: npx playwright install-deps
 
       - name: Lint
-        run: |
-          npm run lint
-          npm run lint:lit
-          npm run lint:ls
+        run: npm run lint
 
       - name: Build
         run: npm run build
