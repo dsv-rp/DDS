@@ -28,4 +28,4 @@ ignore:
   - storybook-static
   - test-results
   - node_modules
-  - tsconfig.*
+  - tsconfig.*.json

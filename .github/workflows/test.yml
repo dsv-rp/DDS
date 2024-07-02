@@ -41,13 +41,11 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps
 
-      - name: Run ls-lint
-        uses: ls-lint/action@v2.2.3
-
       - name: Lint
         run: |
           npm run lint
           npm run lint:lit
+          npm run lint:ls
 
       - name: Build
         run: npm run build
