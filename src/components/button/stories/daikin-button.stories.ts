@@ -43,39 +43,6 @@ export const Primary: Story = {
   },
 };
 
-export const Disabled: Story = {
-  args: {
-    variant: "primary",
-    disabled: true,
-    label: "button",
-    size: "default",
-    type: "button",
-    onClick: fn(),
-  },
-  async play({ args, canvasElement, step }) {
-    const root = canvasElement.getElementsByTagName("daikin-button")[0];
-    await expect(root).toBeInTheDocument();
-
-    const innerButton = getByShadowRole(root, "button", { name: "button" });
-    await expect(innerButton).toBeInTheDocument();
-
-    // should not react if inner button clicked
-    await step("Try to click inner button", async () => {
-      await userEvent.click(innerButton);
-      await expect(args.onClick).not.toHaveBeenCalled();
-    });
-
-    // also should not react if outer button clicked
-    // FIXME: this case fails because click event not captured in the daikin-button component
-    /*
-    await step("Try to click outer daikin-button", async () => {
-      await userEvent.click(root);
-      await expect(args.onClick).not.toHaveBeenCalled();
-    });
-    */
-  },
-};
-
 export const Secondary: Story = {
   args: {
     variant: "secondary",
@@ -106,5 +73,38 @@ export const PrimaryDanger: Story = {
     size: "default",
     type: "button",
     onClick: fn(),
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    variant: "primary",
+    disabled: true,
+    label: "button",
+    size: "default",
+    type: "button",
+    onClick: fn(),
+  },
+  async play({ args, canvasElement, step }) {
+    const root = canvasElement.getElementsByTagName("daikin-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    const innerButton = getByShadowRole(root, "button", { name: "button" });
+    await expect(innerButton).toBeInTheDocument();
+
+    // should not react if inner button clicked
+    await step("Try to click inner button", async () => {
+      await userEvent.click(innerButton);
+      await expect(args.onClick).not.toHaveBeenCalled();
+    });
+
+    // also should not react if outer button clicked
+    // FIXME: this case fails because click event not captured in the daikin-button component
+    /*
+    await step("Try to click outer daikin-button", async () => {
+      await userEvent.click(root);
+      await expect(args.onClick).not.toHaveBeenCalled();
+    });
+    */
   },
 };
