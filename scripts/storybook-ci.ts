@@ -8,11 +8,11 @@ const { STORYBOOK_ENV, STORYBOOK_FW } = getStorybookEnv(true);
 const command = {
   "web-components": {
     development: `npx storybook dev -p ${PORT} --ci`,
-    production: `npx serve -p ${PORT} storybook-static/web-components`,
+    production: `npx http-server -c-1 -d false --no-dotfiles -p ${PORT} storybook-static/web-components`,
   },
   react: {
     development: `npx storybook dev -p ${PORT} --ci -c .storybook/react`,
-    production: `npx serve -p ${PORT} storybook-static/react`,
+    production: `npx http-server -c-1 -d false --no-dotfiles -p ${PORT} storybook-static/react`,
   },
 }[STORYBOOK_FW][STORYBOOK_ENV];
 
