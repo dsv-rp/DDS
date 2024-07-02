@@ -5,7 +5,11 @@ const config: StorybookConfig = {
     "../../src/**/*.mdx",
     "../../src/**/*-react.stories.@(js|jsx|mjs|ts|tsx)",
   ],
-  addons: ["@storybook/addon-links", "@storybook/addon-essentials"],
+  addons: [
+    "@storybook/addon-essentials",
+    "@storybook/addon-interactions",
+    "@storybook/addon-links",
+  ],
   core: {
     builder: "@storybook/builder-vite",
   },

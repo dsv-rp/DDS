@@ -1,4 +1,4 @@
-import type { StoryObj } from "@storybook/web-components";
+import type { Meta, StoryObj } from "@storybook/web-components";
 import type { ElementProps } from "../../../storybook";
 import type { DaikinButton } from "../daikin-button";
 
@@ -33,46 +33,6 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
   role: {
     type: "string",
   },
-} as const;
+} as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
 
-type Story = StoryObj<DaikinButtonStoryArgs>;
-
-export const Primary: Story = {
-  args: {
-    variant: "primary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: "secondary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
-  },
-};
-
-export const Tertiary: Story = {
-  args: {
-    variant: "tertiary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
-  },
-};
-
-export const PrimaryDanger: Story = {
-  args: {
-    variant: "primaryDanger",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
-  },
-};
+export type Story = StoryObj<DaikinButtonStoryArgs>;

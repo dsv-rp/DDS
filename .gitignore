@@ -19,6 +19,9 @@ lib
 # Playwright test results
 test-results
 
+# Storybook build
+storybook-static
+
 # Editor directories and files
 .idea
 .DS_Store

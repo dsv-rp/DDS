@@ -8,8 +8,8 @@ export default defineConfig({
   webServer: {
     command:
       mode === "react"
-        ? "npm run storybook:test-react"
-        : "npm run storybook:test-wc",
+        ? "npm run storybook:ci-react"
+        : "npm run storybook:ci-wc",
     url: "http://127.0.0.1:6099",
     reuseExistingServer: !env.CI,
     stdout: "ignore",

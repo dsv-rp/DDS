@@ -180,6 +180,7 @@ export class DaikinButton extends LitElement {
       <span><slot></slot></span>
       <slot name="rightIcon"></slot>
     `;
+
     if (this.href) {
       return html` <a
         href="${this.href}"
@@ -189,6 +190,7 @@ export class DaikinButton extends LitElement {
         ${content}
       </a>`;
     }
+
     return html`
       <button
         class="${buttonClassName}"

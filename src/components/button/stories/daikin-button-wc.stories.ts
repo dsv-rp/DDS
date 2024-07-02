@@ -1,32 +1,19 @@
-import { action } from "@storybook/addon-actions";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import type { ARIARole } from "../../../litAnalyzerTypes";
 import "../daikin-button";
 import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
 
-const meta = {
+export default {
   title: "Components/Button",
   tags: ["autodocs"],
-  render: ({
-    disabled,
-    href,
-    isLoading,
-    label,
-    role,
-    size,
-    type,
-    variant,
-  }) => html`
+  render: ({ disabled, href, label, size, type, variant, onClick }) => html`
     <daikin-button
       variant=${variant}
       href=${href}
-      role=${role as ARIARole}
       size=${size}
       type=${type}
       ?disabled=${disabled}
-      ?isLoading=${isLoading}
-      @click=${action("button-click")}
+      @click=${onClick}
     >
       ${label}
     </daikin-button>
@@ -34,6 +21,10 @@ const meta = {
   argTypes: DAIKIN_BUTTON_ARG_TYPES,
 } satisfies Meta<DaikinButtonStoryArgs>;
 
-export default meta;
-
-export { Primary, PrimaryDanger, Secondary, Tertiary } from "./common";
+export {
+  Disabled,
+  Primary,
+  PrimaryDanger,
+  Secondary,
+  Tertiary,
+} from "./commonStories";

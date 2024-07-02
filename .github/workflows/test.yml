@@ -30,6 +30,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Interaction Test
+        run: npm run test:interaction
+
       - name: Visual Regression Test
         run: |
           docker compose up -d
