@@ -6,7 +6,7 @@ import aafLight from "@daikin-oss/dds-tokens/css/aaf/Light/variables.css?inline"
 import dknDark from "@daikin-oss/dds-tokens/css/daikin/Dark/variables.css?inline";
 import dknLight from "@daikin-oss/dds-tokens/css/daikin/Light/variables.css?inline";
 
-import "./previewCommon";
+import "./preview-common";
 
 // Map themes and modes to their respective stylesheets
 const THEME_MAP = {

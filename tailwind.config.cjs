@@ -1,6 +1,6 @@
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
-const { loadIcons } = require("./build/tailwindcss/loadIcons.cjs");
+const { loadIcons } = require("./build/tailwindcss/icons.cjs");
 
 /**
  * @param {import("tailwindcss").Config} config

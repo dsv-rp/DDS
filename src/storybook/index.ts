@@ -1,1 +1,1 @@
-export * from "./typeUtils";
+export * from "./type-utils";

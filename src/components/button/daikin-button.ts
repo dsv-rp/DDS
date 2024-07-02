@@ -8,8 +8,8 @@ import {
 import { cva, type VariantProps } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import type { ARIARole } from "../../litAnalyzerTypes";
-import type { OmitNull } from "../../typeUtils";
+import type { ARIARole } from "../../lit-analyzer-types";
+import type { OmitNull } from "../../type-utils";
 
 import tailwindStyles from "../../tailwind.css?inline";
 import styles from "./button.css?inline";

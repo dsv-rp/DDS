@@ -7,17 +7,6 @@ const path = require("node:path");
  */
 
 /**
- * @param {string} str
- * @returns {string}
- */
-function toKebabCase(str) {
-  return str
-    .replace(/[A-Z]+/g, (c) => `-${c.toLowerCase()}`)
-    .replace(/-{2,}/g, "-")
-    .replace(/^-+/, "");
-}
-
-/**
  * @param {string} filename
  * @param {string} content
  * @returns {IconData}
@@ -68,7 +57,7 @@ function loadIcons(dir) {
       fs.readFileSync(path.resolve(dir, filename), "utf-8")
     );
 
-    const key = toKebabCase(filename.replace(/\.svg$/, ""));
+    const key = filename.replace(/\.svg$/, "");
     icons.push([key, content]);
   }
 

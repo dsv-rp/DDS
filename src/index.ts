@@ -1,3 +1,3 @@
 export * from "./colors";
 export * from "./components";
-export * from "./litAnalyzerTypes";
+export * from "./lit-analyzer-types";
