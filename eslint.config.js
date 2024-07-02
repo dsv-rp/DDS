@@ -41,6 +41,6 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["dist", "test-results"],
+    ignores: ["dist", "storybook-static", "test-results"],
   }
 );
