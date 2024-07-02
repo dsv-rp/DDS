@@ -22,6 +22,7 @@
       "require": "./dist/cjs/*"
     }
   },
+  "sideEffects": true,
   "scripts": {
     "build": "tsc -b && vite build",
     "storybook": "storybook dev -p 6006",
