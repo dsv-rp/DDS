@@ -12,32 +12,6 @@ const hideRadioCN = ctl(`
     peer
 `)
 
-const baseRadioCN = ctl(`
-    relative
-    after:absolute
-    after:!w-full
-    after:!h-full
-    after:i-daikin-radio-unchecked
-    after:text-[#8C8C8C]
-    peer-checked:after:i-daikin-radio-checked
-    peer-checked:after:text-daikinBlue-500
-
-    peer-hover:after:i-daikin-radio-checked
-    peer-hover:after:text-daikinBlue-300
-
-    peer-active:after:i-daikin-radio-checked
-    peer-active:after:text-daikinBlue-500
-
-    peer-focus-visible:after:i-daikin-radio-unchecked
-    peer-focus-visible:peer-checked:after:i-daikin-radio-checked
-    peer-focus-visible:after:text-daikinBlue-700
-
-    peer-disabled:after:i-daikin-radio-unchecked
-    peer-disabled:peer-checked:after:i-daikin-radio-checked
-    peer-disabled:after:text-daikinNeutral-200
-`)
-
-
 const labelCN = cva(["leading-8", "not-italic", "font-normal", "align-middle"], {
     variants: {
             size: {
@@ -51,7 +25,30 @@ const labelCN = cva(["leading-8", "not-italic", "font-normal", "align-middle"], 
         }
 });
 
-const radioCN = cva(baseRadioCN, {
+const radioCN = cva([
+    "relative",
+    "after:absolute",
+    "after:!w-full",
+    "after:!h-full",
+    "after:i-daikin-radio-unchecked",
+    "after:text-[#8C8C8C]",
+    "peer-checked:after:i-daikin-radio-checked",
+    "peer-checked:after:text-daikinBlue-500",
+
+    "peer-hover:after:i-daikin-radio-checked",
+    "peer-hover:after:text-daikinBlue-300",
+    
+    "peer-active:after:i-daikin-radio-checked",
+    "peer-active:after:text-daikinBlue-500",
+    
+    "peer-focus-visible:after:i-daikin-radio-unchecked",
+    "peer-focus-visible:peer-checked:after:i-daikin-radio-checked",
+    "peer-focus-visible:after:text-daikinBlue-700",
+
+    "peer-disabled:after:i-daikin-radio-unchecked",
+    "peer-disabled:peer-checked:after:i-daikin-radio-checked",
+    "peer-disabled:after:text-daikinNeutral-200",
+], {
     variants: {
             size: {
                 small: ["w-[14px]", "h-[14px]"],
@@ -63,13 +60,13 @@ const radioCN = cva(baseRadioCN, {
         }
 });
 
-type labelProps = OmitNull<VariantProps<typeof labelCN>>;
-type radioProps = OmitNull<VariantProps<typeof radioCN>>;
-type componentSizeProps = labelProps["size"] & radioProps["size"];
+type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
+type RadioProps = OmitNull<VariantProps<typeof radioCN>>;
+type ComponentSizeProps = LabelProps["size"] & RadioProps["size"];
 
 export interface DaikinRadioProps {
     label: string
-    size: componentSizeProps;
+    size: ComponentSizeProps;
     disabled: boolean;
     labelPosition: "left" | "right";
     readonly: boolean;
@@ -108,7 +105,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
      * Specify the component size
      */
     @property({ type: String })
-    size: componentSizeProps  = "small";
+    size: ComponentSizeProps  = "small";
 
     /**
      * Specify the label position
