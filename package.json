@@ -1,6 +1,6 @@
 {
     "name": "@daikin-oss/design-system-web-components",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "Design system using web components",
     "main": "lib/index.js",
     "module": "dist/index.js",
@@ -40,15 +40,19 @@
         "jest:integration": "jest -c __test__/jest.config.js",
         "test": "npm run test:web-components && npm run test:react",
         "test:web-components": "start-server-and-test storybook:test http-get://localhost:6006 jest:integration",
-        "test:react": "start-server-and-test storybook:test-react http-get://localhost:6006 jest:integration"
+        "test:react": "start-server-and-test storybook:test-react http-get://localhost:6006 jest:integration",
+        "jest:update": "jest -c __test__/jest.config.js --updateSnapshot",
+        "test:update": "start-server-and-test storybook:test http-get://localhost:6006 jest:update"
     },
     "dependencies": {
         "@daikin-oss/dds-tokens": "^0.0.0",
         "@netlify/classnames-template-literals": "^1.0.3",
+        "class-variance-authority": "^0.7.0",
         "lit": "^2.7.6"
     },
     "devDependencies": {
         "@daikin-oss/tailwind": "^0.0.1",
+        "@fontsource/roboto": "^5.0.13",
         "@rollup/plugin-commonjs": "^25.0.4",
         "@rollup/plugin-node-resolve": "^15.2.1",
         "@storybook/addon-a11y": "7.6.17",

@@ -6,6 +6,8 @@ import dknLight from '@daikin-oss/dds-tokens/css/daikin/Light/variables.css?inli
 import { useGlobals } from '@storybook/preview-api';
 import type { Preview } from '@storybook/web-components';
 
+import "./previewCommon";
+
 // Map themes and modes to their respective stylesheets
 const stylesheets = {
     DKN: {
