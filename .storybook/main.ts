@@ -5,7 +5,7 @@ import { getAllStorybookFiles } from "./main-common";
 env.STORYBOOK_FW = "web-components";
 
 const config: StorybookConfig = {
-  stories: () => getAllStorybookFiles("web-components"),
+  stories: getAllStorybookFiles("web-components"),
   addons: [
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
