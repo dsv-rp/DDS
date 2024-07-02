@@ -15,14 +15,14 @@ jobs:
 
       - name: Get Playwright Version
         id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/playwright"].version' package-lock.json)" >> $GITHUB_OUTPUT
+        run: echo "version=$(jq -r '.packages["node_modules/playwright"].version' package-lock.json)" >> $GITHUB_OUTPUT
 
       - name: Cache Playwright
         id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.PLAYWRIGHT_VERSION }}
+          key: playwright-${{ runner.os }}-${{ steps.playwright-version.outputs.version }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -50,7 +50,7 @@ jobs:
         run: npm run build
 
       - name: Build Storybook
-        run: npm run build
+        run: npm run build-storybook
 
       - name: Interaction Test
         run: |
