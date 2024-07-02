@@ -1,15 +1,18 @@
 import { defineConfig } from "@playwright/test";
 import { env } from "node:process";
+import { getStorybookEnv } from "./storybook-env";
 
-const mode = env.STORYBOOK_FW === "react" ? "react" : "web-components";
+const { STORYBOOK_FW } = getStorybookEnv();
+
+const command = {
+  "web-components": "npm run storybook:ci-wc",
+  react: "npm run storybook:ci-react",
+}[STORYBOOK_FW];
 
 export default defineConfig({
   testMatch: "*.visual.test.ts",
   webServer: {
-    command:
-      mode === "react"
-        ? "npm run storybook:ci-react"
-        : "npm run storybook:ci-wc",
+    command,
     url: "http://127.0.0.1:6099",
     reuseExistingServer: !env.CI,
     stdout: "ignore",

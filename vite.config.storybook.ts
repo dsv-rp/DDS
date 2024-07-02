@@ -1,26 +1,22 @@
 import react from "@vitejs/plugin-react";
-import { env } from "node:process";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import { getStorybookEnv } from "./storybook-env";
 
 function fromProjectDir(path: string): string {
   return fileURLToPath(new URL(path, import.meta.url));
 }
 
-const framework = env.STORYBOOK_FW || "web-components";
-const useBuiltPackage = env.STORYBOOK_ENV === "production";
+const { STORYBOOK_ENV, STORYBOOK_FW } = getStorybookEnv();
 
+const useBuiltPackage = STORYBOOK_ENV === "production";
 const frameworkPath = {
   "web-components": "./framework-wc",
   react: "./framework-react",
-}[framework];
-if (!frameworkPath) {
-  console.error("Invalid framework specified:", framework);
-  process.exit(1);
-}
+}[STORYBOOK_FW];
 
 console.info(
-  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${framework} component`
+  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${STORYBOOK_FW} component`
 );
 
 export default defineConfig({
