@@ -34,7 +34,7 @@
     "storybook:preview-wc": "serve -p 6106 storybook-static/web-components",
     "storybook:preview-react": "serve -p 6107 -o storybook-static/react",
     "lint": "eslint && prettier -c .",
-    "lint:lit": "lit-analyzer --strict src",
+    "lint:lit": "lit-analyzer --strict --rules.no-missing-import off src",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction-react": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",

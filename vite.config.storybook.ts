@@ -7,9 +7,20 @@ function fromProjectDir(path: string): string {
   return fileURLToPath(new URL(path, import.meta.url));
 }
 
+const framework = env.STORYBOOK_FW || "web-components";
 const useBuiltPackage = env.STORYBOOK_ENV === "production";
+
+const frameworkPath = {
+  "web-components": "./framework-wc",
+  react: "./framework-react",
+}[framework];
+if (!frameworkPath) {
+  console.error("Invalid framework specified:", framework);
+  process.exit(1);
+}
+
 console.info(
-  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"}`
+  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${framework} component`
 );
 
 export default defineConfig({
@@ -18,6 +29,10 @@ export default defineConfig({
       {
         find: "#storybook",
         replacement: fromProjectDir("src/storybook"),
+      },
+      {
+        find: "#storybook-framework",
+        replacement: frameworkPath,
       },
       {
         find: /^#package\/(.+)$/,

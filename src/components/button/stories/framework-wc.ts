@@ -1,12 +1,9 @@
-// organize-imports-ignore
 import "#package/components/button/daikin-button";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
+import type { DaikinButtonStoryArgs } from "./common";
 
-export default {
-  title: "Components/Button",
-  tags: ["autodocs"],
+export const metadata: Meta<DaikinButtonStoryArgs> = {
   render: ({ disabled, href, label, size, type, variant, onClick }) => html`
     <daikin-button
       variant=${variant}
@@ -19,13 +16,4 @@ export default {
       ${label}
     </daikin-button>
   `,
-  argTypes: DAIKIN_BUTTON_ARG_TYPES,
-} satisfies Meta<DaikinButtonStoryArgs>;
-
-export {
-  Primary,
-  PrimaryDanger,
-  Secondary,
-  Tertiary,
-  Disabled,
-} from "./commonStories";
+};

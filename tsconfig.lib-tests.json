@@ -1,0 +1,6 @@
+{
+  // TSConfig for test codes
+  "extends": "./tsconfig.lib.json",
+  "include": ["src/**/*.test.*", "src/tests"],
+  "exclude": []
+}

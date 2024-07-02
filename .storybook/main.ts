@@ -1,7 +1,10 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
+import { env } from "node:process";
+
+env.STORYBOOK_FW = "web-components";
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*-wc.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.ts"],
   addons: [
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",

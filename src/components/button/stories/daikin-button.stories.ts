@@ -1,6 +1,16 @@
+// This will import either "./framework-wc" or "./framework-react". See `vite.config.storybook.ts`.
+import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import type { Story } from "./common";
+import { DAIKIN_BUTTON_ARG_TYPES, type Story } from "./common";
+
+// The default export must have a static `title` property starting from Storybook v7. See https://storybook.js.org/docs/writing-stories#default-export.
+export default {
+  title: "Components/Button",
+  tags: ["autodocs"],
+  argTypes: DAIKIN_BUTTON_ARG_TYPES,
+  ...metadata,
+};
 
 export const Primary: Story = {
   args: {

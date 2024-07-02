@@ -23,15 +23,7 @@ export default defineConfig({
     dts({
       tsconfigPath: "tsconfig.lib.json",
       outDir: ["dist/es", "dist/cjs"],
-      exclude: [
-        "**/node_modules",
-        ".storybook/**/*",
-        "**/storybook",
-        "**/stories",
-        "**/tests",
-        "**/*.stories.*",
-        "**/*.test.*",
-      ],
+      exclude: ["**/node_modules"],
     }),
   ],
 });

@@ -7,6 +7,6 @@
       "#storybook": ["./src/storybook"]
     }
   },
-  "include": ["src"],
-  "exclude": []
+  "include": ["src", ".storybook/**/*"],
+  "exclude": [".storybook/**/main.ts", ".storybook/**/middleware.cjs"]
 }
