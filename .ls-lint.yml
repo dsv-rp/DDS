@@ -1,0 +1,31 @@
+ls:
+  .js: kebab-case
+  .config.js: kebab-case
+  .cjs: kebab-case
+  .config.cjs: kebab-case
+  .ts: kebab-case
+  .tsx: kebab-case
+  .config.ts: kebab-case
+  .config.storybook.ts: kebab-case
+  .stories.ts: kebab-case
+  .test.ts: kebab-case
+  .unit.test.ts: kebab-case
+  .visual.test.ts: kebab-case
+  .d.ts: kebab-case
+  .svg: kebab-case
+  .html: kebab-case
+  .json: kebab-case
+  .md: SCREAMING_SNAKE_CASE
+  .github/PULL_REQUEST_TEMPLATE:
+    .md: snake_case
+  .github/workflows:
+    .yml: lowercase
+  src:
+    .dir: kebab-case | regex:.+-snapshots$
+
+ignore:
+  - dist
+  - storybook-static
+  - test-results
+  - node_modules
+  - tsconfig.*
