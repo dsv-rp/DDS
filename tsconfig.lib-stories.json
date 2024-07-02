@@ -1,0 +1,12 @@
+{
+  // TSConfig for the storybook codes
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "paths": {
+      "#package/*": ["./src/*"],
+      "#storybook": ["./src/storybook"]
+    }
+  },
+  "include": ["src"],
+  "exclude": []
+}

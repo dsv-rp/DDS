@@ -11,14 +11,13 @@
   ],
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
-  "types": "./index.d.ts",
+  "types": "./dist/es/index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
       "import": "./dist/es/index.js",
       "require": "./dist/cjs/index.cjs"
     },
-    "./dist/es/*": {
+    "./*": {
       "import": "./dist/es/*",
       "require": "./dist/cjs/*"
     }

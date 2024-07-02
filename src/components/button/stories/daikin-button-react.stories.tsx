@@ -14,9 +14,9 @@ export default {
 } satisfies Meta<DaikinButtonStoryArgs>;
 
 export {
-  Disabled,
   Primary,
   PrimaryDanger,
   Secondary,
   Tertiary,
+  Disabled,
 } from "./commonStories";

@@ -1,6 +1,6 @@
+import { DaikinButton } from "#package/components/button/daikin-button";
 import { createComponent } from "@lit/react";
 import React from "react";
-import { DaikinButton } from "../daikin-button";
 
 export const ReactDaikinButton = createComponent({
   react: React,

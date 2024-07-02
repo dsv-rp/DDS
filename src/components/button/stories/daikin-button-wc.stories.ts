@@ -1,6 +1,6 @@
+import "#package/components/button/daikin-button";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import "../daikin-button";
 import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
 
 export default {
@@ -22,9 +22,9 @@ export default {
 } satisfies Meta<DaikinButtonStoryArgs>;
 
 export {
-  Disabled,
   Primary,
   PrimaryDanger,
   Secondary,
   Tertiary,
+  Disabled,
 } from "./commonStories";

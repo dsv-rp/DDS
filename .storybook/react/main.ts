@@ -15,7 +15,11 @@ const config: StorybookConfig = {
   },
   framework: {
     name: "@storybook/react-vite",
-    options: {},
+    options: {
+      builder: {
+        viteConfigPath: "vite.config.storybook.ts",
+      },
+    },
   },
   typescript: {
     // react-docgen has interoperability issue with lit's decorators

@@ -1,6 +1,6 @@
+import type { DaikinButton } from "#package/components/button/daikin-button";
+import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { ElementProps } from "../../../storybook";
-import type { DaikinButton } from "../daikin-button";
 
 export interface DaikinButtonStoryArgs
   extends Required<ElementProps<DaikinButton>> {

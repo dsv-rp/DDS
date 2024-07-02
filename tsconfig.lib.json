@@ -1,5 +1,5 @@
 {
-  // TSConfig for main library codes, except test codes
+  // TSConfig for the main library codes, except test codes
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
@@ -24,5 +24,11 @@
     "noFallthroughCasesInSwitch": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src", ".storybook/**/*"]
+  "include": ["src", ".storybook/**/*"],
+  "exclude": [
+    "src/**/*.stories.*",
+    "src/**/stories/**",
+    ".storybook/**/main.ts",
+    ".storybook/**/middleware.cjs"
+  ]
 }

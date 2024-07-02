@@ -22,5 +22,11 @@
     "noFallthroughCasesInSwitch": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["*", "build"]
+  "include": [
+    "*",
+    "build",
+    "scripts",
+    ".storybook/**/main.ts",
+    ".storybook/**/middleware.cjs"
+  ]
 }

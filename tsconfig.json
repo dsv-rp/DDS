@@ -6,6 +6,7 @@
   },
   "references": [
     { "path": "./tsconfig.lib.json" },
+    { "path": "./tsconfig.lib-stories.json" },
     { "path": "./tsconfig.node.json" }
   ]
 }
