@@ -1,3 +1,4 @@
+// organize-imports-ignore
 import type { Meta } from "@storybook/react";
 import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
 import { ReactDaikinButton } from "./react";
