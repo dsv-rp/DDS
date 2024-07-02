@@ -13,21 +13,21 @@ export const Primary: Story = {
   },
   async play({ args, canvasElement, step }) {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
-    expect(root).toBeInTheDocument();
+    await expect(root).toBeInTheDocument();
 
     const innerButton = getByShadowRole(root, "button", { name: "button" });
-    expect(innerButton).toBeInTheDocument();
+    await expect(innerButton).toBeInTheDocument();
 
     // should react if inner button clicked
     await step("Try to click inner button", async () => {
       await userEvent.click(innerButton);
-      expect(args.onClick).toHaveBeenCalledOnce();
+      await expect(args.onClick).toHaveBeenCalledOnce();
     });
 
     // should also react if outer button clicked
     await step("Try to click outer daikin-button", async () => {
       await userEvent.click(root);
-      expect(args.onClick).toHaveBeenCalledTimes(2);
+      await expect(args.onClick).toHaveBeenCalledTimes(2);
     });
   },
 };
@@ -43,15 +43,15 @@ export const Disabled: Story = {
   },
   async play({ args, canvasElement, step }) {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
-    expect(root).toBeInTheDocument();
+    await expect(root).toBeInTheDocument();
 
     const innerButton = getByShadowRole(root, "button", { name: "button" });
-    expect(innerButton).toBeInTheDocument();
+    await expect(innerButton).toBeInTheDocument();
 
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
       await userEvent.click(innerButton);
-      expect(args.onClick).not.toHaveBeenCalled();
+      await expect(args.onClick).not.toHaveBeenCalled();
     });
 
     // also should not react if outer button clicked
@@ -59,7 +59,7 @@ export const Disabled: Story = {
     /*
     await step("Try to click outer daikin-button", async () => {
       await userEvent.click(root);
-      expect(args.onClick).not.toHaveBeenCalled();
+      await expect(args.onClick).not.toHaveBeenCalled();
     });
     */
   },
