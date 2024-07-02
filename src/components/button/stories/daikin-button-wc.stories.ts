@@ -1,53 +1,30 @@
-import { action } from '@storybook/addon-actions';
-import type { Meta } from '@storybook/web-components';
-import { html } from 'lit';
-import { ifDefined } from 'lit/directives/if-defined.js';
+import type { Meta } from "@storybook/web-components";
+import { html } from "lit";
+import "../daikin-button";
+import { DAIKIN_BUTTON_ARG_TYPES, type DaikinButtonStoryArgs } from "./common";
 
-import '../daikin-button';
-import type { DaikinButtonStoryArgs } from './common.ts';
-
-const meta = {
-    title: 'Components/Button',
-    tags: ['autodocs'],
-    render: (args) => html`
-        <daikin-button
-            variant=${ifDefined(args.variant)}
-            ?disabled=${args.disabled}
-            @click=${action('button-click')}
-            size=${ifDefined(args.size)}
-            href=${ifDefined(args.href)}
-            type=${ifDefined(args.type)}
-            role=${ifDefined(args.role)}
-        >
-            ${args.label}
-        </daikin-button>
-        `,
-    argTypes: {
-        variant: {
-            control: { type: 'select' },
-            options: ['primary', 'secondary', 'tertiary', 'primaryDanger']
-        },
-        disabled: { type: 'boolean' },
-        label: {
-            type: 'string'
-        },
-        size: {
-            control: { type: 'select' },
-            options: ['default', 'condensed']
-        },
-        href: {
-            type: 'string'
-        },
-        type: {
-            control: { type: 'select' },
-            options: ['button' , 'submit' ,'reset']
-        },
-        role: {
-            type: 'string'
-        },
-    }
+export default {
+  title: "Components/Button",
+  tags: ["autodocs"],
+  render: ({ disabled, href, label, size, type, variant, onClick }) => html`
+    <daikin-button
+      variant=${variant}
+      href=${href}
+      size=${size}
+      type=${type}
+      ?disabled=${disabled}
+      @click=${onClick}
+    >
+      ${label}
+    </daikin-button>
+  `,
+  argTypes: DAIKIN_BUTTON_ARG_TYPES,
 } satisfies Meta<DaikinButtonStoryArgs>;
 
-export default meta;
-
-export { Primary, Secondary, Tertiary, PrimaryDanger } from './common';
+export {
+  Disabled,
+  Primary,
+  PrimaryDanger,
+  Secondary,
+  Tertiary,
+} from "./commonStories";

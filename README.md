@@ -3,6 +3,7 @@
 This project is an implementation of the Daikin Design Kit using web components.
 
 ---
+
 ## Usage
 
 Start by installing the package:
@@ -14,7 +15,7 @@ npm i @daikin-oss/design-system-web-components
 You can then import necessary components in your bundle:
 
 ```javascript
-import '@daikin-oss/design-system-web-components/dist/components/button/index.js';
+import "@daikin-oss/design-system-web-components/dist/components/button/index.js";
 ```
 
 By default, out-of-the-box, the styles are for Daikin brand in light mode.
@@ -32,15 +33,18 @@ npm install '@daikin-oss/dds-tokens
 Reference the CSS in HTML:
 
 ```html
-<link rel="stylesheet" href="node_modules/@daikin-oss/dds-tokens/build/css/DKN/Dark/buttons.css" media="(prefers-color-scheme: dark)">
+<link
+  rel="stylesheet"
+  href="node_modules/@daikin-oss/dds-tokens/build/css/DKN/Dark/buttons.css"
+  media="(prefers-color-scheme: dark)"
+/>
 ```
 
 Using CSS `@import` with `prefers-color-scheme`:
 
 ```css
-@import '@daikin-oss/dds-tokens/css/daikin/Dark/buttons.css'
-    (prefers-color-scheme: dark);
-
+@import "@daikin-oss/dds-tokens/css/daikin/Dark/buttons.css"
+  (prefers-color-scheme: dark);
 ```
 
 #### Other brands/themes
@@ -48,20 +52,29 @@ Using CSS `@import` with `prefers-color-scheme`:
 Reference the CSS in HTML:
 
 ```html
-<link rel="stylesheet" href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css" media="(prefers-color-scheme: light)">
-<link rel="stylesheet" href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css" media="(prefers-color-scheme: dark)">
+<link
+  rel="stylesheet"
+  href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css"
+  media="(prefers-color-scheme: light)"
+/>
+<link
+  rel="stylesheet"
+  href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css"
+  media="(prefers-color-scheme: dark)"
+/>
 ```
 
 Using CSS `@import` with `prefers-color-scheme`:
 
 ```css
-@import '@daikin-oss/dds-tokens/css/aaf/Light/buttons.css'
-    (prefers-color-scheme: light);
-@import '@daikin-oss/dds-tokens/css/aaf/Dark/buttons.css'
-    (prefers-color-scheme: dark);
+@import "@daikin-oss/dds-tokens/css/aaf/Light/buttons.css"
+  (prefers-color-scheme: light);
+@import "@daikin-oss/dds-tokens/css/aaf/Dark/buttons.css"
+  (prefers-color-scheme: dark);
 ```
 
 ---
+
 ## Contributors
 
 The following are instructions for package contributors.
@@ -161,12 +174,12 @@ Add the following to your VSCode `settings.json` file:
 
 ```json
 {
-    "editor.quickSuggestions": {
-        "other": true,
-        "comments": false,
-        "strings": true
-    },
-    "tailwindCSS.experimental.classRegex": ["ctl[(]`([^`]*)"]
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "tailwindCSS.experimental.classRegex": ["ctl[(]`([^`]*)"]
 }
 ```
 
