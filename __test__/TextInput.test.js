@@ -1,10 +1,13 @@
-describe('Text input', () => {
+describe('TextInput', () => {
     const getPageURL = (disabled, error) =>
         `http://localhost:6006/iframe.html?viewMode=story&id=components-text-input--default&args=disabled:${disabled};error:${error}`;
     // vision test
-    describe.each(['!true', '!false'])('%s', (disabled) => {
-        describe.each(['!true', '!false'])('%s', (error) => {
-            const baseURL = getPageURL(disabled, error);
+    describe.each(['enabled', 'disabled'])('%s', (state) => {
+        describe.each(['normal', 'error'])('%s', (error) => {
+            const baseURL = getPageURL(
+                state === 'disabled' ? '!true' : '!false',
+                error === 'error' ? '!true' : '!false',
+            );
             it('base', async () => {
                 await page.goto(baseURL);
 
@@ -85,7 +88,7 @@ describe('Text input', () => {
 
     // interaction test
     describe('interaction test', () => {
-        it('input can click when default', async () => {
+        it('inner input element should be enabled if not disabled', async () => {
             const baseURL = getPageURL('!false', '!false');
             await page.goto(baseURL);
 
@@ -99,7 +102,7 @@ describe('Text input', () => {
             expect(isDisabled).toBe(false);
         });
 
-        it('input can not click when disabled', async () => {
+        it('inner input element should be disabled if disabled', async () => {
             const baseURL = getPageURL('!true', '!false');
             await page.goto(baseURL);
 
