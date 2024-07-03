@@ -79,8 +79,7 @@ const meta = {
             type: 'string',
         },
         error: {
-            description:
-                'Indication of error status. If disabled is true, ignore this.',
+            description: 'Error state. Ignored if the `disabled` is `true`.',
             defaultValue: false,
             type: 'boolean',
         },

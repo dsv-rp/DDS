@@ -30,18 +30,20 @@ const meta = {
             type: 'string',
         },
         disabled: {
-            description: 'Whether the field is disabled',
+            description:
+                'Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.',
             defaultValue: false,
             type: 'boolean',
         },
         required: {
-            description: 'When input is required, give an explicit mark',
+            description:
+                'Whether the field is required. An additional star mark will be added if `true`.',
             defaultValue: false,
             type: 'boolean',
         },
         error: {
             description:
-                'Message to display in case of error. If disabled is true, ignore this.',
+                'Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.',
             type: 'string',
         },
     },
