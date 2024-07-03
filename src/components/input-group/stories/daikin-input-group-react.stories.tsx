@@ -1,13 +1,11 @@
 import React from 'react';
-
 import type { Meta } from '@storybook/react';
 
 import '../daikin-input-group';
 import '../../text-input';
 import { DaikinInputGroupStoryArgs } from './common';
-import { createComponent } from '@lit/react';
-import DaikinInputGroup from '../daikin-input-group';
-import DaikinTextInput from '../../text-input/daikin-text-input';
+import { ReactDaikinInputGroup } from './react';
+import { ReactDaikinTextInput } from '../../text-input/stories/react';
 
 const InputGroup: React.FC<DaikinInputGroupStoryArgs> = ({
     label,
@@ -16,27 +14,16 @@ const InputGroup: React.FC<DaikinInputGroupStoryArgs> = ({
     required,
     error,
 }) => {
-    const DaikinInputGroupWC = createComponent({
-        tagName: 'daikin-input-group',
-        elementClass: DaikinInputGroup,
-        react: React,
-    });
-    const DaikinTextInputWC = createComponent({
-        tagName: 'daikin-text-input',
-        elementClass: DaikinTextInput,
-        react: React,
-    });
-
     return (
-        <DaikinInputGroupWC
+        <ReactDaikinInputGroup
             label={label}
             helper={helper}
             disabled={disabled}
             required={required}
             error={error}
         >
-            <DaikinTextInputWC value="Value" />
-        </DaikinInputGroupWC>
+            <ReactDaikinTextInput value="Value" />
+        </ReactDaikinInputGroup>
     );
 };
 

@@ -5,8 +5,7 @@ import { action } from '@storybook/addon-actions';
 
 import '../daikin-text-input';
 import { DaikinTextInputStoryArgs } from './common';
-import { createComponent } from '@lit/react';
-import DaikinTextInput from '../daikin-text-input';
+import { ReactDaikinTextInput } from './react';
 
 const TextInput: React.FC<DaikinTextInputStoryArgs> = ({
     value,
@@ -19,19 +18,8 @@ const TextInput: React.FC<DaikinTextInputStoryArgs> = ({
     autocomplete,
     error,
 }) => {
-    const DaikinTextInputWC = createComponent({
-        tagName: 'daikin-text-input',
-        elementClass: DaikinTextInput,
-        react: React,
-        events: {
-            change: 'change',
-            input: 'input',
-            keydown: 'keydown',
-        },
-    });
-
     return (
-        <DaikinTextInputWC
+        <ReactDaikinTextInput
             value={value}
             type={type}
             placeholder={placeholder}
