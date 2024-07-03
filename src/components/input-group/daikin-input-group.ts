@@ -71,13 +71,13 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     disabled? = false;
 
     /**
-     * Whether the field is required
+     * When input is required, give an explicit mark
      */
     @property({ type: Boolean })
     required? = false;
 
     /**
-     * Indication of error status
+     * Message to display in case of error. If disabled is true, ignore this.
      */
     @property({ type: String, reflect: true })
     error = '';
