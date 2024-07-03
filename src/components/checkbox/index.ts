@@ -1,1 +1,1 @@
-import './daikin-checkbox';
+import "./daikin-checkbox";

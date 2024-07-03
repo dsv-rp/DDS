@@ -1,1 +1,1 @@
-export const EVENT_CLOSE = 'close';
+export const EVENT_CLOSE = "close";
