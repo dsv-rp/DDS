@@ -49,6 +49,8 @@ jobs:
 
       - name: Build Storybook
         run: npm run build-storybook
+        env:
+          STORYBOOK_ENV: production
 
       - name: Interaction Test
         run: |
