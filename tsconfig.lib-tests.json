@@ -1,6 +1,8 @@
 {
-  // TSConfig for test codes
-  "extends": "./tsconfig.lib.json",
-  "include": ["src/**/*.test.*", "src/tests"],
+  // TSConfig for the test codes
+  // We need path aliases from storybook codes.
+  "extends": "./tsconfig.lib-stories.json",
+  "include": ["src"],
+  // The test codes can reference both the main codes and the storybook codes.
   "exclude": []
 }

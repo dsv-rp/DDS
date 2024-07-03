@@ -1,14 +1,28 @@
 import { expect, test } from "@playwright/test";
-import { clipFor, describeEach } from "../../tests/visual";
+import {
+  type InferStorybookArgTypes,
+  clipFor,
+  describeEach,
+  getStorybookIframeURL,
+} from "../../tests/visual";
+import type { DAIKIN_BUTTON_ARG_TYPES } from "./stories/common";
 
-const getPageURL = (variant: string, size: string): string =>
-  `/iframe.html?viewMode=story&id=components-button--primary&args=label:Button1;variant:${variant};size:${size}`;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_BUTTON_ARG_TYPES>;
+
+const getPageURL = (args: StoryArgs = {}) =>
+  getStorybookIframeURL("components-button--primary", args);
 
 describeEach(
   ["primary", "secondary", "tertiary", "primaryDanger"] as const,
   (variant) => {
     describeEach(["default", "condensed"] as const, (size) => {
-      const baseURL = getPageURL(variant, size);
+      const baseURL = getPageURL({ label: "Button1", variant, size });
+      const disabledURL = getPageURL({
+        label: "Button1",
+        variant,
+        size,
+        disabled: true,
+      });
 
       test("base", async ({ page }) => {
         await page.goto(baseURL);
@@ -72,7 +86,7 @@ describeEach(
 
       test("disabled", async ({ page }) => {
         // load page with disabled=true
-        await page.goto(`${baseURL};disabled:!true`);
+        await page.goto(disabledURL);
 
         // wait for element to be visible
         const element = await page.waitForSelector("daikin-button", {
