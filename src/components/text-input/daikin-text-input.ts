@@ -141,10 +141,6 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
             autocomplete="${ifDefined(this.autocomplete as any)}"
             @change="${(e: Event) =>
                 this.dispatchEvent(new Event('change', e))}"
-            @input="${(e: InputEvent) =>
-                this.dispatchEvent(new InputEvent('input', e))}"
-            @keydown="${(e: KeyboardEvent) =>
-                this.dispatchEvent(new KeyboardEvent('keydown', e))}"
             class="${textInputInputClassName}"
         />`;
     }
