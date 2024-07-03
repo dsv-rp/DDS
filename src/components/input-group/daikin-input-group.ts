@@ -133,7 +133,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
                           >${this.helper}</span
                       >`
                     : null}
-                ${!this.disabled && !!this.error.length
+                ${!this.disabled && !!this.error
                     ? html`<span class="${inputGroupError}"
                           >${this.error}</span
                       >`
