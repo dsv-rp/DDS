@@ -11,6 +11,7 @@ const inputGroupContainer = ctl(`
   justify-center
   gap-2
   text-[16px]
+  font-daikinSerif
   `);
 
 const inputGroupError = ctl(`

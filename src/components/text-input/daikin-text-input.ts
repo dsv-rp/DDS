@@ -31,6 +31,7 @@ const textInputBase = ctl(`
   border-solid
   px-[9px]
   rounded-[6px]
+  font-daikinSerif
   placeholder:text-daikinNeutral-200
   `);
 
