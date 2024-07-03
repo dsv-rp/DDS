@@ -5,8 +5,8 @@ import type { Meta } from "@storybook/react";
 
 import { createComponent } from "@lit/react";
 import "../daikin-notification";
-import DaikinNotification from "../daikin-notification";
-import { DaikinNotificationStoryArgs } from "./common";
+import { DaikinNotification } from "../daikin-notification";
+import type { DaikinNotificationStoryArgs } from "./common";
 
 const DaikinNotificationWC = createComponent({
   tagName: "daikin-notification",

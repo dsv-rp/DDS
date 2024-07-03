@@ -10,7 +10,7 @@ const meta = {
   tags: ["autodocs"],
   render: (args) => html`
     <daikin-checkbox
-      size=${args.size}
+      size=${args.size ?? "small"}
       ?disabled=${args.disabled}
       ?readonly=${args.readonly}
       @click=${action("checkbox-click")}

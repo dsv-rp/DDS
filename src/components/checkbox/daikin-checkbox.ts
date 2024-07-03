@@ -1,9 +1,8 @@
+import { cva, type VariantProps } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import { cva, type VariantProps } from "class-variance-authority";
-import tailwindStyles from "../../tailwind.css";
-import type { OmitNull } from "../../typeUtils";
+import tailwindStyles from "../../tailwind.css?inline";
+import type { OmitNull } from "../../type-utils";
 
 const labelCN = cva(
   ["leading-8", "not-italic", "font-normal", "align-middle"],
@@ -107,7 +106,7 @@ export interface DaikinCheckboxProps {
  * Primary UI component for user interaction
  */
 @customElement("daikin-checkbox")
-class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
+export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   static styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -215,5 +214,3 @@ declare global {
     "daikin-checkbox": DaikinCheckbox;
   }
 }
-
-export default DaikinCheckbox;

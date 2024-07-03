@@ -4,16 +4,13 @@ import {
   colorFeedbackWarning,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import ctl from "@netlify/classnames-template-literals";
-import { VariantProps, cva } from "class-variance-authority";
+import { type VariantProps, cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import "../button";
-
 import { EVENT_CLOSE } from "../../constants/events";
-import tailwindStyles from "../../tailwind.css";
-import { OmitNull } from "../../typeUtils";
-import styles from "./notification.css";
+import tailwindStyles from "../../tailwind.css?inline";
+import type { OmitNull } from "../../type-utils";
+import styles from "./notification.css?inline";
 
 const notificationContentsContainerClassName = ctl(`
   flex
@@ -165,7 +162,10 @@ export interface DaikinNotificationProps {
  * Primary UI component for user interaction
  */
 @customElement("daikin-notification")
-class DaikinNotification extends LitElement implements DaikinNotificationProps {
+export class DaikinNotification
+  extends LitElement
+  implements DaikinNotificationProps
+{
   static styles = css`
     :host {
       --defaultColorFeedbackPositive: ${unsafeCSS(colorFeedbackPositive)};
@@ -304,5 +304,3 @@ declare global {
     "daikin-notification": DaikinNotification;
   }
 }
-
-export default DaikinNotification;

@@ -3,8 +3,8 @@ import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../daikin-notification.ts";
-import type { DaikinNotificationStoryArgs } from "./common.ts";
+import "../daikin-notification";
+import type { DaikinNotificationStoryArgs } from "./common";
 
 const meta = {
   title: "Components/Notification",

@@ -25,7 +25,7 @@ const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({
       check-state={checkState}
       onChange={action("checkbox-change")}
       onClick={action("checkbox-click")}
-    ></ReactDaikinCheckbox>
+    />
   );
 };
 
