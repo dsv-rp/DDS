@@ -1,12 +1,8 @@
-import {
-    buttonColorBackgroundPrimaryHover,
-    colorFeedbackNegative,
-} from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
+import { colorFeedbackNegative } from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
 import { LitElement, html, unsafeCSS, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import tailwindStyles from '../../tailwind.css';
-import styles from './input-group.css';
 import ctl from '@netlify/classnames-template-literals';
 
 const inputGroupContainer = ctl(`
@@ -30,6 +26,11 @@ const inputGroupError = ctl(`
     before:h-[22px]
     `);
 
+const inputGroupHelperRequired = ctl(`
+    after:content-['*']
+    after:ml-[2px]
+    `);
+
 export interface DaikinInputGroupProps {
     label?: string;
     helper?: string;
@@ -44,11 +45,10 @@ export interface DaikinInputGroupProps {
 @customElement('daikin-input-group')
 class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     static styles = css`
-        :host {
-            --defaultColorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
-            --defaultButtonColorBackgroundPrimaryHover: ${unsafeCSS(
-                buttonColorBackgroundPrimaryHover,
-            )};
+        ${unsafeCSS(tailwindStyles)}
+
+        .input-group-bottom-text-error {
+            color: ${unsafeCSS(colorFeedbackNegative)};
         }
     `;
 
@@ -65,90 +65,70 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     helper?: string;
 
     /**
-     * Whether the field is disabled
+     * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
      */
     @property({ type: Boolean, reflect: true })
     disabled? = false;
 
     /**
-     * When input is required, give an explicit mark
+     * Whether the field is required. An additional star mark will be added if `true`.
      */
-    @property({ type: Boolean })
+    @property({ type: Boolean, reflect: true })
     required? = false;
 
     /**
-     * Message to display in case of error. If disabled is true, ignore this.
+     * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
      */
     @property({ type: String, reflect: true })
     error = '';
 
-    connectedCallback(): void {
-        super.connectedCallback();
+    private _handleSlotChange(): void {
+        const inputs = [...this.getElementsByTagName('daikin-text-input')];
 
-        const tailwind = new CSSStyleSheet();
-        tailwind.replace(tailwindStyles);
-
-        const textInputStyles = new CSSStyleSheet();
-        textInputStyles.replaceSync(styles);
-
-        const defaultsVariables = new CSSStyleSheet();
-        defaultsVariables.replaceSync(DaikinInputGroup.styles.cssText);
-
-        (this.renderRoot as ShadowRoot).adoptedStyleSheets = [
-            tailwind,
-            textInputStyles,
-            defaultsVariables,
-        ];
+        const isError = !this.disabled && !!this.error;
+        for (const input of inputs) {
+            input.disabled = this.disabled;
+            input.error = isError;
+        }
     }
 
     render() {
-        const inputGroupTextClassName = this.disabled
-            ? 'text-daikinNeutral-200'
-            : 'text-daikinNeutral-800';
+        const inputGroupLabelClassName = [
+            'text-base',
+            this.disabled ? 'text-daikinNeutral-200' : 'text-daikinNeutral-800',
+            this.required ? inputGroupHelperRequired : '',
+        ].join(' ');
 
-        const inputs = Array.from([
-            ...this.getElementsByTagName('daikin-text-input'),
-        ]);
-
-        if (this.disabled) {
-            for (const input of inputs) {
-                input.disabled = true;
-            }
-        } else {
-            for (const input of inputs) {
-                input.disabled = false;
-            }
-        }
-
-        if (!!this.error.length) {
-            for (const input of inputs) {
-                input.error = true;
-            }
-        } else {
-            for (const input of inputs) {
-                input.error = false;
-            }
-        }
+        const inputGroupHelperClassName = [
+            'text-xs',
+            this.disabled ? 'text-daikinNeutral-200' : 'text-daikinNeutral-800',
+        ].join(' ');
 
         return html`<fieldset
             class="${inputGroupContainer}"
             ?disabled="${this.disabled}"
         >
             ${!!this.label
-                ? html`<label class="${inputGroupTextClassName} text-base"
-                      >${this.label}${this.required ? ' *' : ''}</label
+                ? html`<label class="${inputGroupLabelClassName}"
+                      ><span>${this.label}</span></label
                   >`
                 : null}
-            <slot></slot>
+            <slot @slotchange=${this._handleSlotChange}></slot>
             ${!!this.helper
-                ? html`<label class="${inputGroupTextClassName} text-xs"
-                      >${this.helper}</label
+                ? html`<label class="${inputGroupHelperClassName}"
+                      ><span>${this.helper}</span></label
                   >`
                 : null}
             ${!this.disabled && !!this.error.length
-                ? html`<label class="${inputGroupError}">${this.error}</label>`
+                ? html`<label class="${inputGroupError}"
+                      ><span>${this.error}</span></label
+                  >`
                 : null}
         </fieldset>`;
+    }
+
+    updated() {
+        this._handleSlotChange();
     }
 }
 

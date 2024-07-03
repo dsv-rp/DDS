@@ -3,11 +3,10 @@ import {
     buttonColorBackgroundPrimaryHover,
     colorFeedbackNegative,
 } from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
-import { LitElement, html, unsafeCSS, css, nothing } from 'lit';
+import { LitElement, html, unsafeCSS, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 
 import tailwindStyles from '../../tailwind.css';
-import styles from './text-input.css';
 import ctl from '@netlify/classnames-template-literals';
 import { ifDefined } from 'lit/directives/if-defined.js';
 
@@ -41,22 +40,31 @@ const textInputBase = ctl(`
 @customElement('daikin-text-input')
 class DaikinTextInput extends LitElement implements DaikinTextInputProps {
     static styles = css`
-        :host {
-            --defaultColorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
-            --defaultButtonColorBackgroundPrimaryHover: ${unsafeCSS(
-                buttonColorBackgroundPrimaryHover,
-            )};
-            --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
-                buttonColorBackgroundPrimaryDisabled,
-            )};
-            --defaultButtonColorBackgroundSecondaryFocus: ${unsafeCSS(
-                '#CECECE',
-            )};
-            --defaultInputFieldColorBackground: ${unsafeCSS('#FFFFFF')};
-        }
+        ${unsafeCSS(tailwindStyles)}
+
         :host {
             display: block;
             width: max-content;
+        }
+        .text-input:hover {
+            outline: 2px solid;
+            outline-color: ${unsafeCSS(buttonColorBackgroundPrimaryHover)};
+        }
+        .text-input:active {
+            outline: 2px solid;
+            outline-color: ${unsafeCSS('#CECECE')};
+        }
+        .text-input:focus-visible {
+            outline: 2px solid;
+            outline-color: ${unsafeCSS('#CECECE')};
+        }
+        .text-input:disabled {
+            color: ${unsafeCSS(buttonColorBackgroundPrimaryDisabled)};
+            background: ${unsafeCSS('#FFFFFF')};
+            border-color: ${unsafeCSS(buttonColorBackgroundPrimaryDisabled)};
+        }
+        .text-input-error {
+            border-color: ${unsafeCSS(colorFeedbackNegative)};
         }
     `;
 
@@ -109,29 +117,10 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
     autocomplete?: HTMLInputElement['autocomplete'];
 
     /**
-     * Indication of error status
+     * Error state. Ignored if the `disabled` is `true`.
      */
     @property({ type: Boolean, reflect: true })
     error? = false;
-
-    connectedCallback(): void {
-        super.connectedCallback();
-
-        const tailwind = new CSSStyleSheet();
-        tailwind.replace(tailwindStyles);
-
-        const textInputStyles = new CSSStyleSheet();
-        textInputStyles.replaceSync(styles);
-
-        const defaultsVariables = new CSSStyleSheet();
-        defaultsVariables.replaceSync(DaikinTextInput.styles.cssText);
-
-        (this.renderRoot as ShadowRoot).adoptedStyleSheets = [
-            tailwind,
-            textInputStyles,
-            defaultsVariables,
-        ];
-    }
 
     render() {
         const textInputInputClassName = [
@@ -148,8 +137,8 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
             ?readonly="${this.readonly}"
             name="${ifDefined(this.name)}"
             maxlength="${ifDefined(this.maxlength)}"
-            autocomplete="${(this.autocomplete ?? nothing) as any}"
-            @change="${(e: Event) =>
+            autocomplete="${ifDefined(this.autocomplete as any)}"
+            @change="${(e: InputEvent) =>
                 this.dispatchEvent(new Event('change', e))}"
             @input="${(e: Event) => this.dispatchEvent(new Event('input', e))}"
             @keydown="${(e: KeyboardEvent) =>
