@@ -53,6 +53,7 @@
     },
     "devDependencies": {
         "@daikin-oss/tailwind": "^0.0.1",
+        "@egoist/tailwindcss-icons": "^1.8.1",
         "@fontsource/roboto": "^5.0.13",
         "@lit/react": "^1.0.5",
         "@rollup/plugin-commonjs": "^25.0.4",
