@@ -1,9 +1,11 @@
+const { iconsPlugin } = require('@egoist/tailwindcss-icons');
+
 /**
  * @param {import('tailwindcss').Config} config
  * @returns {import('tailwindcss').Config}
  */
 function defineConfig(config) {
-  return config
+    return config;
 }
 
 const plugin = require('tailwindcss/plugin');
@@ -14,17 +16,30 @@ const daikinPlugin = require('@daikin-oss/tailwind');
 module.exports = defineConfig({
     content: ['./src/**/*.ts|js'],
     theme: {
-        extend: {}
+        extend: {},
     },
     plugins: [
         daikinPlugin(),
+        iconsPlugin({
+            collections: {
+                daikin: {
+                    icons: {
+                        'input-group-error': {
+                            body: '<path d="M8 15.9999C3.58155 15.9999 0 12.4183 0 7.99988C0 3.58143 3.58155 -0.00012207 8 -0.00012207C12.4185 -0.00012207 16 3.58143 16 7.99988C16 12.4183 12.4185 15.9999 8 15.9999Z" fill="#FF4949"/><path d="M7.97043 2.85352C7.31776 2.85352 6.82391 3.19413 6.82391 3.74429V8.79045C6.82391 9.34119 7.31769 9.68065 7.97043 9.68065C8.60718 9.68065 9.11695 9.32698 9.11695 8.79045V3.74429C9.11689 3.20719 8.60718 2.85352 7.97043 2.85352Z" fill="white"/><path d="M7.97045 10.8175C7.34338 10.8175 6.83304 11.3278 6.83304 11.9554C6.83304 12.5819 7.34338 13.0923 7.97045 13.0923C8.59751 13.0923 9.10728 12.5819 9.10728 11.9554C9.10722 11.3278 8.59751 10.8175 7.97045 10.8175Z" fill="white"/>',
+                            width: 16,
+                            height: 16,
+                        },
+                    },
+                },
+            },
+        }),
         plugin(({ addUtilities }) => {
             addUtilities({
                 '.text-wrap': {
                     // https://ics.media/entry/240411/
-                    "overflow-wrap": "anywhere",
-                    "word-break": "normal",
-                    "line-break": "strict",
+                    'overflow-wrap': 'anywhere',
+                    'word-break': 'normal',
+                    'line-break': 'strict',
                 },
             });
         }),

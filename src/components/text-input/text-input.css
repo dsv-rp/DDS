@@ -1,0 +1,45 @@
+.text-input:hover {
+    outline: 2px solid;
+    outline-color: var(
+        --buttonColorBackgroundPrimaryHover,
+        var(--defaultButtonColorBackgroundPrimaryHover)
+    );
+}
+
+.text-input:active {
+    outline: 2px solid;
+    outline-color: var(
+        --buttonColorBackgroundSecondaryFocus,
+        var(--defaultButtonColorBackgroundSecondaryFocus)
+    );
+}
+
+.text-input:focus-visible {
+    outline: 2px solid;
+    outline-color: var(
+        --buttonColorBackgroundSecondaryFocus,
+        var(--defaultButtonColorBackgroundSecondaryFocus)
+    );
+}
+
+.text-input:disabled {
+    color: var(
+        --buttonColorBackgroundPrimaryDisabled,
+        var(--defaultButtonColorBackgroundPrimaryDisabled)
+    );
+    background: var(
+        --inputFieldColorBackground,
+        var(--defaultInputFieldColorBackground)
+    );
+    border-color: var(
+        --buttonColorBackgroundPrimaryDisabled,
+        var(--defaultButtonColorBackgroundPrimaryDisabled)
+    );
+}
+
+.text-input-error {
+    border-color: var(
+        --colorFeedbackNegative,
+        var(--defaultColorFeedbackNegative)
+    );
+}

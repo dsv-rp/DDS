@@ -46,6 +46,7 @@
     },
     "dependencies": {
         "@daikin-oss/dds-tokens": "^0.0.0",
+        "@egoist/tailwindcss-icons": "^1.8.1",
         "@netlify/classnames-template-literals": "^1.0.3",
         "class-variance-authority": "^0.7.0",
         "lit": "^2.7.6"
