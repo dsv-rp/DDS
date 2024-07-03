@@ -139,7 +139,7 @@ Currently, Web Components has full support in most major frameworks [except for 
 As such, we test both Web Components by themselves, and also test when imported by React:
 
 ```bash
-# start a container for running the browsers.
+# start a container for running the browsers
 docker compose up -d
 
 # run VRT for Web Components and React versions
