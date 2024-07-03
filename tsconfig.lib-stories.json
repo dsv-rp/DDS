@@ -3,7 +3,7 @@
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
     "paths": {
-      "#package/*": ["./src/*"],
+      "#package/components/*": ["./src/components/*"],
       "#storybook": ["./src/storybook"]
     }
   },
