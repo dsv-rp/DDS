@@ -9,8 +9,8 @@ const inputGroupContainer = ctl(`
   flex
   flex-col
   justify-center
+  w-max
   gap-2
-  text-[16px]
   font-daikinSerif
   `);
 
@@ -48,6 +48,10 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     static styles = css`
         ${unsafeCSS(tailwindStyles)}
 
+        :host {
+            display: block;
+            width: max-content;
+        }
         .input-group-bottom-text-error {
             color: ${unsafeCSS(colorFeedbackNegative)};
         }
@@ -106,6 +110,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     render() {
         const inputGroupLabelClassName = [
             'text-base',
+            'font-bold',
             this.disabled ? 'text-daikinNeutral-200' : 'text-daikinNeutral-800',
             this.required ? inputGroupHelperRequired : '',
         ].join(' ');
@@ -115,11 +120,8 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
             this.disabled ? 'text-daikinNeutral-200' : 'text-daikinNeutral-800',
         ].join(' ');
 
-        return html`<fieldset
-            class="${inputGroupContainer}"
-            ?disabled="${this.disabled}"
-        >
-            <label>
+        return html`<fieldset ?disabled="${this.disabled}" class="w-max">
+            <label class="${inputGroupContainer}">
                 ${!!this.label
                     ? html`<span class="${inputGroupLabelClassName}"
                           >${this.label}</span
