@@ -106,7 +106,6 @@ export class DaikinButton extends LitElement {
       --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
         buttonColorBackgroundPrimaryDisabled
       )};
-
       display: inline-block;
       width: fit-content;
       min-height: 42px;
@@ -180,7 +179,6 @@ export class DaikinButton extends LitElement {
       <span><slot></slot></span>
       <slot name="rightIcon"></slot>
     `;
-
     if (this.href) {
       return html` <a
         href="${this.href}"
@@ -190,7 +188,6 @@ export class DaikinButton extends LitElement {
         ${content}
       </a>`;
     }
-
     return html`
       <button
         class="${buttonClassName}"
