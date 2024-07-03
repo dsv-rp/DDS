@@ -139,11 +139,12 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
             name="${ifDefined(this.name)}"
             maxlength="${ifDefined(this.maxlength)}"
             autocomplete="${ifDefined(this.autocomplete as any)}"
-            @change="${(e: InputEvent) =>
+            @change="${(e: Event) =>
                 this.dispatchEvent(new Event('change', e))}"
-            @input="${(e: Event) => this.dispatchEvent(new Event('input', e))}"
+            @input="${(e: InputEvent) =>
+                this.dispatchEvent(new InputEvent('input', e))}"
             @keydown="${(e: KeyboardEvent) =>
-                this.dispatchEvent(new Event('keydown', e))}"
+                this.dispatchEvent(new KeyboardEvent('keydown', e))}"
             class="${textInputInputClassName}"
         />`;
     }
