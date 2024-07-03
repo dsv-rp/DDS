@@ -93,6 +93,16 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
         }
     }
 
+    private _reflectSlotProperties(): void {
+        const inputs = [...this.getElementsByTagName('daikin-text-input')];
+
+        const isError = !this.disabled && !!this.error;
+        for (const input of inputs) {
+            input.disabled = this.disabled;
+            input.error = isError;
+        }
+    }
+
     render() {
         const inputGroupLabelClassName = [
             'text-base',
@@ -109,27 +119,29 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
             class="${inputGroupContainer}"
             ?disabled="${this.disabled}"
         >
-            ${!!this.label
-                ? html`<label class="${inputGroupLabelClassName}"
-                      ><span>${this.label}</span></label
-                  >`
-                : null}
-            <slot @slotchange=${this._handleSlotChange}></slot>
-            ${!!this.helper
-                ? html`<label class="${inputGroupHelperClassName}"
-                      ><span>${this.helper}</span></label
-                  >`
-                : null}
-            ${!this.disabled && !!this.error.length
-                ? html`<label class="${inputGroupError}"
-                      ><span>${this.error}</span></label
-                  >`
-                : null}
+            <label>
+                ${!!this.label
+                    ? html`<span class="${inputGroupLabelClassName}"
+                          >${this.label}</span
+                      >`
+                    : null}
+                <slot @slotchange=${this._handleSlotChange}></slot>
+                ${!!this.helper
+                    ? html`<span class="${inputGroupHelperClassName}"
+                          >${this.helper}</span
+                      >`
+                    : null}
+                ${!this.disabled && !!this.error.length
+                    ? html`<span class="${inputGroupError}"
+                          >${this.error}</span
+                      >`
+                    : null}
+            </label>
         </fieldset>`;
     }
 
     updated() {
-        this._handleSlotChange();
+        this._reflectSlotProperties();
     }
 }
 
