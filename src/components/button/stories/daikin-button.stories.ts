@@ -1,8 +1,8 @@
 // This will import either "./framework-wc" or "./framework-react". See `vite.config.storybook.ts`.
+import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import { definePlay } from "../../../storybook";
 import { DAIKIN_BUTTON_ARG_TYPES, type Story } from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
