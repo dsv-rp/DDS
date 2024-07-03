@@ -2,6 +2,7 @@
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
+import { definePlay } from "../../../storybook";
 import { DAIKIN_BUTTON_ARG_TYPES, type Story } from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
@@ -22,7 +23,7 @@ export const Primary: Story = {
     type: "button",
     onClick: fn(),
   },
-  async play({ args, canvasElement, step }) {
+  play: definePlay<Story>(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
@@ -40,7 +41,7 @@ export const Primary: Story = {
       await userEvent.click(root);
       await expect(args.onClick).toHaveBeenCalledTimes(2);
     });
-  },
+  }),
 };
 
 export const Secondary: Story = {
@@ -73,7 +74,7 @@ export const Disabled: Story = {
     disabled: true,
     onClick: fn(),
   },
-  async play({ args, canvasElement, step }) {
+  play: definePlay<Story>(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
@@ -94,5 +95,5 @@ export const Disabled: Story = {
       await expect(args.onClick).not.toHaveBeenCalled();
     });
     */
-  },
+  }),
 };

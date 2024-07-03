@@ -116,7 +116,7 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   `;
 
   private _handleClick(event: MouseEvent) {
-    if (this.readonly) {
+    if (this.readonly || this.disabled) {
       event.preventDefault();
     }
   }

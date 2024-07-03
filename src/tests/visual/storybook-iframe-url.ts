@@ -6,7 +6,7 @@ function format(key: string, value: string | number | boolean): string {
 export function getStorybookIframeURL<
   T extends Record<string, string | number | boolean | undefined>,
 >(id: string, args: T): string {
-  return `/iframe.html?viewMode=story&id=${encodeURIComponent(id)}&args=${Object.entries(
+  return `/iframe.html?viewMode=story&disable-autoplay=1&id=${encodeURIComponent(id)}&args=${Object.entries(
     args
   )
     .filter(
