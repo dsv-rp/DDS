@@ -1,26 +1,14 @@
 {
   // TSConfig for Node.js codes (build scripts)
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "checkJs": true,
-    "target": "ES2022",
+    "target": "ES2023",
     "module": "ESNext",
     "lib": ["ES2023"],
-    "useDefineForClassFields": true,
-    "skipLibCheck": true,
 
-    /* Bundler mode */
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
+    "types": ["node"],
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "verbatimModuleSyntax": true
+    "exactOptionalPropertyTypes": false
   },
   "include": [
     "*",
