@@ -21,7 +21,14 @@ describeEach(["toast", "inline"] as const, (variant) => {
           [true, false] as const,
           (value) => (value ? "withClose" : "withoutClose"),
           (closeButton) => {
-            const baseURL = getPageURL({ variant, status, line, closeButton });
+            const baseURL = getPageURL({
+              variant,
+              status,
+              line,
+              closeButton,
+              title: "Example Notification",
+              description: "Description of the notification",
+            });
 
             test("base", async ({ page }) => {
               await page.goto(baseURL);
