@@ -9,10 +9,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import type { ARIARole } from "../../lit-analyzer-types";
-import type { OmitNull } from "../../type-utils";
-
 import tailwindStyles from "../../tailwind.css?inline";
-import styles from "./button.css?inline";
+import type { OmitNull } from "../../type-utils";
 
 const buttonCN = cva(
   [
@@ -31,7 +29,15 @@ const buttonCN = cva(
   {
     variants: {
       intent: {
-        primary: ["button-primary", "focus-visible:outline-none"],
+        primary: [
+          "text-white",
+          "bg-[--buttonColorBackgroundPrimaryActive]",
+          "focus-visible:outline-none",
+          "focus-visible:bg-[--buttonColorBackgroundPrimaryFocus]",
+          "hover:bg-[--buttonColorBackgroundPrimaryHover]",
+          "active:bg-[--buttonColorBackgroundPrimaryPress]",
+          "disabled:bg-[--buttonColorBackgroundPrimaryDisabled]",
+        ],
         secondary: [
           "border-2",
           "bg-white",
@@ -88,22 +94,21 @@ type ButtonVariantProps = OmitNull<VariantProps<typeof buttonCN>>;
 export class DaikinButton extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
-    ${unsafeCSS(styles)}
 
     :host {
-      --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryActive: ${unsafeCSS(
         buttonColorBackgroundPrimaryActive
       )};
-      --defaultButtonColorBackgroundPrimaryFocus: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryFocus: ${unsafeCSS(
         buttonColorBackgroundPrimaryFocus
       )};
-      --defaultButtonColorBackgroundPrimaryHover: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryHover: ${unsafeCSS(
         buttonColorBackgroundPrimaryHover
       )};
-      --defaultButtonColorBackgroundPrimaryPress: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryPress: ${unsafeCSS(
         buttonColorBackgroundPrimaryPress
       )};
-      --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryDisabled: ${unsafeCSS(
         buttonColorBackgroundPrimaryDisabled
       )};
 
