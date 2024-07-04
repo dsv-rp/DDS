@@ -44,12 +44,12 @@ const textInputBase = ctl(`
   disabled:text-[--button-color-background-primary-disabled]
   disabled:bg-[--input-field-color-background]
   disabled:border-[--button-color-background-primary-disabled]
-  `);
+`);
 
 const textInputError = ctl(`
   bg-daikinRed-50
   border-[--color-feedback-negative]
-  `);
+`);
 
 /**
  * Primary UI component for user interaction

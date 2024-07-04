@@ -12,7 +12,7 @@ const inputGroupContainer = ctl(`
   w-max
   gap-2
   font-daikinSerif
-  `);
+`);
 
 const inputGroupError = ctl(`
   flex
@@ -24,12 +24,12 @@ const inputGroupError = ctl(`
   before:block
   before:w-[16px]
   before:h-[22px]
-  `);
+`);
 
 const inputGroupHelperRequired = ctl(`
   after:content-['*']
   after:ml-[2px]
-  `);
+`);
 
 export interface DaikinInputGroupProps {
   label?: string;
