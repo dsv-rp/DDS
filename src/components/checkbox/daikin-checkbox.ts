@@ -1,23 +1,27 @@
-import { LitElement, html, css, unsafeCSS } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { css, html, LitElement, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
 
-import tailwindStyles from '../../tailwind.css';
 import { cva, type VariantProps } from "class-variance-authority";
+import tailwindStyles from "../../tailwind.css";
 import type { OmitNull } from "../../typeUtils";
 
-const labelCN = cva(["leading-8", "not-italic", "font-normal", "align-middle"], {
+const labelCN = cva(
+  ["leading-8", "not-italic", "font-normal", "align-middle"],
+  {
     variants: {
-            size: {
-                small: ["text-sm"],
-                large: ["text-base"],
-            },
-        },
-        defaultVariants: {
-            size: "small"
-        }
-});
+      size: {
+        small: ["text-sm"],
+        large: ["text-base"],
+      },
+    },
+    defaultVariants: {
+      size: "small",
+    },
+  }
+);
 
-const checkboxCN = cva([
+const checkboxCN = cva(
+  [
     "appearance-none",
 
     "inline-block",
@@ -68,33 +72,35 @@ const checkboxCN = cva([
     "disabled:!border-daikinNeutral-200",
     "disabled:!bg-white",
     "indeterminate:disabled:!bg-daikinNeutral-200",
-    "checked:disabled:!bg-daikinNeutral-200"], 
-{
+    "checked:disabled:!bg-daikinNeutral-200",
+  ],
+  {
     variants: {
-            size: {
-                small: ["w-[18px]", "h-[18px]"],
-                large: ["w-5", "h-5"],
-            },
-        },
-        defaultVariants: {
-            size: "small"
-        }
-});
+      size: {
+        small: ["w-[18px]", "h-[18px]"],
+        large: ["w-5", "h-5"],
+      },
+    },
+    defaultVariants: {
+      size: "small",
+    },
+  }
+);
 
 type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
 type CheckboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
 type ComponentSize = LabelProps["size"] & CheckboxProps["size"];
 
 export interface DaikinCheckboxProps {
-    label: string
-    size: ComponentSize;
-    disabled: boolean;
-    labelPosition: "left" | "right";
-    readonly: boolean;
-    checkState: "unchecked" | "indeterminate" | "checked";
-    name: string;
-    value: string;
-    error: boolean;
+  label: string;
+  size: ComponentSize;
+  disabled: boolean;
+  labelPosition: "left" | "right";
+  readonly: boolean;
+  checkState: "unchecked" | "indeterminate" | "checked";
+  name: string;
+  value: string;
+  error: boolean;
 }
 
 /**
@@ -102,127 +108,134 @@ export interface DaikinCheckboxProps {
  */
 @customElement("daikin-checkbox")
 class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
-    static styles = css`
-        ${unsafeCSS(tailwindStyles)}
+  static styles = css`
+    ${unsafeCSS(tailwindStyles)}
 
-        :host {
-            display: inline-block;
-        }
-    `;
-
-    private _handleClick(event: MouseEvent) {
-        if (this.readonly) {
-            event.preventDefault();
-        }
+    :host {
+      display: inline-block;
     }
+  `;
 
-    static formAssociated = true;
-
-    // define internals to let checkbox can be used in form
-    @property({type: Object})
-    internals;
-
-    constructor() {
-        super()
-        this.internals = this.attachInternals();
+  private _handleClick(event: MouseEvent) {
+    if (this.readonly) {
+      event.preventDefault();
     }
+  }
 
-    private _handleChange(event: Event) {
-        const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
-        if (input.checked) {
-            this.internals.setFormValue(this.value);
-        } else {
-            this.internals.setFormValue(null);
-        }
-        const newEvent = new Event("change", event);
-        this.dispatchEvent(newEvent);
-    } 
+  static formAssociated = true;
 
-    /**
-     * Specify the label text for check box
-     */
-    @property({ type: String })
-    label = "";
-    
-    /**
-     * Specify the component size
-     */
-    @property({ type: String })
-    size: ComponentSize  = "small";
+  // define internals to let checkbox can be used in form
+  @property({ type: Object })
+  internals;
 
-    /**
-     * Specify the label position
-     * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
-     */
-    @property({ type: String, attribute: "label-position"})
-    labelPosition: "left" | "right" = "right";
+  constructor() {
+    super();
+    this.internals = this.attachInternals();
+  }
 
-    /**
-     * Specify whether the Checkbox should be disabled
-     */
-    @property({ type: Boolean, reflect: true })
-    disabled = false;
-
-    /**
-     * Specify whether the checkbox is read only
-     */
-    @property({ type: Boolean, reflect: true })
-    readonly = false;
-    
-    /**
-     * Specify whether the checkbox is be checked
-     */
-    @property({ type: String , reflect: true, attribute: "check-state"})
-    checkState: "unchecked" | "indeterminate" | "checked"  = "unchecked";
-
-    /**
-     * The form name.
-     */
-    @property({ type: String , reflect: true })
-    name= "";
-
-    /**
-     * The value.
-     */
-    @property({ type: String , reflect: true })
-    value= "";
-
-    /**
-     * Specify whether the Checkbox is in a error state
-     */
-    @property({ type: Boolean , reflect: true})
-    error = false;
-
-    render() {
-        // Specify the component size
-        const labelClassName = labelCN({size: this.size})
-        const checkboxClassName = checkboxCN({size: this.size})
-
-        const isChecked = this.checkState === 'checked';
-        const isIndeterminate = this.checkState === 'indeterminate';
-
-        const labelText = this.label ? html`<span class="${labelClassName}">${this.label}</span>` : html``;
-        const inputTag = html`<input
-            class="${checkboxClassName}"
-            type="checkbox"
-            name="${this.name}"
-            value="${this.value}" 
-            .indeterminate=${isIndeterminate} 
-            .checked=${isChecked} 
-            ?readonly=${this.readonly} 
-            ?disabled=${this.disabled} 
-            @click=${this._handleClick}
-            @change=${this._handleChange}
-            >`;
-        const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
-        return html`<label class="inline-flex gap-[10px] items-center">${inputArea}</label>`;
+  private _handleChange(event: Event) {
+    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
+    if (input.checked) {
+      this.internals.setFormValue(this.value);
+    } else {
+      this.internals.setFormValue(null);
     }
+    const newEvent = new Event("change", event);
+    this.dispatchEvent(newEvent);
+  }
+
+  /**
+   * Specify the label text for check box
+   */
+  @property({ type: String })
+  label = "";
+
+  /**
+   * Specify the component size
+   */
+  @property({ type: String })
+  size: ComponentSize = "small";
+
+  /**
+   * Specify the label position
+   * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
+   */
+  @property({ type: String, attribute: "label-position" })
+  labelPosition: "left" | "right" = "right";
+
+  /**
+   * Specify whether the Checkbox should be disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
+   * Specify whether the checkbox is read only
+   */
+  @property({ type: Boolean, reflect: true })
+  readonly = false;
+
+  /**
+   * Specify whether the checkbox is be checked
+   */
+  @property({ type: String, reflect: true, attribute: "check-state" })
+  checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
+
+  /**
+   * The form name.
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * The value.
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Specify whether the Checkbox is in a error state
+   */
+  @property({ type: Boolean, reflect: true })
+  error = false;
+
+  render() {
+    // Specify the component size
+    const labelClassName = labelCN({ size: this.size });
+    const checkboxClassName = checkboxCN({ size: this.size });
+
+    const isChecked = this.checkState === "checked";
+    const isIndeterminate = this.checkState === "indeterminate";
+
+    const labelText = this.label
+      ? html`<span class="${labelClassName}">${this.label}</span>`
+      : html``;
+    const inputTag = html`<input
+      class="${checkboxClassName}"
+      type="checkbox"
+      name="${this.name}"
+      value="${this.value}"
+      .indeterminate=${isIndeterminate}
+      .checked=${isChecked}
+      ?readonly=${this.readonly}
+      ?disabled=${this.disabled}
+      @click=${this._handleClick}
+      @change=${this._handleChange}
+    />`;
+    const inputArea =
+      this.labelPosition === "left"
+        ? html`${labelText}${inputTag}`
+        : html`${inputTag}${labelText}`;
+    return html`<label class="inline-flex gap-[10px] items-center"
+      >${inputArea}</label
+    >`;
+  }
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        'daikin-checkbox': DaikinCheckbox;
-    }
+  interface HTMLElementTagNameMap {
+    "daikin-checkbox": DaikinCheckbox;
+  }
 }
 
 export default DaikinCheckbox;
