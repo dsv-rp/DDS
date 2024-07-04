@@ -4,8 +4,8 @@ import {
   colorFeedbackNegative,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import ctl from "@netlify/classnames-template-literals";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement, PropertyValues, css, html, unsafeCSS } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css";
 export interface DaikinTextInputProps {
@@ -72,10 +72,15 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
     }
   `;
 
+  static formAssociated = true;
+
+  @state()
+  private _internals: ElementInternals;
+
   /**
    * Field value
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   value = "";
 
   /**
@@ -105,7 +110,7 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   /**
    * Name of the input field control used in the form
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   name?: string;
 
   /**
@@ -126,11 +131,24 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   @property({ type: Boolean, reflect: true })
   error? = false;
 
+  private _handleInput(e: InputEvent): void {
+    this.value = (e.target as HTMLInputElement).value;
+    this._internals.setFormValue(this.value);
+  }
+
+  constructor() {
+    super();
+    this._internals = this.attachInternals();
+  }
+
   render() {
     const textInputInputClassName = [
       textInputBase,
       this.error ? textInputError : "",
     ].join(" ");
+
+    this._internals.setFormValue(this.value);
+
     return html`<input
       type="${this.type}"
       value="${this.value}"
@@ -141,10 +159,20 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
       maxlength="${ifDefined(this.maxlength)}"
       autocomplete="${ifDefined(this.autocomplete as any)}"
       @change="${(e: Event) => this.dispatchEvent(new Event("change", e))}"
+      @input="${(e: InputEvent) => this._handleInput(e)}"
       class="${textInputInputClassName}"
     />`;
   }
+
+  updated(changedProperties: PropertyValues) {
+    if (!changedProperties.has("value")) {
+      return;
+    }
+
+    this._internals.setFormValue(this.value);
+  }
 }
+
 declare global {
   interface HTMLElementTagNameMap {
     "daikin-text-input": DaikinTextInput;
