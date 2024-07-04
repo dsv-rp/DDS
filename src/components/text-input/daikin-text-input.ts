@@ -26,7 +26,6 @@ const textInputBase = ctl(`
   h-12
   text-daikinNeutral-900
   border
-  border-daikinNeutral-600
   border-solid
   px-[9px]
   rounded-[6px]
@@ -147,7 +146,7 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   render() {
     const textInputInputClassName = [
       textInputBase,
-      this.error ? textInputError : "",
+      this.error ? textInputError : "border-daikinNeutral-600",
     ].join(" ");
 
     this._internals.setFormValue(this.value);
