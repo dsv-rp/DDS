@@ -8,6 +8,7 @@ import { LitElement, PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css";
+
 export interface DaikinTextInputProps {
   value: string;
   type?: "text" | "email" | "tel" | "search";
@@ -31,6 +32,7 @@ const textInputBase = ctl(`
   rounded-[6px]
   font-daikinSerif
   placeholder:text-daikinNeutral-200
+
   enabled:hover:outline
   enabled:hover:outline-2
   enabled:hover:outline-[--button-color-background-primary-hover]
@@ -46,9 +48,9 @@ const textInputBase = ctl(`
   `);
 
 const textInputError = ctl(`
-    bg-daikinRed-50
-    border-[--color-feedback-negative]
-    `);
+  bg-daikinRed-50
+  border-[--color-feedback-negative]
+  `);
 
 /**
  * Primary UI component for user interaction
@@ -57,6 +59,7 @@ const textInputError = ctl(`
 class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   static styles = css`
     ${unsafeCSS(tailwindStyles)}
+
     :host {
       --color-feedback-negative: ${unsafeCSS(colorFeedbackNegative)};
       --button-color-background-primary-hover: ${unsafeCSS(
