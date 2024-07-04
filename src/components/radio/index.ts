@@ -1,1 +1,1 @@
-import './daikin-radio';
+import "./daikin-radio";
