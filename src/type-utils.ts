@@ -2,7 +2,9 @@
 
 import type { VariantProps } from "class-variance-authority";
 
-type OmitNull<T> = { [K in keyof T]: Exclude<T[K], null> };
+type NonNullableProps<T> = {
+  [K in keyof T]-?: Exclude<T[K], null | undefined>;
+};
 
 /**
  * Merges all properties from CVA functions.
@@ -10,7 +12,7 @@ type OmitNull<T> = { [K in keyof T]: Exclude<T[K], null> };
  *
  * 1. Apply `VariantProps` to all union items to get props
  * 2. Convert union to intersect
- * 3. Apply `OmitNull` to eliminate nulls
+ * 3. Apply `NonNullableProps` to eliminate nulls
  *
  * @example
  * ```
@@ -22,10 +24,11 @@ type OmitNull<T> = { [K in keyof T]: Exclude<T[K], null> };
  * >;
  * ```
  */
-export type MergeVariantProps<T extends (...args: any) => any> = OmitNull<
-  (
-    T extends (...args: any[]) => any ? (v: VariantProps<T>) => void : never
-  ) extends (v: infer U) => void
-    ? U
-    : never
->;
+export type MergeVariantProps<T extends (...args: any) => any> =
+  NonNullableProps<
+    (
+      T extends (...args: any[]) => any ? (v: VariantProps<T>) => void : never
+    ) extends (v: infer U) => void
+      ? U
+      : never
+  >;
