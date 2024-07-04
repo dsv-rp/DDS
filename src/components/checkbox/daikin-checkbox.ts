@@ -133,13 +133,28 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     this.internals = this.attachInternals();
   }
 
-  private _handleChange(event: Event) {
-    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
-    if (input.checked) {
+  private _updateFormValue() {
+    if (this.checked) {
       this.internals.setFormValue(this.value);
     } else {
       this.internals.setFormValue(null);
     }
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has("checkState")) {
+      this._updateFormValue();
+    }
+  }
+
+  get checked() {
+    return this.checkState === "checked";
+  }
+
+  private _handleChange(event: Event) {
+    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
+    this.checkState = input.checked ? "checked" : "unchecked";
+    this._updateFormValue();
     const newEvent = new Event("change", event);
     this.dispatchEvent(newEvent);
   }
@@ -204,7 +219,6 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     const labelClassName = labelCN({ size: this.size });
     const checkboxClassName = checkboxCN({ size: this.size });
 
-    const isChecked = this.checkState === "checked";
     const isIndeterminate = this.checkState === "indeterminate";
 
     const labelText = this.label
@@ -216,7 +230,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
       name="${this.name}"
       value="${this.value}"
       .indeterminate=${isIndeterminate}
-      .checked=${isChecked}
+      .checked=${this.checked}
       ?readonly=${this.readonly}
       ?disabled=${this.disabled}
       @click=${this._handleClick}
