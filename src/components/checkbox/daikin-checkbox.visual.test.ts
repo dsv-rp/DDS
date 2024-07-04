@@ -1,10 +1,10 @@
-import { expect, test, type ElementHandle, type Page } from "@playwright/test";
 import {
   clipFor,
   describeEach,
   getStorybookIframeURL,
   type InferStorybookArgTypes,
-} from "../../tests/visual";
+} from "#tests/visual";
+import { expect, test, type ElementHandle, type Page } from "@playwright/test";
 import type { DAIKIN_CHECKBOX_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_CHECKBOX_ARG_TYPES>;

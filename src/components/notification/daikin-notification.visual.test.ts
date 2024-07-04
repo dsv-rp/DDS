@@ -1,10 +1,10 @@
-import { expect, test } from "@playwright/test";
 import {
   clipFor,
   describeEach,
   getStorybookIframeURL,
   type InferStorybookArgTypes,
-} from "../../tests/visual";
+} from "#tests/visual";
+import { expect, test } from "@playwright/test";
 import type { DAIKIN_NOTIFICATION_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_NOTIFICATION_ARG_TYPES>;
