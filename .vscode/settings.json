@@ -1,4 +1,7 @@
 {
+  "files.associations": {
+    "cspell-dictionary.txt": "ignore"
+  },
   "tailwindCSS.experimental.classRegex": [
     "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)",
     [
@@ -6,17 +9,5 @@
       "\"((?:\\\\.|[^\"])+)\""
     ],
     ["class=\"((?:\\\\.|[^\"])+)\""]
-  ],
-  "cSpell.words": [
-    "autodocs",
-    "daikin",
-    "docgen",
-    "dotfiles",
-    "fontsource",
-    "lightningcss",
-    "roboto",
-    "tailwindcss",
-    "taze",
-    "tseslint"
   ]
 }

@@ -1,5 +1,6 @@
 // https://github.com/runem/lit-analyzer/blob/b0e79a9b369dd48203e846e7c2796c8aa0a371dd/packages/lit-analyzer/src/lib/analyze/data/extra-html-data.ts#L125
 export type ARIARole = [
+  /* cSpell:disable */
   "alert",
   "alertdialog",
   "button",
@@ -110,4 +111,5 @@ export type ARIARole = [
   "doc-subtitle",
   "doc-tip",
   "doc-toc",
+  /* cSpell:enable */
 ][number];
