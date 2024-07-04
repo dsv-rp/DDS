@@ -1,1 +1,1 @@
-import './daikin-checkbox';
+export { default as DaikinCheckbox } from "./daikin-checkbox";

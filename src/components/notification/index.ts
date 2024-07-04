@@ -1,1 +1,1 @@
-export { default as DaikinNotification } from './daikin-notification';
+export { default as DaikinNotification } from "./daikin-notification";
