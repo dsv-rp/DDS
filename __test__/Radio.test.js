@@ -1,3 +1,9 @@
+const isChecked = (elementHandle) =>
+  page.evaluate((element) => {
+    const innerCheckbox = element.shadowRoot.querySelector("input");
+    return innerCheckbox.checked;
+  }, elementHandle);
+
 describe("Radio", () => {
   const getPageURL = (size, label, labelPosition, checked, state) =>
     `http://localhost:6006/iframe.html?viewMode=story&id=components-radio--small&args=size:${size};label:${label};labelPosition:${labelPosition};checked:!${checked};${state == "disabled" ? "disabled:!true" : ""}`;
@@ -90,23 +96,19 @@ describe("Radio", () => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-      await page.waitForSelector("daikin-radio", { visible: true });
+      const daikinRadio = await page.waitForSelector("daikin-radio", {
+        visible: true,
+      });
 
       // check daikin-radio not be selected
-      const isCheckedBefore = await page.$eval("daikin-radio", (radio) => {
-        const radioElement = radio.shadowRoot.querySelector("input");
-        return radioElement.checked;
-      });
+      const isCheckedBefore = await isChecked(daikinRadio);
       expect(isCheckedBefore).toBe(false);
 
       // click daikin-radio
       await page.locator("daikin-radio").click();
 
       // check daikin-radio be selected
-      const isCheckedAfter = await page.$eval("daikin-radio", (radio) => {
-        const radioElement = radio.shadowRoot.querySelector("input");
-        return radioElement.checked;
-      });
+      const isCheckedAfter = await isChecked(daikinRadio);
       expect(isCheckedAfter).toBe(true);
     });
 
@@ -114,23 +116,19 @@ describe("Radio", () => {
       await page.goto(`${baseURL};disabled:true`);
 
       // wait for element to be visible
-      await page.waitForSelector("daikin-radio", { visible: true });
+      const daikinRadio = await page.waitForSelector("daikin-radio", {
+        visible: true,
+      });
 
       // check daikin-radio not be selected
-      const isCheckedBefore = await page.$eval("daikin-radio", (radio) => {
-        const radioElement = radio.shadowRoot.querySelector("input");
-        return radioElement.checked;
-      });
+      const isCheckedBefore = await isChecked(daikinRadio);
       expect(isCheckedBefore).toBe(false);
 
       // click daikin-radio
       await page.locator("daikin-radio").click();
 
       // check daikin-radio be selected
-      const isCheckedAfter = await page.$eval("daikin-radio", (radio) => {
-        const radioElement = radio.shadowRoot.querySelector("input");
-        return radioElement.checked;
-      });
+      const isCheckedAfter = await isChecked(daikinRadio);
       expect(isCheckedAfter).toBe(false);
     });
   });

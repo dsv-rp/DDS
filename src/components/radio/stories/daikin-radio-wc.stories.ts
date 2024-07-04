@@ -17,6 +17,8 @@ const meta = {
       label=${args.label}
       label-position=${args.labelPosition}
       ?checked=${args.checked}
+      name=${args.name}
+      value=${args.value}
     >
     </daikin-radio>
   `,

@@ -1,1 +1,1 @@
-import "./daikin-radio";
+export { default as DaikinRadio } from "./daikin-radio";

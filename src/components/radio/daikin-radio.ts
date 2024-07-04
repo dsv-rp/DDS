@@ -7,9 +7,9 @@ import tailwindStyles from "../../tailwind.css";
 import type { OmitNull } from "../../typeUtils";
 
 const hideRadioCN = ctl(`
-    opacity-0
-    absolute
-    peer
+  opacity-0
+  absolute
+  peer
 `);
 
 const labelCN = cva(
@@ -100,6 +100,39 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
     }
   }
 
+  static formAssociated = true;
+
+  // define internals to let radio can be used in form
+  @property({ type: Object })
+  internals;
+
+  constructor() {
+    super();
+    this.internals = this.attachInternals();
+  }
+
+  private _updateFormValue() {
+    if (this.checked) {
+      this.internals.setFormValue(this.value);
+    } else {
+      this.internals.setFormValue(null);
+    }
+  }
+
+  updated(changedProperties: Map<string, any>) {
+    if (changedProperties.has("checked")) {
+      this._updateFormValue();
+    }
+  }
+
+  private _handleChange(event: Event) {
+    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
+    this.checked = input.checked;
+    this._updateFormValue();
+    const newEvent = new Event("change", event);
+    this.dispatchEvent(newEvent);
+  }
+
   /**
    * Specify the label text for check box
    */
@@ -140,13 +173,13 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
   /**
    * The form name.
    */
-  @property()
+  @property({ type: String, reflect: true })
   name = "";
 
   /**
    * The value.
    */
-  @property()
+  @property({ type: String, reflect: true })
   value = "";
 
   /**
@@ -172,6 +205,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
         ?readonly=${this.readonly}
         ?disabled=${this.disabled}
         @click=${this._handleClick}
+        @change=${this._handleChange}
       /><span class="${radioClassName}"></span>`;
     const inputArea =
       this.labelPosition === "left"
