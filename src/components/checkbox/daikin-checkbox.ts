@@ -116,6 +116,28 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
         }
     }
 
+    static formAssociated = true;
+
+    // define internals to let checkbox can be used in form
+    @property({type: Object})
+    internals;
+
+    constructor() {
+        super()
+        this.internals = this.attachInternals();
+    }
+
+    private _handleChange(event: Event) {
+        const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
+        if (input.checked) {
+            this.internals.setFormValue(this.value);
+        } else {
+            this.internals.setFormValue(null);
+        }
+        const newEvent = new Event("change", event);
+        this.dispatchEvent(newEvent);
+    } 
+
     /**
      * Specify the label text for check box
      */
@@ -190,7 +212,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
             ?readonly=${this.readonly} 
             ?disabled=${this.disabled} 
             @click=${this._handleClick}
-            @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+            @change=${this._handleChange}
             >`;
         const inputArea = this.labelPosition === 'left' ? html`${labelText}${inputTag}`: html`${inputTag}${labelText}`
         return html`<label class="inline-flex gap-[10px] items-center">${inputArea}</label>`;
