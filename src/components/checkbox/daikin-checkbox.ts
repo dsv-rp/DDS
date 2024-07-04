@@ -178,13 +178,13 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     /**
      * The form name.
      */
-    @property()
+    @property({ type: String , reflect: true })
     name= "";
 
     /**
      * The value.
      */
-    @property()
+    @property({ type: String , reflect: true })
     value= "";
 
     /**
