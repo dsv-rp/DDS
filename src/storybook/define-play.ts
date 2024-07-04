@@ -6,13 +6,16 @@
  * @returns wrapped play function
  */
 export function definePlay<
-  T extends { play?: (...args: any[]) => void | Promise<void> },
->(fn: Exclude<T["play"], undefined>): T["play"] {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T extends ((...args: any[]) => void | Promise<void>) | undefined,
+>(fn: NonNullable<NoInfer<T>>): NonNullable<T> {
+  // @ts-expect-error ignore variance-related error
   return function play(...args): void | Promise<void> {
     if (new URLSearchParams(location.search).has("disable-autoplay")) {
       return Promise.resolve();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     return fn(...args);
   };
 }

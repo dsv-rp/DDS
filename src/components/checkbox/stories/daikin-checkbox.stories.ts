@@ -20,7 +20,7 @@ export const Small: Story = {
     onChange: fn(),
     onClick: fn(),
   },
-  play: definePlay<Story>(async ({ args, canvasElement, step }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-checkbox")[0];
     await expect(root).toBeInTheDocument();
 
@@ -68,7 +68,7 @@ export const Disabled: Story = {
     onChange: fn(),
     onClick: fn(),
   },
-  play: definePlay<Story>(async ({ args, canvasElement, step }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-checkbox")[0];
     await expect(root).toBeInTheDocument();
 
@@ -105,5 +105,5 @@ export const Readonly: Story = {
     onChange: fn(),
     onClick: fn(),
   },
-  play: Disabled.play,
+  play: Disabled.play!,
 };

@@ -23,7 +23,7 @@ export const Primary: Story = {
     type: "button",
     onClick: fn(),
   },
-  play: definePlay<Story>(async ({ args, canvasElement, step }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
@@ -74,7 +74,7 @@ export const Disabled: Story = {
     disabled: true,
     onClick: fn(),
   },
-  play: definePlay<Story>(async ({ args, canvasElement, step }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
