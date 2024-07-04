@@ -30,16 +30,15 @@ const checkboxCN = cva(
     "border-2",
     "border-daikinNeutral-400",
 
-    "hover:border-daikinBlue-300",
+    "enabled:hover:border-daikinBlue-300",
+    "enabled:active:border-daikinBlue-600",
+    "enabled:active:checked:bg-daikinBlue-600",
 
-    "active:border-daikinBlue-600",
-    "active:checked:bg-daikinBlue-600",
+    "enabled:indeterminate:border-daikinBlue-600",
+    "enabled:indeterminate:bg-daikinBlue-600",
 
-    "indeterminate:border-daikinBlue-600",
-    "indeterminate:bg-daikinBlue-600",
-
-    "checked:border-daikinBlue-600",
-    "checked:bg-daikinBlue-600",
+    "enabled:checked:border-daikinBlue-600",
+    "enabled:checked:bg-daikinBlue-600",
 
     "after:absolute",
     "after:!w-full",
@@ -49,29 +48,27 @@ const checkboxCN = cva(
     "checked:after:i-daikin-checkbox-checked",
     "indeterminate:after:i-daikin-checkbox-indeterminate",
 
-    "focus-visible:border-daikinBlue-700",
+    "enabled:focus-visible:border-daikinBlue-700",
     "focus-visible:outline-none",
 
-    "checked:focus-visible:border-daikinBlue-700",
-    "checked:focus-visible:bg-daikinBlue-700",
+    "enabled:checked:focus-visible:border-daikinBlue-700",
+    "enabled:checked:focus-visible:bg-daikinBlue-700",
+    "enabled:checked:hover:border-daikinBlue-300",
+    "enabled:checked:hover:bg-daikinBlue-300",
+    "enabled:checked:active:border-daikinBlue-600",
+    "enabled:checked:active:bg-daikinBlue-600",
 
-    "checked:hover:border-daikinBlue-300",
-    "checked:hover:bg-daikinBlue-300",
-    "checked:active:border-daikinBlue-600",
-    "checked:active:bg-daikinBlue-600",
+    "enabled:indeterminate:active:border-daikinBlue-600",
+    "enabled:indeterminate:active:bg-daikinBlue-600",
+    "enabled:indeterminate:hover:border-daikinBlue-300",
+    "enabled:indeterminate:hover:bg-daikinBlue-300",
+    "enabled:indeterminate:focus-visible:border-daikinBlue-700",
+    "enabled:indeterminate:focus-visible:bg-daikinBlue-700",
 
-    "indeterminate:active:border-daikinBlue-600",
-    "indeterminate:active:bg-daikinBlue-600",
-    "indeterminate:hover:border-daikinBlue-300",
-    "indeterminate:hover:bg-daikinBlue-300",
-
-    "indeterminate:focus-visible:border-daikinBlue-700",
-    "indeterminate:focus-visible:bg-daikinBlue-700",
-
-    "disabled:!border-daikinNeutral-200",
-    "disabled:!bg-white",
-    "indeterminate:disabled:!bg-daikinNeutral-200",
-    "checked:disabled:!bg-daikinNeutral-200",
+    "disabled:border-daikinNeutral-200",
+    "disabled:bg-white",
+    "disabled:indeterminate:bg-daikinNeutral-200",
+    "disabled:checked:bg-daikinNeutral-200",
   ],
   {
     variants: {
