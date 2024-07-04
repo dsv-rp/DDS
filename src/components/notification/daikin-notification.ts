@@ -3,179 +3,129 @@ import {
   colorFeedbackPositive,
   colorFeedbackWarning,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
-import ctl from "@netlify/classnames-template-literals";
 import { type VariantProps, cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { EVENT_CLOSE } from "../../constants/events";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { OmitNull } from "../../type-utils";
-import styles from "./notification.css?inline";
 
-const notificationContentsContainerClassName = ctl(`
-  flex
-  justify-between
-  items-center
-  gap-5
-  p-[20px]
-  flex-none
-  flex-grow
-`);
+const notificationContentClassName = cva(
+  ["flex", "justify-center", "gap-1", "w-fit", "flex-none"],
+  {
+    variants: {
+      line: {
+        single: ["items-center", "flex-row"],
+        multi: ["items-start", "flex-col"],
+      },
+    },
+    defaultVariants: {
+      line: "single",
+    },
+  }
+);
 
-const notificationTextAreaBase = ctl(`
-  flex
-  justify-center
-  gap-1
-  w-fit
-  flex-none
-`);
+const notificationIconClassName = cva(
+  [
+    "flex",
+    "justify-center",
+    "items-center",
+    "w-[24px]",
+    "h-[24px]",
+    "flex-none",
+    "text-white",
+  ],
+  {
+    variants: {
+      status: {
+        positive: ["i-daikin-notification-status-positive"],
+        negative: ["i-daikin-notification-status-negative"],
+        warning: ["i-daikin-notification-status-warning"],
+        alarm: ["i-daikin-notification-status-alarm"],
+        information: ["i-daikin-notification-status-information"],
+      },
+    },
+    defaultVariants: {
+      status: "positive",
+    },
+  }
+);
 
-const notificationTextAreaLineSingle = ctl(`
-  items-center
-  flex-row
-`);
+const notificationIconContainerClassName = cva(
+  ["flex-none", "flex", "justify-center", "items-center", "w-[44px]"],
+  {
+    variants: {
+      status: {
+        positive: ["bg-[--colorFeedbackPositive]"],
+        negative: ["bg-[--colorFeedbackNegative]"],
+        warning: ["bg-[--colorFeedbackWarning]"],
+        alarm: ["bg-[--colorFeedbackAlarm]"],
+        information: ["bg-[--colorFeedbackInformation]"],
+      },
+    },
+    defaultVariants: {
+      status: "positive",
+    },
+  }
+);
 
-const notificationTextAreaLineMulti = ctl(`
-  items-start
-  flex-col
-`);
-
-const notificationIconBase = ctl(`
-  flex
-  justify-center
-  items-center
-  w-[24px]
-  h-[24px]
-  flex-none
-`);
-
-const notificationIconContainerBase = ctl(`
-  flex
-  justify-center
-  items-center
-  w-[44px]
-  flex-none
-`);
-
-const notificationContainerBase = ctl(`
-  flex
-  box-border
-  bg-white
-  overflow-hidden
-  font-daikinSerif
-`);
-
-const notificationContainerVariantToast = ctl(`
-  border-2
-  border-solid
-  rounded-lg
-`);
-
-const notificationCloseButton = ctl(`
-  flex
-  w-6
-  h-6
-  relative
-  i-daikin-notification-close
-`);
+const notificationContainerClassName = cva(
+  ["flex", "box-border", "bg-white", "overflow-hidden", "font-daikinSerif"],
+  {
+    variants: {
+      variant: {
+        toast: [
+          "border-2",
+          "border-solid",
+          "rounded-lg",
+          "shadow-notification",
+        ],
+        inline: [],
+      },
+      status: {
+        positive: ["border-[--colorFeedbackPositive]"],
+        negative: ["border-[--colorFeedbackNegative]"],
+        warning: ["border-[--colorFeedbackWarning]"],
+        alarm: ["border-[--colorFeedbackAlarm]"],
+        information: ["border-[--colorFeedbackInformation]"],
+      },
+    },
+    defaultVariants: {
+      variant: "toast",
+      status: "positive",
+    },
+  }
+);
 
 type NotificationProps = OmitNull<
-  VariantProps<typeof notificationTextAreaClassName>
+  VariantProps<typeof notificationContentClassName>
 > &
   OmitNull<VariantProps<typeof notificationIconClassName>> &
   OmitNull<VariantProps<typeof notificationIconContainerClassName>> &
   OmitNull<VariantProps<typeof notificationContainerClassName>>;
 
-const notificationTextAreaClassName = cva(notificationTextAreaBase, {
-  variants: {
-    line: {
-      single: notificationTextAreaLineSingle,
-      multi: notificationTextAreaLineMulti,
-    },
-  },
-  defaultVariants: {
-    line: "single",
-  },
-});
-
-const notificationIconClassName = cva(notificationIconBase, {
-  variants: {
-    status: {
-      positive: "i-daikin-notification-status-positive",
-      negative: "i-daikin-notification-status-negative",
-      warning: "i-daikin-notification-status-warning",
-      alarm: "i-daikin-notification-status-alarm",
-      information: "i-daikin-notification-status-information",
-    },
-  },
-  defaultVariants: {
-    status: "positive",
-  },
-});
-
-const notificationIconContainerClassName = cva(notificationIconContainerBase, {
-  variants: {
-    status: {
-      positive: "notification-icon-positive",
-      negative: "notification-icon-negative",
-      warning: "notification-icon-warning",
-      alarm: "notification-icon-alarm",
-      information: "notification-icon-information",
-    },
-  },
-  defaultVariants: {
-    status: "positive",
-  },
-});
-
-const notificationContainerClassName = cva(notificationContainerBase, {
-  variants: {
-    variant: {
-      toast: `notification-container-toast ${notificationContainerVariantToast}`,
-      inline: "",
-    },
-    status: {
-      positive: "notification-container-positive",
-      negative: "notification-container-negative",
-      warning: "notification-container-warning",
-      alarm: "notification-container-alarm",
-      information: "notification-container-information",
-    },
-  },
-  defaultVariants: {
-    variant: "toast",
-    status: "positive",
-  },
-});
-
-export interface DaikinNotificationProps {
-  title?: string;
-  description: string;
-  variant: NotificationProps["variant"];
-  status: NotificationProps["status"];
-  line: NotificationProps["line"];
-  open: boolean;
-  closeButton?: boolean;
-}
-
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-notification")
-export class DaikinNotification
-  extends LitElement
-  implements DaikinNotificationProps
-{
-  static styles = css`
+export class DaikinNotification extends LitElement {
+  static readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
+
     :host {
-      --defaultColorFeedbackPositive: ${unsafeCSS(colorFeedbackPositive)};
-      --defaultColorFeedbackWarning: ${unsafeCSS(colorFeedbackWarning)};
-      --defaultColorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
+      --colorFeedbackPositive: ${unsafeCSS(colorFeedbackPositive)};
+      --colorFeedbackWarning: ${unsafeCSS(colorFeedbackWarning)};
+      --colorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
+      --colorFeedbackAlarm: #f68c54;
+      --colorFeedbackInformation: #0097e0;
+
       display: block;
     }
+
     :host([variant="toast"]) {
       width: max-content;
     }
+
     :host([variant="inline"]) {
       width: 100%;
     }
@@ -226,34 +176,15 @@ export class DaikinNotification
   /**
    * Call the event registered in "close"
    */
-  onClickClose() {
+  private _handleClickClose() {
     const event = new CustomEvent(EVENT_CLOSE);
     this.open = false;
     this.dispatchEvent(event);
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    const tailwind = new CSSStyleSheet();
-    tailwind.replace(tailwindStyles);
-
-    const notificationStyles = new CSSStyleSheet();
-    notificationStyles.replaceSync(styles);
-
-    const defaultsVariables = new CSSStyleSheet();
-    defaultsVariables.replaceSync(DaikinNotification.styles.cssText);
-
-    (this.renderRoot as ShadowRoot).adoptedStyleSheets = [
-      tailwind,
-      notificationStyles,
-      defaultsVariables,
-    ];
-  }
-
   render() {
     return this.open
-      ? html`<div
+      ? html`<aside
           class="${notificationContainerClassName({
             variant: this.variant,
             status: this.status,
@@ -270,16 +201,16 @@ export class DaikinNotification
               })}
             ></span>
           </div>
-          <div class="${notificationContentsContainerClassName}">
+          <div class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]">
             <div
-              class="${notificationTextAreaClassName({
+              class="${notificationContentClassName({
                 line: this.line,
               })}"
             >
               ${this.title &&
-              html`<p class="text-[18px] font-bold flex-none">
+              html`<header class="text-[18px] font-bold flex-none">
                 ${this.title}
-              </p>`}
+              </header>`}
               <p class="text-[18px] flex-none">${this.description}</p>
             </div>
             ${this.closeButton
@@ -287,14 +218,14 @@ export class DaikinNotification
                   <div class="flex items-center gap-5">
                     <button
                       aria-label="Close"
-                      @click=${() => this.onClickClose()}
-                      class=${notificationCloseButton}
+                      class="relative flex w-5 h-5 text-daikinNeutral-500 i-daikin-notification-close"
+                      @click=${() => this._handleClickClose()}
                     ></button>
                   </div>
                 `
               : null}
           </div>
-        </div>`
+        </aside>`
       : null;
   }
 }

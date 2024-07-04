@@ -2,8 +2,7 @@ import type { DaikinCheckbox } from "#package/components/checkbox/daikin-checkbo
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export interface DaikinCheckboxStoryArgs
-  extends Required<ElementProps<DaikinCheckbox>> {}
+export type DaikinCheckboxStoryArgs = Required<ElementProps<DaikinCheckbox>>;
 
 export const DAIKIN_CHECKBOX_ARG_TYPES = {
   size: {
