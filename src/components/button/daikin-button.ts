@@ -23,8 +23,8 @@ const buttonCN = cva(
     "tracking-wide",
     "text-wrap",
     "disabled:cursor-default",
-    "h-full",
     "w-full",
+    "h-full",
   ],
   {
     variants: {

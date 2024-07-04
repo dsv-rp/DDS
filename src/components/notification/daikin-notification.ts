@@ -185,15 +185,15 @@ export class DaikinNotification extends LitElement {
   override render() {
     return this.open
       ? html`<aside
-          class="${notificationContainerClassName({
+          class=${notificationContainerClassName({
             variant: this.variant,
             status: this.status,
-          })}"
+          })}
         >
           <div
-            class="${notificationIconContainerClassName({
+            class=${notificationIconContainerClassName({
               status: this.status,
-            })}"
+            })}
           >
             <span
               class=${notificationIconClassName({
@@ -205,9 +205,9 @@ export class DaikinNotification extends LitElement {
             class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]"
           >
             <div
-              class="${notificationContentClassName({
+              class=${notificationContentClassName({
                 line: this.line,
-              })}"
+              })}
             >
               ${this.title &&
               html`<header class="text-[18px] font-bold flex-none">

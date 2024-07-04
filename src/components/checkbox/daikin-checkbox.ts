@@ -41,8 +41,6 @@ const checkboxCN = cva(
     "enabled:checked:bg-daikinBlue-600",
 
     "after:absolute",
-    "after:!w-full",
-    "after:!h-full",
     "after:text-white",
 
     "checked:after:i-daikin-checkbox-checked",
@@ -183,13 +181,13 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     const isIndeterminate = this.checkState === "indeterminate";
 
     const labelText = this.label
-      ? html`<span class="${labelClassName}">${this.label}</span>`
+      ? html`<span class=${labelClassName}>${this.label}</span>`
       : html``;
     const inputTag = html`<input
-      class="${checkboxClassName}"
+      class=${checkboxClassName}
       type="checkbox"
-      name="${this.name}"
-      value="${this.value}"
+      name=${this.name}
+      value=${this.value}
       .indeterminate=${isIndeterminate}
       .checked=${isChecked}
       ?readonly=${this.readonly}
@@ -197,12 +195,12 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
       @click=${(e: PointerEvent) => this._handleClick(e)}
       @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
     />`;
-    const inputArea =
+    const content =
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
     return html`<label class="inline-flex gap-[10px] items-center"
-      >${inputArea}</label
+      >${content}</label
     >`;
   }
 }
