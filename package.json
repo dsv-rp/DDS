@@ -38,6 +38,7 @@
     "lint:lit": "lit-analyzer --strict --rules.no-missing-import off src",
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:ls",
+    "lint-fix": "eslint --fix && prettier -w .",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction-react": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",
