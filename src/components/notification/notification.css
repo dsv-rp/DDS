@@ -1,65 +1,62 @@
 .notification {
-    font-family: var(--fontFamilyBase);
+  font-family: var(--fontFamilyBase);
 }
 
 .notification-container-toast {
-    box-shadow: 0px -2px 19px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px -2px 19px 0px rgba(0, 0, 0, 0.1);
 }
 
 .notification-container-positive {
-    border-color: var(
-        --colorFeedbackPositive,
-        var(--defaultColorFeedbackPositive)
-    );
+  border-color: var(
+    --colorFeedbackPositive,
+    var(--defaultColorFeedbackPositive)
+  );
 }
 
 .notification-container-negative {
-    border-color: var(
-        --colorFeedbackNegative,
-        var(--defaultColorFeedbackNegative)
-    );
+  border-color: var(
+    --colorFeedbackNegative,
+    var(--defaultColorFeedbackNegative)
+  );
 }
 
 .notification-container-warning {
-    border-color: var(
-        --colorFeedbackWarning,
-        var(--defaultColorFeedbackWarning)
-    );
+  border-color: var(--colorFeedbackWarning, var(--defaultColorFeedbackWarning));
 }
 
 .notification-container-alarm {
-    border-color: #f68c54;
+  border-color: #f68c54;
 }
 
 .notification-container-information {
-    border-color: #0097e0;
+  border-color: #0097e0;
 }
 
 .notification-icon-positive {
-    background-color: var(
-        --colorFeedbackPositive,
-        var(--defaultColorFeedbackPositive)
-    );
+  background-color: var(
+    --colorFeedbackPositive,
+    var(--defaultColorFeedbackPositive)
+  );
 }
 
 .notification-icon-negative {
-    background-color: var(
-        --colorFeedbackNegative,
-        var(--defaultColorFeedbackNegative)
-    );
+  background-color: var(
+    --colorFeedbackNegative,
+    var(--defaultColorFeedbackNegative)
+  );
 }
 
 .notification-icon-warning {
-    background-color: var(
-        --colorFeedbackWarning,
-        var(--defaultColorFeedbackWarning)
-    );
+  background-color: var(
+    --colorFeedbackWarning,
+    var(--defaultColorFeedbackWarning)
+  );
 }
 
 .notification-icon-alarm {
-    background-color: #f68c54;
+  background-color: #f68c54;
 }
 
 .notification-icon-information {
-    background-color: #0097e0;
+  background-color: #0097e0;
 }

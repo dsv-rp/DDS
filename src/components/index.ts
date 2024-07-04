@@ -1,3 +1,3 @@
-import './button/index';
-import './notification/index';
-import './checkbox/index'
+import "./button/index";
+import "./checkbox/index";
+import "./notification/index";
