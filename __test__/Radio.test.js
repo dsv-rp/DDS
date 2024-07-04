@@ -1,97 +1,83 @@
 describe("Radio", () => {
-  const getPageURL = (size, label, labelPosition, checked) =>
-    `http://localhost:6006/iframe.html?viewMode=story&id=components-radio--small&args=size:${size};label:${label};labelPosition:${labelPosition};checked:!${checked}`;
+  const getPageURL = (size, label, labelPosition, checked, state) =>
+    `http://localhost:6006/iframe.html?viewMode=story&id=components-radio--small&args=size:${size};label:${label};labelPosition:${labelPosition};checked:!${checked};${state == "disabled" ? "disabled:!true" : ""}`;
   // vision test
   describe.each(["small", "large"])("%s", (size) => {
     describe.each(["left", "right"])("%s", (labelPosition) => {
-      describe.each([false, true])("%s", (checked) => {
-        const baseURL = getPageURL(size, "test label", labelPosition, checked);
+      describe.each(["checked", "unchecked"])("%s", (checked) => {
+        describe.each(["enabled", "disabled"])("%s", (state) => {
+          const baseURL = getPageURL(
+            size,
+            "test label",
+            labelPosition,
+            checked === "checked",
+            state
+          );
 
-        it("enable", async () => {
-          await page.goto(baseURL);
+          it("enable", async () => {
+            await page.goto(baseURL);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-radio", {
-            visible: true,
+            // wait for element to be visible
+            const element = await page.waitForSelector("daikin-radio", {
+              visible: true,
+            });
+
+            // take screenshot and check for diffs
+            const image = await element.screenshot();
+            expect(image).toMatchImageSnapshot();
           });
 
-          // take screenshot and check for diffs
-          const image = await element.screenshot();
-          expect(image).toMatchImageSnapshot();
-        });
+          it("hover", async () => {
+            await page.goto(baseURL);
 
-        it("hover", async () => {
-          await page.goto(baseURL);
+            // wait for element to be visible
+            const element = await page.waitForSelector("daikin-radio", {
+              visible: true,
+            });
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-radio", {
-            visible: true,
+            // hover cursor on the element
+            await element.hover();
+
+            // take screenshot and check for diffs
+            const image = await element.screenshot();
+            expect(image).toMatchImageSnapshot();
           });
 
-          // hover cursor on the element
-          await element.hover();
+          it("press", async () => {
+            await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          const image = await element.screenshot();
-          expect(image).toMatchImageSnapshot();
-        });
+            // wait for element to be visible
+            const element = await page.waitForSelector("daikin-radio", {
+              visible: true,
+            });
 
-        it("press", async () => {
-          await page.goto(baseURL);
+            // hover cursor on the element and hold down mouse radio on the element
+            await element.hover();
+            await page.mouse.down();
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-radio", {
-            visible: true,
+            // take screenshot and check for diffs
+            const image = await element.screenshot();
+            await page.mouse.up();
+            expect(image).toMatchImageSnapshot();
           });
 
-          // hover cursor on the element and hold down mouse radio on the element
-          await element.hover();
-          await page.mouse.down();
+          it("focus", async () => {
+            await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          const image = await element.screenshot();
-          await page.mouse.up();
-          expect(image).toMatchImageSnapshot();
-        });
+            // wait for element to be visible
+            const element = await page.waitForSelector("daikin-radio", {
+              visible: true,
+            });
 
-        it("focus", async () => {
-          await page.goto(baseURL);
+            await page.evaluate((container) => {
+              const radio = container.shadowRoot.querySelector("input");
+              radio.focus();
+            }, element);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-radio", {
-            visible: true,
+            // take screenshot and check for diffs
+            const image = await element.screenshot();
+            expect(image).toMatchImageSnapshot();
           });
-
-          // focus on the element
-          // daikin-radio itself cannot have a focus as it is not a radio element
-          // we have to focus on the internal radio element
-          await page.evaluate((container) => {
-            const radio = container.shadowRoot.querySelector("input");
-            radio.focus();
-          }, element);
-
-          // take screenshot and check for diffs
-          const image = await element.screenshot();
-          expect(image).toMatchImageSnapshot();
-        });
-
-        it("disabled", async () => {
-          // load page with disabled=true
-          await page.goto(`${baseURL};disabled:true`);
-
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-radio", {
-            visible: true,
-          });
-
-          // take screenshot and check for diffs
-          const image = await element.screenshot();
-          expect(image).toMatchImageSnapshot();
-        });
-
-        it("error", async () => {
-          // load page with disabled=true
-          expect(true);
         });
       });
     });
