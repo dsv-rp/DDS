@@ -1,25 +1,10 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { OmitNull } from "../../type-utils";
+import type { MergeVariantProps } from "../../type-utils";
 
-const labelCN = cva(
-  ["leading-8", "not-italic", "font-normal", "align-middle"],
-  {
-    variants: {
-      size: {
-        small: ["text-sm"],
-        large: ["text-base"],
-      },
-    },
-    defaultVariants: {
-      size: "small",
-    },
-  }
-);
-
-const checkboxCN = cva(
+const cvaCheckbox = cva(
   [
     "appearance-none",
 
@@ -81,28 +66,30 @@ const checkboxCN = cva(
   }
 );
 
-type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
-type CheckboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
-// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
-type ComponentSize = LabelProps["size"] & CheckboxProps["size"];
+const cvaLabel = cva(
+  ["leading-8", "not-italic", "font-normal", "align-middle"],
+  {
+    variants: {
+      size: {
+        small: ["text-sm"],
+        large: ["text-base"],
+      },
+    },
+    defaultVariants: {
+      size: "small",
+    },
+  }
+);
 
-export interface DaikinCheckboxProps {
-  label: string;
-  size: ComponentSize;
-  disabled: boolean;
-  labelPosition: "left" | "right";
-  readonly: boolean;
-  checkState: "unchecked" | "indeterminate" | "checked";
-  name: string;
-  value: string;
-  error: boolean;
-}
+type CheckboxVariantProps = MergeVariantProps<
+  typeof cvaCheckbox | typeof cvaLabel
+>;
 
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-checkbox")
-export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
+export class DaikinCheckbox extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -127,7 +114,7 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
    * Specify the component size
    */
   @property({ type: String })
-  size: ComponentSize = "small";
+  size: CheckboxVariantProps["size"] = "small";
 
   /**
    * Specify the label position
@@ -174,8 +161,8 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
 
   override render() {
     // Specify the component size
-    const labelClassName = labelCN({ size: this.size });
-    const checkboxClassName = checkboxCN({ size: this.size });
+    const checkboxClassName = cvaCheckbox({ size: this.size });
+    const labelClassName = cvaLabel({ size: this.size });
 
     const isChecked = this.checkState === "checked";
     const isIndeterminate = this.checkState === "indeterminate";

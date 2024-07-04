@@ -5,14 +5,14 @@ import {
   buttonColorBackgroundPrimaryHover,
   buttonColorBackgroundPrimaryPress,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { OmitNull } from "../../type-utils";
+import type { MergeVariantProps } from "../../type-utils";
 
-const buttonCN = cva(
+const cvaButton = cva(
   [
     "inline-flex",
     "justify-center",
@@ -85,7 +85,7 @@ const buttonCN = cva(
   }
 );
 
-type ButtonVariantProps = OmitNull<VariantProps<typeof buttonCN>>;
+type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
 /**
  * Primary UI component for user interaction
@@ -178,7 +178,10 @@ export class DaikinButton extends LitElement {
   isLoading = false;
 
   override render() {
-    const buttonClassName = buttonCN({ intent: this.variant, size: this.size });
+    const buttonClassName = cvaButton({
+      intent: this.variant,
+      size: this.size,
+    });
 
     const content = html`
       <slot name="leftIcon"></slot>

@@ -3,73 +3,14 @@ import {
   colorFeedbackPositive,
   colorFeedbackWarning,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
-import { type VariantProps, cva } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { EVENT_CLOSE } from "../../constants/events";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { OmitNull } from "../../type-utils";
+import type { MergeVariantProps } from "../../type-utils";
 
-const notificationContentClassName = cva(
-  ["flex", "justify-center", "gap-1", "w-fit", "flex-none"],
-  {
-    variants: {
-      line: {
-        single: ["items-center", "flex-row"],
-        multi: ["items-start", "flex-col"],
-      },
-    },
-    defaultVariants: {
-      line: "single",
-    },
-  }
-);
-
-const notificationIconClassName = cva(
-  [
-    "flex",
-    "justify-center",
-    "items-center",
-    "w-[24px]",
-    "h-[24px]",
-    "flex-none",
-    "text-white",
-  ],
-  {
-    variants: {
-      status: {
-        positive: ["i-daikin-notification-status-positive"],
-        negative: ["i-daikin-notification-status-negative"],
-        warning: ["i-daikin-notification-status-warning"],
-        alarm: ["i-daikin-notification-status-alarm"],
-        information: ["i-daikin-notification-status-information"],
-      },
-    },
-    defaultVariants: {
-      status: "positive",
-    },
-  }
-);
-
-const notificationIconContainerClassName = cva(
-  ["flex-none", "flex", "justify-center", "items-center", "w-[44px]"],
-  {
-    variants: {
-      status: {
-        positive: ["bg-[--colorFeedbackPositive]"],
-        negative: ["bg-[--colorFeedbackNegative]"],
-        warning: ["bg-[--colorFeedbackWarning]"],
-        alarm: ["bg-[--colorFeedbackAlarm]"],
-        information: ["bg-[--colorFeedbackInformation]"],
-      },
-    },
-    defaultVariants: {
-      status: "positive",
-    },
-  }
-);
-
-const notificationContainerClassName = cva(
+const cvaContainer = cva(
   ["flex", "box-border", "bg-white", "overflow-hidden", "font-daikinSerif"],
   {
     variants: {
@@ -97,12 +38,71 @@ const notificationContainerClassName = cva(
   }
 );
 
-type NotificationProps = OmitNull<
-  VariantProps<typeof notificationContentClassName>
-> &
-  OmitNull<VariantProps<typeof notificationIconClassName>> &
-  OmitNull<VariantProps<typeof notificationIconContainerClassName>> &
-  OmitNull<VariantProps<typeof notificationContainerClassName>>;
+const cvaIconContainer = cva(
+  ["flex-none", "flex", "justify-center", "items-center", "w-[44px]"],
+  {
+    variants: {
+      status: {
+        positive: ["bg-[--colorFeedbackPositive]"],
+        negative: ["bg-[--colorFeedbackNegative]"],
+        warning: ["bg-[--colorFeedbackWarning]"],
+        alarm: ["bg-[--colorFeedbackAlarm]"],
+        information: ["bg-[--colorFeedbackInformation]"],
+      },
+    },
+    defaultVariants: {
+      status: "positive",
+    },
+  }
+);
+
+const cvaIcon = cva(
+  [
+    "flex",
+    "justify-center",
+    "items-center",
+    "w-[24px]",
+    "h-[24px]",
+    "flex-none",
+    "text-white",
+  ],
+  {
+    variants: {
+      status: {
+        positive: ["i-daikin-notification-status-positive"],
+        negative: ["i-daikin-notification-status-negative"],
+        warning: ["i-daikin-notification-status-warning"],
+        alarm: ["i-daikin-notification-status-alarm"],
+        information: ["i-daikin-notification-status-information"],
+      },
+    },
+    defaultVariants: {
+      status: "positive",
+    },
+  }
+);
+
+const cvaContent = cva(
+  ["flex", "justify-center", "gap-1", "w-fit", "flex-none"],
+  {
+    variants: {
+      line: {
+        single: ["items-center", "flex-row"],
+        multi: ["items-start", "flex-col"],
+      },
+    },
+    defaultVariants: {
+      line: "single",
+    },
+  }
+);
+
+type NotificationVariantProps = MergeVariantProps<
+  | typeof cvaContainer
+  | typeof cvaIconContainer
+  | typeof cvaIcon
+  | typeof cvaContent
+>;
 
 /**
  * Primary UI component for user interaction
@@ -147,19 +147,19 @@ export class DaikinNotification extends LitElement {
    * Type of notification
    */
   @property({ type: String, reflect: true })
-  variant: NotificationProps["variant"] = "toast";
+  variant: NotificationVariantProps["variant"] = "toast";
 
   /**
    * Status of notification
    */
   @property({ type: String })
-  status: NotificationProps["status"] = "positive";
+  status: NotificationVariantProps["status"] = "positive";
 
   /**
    * Display in single or multiple lines
    */
   @property({ type: String })
-  line: NotificationProps["line"] = "single";
+  line: NotificationVariantProps["line"] = "single";
 
   /**
    * Whether the component is open
@@ -185,18 +185,18 @@ export class DaikinNotification extends LitElement {
   override render() {
     return this.open
       ? html`<aside
-          class=${notificationContainerClassName({
+          class=${cvaContainer({
             variant: this.variant,
             status: this.status,
           })}
         >
           <div
-            class=${notificationIconContainerClassName({
+            class=${cvaIconContainer({
               status: this.status,
             })}
           >
             <span
-              class=${notificationIconClassName({
+              class=${cvaIcon({
                 status: this.status,
               })}
             ></span>
@@ -205,7 +205,7 @@ export class DaikinNotification extends LitElement {
             class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]"
           >
             <div
-              class=${notificationContentClassName({
+              class=${cvaContent({
                 line: this.line,
               })}
             >
