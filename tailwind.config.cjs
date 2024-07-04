@@ -19,6 +19,13 @@ module.exports = defineConfig({
     "!**/storybook/**",
     "!**/tests/**",
   ],
+  theme: {
+    extend: {
+      boxShadow: {
+        notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
+      },
+    },
+  },
   plugins: [
     daikinPlugin(),
     iconsPlugin({
