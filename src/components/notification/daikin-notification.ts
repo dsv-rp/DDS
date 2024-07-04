@@ -201,7 +201,9 @@ export class DaikinNotification extends LitElement {
               })}
             ></span>
           </div>
-          <div class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]">
+          <div
+            class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]"
+          >
             <div
               class="${notificationContentClassName({
                 line: this.line,

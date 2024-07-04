@@ -88,6 +88,7 @@ const checkboxCN = cva(
 
 type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
 type CheckboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
+// eslint-disable-next-line @typescript-eslint/no-duplicate-type-constituents
 type ComponentSize = LabelProps["size"] & CheckboxProps["size"];
 
 export interface DaikinCheckboxProps {
@@ -115,7 +116,7 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     }
   `;
 
-  private _handleClick(event: MouseEvent) {
+  private _handleClick(event: PointerEvent) {
     if (this.readonly || this.disabled) {
       event.preventDefault();
     }
@@ -196,7 +197,7 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
       .checked=${isChecked}
       ?readonly=${this.readonly}
       ?disabled=${this.disabled}
-      @click=${this._handleClick}
+      @click=${(e: PointerEvent) => this._handleClick(e)}
       @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
     />`;
     const inputArea =
