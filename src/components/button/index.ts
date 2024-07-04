@@ -1,1 +1,1 @@
-import './daikin-button';
+export { default as DaikinButton } from "./daikin-button";

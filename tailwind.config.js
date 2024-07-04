@@ -1,9 +1,19 @@
+const plugin = require("tailwindcss/plugin");
+
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
 
-/** @type {import('tailwindcss').Config} */
+// @ts-expect-error no type definitions for @daikin-oss/tailwind
 const daikinPlugin = require("@daikin-oss/tailwind");
 
-module.exports = {
+/**
+ * @param {import('tailwindcss').Config} config
+ * @returns {import('tailwindcss').Config}
+ */
+function defineConfig(config) {
+  return config;
+}
+
+module.exports = defineConfig({
   content: ["./src/**/*.ts|js"],
   theme: {
     extend: {},
@@ -13,25 +23,79 @@ module.exports = {
     iconsPlugin({
       collections: {
         daikin: {
-            icons: {
-              "radio-checked": {
-                body: `<svg width="49" height="14" viewBox="0 0 49 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0C3.136 0 0 3.136 0 7C0 10.864 3.136 14 7 14C10.864 14 14 10.864 14 7C14 3.136 10.864 0 7 0ZM7 12.6C3.906 12.6 1.4 10.094 1.4 7C1.4 3.906 3.906 1.4 7 1.4C10.094 1.4 12.6 3.906 12.6 7C12.6 10.094 10.094 12.6 7 12.6ZM7 10.5C8.933 10.5 10.5 8.933 10.5 7C10.5 5.067 8.933 3.5 7 3.5C5.067 3.5 3.5 5.067 3.5 7C3.5 8.933 5.067 10.5 7 10.5Z" fill="currentColor"/>
-                </svg>`,
-                top: -1,
-                left: -1
-              },
-              "radio-unchecked": {
-                body: `<svg width="49" height="14" viewBox="0 0 49 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7C0 3.136 3.136 0 7 0C10.864 0 14 3.136 14 7C14 10.864 10.864 14 7 14C3.136 14 0 10.864 0 7ZM1.4 7C1.4 10.094 3.906 12.6 7 12.6C10.094 12.6 12.6 10.094 12.6 7C12.6 3.906 10.094 1.4 7 1.4C3.906 1.4 1.4 3.906 1.4 7Z" fill="currentColor"/>
-                </svg>
-                `,
-                top: -1,
-                left: -1
-              },
+          icons: {
+            "checkbox-checked": {
+              body: '<path fill-rule="evenodd" clip-rule="evenodd" d="M5 11.21L0 6.21001L1.41 4.80001L5 8.38001L12.59 0.790009L14 2.21001L5 11.21Z" fill="currentColor" />',
+              width: 16,
+              height: 16,
+              left: -1,
+              top: -2,
+            },
+            "checkbox-indeterminate": {
+              body: '<rect width="8" height="2" fill="currentColor" />',
+              width: 16,
+              height: 16,
+              left: -4,
+              top: -7,
+            },
+            "notification-status-positive": {
+              body: '<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" fill="#ffffff" />',
+              width: 24,
+              height: 24,
+            },
+            "notification-status-negative": {
+              body: '<path d="M1 22H23L12 3L1 22ZM13 19H11V17H13V19ZM13 15H11V11H13V15Z" fill="#ffffff" />',
+              width: 24,
+              height: 24,
+            },
+            "notification-status-warning": {
+              body: '<path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM13 17H11V15H13V17ZM13 13H11V7H13V13Z" fill="#ffffff" />',
+              width: 24,
+              height: 24,
+            },
+            "notification-status-alarm": {
+              body: '<path d="M18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16ZM13 16H11V14H13V16ZM13 12H11V8H13V12ZM12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.89 22 12 22Z" fill="#ffffff" />',
+              width: 24,
+              height: 24,
+            },
+            "notification-status-information": {
+              body: '<path d="M12 1.19995C6.03841 1.19995 1.20001 6.03835 1.20001 12C1.20001 17.9615 6.03841 22.7999 12 22.7999C17.9616 22.7999 22.8 17.9615 22.8 12C22.8 6.03835 17.9616 1.19995 12 1.19995ZM13.08 17.4H10.92V10.92H13.08V17.4ZM13.08 8.75995H10.92V6.59995H13.08V8.75995Z" fill="#ffffff" />',
+              width: 24,
+              height: 24,
+            },
+            "notification-close": {
+              body: '<path fill-rule="evenodd" clip-rule="evenodd" d="M16.75 1L10 7.75L3.24887 1L1 3.25112L7.75 10L1 16.75L3.24887 19L10 12.25L16.75 19L19 16.75L12.2489 10L19 3.25112L16.75 1Z" fill="#A0A0A0"/>',
+              width: 20,
+              height: 20,
+            },
+            "radio-checked": {
+              body: `<svg width="49" height="14" viewBox="0 0 49 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0C3.136 0 0 3.136 0 7C0 10.864 3.136 14 7 14C10.864 14 14 10.864 14 7C14 3.136 10.864 0 7 0ZM7 12.6C3.906 12.6 1.4 10.094 1.4 7C1.4 3.906 3.906 1.4 7 1.4C10.094 1.4 12.6 3.906 12.6 7C12.6 10.094 10.094 12.6 7 12.6ZM7 10.5C8.933 10.5 10.5 8.933 10.5 7C10.5 5.067 8.933 3.5 7 3.5C5.067 3.5 3.5 5.067 3.5 7C3.5 8.933 5.067 10.5 7 10.5Z" fill="currentColor"/>
+              </svg>`,
+              top: -1,
+              left: -1,
+            },
+            "radio-unchecked": {
+              body: `<svg width="49" height="14" viewBox="0 0 49 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M0 7C0 3.136 3.136 0 7 0C10.864 0 14 3.136 14 7C14 10.864 10.864 14 7 14C3.136 14 0 10.864 0 7ZM1.4 7C1.4 10.094 3.906 12.6 7 12.6C10.094 12.6 12.6 10.094 12.6 7C12.6 3.906 10.094 1.4 7 1.4C3.906 1.4 1.4 3.906 1.4 7Z" fill="currentColor"/>
+              </svg>
+              `,
+              top: -1,
+              left: -1,
             },
           },
+        },
       },
     }),
+    plugin(({ addUtilities }) => {
+      addUtilities({
+        ".text-wrap": {
+          // https://ics.media/entry/240411/
+          "overflow-wrap": "anywhere",
+          "word-break": "normal",
+          "line-break": "strict",
+        },
+      });
+    }),
   ],
-};
+});
