@@ -33,7 +33,25 @@ const textInputBase = ctl(`
   rounded-[6px]
   font-daikinSerif
   placeholder:text-daikinNeutral-200
+
+  hover:outline
+  hover:outline-2
+  hover:outline-[--button-color-background-primary-hover]
+  active:outline
+  active:outline-2
+  active:outline-[--button-color-background-secondary-hover]
+  focus-visible:outline
+  focus-visible:outline-2
+  focus-visible:outline-[--button-color-background-secondary-hover]
+  disabled:text-[--button-color-background-primary-disabled]
+  disabled:bg-[--input-field-color-background]
+  disabled:border-[--button-color-background-primary-disabled]
   `);
+
+const textInputError = ctl(`
+    bg-daikinRed-50
+    border-[--color-feedback-negative]
+    `);
 
 /**
  * Primary UI component for user interaction
@@ -44,28 +62,17 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
         ${unsafeCSS(tailwindStyles)}
 
         :host {
+            --color-feedback-negative: ${unsafeCSS(colorFeedbackNegative)};
+            --button-color-background-primary-hover: ${unsafeCSS(
+                buttonColorBackgroundPrimaryHover,
+            )};
+            --button-color-background-primary-disabled: ${unsafeCSS(
+                buttonColorBackgroundPrimaryDisabled,
+            )};
+            --button-color-background-secondary-hover: ${unsafeCSS('#CECECE')};
+            --input-field-color-background: ${unsafeCSS('#FFFFFF')};
             display: block;
             width: max-content;
-        }
-        .text-input:hover {
-            outline: 2px solid;
-            outline-color: ${unsafeCSS(buttonColorBackgroundPrimaryHover)};
-        }
-        .text-input:active {
-            outline: 2px solid;
-            outline-color: ${unsafeCSS('#CECECE')};
-        }
-        .text-input:focus-visible {
-            outline: 2px solid;
-            outline-color: ${unsafeCSS('#CECECE')};
-        }
-        .text-input:disabled {
-            color: ${unsafeCSS(buttonColorBackgroundPrimaryDisabled)};
-            background: ${unsafeCSS('#FFFFFF')};
-            border-color: ${unsafeCSS(buttonColorBackgroundPrimaryDisabled)};
-        }
-        .text-input-error {
-            border-color: ${unsafeCSS(colorFeedbackNegative)};
         }
     `;
 
@@ -127,7 +134,7 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
         const textInputInputClassName = [
             'text-input',
             textInputBase,
-            this.error ? 'text-input-error bg-daikinRed-50' : '',
+            this.error ? textInputError : '',
         ].join(' ');
 
         return html`<input
