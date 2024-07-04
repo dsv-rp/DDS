@@ -109,7 +109,7 @@ type NotificationProps = OmitNull<
  */
 @customElement("daikin-notification")
 export class DaikinNotification extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
@@ -135,7 +135,7 @@ export class DaikinNotification extends LitElement {
    * Title text
    */
   @property({ type: String })
-  title = "";
+  override title = "";
 
   /**
    * Description text
@@ -182,7 +182,7 @@ export class DaikinNotification extends LitElement {
     this.dispatchEvent(event);
   }
 
-  render() {
+  override render() {
     return this.open
       ? html`<aside
           class="${notificationContainerClassName({

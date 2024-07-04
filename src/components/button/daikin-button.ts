@@ -86,7 +86,7 @@ type ButtonVariantProps = OmitNull<VariantProps<typeof buttonCN>>;
  */
 @customElement("daikin-button")
 export class DaikinButton extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
     ${unsafeCSS(styles)}
 
@@ -164,7 +164,7 @@ export class DaikinButton extends LitElement {
    * Specify the button role.
    */
   @property({ type: String, reflect: true })
-  role: ARIARole = "button";
+  override role: ARIARole = "button";
 
   /**
    * Specify whether the button is loading.
@@ -172,7 +172,7 @@ export class DaikinButton extends LitElement {
   @property({ type: Boolean })
   isLoading = false;
 
-  render() {
+  override render() {
     const buttonClassName = buttonCN({ intent: this.variant, size: this.size });
 
     const content = html`

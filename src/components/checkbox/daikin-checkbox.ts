@@ -108,7 +108,7 @@ export interface DaikinCheckboxProps {
  */
 @customElement("daikin-checkbox")
 export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
-  static styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
@@ -177,7 +177,7 @@ export class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   @property({ type: Boolean, reflect: true })
   error = false;
 
-  render() {
+  override render() {
     // Specify the component size
     const labelClassName = labelCN({ size: this.size });
     const checkboxClassName = checkboxCN({ size: this.size });
