@@ -22,6 +22,7 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   wcConfig["flat/recommended"],
+  wcConfig["flat/best-practice"],
   litConfig["flat/recommended"],
   litA11yConfigFlatRecommended,
   {
