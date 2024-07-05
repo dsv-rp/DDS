@@ -1,29 +1,27 @@
 import type { StorybookConfig } from "@storybook/react-vite";
-import { dirname, join } from "path";
+import { env } from "node:process";
+import { getAllStorybookFiles, STORYBOOK_ADDONS } from "../main-common";
 
-/**
- * This function is used to resolve the absolute path of a package.
- * It is needed in projects that use Yarn PnP or are set up within a monorepo.
- */
-function getAbsolutePath(value: string): any {
-  return dirname(require.resolve(join(value, "package.json")));
-}
+env.STORYBOOK_FW = "react";
+
 const config: StorybookConfig = {
-  stories: ["../../src/**/*-react.stories.@(js|jsx|mjs|ts|tsx|mdx)"],
-  addons: [
-    getAbsolutePath("@storybook/addon-links"),
-    getAbsolutePath("@storybook/addon-essentials"),
-    getAbsolutePath("@storybook/addon-a11y"),
-  ],
+  stories: getAllStorybookFiles("react"),
+  addons: STORYBOOK_ADDONS,
   core: {
     builder: "@storybook/builder-vite",
   },
   framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
-    options: {},
+    name: "@storybook/react-vite",
+    options: {
+      builder: {
+        viteConfigPath: "vite.config.storybook.ts",
+      },
+    },
   },
-  docs: {
-    autodocs: "tag",
+  typescript: {
+    // "react-docgen" (not "react-docgen-typescript") has interoperability issue with lit's decorators
+    reactDocgen: "react-docgen-typescript",
   },
 };
+
 export default config;

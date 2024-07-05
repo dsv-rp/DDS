@@ -1,0 +1,14 @@
+{
+  // TSConfig for the test codes
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "paths": {
+      "#package/components/*": ["./src/components/*"],
+      "#storybook": ["./src/storybook"],
+      "#tests/visual": ["./src/tests/visual"]
+    }
+  },
+  "include": ["src"],
+  // The test codes can reference both the main codes and the storybook codes.
+  "exclude": []
+}

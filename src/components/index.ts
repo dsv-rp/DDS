@@ -1,3 +1,3 @@
-import "./button/index";
-import "./checkbox/index";
-import "./notification/index";
+export * from "./button";
+export * from "./checkbox";
+export * from "./notification";
