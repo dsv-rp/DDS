@@ -138,7 +138,9 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   render() {
     const textInputInputClassName = [
       textInputBase,
-      this.error ? textInputError : "border-daikinNeutral-600",
+      !this.disabled && this.error
+        ? textInputError
+        : "border-daikinNeutral-600",
     ].join(" ");
 
     this._internals.setFormValue(this.value);
