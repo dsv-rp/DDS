@@ -122,7 +122,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     }
   }
 
-  static formAssociated = true;
+  static readonly formAssociated = true;
 
   // define internals to let checkbox can be used in form
   @property({ type: Object })
@@ -134,11 +134,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   }
 
   private _updateFormValue() {
-    if (this.checked) {
-      this.internals.setFormValue(this.value);
-    } else {
-      this.internals.setFormValue(null);
-    }
+    this.internals.setFormValue(this.checked ? this.value : null);
   }
 
   updated(changedProperties: Map<string, any>) {
@@ -152,11 +148,13 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   }
 
   private _handleChange(event: Event) {
-    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
+    const input = this.shadowRoot?.querySelector("input");
+    if (!input) {
+      return;
+    }
     this.checkState = input.checked ? "checked" : "unchecked";
     this._updateFormValue();
-    const newEvent = new Event("change", event);
-    this.dispatchEvent(newEvent);
+    this.dispatchEvent(new Event("change", event));
   }
 
   /**
@@ -233,8 +231,8 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
       .checked=${this.checked}
       ?readonly=${this.readonly}
       ?disabled=${this.disabled}
-      @click=${this._handleClick}
-      @change=${this._handleChange}
+      @click=${this._handleClick.bind(this)}
+      @change=${this._handleChange.bind(this)}
     />`;
     const inputArea =
       this.labelPosition === "left"
