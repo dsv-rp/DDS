@@ -1,9 +1,14 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 
 import ctl from "@netlify/classnames-template-literals";
 import tailwindStyles from "../../tailwind.css";
+import DaikinTextInput from "../text-input/daikin-text-input";
 
 const inputGroupContainer = ctl(`
   flex
@@ -84,15 +89,16 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   @property({ type: String, reflect: true })
   error = "";
 
+  @queryAssignedElements({ selector: "daikin-text-input" })
+  _textInputs: DaikinTextInput[];
+
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
   }
 
   private _reflectSlotProperties(): void {
-    const inputs = [...this.getElementsByTagName("daikin-text-input")];
-
     const isError = !this.disabled && !!this.error;
-    for (const input of inputs) {
+    for (const input of this._textInputs) {
       input.disabled = this.disabled;
       input.error = isError;
     }
