@@ -20,8 +20,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "npm"
+          node-version: 20
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -64,8 +64,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
-          cache: "npm"
+          node-version: 20
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -83,8 +83,8 @@ jobs:
       - name: Visual Regression Test
         run: npm run test:visual-${{ matrix.framework }}
         env:
-          STORYBOOK_ENV: ${{ matrix.env }}
           PLAYWRIGHT_NO_CONTAINER: 1
+          STORYBOOK_ENV: ${{ matrix.env }}
 
       - name: Upload VRT Results
         uses: actions/upload-artifact@v4
