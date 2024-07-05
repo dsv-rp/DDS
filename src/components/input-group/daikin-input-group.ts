@@ -111,7 +111,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
       this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
     ].join(" ");
 
-    return html`<fieldset ?disabled="${this.disabled}" class="w-max">
+    return html`<fieldset ?disabled="${this.disabled}" class="content">
       <label class="${inputGroupContainer}">
         ${!!this.label
           ? html`<span class="${inputGroupLabelClassName}">${this.label}</span>`
