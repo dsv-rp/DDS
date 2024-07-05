@@ -2,7 +2,8 @@ import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../text-input/daikin-text-input.ts";
+import "../../text-input";
+import "../../textarea";
 import "../daikin-input-group.ts";
 import type { DaikinInputGroupStoryArgs } from "./common.ts";
 
@@ -17,10 +18,21 @@ const meta = {
       ?required=${args.required}
       error=${ifDefined(args.error)}
     >
-      <daikin-text-input value="Value"></daikin-text-input>
+      ${args.input === "Text Input"
+        ? html`<daikin-text-input value="Value"></daikin-text-input>`
+        : null}
+      ${args.input === "Textarea"
+        ? html`<daikin-textarea value="Value"></daikin-textarea>`
+        : null}
     </daikin-input-group>
   `,
   argTypes: {
+    input: {
+      description:
+        "[slot] Components that the Input Group is expected to take.",
+      control: { type: "select" },
+      options: ["Text Input", "Textarea"],
+    },
     label: {
       description: "Label text to place at the top of the field",
       type: "string",

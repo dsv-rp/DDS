@@ -3,11 +3,13 @@ import React from "react";
 
 import "../../text-input";
 import { ReactDaikinTextInput } from "../../text-input/stories/react";
+import { ReactDaikinTextarea } from "../../textarea/stories/react";
 import "../daikin-input-group";
 import { DaikinInputGroupStoryArgs } from "./common";
 import { ReactDaikinInputGroup } from "./react";
 
 const InputGroup: React.FC<DaikinInputGroupStoryArgs> = ({
+  input,
   label,
   helper,
   disabled,
@@ -22,7 +24,8 @@ const InputGroup: React.FC<DaikinInputGroupStoryArgs> = ({
       required={required}
       error={error}
     >
-      <ReactDaikinTextInput value="Value" />
+      {input === "Text Input" && <ReactDaikinTextInput value="Value" />}
+      {input === "Textarea" && <ReactDaikinTextarea />}
     </ReactDaikinInputGroup>
   );
 };
@@ -32,6 +35,12 @@ const meta = {
   tags: ["autodocs"],
   component: InputGroup,
   argTypes: {
+    input: {
+      description:
+        "[slot] Components that the Input Group is expected to take.",
+      control: { type: "select" },
+      options: ["Text Input", "Textarea"],
+    },
     label: {
       description: "Label text to place at the top of the field",
       type: "string",

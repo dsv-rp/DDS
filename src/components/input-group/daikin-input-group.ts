@@ -85,7 +85,10 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   error = "";
 
   private _handleSlotChange(): void {
-    const inputs = [...this.getElementsByTagName("daikin-text-input")];
+    const inputs = [
+      ...this.getElementsByTagName("daikin-text-input"),
+      ...this.getElementsByTagName("daikin-textarea"),
+    ];
 
     const isError = !this.disabled && !!this.error;
     for (const input of inputs) {
@@ -95,7 +98,10 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   }
 
   private _reflectSlotProperties(): void {
-    const inputs = [...this.getElementsByTagName("daikin-text-input")];
+    const inputs = [
+      ...this.getElementsByTagName("daikin-text-input"),
+      ...this.getElementsByTagName("daikin-textarea"),
+    ];
 
     const isError = !this.disabled && !!this.error;
     for (const input of inputs) {
@@ -116,6 +122,13 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
       "text-xs",
       this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
     ].join(" ");
+
+    const textarea = [...this.getElementsByTagName("daikin-textarea")];
+    if (textarea.length > 0) {
+      for (const item of textarea) {
+        item.counter = true;
+      }
+    }
 
     return html`<fieldset ?disabled="${this.disabled}" class="w-max">
       <label class="${inputGroupContainer}">
