@@ -36,7 +36,7 @@
     "storybook:preview-wc": "http-server -c-1 -d false --no-dotfiles -p 6106 storybook-static/web-components",
     "storybook:preview-react": "http-server -c-1 -d false --no-dotfiles -p 6107 -o storybook-static/react",
     "lint:code": "eslint && prettier -c .",
-    "lint:cspell": "cspell .",
+    "lint:cspell": "cspell --no-progress .",
     "lint:lit": "lit-analyzer --strict --rules.no-missing-import off src",
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
