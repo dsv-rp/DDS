@@ -43,7 +43,7 @@ jobs:
           STORYBOOK_ENV=production npm run test:interaction
 
   # VRT is separated since it's time consuming.
-  visual-regression-test:
+  visual-regression:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.45.1-jammy
