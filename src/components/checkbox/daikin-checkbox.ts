@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css";
 import type { OmitNull } from "../../typeUtils";
 
-const labelCN = cva(
+const cvaLabel = cva(
   ["leading-8", "not-italic", "font-normal", "align-middle"],
   {
     variants: {
@@ -14,13 +14,10 @@ const labelCN = cva(
         large: ["text-base"],
       },
     },
-    defaultVariants: {
-      size: "small",
-    },
   }
 );
 
-const checkboxCN = cva(
+const cvaCheckbox = cva(
   [
     "appearance-none",
 
@@ -81,14 +78,11 @@ const checkboxCN = cva(
         large: ["w-5", "h-5"],
       },
     },
-    defaultVariants: {
-      size: "small",
-    },
   }
 );
 
-type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
-type CheckboxProps = OmitNull<VariantProps<typeof checkboxCN>>;
+type LabelProps = OmitNull<VariantProps<typeof cvaLabel>>;
+type CheckboxProps = OmitNull<VariantProps<typeof cvaCheckbox>>;
 type ComponentSize = LabelProps["size"] & CheckboxProps["size"];
 
 export interface DaikinCheckboxProps {
@@ -216,8 +210,8 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
 
   render() {
     // Specify the component size
-    const labelClassName = labelCN({ size: this.size });
-    const checkboxClassName = checkboxCN({ size: this.size });
+    const labelClassName = cvaLabel({ size: this.size });
+    const checkboxClassName = cvaCheckbox({ size: this.size });
 
     const isIndeterminate = this.checkState === "indeterminate";
 
