@@ -1,14 +1,14 @@
-import React from 'react';
-import { createComponent } from '@lit/react';
-import DaikinTextInput from '../daikin-text-input';
+import { createComponent } from "@lit/react";
+import React from "react";
+import DaikinTextInput from "../daikin-text-input";
 
 export const ReactDaikinTextInput = createComponent({
-    tagName: 'daikin-text-input',
-    elementClass: DaikinTextInput,
-    react: React,
-    events: {
-        change: 'change',
-        input: 'input',
-        keydown: 'keydown',
-    },
+  tagName: "daikin-text-input",
+  elementClass: DaikinTextInput,
+  react: React,
+  events: {
+    onChange: "change",
+    onInput: "input",
+    onKeydown: "keydown",
+  },
 });

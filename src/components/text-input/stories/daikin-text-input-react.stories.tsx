@@ -27,9 +27,9 @@ const TextInput: React.FC<DaikinTextInputStoryArgs> = ({
       maxlength={maxlength}
       autocomplete={autocomplete}
       error={error}
-      change={action("change")}
-      input={action("input")}
-      keydown={action("keydown")}
+      onChange={action("change")}
+      onInput={action("input")}
+      onKeydown={action("keydown")}
     />
   );
 };
