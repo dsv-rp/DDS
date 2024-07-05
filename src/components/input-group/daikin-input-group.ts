@@ -22,7 +22,7 @@ const inputGroupContainer = ctl(`
 const inputGroupError = ctl(`
   flex
   gap-2
-  color-[--input-group-border-color-error]
+  text-[--input-group-border-color-error]
   leading-[22px]
   
   before:i-daikin-input-group-error
