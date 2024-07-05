@@ -112,11 +112,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
   }
 
   private _updateFormValue() {
-    if (this.checked) {
-      this.internals.setFormValue(this.value);
-    } else {
-      this.internals.setFormValue(null);
-    }
+    this.internals.setFormValue(this.checked ? this.value : null);
   }
 
   updated(changedProperties: Map<string, any>) {
@@ -201,11 +197,12 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
         type="radio"
         name="${this.name}"
         value="${this.value}"
+        aria-readonly=${this.readonly}
         ?checked=${this.checked}
         ?readonly=${this.readonly}
         ?disabled=${this.disabled}
-        @click=${this._handleClick}
-        @change=${this._handleChange}
+        @click=${this._handleClick.bind(this)}
+        @change=${this._handleChange.bind(this)}
       /><span class="${radioClassName}"></span>`;
     const inputArea =
       this.labelPosition === "left"
