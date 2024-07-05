@@ -1,16 +1,9 @@
-import ctl from "@netlify/classnames-template-literals";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { cva, type VariantProps } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css";
 import type { OmitNull } from "../../typeUtils";
-
-const hideRadioCN = ctl(`
-  opacity-0
-  absolute
-  peer
-`);
 
 const labelCN = cva(
   ["leading-8", "not-italic", "font-normal", "align-middle"],
@@ -29,28 +22,30 @@ const labelCN = cva(
 
 const radioCN = cva(
   [
+    "appearance-none",
     "relative",
     "after:absolute",
     "after:!w-full",
     "after:!h-full",
     "after:i-daikin-radio-unchecked",
     "after:text-[#8C8C8C]",
-    "peer-checked:after:i-daikin-radio-checked",
-    "peer-checked:after:text-daikinBlue-500",
+    "checked:after:i-daikin-radio-checked",
+    "checked:after:text-daikinBlue-500",
 
-    "peer-hover:after:i-daikin-radio-checked",
-    "peer-hover:after:text-daikinBlue-300",
+    "aria-controllable:hover:after:i-daikin-radio-checked",
+    "aria-controllable:hover:after:text-daikinBlue-300",
 
-    "peer-active:after:i-daikin-radio-checked",
-    "peer-active:after:text-daikinBlue-500",
+    "aria-controllable:active:after:i-daikin-radio-checked",
+    "aria-controllable:active:after:text-daikinBlue-500",
 
-    "peer-focus-visible:after:i-daikin-radio-unchecked",
-    "peer-focus-visible:peer-checked:after:i-daikin-radio-checked",
-    "peer-focus-visible:after:text-daikinBlue-700",
+    "focus-visible:outline-none",
+    "aria-controllable:focus-visible:after:i-daikin-radio-unchecked",
+    "aria-controllable:focus-visible:checked:after:i-daikin-radio-checked",
+    "aria-controllable:focus-visible:after:text-daikinBlue-700",
 
-    "peer-disabled:after:i-daikin-radio-unchecked",
-    "peer-disabled:peer-checked:after:i-daikin-radio-checked",
-    "peer-disabled:after:text-daikinNeutral-200",
+    "disabled:after:i-daikin-radio-unchecked",
+    "disabled:checked:after:i-daikin-radio-checked",
+    "disabled:after:!text-daikinNeutral-200",
   ],
   {
     variants: {
@@ -193,17 +188,17 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
       ? html`<span class="${labelClassName}">${this.label}</span>`
       : html``;
     const inputTag = html`<input
-        class="${hideRadioCN}"
-        type="radio"
-        name="${this.name}"
-        value="${this.value}"
-        aria-readonly=${this.readonly}
-        ?checked=${this.checked}
-        ?readonly=${this.readonly}
-        ?disabled=${this.disabled}
-        @click=${this._handleClick.bind(this)}
-        @change=${this._handleChange.bind(this)}
-      /><span class="${radioClassName}"></span>`;
+      class="${radioClassName}"
+      type="radio"
+      name="${this.name}"
+      value="${this.value}"
+      aria-readonly=${this.readonly}
+      ?checked=${this.checked}
+      ?readonly=${this.readonly}
+      ?disabled=${this.disabled}
+      @click=${this._handleClick.bind(this)}
+      @change=${this._handleChange.bind(this)}
+    />`;
     const inputArea =
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`

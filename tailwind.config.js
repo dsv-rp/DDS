@@ -86,7 +86,7 @@ module.exports = defineConfig({
         },
       },
     }),
-    plugin(({ addUtilities }) => {
+    plugin(({ addUtilities, addVariant }) => {
       addUtilities({
         ".text-wrap": {
           // https://ics.media/entry/240411/
@@ -95,6 +95,10 @@ module.exports = defineConfig({
           "line-break": "strict",
         },
       });
+      addVariant("aria-controllable", [
+        // We don't know why, but `:read-only` was applied to checkboxes with and without `readonly` attribute, so we use `aria-readonly` instead.
+        '&:enabled:not([aria-readonly="true"])',
+      ]);
     }),
   ],
 });
