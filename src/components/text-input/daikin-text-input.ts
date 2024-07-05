@@ -66,7 +66,7 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
     }
   `;
 
-  static formAssociated = true;
+  static readonly formAssociated = true;
 
   @state()
   private _internals: ElementInternals;
