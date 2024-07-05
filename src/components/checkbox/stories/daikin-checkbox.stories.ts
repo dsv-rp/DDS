@@ -105,5 +105,6 @@ export const Readonly: Story = {
     onChange: fn(),
     onClick: fn(),
   },
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
   play: Disabled.play!,
 };

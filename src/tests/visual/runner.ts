@@ -15,7 +15,7 @@ export function describeEach<T>(
   ...args: [(item: T) => void] | [(item: T) => string, (item: T) => void]
 ) {
   const [callback, titleFormatter] = (
-    args.length === 1 ? [args[0], String] : [args[1], args[0] ?? String]
+    args.length === 1 ? [args[0], String] : [args[1], args[0]]
   ) as [(item: T) => void, (item: T) => string];
 
   for (const item of items) {

@@ -3,10 +3,10 @@ import { getStoryContext, type TestRunnerConfig } from "@storybook/test-runner";
 import { stdout } from "node:process";
 import pc from "picocolors";
 
-export type A11yConfig = {
+export interface A11yConfig {
   disable?: boolean;
   configure?: (axeBuilder: AxeBuilder) => void | Promise<void>;
-};
+}
 
 type StoryContextForEnhancers = Awaited<ReturnType<typeof getStoryContext>>;
 type AxeResults = Awaited<ReturnType<AxeBuilder["analyze"]>>;
@@ -72,7 +72,7 @@ function outputA11yResults(
 const config: TestRunnerConfig = {
   async postVisit(page, context) {
     const storyContext = await getStoryContext(page, context);
-    const a11yConfig = storyContext.parameters?.a11y as A11yConfig | undefined;
+    const a11yConfig = storyContext.parameters.a11y as A11yConfig | undefined;
 
     // Skip a11y test if disabled
     if (a11yConfig?.disable) {

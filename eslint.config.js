@@ -21,18 +21,34 @@ const litA11yConfigFlatRecommended = {
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.strictTypeChecked,
   wcConfig["flat/recommended"],
   wcConfig["flat/best-practice"],
   litConfig["flat/recommended"],
   litA11yConfigFlatRecommended,
+  { rules: prettierRules },
   {
     languageOptions: {
       parserOptions: {
         projectService: true,
       },
     },
+    rules: {
+      "@typescript-eslint/no-confusing-void-expression": [
+        "error",
+        {
+          ignoreArrowShorthand: true,
+        },
+      ],
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        {
+          allowBoolean: true,
+          allowNumber: true,
+        },
+      ],
+    },
   },
-  { rules: prettierRules },
   {
     files: ["**/*.cjs"],
     languageOptions: {
