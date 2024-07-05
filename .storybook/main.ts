@@ -1,16 +1,12 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
 import { env } from "node:process";
-import { getAllStorybookFiles } from "./main-common";
+import { getAllStorybookFiles, STORYBOOK_ADDONS } from "./main-common";
 
 env.STORYBOOK_FW = "web-components";
 
 const config: StorybookConfig = {
   stories: getAllStorybookFiles("web-components"),
-  addons: [
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
-    "@storybook/addon-links",
-  ],
+  addons: STORYBOOK_ADDONS,
   core: {
     builder: "@storybook/builder-vite",
   },

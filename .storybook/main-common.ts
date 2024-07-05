@@ -1,6 +1,14 @@
+import type { StorybookConfig } from "@storybook/web-components-vite";
 import fg from "fast-glob";
 import { fileURLToPath } from "node:url";
 import type { StorybookFrameworkName } from "../storybook-env";
+
+export const STORYBOOK_ADDONS: StorybookConfig["addons"] = [
+  "@storybook/addon-a11y",
+  "@storybook/addon-essentials",
+  "@storybook/addon-interactions",
+  "@storybook/addon-links",
+];
 
 const GLOB_DIR = "../src";
 const GLOB_PATTERNS: readonly string[] = ["**/*.mdx", "**/*.stories.ts"];
