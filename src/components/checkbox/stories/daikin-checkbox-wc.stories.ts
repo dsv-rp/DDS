@@ -17,6 +17,8 @@ const meta = {
       label=${args.label}
       label-position=${args.labelPosition}
       check-state=${args.checkState}
+      name=${args.name}
+      value=${args.value}
     >
     </daikin-checkbox>
   `,

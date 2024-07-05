@@ -14,6 +14,8 @@ const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({
   labelPosition,
   label,
   checkState,
+  name,
+  value,
 }) => {
   return (
     <ReactDaikinCheckbox
@@ -25,6 +27,8 @@ const Checkbox: React.FC<DaikinCheckboxStoryArgs> = ({
       check-state={checkState}
       onChange={action("checkbox-change")}
       onClick={action("checkbox-click")}
+      name={name}
+      value={value}
     ></ReactDaikinCheckbox>
   );
 };
