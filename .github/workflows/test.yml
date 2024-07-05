@@ -6,7 +6,8 @@ on:
 
 jobs:
   # Linting and Interaction Testing
-  test:
+  # Actually, it is interaction testing and linting, but we are temporarily using this name to merge the PRs.
+  visual-regression:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.45.1-jammy
@@ -43,7 +44,7 @@ jobs:
           STORYBOOK_ENV=production npm run test:interaction
 
   # VRT is separated since it's time consuming.
-  visual-regression:
+  visual-regression-test:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.45.1-jammy
