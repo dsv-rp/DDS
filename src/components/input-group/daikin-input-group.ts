@@ -85,13 +85,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   error = "";
 
   private _handleSlotChange(): void {
-    const inputs = [...this.getElementsByTagName("daikin-text-input")];
-
-    const isError = !this.disabled && !!this.error;
-    for (const input of inputs) {
-      input.disabled = this.disabled;
-      input.error = isError;
-    }
+    this._reflectSlotProperties();
   }
 
   private _reflectSlotProperties(): void {
