@@ -1,5 +1,5 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 
 import { cva, type VariantProps } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css";
@@ -124,17 +124,17 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
 
   static readonly formAssociated = true;
 
-  // define internals to let checkbox can be used in form
+  // define _internals to let checkbox can be used in form
   @property({ type: Object })
-  internals;
+  private _internals;
 
   constructor() {
     super();
-    this.internals = this.attachInternals();
+    this._internals = this.attachInternals();
   }
 
   private _updateFormValue() {
-    this.internals.setFormValue(this.checked ? this.value : null);
+    this._internals.setFormValue(this.checked ? this.value : null);
   }
 
   updated(changedProperties: Map<string, any>) {
@@ -143,16 +143,18 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     }
   }
 
+  @query("input")
+  _input: HTMLInputElement | null | undefined;
+
   get checked() {
     return this.checkState === "checked";
   }
 
   private _handleChange(event: Event) {
-    const input = this.shadowRoot?.querySelector("input");
-    if (!input) {
+    if (!this._input) {
       return;
     }
-    this.checkState = input.checked ? "checked" : "unchecked";
+    this.checkState = this._input.checked ? "checked" : "unchecked";
     this._updateFormValue();
     this.dispatchEvent(new Event("change", event));
   }
