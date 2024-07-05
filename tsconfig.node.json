@@ -16,6 +16,7 @@
     "scripts",
     // These files run on Node.js, not on the browsers.
     ".storybook/**/main.ts",
-    ".storybook/**/middleware.cjs"
+    ".storybook/**/middleware.cjs",
+    ".storybook/**/test-runner.ts"
   ]
 }
