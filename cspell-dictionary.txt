@@ -3,6 +3,7 @@ daikin
 dotfiles
 fontsource
 lightningcss
+picocolors
 roboto
 tailwindcss
 taze
