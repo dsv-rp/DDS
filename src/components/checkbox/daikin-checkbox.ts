@@ -13,17 +13,6 @@ const cvaCheckbox = cva(
     "rounded-sm",
     "border-solid",
     "border-2",
-    "border-daikinNeutral-400",
-
-    "enabled:hover:border-daikinBlue-300",
-    "enabled:active:border-daikinBlue-600",
-    "enabled:active:checked:bg-daikinBlue-600",
-
-    "enabled:indeterminate:border-daikinBlue-600",
-    "enabled:indeterminate:bg-daikinBlue-600",
-
-    "enabled:checked:border-daikinBlue-600",
-    "enabled:checked:bg-daikinBlue-600",
 
     "after:absolute",
     "after:text-white",
@@ -31,22 +20,35 @@ const cvaCheckbox = cva(
     "checked:after:i-daikin-checkbox-checked",
     "indeterminate:after:i-daikin-checkbox-indeterminate",
 
-    "enabled:focus-visible:border-daikinBlue-700",
     "focus-visible:outline-none",
 
-    "enabled:checked:focus-visible:border-daikinBlue-700",
-    "enabled:checked:focus-visible:bg-daikinBlue-700",
-    "enabled:checked:hover:border-daikinBlue-300",
-    "enabled:checked:hover:bg-daikinBlue-300",
-    "enabled:checked:active:border-daikinBlue-600",
-    "enabled:checked:active:bg-daikinBlue-600",
+    "border-daikinNeutral-400",
 
-    "enabled:indeterminate:active:border-daikinBlue-600",
-    "enabled:indeterminate:active:bg-daikinBlue-600",
-    "enabled:indeterminate:hover:border-daikinBlue-300",
-    "enabled:indeterminate:hover:bg-daikinBlue-300",
-    "enabled:indeterminate:focus-visible:border-daikinBlue-700",
-    "enabled:indeterminate:focus-visible:bg-daikinBlue-700",
+    "enabled:indeterminate:border-daikinBlue-600",
+    "enabled:indeterminate:bg-daikinBlue-600",
+
+    "enabled:checked:border-daikinBlue-600",
+    "enabled:checked:bg-daikinBlue-600",
+
+    "aria-controllable:focus-visible:border-daikinBlue-700",
+    "aria-controllable:hover:border-daikinBlue-300",
+    "aria-controllable:active:border-daikinBlue-600",
+
+    "aria-controllable:checked:focus-visible:border-daikinBlue-700",
+    "aria-controllable:checked:focus-visible:border-daikinBlue-700",
+    "aria-controllable:checked:focus-visible:bg-daikinBlue-700",
+    "aria-controllable:checked:focus-visible:bg-daikinBlue-700",
+    "aria-controllable:checked:hover:border-daikinBlue-300",
+    "aria-controllable:checked:hover:bg-daikinBlue-300",
+    "aria-controllable:checked:active:border-daikinBlue-600",
+    "aria-controllable:checked:active:bg-daikinBlue-600",
+
+    "aria-controllable:indeterminate:active:border-daikinBlue-600",
+    "aria-controllable:indeterminate:active:bg-daikinBlue-600",
+    "aria-controllable:indeterminate:hover:border-daikinBlue-300",
+    "aria-controllable:indeterminate:hover:bg-daikinBlue-300",
+    "aria-controllable:indeterminate:focus-visible:border-daikinBlue-700",
+    "aria-controllable:indeterminate:focus-visible:bg-daikinBlue-700",
 
     "disabled:border-daikinNeutral-200",
     "disabled:bg-white",
@@ -175,6 +177,7 @@ export class DaikinCheckbox extends LitElement {
       type="checkbox"
       name=${this.name}
       value=${this.value}
+      aria-readonly=${this.readonly}
       .indeterminate=${isIndeterminate}
       .checked=${isChecked}
       ?readonly=${this.readonly}

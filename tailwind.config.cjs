@@ -1,3 +1,4 @@
+const plugin = require("tailwindcss/plugin");
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
 const { loadIcons } = require("./build/tailwindcss/icons.cjs");
@@ -38,6 +39,12 @@ module.exports = defineConfig({
         width: "100%",
         height: "100%",
       },
+    }),
+    plugin(({ addVariant }) => {
+      addVariant("aria-controllable", [
+        // We don't know why, but `:read-only` was applied to checkboxes with and without `readonly` attribute, so we use `aria-readonly` instead.
+        '&:enabled:not([aria-readonly="true"])',
+      ]);
     }),
   ],
 });
