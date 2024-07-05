@@ -17,7 +17,7 @@ const inputGroupContainer = ctl(`
 const inputGroupError = ctl(`
   flex
   gap-2
-  color-[--color-feedback-negative]
+  color-[--input-group-border-color-error]
   leading-[22px]
   
   before:i-daikin-input-group-error
@@ -48,7 +48,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --color-feedback-negative: ${unsafeCSS(colorFeedbackNegative)};
+      --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
       display: block;
       width: max-content;
     }
