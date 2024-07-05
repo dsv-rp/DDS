@@ -1,75 +1,78 @@
 describe("TextInput", () => {
-  const getPageURL = (disabled, error) =>
-    `http://localhost:6006/iframe.html?viewMode=story&id=components-text-input--default&args=disabled:${disabled};error:${error}`;
+  const getPageURL = (disabled, readonly, error) =>
+    `http://localhost:6006/iframe.html?viewMode=story&id=components-text-input--default&args=disabled:${disabled};readonly${readonly}:error:${error}`;
   // vision test
   describe.each(["enabled", "disabled"])("%s", (state) => {
-    describe.each(["normal", "error"])("%s", (error) => {
-      const baseURL = getPageURL(
-        state === "disabled" ? "!true" : "!false",
-        error === "error" ? "!true" : "!false"
-      );
-      it("base", async () => {
-        await page.goto(baseURL);
+    describe.each(["readonly", "writable"])("%s", (readonly) => {
+      describe.each(["normal", "error"])("%s", (error) => {
+        const baseURL = getPageURL(
+          state === "disabled" ? "!true" : "!false",
+          readonly === "readonly" ? "!true" : "!false",
+          error === "error" ? "!true" : "!false"
+        );
+        it("base", async () => {
+          await page.goto(baseURL);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
-          visible: true,
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-text-input", {
+            visible: true,
+          });
+
+          // take screenshot and check for diffs
+          const image = await element.screenshot();
+          expect(image).toMatchImageSnapshot();
         });
 
-        // take screenshot and check for diffs
-        const image = await element.screenshot();
-        expect(image).toMatchImageSnapshot();
-      });
+        it("hover", async () => {
+          await page.goto(baseURL);
 
-      it("hover", async () => {
-        await page.goto(baseURL);
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-text-input", {
+            visible: true,
+          });
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
-          visible: true,
+          // hover cursor on the element
+          await element.hover();
+
+          // take screenshot and check for diffs
+          const image = await element.screenshot();
+          expect(image).toMatchImageSnapshot();
         });
 
-        // hover cursor on the element
-        await element.hover();
+        it("press", async () => {
+          await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        const image = await element.screenshot();
-        expect(image).toMatchImageSnapshot();
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-text-input", {
+            visible: true,
+          });
 
-      it("press", async () => {
-        await page.goto(baseURL);
+          // hover cursor on the element and hold down mouse input on the element
+          await element.hover();
+          await page.mouse.down();
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
-          visible: true,
+          // take screenshot and check for diffs
+          const image = await element.screenshot();
+          await page.mouse.up();
+          expect(image).toMatchImageSnapshot();
         });
 
-        // hover cursor on the element and hold down mouse input on the element
-        await element.hover();
-        await page.mouse.down();
+        it("focus", async () => {
+          await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        const image = await element.screenshot();
-        await page.mouse.up();
-        expect(image).toMatchImageSnapshot();
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-text-input", {
+            visible: true,
+          });
 
-      it("focus", async () => {
-        await page.goto(baseURL);
+          await page.evaluate((container) => {
+            container.focus();
+          }, element);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
-          visible: true,
+          // take screenshot and check for diffs
+          const image = await element.screenshot();
+          expect(image).toMatchImageSnapshot();
         });
-
-        await page.evaluate((container) => {
-          container.focus();
-        }, element);
-
-        // take screenshot and check for diffs
-        const image = await element.screenshot();
-        expect(image).toMatchImageSnapshot();
       });
     });
   });
