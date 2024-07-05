@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css";
 import type { OmitNull } from "../../typeUtils";
 
-const labelCN = cva(
+const cvaLabel = cva(
   ["leading-8", "not-italic", "font-normal", "align-middle"],
   {
     variants: {
@@ -14,13 +14,10 @@ const labelCN = cva(
         large: ["text-base"],
       },
     },
-    defaultVariants: {
-      size: "small",
-    },
   }
 );
 
-const radioCN = cva(
+const cvaRadio = cva(
   [
     "appearance-none",
     "relative",
@@ -54,14 +51,11 @@ const radioCN = cva(
         large: ["w-4", "h-4"],
       },
     },
-    defaultVariants: {
-      size: "small",
-    },
   }
 );
 
-type LabelProps = OmitNull<VariantProps<typeof labelCN>>;
-type RadioProps = OmitNull<VariantProps<typeof radioCN>>;
+type LabelProps = OmitNull<VariantProps<typeof cvaLabel>>;
+type RadioProps = OmitNull<VariantProps<typeof cvaRadio>>;
 type ComponentSizeProps = LabelProps["size"] & RadioProps["size"];
 
 export interface DaikinRadioProps {
@@ -95,19 +89,18 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
     }
   }
 
-  static formAssociated = true;
+  static readonly formAssociated = true;
 
   // define internals to let radio can be used in form
-  @property({ type: Object })
-  internals;
+  private _internals;
 
   constructor() {
     super();
-    this.internals = this.attachInternals();
+    this._internals = this.attachInternals();
   }
 
   private _updateFormValue() {
-    this.internals.setFormValue(this.checked ? this.value : null);
+    this._internals.setFormValue(this.checked ? this.value : null);
   }
 
   updated(changedProperties: Map<string, any>) {
@@ -181,8 +174,8 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
 
   render() {
     // Specify the component size
-    const labelClassName = labelCN({ size: this.size });
-    const radioClassName = radioCN({ size: this.size });
+    const labelClassName = cvaLabel({ size: this.size });
+    const radioClassName = cvaRadio({ size: this.size });
 
     const labelText = this.label
       ? html`<span class="${labelClassName}">${this.label}</span>`
@@ -203,7 +196,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
-    return html`<label class="inline-flex gap-[8px] items-center"
+    return html`<label class="inline-flex w-full h-full gap-[8px] items-center"
       >${inputArea}</label
     >`;
   }
