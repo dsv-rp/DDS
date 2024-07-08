@@ -1,6 +1,6 @@
 describe("TextInput", () => {
   const getPageURL = (disabled, readonly, error) =>
-    `http://localhost:6006/iframe.html?viewMode=story&id=components-text-input--default&args=disabled:${disabled};readonly${readonly}:error:${error}`;
+    `http://localhost:6006/iframe.html?viewMode=story&id=components-text-input--default&args=disabled:${disabled};readonly:${readonly}:error:${error}`;
   // vision test
   describe.each(["enabled", "disabled"])("%s", (state) => {
     describe.each(["readonly", "writable"])("%s", (readonly) => {
