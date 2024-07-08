@@ -106,21 +106,10 @@ export class DaikinCheckbox extends LitElement {
   static readonly formAssociated = true;
 
   // define _internals to let checkbox can be used in form
-  private _internals: ElementInternals;
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
+  private _internals = this.attachInternals();
 
   private _updateFormValue() {
     this._internals.setFormValue(this.checked ? this.value : null);
-  }
-
-  override updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has("checkState")) {
-      this._updateFormValue();
-    }
   }
 
   @query("input")
@@ -224,6 +213,12 @@ export class DaikinCheckbox extends LitElement {
     return html`<label class="inline-flex gap-[10px] items-center"
       >${content}</label
     >`;
+  }
+
+  override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("checkState")) {
+      this._updateFormValue();
+    }
   }
 }
 
