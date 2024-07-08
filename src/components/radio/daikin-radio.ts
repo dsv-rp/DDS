@@ -94,7 +94,7 @@ export class DaikinRadio extends LitElement {
   }
 
   /**
-   * Specify the label text for check box
+   * Specify the label text for the radio
    */
   @property({ type: String })
   label = "";
@@ -137,7 +137,7 @@ export class DaikinRadio extends LitElement {
   name = "";
 
   /**
-   * The value.
+   * The form value.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -149,7 +149,6 @@ export class DaikinRadio extends LitElement {
   error = false;
 
   override render() {
-    // Specify the component size
     const labelClassName = cvaLabel({ size: this.size });
     const radioClassName = cvaRadio({ size: this.size });
 
