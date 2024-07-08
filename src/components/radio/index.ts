@@ -1,1 +1,1 @@
-export { default as DaikinRadio } from "./daikin-radio";
+export * from "./daikin-radio";
