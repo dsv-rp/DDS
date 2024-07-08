@@ -119,7 +119,6 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   static readonly formAssociated = true;
 
   // define _internals to let checkbox can be used in form
-  @property({ type: Object })
   private _internals;
 
   constructor() {
