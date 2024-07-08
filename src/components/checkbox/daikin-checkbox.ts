@@ -214,8 +214,8 @@ export class DaikinCheckbox extends LitElement {
       .checked=${this.checked}
       ?readonly=${this.readonly}
       ?disabled=${this.disabled}
-      @change=${this._handleChange.bind(this)}
-      @click=${this._handleClick.bind(this)}
+      @change=${this._handleChange}
+      @click=${this._handleClick}
     />`;
     const content =
       this.labelPosition === "left"
