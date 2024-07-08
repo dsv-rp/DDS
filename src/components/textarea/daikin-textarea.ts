@@ -1,8 +1,4 @@
-import {
-  buttonColorBackgroundPrimaryDisabled,
-  buttonColorBackgroundPrimaryHover,
-  colorFeedbackNegative,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
+import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { LitElement, PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 
@@ -34,16 +30,16 @@ const textareaBase = ctl(`
 
   enabled:hover:outline
   enabled:hover:outline-2
-  enabled:hover:outline-[--button-color-background-primary-hover]
+  enabled:hover:outline-[--text-input-outline-color-hover]
   enabled:active:outline
   enabled:active:outline-2
-  enabled:active:outline-[--button-color-background-secondary-hover]
+  enabled:active:outline-[--text-input-outline-color-active]
   focus-visible:outline
   focus-visible:outline-2
-  focus-visible:outline-[--button-color-background-secondary-hover]
-  disabled:text-[--button-color-background-primary-disabled]
-  disabled:bg-[--input-field-color-background]
-  disabled:border-[--button-color-background-primary-disabled]
+  focus-visible:outline-[--text-input-outline-color-active]
+  disabled:text-[--text-input-outline-color-disabled]
+  disabled:bg-[--text-input-background-color]
+  disabled:border-[--text-input-outline-color-disabled]
 `);
 
 const textareaError = ctl(`
@@ -68,15 +64,11 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --color-feedback-negative: ${unsafeCSS(colorFeedbackNegative)};
-      --button-color-background-primary-hover: ${unsafeCSS(
-        buttonColorBackgroundPrimaryHover
-      )};
-      --button-color-background-primary-disabled: ${unsafeCSS(
-        buttonColorBackgroundPrimaryDisabled
-      )};
-      --button-color-background-secondary-hover: ${unsafeCSS("#CECECE")};
-      --InputFieldColorBackground: ${unsafeCSS("#FFFFFF")};
+      --text-input-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
+      --text-input-outline-color-hover: #54c3f1;
+      --text-input-outline-color-disabled: #dcdcdc;
+      --text-input-outline-color-active: #cecece;
+      --text-input-background-color: #ffffff;
       display: block;
       width: max-content;
       height: 120px;
@@ -84,7 +76,7 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
     }
   `;
 
-  static formAssociated = true;
+  static readonly formAssociated = true;
 
   @state()
   private _internals: ElementInternals;
@@ -116,7 +108,7 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
   /**
    * Whether the field is readonly
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   readonly? = false;
 
   /**
@@ -159,7 +151,9 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
   render() {
     const textareaClassName = [
       textareaBase,
-      this.error ? textareaError : "border-daikinNeutral-600",
+      !!this.disabled && this.error
+        ? textareaError
+        : "border-daikinNeutral-600",
     ].join(" ");
     const textareaCounterClassName = [
       textareaCounterBase,
