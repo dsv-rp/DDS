@@ -73,12 +73,7 @@ export class DaikinRadio extends LitElement {
   static readonly formAssociated = true;
 
   // define internals to let radio can be used in form
-  private _internals;
-
-  constructor() {
-    super();
-    this._internals = this.attachInternals();
-  }
+  private _internals = this.attachInternals();
 
   private _updateFormValue() {
     this._internals.setFormValue(this.checked ? this.value : null);
