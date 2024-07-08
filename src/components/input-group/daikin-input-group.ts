@@ -1,4 +1,5 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import {
   customElement,
@@ -7,6 +8,28 @@ import {
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
+
+const cvaLabel = cva(["text-base", "font-bold"], {
+  variants: {
+    variant: {
+      enabled: ["text-daikinNeutral-800"],
+      disabled: ["text-daikinNeutral-200"],
+    },
+    required: {
+      optional: [],
+      required: ["after:content-['*']", "after:ml-[2px]"],
+    },
+  },
+});
+
+const cvaHelper = cva(["text-xs"], {
+  variants: {
+    variant: {
+      enabled: ["text-daikinNeutral-800"],
+      disabled: ["text-daikinNeutral-200"],
+    },
+  },
+});
 
 /**
  * Primary UI component for user interaction
@@ -70,17 +93,14 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
-    const inputGroupLabelClassName = [
-      "text-base",
-      "font-bold",
-      this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
-      this.required ? "after:content-['*'] after:ml-[2px]" : "",
-    ].join(" ");
+    const inputGroupLabelClassName = cvaLabel({
+      variant: this.disabled ? "disabled" : "enabled",
+      required: this.required ? "required" : "optional",
+    });
 
-    const inputGroupHelperClassName = [
-      "text-xs",
-      this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
-    ].join(" ");
+    const inputGroupHelperClassName = cvaHelper({
+      variant: this.disabled ? "disabled" : "enabled",
+    });
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
