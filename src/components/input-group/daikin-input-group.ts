@@ -8,22 +8,11 @@ import {
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 
-export interface DaikinInputGroupProps {
-  label?: string;
-  helper?: string;
-  disabled?: boolean;
-  required?: boolean;
-  error?: string;
-}
-
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-input-group")
-export class DaikinInputGroup
-  extends LitElement
-  implements DaikinInputGroupProps
-{
+export class DaikinInputGroup extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -51,13 +40,13 @@ export class DaikinInputGroup
    * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
    */
   @property({ type: Boolean, reflect: true })
-  disabled? = false;
+  disabled = false;
 
   /**
    * Whether the field is required. An additional star mark will be added if `true`.
    */
   @property({ type: Boolean, reflect: true })
-  required? = false;
+  required = false;
 
   /**
    * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
