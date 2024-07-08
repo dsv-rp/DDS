@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "cspell-dictionary.txt": "ignore"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)",
+    [
+      "\\[\\s*((?:\"(?:\\\\.|[^\"])+\"\\s*(?:,\\s*)?)+)\\]",
+      "\"((?:\\\\.|[^\"])+)\""
+    ],
+    ["class=\"((?:\\\\.|[^\"])+)\""]
+  ]
+}

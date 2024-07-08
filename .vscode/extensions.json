@@ -1,4 +1,16 @@
 {
   // List of extensions which should be recommended for users of this workspace.
-  "recommendations": ["runem.lit-plugin"]
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "esbenp.prettier-vscode",
+    "github.vscode-github-actions",
+    "ms-azuretools.vscode-docker",
+    "ms-playwright.playwright",
+    "runem.lit-plugin",
+    "streetsidesoftware.code-spell-checker",
+    "unifiedjs.vscode-mdx",
+    "vitest.explorer"
+  ]
 }

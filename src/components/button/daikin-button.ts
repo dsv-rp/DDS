@@ -5,15 +5,14 @@ import {
   buttonColorBackgroundPrimaryHover,
   buttonColorBackgroundPrimaryPress,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { cva } from "class-variance-authority";
+import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import type { ARIARole } from "../../lit-analyzer-types";
+import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 
-import { cva, type VariantProps } from "class-variance-authority";
-import tailwindStyles from "../../tailwind.css";
-import type { OmitNull } from "../../typeUtils";
-import styles from "./button.css";
-
-const buttonCN = cva(
+const cvaButton = cva(
   [
     "inline-flex",
     "justify-center",
@@ -24,24 +23,32 @@ const buttonCN = cva(
     "tracking-wide",
     "text-wrap",
     "disabled:cursor-default",
-    "h-full",
     "w-full",
+    "h-full",
   ],
   {
     variants: {
       intent: {
-        primary: ["button-primary", "focus-visible:outline-none"],
+        primary: [
+          "text-white",
+          "bg-[--buttonColorBackgroundPrimaryActive]",
+          "enabled:focus-visible:bg-[--buttonColorBackgroundPrimaryFocus]",
+          "enabled:hover:bg-[--buttonColorBackgroundPrimaryHover]",
+          "enabled:active:bg-[--buttonColorBackgroundPrimaryPress]",
+          "disabled:bg-[--buttonColorBackgroundPrimaryDisabled]",
+          "focus-visible:outline-none",
+        ],
         secondary: [
           "border-2",
           "bg-white",
           "text-daikinBlue-500",
           "border-daikinBlue-500",
-          "hover:text-daikinBlue-300",
-          "hover:border-daikinBlue-300",
-          "active:text-daikinBlue-600",
-          "active:border-daikinBlue-600",
-          "focus-visible:text-daikinBlue-700",
-          "focus-visible:border-daikinBlue-700",
+          "enabled:hover:text-daikinBlue-300",
+          "enabled:hover:border-daikinBlue-300",
+          "enabled:active:text-daikinBlue-600",
+          "enabled:active:border-daikinBlue-600",
+          "enabled:focus-visible:text-daikinBlue-700",
+          "enabled:focus-visible:border-daikinBlue-700",
           "disabled:border-daikinNeutral-300",
           "disabled:text-daikinNeutral-400",
           "disabled:border",
@@ -52,17 +59,17 @@ const buttonCN = cva(
           "bg-none",
           "border-none",
           "shadow-none",
-          "hover:bg-daikinNeutral-100",
+          "enabled:hover:bg-daikinNeutral-100",
           "disabled:bg-transparent",
           "disabled:text-daikinNeutral-400",
         ],
         primaryDanger: [
           "bg-daikinRed",
           "text-white",
-          "hover:bg-daikinRed-400",
-          "focus-visible:bg-daikinRed-700",
+          "enabled:hover:bg-daikinRed-400",
+          "enabled:focus-visible:bg-daikinRed-700",
+          "enabled:active:bg-daikinRed-700",
           "disabled:bg-daikinNeutral-300",
-          "active:bg-daikinRed-700",
           "focus-visible:outline-none",
         ],
       },
@@ -78,51 +85,33 @@ const buttonCN = cva(
   }
 );
 
-type ButtonProps = OmitNull<VariantProps<typeof buttonCN>>;
-export interface DaikinButtonProps {
-  /**
-   * Type of action
-   */
-  variant?: ButtonProps["intent"];
-  /**
-   * Whether to show the disabled state
-   */
-  disabled?: boolean;
-  href?: string;
-  size?: ButtonProps["size"];
-  type?: "button" | "submit" | "reset";
-  role?: string;
-  isLoading?: boolean;
-}
+type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-button")
-class DaikinButton extends LitElement implements DaikinButtonProps {
-  override focus() {
-    this.shadowRoot?.querySelector("button")?.focus();
-  }
+export class DaikinButton extends LitElement {
+  static override readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
 
-  static styles = css`
     :host {
-      --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryActive: ${unsafeCSS(
         buttonColorBackgroundPrimaryActive
       )};
-      --defaultButtonColorBackgroundPrimaryFocus: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryFocus: ${unsafeCSS(
         buttonColorBackgroundPrimaryFocus
       )};
-      --defaultButtonColorBackgroundPrimaryHover: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryHover: ${unsafeCSS(
         buttonColorBackgroundPrimaryHover
       )};
-      --defaultButtonColorBackgroundPrimaryPress: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryPress: ${unsafeCSS(
         buttonColorBackgroundPrimaryPress
       )};
-      --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
+      --buttonColorBackgroundPrimaryDisabled: ${unsafeCSS(
         buttonColorBackgroundPrimaryDisabled
       )};
-    }
-    :host {
+
       display: inline-block;
       width: fit-content;
       min-height: 42px;
@@ -138,7 +127,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
    * Type of variant.
    */
   @property({ type: String })
-  variant: ButtonProps["intent"] = "primary";
+  variant: ButtonVariantProps["intent"] = "primary";
 
   /**
    * `true` if the button should be disabled.
@@ -168,7 +157,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
    * Specify the button size.
    */
   @property({ type: String, reflect: true })
-  size: ButtonProps["size"] = "default";
+  size: ButtonVariantProps["size"] = "default";
 
   /**
    * Specify the button type.
@@ -180,7 +169,7 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
    * Specify the button role.
    */
   @property({ type: String, reflect: true })
-  role: string = "button";
+  override role: ARIARole = "button";
 
   /**
    * Specify whether the button is loading.
@@ -188,52 +177,42 @@ class DaikinButton extends LitElement implements DaikinButtonProps {
   @property({ type: Boolean })
   isLoading = false;
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    const tailwind = new CSSStyleSheet();
-    tailwind.replace(tailwindStyles);
-
-    const buttonStyles = new CSSStyleSheet();
-    buttonStyles.replaceSync(styles);
-
-    const defaultsVariables = new CSSStyleSheet();
-    defaultsVariables.replaceSync(DaikinButton.styles.cssText);
-
-    (this.renderRoot as ShadowRoot).adoptedStyleSheets = [
-      tailwind,
-      defaultsVariables,
-      buttonStyles,
-    ];
-  }
-
-  render() {
-    const buttonClassName = buttonCN({ intent: this.variant, size: this.size });
+  override render() {
+    const buttonClassName = cvaButton({
+      intent: this.variant,
+      size: this.size,
+    });
 
     const content = html`
       <slot name="leftIcon"></slot>
       <span><slot></slot></span>
       <slot name="rightIcon"></slot>
     `;
+
     if (this.href) {
       return html` <a
         href="${this.href}"
         class="${buttonClassName}"
-        role="${this.role as AnyRole}"
+        role="${this.role}"
       >
         ${content}
       </a>`;
     }
+
     return html`
       <button
         class="${buttonClassName}"
         ?disabled="${this.disabled}"
         type="${this.type}"
-        role="${this.role as AnyRole}"
+        role="${this.role}"
       >
         ${content}
       </button>
     `;
+  }
+
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("button")?.focus(options);
   }
 }
 
@@ -242,5 +221,3 @@ declare global {
     "daikin-button": DaikinButton;
   }
 }
-
-export default DaikinButton;

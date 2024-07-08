@@ -1,21 +1,8 @@
+import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import { cva, type VariantProps } from "class-variance-authority";
-import tailwindStyles from "../../tailwind.css";
-import type { OmitNull } from "../../typeUtils";
-
-const cvaLabel = cva(
-  ["leading-8", "not-italic", "font-normal", "align-middle"],
-  {
-    variants: {
-      size: {
-        small: ["text-sm"],
-        large: ["text-base"],
-      },
-    },
-  }
-);
+import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 
 const cvaRadio = cva(
   [
@@ -54,28 +41,26 @@ const cvaRadio = cva(
   }
 );
 
-type LabelProps = OmitNull<VariantProps<typeof cvaLabel>>;
-type RadioProps = OmitNull<VariantProps<typeof cvaRadio>>;
-type ComponentSizeProps = LabelProps["size"] & RadioProps["size"];
+const cvaLabel = cva(
+  ["leading-8", "not-italic", "font-normal", "align-middle"],
+  {
+    variants: {
+      size: {
+        small: ["text-sm"],
+        large: ["text-base"],
+      },
+    },
+  }
+);
 
-export interface DaikinRadioProps {
-  label: string;
-  size: ComponentSizeProps;
-  disabled: boolean;
-  labelPosition: "left" | "right";
-  readonly: boolean;
-  checked: boolean;
-  name: string;
-  value: string;
-  error: boolean;
-}
+type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
 
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-radio")
-class DaikinRadio extends LitElement implements DaikinRadioProps {
-  static styles = css`
+export class DaikinRadio extends LitElement {
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
@@ -84,7 +69,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
   `;
 
   private _handleClick(event: MouseEvent) {
-    if (this.readonly) {
+    if (this.readonly || this.disabled) {
       event.preventDefault();
     }
   }
@@ -103,7 +88,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  updated(changedProperties: Map<string, any>) {
+  override updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has("checked")) {
       this._updateFormValue();
     }
@@ -127,7 +112,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
    * Specify the component size
    */
   @property({ type: String })
-  size: ComponentSizeProps = "small";
+  size: RadioVariantProps["size"] = "small";
 
   /**
    * Specify the label position
@@ -172,7 +157,7 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
   @property({ type: Boolean, reflect: true })
   error = false;
 
-  render() {
+  override render() {
     // Specify the component size
     const labelClassName = cvaLabel({ size: this.size });
     const radioClassName = cvaRadio({ size: this.size });
@@ -180,22 +165,24 @@ class DaikinRadio extends LitElement implements DaikinRadioProps {
     const labelText = this.label
       ? html`<span class="${labelClassName}">${this.label}</span>`
       : html``;
+
     const inputTag = html`<input
-      class="${radioClassName}"
+      class=${radioClassName}
       type="radio"
-      name="${this.name}"
-      value="${this.value}"
+      name=${this.name}
+      value=${this.value}
       aria-readonly=${this.readonly}
-      ?checked=${this.checked}
-      ?readonly=${this.readonly}
       ?disabled=${this.disabled}
-      @click=${this._handleClick.bind(this)}
-      @change=${this._handleChange.bind(this)}
+      .checked=${this.checked}
+      @click=${this._handleClick}
+      @change=${this._handleChange}
     />`;
+
     const inputArea =
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
+
     return html`<label class="inline-flex w-full h-full gap-[8px] items-center"
       >${inputArea}</label
     >`;
@@ -207,5 +194,3 @@ declare global {
     "daikin-radio": DaikinRadio;
   }
 }
-
-export default DaikinRadio;

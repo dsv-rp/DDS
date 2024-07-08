@@ -1,10 +1,10 @@
 import type { Preview } from "@storybook/react";
+import React from "react";
 
-import "../previewCommon";
+import "../preview-common";
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -13,5 +13,7 @@ const preview: Preview = {
     },
   },
 };
+
+global.React = React;
 
 export default preview;
