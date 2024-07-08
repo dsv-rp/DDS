@@ -1,9 +1,14 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 
 import ctl from "@netlify/classnames-template-literals";
 import tailwindStyles from "../../tailwind.css";
+import DaikinTextInput from "../text-input/daikin-text-input";
 
 const inputGroupContainer = ctl(`
   flex
@@ -17,7 +22,7 @@ const inputGroupContainer = ctl(`
 const inputGroupError = ctl(`
   flex
   gap-2
-  color-[--color-feedback-negative]
+  text-[--input-group-border-color-error]
   leading-[22px]
   
   before:i-daikin-input-group-error
@@ -48,7 +53,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --color-feedback-negative: ${unsafeCSS(colorFeedbackNegative)};
+      --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
       display: block;
       width: max-content;
     }
@@ -84,27 +89,16 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   @property({ type: String, reflect: true })
   error = "";
 
-  private _handleSlotChange(): void {
-    const inputs = [
-      ...this.getElementsByTagName("daikin-text-input"),
-      ...this.getElementsByTagName("daikin-textarea"),
-    ];
+  @queryAssignedElements({ selector: "daikin-text-input" })
+  _textInputs: DaikinTextInput[];
 
-    const isError = !this.disabled && !!this.error;
-    for (const input of inputs) {
-      input.disabled = this.disabled;
-      input.error = isError;
-    }
+  private _handleSlotChange(): void {
+    this._reflectSlotProperties();
   }
 
   private _reflectSlotProperties(): void {
-    const inputs = [
-      ...this.getElementsByTagName("daikin-text-input"),
-      ...this.getElementsByTagName("daikin-textarea"),
-    ];
-
     const isError = !this.disabled && !!this.error;
-    for (const input of inputs) {
+    for (const input of this._textInputs) {
       input.disabled = this.disabled;
       input.error = isError;
     }
@@ -130,7 +124,7 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
       }
     }
 
-    return html`<fieldset ?disabled="${this.disabled}" class="w-max">
+    return html`<fieldset ?disabled="${this.disabled}" class="content">
       <label class="${inputGroupContainer}">
         ${!!this.label
           ? html`<span class="${inputGroupLabelClassName}">${this.label}</span>`

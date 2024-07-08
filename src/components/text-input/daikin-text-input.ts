@@ -1,8 +1,4 @@
-import {
-  buttonColorBackgroundPrimaryDisabled,
-  buttonColorBackgroundPrimaryHover,
-  colorFeedbackNegative,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
+import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import ctl from "@netlify/classnames-template-literals";
 import { LitElement, PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
@@ -34,21 +30,21 @@ const textInputBase = ctl(`
 
   enabled:hover:outline
   enabled:hover:outline-2
-  enabled:hover:outline-[--button-color-background-primary-hover]
+  enabled:hover:outline-[--text-input-outline-color-hover]
   enabled:active:outline
   enabled:active:outline-2
-  enabled:active:outline-[--button-color-background-secondary-hover]
+  enabled:active:outline-[--text-input-outline-color-active]
   focus-visible:outline
   focus-visible:outline-2
-  focus-visible:outline-[--button-color-background-secondary-hover]
-  disabled:text-[--button-color-background-primary-disabled]
-  disabled:bg-[--input-field-color-background]
-  disabled:border-[--button-color-background-primary-disabled]
+  focus-visible:outline-[--text-input-outline-color-active]
+  disabled:text-[--text-input-outline-color-disabled]
+  disabled:bg-[--text-input-background-color]
+  disabled:border-[--text-input-outline-color-disabled]
 `);
 
 const textInputError = ctl(`
   bg-daikinRed-50
-  border-[--color-feedback-negative]
+  border-[--text-input-border-color-error]
 `);
 
 /**
@@ -60,21 +56,17 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --color-feedback-negative: ${unsafeCSS(colorFeedbackNegative)};
-      --button-color-background-primary-hover: ${unsafeCSS(
-        buttonColorBackgroundPrimaryHover
-      )};
-      --button-color-background-primary-disabled: ${unsafeCSS(
-        buttonColorBackgroundPrimaryDisabled
-      )};
-      --button-color-background-secondary-hover: ${unsafeCSS("#CECECE")};
-      --input-field-color-background: ${unsafeCSS("#FFFFFF")};
+      --text-input-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
+      --text-input-outline-color-hover: #54c3f1;
+      --text-input-outline-color-disabled: #dcdcdc;
+      --text-input-outline-color-active: #cecece;
+      --text-input-background-color: #ffffff;
       display: block;
       width: max-content;
     }
   `;
 
-  static formAssociated = true;
+  static readonly formAssociated = true;
 
   @state()
   private _internals: ElementInternals;
@@ -146,7 +138,9 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   render() {
     const textInputInputClassName = [
       textInputBase,
-      this.error ? textInputError : "border-daikinNeutral-600",
+      !this.disabled && this.error
+        ? textInputError
+        : "border-daikinNeutral-600",
     ].join(" ");
 
     this._internals.setFormValue(this.value);
