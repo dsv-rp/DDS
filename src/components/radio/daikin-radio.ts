@@ -8,17 +8,15 @@ const cvaRadio = cva(
   [
     "appearance-none",
     "relative",
+
     "after:absolute",
-    "after:!w-full",
-    "after:!h-full",
     "after:i-daikin-radio-unchecked",
-    "after:text-[#8C8C8C]",
     "checked:after:i-daikin-radio-checked",
-    "checked:after:text-daikinBlue-500",
+    "enabled:after:text-[#8C8C8C]",
+    "enabled:checked:after:text-daikinBlue-500",
 
     "aria-controllable:hover:after:i-daikin-radio-checked",
     "aria-controllable:hover:after:text-daikinBlue-300",
-
     "aria-controllable:active:after:i-daikin-radio-checked",
     "aria-controllable:active:after:text-daikinBlue-500",
 
@@ -27,9 +25,7 @@ const cvaRadio = cva(
     "aria-controllable:focus-visible:checked:after:i-daikin-radio-checked",
     "aria-controllable:focus-visible:after:text-daikinBlue-700",
 
-    "disabled:after:i-daikin-radio-unchecked",
-    "disabled:checked:after:i-daikin-radio-checked",
-    "disabled:after:!text-daikinNeutral-200",
+    "disabled:after:text-daikinNeutral-200",
   ],
   {
     variants: {
