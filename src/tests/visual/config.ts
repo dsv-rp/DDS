@@ -1,0 +1,1 @@
+export const SCREENSHOT_ELEMENT_MARGIN = 10;

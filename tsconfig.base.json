@@ -1,0 +1,26 @@
+{
+  // Base TSConfig Configuration
+  "compilerOptions": {
+    "checkJs": true,
+
+    "useDefineForClassFields": true,
+    "skipLibCheck": true,
+    "types": [],
+
+    /* Bundler mode */
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": false,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true
+  }
+}

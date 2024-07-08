@@ -1,0 +1,23 @@
+{
+  // TSConfig for the main library codes
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+
+    "jsx": "react-jsx",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": true
+  },
+  "include": ["src"],
+  "exclude": [
+    // Ensure that the storybook codes are not included in the build, and that the storybook codes cannot be referenced from the main codes.
+    "src/storybook/**",
+    "src/**/stories/**",
+    "src/**/*.stories.*",
+    // Ensure that the test codes are not included in the build, and that the test codes cannot be referenced from the main codes.
+    "src/tests/**",
+    "src/**/*.test.*"
+  ]
+}

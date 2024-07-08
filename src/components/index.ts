@@ -1,5 +1,5 @@
-import "./button/index";
-import "./checkbox/index";
-import "./input-group/index";
-import "./notification/index";
-import "./text-input/index";
+export * from "./button";
+export * from "./checkbox";
+export * from "./input-group";
+export * from "./notification";
+export * from "./text-input";
