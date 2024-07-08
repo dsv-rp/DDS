@@ -98,7 +98,11 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
           });
 
           await page.evaluate((container) => {
-            container.focus();
+            const radio = container.shadowRoot?.querySelector("input");
+            if (!radio) {
+              return;
+            }
+            radio.focus();
           }, element);
 
           // take screenshot and check for diffs
