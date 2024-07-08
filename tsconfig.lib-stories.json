@@ -1,0 +1,20 @@
+{
+  // TSConfig for the storybook codes
+  "extends": "./tsconfig.lib.json",
+  "compilerOptions": {
+    "paths": {
+      "#package/components/*": ["./src/components/*"],
+      "#storybook": ["./src/storybook"]
+    }
+  },
+  "include": ["src", ".storybook/**/*"],
+  // The test codes can reference the main codes.
+  "exclude": [
+    // These files run on Node.js, not on the browsers.
+    ".storybook/**/main.ts",
+    ".storybook/**/middleware.cjs",
+    // Prevent referencing the test codes from the storybook codes.
+    "src/tests/**",
+    "src/**/*.test.*"
+  ]
+}

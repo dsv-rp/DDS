@@ -1,0 +1,28 @@
+# Proper nouns
+daikin
+dotfiles
+fontsource
+lightningcss
+picocolors
+roboto
+tailwindcss
+taze
+tseslint
+
+# Colors
+Coolgrey
+Darkgrey
+Mediumgrey
+
+# SVG
+evenodd
+
+# Storybook
+autodocs
+docgen
+
+# Testing
+testid
+
+# Misc.
+FOUC

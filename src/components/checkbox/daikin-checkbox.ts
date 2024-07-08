@@ -1,21 +1,8 @@
+import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
-
-import { cva, type VariantProps } from "class-variance-authority";
-import tailwindStyles from "../../tailwind.css";
-import type { OmitNull } from "../../typeUtils";
-
-const cvaLabel = cva(
-  ["leading-8", "not-italic", "font-normal", "align-middle"],
-  {
-    variants: {
-      size: {
-        small: ["text-sm"],
-        large: ["text-base"],
-      },
-    },
-  }
-);
+import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 
 const cvaCheckbox = cva(
   [
@@ -26,50 +13,47 @@ const cvaCheckbox = cva(
     "rounded-sm",
     "border-solid",
     "border-2",
-    "border-daikinNeutral-400",
-
-    "hover:border-daikinBlue-300",
-
-    "active:border-daikinBlue-600",
-    "active:checked:bg-daikinBlue-600",
-
-    "indeterminate:border-daikinBlue-600",
-    "indeterminate:bg-daikinBlue-600",
-
-    "checked:border-daikinBlue-600",
-    "checked:bg-daikinBlue-600",
 
     "after:absolute",
-    "after:!w-full",
-    "after:!h-full",
     "after:text-white",
 
     "checked:after:i-daikin-checkbox-checked",
     "indeterminate:after:i-daikin-checkbox-indeterminate",
 
-    "focus-visible:border-daikinBlue-700",
     "focus-visible:outline-none",
 
-    "checked:focus-visible:border-daikinBlue-700",
-    "checked:focus-visible:bg-daikinBlue-700",
+    "border-daikinNeutral-400",
 
-    "checked:hover:border-daikinBlue-300",
-    "checked:hover:bg-daikinBlue-300",
-    "checked:active:border-daikinBlue-600",
-    "checked:active:bg-daikinBlue-600",
+    "enabled:indeterminate:border-daikinBlue-600",
+    "enabled:indeterminate:bg-daikinBlue-600",
 
-    "indeterminate:active:border-daikinBlue-600",
-    "indeterminate:active:bg-daikinBlue-600",
-    "indeterminate:hover:border-daikinBlue-300",
-    "indeterminate:hover:bg-daikinBlue-300",
+    "enabled:checked:border-daikinBlue-600",
+    "enabled:checked:bg-daikinBlue-600",
 
-    "indeterminate:focus-visible:border-daikinBlue-700",
-    "indeterminate:focus-visible:bg-daikinBlue-700",
+    "aria-controllable:focus-visible:border-daikinBlue-700",
+    "aria-controllable:hover:border-daikinBlue-300",
+    "aria-controllable:active:border-daikinBlue-600",
 
-    "disabled:!border-daikinNeutral-200",
-    "disabled:!bg-white",
-    "indeterminate:disabled:!bg-daikinNeutral-200",
-    "checked:disabled:!bg-daikinNeutral-200",
+    "aria-controllable:checked:focus-visible:border-daikinBlue-700",
+    "aria-controllable:checked:focus-visible:border-daikinBlue-700",
+    "aria-controllable:checked:focus-visible:bg-daikinBlue-700",
+    "aria-controllable:checked:focus-visible:bg-daikinBlue-700",
+    "aria-controllable:checked:hover:border-daikinBlue-300",
+    "aria-controllable:checked:hover:bg-daikinBlue-300",
+    "aria-controllable:checked:active:border-daikinBlue-600",
+    "aria-controllable:checked:active:bg-daikinBlue-600",
+
+    "aria-controllable:indeterminate:active:border-daikinBlue-600",
+    "aria-controllable:indeterminate:active:bg-daikinBlue-600",
+    "aria-controllable:indeterminate:hover:border-daikinBlue-300",
+    "aria-controllable:indeterminate:hover:bg-daikinBlue-300",
+    "aria-controllable:indeterminate:focus-visible:border-daikinBlue-700",
+    "aria-controllable:indeterminate:focus-visible:bg-daikinBlue-700",
+
+    "disabled:border-daikinNeutral-200",
+    "disabled:bg-white",
+    "disabled:indeterminate:bg-daikinNeutral-200",
+    "disabled:checked:bg-daikinNeutral-200",
   ],
   {
     variants: {
@@ -81,28 +65,31 @@ const cvaCheckbox = cva(
   }
 );
 
-type LabelProps = OmitNull<VariantProps<typeof cvaLabel>>;
-type CheckboxProps = OmitNull<VariantProps<typeof cvaCheckbox>>;
-type ComponentSize = LabelProps["size"] & CheckboxProps["size"];
+const cvaLabel = cva(
+  ["leading-8", "not-italic", "font-normal", "align-middle"],
+  {
+    variants: {
+      size: {
+        small: ["text-sm"],
+        large: ["text-base"],
+      },
+    },
+    defaultVariants: {
+      size: "small",
+    },
+  }
+);
 
-export interface DaikinCheckboxProps {
-  label: string;
-  size: ComponentSize;
-  disabled: boolean;
-  labelPosition: "left" | "right";
-  readonly: boolean;
-  checkState: "unchecked" | "indeterminate" | "checked";
-  name: string;
-  value: string;
-  error: boolean;
-}
+type CheckboxVariantProps = MergeVariantProps<
+  typeof cvaCheckbox | typeof cvaLabel
+>;
 
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-checkbox")
-class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
-  static styles = css`
+export class DaikinCheckbox extends LitElement {
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
@@ -110,8 +97,8 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     }
   `;
 
-  private _handleClick(event: MouseEvent) {
-    if (this.readonly) {
+  private _handleClick(event: PointerEvent) {
+    if (this.readonly || this.disabled) {
       event.preventDefault();
     }
   }
@@ -119,7 +106,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   static readonly formAssociated = true;
 
   // define _internals to let checkbox can be used in form
-  private _internals;
+  private _internals: ElementInternals;
 
   constructor() {
     super();
@@ -130,7 +117,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  updated(changedProperties: Map<string, any>) {
+  override updated(changedProperties: Map<string, unknown>) {
     if (changedProperties.has("checkState")) {
       this._updateFormValue();
     }
@@ -162,7 +149,7 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
    * Specify the component size
    */
   @property({ type: String })
-  size: ComponentSize = "small";
+  size: CheckboxVariantProps["size"] = "small";
 
   /**
    * Specify the label position
@@ -207,34 +194,35 @@ class DaikinCheckbox extends LitElement implements DaikinCheckboxProps {
   @property({ type: Boolean, reflect: true })
   error = false;
 
-  render() {
+  override render() {
     // Specify the component size
-    const labelClassName = cvaLabel({ size: this.size });
     const checkboxClassName = cvaCheckbox({ size: this.size });
+    const labelClassName = cvaLabel({ size: this.size });
 
     const isIndeterminate = this.checkState === "indeterminate";
 
     const labelText = this.label
-      ? html`<span class="${labelClassName}">${this.label}</span>`
+      ? html`<span class=${labelClassName}>${this.label}</span>`
       : html``;
     const inputTag = html`<input
-      class="${checkboxClassName}"
+      class=${checkboxClassName}
       type="checkbox"
-      name="${this.name}"
-      value="${this.value}"
+      name=${this.name}
+      value=${this.value}
+      aria-readonly=${this.readonly}
       .indeterminate=${isIndeterminate}
       .checked=${this.checked}
       ?readonly=${this.readonly}
       ?disabled=${this.disabled}
-      @click=${this._handleClick.bind(this)}
       @change=${this._handleChange.bind(this)}
+      @click=${this._handleClick.bind(this)}
     />`;
-    const inputArea =
+    const content =
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
     return html`<label class="inline-flex gap-[10px] items-center"
-      >${inputArea}</label
+      >${content}</label
     >`;
   }
 }
@@ -244,5 +232,3 @@ declare global {
     "daikin-checkbox": DaikinCheckbox;
   }
 }
-
-export default DaikinCheckbox;

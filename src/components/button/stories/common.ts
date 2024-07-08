@@ -1,52 +1,38 @@
-import type { StoryObj } from "@storybook/web-components";
+import type { DaikinButton } from "#package/components/button/daikin-button";
+import type { ElementProps } from "#storybook";
+import type { Meta, StoryObj } from "@storybook/web-components";
 
-import type { DaikinButtonProps } from "../daikin-button";
-
-export interface DaikinButtonStoryArgs extends DaikinButtonProps {
+export interface DaikinButtonStoryArgs
+  extends Required<ElementProps<DaikinButton>> {
   /**
    * Text input for users
    */
-  label?: string;
+  label: string;
 }
 
-type Story = StoryObj<DaikinButtonStoryArgs>;
-
-export const Primary: Story = {
-  args: {
-    variant: "primary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
+export const DAIKIN_BUTTON_ARG_TYPES = {
+  variant: {
+    control: { type: "select" },
+    options: ["primary", "secondary", "tertiary", "primaryDanger"],
   },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: "secondary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
+  disabled: { type: "boolean" },
+  label: {
+    type: "string",
   },
-};
-
-export const Tertiary: Story = {
-  args: {
-    variant: "tertiary",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
+  size: {
+    control: { type: "select" },
+    options: ["default", "condensed"],
   },
-};
-
-export const PrimaryDanger: Story = {
-  args: {
-    variant: "primaryDanger",
-    disabled: false,
-    label: "button",
-    size: "default",
-    type: "button",
+  href: {
+    type: "string",
   },
-};
+  type: {
+    control: { type: "select" },
+    options: ["button", "submit", "reset"],
+  },
+  role: {
+    type: "string",
+  },
+} as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
+
+export type Story = StoryObj<DaikinButtonStoryArgs>;
