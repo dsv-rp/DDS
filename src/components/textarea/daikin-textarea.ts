@@ -158,7 +158,7 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
     const textareaCounterClassName = [
       textareaCounterBase,
       this.disabled
-        ? "text-[--button-color-background-primary-disabled]"
+        ? "text-[--text-input-outline-color-disabled]"
         : "text-daikinNeutral-900",
     ].join(" ");
 

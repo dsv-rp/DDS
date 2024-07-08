@@ -9,6 +9,7 @@ import {
 import ctl from "@netlify/classnames-template-literals";
 import tailwindStyles from "../../tailwind.css";
 import DaikinTextInput from "../text-input/daikin-text-input";
+import DaikinTextarea from "../textarea/daikin-textarea";
 
 const inputGroupContainer = ctl(`
   flex
@@ -92,13 +93,17 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   @queryAssignedElements({ selector: "daikin-text-input" })
   _textInputs: DaikinTextInput[];
 
+  @queryAssignedElements({ selector: "daikin-textarea" })
+  _textareas: DaikinTextarea[];
+
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
   }
 
   private _reflectSlotProperties(): void {
+    const inputs = [...this._textInputs, ...this._textareas];
     const isError = !this.disabled && !!this.error;
-    for (const input of this._textInputs) {
+    for (const input of inputs) {
       input.disabled = this.disabled;
       input.error = isError;
     }
