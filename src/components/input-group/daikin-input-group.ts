@@ -1,4 +1,5 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import {
   customElement,
@@ -9,22 +10,33 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
-export interface DaikinInputGroupProps {
-  label?: string;
-  helper?: string;
-  disabled?: boolean;
-  required?: boolean;
-  error?: string;
-}
+const cvaLabel = cva(["text-base", "font-bold"], {
+  variants: {
+    variant: {
+      enabled: ["text-daikinNeutral-800"],
+      disabled: ["text-daikinNeutral-200"],
+    },
+    required: {
+      optional: [],
+      required: ["after:content-['*']", "after:ml-[2px]"],
+    },
+  },
+});
+
+const cvaHelper = cva(["text-xs"], {
+  variants: {
+    variant: {
+      enabled: ["text-daikinNeutral-800"],
+      disabled: ["text-daikinNeutral-200"],
+    },
+  },
+});
 
 /**
  * Primary UI component for user interaction
  */
 @customElement("daikin-input-group")
-export class DaikinInputGroup
-  extends LitElement
-  implements DaikinInputGroupProps
-{
+export class DaikinInputGroup extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -52,13 +64,13 @@ export class DaikinInputGroup
    * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
    */
   @property({ type: Boolean, reflect: true })
-  disabled? = false;
+  disabled = false;
 
   /**
    * Whether the field is required. An additional star mark will be added if `true`.
    */
   @property({ type: Boolean, reflect: true })
-  required? = false;
+  required = false;
 
   /**
    * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
@@ -86,17 +98,14 @@ export class DaikinInputGroup
   }
 
   override render() {
-    const inputGroupLabelClassName = [
-      "text-base",
-      "font-bold",
-      this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
-      this.required ? "after:content-['*'] after:ml-[2px]" : "",
-    ].join(" ");
+    const inputGroupLabelClassName = cvaLabel({
+      variant: this.disabled ? "disabled" : "enabled",
+      required: this.required ? "required" : "optional",
+    });
 
-    const inputGroupHelperClassName = [
-      "text-xs",
-      this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
-    ].join(" ");
+    const inputGroupHelperClassName = cvaHelper({
+      variant: this.disabled ? "disabled" : "enabled",
+    });
 
     const textarea = [...this.getElementsByTagName("daikin-textarea")];
     if (textarea.length > 0) {
