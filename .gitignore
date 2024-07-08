@@ -9,14 +9,20 @@ lerna-debug.log*
 
 node_modules
 dist
-lib
-build
-storybook-static
+dist-ssr
 *.local
+*.tsbuildinfo
+
+# For migration from old project structure
+lib
+
+# Playwright test results
+test-results
+
+# Storybook build
+storybook-static
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
 .idea
 .DS_Store
 *.suo

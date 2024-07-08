@@ -1,1 +1,1 @@
-export { default as DaikinCheckbox } from "./daikin-checkbox";
+export * from "./daikin-checkbox";

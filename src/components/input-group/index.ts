@@ -1,1 +1,1 @@
-export { default as InputGroup } from "./daikin-input-group";
+export * from "./daikin-input-group";

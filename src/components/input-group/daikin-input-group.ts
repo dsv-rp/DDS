@@ -5,37 +5,9 @@ import {
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
-
-import ctl from "@netlify/classnames-template-literals";
-import tailwindStyles from "../../tailwind.css";
-import DaikinTextInput from "../text-input/daikin-text-input";
-import DaikinTextarea from "../textarea/daikin-textarea";
-
-const inputGroupContainer = ctl(`
-  flex
-  flex-col
-  justify-center
-  w-max
-  gap-1
-  font-daikinSerif
-`);
-
-const inputGroupError = ctl(`
-  flex
-  gap-2
-  text-[--input-group-border-color-error]
-  leading-[22px]
-  
-  before:i-daikin-input-group-error
-  before:block
-  before:w-[16px]
-  before:h-[22px]
-`);
-
-const inputGroupHelperRequired = ctl(`
-  after:content-['*']
-  after:ml-[2px]
-`);
+import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinTextInput } from "../text-input/daikin-text-input";
+import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 export interface DaikinInputGroupProps {
   label?: string;
@@ -49,12 +21,16 @@ export interface DaikinInputGroupProps {
  * Primary UI component for user interaction
  */
 @customElement("daikin-input-group")
-class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
-  static styles = css`
+export class DaikinInputGroup
+  extends LitElement
+  implements DaikinInputGroupProps
+{
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
       --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
+
       display: block;
       width: max-content;
     }
@@ -91,10 +67,10 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
   error = "";
 
   @queryAssignedElements({ selector: "daikin-text-input" })
-  _textInputs: DaikinTextInput[];
+  _textInputs!: DaikinTextInput[];
 
   @queryAssignedElements({ selector: "daikin-textarea" })
-  _textareas: DaikinTextarea[];
+  _textareas!: DaikinTextarea[];
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -104,17 +80,17 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
     const inputs = [...this._textInputs, ...this._textareas];
     const isError = !this.disabled && !!this.error;
     for (const input of inputs) {
-      input.disabled = this.disabled;
+      input.disabled = !!this.disabled;
       input.error = isError;
     }
   }
 
-  render() {
+  override render() {
     const inputGroupLabelClassName = [
       "text-base",
       "font-bold",
       this.disabled ? "text-daikinNeutral-200" : "text-daikinNeutral-800",
-      this.required ? inputGroupHelperRequired : "",
+      this.required ? "after:content-['*'] after:ml-[2px]" : "",
     ].join(" ");
 
     const inputGroupHelperClassName = [
@@ -129,25 +105,26 @@ class DaikinInputGroup extends LitElement implements DaikinInputGroupProps {
       }
     }
 
-    return html`<fieldset ?disabled="${this.disabled}" class="content">
-      <label class="${inputGroupContainer}">
-        ${!!this.label
-          ? html`<span class="${inputGroupLabelClassName}">${this.label}</span>`
+    return html`<fieldset class="content" ?disabled=${this.disabled}>
+      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
+        ${this.label
+          ? html`<span class=${inputGroupLabelClassName}>${this.label}</span>`
           : null}
         <slot @slotchange=${this._handleSlotChange}></slot>
-        ${!!this.helper
-          ? html`<span class="${inputGroupHelperClassName}"
-              >${this.helper}</span
-            >`
+        ${this.helper
+          ? html`<span class=${inputGroupHelperClassName}>${this.helper}</span>`
           : null}
         ${!this.disabled && !!this.error
-          ? html`<span class="${inputGroupError}">${this.error}</span>`
+          ? html`<span
+              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-input-group-error before:block before:w-[16px] before:h-[22px]"
+              >${this.error}</span
+            >`
           : null}
       </label>
     </fieldset>`;
   }
 
-  updated() {
+  override updated() {
     this._reflectSlotProperties();
   }
 }

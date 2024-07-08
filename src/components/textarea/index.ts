@@ -1,1 +1,1 @@
-export { default as Textarea } from "./daikin-textarea";
+export * from "./daikin-textarea";

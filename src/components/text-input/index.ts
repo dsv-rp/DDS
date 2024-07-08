@@ -1,1 +1,1 @@
-export { default as TextInput } from './daikin-text-input';
+export * from "./daikin-text-input";
