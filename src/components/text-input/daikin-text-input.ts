@@ -98,7 +98,7 @@ class DaikinTextInput extends LitElement implements DaikinTextInputProps {
   /**
    * Whether the field is readonly
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   readonly? = false;
 
   /**
