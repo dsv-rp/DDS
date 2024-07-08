@@ -15,7 +15,7 @@ const inputGroupContainer = ctl(`
   flex-col
   justify-center
   w-max
-  gap-2
+  gap-1
   font-daikinSerif
 `);
 
