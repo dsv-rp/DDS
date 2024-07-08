@@ -128,7 +128,7 @@ export class DaikinTextarea extends LitElement {
   error = false;
 
   /**
-   * Error state. Ignored if the `disabled` is `true`.
+   * Whether to display a counter at the top of the text area
    */
   @property({ type: Boolean, reflect: true })
   counter = false;
@@ -162,11 +162,12 @@ export class DaikinTextarea extends LitElement {
         ?readonly=${this.readonly}
         @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
         @input=${this._handleInput}
+        @keydown=${this._handleInput}
       ></textarea>
       ${this.counter
         ? html`
             <span class=${textareaCounterClassName}
-              >${this._textareaCounter}/100</span
+              >${this._textareaCounter}/${this.maxlength}</span
             >
           `
         : null}`;

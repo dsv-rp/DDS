@@ -13,7 +13,6 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     error,
     onChange,
     onInput,
-    onKeyDown,
   }) => html`
     <daikin-textarea
       ?disabled=${disabled}
@@ -23,7 +22,6 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
       maxlength=${ifDefined(maxlength)}
       @change=${onChange}
       @input=${onInput}
-      @keydown=${onKeyDown}
     ></daikin-textarea>
   `,
 };

@@ -6,7 +6,6 @@ export interface DaikinTextareaStoryArgs
   extends Required<ElementProps<DaikinTextarea>> {
   onChange: () => void;
   onInput: () => void;
-  onKeyDown: () => void;
 }
 
 export const DAIKIN_TEXTAREA_ARG_TYPES = {

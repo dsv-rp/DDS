@@ -86,6 +86,12 @@ export class DaikinInputGroup extends LitElement {
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
+
+    if (this._textareas.length > 0) {
+      for (const item of this._textareas) {
+        item.counter = true;
+      }
+    }
   }
 
   private _reflectSlotProperties(): void {
@@ -106,13 +112,6 @@ export class DaikinInputGroup extends LitElement {
     const inputGroupHelperClassName = cvaHelper({
       variant: this.disabled ? "disabled" : "enabled",
     });
-
-    const textarea = [...this.getElementsByTagName("daikin-textarea")];
-    if (textarea.length > 0) {
-      for (const item of textarea) {
-        item.counter = true;
-      }
-    }
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
