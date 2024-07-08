@@ -10,7 +10,7 @@ import type { DAIKIN_RADIO_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_RADIO_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-checkbox--small", args);
+  getStorybookIframeURL("components-radio--small", args);
 
 describeEach(["enabled", "disabled", "readonly"], (variant) => {
   describeEach(["small", "large"] as const, (size) => {
@@ -49,7 +49,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
           await page.goto(baseURL);
 
           // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
+          const element = await page.waitForSelector("daikin-radio", {
             state: "visible",
           });
 
@@ -61,7 +61,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
           await page.goto(baseURL);
 
           // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
+          const element = await page.waitForSelector("daikin-radio", {
             state: "visible",
           });
 
@@ -76,7 +76,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
           await page.goto(baseURL);
 
           // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
+          const element = await page.waitForSelector("daikin-radio", {
             state: "visible",
           });
 
@@ -93,7 +93,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
           await page.goto(baseURL);
 
           // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
+          const element = await page.waitForSelector("daikin-radio", {
             state: "visible",
           });
 
