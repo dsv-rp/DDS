@@ -44,7 +44,7 @@ const textareaBase = ctl(`
 
 const textareaError = ctl(`
   bg-daikinRed-50
-  border-[--color-feedback-negative]
+  border-[--text-input-border-color-error]
 `);
 
 const textareaCounterBase = ctl(`
@@ -126,13 +126,13 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
   /**
    * Error state. Ignored if the `disabled` is `true`.
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   error? = false;
 
   /**
    * Error state. Ignored if the `disabled` is `true`.
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   counter? = false;
 
   private _textareaCounter: number = 0;
@@ -151,9 +151,7 @@ class DaikinTextarea extends LitElement implements DaikinTextareaProps {
   render() {
     const textareaClassName = [
       textareaBase,
-      !!this.disabled && this.error
-        ? textareaError
-        : "border-daikinNeutral-600",
+      !this.disabled && this.error ? textareaError : "border-daikinNeutral-600",
     ].join(" ");
     const textareaCounterClassName = [
       textareaCounterBase,
