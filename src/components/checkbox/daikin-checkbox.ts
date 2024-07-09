@@ -210,7 +210,8 @@ export class DaikinCheckbox extends LitElement {
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
-    return html`<label class="inline-flex gap-[10px] items-center"
+    return html`<label
+      class="inline-flex gap-[10px] items-center font-daikinSerif"
       >${content}</label
     >`;
   }
