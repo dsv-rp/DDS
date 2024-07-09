@@ -80,6 +80,12 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: String, reflect: true })
   error = "";
 
+  /**
+   * Whether to display the counter in the Textarea
+   */
+  @property({ type: Boolean, reflect: true })
+  textareaCounter = false;
+
   @queryAssignedElements({ selector: "daikin-textarea" })
   _textareas!: DaikinTextarea[];
 
@@ -88,10 +94,6 @@ export class DaikinInputGroup extends LitElement {
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
-
-    for (const item of this._textareas) {
-      item.counter = true;
-    }
   }
 
   private _reflectSlotProperties(): void {
@@ -99,6 +101,10 @@ export class DaikinInputGroup extends LitElement {
     for (const control of this._controls) {
       control.disabled = !!this.disabled;
       control.error = isError;
+    }
+
+    for (const item of this._textareas) {
+      item.counter = this.textareaCounter;
     }
   }
 

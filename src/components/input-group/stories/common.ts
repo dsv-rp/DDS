@@ -41,6 +41,11 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
       "Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.",
     type: "string",
   },
+  textareaCounter: {
+    description: "Whether to display the counter in the Textarea",
+    defaultValue: false,
+    type: "boolean",
+  },
 } satisfies Meta<DaikinInputGroupStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinInputGroupStoryArgs>;

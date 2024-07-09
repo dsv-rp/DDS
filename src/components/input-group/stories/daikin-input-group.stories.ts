@@ -85,6 +85,7 @@ export const Textarea: Story = {
   args: {
     ...Default.args,
     content: "Textarea",
+    textareaCounter: true,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
