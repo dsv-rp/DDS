@@ -173,7 +173,8 @@ export class DaikinRadio extends LitElement {
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
 
-    return html`<label class="inline-flex w-full h-full gap-[8px] items-center"
+    return html`<label
+      class="inline-flex w-full h-full gap-[8px] items-center font-daikinSerif"
       >${inputArea}</label
     >`;
   }
