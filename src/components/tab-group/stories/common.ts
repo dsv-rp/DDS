@@ -1,14 +1,34 @@
-import type { StoryObj } from "@storybook/web-components";
-
+import type { ElementProps } from "#storybook";
+import type { Meta, StoryObj } from "@storybook/web-components";
 import type { DaikinTab } from "../../tab/daikin-tab";
 import type { DaikinTabGroup } from "../daikin-tab-group";
 
-export interface DaikinTabGroupStoryArgs extends DaikinTabGroup {
+export interface DaikinTabGroupStoryArgs
+  extends Required<ElementProps<DaikinTabGroup>> {
   size: DaikinTab["size"];
   tabs: string[];
+  onBeforeChange: () => void;
+  onChange: () => void;
 }
 
-type TabGroupStory = StoryObj<DaikinTabGroupStoryArgs>;
+export const DAIKIN_TAB_GROUP_ARG_TYPES = {
+  tabs: {
+    control: { type: "object" },
+    description: "Tabs to show",
+  },
+  value: {
+    type: "string",
+    description: "Current tab",
+  },
+  size: {
+    control: { type: "select" },
+    options: ["default", "condensed"],
+    description: "Tab size",
+  },
+} satisfies Meta<DaikinTabGroupStoryArgs>["argTypes"];
+
+export type Story = StoryObj<DaikinTabGroupStoryArgs>;
+
 
 export function parseTab(
   name: string
@@ -19,27 +39,3 @@ export function parseTab(
     name.startsWith("!"),
   ];
 }
-
-export const TabGroup: TabGroupStory = {
-  args: {
-    tabs: ["Foo", "!Bar", "Baz"],
-    value: "foo",
-    size: "default",
-  },
-};
-
-export const TabGroupSingle: TabGroupStory = {
-  args: {
-    tabs: ["Foo"],
-    value: "foo",
-    size: "default",
-  },
-};
-
-export const TabGroupMany: TabGroupStory = {
-  args: {
-    tabs: new Array(20).fill("").map((_, i) => `Tab ${i + 1}`),
-    value: "tab1",
-    size: "default",
-  },
-};

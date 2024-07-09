@@ -1,33 +1,23 @@
-import type { StorybookConfig } from '@storybook/web-components-vite';
-import { join, dirname } from 'path';
+import type { StorybookConfig } from "@storybook/web-components-vite";
+import { env } from "node:process";
+import { getAllStorybookFiles, STORYBOOK_ADDONS } from "./main-common";
 
-/**
- * This function is used to resolve the absolute path of a package.
- * It is needed in projects that use Yarn PnP or are set up within a monorepo.
- */
-function getAbsolutePath(value: string): any {
-    return dirname(require.resolve(join(value, 'package.json')));
-}
+env.STORYBOOK_FW = "web-components";
+
 const config: StorybookConfig = {
-    stories: [
-        '../src/**/*-wc.stories.@(js|jsx|mjs|ts|tsx|mdx)',
-        '../src/colors/daikin-colors.stories.mdx'
-    ],
-    addons: [
-        getAbsolutePath('@storybook/addon-links'),
-        getAbsolutePath('@storybook/addon-essentials'),
-        getAbsolutePath('@storybook/addon-a11y'),
-        getAbsolutePath('@storybook/addon-mdx-gfm')
-    ],
-    core: {
-        builder: getAbsolutePath('@storybook/builder-vite')
+  stories: getAllStorybookFiles("web-components"),
+  addons: STORYBOOK_ADDONS,
+  core: {
+    builder: "@storybook/builder-vite",
+  },
+  framework: {
+    name: "@storybook/web-components-vite",
+    options: {
+      builder: {
+        viteConfigPath: "vite.config.storybook.ts",
+      },
     },
-    framework: {
-        name: getAbsolutePath('@storybook/web-components-vite'),
-        options: {}
-    },
-    docs: {
-        autodocs: 'tag'
-    }
+  },
 };
+
 export default config;

@@ -1,228 +1,223 @@
 import {
-    buttonColorBackgroundPrimaryActive,
-    buttonColorBackgroundPrimaryFocus,
-    buttonColorBackgroundPrimaryHover,
-    buttonColorBackgroundPrimaryPress,
-    buttonColorBackgroundPrimaryDisabled
-} from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
-import { LitElement, html, css, unsafeCSS } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+  buttonColorBackgroundPrimaryActive,
+  buttonColorBackgroundPrimaryDisabled,
+  buttonColorBackgroundPrimaryFocus,
+  buttonColorBackgroundPrimaryHover,
+  buttonColorBackgroundPrimaryPress,
+} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
+import { cva } from "class-variance-authority";
+import { LitElement, css, html, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import type { ARIARole } from "../../lit-analyzer-types";
+import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 
-import tailwindStyles from '../../tailwind.css';
-import styles from './button.css';
-import { cva, type VariantProps } from "class-variance-authority";
-import type { OmitNull } from "../../typeUtils";
-
-const buttonCN = cva(["inline-flex", "justify-center", "items-center", "font-daikinSerif", "font-bold", "rounded-lg", "tracking-wide", "text-wrap", "disabled:cursor-default", "h-full", "w-full"], {
+const cvaButton = cva(
+  [
+    "inline-flex",
+    "justify-center",
+    "items-center",
+    "font-daikinSerif",
+    "font-bold",
+    "rounded-lg",
+    "tracking-wide",
+    "text-wrap",
+    "disabled:cursor-default",
+    "w-full",
+    "h-full",
+  ],
+  {
     variants: {
-        intent: {
-          primary: [
-            "button-primary",
-            "focus-visible:outline-none"
-          ],
-          secondary: [
-            "border-2",
-            "bg-white",
-            "text-daikinBlue-500",
-            "border-daikinBlue-500",
-            "hover:text-daikinBlue-300",
-            "hover:border-daikinBlue-300",
-            "active:text-daikinBlue-600",
-            "active:border-daikinBlue-600",
-            "focus-visible:text-daikinBlue-700",
-            "focus-visible:border-daikinBlue-700",
-            "disabled:border-daikinNeutral-300",
-            "disabled:text-daikinNeutral-400",
-            "disabled:border",
-            "focus-visible:outline-none"
-          ],
-          tertiary: [
-            "text-daikinBlue-400",
-            "bg-none",
-            "border-none",
-            "shadow-none",
-            "hover:bg-daikinNeutral-100",
-            "disabled:bg-transparent",
-            "disabled:text-daikinNeutral-400",
-          ],
-          primaryDanger: [
-            "bg-daikinRed",
-            "text-white",
-            "hover:bg-daikinRed-400",
-            "focus-visible:bg-daikinRed-700",
-            "disabled:bg-daikinNeutral-300",
-            "active:bg-daikinRed-700",
-            "focus-visible:outline-none"
-          ]
-        },
-        size: {
-          default: ["px-4", "text-[14px]"],
-          condensed: ["px-[10px]", "text-[12px]"],
-        },
+      intent: {
+        primary: [
+          "text-white",
+          "bg-[--buttonColorBackgroundPrimaryActive]",
+          "enabled:focus-visible:bg-[--buttonColorBackgroundPrimaryFocus]",
+          "enabled:hover:bg-[--buttonColorBackgroundPrimaryHover]",
+          "enabled:active:bg-[--buttonColorBackgroundPrimaryPress]",
+          "disabled:bg-[--buttonColorBackgroundPrimaryDisabled]",
+          "focus-visible:outline-none",
+        ],
+        secondary: [
+          "border-2",
+          "bg-white",
+          "text-daikinBlue-500",
+          "border-daikinBlue-500",
+          "enabled:hover:text-daikinBlue-300",
+          "enabled:hover:border-daikinBlue-300",
+          "enabled:active:text-daikinBlue-600",
+          "enabled:active:border-daikinBlue-600",
+          "enabled:focus-visible:text-daikinBlue-700",
+          "enabled:focus-visible:border-daikinBlue-700",
+          "disabled:border-daikinNeutral-300",
+          "disabled:text-daikinNeutral-400",
+          "disabled:border",
+          "focus-visible:outline-none",
+        ],
+        tertiary: [
+          "text-daikinBlue-400",
+          "bg-none",
+          "border-none",
+          "shadow-none",
+          "enabled:hover:bg-daikinNeutral-100",
+          "disabled:bg-transparent",
+          "disabled:text-daikinNeutral-400",
+        ],
+        primaryDanger: [
+          "bg-daikinRed",
+          "text-white",
+          "enabled:hover:bg-daikinRed-400",
+          "enabled:focus-visible:bg-daikinRed-700",
+          "enabled:active:bg-daikinRed-700",
+          "disabled:bg-daikinNeutral-300",
+          "focus-visible:outline-none",
+        ],
       },
-      defaultVariants: {
-        intent: "primary",
-        size: "condensed"
-      }
-});
+      size: {
+        default: ["px-4", "text-[14px]"],
+        condensed: ["px-[10px]", "text-[12px]"],
+      },
+    },
+    defaultVariants: {
+      intent: "primary",
+      size: "condensed",
+    },
+  }
+);
 
-type ButtonProps = OmitNull<VariantProps<typeof buttonCN>>;
-export interface DaikinButtonProps {
-    /**
-     * Type of action
-     */
-    variant?: ButtonProps["intent"];
-    /**
-     * Whether to show the disabled state
-     */
-    disabled?: boolean;
-    href?: string;
-    size?: ButtonProps["size"];
-    type?: 'button' | 'submit' | 'reset';
-    role?: string;
-    isLoading?: boolean;
-}
+type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
 /**
  * Primary UI component for user interaction
  */
-@customElement('daikin-button')
-class DaikinButton extends LitElement implements DaikinButtonProps {
+@customElement("daikin-button")
+export class DaikinButton extends LitElement {
+  static override readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
 
-    override focus() {
-        this.shadowRoot?.querySelector("button")?.focus();
+    :host {
+      --buttonColorBackgroundPrimaryActive: ${unsafeCSS(
+        buttonColorBackgroundPrimaryActive
+      )};
+      --buttonColorBackgroundPrimaryFocus: ${unsafeCSS(
+        buttonColorBackgroundPrimaryFocus
+      )};
+      --buttonColorBackgroundPrimaryHover: ${unsafeCSS(
+        buttonColorBackgroundPrimaryHover
+      )};
+      --buttonColorBackgroundPrimaryPress: ${unsafeCSS(
+        buttonColorBackgroundPrimaryPress
+      )};
+      --buttonColorBackgroundPrimaryDisabled: ${unsafeCSS(
+        buttonColorBackgroundPrimaryDisabled
+      )};
+
+      display: inline-block;
+      width: fit-content;
+      min-height: 42px;
+      height: 1px;
     }
 
-    static styles = css`
-        :host {
-            --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
-                buttonColorBackgroundPrimaryActive
-            )};
-            --defaultButtonColorBackgroundPrimaryFocus: ${unsafeCSS(
-                buttonColorBackgroundPrimaryFocus
-            )};
-            --defaultButtonColorBackgroundPrimaryHover: ${unsafeCSS(
-                buttonColorBackgroundPrimaryHover
-            )};
-            --defaultButtonColorBackgroundPrimaryPress: ${unsafeCSS(
-                buttonColorBackgroundPrimaryPress
-            )};
-            --defaultButtonColorBackgroundPrimaryDisabled: ${unsafeCSS(
-                buttonColorBackgroundPrimaryDisabled
-            )};
-        }
-        :host {
-            display: inline-block;
-            width: fit-content;
-            min-height: 42px;
-            height: 1px;
-        }
+    :host([size="condensed"]) {
+      min-height: 32px;
+    }
+  `;
 
-        :host([size="condensed"]) {
-            min-height: 32px;
-        }
+  /**
+   * Type of variant.
+   */
+  @property({ type: String })
+  variant: ButtonVariantProps["intent"] = "primary";
+
+  /**
+   * `true` if the button should be disabled.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
+   * Set a icon in the right of button label.
+   */
+  @property({ type: String, reflect: true })
+  rightIcon = "";
+
+  /**
+   * Set a icon in the left of button label.
+   */
+  @property({ type: String, reflect: true })
+  leftIcon = "";
+
+  /**
+   * Link `href`. If present, this button is rendered as `<a>`.
+   */
+  @property({ type: String, reflect: true })
+  href = "";
+
+  /**
+   * Specify the button size.
+   */
+  @property({ type: String, reflect: true })
+  size: ButtonVariantProps["size"] = "default";
+
+  /**
+   * Specify the button type.
+   */
+  @property({ type: String, reflect: true })
+  type: "button" | "submit" | "reset" = "button";
+
+  /**
+   * Specify the button role.
+   */
+  @property({ type: String, reflect: true })
+  override role: ARIARole = "button";
+
+  /**
+   * Specify whether the button is loading.
+   */
+  @property({ type: Boolean })
+  isLoading = false;
+
+  override render() {
+    const buttonClassName = cvaButton({
+      intent: this.variant,
+      size: this.size,
+    });
+
+    const content = html`
+      <slot name="leftIcon"></slot>
+      <span><slot></slot></span>
+      <slot name="rightIcon"></slot>
     `;
 
-    /**
-     * Type of variant.
-     */
-    @property({ type: String })
-    variant: ButtonProps["intent"] = "primary"
-    
-    /**
-     * `true` if the button should be disabled.
-     */
-    @property({ type: Boolean, reflect: true })
-    disabled = false
-    
-    /**
-     * Set a icon in the right of button label.
-     */
-    @property({ type: String, reflect: true })
-    rightIcon = "";
-    
-    /**
-     * Set a icon in the left of button label.
-     */
-    @property({ type: String, reflect: true })
-    leftIcon = "";
-    
-    /**
-     * Link `href`. If present, this button is rendered as `<a>`.
-     */
-    @property({ type: String, reflect: true })
-    href = "";
-    
-    /**
-     * Specify the button size.
-     */
-    @property({type: String, reflect: true })
-    size: ButtonProps["size"] = "default"
-    
-    /**
-     * Specify the button type.
-     */
-    @property({type: String, reflect: true })
-    type: "button" | "submit" | "reset" = "button";	
-    
-    /**
-     * Specify the button role.
-     */
-    @property({type: String, reflect: true })
-    role: string = "button";
-    
-    /**
-     * Specify whether the button is loading.
-     */
-    @property({ type: Boolean })
-    isLoading = false;
-
-    connectedCallback(): void {
-        super.connectedCallback();
-
-        const tailwind = new CSSStyleSheet();
-        tailwind.replace(tailwindStyles);
-
-        const buttonStyles = new CSSStyleSheet();
-        buttonStyles.replaceSync(styles);
-
-        const defaultsVariables = new CSSStyleSheet();
-        defaultsVariables.replaceSync(DaikinButton.styles.cssText);
-
-        (this.renderRoot as ShadowRoot).adoptedStyleSheets = [
-            tailwind,
-            defaultsVariables,
-            buttonStyles
-        ];
+    if (this.href) {
+      return html` <a
+        href="${this.href}"
+        class="${buttonClassName}"
+        role="${this.role}"
+      >
+        ${content}
+      </a>`;
     }
 
-    render() {
+    return html`
+      <button
+        class="${buttonClassName}"
+        ?disabled="${this.disabled}"
+        type="${this.type}"
+        role="${this.role}"
+      >
+        ${content}
+      </button>
+    `;
+  }
 
-        const buttonClassName = buttonCN({intent: this.variant, size: this.size})
-
-        const content = html`
-                        <slot name="leftIcon"></slot>
-                        <span><slot></slot></span>
-                        <slot name="rightIcon"></slot>
-                        `; 
-        if(this.href) {
-            return html`
-                <a href="${this.href}" class="${buttonClassName}" role="${this.role as AnyRole}">
-                    ${content}
-                </a>`
-        }
-        return html`
-            <button class="${buttonClassName}" ?disabled="${this.disabled}" type="${this.type}" role="${this.role as AnyRole}">
-                ${content}
-            </button>
-        `;
-    }
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("button")?.focus(options);
+  }
 }
 
 declare global {
-    interface HTMLElementTagNameMap {
-        'daikin-button': DaikinButton;
-    }
+  interface HTMLElementTagNameMap {
+    "daikin-button": DaikinButton;
+  }
 }
-
-export default DaikinButton;

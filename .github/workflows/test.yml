@@ -1,51 +1,96 @@
-name: Visual Regression Test
+name: Test
 
 on:
-    pull_request:
-    workflow_dispatch:
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-    visual-regression:
-        runs-on: macos-latest
+  # Linting and Interaction Testing
+  # Actually, it is interaction testing and linting, but we are temporarily using this name to merge the PRs.
+  visual-regression:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.45.1-jammy
 
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    timeout-minutes: 10
 
-            - name: Use Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: '20.x'
-                  cache: 'npm'
-                  cache-dependency-path: |
-                      package-lock.json
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Cache node modules and browsers
-              id: cache-npm
-              uses: actions/cache@v4
-              env:
-                  cache-name: visual-regression-cache
-              with:
-                  # Cache node_modules and chromium
-                  path: |
-                      node_modules
-                      /Users/runner/.cache/puppeteer
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-            - name: Install dependencies
-              run: npm i
+      - name: Install dependencies
+        run: npm ci
 
-            - name: Run tests
-              run: npm run build && npm run test
+      - name: Lint
+        run: npm run lint
 
-            - name: Upload artifacts
-              uses: actions/upload-artifact@v4
-              if: failure()
-              with:
-                  name: Diff Output attempt-${{ github.run_attempt }}
-                  path: __test__/__image_snapshots__/__diff_output__/
-                  retention-days: 7
+      - name: Build
+        run: npm run build
+
+      - name: Build Storybook
+        run: npm run build-storybook
+        env:
+          STORYBOOK_ENV: production
+
+      - name: Interaction Test
+        run: |
+          npm run test:interaction
+          STORYBOOK_ENV=production npm run test:interaction
+
+  # VRT is separated since it's time consuming.
+  visual-regression-test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.45.1-jammy
+
+    timeout-minutes: 10
+
+    strategy:
+      matrix:
+        # `npm run test:visual-<framework>`
+        framework: [react, wc]
+        # `STORYBOOK_ENV=<env>`
+        env: [development, production]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        if: matrix.env == 'production'
+        run: npm run build
+
+      - name: Build Storybook
+        if: matrix.env == 'production'
+        run: npm run build-storybook
+        env:
+          STORYBOOK_ENV: production
+
+      - name: Visual Regression Test
+        run: npm run test:visual-${{ matrix.framework }}
+        env:
+          PLAYWRIGHT_NO_CONTAINER: 1
+          STORYBOOK_ENV: ${{ matrix.env }}
+
+      - name: Upload VRT Results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: VRT-Result-PR${{ github.event.number }}-${{ github.run_number }}-${{ github.run_attempt }}-${{ matrix.framework }}-${{ matrix.env }}
+          path: test-results
+          retention-days: 7

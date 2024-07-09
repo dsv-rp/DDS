@@ -1,29 +1,13 @@
 {
-    "compilerOptions": {
-        "target": "es2019",
-        "module": "es2020",
-        "lib": ["es2020", "DOM", "DOM.Iterable"],
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
-        "inlineSources": true,
-        "experimentalDecorators": true,
-        "useDefineForClassFields": false,
-        "skipLibCheck": true,
-        "moduleResolution": "bundler",
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noImplicitReturns": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "noFallthroughCasesInSwitch": true,
-        "strictPropertyInitialization": false
-    },
-    "include": ["src", "globals.d.ts"],
-    "exclude": ["src/**/*.stories.ts", "src/**/*.stories.tsx"]
+  "files": [],
+  "compilerOptions": {
+    // This is required to tell Vite to transform decorators
+    "experimentalDecorators": true
+  },
+  "references": [
+    { "path": "./tsconfig.lib.json" },
+    { "path": "./tsconfig.lib-stories.json" },
+    { "path": "./tsconfig.lib-tests.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

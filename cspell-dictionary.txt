@@ -1,0 +1,36 @@
+# Proper nouns
+daikin
+dotfiles
+fontsource
+lightningcss
+picocolors
+roboto
+tailwindcss
+taze
+tseslint
+
+# Colors
+Coolgrey
+Darkgrey
+Mediumgrey
+
+# HTML
+beforechange
+slotchange
+
+# SVG
+evenodd
+
+# ARIA Roles
+tablist
+
+# Storybook
+autodocs
+docgen
+
+# Testing
+testid
+
+# Misc.
+FOUC
+tabgroup

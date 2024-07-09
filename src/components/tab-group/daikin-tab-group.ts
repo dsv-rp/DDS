@@ -1,7 +1,6 @@
-import { LitElement, html, css, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import tailwindStyles from "../../tailwind.css";
+import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTab } from "../tab/daikin-tab";
 
 /**
@@ -11,7 +10,7 @@ import type { DaikinTab } from "../tab/daikin-tab";
  */
 @customElement("daikin-tab-group")
 export class DaikinTabGroup extends LitElement {
-  static readonly styles = css`
+  static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
@@ -55,7 +54,7 @@ export class DaikinTabGroup extends LitElement {
       new CustomEvent("change", {
         detail: { oldValue: this.value, newValue },
         bubbles: true,
-        composed: false,
+        composed: true,
         cancelable: false,
       })
     );
@@ -177,7 +176,7 @@ export class DaikinTabGroup extends LitElement {
     this._managingTabs = newManagingTabs;
   }
 
-  render() {
+  override render() {
     return html`
       <div
         class="inline-block w-full h-full"
@@ -189,7 +188,7 @@ export class DaikinTabGroup extends LitElement {
     `;
   }
 
-  updated(changedProperties: Map<string, any>) {
+  override updated(changedProperties: PropertyValues<this>) {
     if (!changedProperties.has("value")) {
       return;
     }
