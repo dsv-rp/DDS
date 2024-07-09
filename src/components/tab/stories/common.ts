@@ -4,7 +4,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTabStoryArgs extends Required<ElementProps<DaikinTab>> {
   label: string;
-  onClick: () => void;
+  onClick: (event: Event) => void;
+  onSelect: (event: Event) => void;
 }
 
 export const DAIKIN_TAB_ARG_TYPES = {

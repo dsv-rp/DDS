@@ -1,5 +1,9 @@
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTab } from "../tab/daikin-tab";
 
@@ -26,7 +30,8 @@ export class DaikinTabGroup extends LitElement {
   @property({ type: String, reflect: true })
   value: string = "";
 
-  private _managingTabs: [DaikinTab, () => void][] = [];
+  @queryAssignedElements({ selector: "daikin-tab" })
+  private _tabs!: DaikinTab[];
 
   private _handleBeforeChange(newValue: string): boolean {
     if (this.value === newValue) {
@@ -62,7 +67,40 @@ export class DaikinTabGroup extends LitElement {
     this.value = newValue;
   }
 
-  private _handleClick(tab: DaikinTab): void {
+  private _updateTabs(): void {
+    const tabs = this._tabs;
+
+    // Activate the tab which has current `value`s
+    let selectedTab;
+    for (const tab of tabs) {
+      const isActive =
+        !selectedTab && !tab.disabled && tab.value === this.value;
+      tab.active = isActive;
+      if (isActive) {
+        selectedTab = tab;
+      }
+    }
+
+    // If there is no tab with current `value`, activate the first tab
+    if (!selectedTab) {
+      selectedTab = tabs.find((tab) => !tab.disabled);
+      if (selectedTab) {
+        selectedTab.active = true;
+        this._updateValue(selectedTab.value);
+      }
+    }
+
+    selectedTab?.scrollIntoView();
+  }
+
+  private _handleTabSelect(event: Event): void {
+    const tab = event.target as DaikinTab | null;
+    if (tab?.tagName !== "DAIKIN-TAB") {
+      return;
+    }
+
+    event.stopImmediatePropagation();
+
     if (this.value === tab.value) {
       return;
     }
@@ -71,11 +109,7 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    if (this._managingTabs.every(([element]) => element !== tab)) {
-      return;
-    }
-
-    for (const [element] of this._managingTabs) {
+    for (const element of this._tabs) {
       element.active = element === tab;
     }
     this._updateValue(tab.value);
@@ -88,31 +122,33 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    if (!this._managingTabs.some(([tab]) => !tab.disabled)) {
+    // Retrieve all tabs
+    const tabs = this._tabs;
+
+    // Check if there is at least one tab available
+    if (!tabs.some((tab) => !tab.disabled)) {
+      // No tabs available!
       return;
     }
 
-    const activeTab = this._managingTabs.find(
-      ([element]) => !element.disabled && element.active
-    )?.[0];
-
+    // Get focused tab if any
     const activeElement = document.activeElement;
     const focusedTabIndex = activeElement
-      ? this._managingTabs.findIndex(([element]) =>
-          element.contains(activeElement)
-        )
+      ? tabs.findIndex((tab) => tab.contains(activeElement))
       : -1;
 
+    // If there is no tab focused, focus on the active (current) tab
     if (focusedTabIndex < 0) {
+      const activeTab = tabs.find((tab) => !tab.disabled && tab.active);
       activeTab?.focus();
       return;
     }
 
-    for (let i = 1; i <= this._managingTabs.length; i++) {
+    // If there is a tab focused, move focus forward or backward
+    for (let i = 1; i <= tabs.length; i++) {
       const index =
-        (focusedTabIndex + moveOffset * i + this._managingTabs.length * i) %
-        this._managingTabs.length;
-      const candidate = this._managingTabs[index][0];
+        (focusedTabIndex + moveOffset * i + tabs.length * i) % tabs.length;
+      const candidate = tabs[index];
       if (candidate.disabled) {
         continue;
       }
@@ -122,58 +158,15 @@ export class DaikinTabGroup extends LitElement {
     }
   }
 
+  constructor() {
+    super();
+
+    // Bubbled from children tabs
+    this.addEventListener("select", this._handleTabSelect);
+  }
+
   private _handleSlotChange(): void {
-    const newTabs = Array.from(this.getElementsByTagName("daikin-tab"));
-
-    // Cleanup disappeared tabs
-    for (const [tab, cleanup] of this._managingTabs) {
-      if (newTabs.includes(tab)) {
-        continue;
-      }
-
-      // Disappeared tab
-      cleanup();
-    }
-
-    const newManagingTabs: typeof this._managingTabs = [];
-    let selectedTab;
-    for (const tab of newTabs) {
-      let item = this._managingTabs.find(([item]) => item === tab);
-      if (!item) {
-        // Newly appeared tab
-        const onClickHandler = (): void => {
-          this._handleClick(tab);
-        };
-        tab.addEventListener("click", onClickHandler);
-        item = [
-          tab,
-          (): void => {
-            tab.removeEventListener("click", onClickHandler);
-          },
-        ];
-      }
-
-      const isActive =
-        !selectedTab && !tab.disabled && tab.value === this.value;
-      tab.active = isActive;
-      if (isActive) {
-        selectedTab = tab;
-      }
-
-      newManagingTabs.push(item);
-    }
-
-    if (!selectedTab) {
-      const fallbackTab = newTabs.find((tab) => !tab.disabled);
-      if (fallbackTab) {
-        fallbackTab.active = true;
-        this._updateValue(fallbackTab.value);
-      }
-    }
-
-    selectedTab?.scrollIntoView();
-
-    this._managingTabs = newManagingTabs;
+    this._updateTabs();
   }
 
   override render() {
@@ -193,25 +186,7 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    let selectedTab;
-    for (const [tab] of this._managingTabs) {
-      const isActive =
-        !selectedTab && !tab.disabled && tab.value === this.value;
-      tab.active = isActive;
-      if (isActive) {
-        selectedTab = tab;
-      }
-    }
-
-    if (!selectedTab) {
-      selectedTab = this._managingTabs.find(([tab]) => !tab.disabled)?.[0];
-      if (selectedTab) {
-        selectedTab.active = true;
-        this._updateValue(selectedTab.value);
-      }
-    }
-
-    selectedTab?.scrollIntoView();
+    this._updateTabs();
   }
 }
 

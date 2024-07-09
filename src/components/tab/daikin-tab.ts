@@ -96,6 +96,15 @@ export class DaikinTab extends LitElement {
   private _handleClick(event: MouseEvent | PointerEvent) {
     if (this.disabled) {
       event.stopImmediatePropagation();
+    } else {
+      this.dispatchEvent(
+        new CustomEvent("select", {
+          detail: { value: this.value },
+          bubbles: true,
+          composed: true,
+          cancelable: false,
+        })
+      );
     }
   }
 

@@ -18,6 +18,7 @@ export const Default: Story = {
     disabled: false,
     label: "Tab",
     onClick: fn(),
+    onSelect: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tab")[0];
@@ -47,6 +48,7 @@ export const Condensed: Story = {
     ...Default.args,
     size: "condensed",
     onClick: fn(),
+    onSelect: fn(),
   },
 };
 
@@ -55,6 +57,7 @@ export const Disabled: Story = {
     ...Default.args,
     disabled: true,
     onClick: fn(),
+    onSelect: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tab")[0];
@@ -84,5 +87,6 @@ export const Active: Story = {
     ...Default.args,
     active: true,
     onClick: fn(),
+    onSelect: fn(),
   },
 };
