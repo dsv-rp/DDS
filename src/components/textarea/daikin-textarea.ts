@@ -94,13 +94,13 @@ export class DaikinTextarea extends LitElement {
   /**
    * Whether the field is disabled
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
    * Whether the field is required
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
@@ -112,13 +112,13 @@ export class DaikinTextarea extends LitElement {
   /**
    * Maximum length in field values
    */
-  @property({ type: Number })
+  @property({ type: Number, reflect: true })
   maxlength: number = 100;
 
   /**
    * Specify auto-completion values
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   autocomplete?: HTMLInputElement["autocomplete"];
 
   /**
@@ -135,10 +135,14 @@ export class DaikinTextarea extends LitElement {
 
   private _textareaCounter: number = 0;
 
+  private _updateTextareaCounter(value: string): void {
+    this._internals.setFormValue(value);
+    this._textareaCounter = [...value].length;
+  }
+
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
-    this._internals.setFormValue(this.value);
-    this._textareaCounter = this.value.length;
+    this._updateTextareaCounter(this.value);
   }
 
   override render() {
@@ -152,6 +156,7 @@ export class DaikinTextarea extends LitElement {
 
     return html`<textarea
         class=${textareaClassName}
+        .value=${this.value}
         placeholder=${this.placeholder}
         maxlength=${this.maxlength}
         autocomplete=${
@@ -179,6 +184,7 @@ export class DaikinTextarea extends LitElement {
     }
 
     this._internals.setFormValue(this.value);
+    this._updateTextareaCounter(this.value);
   }
 }
 

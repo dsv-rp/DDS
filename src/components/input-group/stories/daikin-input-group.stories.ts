@@ -90,6 +90,7 @@ export const Textarea: Story = {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
     await expect(root).toBeInTheDocument();
 
+    const inner = canvasElement.getElementsByTagName("daikin-textarea")[0];
     const innerInput: HTMLInputElement = getByShadowRole(root, "textbox");
     await expect(innerInput).toBeInTheDocument();
 
@@ -103,7 +104,7 @@ export const Textarea: Story = {
       await expect(queryByShadowText(root, "0/100")).not.toBeInTheDocument();
     });
 
-    innerInput.value = "";
+    inner.value = "";
     innerInput.blur();
   }),
 };

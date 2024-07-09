@@ -89,10 +89,8 @@ export class DaikinInputGroup extends LitElement {
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
 
-    if (this._textareas.length > 0) {
-      for (const item of this._textareas) {
-        item.counter = true;
-      }
+    for (const item of this._textareas) {
+      item.counter = true;
     }
   }
 
