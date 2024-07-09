@@ -10,6 +10,8 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
+type ControlElement = DaikinTextInput | DaikinTextarea;
+
 const cvaLabel = cva(["text-base", "font-bold"], {
   variants: {
     variant: {
@@ -78,11 +80,11 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: String, reflect: true })
   error = "";
 
-  @queryAssignedElements({ selector: "daikin-text-input" })
-  _textInputs!: DaikinTextInput[];
-
   @queryAssignedElements({ selector: "daikin-textarea" })
   _textareas!: DaikinTextarea[];
+
+  @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
+  _controls!: ControlElement[];
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -95,11 +97,10 @@ export class DaikinInputGroup extends LitElement {
   }
 
   private _reflectSlotProperties(): void {
-    const inputs = [...this._textInputs, ...this._textareas];
     const isError = !this.disabled && !!this.error;
-    for (const input of inputs) {
-      input.disabled = !!this.disabled;
-      input.error = isError;
+    for (const control of this._controls) {
+      control.disabled = !!this.disabled;
+      control.error = isError;
     }
   }
 
