@@ -3,15 +3,43 @@ import { customElement, property } from "lit/decorators.js";
 
 import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 
-const cvaLink = cva([], {
-  variants: {
-    size: {
-      max: [],
-      min: [],
+const cvaLink = cva(
+  [
+    "gap-2",
+    "inline-flex",
+    "justify-center",
+    "h-8",
+    "items-center",
+    "flex-shrink-0",
+    "font-normal",
+    "not-italic",
+    "leading-8",
+    "text-sm",
+    "text-daikinBlue-500",
+    "outline-none",
+    "font-daikinSerif",
+  ],
+  {
+    variants: {
+      size: {
+        max: [
+          "hover:text-daikinBlue-300",
+          "active:text-daikinNeutral-800",
+          "focus-visible:text-daikinBlue-700",
+        ],
+        min: ["hover:text-daikinBlue-300"],
+      },
+      noTrailingSlash: {
+        true: [],
+        false: ["after:content-['/']", "after:text-black"],
+      },
     },
-  },
-});
+  }
+);
+
+type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
 
 @customElement("daikin-breadcrumb-item")
 export class DaikinBreadcrumbItem extends LitElement {
@@ -28,24 +56,20 @@ export class DaikinBreadcrumbItem extends LitElement {
   href = "";
 
   @property({ type: String, reflect: true })
-  size = "max";
+  size: LinkVariantProps["size"] = "max";
 
   @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
   noTrailingSlash = false;
 
   override render() {
-    const slash = !this.noTrailingSlash
-      ? html`<span class="">/</span>`
-      : html``;
-
-    const linkText = this.size === "max" ? html`<slot></slot>` : html`...`;
-    return html`<div
-      class="gap-2 inline-flex justify-center h-8 items-center flex-shrink-0 font-normal not-italic leading-8 text-sm "
-    >
-      <a href="${this.href}"
-        ><span class="text-daikinBlue-500">${linkText}</span></a
-      >${slash}
-    </div>`;
+    const linkClassName = cvaLink({
+      size: this.size,
+      noTrailingSlash: this.noTrailingSlash,
+    });
+    const linkText = this.size === "max" ? html`<slot></slot>` : html`…`;
+    return html`
+      <a href="${this.href}" class="${linkClassName}">${linkText}</a>
+    `;
   }
 }
 
