@@ -54,7 +54,7 @@ export class DaikinInputGroup extends LitElement {
   label?: string;
 
   /**
-   * Helper text to place at the bottom of the field
+   * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
    */
   @property({ type: String })
   helper?: string;
@@ -108,7 +108,7 @@ export class DaikinInputGroup extends LitElement {
           ? html`<span class=${inputGroupLabelClassName}>${this.label}</span>`
           : null}
         <slot @slotchange=${this._handleSlotChange}></slot>
-        ${this.helper
+        ${this.helper && !this.error
           ? html`<span class=${inputGroupHelperClassName}>${this.helper}</span>`
           : null}
         ${!this.disabled && !!this.error
