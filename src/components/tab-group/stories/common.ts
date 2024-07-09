@@ -7,8 +7,8 @@ export interface DaikinTabGroupStoryArgs
   extends Required<ElementProps<DaikinTabGroup>> {
   size: DaikinTab["size"];
   tabs: string[];
-  onBeforeChange: () => void;
-  onChange: () => void;
+  onBeforeChange: (event: Event) => void;
+  onChange: (event: Event) => void;
 }
 
 export const DAIKIN_TAB_GROUP_ARG_TYPES = {
