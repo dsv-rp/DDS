@@ -29,7 +29,6 @@ export const DAIKIN_TAB_GROUP_ARG_TYPES = {
 
 export type Story = StoryObj<DaikinTabGroupStoryArgs>;
 
-
 export function parseTab(
   name: string
 ): [label: string, value: string, disabled: boolean] {
