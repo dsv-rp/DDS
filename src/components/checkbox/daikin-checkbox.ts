@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -113,7 +113,7 @@ export class DaikinCheckbox extends LitElement {
   }
 
   @query("input")
-  _input: HTMLInputElement | null | undefined;
+  private _input: HTMLInputElement | null | undefined;
 
   get checked() {
     return this.checkState === "checked";
@@ -216,7 +216,7 @@ export class DaikinCheckbox extends LitElement {
     >`;
   }
 
-  override updated(changedProperties: Map<string, unknown>) {
+  override updated(changedProperties: PropertyValues<this>) {
     if (changedProperties.has("checkState")) {
       this._updateFormValue();
     }
