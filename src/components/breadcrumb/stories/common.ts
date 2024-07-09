@@ -12,6 +12,7 @@ export const DAIKIN_BREADCRUMB_ARG_TYPES = {
     control: { type: "select" },
     options: ["max", "min"],
   },
+  noTrailingSlash: { type: "boolean" },
 } as const satisfies Meta<DaikinBreadcrumbItemStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinBreadcrumbItemStoryArgs>;

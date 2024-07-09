@@ -28,9 +28,18 @@ const ReactDaikinBreadcrumbItem = createComponent({
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
     <ReactDaikinBreadcrumb>
-      <ReactDaikinBreadcrumbItem>test1</ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem>test2</ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem>test3</ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem href="test1url">
+        Test1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem href="test2url" size={props.size}>
+        Test2
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem
+        href={props.href}
+        noTrailingSlash={props.noTrailingSlash}
+      >
+        Test3
+      </ReactDaikinBreadcrumbItem>
     </ReactDaikinBreadcrumb>
   ),
 };

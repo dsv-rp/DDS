@@ -9,13 +9,14 @@ export class DaikinBreadcrumb extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: flex;
+      align-items: center;
     }
   `;
 
   override render() {
     return html`
-      <ol class="">
+      <ol class="flex gap-2">
         <slot></slot>
       </ol>
     `;

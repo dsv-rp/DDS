@@ -1,11 +1,17 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
+import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
 
-export interface DaikinBreadcrumbItemProps {
-  href: string;
-}
+const cvaLink = cva([], {
+  variants: {
+    size: {
+      max: [],
+      min: [],
+    },
+  },
+});
 
 @customElement("daikin-breadcrumb-item")
 export class DaikinBreadcrumbItem extends LitElement {
@@ -13,7 +19,8 @@ export class DaikinBreadcrumbItem extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
     }
   `;
 
@@ -21,10 +28,24 @@ export class DaikinBreadcrumbItem extends LitElement {
   href = "";
 
   @property({ type: String, reflect: true })
-  size = "";
+  size = "max";
+
+  @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
+  noTrailingSlash = false;
 
   override render() {
-    return html`<span class=""><slot></slot></span>`;
+    const slash = !this.noTrailingSlash
+      ? html`<span class="">/</span>`
+      : html``;
+
+    const linkText = this.size === "max" ? html`<slot></slot>` : html`...`;
+    return html`<div
+      class="gap-2 inline-flex justify-center h-8 items-center flex-shrink-0 font-normal not-italic leading-8 text-sm "
+    >
+      <a href="${this.href}"
+        ><span class="text-daikinBlue-500">${linkText}</span></a
+      >${slash}
+    </div>`;
   }
 }
 
