@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -62,9 +62,6 @@ const cvaCheckbox = cva(
         large: ["w-5", "h-5"],
       },
     },
-    defaultVariants: {
-      size: "small",
-    },
   }
 );
 
@@ -104,6 +101,31 @@ export class DaikinCheckbox extends LitElement {
     if (this.readonly || this.disabled) {
       event.preventDefault();
     }
+  }
+
+  static readonly formAssociated = true;
+
+  // define _internals to let checkbox can be used in form
+  private _internals = this.attachInternals();
+
+  private _updateFormValue() {
+    this._internals.setFormValue(this.checked ? this.value : null);
+  }
+
+  @query("input")
+  private _input: HTMLInputElement | null | undefined;
+
+  get checked() {
+    return this.checkState === "checked";
+  }
+
+  private _handleChange(event: Event) {
+    if (!this._input) {
+      return;
+    }
+    this.checkState = this._input.checked ? "checked" : "unchecked";
+    this._updateFormValue();
+    this.dispatchEvent(new Event("change", event));
   }
 
   /**
@@ -146,13 +168,13 @@ export class DaikinCheckbox extends LitElement {
   /**
    * The form name.
    */
-  @property()
+  @property({ type: String, reflect: true })
   name = "";
 
   /**
    * The value.
    */
-  @property()
+  @property({ type: String, reflect: true })
   value = "";
 
   /**
@@ -166,7 +188,6 @@ export class DaikinCheckbox extends LitElement {
     const checkboxClassName = cvaCheckbox({ size: this.size });
     const labelClassName = cvaLabel({ size: this.size });
 
-    const isChecked = this.checkState === "checked";
     const isIndeterminate = this.checkState === "indeterminate";
 
     const labelText = this.label
@@ -179,19 +200,26 @@ export class DaikinCheckbox extends LitElement {
       value=${this.value}
       aria-readonly=${this.readonly}
       .indeterminate=${isIndeterminate}
-      .checked=${isChecked}
+      .checked=${this.checked}
       ?readonly=${this.readonly}
       ?disabled=${this.disabled}
-      @click=${(e: PointerEvent) => this._handleClick(e)}
-      @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+      @change=${this._handleChange}
+      @click=${this._handleClick}
     />`;
     const content =
       this.labelPosition === "left"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
-    return html`<label class="inline-flex gap-[10px] items-center"
+    return html`<label
+      class="inline-flex gap-[10px] items-center font-daikinSerif"
       >${content}</label
     >`;
+  }
+
+  override updated(changedProperties: PropertyValues<this>) {
+    if (changedProperties.has("checkState")) {
+      this._updateFormValue();
+    }
   }
 }
 
