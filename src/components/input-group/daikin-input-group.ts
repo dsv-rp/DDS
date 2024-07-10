@@ -25,7 +25,7 @@ const cvaLabel = cva(["text-base", "font-bold"], {
   },
 });
 
-const cvaHelper = cva(["text-xs"], {
+const cvaHelper = cva(["h-[22px]", "text-xs"], {
   variants: {
     variant: {
       enabled: ["text-daikinNeutral-800"],
