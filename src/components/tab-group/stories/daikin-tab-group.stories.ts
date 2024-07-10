@@ -59,6 +59,53 @@ export const Default: Story = {
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
     });
+
+    await step("Keyboard navigation 1 (skip disabled tab)", async () => {
+      clearAllMocks();
+      fooTab.focus();
+      await userEvent.keyboard("[ArrowRight]");
+      await expect(document.activeElement).not.toBeNull();
+      await expect(
+        getByShadowRole(document.activeElement as HTMLElement, "tab")
+      ).toBe(bazTab);
+
+      await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(root.value).toBe("baz");
+    });
+
+    await step("Keyboard navigation 2 (rightmost to leftmost)", async () => {
+      clearAllMocks();
+      bazTab.focus();
+      await userEvent.keyboard("[ArrowRight]");
+      await expect(document.activeElement).not.toBeNull();
+      await expect(
+        getByShadowRole(document.activeElement as HTMLElement, "tab")
+      ).toBe(fooTab);
+
+      await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(root.value).toBe("foo");
+    });
+
+    await step("Keyboard navigation 3 (leftmost to rightmost)", async () => {
+      clearAllMocks();
+      fooTab.focus();
+      await userEvent.keyboard("[ArrowLeft]");
+      await expect(document.activeElement).not.toBeNull();
+      await expect(
+        getByShadowRole(document.activeElement as HTMLElement, "tab")
+      ).toBe(bazTab);
+
+      await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(root.value).toBe("baz");
+    });
+
+    await userEvent.click(fooTab);
   }),
 };
 
@@ -113,6 +160,20 @@ export const PreventBeforeChange: Story = {
     // should not also react if foo tab clicked
     await step("Try to click foo tab", async () => {
       await userEvent.click(fooTab);
+      await expect(args.onChange).not.toHaveBeenCalled();
+      await expect(root.value).toBe("foo");
+    });
+
+    await step("Keyboard navigation", async () => {
+      clearAllMocks();
+      fooTab.focus();
+      await userEvent.keyboard("[ArrowRight]");
+      await expect(document.activeElement).not.toBeNull();
+      await expect(
+        getByShadowRole(document.activeElement as HTMLElement, "tab")
+      ).toBe(bazTab);
+
+      await userEvent.keyboard("[Space]");
       await expect(args.onChange).not.toHaveBeenCalled();
       await expect(root.value).toBe("foo");
     });
