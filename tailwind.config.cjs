@@ -1,3 +1,4 @@
+const { env } = require("node:process");
 const plugin = require("tailwindcss/plugin");
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
@@ -14,10 +15,15 @@ function defineConfig(config) {
 module.exports = defineConfig({
   content: [
     "./src/**/*.ts",
-    "!./src/**/*.stories.*",
-    "!./src/**/*.test.*",
-    "!**/stories/**",
+    // Exclude storybook codes (if not storybook environment)
+    ...(env.VITE_IS_STORYBOOK
+      ? []
+      : ["!./src/**/*.stories.*", "!**/stories/**"]),
+    // Exclude storybook utilities
     "!**/storybook/**",
+    // Exclude test codes
+    "!./src/**/*.test.*",
+    // Exclude test utilities
     "!**/tests/**",
   ],
   theme: {

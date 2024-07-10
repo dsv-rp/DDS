@@ -1,7 +1,10 @@
 import react from "@vitejs/plugin-react";
+import { env } from "node:process";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import { getStorybookEnv } from "./storybook-env";
+
+env.VITE_IS_STORYBOOK = "1";
 
 function fromProjectDir(path: string): string {
   return fileURLToPath(new URL(path, import.meta.url));
