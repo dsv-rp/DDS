@@ -149,6 +149,8 @@ npm run test:visual
 docker compose down
 ```
 
+For Podman users, use `podman-compose -f docker-compose.podman.yml` or `podman compose -f docker-compose.podman.yml` instead of `docker compose`.
+
 ---
 
 Interaction testing, placed in `*.stories.ts`, is performed by Storybook, which also uses Playwright internally.

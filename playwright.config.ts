@@ -24,7 +24,8 @@ export default defineConfig({
   use: useContainer
     ? {
         // See `docker-compose.yml` for the `baseURL` and the `wsEndpoint`
-        baseURL: "http://host.docker.internal:6099",
+        // We are using `host.containers.internal` to support Podman.
+        baseURL: "http://host.containers.internal:6099",
         connectOptions: {
           wsEndpoint: "ws://localhost:55744",
         },
