@@ -14,16 +14,17 @@ Coolgrey
 Darkgrey
 Mediumgrey
 
+# ARIA Roles
+tablist
+tabpanel
+textbox
+
 # HTML
-beforechange
+maxlength
 slotchange
 
 # SVG
 evenodd
-
-# ARIA Roles
-tablist
-tabpanel
 
 # Storybook
 autodocs
