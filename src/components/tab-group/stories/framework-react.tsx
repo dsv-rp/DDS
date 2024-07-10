@@ -1,9 +1,9 @@
-import { ReactDaikinPanelSwitcher } from "#package/components/panel-switcher/stories/framework-react";
 import { DaikinTabGroup } from "#package/components/tab-group/daikin-tab-group";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import "../../../storybook-tailwind.css";
+import { ReactDaikinPanelSwitcher } from "../../panel-switcher/stories/framework-react";
 import { ReactDaikinTab } from "../../tab/stories/framework-react";
 import { parseTab, type DaikinTabGroupStoryArgs } from "./common";
 
