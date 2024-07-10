@@ -31,10 +31,6 @@ export default defineConfig({
         replacement: fromProjectDir("src/storybook"),
       },
       {
-        find: "#storybook-framework",
-        replacement: frameworkPath,
-      },
-      {
         find: /^#package\/(.+)$/,
         replacement: useBuiltPackage
           ? "@daikin-oss/design-system-web-components/$1"
