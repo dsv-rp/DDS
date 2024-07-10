@@ -95,14 +95,14 @@ export const Textarea: Story = {
     const innerInput: HTMLInputElement = getByShadowRole(root, "textbox");
     await expect(innerInput).toBeInTheDocument();
 
-    await expect(innerInput).toHaveValue("");
-    await expect(getByShadowText(root, "0/100")).toBeInTheDocument();
+    await expect(innerInput).toHaveValue("Value");
+    await expect(getByShadowText(root, "5/100")).toBeInTheDocument();
 
     // has counter
     await step("Try to type inner textbox", async () => {
       await userEvent.type(innerInput, "Example");
-      await expect(getByShadowText(root, "7/100")).toBeInTheDocument();
-      await expect(queryByShadowText(root, "0/100")).not.toBeInTheDocument();
+      await expect(getByShadowText(root, "12/100")).toBeInTheDocument();
+      await expect(queryByShadowText(root, "5/100")).not.toBeInTheDocument();
     });
 
     inner.value = "";
