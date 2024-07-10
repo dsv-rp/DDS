@@ -19,6 +19,9 @@ tablist
 tabpanel
 textbox
 
+# Custom Events
+beforechange
+
 # HTML
 maxlength
 slotchange
@@ -35,4 +38,3 @@ testid
 
 # Misc.
 FOUC
-tabgroup
