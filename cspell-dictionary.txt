@@ -23,6 +23,7 @@ evenodd
 
 # ARIA Roles
 tablist
+tabpanel
 
 # Storybook
 autodocs
