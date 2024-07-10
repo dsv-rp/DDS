@@ -1,7 +1,7 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -133,16 +133,17 @@ export class DaikinTextarea extends LitElement {
   @property({ type: Boolean, reflect: true })
   counter = false;
 
-  private _textareaCounter: number = 0;
+  @state()
+  protected _textareaCounter: number = 0;
 
-  private _updateTextareaCounter(value: string): void {
+  private _updateValueAndCounter(value: string): void {
     this._internals.setFormValue(value);
     this._textareaCounter = [...value].length;
   }
 
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
-    this._updateTextareaCounter(this.value);
+    this._updateValueAndCounter(this.value);
   }
 
   override render() {
@@ -183,8 +184,7 @@ export class DaikinTextarea extends LitElement {
       return;
     }
 
-    this._internals.setFormValue(this.value);
-    this._updateTextareaCounter(this.value);
+    this._updateValueAndCounter(this.value);
   }
 }
 

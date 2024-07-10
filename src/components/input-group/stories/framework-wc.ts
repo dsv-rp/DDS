@@ -29,6 +29,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         : null}
       ${content === "Textarea"
         ? html`<daikin-textarea
+            value="Value"
             placeholder="Placeholder text"
           ></daikin-textarea>`
         : null}

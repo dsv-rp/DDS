@@ -17,7 +17,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     <ReactDaikinInputGroup {...props}>
       {content === "TextInput" && <ReactDaikinTextInput value="Value" />}
       {content === "Textarea" && (
-        <ReactDaikinTextarea placeholder="Placeholder text" />
+        <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
       )}
     </ReactDaikinInputGroup>
   ),
