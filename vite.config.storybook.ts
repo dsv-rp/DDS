@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import { env } from "node:process";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import { storybookFrameworkLoader } from "./build/vite/storybook-framework-loader";
 import { getStorybookEnv } from "./storybook-env";
 
 env.VITE_IS_STORYBOOK = "1";
@@ -41,5 +42,9 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    // "#storybook-framework" loader
+    storybookFrameworkLoader(frameworkPath),
+  ],
 });
