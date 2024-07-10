@@ -9,16 +9,12 @@ export const meta: Meta<DaikinBreadcrumbItemStoryArgs> = {
   title: "Components/Breadcrumb",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-breadcrumb>
+    <daikin-breadcrumb ?no-trailing-slash=${true}>
       <daikin-breadcrumb-item href="test1url">test1</daikin-breadcrumb-item>
       <daikin-breadcrumb-item href="test2url" size=${args.size}
         >test2</daikin-breadcrumb-item
       >
-      <daikin-breadcrumb-item
-        href=${args.href}
-        ?no-trailing-slash=${args.noTrailingSlash}
-        >test3</daikin-breadcrumb-item
-      >
+      <daikin-breadcrumb-item href=${args.href}>test3</daikin-breadcrumb-item>
     </daikin-breadcrumb>
   `,
 };

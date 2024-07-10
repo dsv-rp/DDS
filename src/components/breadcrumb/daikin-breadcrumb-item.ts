@@ -20,6 +20,8 @@ const cvaLink = cva(
     "text-daikinBlue-500",
     "outline-none",
     "font-daikinSerif",
+    "after:content-['/']",
+    "after:text-daikinNeutral-800",
   ],
   {
     variants: {
@@ -30,10 +32,6 @@ const cvaLink = cva(
           "focus-visible:text-daikinBlue-700",
         ],
         min: ["hover:text-daikinBlue-300"],
-      },
-      noTrailingSlash: {
-        true: [],
-        false: ["after:content-['/']", "after:text-black"],
       },
     },
   }
@@ -58,13 +56,9 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: String, reflect: true })
   size: LinkVariantProps["size"] = "max";
 
-  @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
-  noTrailingSlash = false;
-
   override render() {
     const linkClassName = cvaLink({
       size: this.size,
-      noTrailingSlash: this.noTrailingSlash,
     });
     const linkText = this.size === "max" ? html`<slot></slot>` : html`…`;
     return html`

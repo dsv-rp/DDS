@@ -1,5 +1,5 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -14,10 +14,33 @@ export class DaikinBreadcrumb extends LitElement {
     }
   `;
 
+  get _slottedLink() {
+    let link = null;
+    const slots = this.shadowRoot
+      ?.querySelector("slot")
+      ?.assignedElements({ flatten: true });
+    slots?.forEach((slot, index, array) => {
+      if (index === array.length - 1 && this.noTrailingSlash) {
+        link = slot.shadowRoot?.querySelector("a");
+      }
+    });
+    return link;
+  }
+
+  @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
+  noTrailingSlash = false;
+
+  handleChange() {
+    const link = this._slottedLink as HTMLLinkElement | null;
+    if (link) {
+      link.classList.add("after:content-none");
+    }
+  }
+
   override render() {
     return html`
       <ol class="flex gap-2">
-        <slot></slot>
+        <slot @slotchange=${this.handleChange}></slot>
       </ol>
     `;
   }

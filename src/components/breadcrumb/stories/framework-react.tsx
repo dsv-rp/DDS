@@ -27,17 +27,14 @@ const ReactDaikinBreadcrumbItem = createComponent({
 
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
-    <ReactDaikinBreadcrumb>
+    <ReactDaikinBreadcrumb noTrailingSlash={true}>
       <ReactDaikinBreadcrumbItem href="test1url">
         Test1
       </ReactDaikinBreadcrumbItem>
       <ReactDaikinBreadcrumbItem href="test2url" size={props.size}>
         Test2
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem
-        href={props.href}
-        noTrailingSlash={props.noTrailingSlash}
-      >
+      <ReactDaikinBreadcrumbItem href={props.href}>
         Test3
       </ReactDaikinBreadcrumbItem>
     </ReactDaikinBreadcrumb>
