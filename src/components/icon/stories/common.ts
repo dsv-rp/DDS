@@ -1,6 +1,6 @@
+import { type DaikinIcon, ICONS } from "#package/components/icon/daikin-icon";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import { ICONS, type DaikinIcon } from "../daikin-icon";
 
 export type DaikinIconStoryArgs = Required<ElementProps<DaikinIcon>>;
 

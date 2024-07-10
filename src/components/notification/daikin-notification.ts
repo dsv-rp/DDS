@@ -9,7 +9,7 @@ import { customElement, property } from "lit/decorators.js";
 import { EVENT_CLOSE } from "../../constants/events";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import "../icon";
+import "../icon/daikin-icon";
 
 const cvaContainer = cva(
   ["flex", "box-border", "bg-white", "overflow-hidden", "font-daikinSerif"],
