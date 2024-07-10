@@ -139,16 +139,19 @@ export class DaikinTabGroup extends LitElement {
 
     const tab = event.target as DaikinTab | null;
     if (!tab || !tabs.includes(tab)) {
+      // Not from managing tabs.
       return;
     }
 
     event.stopImmediatePropagation();
 
     if (this.value === tab.value) {
+      // Nothing changed.
       return;
     }
 
     if (!this._handleBeforeChange(tab.value)) {
+      // Canceled.
       return;
     }
 
@@ -173,6 +176,11 @@ export class DaikinTabGroup extends LitElement {
     // Check if there is at least one tab available
     if (!tabs.some((tab) => !tab.disabled)) {
       // No tabs available!
+      if (import.meta.env.DEV) {
+        console.warn(
+          `[daikin-tab-group] No tabs that can be activated! This may cause unexpected behavior.`
+        );
+      }
       return;
     }
 

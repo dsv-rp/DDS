@@ -9,23 +9,42 @@
     "README.md",
     "LICENSE"
   ],
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.js",
   "types": "./dist/es/index.d.ts",
   "exports": {
     ".": {
+      "default": "./dist/es/index.js",
       "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.cjs"
+      "require": "./dist/cjs/index.cjs",
+      "development": {
+        "import": "./dist/es-dev/index.js",
+        "require": "./dist/cjs-dev/index.cjs"
+      }
     },
     "./*": {
-      "import": "./dist/es/*",
-      "require": "./dist/cjs/*"
+      "default": "./dist/es/*.js",
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
+      "development": {
+        "import": "./dist/es-dev/*.js",
+        "require": "./dist/cjs-dev/*.cjs"
+      }
+    },
+    "./*.js": {
+      "default": "./dist/es/*.js",
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
+      "development": {
+        "import": "./dist/es-dev/*.js",
+        "require": "./dist/cjs-dev/*.cjs"
+      }
     }
   },
   "sideEffects": true,
   "scripts": {
     "prepare": "husky",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && vite build --mode development",
     "storybook": "storybook dev -p 6006",
     "storybook:react": "storybook dev -p 6007 -c .storybook/react",
     "storybook:ci-wc": "tsx scripts/storybook-ci.ts web-components",

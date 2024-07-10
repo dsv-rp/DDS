@@ -49,6 +49,14 @@ export class DaikinPanelSwitcher extends LitElement {
   panelRole: ARIARole | null = null;
 
   override render() {
+    if (import.meta.env.DEV) {
+      if (!this.panels.includes(this.value)) {
+        console.warn(
+          `[daikin-panel-switcher] No panel slot named "panel:${this.value}". Nothing will be rendered.`
+        );
+      }
+    }
+
     return repeat(
       this.panels,
       (value) =>
