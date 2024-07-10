@@ -1,11 +1,11 @@
-import { definePlay } from "#storybook";
+import { definePlay, isVisible } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { clearAllMocks, expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_TAB_GROUP_ARG_TYPES, type Story } from "./common";
 
 export default {
-  title: "Components/TabGroup",
+  title: "Components/Tab Group",
   tags: ["autodocs"],
   argTypes: DAIKIN_TAB_GROUP_ARG_TYPES,
   ...metadata,
@@ -33,6 +33,10 @@ export const Default: Story = {
       name: "Baz",
     });
 
+    await expect(
+      isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+    ).toBe(true);
+
     // should react if baz tab clicked
     await step("Try to click baz tab", async () => {
       clearAllMocks();
@@ -40,6 +44,13 @@ export const Default: Story = {
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(false);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(true);
     });
 
     // should not react if bar tab (disabled tab) clicked
@@ -49,6 +60,16 @@ export const Default: Story = {
       await expect(args.onBeforeChange).not.toHaveBeenCalled();
       await expect(args.onChange).not.toHaveBeenCalled();
       await expect(root.value).toBe("baz");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(false);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Bar. (Scrollable)"))
+      ).toBe(false);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(true);
     });
 
     // should react if foo tab clicked
@@ -58,6 +79,13 @@ export const Default: Story = {
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(true);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(false);
     });
 
     await step("Keyboard navigation 1 (skip disabled tab)", async () => {
@@ -73,6 +101,13 @@ export const Default: Story = {
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(false);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(true);
     });
 
     await step("Keyboard navigation 2 (rightmost to leftmost)", async () => {
@@ -88,6 +123,13 @@ export const Default: Story = {
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(true);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(false);
     });
 
     await step("Keyboard navigation 3 (leftmost to rightmost)", async () => {
@@ -103,6 +145,13 @@ export const Default: Story = {
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(false);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(true);
     });
 
     await userEvent.click(fooTab);
@@ -155,6 +204,13 @@ export const PreventBeforeChange: Story = {
       await userEvent.click(bazTab);
       await expect(args.onChange).not.toHaveBeenCalled();
       await expect(root.value).toBe("foo");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(true);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(false);
     });
 
     // should not also react if foo tab clicked
@@ -162,6 +218,13 @@ export const PreventBeforeChange: Story = {
       await userEvent.click(fooTab);
       await expect(args.onChange).not.toHaveBeenCalled();
       await expect(root.value).toBe("foo");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(true);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(false);
     });
 
     await step("Keyboard navigation", async () => {
@@ -176,6 +239,13 @@ export const PreventBeforeChange: Story = {
       await userEvent.keyboard("[Space]");
       await expect(args.onChange).not.toHaveBeenCalled();
       await expect(root.value).toBe("foo");
+
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+      ).toBe(true);
+      await expect(
+        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+      ).toBe(false);
     });
   }),
 };

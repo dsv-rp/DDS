@@ -5,22 +5,28 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinPanelSwitcher } from "../panel-switcher/daikin-panel-switcher";
 import type { DaikinTab } from "../tab/daikin-tab";
 
 /**
- * Tab Group that automatically manages child tabs.
+ * The tab group component manages a group of tabs and switches the content displayed using the panel switcher component.
  *
- * NOTE: If there is no tab available in the child elements, i.e., zero tabs, or if all tabs are disabled, it is ILLEGAL.
+ * Tab groups do not provide styles; users must apply styles to the wrapper of the tabs and the panel switcher(s).
+ *
+ * > [!WARNING]
+ * > At least one tab must be available (that means, the tab must be present and enabled).
+ * > Otherwise, unexpected behavior may be encountered.
+ *
+ * @example
+ *
+ * ```html
+ *
+ * ```
  */
 @customElement("daikin-tab-group")
 export class DaikinTabGroup extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
-
-    :host {
-      display: inline-block;
-      width: fit-content;
-    }
   `;
 
   /**
@@ -30,8 +36,27 @@ export class DaikinTabGroup extends LitElement {
   @property({ type: String, reflect: true })
   value: string = "";
 
-  @queryAssignedElements({ selector: "daikin-tab" })
-  private _tabs!: DaikinTab[];
+  /**
+   * Elements in the default slot. \
+   * Tabs are in the default slot, but they may be wrapped for styling purposes. \
+   * We have to check descendants of the assigned elements to deal with such tabs.
+   */
+  @queryAssignedElements()
+  private _tabWrappers!: HTMLElement[];
+
+  /**
+   * `daikin-tab`s in the default slot, including descendants.
+   */
+  private get _tabs(): DaikinTab[] {
+    return this._tabWrappers.flatMap((wrapper) =>
+      wrapper.matches("daikin-tab")
+        ? [wrapper as DaikinTab]
+        : [...wrapper.querySelectorAll("daikin-tab")]
+    );
+  }
+
+  @queryAssignedElements({ slot: "panels", selector: "daikin-panel-switcher" })
+  private _panelSwitchers!: DaikinPanelSwitcher[];
 
   private _handleBeforeChange(newValue: string): boolean {
     if (this.value === newValue) {
@@ -90,12 +115,30 @@ export class DaikinTabGroup extends LitElement {
       }
     }
 
-    selectedTab?.scrollIntoView();
+    selectedTab?.scrollIntoView({
+      block: "nearest",
+      inline: "nearest",
+    });
+  }
+
+  private _updatePanelSwitcher(): void {
+    const panelSwitchers = this._panelSwitchers;
+    const tabs = this._tabs;
+
+    const panels = Array.from(new Set(tabs.map((tab) => tab.value)));
+
+    for (const panelSwitcher of panelSwitchers) {
+      panelSwitcher.panelRole = "tabpanel";
+      panelSwitcher.panels = panels;
+      panelSwitcher.value = this.value;
+    }
   }
 
   private _handleTabSelect(event: Event): void {
+    const tabs = this._tabs;
+
     const tab = event.target as DaikinTab | null;
-    if (tab?.tagName !== "DAIKIN-TAB") {
+    if (!tab || !tabs.includes(tab)) {
       return;
     }
 
@@ -109,15 +152,17 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    for (const element of this._tabs) {
+    for (const element of tabs) {
       element.active = element === tab;
     }
     this._updateValue(tab.value);
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
-    const moveOffset =
-      event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+    const moveOffset = {
+      ArrowRight: 1,
+      ArrowLeft: -1,
+    }[event.key];
     if (!moveOffset) {
       return;
     }
@@ -141,6 +186,7 @@ export class DaikinTabGroup extends LitElement {
     if (focusedTabIndex < 0) {
       const activeTab = tabs.find((tab) => !tab.disabled && tab.active);
       activeTab?.focus();
+      event.preventDefault();
       return;
     }
 
@@ -154,6 +200,7 @@ export class DaikinTabGroup extends LitElement {
       }
 
       candidate.focus();
+      event.preventDefault();
       return;
     }
   }
@@ -167,17 +214,22 @@ export class DaikinTabGroup extends LitElement {
 
   private _handleSlotChange(): void {
     this._updateTabs();
+    this._updatePanelSwitcher();
+  }
+
+  private _handlePanelSwitcherSlotChange(): void {
+    this._updatePanelSwitcher();
   }
 
   override render() {
     return html`
-      <div
-        class="inline-block w-full h-full"
-        role="tablist"
-        @keydown=${this._handleKeyDown}
-      >
-        <slot class="inline-flex" @slotchange=${this._handleSlotChange}></slot>
+      <div class="content" role="tablist" @keydown=${this._handleKeyDown}>
+        <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
+      <slot
+        name="panels"
+        @slotchange=${this._handlePanelSwitcherSlotChange}
+      ></slot>
     `;
   }
 
@@ -187,6 +239,7 @@ export class DaikinTabGroup extends LitElement {
     }
 
     this._updateTabs();
+    this._updatePanelSwitcher();
   }
 }
 

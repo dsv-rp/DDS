@@ -12,7 +12,7 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TAB_GROUP_ARG_TYPES>;
 const getPageURL = (
   base: "default" | "single" | "many",
   args: StoryArgs = {}
-) => getStorybookIframeURL(`components-tabgroup--${base}`, args);
+) => getStorybookIframeURL(`components-tab-group--${base}`, args);
 
 describeEach(["default", "single", "many"] as const, (base) => {
   describeEach(["default", "condensed"] as const, (size) => {
