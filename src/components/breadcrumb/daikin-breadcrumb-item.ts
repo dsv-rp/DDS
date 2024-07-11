@@ -2,6 +2,7 @@ import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { cva } from "class-variance-authority";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -33,6 +34,14 @@ const cvaLink = cva(
         ],
         min: ["hover:text-daikinBlue-300"],
       },
+      disabled: {
+        true: [
+          "text-daikinNeutral-800",
+          "pointer-events-none",
+          "cursor-default",
+        ],
+        false: [],
+      },
     },
   }
 );
@@ -51,18 +60,27 @@ export class DaikinBreadcrumbItem extends LitElement {
   `;
 
   @property({ type: String, reflect: true })
-  href = "";
+  href? = "";
 
   @property({ type: String, reflect: true })
   size: LinkVariantProps["size"] = "max";
 
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
   override render() {
     const linkClassName = cvaLink({
       size: this.size,
+      disabled: this.disabled,
     });
     const linkText = this.size === "max" ? html`<slot></slot>` : html`…`;
     return html`
-      <a href="${this.href}" class="${linkClassName}">${linkText}</a>
+      <a
+        href="${ifDefined(this.href)}"
+        class="${linkClassName}"
+        ?disabled="${this.disabled}"
+        >${linkText}</a
+      >
     `;
   }
 }

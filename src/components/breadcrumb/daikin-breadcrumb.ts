@@ -2,6 +2,7 @@ import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinBreadcrumbItem } from "./daikin-breadcrumb-item";
 
 @customElement("daikin-breadcrumb")
 export class DaikinBreadcrumb extends LitElement {
@@ -15,20 +16,16 @@ export class DaikinBreadcrumb extends LitElement {
   `;
 
   private resizeObserver = new ResizeObserver(() => {
-    this._omitt();
+    this._omit();
   });
 
   // get link element from shadow root
   get _slottedLastLink() {
-    const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
-    if (!daikinBreadCrumbItems) {
+    const LastDaikinBreadCrumbItem = this._slottedLastDaikinBreadCrumbItem;
+    if (!LastDaikinBreadCrumbItem) {
       return;
     }
-    const item = daikinBreadCrumbItems[daikinBreadCrumbItems.length - 1];
-    if (!item) {
-      return;
-    }
-    return item.shadowRoot?.querySelector("a");
+    return LastDaikinBreadCrumbItem.shadowRoot?.querySelector("a");
   }
 
   // get daikin-breadcrumb-item from shadow root
@@ -39,6 +36,17 @@ export class DaikinBreadcrumb extends LitElement {
     return daikinBreadCrumbItems;
   }
 
+  get _slottedLastDaikinBreadCrumbItem() {
+    const daikinBreadCrumbItems = this.shadowRoot
+      ?.querySelector("slot")
+      ?.assignedElements({ flatten: true });
+    if (!daikinBreadCrumbItems) {
+      return;
+    }
+    return daikinBreadCrumbItems[daikinBreadCrumbItems.length - 1];
+  }
+
+  // get ol element from daikin-breadcrumb
   get _slottedOl() {
     const ol = this.shadowRoot?.querySelector("ol");
     return ol;
@@ -54,7 +62,7 @@ export class DaikinBreadcrumb extends LitElement {
 
   private olOriginalWidth: number = 0;
 
-  _omitt() {
+  _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
     const olWidth = this._slottedOl?.offsetWidth;
     const breadcrumbWidth = this.offsetWidth;
@@ -87,16 +95,23 @@ export class DaikinBreadcrumb extends LitElement {
     }
   }
 
-  _removeLastSlash() {
+  _handleLastItem() {
+    // set last item to disabled
+    const lastDaikinBreadCrumbItem = this
+      ._slottedLastDaikinBreadCrumbItem as DaikinBreadcrumbItem;
+    lastDaikinBreadCrumbItem.setAttribute("disabled", "");
     // remove last item slash if noTrailingSlash is true
-    const link = this._slottedLastLink as HTMLLinkElement | null;
-    if (link && this.noTrailingSlash) {
+    const link = this._slottedLastLink;
+    if (!link) {
+      return;
+    }
+    if (this.noTrailingSlash) {
       link.classList.add("after:content-none");
     }
   }
 
   _handleChange() {
-    this._removeLastSlash();
+    this._handleLastItem();
   }
 
   override firstUpdated(_changedProperties: PropertyValues<this>): void {
@@ -106,8 +121,8 @@ export class DaikinBreadcrumb extends LitElement {
         this.originalItems.push(breadCrumbItem);
       });
     }
-    this._removeLastSlash();
-    this._omitt();
+    this._handleLastItem();
+    this._omit();
 
     if (this.omission) {
       this.resizeObserver.observe(this);

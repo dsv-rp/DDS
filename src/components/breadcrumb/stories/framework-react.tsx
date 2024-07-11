@@ -29,13 +29,19 @@ export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
     <ReactDaikinBreadcrumb noTrailingSlash={true}>
       <ReactDaikinBreadcrumbItem href="test1url">
-        Test1
+        DaikinBreadcrumbItem1
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="test2url" size={props.size}>
-        Test2
+      <ReactDaikinBreadcrumbItem href="url2">
+        DaikinBreadcrumbItem2
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem href="url3">
+        DaikinBreadcrumbItem3
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem href="url4" size={props.size}>
+        DaikinBreadcrumbItem4
       </ReactDaikinBreadcrumbItem>
       <ReactDaikinBreadcrumbItem href={props.href}>
-        Test3
+        DaikinBreadcrumbItem5
       </ReactDaikinBreadcrumbItem>
     </ReactDaikinBreadcrumb>
   ),
