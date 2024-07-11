@@ -1,6 +1,10 @@
 import type { StorybookConfig } from "@storybook/react-vite";
 import { env } from "node:process";
-import { getAllStorybookFiles, STORYBOOK_ADDONS } from "../main-common";
+import {
+  getAllStorybookFiles,
+  STORYBOOK_ADDONS,
+  viteFinal,
+} from "../main-common";
 
 if (!env.STORYBOOK_MAIN_LOADED) {
   env.STORYBOOK_FW = "react";
@@ -25,6 +29,7 @@ const config: StorybookConfig = {
     // "react-docgen" (not "react-docgen-typescript") has interoperability issue with lit's decorators
     reactDocgen: "react-docgen-typescript",
   },
+  viteFinal,
 };
 
 export default config;

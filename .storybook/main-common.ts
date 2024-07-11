@@ -1,6 +1,7 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
 import fg from "fast-glob";
 import { fileURLToPath } from "node:url";
+import type { InlineConfig } from "vite";
 import type { StorybookFrameworkName } from "../storybook-env";
 
 export const STORYBOOK_ADDONS: StorybookConfig["addons"] = [
@@ -31,4 +32,29 @@ export function getAllStorybookFiles(
     (filepath) =>
       !filepath.includes("-only.") || filepath.includes(includePattern)
   );
+}
+
+export function viteFinal(config: InlineConfig): InlineConfig {
+  return {
+    ...config,
+    // We have to pre-bundle all the dependencies since the reload confuses Playwright.
+    optimizeDeps: {
+      ...config.optimizeDeps,
+      entries: [...(config.optimizeDeps?.entries ?? []), "src/index.ts"],
+      include: [
+        ...(config.optimizeDeps?.include ?? []),
+        "@storybook/blocks",
+        "@daikin-oss/dds-tokens/js/aaf/Dark/variables.js",
+        "@daikin-oss/dds-tokens/js/aaf/Light/variables.js",
+        "@daikin-oss/dds-tokens/js/daikin/Dark/variables.js",
+        "@daikin-oss/dds-tokens/js/daikin/Light/variables.js",
+        "class-variance-authority",
+        "lit",
+        "lit/**/*.js",
+        "@lit/react",
+        "react",
+      ],
+      force: true,
+    },
+  };
 }

@@ -1,6 +1,10 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
 import { env } from "node:process";
-import { getAllStorybookFiles, STORYBOOK_ADDONS } from "./main-common";
+import {
+  getAllStorybookFiles,
+  STORYBOOK_ADDONS,
+  viteFinal,
+} from "./main-common";
 
 // Storybook loads root main.ts (this file) somehow when launching react version.
 if (!env.STORYBOOK_MAIN_LOADED) {
@@ -22,6 +26,7 @@ const config: StorybookConfig = {
       },
     },
   },
+  viteFinal,
 };
 
 export default config;
