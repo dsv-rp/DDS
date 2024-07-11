@@ -33,6 +33,16 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
   role: {
     type: "string",
   },
+  leftIcon: {
+    description:
+      "Specify the left icon to be inserted in the icon. See `Icon` for available icons.",
+    type: "string",
+  },
+  rightIcon: {
+    description:
+      "Specify the left right to be inserted in the icon. See `Icon` for available icons.",
+    type: "string",
+  },
 } as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinButtonStoryArgs>;

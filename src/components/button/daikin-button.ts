@@ -11,12 +11,19 @@ import { customElement, property } from "lit/decorators.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import "../icon/daikin-icon";
+
+const BUTTON_ICON_SIZE_MAP = {
+  default: "m" as const,
+  condensed: "s" as const,
+};
 
 const cvaButton = cva(
   [
     "inline-flex",
     "justify-center",
     "items-center",
+    "gap-2",
     "font-daikinSerif",
     "font-bold",
     "rounded-lg",
@@ -184,13 +191,29 @@ export class DaikinButton extends LitElement {
     });
 
     const content = html`
-      <slot name="leftIcon"></slot>
+      ${this.leftIcon.length
+        ? html`<span
+            ><daikin-icon
+              icon="${this.leftIcon}"
+              size="${BUTTON_ICON_SIZE_MAP[this.size]}"
+              color="original"
+            ></daikin-icon
+          ></span>`
+        : null}
       <span><slot></slot></span>
-      <slot name="rightIcon"></slot>
+      ${this.rightIcon.length
+        ? html`<span
+            ><daikin-icon
+              icon="${this.rightIcon}"
+              size="${BUTTON_ICON_SIZE_MAP[this.size]}"
+              color="original"
+            ></daikin-icon
+          ></span>`
+        : null}
     `;
 
     if (this.href) {
-      return html` <a
+      return html`<a
         href="${this.href}"
         class="${buttonClassName}"
         role="${this.role}"
