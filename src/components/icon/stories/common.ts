@@ -6,8 +6,7 @@ export type DaikinIconStoryArgs = Required<ElementProps<DaikinIcon>>;
 
 export const DAIKIN_ICON_ARG_TYPES = {
   icon: {
-    description:
-      "Specify the name of the icon. See Iconography for icons provided.",
+    description: "Specify the name of the icon",
     control: { type: "select" },
     options: ICONS,
   },
@@ -15,7 +14,7 @@ export const DAIKIN_ICON_ARG_TYPES = {
     description: "Specify icon color",
     defaultValue: "black",
     control: { type: "radio" },
-    options: ["black", "white", "colored"],
+    options: ["black", "white", "colored", "original"],
   },
   size: {
     description: "Specify the height and width of the icon",

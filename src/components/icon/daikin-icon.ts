@@ -52,6 +52,7 @@ const cvaIcon = cva(["block"], {
       black: ["text-black"],
       white: ["text-white"],
       colored: ["text-[--default-color]"],
+      original: [],
     },
   },
   defaultVariants: {
@@ -90,7 +91,7 @@ export class DaikinIcon extends LitElement {
    * Specify icon color
    */
   @property({ type: String, reflect: true })
-  color: IconVariantProps["color"] = "black";
+  color: IconVariantProps["color"] = "colored";
 
   /**
    * Specify the height and width of the icon
