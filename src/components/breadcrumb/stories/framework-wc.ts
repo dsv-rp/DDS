@@ -2,10 +2,10 @@ import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import type { DaikinBreadcrumbStoryArgs } from "./common";
 
-import "../daikin-breadcrumb";
-import "../daikin-breadcrumb-item";
+import "#package/components/breadcrumb-item/daikin-breadcrumb-item";
+import "#package/components/breadcrumb/daikin-breadcrumb";
 
-export const meta: Meta<DaikinBreadcrumbStoryArgs> = {
+export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
   title: "Components/Breadcrumb",
   tags: ["autodocs"],
   render: (args) => html`

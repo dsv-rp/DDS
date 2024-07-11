@@ -39,6 +39,7 @@ const cvaLink = cva(
           "text-daikinNeutral-800",
           "pointer-events-none",
           "cursor-default",
+          "focus-visible:text-daikinNeutral-800",
         ],
         false: [],
       },
