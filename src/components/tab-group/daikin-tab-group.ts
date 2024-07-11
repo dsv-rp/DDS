@@ -7,6 +7,7 @@ import {
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinPanelSwitcher } from "../panel-switcher/daikin-panel-switcher";
 import type { DaikinTab } from "../tab/daikin-tab";
+import { scrollIntoViewOnlyParent } from "./scroller";
 
 /**
  * The tab group component manages a group of tabs and switches the content displayed using the panel switcher component.
@@ -71,9 +72,6 @@ export class DaikinTabGroup extends LitElement {
   @queryAssignedElements({ slot: "panels", selector: "daikin-panel-switcher" })
   private _panelSwitchers!: DaikinPanelSwitcher[];
 
-  private _initialSlotChange = true;
-  private _initialUpdate = true;
-
   private _handleBeforeChange(newValue: string): boolean {
     if (this.value === newValue) {
       return false;
@@ -108,7 +106,7 @@ export class DaikinTabGroup extends LitElement {
     this.value = newValue;
   }
 
-  private _updateTabs(scroll: boolean): void {
+  private _updateTabs(): void {
     const tabs = this._tabs;
 
     // Activate the tab which has current `value`s
@@ -131,12 +129,17 @@ export class DaikinTabGroup extends LitElement {
       }
     }
 
-    if (scroll) {
-      selectedTab?.scrollIntoView({
-        block: "nearest",
-        inline: "nearest",
-      });
+    if (!selectedTab) {
+      // No tabs available!
+      if (import.meta.env.DEV) {
+        console.warn(
+          `[daikin-tab-group] No tabs that can be activated! This may cause unexpected behavior.`
+        );
+      }
+      return;
     }
+
+    scrollIntoViewOnlyParent(selectedTab, "horizontal");
   }
 
   private _updatePanelSwitcher(): void {
@@ -239,9 +242,8 @@ export class DaikinTabGroup extends LitElement {
   }
 
   private _handleSlotChange(): void {
-    this._updateTabs(!this._initialSlotChange);
+    this._updateTabs();
     this._updatePanelSwitcher();
-    this._initialSlotChange = false;
   }
 
   private _handlePanelSwitcherSlotChange(): void {
@@ -265,9 +267,8 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    this._updateTabs(!this._initialUpdate);
+    this._updateTabs();
     this._updatePanelSwitcher();
-    this._initialUpdate = false;
   }
 }
 
