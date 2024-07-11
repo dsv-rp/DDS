@@ -46,7 +46,8 @@ export const metadata: Meta<DaikinTabGroupStoryArgs> = {
           const [label, value] = parseTab(tab);
           return (
             <div
-              className="w-full h-full overflow-auto bg-red-500/10"
+              key={value}
+              className="font-daikinSerif w-full h-full overflow-auto bg-red-500/10"
               tabIndex={0}
               slot={`panel:${value}`}
             >
