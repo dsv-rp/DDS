@@ -1,5 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { rm } from "node:fs/promises";
+import { env } from "node:process";
 import { getStorybookEnv } from "../storybook-env";
 
 const PORT = 6099;
@@ -31,6 +32,11 @@ console.info(`> ${command}\n`);
 const { status } = spawnSync(command, {
   shell: true,
   stdio: "inherit",
+  env: {
+    ...env,
+    STORYBOOK_ENV,
+    STORYBOOK_FW,
+  },
 });
 
 process.exit(status);
