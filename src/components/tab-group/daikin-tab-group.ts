@@ -250,7 +250,7 @@ export class DaikinTabGroup extends LitElement {
 
   override render() {
     return html`
-      <div class="content" role="tablist" @keydown=${this._handleKeyDown}>
+      <div class="contents" role="tablist" @keydown=${this._handleKeyDown}>
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
       <slot
