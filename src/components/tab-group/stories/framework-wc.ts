@@ -34,8 +34,9 @@ export const metadata: Meta<DaikinTabGroupStoryArgs> = {
           // Individual panels. Here, we use "h-full overflow-auto" to make panel scrollable.
           // We can specify "overflow-auto" in `daikin-panel-switcher` instead to share the scroll position across panels.
           return html`<div
-            class="w-full h-full overflow-auto bg-red-500/10"
             slot=${`panel:${value}`}
+            class="w-full h-full overflow-auto bg-red-500/10"
+            tabindex="0"
           >
             <p class="pb-[500px]">Content of tab ${label}. (Scrollable)</p>
             <p>Bottom</p>

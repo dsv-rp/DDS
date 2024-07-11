@@ -38,12 +38,16 @@ export const metadata: Meta<DaikinTabGroupStoryArgs> = {
           );
         })}
       </div>
-      <ReactDaikinPanelSwitcher slot="panels">
+      <ReactDaikinPanelSwitcher
+        slot="panels"
+        className="flex-1 overflow-hidden"
+      >
         {tabs.map((tab) => {
           const [label, value] = parseTab(tab);
           return (
             <div
               className="w-full h-full overflow-auto bg-red-500/10"
+              tabIndex={0}
               slot={`panel:${value}`}
             >
               <p className="pb-[500px]">Content of tab {label}. (Scrollable)</p>
