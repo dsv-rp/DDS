@@ -71,6 +71,9 @@ export class DaikinTabGroup extends LitElement {
   @queryAssignedElements({ slot: "panels", selector: "daikin-panel-switcher" })
   private _panelSwitchers!: DaikinPanelSwitcher[];
 
+  private _initialSlotChange = true;
+  private _initialUpdate = true;
+
   private _handleBeforeChange(newValue: string): boolean {
     if (this.value === newValue) {
       return false;
@@ -105,7 +108,7 @@ export class DaikinTabGroup extends LitElement {
     this.value = newValue;
   }
 
-  private _updateTabs(): void {
+  private _updateTabs(scroll: boolean): void {
     const tabs = this._tabs;
 
     // Activate the tab which has current `value`s
@@ -128,10 +131,12 @@ export class DaikinTabGroup extends LitElement {
       }
     }
 
-    selectedTab?.scrollIntoView({
-      block: "nearest",
-      inline: "nearest",
-    });
+    if (scroll) {
+      selectedTab?.scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+      });
+    }
   }
 
   private _updatePanelSwitcher(): void {
@@ -234,8 +239,9 @@ export class DaikinTabGroup extends LitElement {
   }
 
   private _handleSlotChange(): void {
-    this._updateTabs();
+    this._updateTabs(!this._initialSlotChange);
     this._updatePanelSwitcher();
+    this._initialSlotChange = false;
   }
 
   private _handlePanelSwitcherSlotChange(): void {
@@ -259,8 +265,9 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    this._updateTabs();
+    this._updateTabs(!this._initialUpdate);
     this._updatePanelSwitcher();
+    this._initialUpdate = false;
   }
 }
 
