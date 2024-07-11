@@ -2,7 +2,7 @@ import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css?inline";
-import type { DaikinBreadcrumbItem } from "./daikin-breadcrumb-item";
+import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
 @customElement("daikin-breadcrumb")
 export class DaikinBreadcrumb extends LitElement {
@@ -23,7 +23,7 @@ export class DaikinBreadcrumb extends LitElement {
   get _slottedLastLink() {
     const LastDaikinBreadCrumbItem = this._slottedLastDaikinBreadCrumbItem;
     if (!LastDaikinBreadCrumbItem) {
-      return;
+      return null;
     }
     return LastDaikinBreadCrumbItem.shadowRoot?.querySelector("a");
   }
@@ -41,7 +41,7 @@ export class DaikinBreadcrumb extends LitElement {
       ?.querySelector("slot")
       ?.assignedElements({ flatten: true });
     if (!daikinBreadCrumbItems) {
-      return;
+      return null;
     }
     return daikinBreadCrumbItems[daikinBreadCrumbItems.length - 1];
   }

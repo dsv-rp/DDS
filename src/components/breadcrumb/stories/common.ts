@@ -1,17 +1,14 @@
-import type { DaikinBreadcrumbItem } from "#package/components/breadcrumb/daikin-breadcrumb-item";
+import type { DaikinBreadcrumb } from "#package/components/breadcrumb/daikin-breadcrumb";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export type DaikinBreadcrumbItemStoryArgs = Required<
-  ElementProps<DaikinBreadcrumbItem>
+export type DaikinBreadcrumbStoryArgs = Required<
+  ElementProps<DaikinBreadcrumb>
 >;
 
 export const DAIKIN_BREADCRUMB_ARG_TYPES = {
-  href: { type: "string" },
-  size: {
-    control: { type: "select" },
-    options: ["max", "min"],
-  },
-} as const satisfies Meta<DaikinBreadcrumbItemStoryArgs>["argTypes"];
+  noTrailingSlash: { type: "boolean" },
+  omission: { type: "boolean" },
+} as const satisfies Meta<DaikinBreadcrumbStoryArgs>["argTypes"];
 
-export type Story = StoryObj<DaikinBreadcrumbItemStoryArgs>;
+export type BreadcrumbStory = StoryObj<DaikinBreadcrumbStoryArgs>;

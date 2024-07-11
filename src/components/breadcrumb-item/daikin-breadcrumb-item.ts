@@ -68,6 +68,9 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  @property({ type: String, reflect: true })
+  target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
+
   override render() {
     const linkClassName = cvaLink({
       size: this.size,
@@ -78,6 +81,7 @@ export class DaikinBreadcrumbItem extends LitElement {
       <a
         href="${ifDefined(this.href)}"
         class="${linkClassName}"
+        target="${this.target}"
         ?disabled="${this.disabled}"
         >${linkText}</a
       >

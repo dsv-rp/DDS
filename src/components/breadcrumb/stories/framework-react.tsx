@@ -1,46 +1,40 @@
+import { DaikinBreadcrumbItem } from "#package/components/breadcrumb-item/daikin-breadcrumb-item";
 import { DaikinBreadcrumb } from "#package/components/breadcrumb/daikin-breadcrumb";
-import { DaikinBreadcrumbItem } from "#package/components/breadcrumb/daikin-breadcrumb-item";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
-import type { DaikinBreadcrumbItemStoryArgs } from "./common";
+import type { DaikinBreadcrumbStoryArgs } from "./common";
 
 const ReactDaikinBreadcrumb = createComponent({
   react: React,
   tagName: "daikin-breadcrumb",
   elementClass: DaikinBreadcrumb,
-  events: {
-    change: "onChange",
-    click: "onClick",
-  },
+  events: {},
 });
 
 const ReactDaikinBreadcrumbItem = createComponent({
   react: React,
   tagName: "daikin-breadcrumb-item",
   elementClass: DaikinBreadcrumbItem,
-  events: {
-    change: "onChange",
-    click: "onClick",
-  },
+  events: {},
 });
 
-export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
-  component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
-    <ReactDaikinBreadcrumb noTrailingSlash={true}>
-      <ReactDaikinBreadcrumbItem href="test1url">
+export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
+  component: ({ ...props }: DaikinBreadcrumbStoryArgs) => (
+    <ReactDaikinBreadcrumb {...props}>
+      <ReactDaikinBreadcrumbItem href="#">
         DaikinBreadcrumbItem1
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="url2">
+      <ReactDaikinBreadcrumbItem href="#">
         DaikinBreadcrumbItem2
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="url3">
+      <ReactDaikinBreadcrumbItem href="#">
         DaikinBreadcrumbItem3
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="url4" size={props.size}>
+      <ReactDaikinBreadcrumbItem href="#">
         DaikinBreadcrumbItem4
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href={props.href}>
+      <ReactDaikinBreadcrumbItem href="#">
         DaikinBreadcrumbItem5
       </ReactDaikinBreadcrumbItem>
     </ReactDaikinBreadcrumb>
