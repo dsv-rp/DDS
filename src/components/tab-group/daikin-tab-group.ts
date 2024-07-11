@@ -20,7 +20,20 @@ import type { DaikinTab } from "../tab/daikin-tab";
  * @example
  *
  * ```html
- *
+ * <!-- See storybook for styling tab group -->
+ * <daikin-tab-group value="foo">
+ *   <!-- Optional (but possibly needed for styling) container for tabs -->
+ *   <div>
+ *     <daikin-tab value="foo">Foo tab</daikin-tab>
+ *     <daikin-tab value="bar">Bar tab</daikin-tab>
+ *   </div>
+ *   <!-- At least one "daikin-panel-switcher" is needed to switch the content -->
+ *   <daikin-panel-switcher slot="panels">
+ *     <!-- Mind the "panel:" prefix -->
+ *     <p slot="panel:foo">Foo tab content</p>
+ *     <p slot="panel:bar">Bar tab content</p>
+ *   </daikin-panel-switcher>
+ * </daikin-tab-group>
  * ```
  */
 @customElement("daikin-tab-group")
