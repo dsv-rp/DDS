@@ -14,6 +14,13 @@ Coolgrey
 Darkgrey
 Mediumgrey
 
+# ARIA Role
+textbox
+
+# HTML
+maxlength
+slotchange
+
 # SVG
 evenodd
 
