@@ -33,7 +33,9 @@ export const Default: Story = {
 
     await step("Try to click inner summary again", async () => {
       await userEvent.click(innerSummary);
-      await waitFor(() => expect(root).not.toHaveAttribute("open"));
+      await waitFor(() => expect(root).toHaveAttribute("open"), {
+        timeout: 500,
+      });
     });
   }),
 };
