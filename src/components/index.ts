@@ -1,5 +1,5 @@
 export * from "./accordion";
-export * from "./accordion-group";
+export * from "./accordion-item";
 export * from "./button";
 export * from "./checkbox";
 export * from "./input-group";

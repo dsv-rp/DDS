@@ -1,16 +1,21 @@
+import "#package/components/accordion-item/daikin-accordion-item";
 import "#package/components/accordion/daikin-accordion";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinAccordionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionStoryArgs> = {
-  render: ({ title, open, disabled }) => html`
+  render: () => html`
     <daikin-accordion
-      title=${ifDefined(title)}
-      ?open=${open}
-      ?disabled=${disabled}
-      >Accordion-content</daikin-accordion
+      ><daikin-accordion-item title="Accordion-1-title"
+        >Accordion-1-content</daikin-accordion-item
+      ><daikin-accordion-item title="Accordion-2-title" open
+        >Accordion-2-content</daikin-accordion-item
+      ><daikin-accordion-item title="Accordion-3-title" disabled
+        >Accordion-3-content</daikin-accordion-item
+      ><daikin-accordion-item title="Accordion-4-title" open disabled
+        >Accordion-4-content</daikin-accordion-item
+      ></daikin-accordion
     >
   `,
 };
