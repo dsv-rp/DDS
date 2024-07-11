@@ -2,7 +2,10 @@ import type { StorybookConfig } from "@storybook/react-vite";
 import { env } from "node:process";
 import { getAllStorybookFiles, STORYBOOK_ADDONS } from "../main-common";
 
-env.STORYBOOK_FW = "react";
+if (!env.STORYBOOK_MAIN_LOADED) {
+  env.STORYBOOK_FW = "react";
+  env.STORYBOOK_MAIN_LOADED = "1";
+}
 
 const config: StorybookConfig = {
   stories: getAllStorybookFiles("react"),
