@@ -13,9 +13,6 @@ const cvaDetails = cva(
     "font-daikinSerif",
     "overflow-clip",
 
-    "[&>summary]:open:border-b",
-    "[&>summary]:open:border-b-[#CECECE]",
-
     "[&>summary:hover]:[&[aria-disabled='false']]:bg-[#DCDCDC]",
     "[&>summary:hover]:[&[aria-disabled='false']]:cursor-pointer",
     "[&>summary:focus-visible]:[&[aria-disabled='false']]:outline",
@@ -68,7 +65,7 @@ const cvaSummary = cva(
 );
 
 const animationOption = {
-  duration: 1000,
+  duration: 250,
   easing: "ease-in-out",
 };
 
