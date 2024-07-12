@@ -15,16 +15,16 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
         switch (content) {
           case "text":
             return html`<p
-              class="font-daikinSerif bg-blue-500/10"
               slot=${`panel:${panel}`}
+              class="font-daikinSerif bg-blue-500/10"
             >
               ${panel} panel.
             </p>`;
 
           case "form":
             return html`<div
-              class="font-daikinSerif bg-blue-500/10"
               slot=${`panel:${panel}`}
+              class="font-daikinSerif bg-blue-500/10"
             >
               ${panel} panel.<br />
               <input
@@ -38,8 +38,8 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
           case "long": {
             const count = Number(panel.match(/-x(\d+)/)?.[1] ?? "1");
             return html`<p
-              class="font-daikinSerif bg-blue-500/10"
               slot=${`panel:${panel}`}
+              class="font-daikinSerif bg-blue-500/10"
             >
               ${new Array(count)
                 .fill(0)

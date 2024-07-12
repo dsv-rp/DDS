@@ -24,8 +24,8 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
             return (
               <p
                 key={panel}
-                className="font-daikinSerif"
                 slot={`panel:${panel}`}
+                className="font-daikinSerif bg-blue-500/10"
               >
                 {panel} panel.
               </p>
@@ -35,8 +35,8 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
             return (
               <div
                 key={panel}
-                className="font-daikinSerif"
                 slot={`panel:${panel}`}
+                className="font-daikinSerif bg-blue-500/10"
               >
                 {panel} panel.
                 <br />
@@ -53,8 +53,8 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
             return (
               <p
                 key={panel}
-                className="font-daikinSerif"
                 slot={`panel:${panel}`}
+                className="font-daikinSerif bg-blue-500/10"
               >
                 {new Array(count).fill(0).map((_, i) => (
                   <Fragment key={i}>
