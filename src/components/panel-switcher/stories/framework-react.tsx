@@ -16,7 +16,7 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
     <ReactDaikinPanelSwitcher
       {...props}
       panels={panels}
-      className="block w-[600px] h-[400px] overflow-auto"
+      className="block w-[600px] h-[400px] overflow-auto bg-red-500/10"
     >
       {panels.map((panel) => {
         switch (content) {
@@ -43,7 +43,7 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
                 <input
                   data-testid={`panel-${panel}-input`}
                   type="text"
-                  value={panel}
+                  defaultValue={panel}
                 />
               </div>
             );
@@ -59,7 +59,7 @@ export const metadata: Meta<DaikinPanelSwitcherStoryArgs> = {
                 {new Array(count).fill(0).map((_, i) => (
                   <Fragment key={i}>
                     <span data-testid={`panel-${panel}-line-${i + 1}`}>
-                      ${panel} panel. (${i + 1})
+                      {panel} panel. ({i + 1})
                     </span>
                     <br />
                   </Fragment>
