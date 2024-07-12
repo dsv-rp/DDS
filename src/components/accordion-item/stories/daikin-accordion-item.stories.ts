@@ -21,19 +21,19 @@ export const Default: Story = {
     const root = canvasElement.getElementsByTagName("daikin-accordion-item")[0];
     await expect(root).toBeInTheDocument();
 
-    await expect(root).not.toHaveAttribute("open");
+    await expect(root).not.toHaveAttribute("detailsOpen");
 
     const innerSummary = getByShadowText(root, "Accordion-title");
     await expect(innerSummary).toBeInTheDocument();
 
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
-      await expect(root).toHaveAttribute("open");
+      await expect(root).toHaveAttribute("detailsOpen");
     });
 
     await step("Try to click inner summary again", async () => {
       await userEvent.click(innerSummary);
-      await waitFor(() => expect(root).toHaveAttribute("open"), {
+      await waitFor(() => expect(root).toHaveAttribute("detailsOpen"), {
         timeout: 500,
       });
     });
