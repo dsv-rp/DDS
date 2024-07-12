@@ -22,17 +22,29 @@ export default defineConfig({
     stdout: "ignore",
     stderr: "pipe",
   },
-  use: useContainer
-    ? {
-        // See `docker-compose.yml` for the `baseURL` and the `wsEndpoint`
-        baseURL: "http://host.docker.internal:6099",
-        connectOptions: {
-          wsEndpoint: "ws://localhost:55744",
-        },
-      }
-    : {
-        baseURL: "http://127.0.0.1:6099",
-      },
+  use: {
+    ...(useContainer
+      ? {
+          // See `docker-compose.yml` for the `baseURL` and the `wsEndpoint`
+          baseURL: "http://host.docker.internal:6099",
+          connectOptions: {
+            wsEndpoint: "ws://localhost:55744",
+          },
+        }
+      : {
+          baseURL: "http://127.0.0.1:6099",
+        }),
+    launchOptions: {
+      args: [
+        "--force-color-profile=srgb",
+        "--font-render-hinting=none",
+        "--disable-skia-runtime-opts",
+        "--disable-system-font-check",
+        "--disable-font-subpixel-positioning",
+        "--disable-lcd-text",
+      ],
+    },
+  },
   // Default without platform suffix
   // https://github.com/microsoft/playwright/blob/v1.45.0/packages/playwright/src/common/config.ts#L169
   snapshotPathTemplate:
