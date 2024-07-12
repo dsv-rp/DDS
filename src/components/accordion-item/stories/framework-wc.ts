@@ -10,7 +10,8 @@ export const metadata: Meta<DaikinAccordionItemStoryArgs> = {
       title=${ifDefined(title)}
       ?open=${open}
       ?disabled=${disabled}
-      >Accordion-content</daikin-accordion-item
     >
+      Accordion-content
+    </daikin-accordion-item>
   `,
 };
