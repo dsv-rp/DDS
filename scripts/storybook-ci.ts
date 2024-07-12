@@ -19,7 +19,7 @@ const command = {
 }[STORYBOOK_FW][STORYBOOK_ENV];
 
 if (STORYBOOK_ENV === "development") {
-  console.info("Removing node_modules/.cache/storybook...");
+  console.error("Removing node_modules/.cache/storybook...");
   try {
     await rm("node_modules/.cache/storybook", { force: true, recursive: true });
   } catch {
@@ -27,7 +27,7 @@ if (STORYBOOK_ENV === "development") {
   }
 }
 
-console.info(`> ${command}\n`);
+console.error(`> ${command}\n`);
 
 const { status } = spawnSync(command, {
   shell: true,

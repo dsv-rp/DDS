@@ -19,7 +19,7 @@ const frameworkPath = {
   react: "./framework-react",
 }[STORYBOOK_FW];
 
-console.info(
+console.error(
   `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${STORYBOOK_FW} component`
 );
 
