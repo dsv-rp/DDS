@@ -1,5 +1,21 @@
 export type Direction = "horizontal" | "vertical" | "either";
 
+/**
+ * Get practical parent element, with consideration for slots and shadow roots.
+ *
+ * @param element element
+ * @returns The parent element (if any)
+ */
+export function getEffectiveParentElement(
+  element: HTMLElement
+): HTMLElement | null {
+  return (
+    element.assignedSlot ||
+    element.parentElement ||
+    ((element.parentNode as ShadowRoot | null)?.host as HTMLElement | null)
+  );
+}
+
 function getBooleanForDirection(
   horizontal: boolean,
   vertical: boolean,
@@ -16,11 +32,18 @@ function isScrollableOverflowValue(overflow: string): boolean {
   return overflow !== "visible" && overflow !== "hidden" && overflow !== "clip";
 }
 
-export function getScrollableParent(
+/**
+ * Get the first scrollable ancestor element.
+ *
+ * @param element element
+ * @param direction scroll direction
+ * @returns the first scrollable ancestor element (if any)
+ */
+export function getFirstScrollableAncestor(
   element: HTMLElement,
   direction: Direction
 ): HTMLElement | null {
-  const parent = element.parentElement;
+  const parent = getEffectiveParentElement(element);
   if (!parent) {
     return null;
   }
@@ -43,7 +66,7 @@ export function getScrollableParent(
     }
   }
 
-  return getScrollableParent(parent, direction);
+  return getFirstScrollableAncestor(parent, direction);
 }
 
 export function calcScrollIntoViewOffset(
@@ -64,11 +87,18 @@ export function calcScrollIntoViewOffset(
   return [scrollByX, scrollByY];
 }
 
+/**
+ * An alternative `.scrollIntoView()` function which only scrolls the first scrollable ancestor element.
+ *
+ * @param target target element
+ * @param direction direction
+ * @returns `true` if success, `false` if scrollable parent not found
+ */
 export function scrollIntoViewOnlyParent(
   target: HTMLElement,
   direction: Direction
 ): boolean {
-  const scrollableParent = getScrollableParent(target, direction);
+  const scrollableParent = getFirstScrollableAncestor(target, direction);
   if (!scrollableParent) {
     return false;
   }

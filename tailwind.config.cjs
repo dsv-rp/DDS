@@ -46,11 +46,13 @@ module.exports = defineConfig({
         height: "100%",
       },
     }),
-    plugin(({ addVariant }) => {
+    plugin(({ addVariant, matchVariant }) => {
       addVariant("aria-controllable", [
         // We don't know why, but `:read-only` was applied to checkboxes with and without `readonly` attribute, so we use `aria-readonly` instead.
         '&:enabled:not([aria-readonly="true"])',
       ]);
+
+      matchVariant("part", (value) => `&::part(${value})`);
     }),
   ],
 });

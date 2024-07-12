@@ -21,23 +21,21 @@ export const metadata: Meta<DaikinTabGroupStoryArgs> = {
   component: ({ tabs, size, ...props }: DaikinTabGroupStoryArgs) => (
     <ReactDaikinTabGroup
       {...props}
-      className="w-[600px] h-[400px] flex flex-col items-stretch"
+      className="w-[600px] h-[400px] flex flex-col items-stretch part-[tablist]:flex-none part-[tablist]:flex part-[tablist]:w-full part-[tablist]:overflow-auto"
     >
-      <div className="flex-none flex w-full overflow-auto">
-        {tabs.map((tab) => {
-          const [label, value, disabled] = parseTab(tab);
-          return (
-            <ReactDaikinTab
-              key={value}
-              size={size}
-              value={value}
-              disabled={disabled}
-            >
-              {label}
-            </ReactDaikinTab>
-          );
-        })}
-      </div>
+      {tabs.map((tab) => {
+        const [label, value, disabled] = parseTab(tab);
+        return (
+          <ReactDaikinTab
+            key={value}
+            size={size}
+            value={value}
+            disabled={disabled}
+          >
+            {label}
+          </ReactDaikinTab>
+        );
+      })}
       <ReactDaikinPanelSwitcher
         slot="panels"
         className="flex-1 overflow-hidden"

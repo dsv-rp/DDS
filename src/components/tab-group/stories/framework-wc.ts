@@ -8,25 +8,27 @@ import { parseTab, type DaikinTabGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTabGroupStoryArgs> = {
   render: ({ value, size, tabs, onBeforeChange, onChange }) => html`
+    <!--
+      Here, tab container is styled by "::part(tablist)" pseudo element (the notation is extended by tailwindcss plugin).
+      We use "flex-none" to keep bar height and "flex w-full overflow-auto" to make tabs scrollable.
+    -->
     <daikin-tab-group
-      class="w-[600px] h-[400px] flex flex-col items-stretch"
+      class="w-[600px] h-[400px] flex flex-col items-stretch part-[tablist]:flex-none part-[tablist]:flex part-[tablist]:w-full part-[tablist]:overflow-auto"
       value=${value}
       @beforechange=${onBeforeChange}
       @change=${onChange}
     >
-      <!-- Tab container. Here, we use "flex-none" to keep bar height and "flex w-full overflow-auto" to make tabs scrollable. -->
-      <div class="flex-none flex w-full overflow-auto">
-        ${tabs.map((tab) => {
-          const [label, value, disabled] = parseTab(tab);
-          return html`<daikin-tab
-            size=${size}
-            value=${value}
-            ?disabled=${disabled}
-          >
-            ${label}
-          </daikin-tab>`;
-        })}
-      </div>
+      <!-- Tabs. -->
+      ${tabs.map((tab) => {
+        const [label, value, disabled] = parseTab(tab);
+        return html`<daikin-tab
+          size=${size}
+          value=${value}
+          ?disabled=${disabled}
+        >
+          ${label}
+        </daikin-tab>`;
+      })}
       <!-- Panel switcher. Here, we use "flex-1 overflow-hidden" to limit panel height. -->
       <daikin-panel-switcher slot="panels" class="flex-1 overflow-hidden">
         ${tabs.map((tab) => {

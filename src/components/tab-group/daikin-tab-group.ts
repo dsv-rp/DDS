@@ -51,24 +51,14 @@ export class DaikinTabGroup extends LitElement {
   value: string = "";
 
   /**
-   * Elements in the default slot. \
-   * Tabs are in the default slot, but they may be wrapped for styling purposes. \
-   * We have to check descendants of the assigned elements to deal with such tabs.
+   * Tab(s) in the default slot.
    */
-  @queryAssignedElements()
-  private _tabWrappers!: HTMLElement[];
+  @queryAssignedElements({ selector: "daikin-tab" })
+  private _tabs!: DaikinTab[];
 
   /**
-   * `daikin-tab`s in the default slot, including descendants.
+   * Panel switcher(s) in the `panels` slot.
    */
-  private get _tabs(): DaikinTab[] {
-    return this._tabWrappers.flatMap((wrapper) =>
-      wrapper.matches("daikin-tab")
-        ? [wrapper as DaikinTab]
-        : [...wrapper.querySelectorAll("daikin-tab")]
-    );
-  }
-
   @queryAssignedElements({ slot: "panels", selector: "daikin-panel-switcher" })
   private _panelSwitchers!: DaikinPanelSwitcher[];
 
@@ -252,7 +242,7 @@ export class DaikinTabGroup extends LitElement {
 
   override render() {
     return html`
-      <div class="contents" role="tablist" @keydown=${this._handleKeyDown}>
+      <div part="tablist" role="tablist" @keydown=${this._handleKeyDown}>
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
       <slot
