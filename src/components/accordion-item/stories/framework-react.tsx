@@ -8,9 +8,6 @@ export const ReactDaikinAccordionItem = createComponent({
   tagName: "daikin-accordion-item",
   elementClass: DaikinAccordionItem,
   react: React,
-  events: {
-    close: "onClose",
-  },
 });
 
 export const metadata: Meta<DaikinAccordionItemStoryArgs> = {

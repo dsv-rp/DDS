@@ -103,7 +103,7 @@ export class DaikinAccordionItem extends LitElement {
    * Whether the accordion is open
    */
   @property({ type: Boolean, reflect: true })
-  open = false;
+  detailsOpen = false;
 
   /**
    * Whether the accordion is disabled
@@ -115,10 +115,10 @@ export class DaikinAccordionItem extends LitElement {
    * Open attribute of the actual details element
    *
    * The open attribute of the default details element does not allow the display of content to have a transition.
-   * For this reason, it has its own `dataOpen` property and transfers the actual management of opening and closing to this property.
+   * For this reason, it has its own `open` property and transfers the actual management of opening and closing to this property.
    */
   @state()
-  dataOpen = false;
+  open = false;
 
   private _handleSummaryClick(e: PointerEvent) {
     const content = this.contentRef.value;
@@ -129,9 +129,9 @@ export class DaikinAccordionItem extends LitElement {
       return;
     }
 
-    if (this.dataOpen) {
+    if (this.open) {
       // Accordion is opened; close it.
-      this.dataOpen = false;
+      this.open = false;
       const animation = content.animate(
         [getContentOpenKeyframe(content), contentCloseKeyframe],
         animationOption
@@ -139,12 +139,12 @@ export class DaikinAccordionItem extends LitElement {
 
       animation.onfinish = () => {
         // After the animation is finished, remove the open attribute from the details element. This is to allow the element to transition.
-        this.open = this.dataOpen;
+        this.detailsOpen = this.open;
       };
     } else {
       // Accordion is closed; open it.
-      this.dataOpen = true;
-      this.open = this.dataOpen;
+      this.open = true;
+      this.detailsOpen = this.open;
       content.animate(
         [contentCloseKeyframe, getContentOpenKeyframe(content)],
         animationOption
@@ -163,8 +163,8 @@ export class DaikinAccordionItem extends LitElement {
 
     return html`<details
       class=${accordionDetailsClassName}
-      ?open=${this.open}
-      ?data-open=${this.dataOpen}
+      ?open=${this.detailsOpen}
+      ?data-open=${this.open}
       aria-disabled=${this.disabled}
     >
       <summary
@@ -183,7 +183,7 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override firstUpdated() {
-    this.dataOpen = this.open;
+    this.open = this.detailsOpen;
   }
 }
 

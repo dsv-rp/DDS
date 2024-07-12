@@ -12,11 +12,11 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_ACCORDION_ITEM_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-accordion-item--default", args);
 
-describeEach(["open", "close"] as const, (open) => {
+describeEach(["open", "close"] as const, (detailsOpen) => {
   describeEach(["enabled", "disabled"] as const, (disabled) => {
     const baseURL = getPageURL({
       title: "Accordion-title",
-      open: open === "open",
+      detailsOpen: detailsOpen === "open",
       disabled: disabled === "disabled",
     });
 

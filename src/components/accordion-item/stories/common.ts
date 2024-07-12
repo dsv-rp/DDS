@@ -11,7 +11,7 @@ export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
     description: "Heading of accordion",
     type: "string",
   },
-  open: {
+  detailsOpen: {
     description: "Whether the component is open",
     defaultValue: false,
     type: "boolean",
