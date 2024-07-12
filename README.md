@@ -149,7 +149,7 @@ npm run test:visual
 docker compose down
 ```
 
-For Podman users, use `podman-compose -f docker-compose.podman.yml` or `podman compose -f docker-compose.podman.yml` instead of `docker compose`.
+For Podman users, use `podman-compose -f compose.podman.yaml` or `podman compose -f compose.podman.yaml` instead of `docker compose`.
 
 To update snapshots, use `npm run test:visual-update`
 
