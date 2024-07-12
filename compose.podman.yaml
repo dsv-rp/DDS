@@ -1,0 +1,9 @@
+# Docker compose file for launching Playwright server via Podman
+
+services:
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.45.1-jammy
+    ipc: host
+    command: npx playwright run-server --port 55744
+    ports:
+      - 55744:55744
