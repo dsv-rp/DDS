@@ -17,13 +17,13 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
       <ReactDaikinAccordionItem title="Accordion-1-title">
         Accordion-1-content
       </ReactDaikinAccordionItem>
-      <ReactDaikinAccordionItem title="Accordion-2-title" detailsOpen>
+      <ReactDaikinAccordionItem title="Accordion-2-title" open>
         Accordion-2-content
       </ReactDaikinAccordionItem>
       <ReactDaikinAccordionItem title="Accordion-3-title" disabled>
         Accordion-3-content
       </ReactDaikinAccordionItem>
-      <ReactDaikinAccordionItem title="Accordion-4-title" detailsOpen disabled>
+      <ReactDaikinAccordionItem title="Accordion-4-title" open disabled>
         Accordion-4-content
       </ReactDaikinAccordionItem>
     </ReactDaikinAccordion>

@@ -5,10 +5,10 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinAccordionItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionItemStoryArgs> = {
-  render: ({ title, detailsOpen, disabled }) => html`
+  render: ({ title, open, disabled }) => html`
     <daikin-accordion-item
       title=${ifDefined(title)}
-      ?detailsOpen=${detailsOpen}
+      ?open=${open}
       ?disabled=${disabled}
     >
       Accordion-content
