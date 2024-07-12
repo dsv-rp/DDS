@@ -14,6 +14,7 @@ const command = {
 
 export default defineConfig({
   testMatch: "*.visual.test.ts",
+  fullyParallel: true,
   webServer: {
     command,
     url: "http://127.0.0.1:6099",
