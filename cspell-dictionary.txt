@@ -38,4 +38,3 @@ testid
 
 # Misc.
 FOUC
-skia
