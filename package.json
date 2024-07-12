@@ -46,7 +46,8 @@
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",
     "test:visual-wc": "cross-env STORYBOOK_FW=web-components playwright test",
     "test:visual-react": "cross-env STORYBOOK_FW=react playwright test",
-    "test:visual": "npm run test:visual-wc && npm run test:visual-react"
+    "test:visual": "npm run test:visual-wc && npm run test:visual-react",
+    "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
     "@daikin-oss/dds-tokens": "^0.0.0",
