@@ -12,6 +12,7 @@ import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
+import type { IconType } from "../icon/daikin-icon";
 
 const BUTTON_ICON_SIZE_MAP = {
   default: "m" as const,
@@ -146,13 +147,13 @@ export class DaikinButton extends LitElement {
    * Set a icon in the right of button label.
    */
   @property({ type: String, reflect: true })
-  rightIcon = "";
+  rightIcon?: IconType;
 
   /**
    * Set a icon in the left of button label.
    */
   @property({ type: String, reflect: true })
-  leftIcon = "";
+  leftIcon?: IconType;
 
   /**
    * Link `href`. If present, this button is rendered as `<a>`.

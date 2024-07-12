@@ -82,7 +82,7 @@ export class DaikinIcon extends LitElement {
    * Specify the name of the icon
    */
   @property({ type: String, reflect: true })
-  icon: string = "";
+  icon: IconType | null = null;
 
   /**
    * Specify icon color
@@ -97,13 +97,15 @@ export class DaikinIcon extends LitElement {
   size: IconVariantProps["size"] = "m";
 
   override render() {
+    const defaultColor = this.icon ? ICON_COLOR_MAP[this.icon] : null;
+
     return html`<span
       class=${cvaIcon({
-        icon: this.icon as IconType,
+        icon: this.icon,
         color: this.color,
         size: this.size,
       })}
-      style="--default-color:${ICON_COLOR_MAP[this.icon as IconType]}"
+      style=${`--default-color:${defaultColor ?? "#000000"}`}
       role="presentation"
     ></span>`;
   }
