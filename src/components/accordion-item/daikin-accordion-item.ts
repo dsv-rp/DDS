@@ -103,7 +103,7 @@ export class DaikinAccordionItem extends LitElement {
    * Whether the accordion is open
    */
   @property({ type: Boolean, reflect: true })
-  detailsOpen = false;
+  open = false;
 
   /**
    * Whether the accordion is disabled
@@ -114,11 +114,13 @@ export class DaikinAccordionItem extends LitElement {
   /**
    * Open attribute of the actual details element
    *
-   * The open attribute of the default details element does not allow the display of content to have a transition.
-   * For this reason, it has its own `open` property and transfers the actual management of opening and closing to this property.
+   * The default `open` attribute of the default details element does not allow the display of content to have transitions.
+   * To solve this, the `open` property that `daikin-accordion-item` receives manages the opening and closing of items independently of the open attribute.
+   *
+   * The `open` attribute, which should be present, is taken over by `detailsOpen`.
    */
   @state()
-  open = false;
+  detailsOpen = false;
 
   private _handleSummaryClick(e: PointerEvent) {
     const content = this.contentRef.value;
@@ -183,7 +185,7 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override firstUpdated() {
-    this.open = this.detailsOpen;
+    this.detailsOpen = this.open;
   }
 }
 
