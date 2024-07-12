@@ -1,11 +1,4 @@
-import {
-  css,
-  html,
-  LitElement,
-  unsafeCSS,
-  type PropertyValueMap,
-  type PropertyValues,
-} from "lit";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css?inline";
@@ -64,8 +57,6 @@ export class DaikinBreadcrumb extends LitElement {
   @property({ type: Boolean, reflect: true })
   omission = true;
 
-  private originalItems: Element[] = [];
-
   private olOriginalWidth: number = 0;
 
   private ommisionMode: boolean = false;
@@ -74,8 +65,6 @@ export class DaikinBreadcrumb extends LitElement {
     // remove items and add omission if daikin-breadcrumb is to long
     const olWidth = this._slottedOl?.offsetWidth;
     const breadcrumbWidth = this.offsetWidth;
-    const olElement = this._slottedOl;
-    const slot = olElement?.querySelector("slot");
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
     if (
       olWidth &&
@@ -86,25 +75,26 @@ export class DaikinBreadcrumb extends LitElement {
       const omissionLink = document.createElement("daikin-breadcrumb-item");
       omissionLink.setAttribute("size", "min");
 
-      const tempArray: Element[] = [];
       daikinBreadCrumbItems?.forEach(
         (value: Element, index: number, array: Element[]) => {
           if (index === 0) {
-            tempArray.push(value);
-            tempArray.push(omissionLink);
+            return;
+          } else if (index === 1) {
+            value.setAttribute("size", "min");
+            return;
           } else if (index >= array.length - 2) {
-            tempArray.push(value);
+            return;
           }
-          value.remove();
+          value.setAttribute("hidden", "");
         }
       );
-      slot?.append(...tempArray);
       this.ommisionMode = true;
     } else if (breadcrumbWidth > this.olOriginalWidth && this.ommisionMode) {
       daikinBreadCrumbItems?.forEach((value: Element) => {
-        value.remove();
+        value.setAttribute("size", "max");
+        value.removeAttribute("hidden");
       });
-      slot?.append(...this.originalItems);
+      this.ommisionMode = false;
     }
   }
 
@@ -138,12 +128,6 @@ export class DaikinBreadcrumb extends LitElement {
   }
 
   override firstUpdated(_changedProperties: PropertyValues<this>): void {
-    const breadCrumbItems = this._slottedDaikinBreadCrumbItems;
-    if (breadCrumbItems) {
-      breadCrumbItems.forEach((breadCrumbItem) => {
-        this.originalItems.push(breadCrumbItem);
-      });
-    }
     this._handleLastItem();
     this._omit();
 

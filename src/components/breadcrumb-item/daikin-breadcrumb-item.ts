@@ -58,6 +58,10 @@ export class DaikinBreadcrumbItem extends LitElement {
       display: inline-flex;
       align-items: center;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
   `;
 
   @property({ type: String, reflect: true })
@@ -68,6 +72,9 @@ export class DaikinBreadcrumbItem extends LitElement {
 
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  @property({ type: Boolean, reflect: true })
+  override hidden = false;
 
   @property({ type: String, reflect: true })
   target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
