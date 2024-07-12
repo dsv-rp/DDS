@@ -39,9 +39,10 @@ export default defineConfig({
     "{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{ext}",
   expect: {
     toHaveScreenshot: {
-      // Pixel-perfect
+      // Almost pixel-perfect
+      // The `threshold` is not 0, because the output is different between GitHub Actions and local, even though we are using a container.
       maxDiffPixels: 0,
-      threshold: 0,
+      threshold: 0.05,
       // Disable animations
       animations: "disabled",
       caret: "hide",
