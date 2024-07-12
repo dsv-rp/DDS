@@ -52,12 +52,8 @@ const cvaIcon = cva(["block"], {
       black: ["text-black"],
       white: ["text-white"],
       colored: ["text-[--default-color]"],
-      original: [],
+      current: [], // uses `currentColor`
     },
-  },
-  defaultVariants: {
-    size: "m",
-    color: "black",
   },
 });
 
@@ -76,6 +72,7 @@ export class DaikinIcon extends LitElement {
       --size-m: ${unsafeCSS(space16)};
       --size-l: ${unsafeCSS(space20)};
       --size-xl: ${unsafeCSS(space24)};
+
       display: block;
       width: max-content;
     }
@@ -85,7 +82,7 @@ export class DaikinIcon extends LitElement {
    * Specify the name of the icon
    */
   @property({ type: String, reflect: true })
-  icon = "";
+  icon: string = "";
 
   /**
    * Specify icon color

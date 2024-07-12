@@ -191,22 +191,22 @@ export class DaikinButton extends LitElement {
     });
 
     const content = html`
-      ${this.leftIcon.length
+      ${this.leftIcon
         ? html`<span
             ><daikin-icon
-              icon="${this.leftIcon}"
-              size="${BUTTON_ICON_SIZE_MAP[this.size]}"
-              color="original"
+              icon=${this.leftIcon}
+              size=${BUTTON_ICON_SIZE_MAP[this.size]}
+              color="current"
             ></daikin-icon
           ></span>`
         : null}
       <span><slot></slot></span>
-      ${this.rightIcon.length
+      ${this.rightIcon
         ? html`<span
             ><daikin-icon
-              icon="${this.rightIcon}"
-              size="${BUTTON_ICON_SIZE_MAP[this.size]}"
-              color="original"
+              icon=${this.rightIcon}
+              size=${BUTTON_ICON_SIZE_MAP[this.size]}
+              color="current"
             ></daikin-icon
           ></span>`
         : null}

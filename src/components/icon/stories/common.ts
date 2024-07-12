@@ -14,7 +14,7 @@ export const DAIKIN_ICON_ARG_TYPES = {
     description: "Specify icon color",
     defaultValue: "black",
     control: { type: "radio" },
-    options: ["black", "white", "colored", "original"],
+    options: ["black", "white", "colored", "current"],
   },
   size: {
     description: "Specify the height and width of the icon",

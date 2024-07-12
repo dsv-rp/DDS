@@ -35,12 +35,12 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
   },
   leftIcon: {
     description:
-      "Specify the left icon to be inserted in the icon. See `Icon` for available icons.",
+      "Specify the left icon to be inserted in the icon. See `daikin-icon` component for available icons.",
     type: "string",
   },
   rightIcon: {
     description:
-      "Specify the left right to be inserted in the icon. See `Icon` for available icons.",
+      "Specify the left right to be inserted in the icon. See `daikin-icon` component for available icons.",
     type: "string",
   },
 } as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
