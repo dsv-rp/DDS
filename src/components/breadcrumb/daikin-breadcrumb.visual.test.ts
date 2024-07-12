@@ -20,10 +20,23 @@ describeEach(["withTrailingSlash", "noTrailingSlash"], (noTrailingSlash) => {
     });
 
     test("base", async ({ page }) => {
-      // await page.setViewportSize({
-      //   width: 640,
-      //   height: 480,
-      // });
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-breadcrumb", {
+        state: "visible",
+      });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+
+    test("smallScreen", async ({ page }) => {
+      await page.setViewportSize({
+        width: 640,
+        height: 480,
+      });
+
       await page.goto(baseURL);
       console.log(baseURL);
 

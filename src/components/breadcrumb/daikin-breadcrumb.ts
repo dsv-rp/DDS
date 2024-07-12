@@ -55,7 +55,7 @@ export class DaikinBreadcrumb extends LitElement {
   noTrailingSlash = false;
 
   @property({ type: Boolean, reflect: true })
-  omission = true;
+  omission = false;
 
   private olOriginalWidth: number = 0;
 
