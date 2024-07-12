@@ -1,8 +1,14 @@
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
+import {
+  css,
+  html,
+  LitElement,
+  unsafeCSS,
+  type PropertyValueMap,
+  type PropertyValues,
+} from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css?inline";
-import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
 @customElement("daikin-breadcrumb")
 export class DaikinBreadcrumb extends LitElement {
@@ -62,17 +68,24 @@ export class DaikinBreadcrumb extends LitElement {
 
   private olOriginalWidth: number = 0;
 
+  private ommisionMode: boolean = false;
+
   _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
     const olWidth = this._slottedOl?.offsetWidth;
     const breadcrumbWidth = this.offsetWidth;
     const olElement = this._slottedOl;
     const slot = olElement?.querySelector("slot");
-    if (olWidth && olWidth >= breadcrumbWidth && this.omission) {
+    const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
+    if (
+      olWidth &&
+      olWidth >= breadcrumbWidth &&
+      this.omission &&
+      !this.ommisionMode
+    ) {
       const omissionLink = document.createElement("daikin-breadcrumb-item");
       omissionLink.setAttribute("size", "min");
 
-      const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
       const tempArray: Element[] = [];
       daikinBreadCrumbItems?.forEach(
         (value: Element, index: number, array: Element[]) => {
@@ -86,8 +99,8 @@ export class DaikinBreadcrumb extends LitElement {
         }
       );
       slot?.append(...tempArray);
-    } else if (breadcrumbWidth > this.olOriginalWidth) {
-      const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
+      this.ommisionMode = true;
+    } else if (breadcrumbWidth > this.olOriginalWidth && this.ommisionMode) {
       daikinBreadCrumbItems?.forEach((value: Element) => {
         value.remove();
       });
@@ -97,8 +110,10 @@ export class DaikinBreadcrumb extends LitElement {
 
   _handleLastItem() {
     // set last item to disabled
-    const lastDaikinBreadCrumbItem = this
-      ._slottedLastDaikinBreadCrumbItem as DaikinBreadcrumbItem;
+    const lastDaikinBreadCrumbItem = this._slottedLastDaikinBreadCrumbItem;
+    if (!lastDaikinBreadCrumbItem) {
+      return;
+    }
     lastDaikinBreadCrumbItem.setAttribute("disabled", "");
     // remove last item slash if noTrailingSlash is true
     const link = this._slottedLastLink;
@@ -107,11 +122,19 @@ export class DaikinBreadcrumb extends LitElement {
     }
     if (this.noTrailingSlash) {
       link.classList.add("after:content-none");
+    } else {
+      link.classList.remove("after:content-none");
     }
   }
 
   _handleChange() {
     this._handleLastItem();
+  }
+
+  override updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("noTrailingSlash")) {
+      this._handleLastItem();
+    }
   }
 
   override firstUpdated(_changedProperties: PropertyValues<this>): void {

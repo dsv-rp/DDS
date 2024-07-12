@@ -77,7 +77,7 @@ export class DaikinBreadcrumbItem extends LitElement {
       size: this.size,
       disabled: this.disabled,
     });
-    const linkText = this.size === "max" ? html`<slot></slot>` : html`…`;
+    const linkText = this.size === "max" ? html`<slot></slot>` : html`. . .`;
     return html`
       <a
         href="${ifDefined(this.href)}"
