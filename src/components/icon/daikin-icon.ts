@@ -19,7 +19,7 @@ export const ICONS = [
   "warning",
 ] as const;
 
-type IconType = (typeof ICONS)[number];
+export type IconType = (typeof ICONS)[number];
 
 const ICON_MAP: Record<IconType, string> = {
   alarm: "i-daikin-notification-status-alarm",
