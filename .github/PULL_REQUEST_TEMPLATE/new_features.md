@@ -36,11 +36,11 @@ This PR adds Button (`daikin-button`) component.
 - [ ] I have performed a self-review of my code.
 - [ ] I have added appropriate visual regression tests.
 - [ ] I have added appropriate interaction tests.
-- [ ] I have confirmed that my changes do not generate new warnings and errors.
-- [ ] I have confirmed that there are no accessibility warnings that can be addressed.
+- [ ] I have confirmed that there are no accessibility warnings that can be addressed.  
+       _Hint_: check the Accessibility tab in the Storybook.
 - [ ] I have confirmed that the component can be operated using only the keyboard.
 - [ ] I have confirmed that the focus state of the component is visually discernible.
 
-<!-- Testing and Linting are not in the checklist, as they are performed by GitHub Actions. -->
+<!-- Testing and linting are not in this checklist, as they are performed by GitHub Actions. -->
 
 If you don't feel that the PR is ready for review, please create the PR in draft status.
