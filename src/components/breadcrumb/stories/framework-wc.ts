@@ -10,8 +10,8 @@ export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
   tags: ["autodocs"],
   render: (args) => html`
     <daikin-breadcrumb
-      ?no-trailing-slash=${args.noTrailingSlash}
-      ?omission=${args.omission}
+      ?trailing-slash=${args.trailingSlash}
+      overflow=${args.overflow}
     >
       <daikin-breadcrumb-item href="#"
         >DaikinBreadcrumbItem1</daikin-breadcrumb-item

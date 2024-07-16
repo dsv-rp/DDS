@@ -13,8 +13,46 @@ const ReactDaikinBreadcrumbItem = createComponent({
 
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
-    <ReactDaikinBreadcrumbItem {...props}>
-      DaikinBreadcrumbItem1
-    </ReactDaikinBreadcrumbItem>
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+      <ReactDaikinBreadcrumbItem {...props}>
+        DaikinBreadcrumbItem1
+      </ReactDaikinBreadcrumbItem>
+    </div>
   ),
 };

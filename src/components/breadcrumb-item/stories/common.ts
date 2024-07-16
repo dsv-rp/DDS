@@ -17,6 +17,7 @@ export const DAIKIN_BREADCRUMB_ITEM_ARG_TYPES = {
     control: { type: "select" },
     options: ["_blank", "_self", "_parent", "_top", "framename"],
   },
+  trailingSlash: { type: "boolean" },
 } as const satisfies Meta<DaikinBreadcrumbItemStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinBreadcrumbItemStoryArgs>;

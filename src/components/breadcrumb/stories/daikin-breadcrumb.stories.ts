@@ -16,15 +16,15 @@ function sleep(ms: number) {
 
 export const Default: BreadcrumbStory = {
   args: {
-    noTrailingSlash: false,
-    omission: false,
+    trailingSlash: false,
+    overflow: "visible",
   },
 };
 
 export const Omission: BreadcrumbStory = {
   args: {
-    noTrailingSlash: true,
-    omission: true,
+    trailingSlash: true,
+    overflow: "ellipsis",
   },
   play: definePlay(async ({ canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-breadcrumb")[0];

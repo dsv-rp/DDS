@@ -12,11 +12,11 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_BREADCRUMB_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-breadcrumb--omission", args);
 
-describeEach(["withTrailingSlash", "noTrailingSlash"], (noTrailingSlash) => {
-  describeEach(["omission", "withoutOmission"] as const, (omission) => {
+describeEach(["noTrailingSlash", "trailingSlash"], (trailingSlash) => {
+  describeEach(["visible", "ellipsis"] as const, (overflow) => {
     const baseURL = getPageURL({
-      noTrailingSlash: noTrailingSlash === "noTrailingSlash",
-      omission: omission === "omission",
+      trailingSlash: trailingSlash === "trailingSlash",
+      overflow: overflow,
     });
 
     test("base", async ({ page }) => {

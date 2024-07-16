@@ -18,15 +18,6 @@ export class DaikinBreadcrumb extends LitElement {
     this._omit();
   });
 
-  // get link element from shadow root
-  get _slottedLastLink() {
-    const LastDaikinBreadCrumbItem = this._slottedLastDaikinBreadCrumbItem;
-    if (!LastDaikinBreadCrumbItem) {
-      return null;
-    }
-    return LastDaikinBreadCrumbItem.shadowRoot?.querySelector("a");
-  }
-
   // get daikin-breadcrumb-item from shadow root
   get _slottedDaikinBreadCrumbItems() {
     const daikinBreadCrumbItems = this.shadowRoot
@@ -50,15 +41,19 @@ export class DaikinBreadcrumb extends LitElement {
   @query("div")
   private _divWrap: HTMLElement | null | undefined;
 
-  @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
-  noTrailingSlash = false;
+  @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
+  trailingSlash = false;
 
-  @property({ type: Boolean, reflect: true })
-  omission = false;
+  @property({ type: String, reflect: true })
+  overflow: "visible" | "ellipsis" = "visible";
 
   private divOriginalWidth: number = 0;
 
   private omissionMode: boolean = false;
+
+  get _isEllipsis() {
+    return this.overflow === "ellipsis";
+  }
 
   _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
@@ -68,7 +63,7 @@ export class DaikinBreadcrumb extends LitElement {
     if (
       divWidth &&
       divWidth >= breadcrumbWidth &&
-      this.omission &&
+      this._isEllipsis &&
       !this.omissionMode
     ) {
       daikinBreadCrumbItems?.forEach(
@@ -85,7 +80,10 @@ export class DaikinBreadcrumb extends LitElement {
         }
       );
       this.omissionMode = true;
-    } else if (breadcrumbWidth > this.divOriginalWidth && this.omissionMode) {
+    } else if (
+      (breadcrumbWidth > this.divOriginalWidth || !this._isEllipsis) &&
+      this.omissionMode
+    ) {
       daikinBreadCrumbItems?.forEach((value: Element) => {
         value.setAttribute("size", "max");
         value.removeAttribute("hidden");
@@ -101,24 +99,31 @@ export class DaikinBreadcrumb extends LitElement {
       return;
     }
     lastDaikinBreadCrumbItem.setAttribute("disabled", "");
-    // remove last item slash if noTrailingSlash is true
-    const link = this._slottedLastLink;
-    if (!link) {
-      return;
-    }
-    if (this.noTrailingSlash) {
-      link.classList.add("after:content-none");
+    // remove last item slash if trailingSlash is false
+    if (!this.trailingSlash) {
+      lastDaikinBreadCrumbItem.removeAttribute("trailing-slash");
     } else {
-      link.classList.remove("after:content-none");
+      lastDaikinBreadCrumbItem.setAttribute("trailing-slash", "");
     }
   }
 
+  _addSlash() {
+    const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
+    if (!daikinBreadCrumbItems) {
+      return;
+    }
+    daikinBreadCrumbItems.forEach((item: Element) => {
+      item.setAttribute("trailing-slash", "");
+    });
+  }
+
   _handleChange() {
+    this._addSlash();
     this._handleLastItem();
   }
 
   _handleResizeObserver() {
-    if (this.omission) {
+    if (this._isEllipsis) {
       this.resizeObserver.observe(this);
     } else {
       this.resizeObserver.disconnect();
@@ -134,10 +139,10 @@ export class DaikinBreadcrumb extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("noTrailingSlash")) {
+    if (changedProperties.has("trailingSlash")) {
       this._handleLastItem();
     }
-    if (changedProperties.has("omission")) {
+    if (changedProperties.has("overflow")) {
       this._omit();
       this._handleResizeObserver();
     }

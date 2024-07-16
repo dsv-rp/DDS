@@ -14,6 +14,7 @@ export const Max: Story = {
     href: "#",
     target: "_self",
     disabled: false,
+    trailingSlash: true,
   },
 };
 
@@ -23,5 +24,6 @@ export const Min: Story = {
     href: "#",
     target: "_self",
     disabled: false,
+    trailingSlash: true,
   },
 };

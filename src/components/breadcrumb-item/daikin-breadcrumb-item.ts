@@ -8,12 +8,7 @@ import type { MergeVariantProps } from "../../type-utils";
 
 const cvaLink = cva(
   [
-    "gap-2",
-    "inline-flex",
-    "justify-center",
     "h-8",
-    "items-center",
-    "flex-shrink-0",
     "font-normal",
     "not-italic",
     "leading-8",
@@ -26,8 +21,6 @@ const cvaLink = cva(
     variants: {
       size: {
         max: [
-          "after:content-['/']",
-          "after:text-daikinNeutral-800",
           "hover:text-daikinBlue-300",
           "active:text-daikinNeutral-800",
           "focus-visible:text-daikinBlue-700",
@@ -57,6 +50,8 @@ export class DaikinBreadcrumbItem extends LitElement {
     :host {
       display: inline-flex;
       align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
     }
 
     :host([hidden]) {
@@ -76,6 +71,9 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: String, reflect: true })
   target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
 
+  @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
+  trailingSlash = false;
+
   @property({ type: Boolean, reflect: true })
   override hidden = false;
 
@@ -84,16 +82,19 @@ export class DaikinBreadcrumbItem extends LitElement {
       size: this.size,
       disabled: this.disabled,
     });
+    const slash = this.trailingSlash
+      ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
+      : html``;
     const linkText =
-      this.size === "max"
-        ? html`<slot></slot>`
-        : html`<span>. . .</span><span class="text-daikinNeutral-800">/</span>`;
+      this.size === "max" ? html`<slot></slot>` : html`<span>. . .</span>`;
     return html`
-      <a
-        href="${ifDefined(this.href)}"
-        class="${linkClassName}"
-        target="${this.target}"
-        >${linkText}</a
+      <slot name="link"
+        ><a
+          href="${ifDefined(this.href)}"
+          class="${linkClassName}"
+          target="${this.target}"
+          >${linkText}</a
+        >${slash}</slot
       >
     `;
   }
