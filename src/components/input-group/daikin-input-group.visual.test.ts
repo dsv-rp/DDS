@@ -12,27 +12,33 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
-describeEach(["enabled", "disabled"] as const, (state) => {
-  describeEach(["optional", "required"] as const, (required) => {
-    describeEach(["normal", "error"] as const, (error) => {
-      const baseURL = getPageURL({
-        label: "Input Group Label",
-        disabled: state === "disabled",
-        required: required === "required",
-        error: error === "error" ? "Error Text" : undefined,
-        helper: "Helper Text",
-      });
+describeEach(["TextInput", "Textarea"] as const, (content) => {
+  describeEach(["enabled", "disabled"] as const, (state) => {
+    describeEach(["optional", "required"] as const, (required) => {
+      describeEach(["normal", "error"] as const, (error) => {
+        describeEach(["visible", "hidden"] as const, (textareaCounter) => {
+          const baseURL = getPageURL({
+            content,
+            label: "Input Group Label",
+            disabled: state === "disabled",
+            required: required === "required",
+            error: error === "error" ? "Error Text" : undefined,
+            helper: "Helper Text",
+            textareaCounter: textareaCounter === "visible",
+          });
 
-      test("base", async ({ page }) => {
-        await page.goto(baseURL);
+          test("base", async ({ page }) => {
+            await page.goto(baseURL);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-input-group", {
-          state: "visible",
+            // wait for element to be visible
+            const element = await page.waitForSelector("daikin-input-group", {
+              state: "visible",
+            });
+
+            // take screenshot and check for diffs
+            await expect(page).toHaveScreenshot(await clipFor(element));
+          });
         });
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
       });
     });
   });

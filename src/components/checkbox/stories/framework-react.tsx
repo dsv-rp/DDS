@@ -9,8 +9,8 @@ const ReactDaikinCheckbox = createComponent({
   tagName: "daikin-checkbox",
   elementClass: DaikinCheckbox,
   events: {
-    change: "onChange",
-    click: "onClick",
+    onChange: "change",
+    onClick: "click",
   },
 });
 
