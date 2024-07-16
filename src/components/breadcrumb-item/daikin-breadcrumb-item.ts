@@ -21,13 +21,13 @@ const cvaLink = cva(
     "text-daikinBlue-500",
     "outline-none",
     "font-daikinSerif",
-    "after:content-['/']",
-    "after:text-daikinNeutral-800",
   ],
   {
     variants: {
       size: {
         max: [
+          "after:content-['/']",
+          "after:text-daikinNeutral-800",
           "hover:text-daikinBlue-300",
           "active:text-daikinNeutral-800",
           "focus-visible:text-daikinBlue-700",
@@ -84,7 +84,10 @@ export class DaikinBreadcrumbItem extends LitElement {
       size: this.size,
       disabled: this.disabled,
     });
-    const linkText = this.size === "max" ? html`<slot></slot>` : html`. . .`;
+    const linkText =
+      this.size === "max"
+        ? html`<slot></slot>`
+        : html`<span>. . .</span><span class="text-daikinNeutral-800">/</span>`;
     return html`
       <a
         href="${ifDefined(this.href)}"

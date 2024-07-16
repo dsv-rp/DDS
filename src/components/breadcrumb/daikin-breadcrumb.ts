@@ -45,10 +45,10 @@ export class DaikinBreadcrumb extends LitElement {
     return daikinBreadCrumbItems[daikinBreadCrumbItems.length - 1];
   }
 
-  // get ol element from daikin-breadcrumb
-  get _slottedOl() {
-    const ol = this.shadowRoot?.querySelector("ol");
-    return ol;
+  // get div element from daikin-breadcrumb
+  get _slottedDivWrap() {
+    const div = this.shadowRoot?.querySelector("div");
+    return div;
   }
 
   @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
@@ -57,24 +57,21 @@ export class DaikinBreadcrumb extends LitElement {
   @property({ type: Boolean, reflect: true })
   omission = false;
 
-  private olOriginalWidth: number = 0;
+  private divOriginalWidth: number = 0;
 
   private ommisionMode: boolean = false;
 
   _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
-    const olWidth = this._slottedOl?.offsetWidth;
+    const divWidth = this._slottedDivWrap?.offsetWidth;
     const breadcrumbWidth = this.offsetWidth;
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
     if (
-      olWidth &&
-      olWidth >= breadcrumbWidth &&
+      divWidth &&
+      divWidth >= breadcrumbWidth &&
       this.omission &&
       !this.ommisionMode
     ) {
-      const omissionLink = document.createElement("daikin-breadcrumb-item");
-      omissionLink.setAttribute("size", "min");
-
       daikinBreadCrumbItems?.forEach(
         (value: Element, index: number, array: Element[]) => {
           if (index === 0) {
@@ -89,7 +86,7 @@ export class DaikinBreadcrumb extends LitElement {
         }
       );
       this.ommisionMode = true;
-    } else if (breadcrumbWidth > this.olOriginalWidth && this.ommisionMode) {
+    } else if (breadcrumbWidth > this.divOriginalWidth && this.ommisionMode) {
       daikinBreadCrumbItems?.forEach((value: Element) => {
         value.setAttribute("size", "max");
         value.removeAttribute("hidden");
@@ -121,34 +118,43 @@ export class DaikinBreadcrumb extends LitElement {
     this._handleLastItem();
   }
 
+  _handleResizeObserver() {
+    if (this.omission) {
+      this.resizeObserver.observe(this);
+    } else {
+      this.resizeObserver.disconnect();
+    }
+  }
+
   override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("noTrailingSlash")) {
       this._handleLastItem();
+    }
+    if (changedProperties.has("omission")) {
+      this._omit();
+      this._handleResizeObserver();
     }
   }
 
   override firstUpdated(_changedProperties: PropertyValues<this>): void {
     this._handleLastItem();
     this._omit();
-
-    if (this.omission) {
-      this.resizeObserver.observe(this);
-    }
+    this._handleResizeObserver();
 
     this.updateComplete.then(() => {
-      const olElement = this._slottedOl;
-      if (!olElement) {
+      const divElement = this._slottedDivWrap;
+      if (!divElement) {
         return;
       }
-      this.olOriginalWidth = olElement?.offsetWidth;
+      this.divOriginalWidth = divElement?.offsetWidth;
     });
   }
 
   override render() {
     return html`
-      <ol class="flex gap-2">
+      <div class="flex gap-2">
         <slot @slotchange=${this._handleChange}></slot>
-      </ol>
+      </div>
     `;
   }
 }
