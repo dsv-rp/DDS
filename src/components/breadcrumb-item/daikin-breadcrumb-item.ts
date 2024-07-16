@@ -93,7 +93,6 @@ export class DaikinBreadcrumbItem extends LitElement {
         href="${ifDefined(this.href)}"
         class="${linkClassName}"
         target="${this.target}"
-        ?disabled="${this.disabled}"
         >${linkText}</a
       >
     `;
