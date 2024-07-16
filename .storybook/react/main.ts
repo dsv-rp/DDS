@@ -1,15 +1,13 @@
 import type { StorybookConfig } from "@storybook/react-vite";
-import { env } from "node:process";
 import {
   getAllStorybookFiles,
+  setStorybookFW,
   STORYBOOK_ADDONS,
   viteFinal,
 } from "../main-common";
 
-if (!env.STORYBOOK_MAIN_LOADED) {
-  env.STORYBOOK_FW = "react";
-  env.STORYBOOK_MAIN_LOADED = "1";
-}
+// Set `STORYBOOK_FW` environment variable to "react".
+setStorybookFW("react");
 
 const config: StorybookConfig = {
   stories: getAllStorybookFiles("react"),

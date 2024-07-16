@@ -1,16 +1,13 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
-import { env } from "node:process";
 import {
   getAllStorybookFiles,
+  setStorybookFW,
   STORYBOOK_ADDONS,
   viteFinal,
 } from "./main-common";
 
-// Storybook loads root main.ts (this file) somehow when launching react version.
-if (!env.STORYBOOK_MAIN_LOADED) {
-  env.STORYBOOK_FW = "web-components";
-  env.STORYBOOK_MAIN_LOADED = "1";
-}
+// Set `STORYBOOK_FW` environment variable to "web-components".
+setStorybookFW("web-components")
 
 const config: StorybookConfig = {
   stories: getAllStorybookFiles("web-components"),
