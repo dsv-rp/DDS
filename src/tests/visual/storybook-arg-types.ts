@@ -26,4 +26,4 @@ type InferArgType<T extends StorybookArgType> = T extends {
     : FallbackType;
 
 export type InferStorybookArgTypes<T extends Record<string, StorybookArgType>> =
-  { [K in keyof T]?: InferArgType<T[K]> };
+  { [K in keyof T]?: InferArgType<T[K]> | undefined };

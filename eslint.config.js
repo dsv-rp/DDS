@@ -34,6 +34,9 @@ export default tseslint.config(
       },
     },
     rules: {
+      // This conflicts with lit's declarative event handler notation
+      // https://lit.dev/docs/components/events/#understanding-this-in-event-listeners
+      "@typescript-eslint/unbound-method": "off",
       "@typescript-eslint/no-confusing-void-expression": [
         "error",
         {

@@ -40,7 +40,9 @@ jobs:
 
       - name: Interaction Test
         run: |
+          rm -rf node_modules/.cache/storybook
           npm run test:interaction
+          rm -rf node_modules/.cache/storybook
           STORYBOOK_ENV=production npm run test:interaction
 
   # VRT is separated since it's time consuming.
