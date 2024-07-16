@@ -5,23 +5,7 @@ import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaDetails = cva(
-  [
-    "flex",
-    "w-full",
-    "h-max",
-    "bg-white",
-    "font-daikinSerif",
-    "overflow-clip",
-
-    "[&>summary:hover]:[&[aria-disabled='false']]:bg-[#DCDCDC]",
-    "[&>summary:hover]:[&[aria-disabled='false']]:cursor-pointer",
-    "[&>summary:focus-visible]:[&[aria-disabled='false']]:outline",
-    "[&>summary:focus-visible]:[&[aria-disabled='false']]:outline-[3px]",
-    "[&>summary:focus-visible]:[&[aria-disabled='false']]:outline-[#0097E0]",
-    "[&>summary:focus-visible]:[&[aria-disabled='false']]:outline-offset-[-3px]",
-
-    "[&>summary:after]:[&[data-open]]:rotate-180",
-  ],
+  ["flex", "w-full", "h-max", "bg-white", "font-daikinSerif", "overflow-clip"],
   {
     variants: {
       status: {
@@ -38,7 +22,7 @@ const cvaSummary = cva(
     "items-center",
     "w-full",
     "h-12",
-    "px-[20px]",
+    "px-5",
     "outline-none",
     "relative",
 
@@ -56,8 +40,22 @@ const cvaSummary = cva(
   ],
   {
     variants: {
+      visible: {
+        open: [],
+        close: ["after:-rotate-180"],
+      },
       status: {
-        enabled: ["after:text-[#828282]"],
+        enabled: [
+          "hover:bg-[#DCDCDC]",
+          "hover:bg-[#DCDCDC]",
+          "hover:cursor-pointer",
+          "focus-visible:outline",
+          "focus-visible:outline-[3px]",
+          "focus-visible:outline-[#0097E0]",
+          "focus-visible:outline-offset-[-3px]",
+
+          "after:text-[#828282]",
+        ],
         disabled: ["text-[#DCDCDC]", "after:text-[#DCDCDC]"],
       },
     },
@@ -161,6 +159,7 @@ export class DaikinAccordionItem extends LitElement {
 
     const accordionSummaryClassName = cvaSummary({
       status: this.disabled ? "disabled" : "enabled",
+      visible: this.open ? "open" : "close",
     });
 
     return html`<details
@@ -177,7 +176,7 @@ export class DaikinAccordionItem extends LitElement {
         ${this.title}
       </summary>
       <div ${ref(this.contentRef)}>
-        <div class="pt-2 pb-[24px] px-[20px] text-sm">
+        <div class="pt-2 pb-6 px-5 text-sm">
           <slot></slot>
         </div>
       </div>
