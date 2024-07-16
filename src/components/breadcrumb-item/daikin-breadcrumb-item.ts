@@ -73,11 +73,11 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  @property({ type: Boolean, reflect: true })
-  override hidden = false;
-
   @property({ type: String, reflect: true })
   target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
+
+  @property({ type: Boolean, reflect: true })
+  override hidden = false;
 
   override render() {
     const linkClassName = cvaLink({

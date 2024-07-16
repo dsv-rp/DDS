@@ -125,6 +125,14 @@ export class DaikinBreadcrumb extends LitElement {
     }
   }
 
+  override render() {
+    return html`
+      <div class="flex gap-2">
+        <slot @slotchange=${this._handleChange}></slot>
+      </div>
+    `;
+  }
+
   override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("noTrailingSlash")) {
       this._handleLastItem();
@@ -147,14 +155,6 @@ export class DaikinBreadcrumb extends LitElement {
       }
       this.divOriginalWidth = divElement.offsetWidth;
     });
-  }
-
-  override render() {
-    return html`
-      <div class="flex gap-2">
-        <slot @slotchange=${this._handleChange}></slot>
-      </div>
-    `;
   }
 }
 
