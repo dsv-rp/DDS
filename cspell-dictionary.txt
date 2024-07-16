@@ -8,6 +8,7 @@ roboto
 tailwindcss
 taze
 tseslint
+framename
 
 # Colors
 Coolgrey

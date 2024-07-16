@@ -58,7 +58,7 @@ export class DaikinBreadcrumb extends LitElement {
 
   private divOriginalWidth: number = 0;
 
-  private ommisionMode: boolean = false;
+  private omissionMode: boolean = false;
 
   _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
@@ -69,7 +69,7 @@ export class DaikinBreadcrumb extends LitElement {
       divWidth &&
       divWidth >= breadcrumbWidth &&
       this.omission &&
-      !this.ommisionMode
+      !this.omissionMode
     ) {
       daikinBreadCrumbItems?.forEach(
         (value: Element, index: number, array: Element[]) => {
@@ -84,13 +84,13 @@ export class DaikinBreadcrumb extends LitElement {
           value.setAttribute("hidden", "");
         }
       );
-      this.ommisionMode = true;
-    } else if (breadcrumbWidth > this.divOriginalWidth && this.ommisionMode) {
+      this.omissionMode = true;
+    } else if (breadcrumbWidth > this.divOriginalWidth && this.omissionMode) {
       daikinBreadCrumbItems?.forEach((value: Element) => {
         value.setAttribute("size", "max");
         value.removeAttribute("hidden");
       });
-      this.ommisionMode = false;
+      this.omissionMode = false;
     }
   }
 
