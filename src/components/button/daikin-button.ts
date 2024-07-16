@@ -147,13 +147,13 @@ export class DaikinButton extends LitElement {
    * Set a icon in the right of button label.
    */
   @property({ type: String, reflect: true })
-  rightIcon?: IconType;
+  rightIcon: IconType | null = null;
 
   /**
    * Set a icon in the left of button label.
    */
   @property({ type: String, reflect: true })
-  leftIcon?: IconType;
+  leftIcon: IconType | null = null;
 
   /**
    * Link `href`. If present, this button is rendered as `<a>`.
@@ -193,23 +193,19 @@ export class DaikinButton extends LitElement {
 
     const content = html`
       ${this.leftIcon
-        ? html`<span
-            ><daikin-icon
-              icon=${this.leftIcon}
-              size=${BUTTON_ICON_SIZE_MAP[this.size]}
-              color="current"
-            ></daikin-icon
-          ></span>`
+        ? html`<daikin-icon
+            icon=${this.leftIcon}
+            size=${BUTTON_ICON_SIZE_MAP[this.size]}
+            color="current"
+          ></daikin-icon>`
         : null}
-      <span><slot></slot></span>
+      <slot></slot>
       ${this.rightIcon
-        ? html`<span
-            ><daikin-icon
-              icon=${this.rightIcon}
-              size=${BUTTON_ICON_SIZE_MAP[this.size]}
-              color="current"
-            ></daikin-icon
-          ></span>`
+        ? html`<daikin-icon
+            icon=${this.rightIcon}
+            size=${BUTTON_ICON_SIZE_MAP[this.size]}
+            color="current"
+          ></daikin-icon>`
         : null}
     `;
 
