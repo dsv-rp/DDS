@@ -35,15 +35,15 @@ export const Omission: BreadcrumbStory = {
         ?.querySelector("slot")
         ?.assignedElements({ flatten: true }) ?? [];
     await expect(daikinBreadCrumbItems[0]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[0]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[0]).toHaveAttribute("variant", "normal");
     await expect(daikinBreadCrumbItems[1]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[1]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[1]).toHaveAttribute("variant", "normal");
     await expect(daikinBreadCrumbItems[2]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[2]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[2]).toHaveAttribute("variant", "normal");
     await expect(daikinBreadCrumbItems[3]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[3]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[3]).toHaveAttribute("variant", "normal");
     await expect(daikinBreadCrumbItems[4]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[4]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[4]).toHaveAttribute("variant", "normal");
 
     const div = root.shadowRoot?.querySelector("div");
     const divLength = div?.offsetWidth ?? 0;
@@ -52,14 +52,17 @@ export const Omission: BreadcrumbStory = {
     await sleep(500);
 
     await expect(daikinBreadCrumbItems[0]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[0]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[0]).toHaveAttribute("variant", "normal");
     await expect(daikinBreadCrumbItems[1]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[1]).toHaveAttribute("size", "min");
+    await expect(daikinBreadCrumbItems[1]).toHaveAttribute(
+      "variant",
+      "ellipsis"
+    );
     await expect(daikinBreadCrumbItems[2]).toHaveAttribute("hidden");
     await expect(daikinBreadCrumbItems[3]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[3]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[3]).toHaveAttribute("variant", "normal");
     await expect(daikinBreadCrumbItems[4]).not.toHaveAttribute("hidden");
-    await expect(daikinBreadCrumbItems[4]).toHaveAttribute("size", "max");
+    await expect(daikinBreadCrumbItems[4]).toHaveAttribute("variant", "normal");
 
     root.style.width = `${divLength + 1}px`;
     await sleep(500);

@@ -11,7 +11,7 @@ export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
     <daikin-breadcrumb-item
       href=${args.href}
       target=${args.target}
-      size=${args.size}
+      variant=${args.variant}
       ?disabled=${args.disabled}
       >DaikinBreadcrumbItem1</daikin-breadcrumb-item
     >

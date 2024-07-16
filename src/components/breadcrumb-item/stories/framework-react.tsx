@@ -17,42 +17,6 @@ export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
       <ReactDaikinBreadcrumbItem {...props}>
         DaikinBreadcrumbItem1
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
-      </ReactDaikinBreadcrumbItem>
     </div>
   ),
 };

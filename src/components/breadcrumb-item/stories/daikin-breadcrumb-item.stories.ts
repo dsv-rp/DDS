@@ -8,9 +8,9 @@ export default {
   ...metadata,
 };
 
-export const Max: Story = {
+export const Normal: Story = {
   args: {
-    size: "max",
+    variant: "normal",
     href: "#",
     target: "_self",
     disabled: false,
@@ -18,9 +18,9 @@ export const Max: Story = {
   },
 };
 
-export const Min: Story = {
+export const Ellipsis: Story = {
   args: {
-    size: "min",
+    variant: "ellipsis",
     href: "#",
     target: "_self",
     disabled: false,

@@ -41,9 +41,16 @@ export class DaikinBreadcrumb extends LitElement {
   @query("div")
   private _divWrap: HTMLElement | null | undefined;
 
+  /**
+   * Specify whether the last of breadcrumb-item should show slash
+   */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
+  /**
+   * Specify overflow
+   * when `visible` the breadcrumb will not be omitted even breadcrumb-items total width exceed container width
+   */
   @property({ type: String, reflect: true })
   overflow: "visible" | "ellipsis" = "visible";
 
@@ -71,7 +78,7 @@ export class DaikinBreadcrumb extends LitElement {
           if (index === 0) {
             return;
           } else if (index === 1) {
-            value.setAttribute("size", "min");
+            value.setAttribute("variant", "ellipsis");
             return;
           } else if (index >= array.length - 2) {
             return;
@@ -85,7 +92,7 @@ export class DaikinBreadcrumb extends LitElement {
       this.omissionMode
     ) {
       daikinBreadCrumbItems?.forEach((value: Element) => {
-        value.setAttribute("size", "max");
+        value.setAttribute("variant", "normal");
         value.removeAttribute("hidden");
       });
       this.omissionMode = false;

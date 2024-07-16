@@ -12,13 +12,13 @@ type StoryArgs = InferStorybookArgTypes<
 >;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-breadcrumb-item--max", args);
+  getStorybookIframeURL("components-breadcrumb-item--normal", args);
 
-describeEach(["enabled", "disabled"], (variant) => {
-  describeEach(["max", "min"] as const, (size) => {
+describeEach(["enabled", "disabled"], (state) => {
+  describeEach(["normal", "ellipsis"] as const, (variant) => {
     const baseURL = getPageURL({
-      disabled: variant === "disabled",
-      size,
+      disabled: state === "disabled",
+      variant,
     });
 
     test("base", async ({ page }) => {

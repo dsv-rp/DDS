@@ -19,13 +19,13 @@ const cvaLink = cva(
   ],
   {
     variants: {
-      size: {
-        max: [
+      variant: {
+        normal: [
           "hover:text-daikinBlue-300",
           "active:text-daikinNeutral-800",
           "focus-visible:text-daikinBlue-700",
         ],
-        min: ["hover:text-daikinBlue-300"],
+        ellipsis: ["hover:text-daikinBlue-300"],
       },
       disabled: {
         true: [
@@ -59,34 +59,54 @@ export class DaikinBreadcrumbItem extends LitElement {
     }
   `;
 
+  /**
+   * Specify link href
+   */
   @property({ type: String, reflect: true })
   href? = "";
 
+  /**
+   * Specify link variant
+   */
   @property({ type: String, reflect: true })
-  size: LinkVariantProps["size"] = "max";
+  variant: LinkVariantProps["variant"] = "normal";
 
+  /**
+   * Specify whether the link should be disabled
+   */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Specify the link target
+   */
   @property({ type: String, reflect: true })
   target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
 
+  /**
+   * Specify the link should show slash at the end or not
+   */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
+  /**
+   * Specify the link should be hidden when ellipsis mode
+   */
   @property({ type: Boolean, reflect: true })
   override hidden = false;
 
   override render() {
     const linkClassName = cvaLink({
-      size: this.size,
+      variant: this.variant,
       disabled: this.disabled,
     });
     const slash = this.trailingSlash
       ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
       : html``;
     const linkText =
-      this.size === "max" ? html`<slot></slot>` : html`<span>. . .</span>`;
+      this.variant === "normal"
+        ? html`<slot></slot>`
+        : html`<span>. . .</span>`;
     return html`
       <slot name="link"
         ><a

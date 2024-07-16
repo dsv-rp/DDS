@@ -8,9 +8,9 @@ export type DaikinBreadcrumbItemStoryArgs = Required<
 
 export const DAIKIN_BREADCRUMB_ITEM_ARG_TYPES = {
   href: { type: "string" },
-  size: {
+  variant: {
     control: { type: "select" },
-    options: ["max", "min"],
+    options: ["normal", "ellipsis"],
   },
   disabled: { type: "boolean" },
   target: {
