@@ -7,7 +7,7 @@ import {
 } from "./main-common";
 
 // Set `STORYBOOK_FW` environment variable to "web-components".
-setStorybookFW("web-components")
+setStorybookFW("web-components");
 
 const config: StorybookConfig = {
   stories: getAllStorybookFiles("web-components"),
