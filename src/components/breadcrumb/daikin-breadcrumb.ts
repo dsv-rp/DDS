@@ -135,17 +135,17 @@ export class DaikinBreadcrumb extends LitElement {
     }
   }
 
-  override firstUpdated(_changedProperties: PropertyValues<this>): void {
+  override async firstUpdated(): Promise<void> {
     this._handleLastItem();
     this._omit();
     this._handleResizeObserver();
 
-    this.updateComplete.then(() => {
+    await this.updateComplete.then(() => {
       const divElement = this._divWrap;
       if (!divElement) {
         return;
       }
-      this.divOriginalWidth = divElement?.offsetWidth;
+      this.divOriginalWidth = divElement.offsetWidth;
     });
   }
 
