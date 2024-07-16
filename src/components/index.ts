@@ -1,5 +1,7 @@
 export * from "./button";
 export * from "./checkbox";
+export * from "./dropdown";
+export * from "./dropdown-item";
 export * from "./icon";
 export * from "./input-group";
 export * from "./notification";
