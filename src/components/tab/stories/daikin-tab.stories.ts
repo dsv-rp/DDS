@@ -68,13 +68,13 @@ export const Disabled: Story = {
     });
     await expect(innerButton).toBeInTheDocument();
 
-    // should react if inner button clicked
+    // should not react if inner button clicked
     await step("Try to click inner button", async () => {
       await userEvent.click(innerButton);
       await expect(args.onClick).not.toHaveBeenCalled();
     });
 
-    // should also react if outer button clicked
+    // also should not react if outer button clicked
     await step("Try to outer button", async () => {
       await userEvent.click(root);
       await expect(args.onClick).not.toHaveBeenCalled();
