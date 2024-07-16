@@ -30,10 +30,10 @@ export const Omission: BreadcrumbStory = {
     const root = canvasElement.getElementsByTagName("daikin-breadcrumb")[0];
     await expect(root).toBeInTheDocument();
 
-    const daikinBreadCrumbItems = root.shadowRoot
-      .querySelector("slot")
-      .assignedElements({ flatten: true });
-
+    const daikinBreadCrumbItems =
+      root.shadowRoot
+        ?.querySelector("slot")
+        ?.assignedElements({ flatten: true }) ?? [];
     await expect(daikinBreadCrumbItems[0]).not.toHaveAttribute("hidden");
     await expect(daikinBreadCrumbItems[0]).toHaveAttribute("size", "max");
     await expect(daikinBreadCrumbItems[1]).not.toHaveAttribute("hidden");
@@ -45,8 +45,8 @@ export const Omission: BreadcrumbStory = {
     await expect(daikinBreadCrumbItems[4]).not.toHaveAttribute("hidden");
     await expect(daikinBreadCrumbItems[4]).toHaveAttribute("size", "max");
 
-    const div = root.shadowRoot.querySelector("div");
-    const divLength = div.offsetWidth;
+    const div = root.shadowRoot?.querySelector("div");
+    const divLength = div?.offsetWidth ?? 0;
     const changeLength = divLength - 100;
     root.style.width = `${changeLength}px`;
     await sleep(500);
@@ -60,5 +60,8 @@ export const Omission: BreadcrumbStory = {
     await expect(daikinBreadCrumbItems[3]).toHaveAttribute("size", "max");
     await expect(daikinBreadCrumbItems[4]).not.toHaveAttribute("hidden");
     await expect(daikinBreadCrumbItems[4]).toHaveAttribute("size", "max");
+
+    root.style.width = `${divLength + 1}px`;
+    await sleep(500);
   }),
 };
