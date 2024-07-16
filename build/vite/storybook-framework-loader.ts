@@ -3,7 +3,7 @@ import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
 
 /**
- * Loader plugin of `#storybook-framework`. \
+ * Loader plugin for `#storybook-framework`. \
  * Resolves a code that loads `metadata` from `frameworkPath` and export it with component description loaded from the component file.
  *
  * @param frameworkPath Actual path for framework-specific exports. (e.g. `./framework-wc`)
@@ -52,18 +52,23 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
           .replace(/^\s*\* ?/gm, "")
           .trim() ?? "";
 
+      // prepare additional metadata
+      const additionalMetadata = {
+        parameters: {
+          docs: {
+            description: {
+              component: componentDescription,
+            },
+          },
+        },
+      };
+
       return `
 import { metadata as fwMetadata } from ${JSON.stringify(frameworkPath)};
 
 export const metadata = {
   ...fwMetadata,
-  parameters: {
-    docs: {
-      description: {
-        component: ${JSON.stringify(componentDescription)},
-      }
-    }
-  },
+  ...(${JSON.stringify(additionalMetadata)}),
 };
 `;
     },
