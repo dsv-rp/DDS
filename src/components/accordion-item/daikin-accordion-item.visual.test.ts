@@ -39,9 +39,10 @@ describeEach(["open", "close"] as const, (open) => {
       const element = await page.waitForSelector("daikin-accordion-item", {
         state: "visible",
       });
+      const summary = await element.waitForSelector("summary");
 
       // hover cursor on the element
-      await element.hover();
+      await summary.hover();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
@@ -54,9 +55,10 @@ describeEach(["open", "close"] as const, (open) => {
       const element = await page.waitForSelector("daikin-accordion-item", {
         state: "visible",
       });
+      const summary = await element.waitForSelector("summary");
 
       // hover cursor on the element and hold down mouse button on the element
-      await element.hover();
+      await summary.hover();
       await page.mouse.down();
 
       // take screenshot and check for diffs
@@ -71,8 +73,7 @@ describeEach(["open", "close"] as const, (open) => {
       const element = await page.waitForSelector("daikin-accordion-item", {
         state: "visible",
       });
-
-      const summary = await page.waitForSelector("summary");
+      const summary = await element.waitForSelector("summary");
 
       await page.evaluate((container) => {
         container.focus();
