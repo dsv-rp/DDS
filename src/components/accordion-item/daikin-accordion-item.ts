@@ -27,8 +27,8 @@ const cvaSummary = cva(
     "relative",
 
     "after:block",
-    "after:w-4",
-    "after:h-4",
+    "after:w-5",
+    "after:h-5",
     "after:m-auto",
     "after:top-0",
     "after:right-4",
@@ -36,12 +36,11 @@ const cvaSummary = cva(
     "after:absolute",
     "after:i-daikin-accordion-chevron-up",
     "after:transition-all",
-    "after:rotate-0",
   ],
   {
     variants: {
       visible: {
-        open: [],
+        open: ["after:rotate-0"],
         close: ["after:-rotate-180"],
       },
       status: {
@@ -161,6 +160,8 @@ export class DaikinAccordionItem extends LitElement {
       status: this.disabled ? "disabled" : "enabled",
       visible: this.open ? "open" : "close",
     });
+
+    console.log(accordionSummaryClassName);
 
     return html`<details
       class=${accordionDetailsClassName}
