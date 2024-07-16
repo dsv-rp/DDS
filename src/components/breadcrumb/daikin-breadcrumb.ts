@@ -1,5 +1,5 @@
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -35,6 +35,7 @@ export class DaikinBreadcrumb extends LitElement {
     return daikinBreadCrumbItems;
   }
 
+  // get the last daikin-breadcrumb-item from shadow root
   get _slottedLastDaikinBreadCrumbItem() {
     const daikinBreadCrumbItems = this.shadowRoot
       ?.querySelector("slot")
@@ -46,10 +47,8 @@ export class DaikinBreadcrumb extends LitElement {
   }
 
   // get div element from daikin-breadcrumb
-  get _slottedDivWrap() {
-    const div = this.shadowRoot?.querySelector("div");
-    return div;
-  }
+  @query("div")
+  private _divWrap: HTMLElement | null | undefined;
 
   @property({ type: Boolean, reflect: true, attribute: "no-trailing-slash" })
   noTrailingSlash = false;
@@ -63,7 +62,7 @@ export class DaikinBreadcrumb extends LitElement {
 
   _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
-    const divWidth = this._slottedDivWrap?.offsetWidth;
+    const divWidth = this._divWrap?.offsetWidth;
     const breadcrumbWidth = this.offsetWidth;
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
     if (
@@ -142,7 +141,7 @@ export class DaikinBreadcrumb extends LitElement {
     this._handleResizeObserver();
 
     this.updateComplete.then(() => {
-      const divElement = this._slottedDivWrap;
+      const divElement = this._divWrap;
       if (!divElement) {
         return;
       }
