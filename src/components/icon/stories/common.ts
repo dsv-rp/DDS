@@ -1,4 +1,7 @@
-import { type DaikinIcon, ICONS } from "#package/components/icon/daikin-icon";
+import {
+  type DaikinIcon,
+  iconList,
+} from "#package/components/icon/daikin-icon";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
@@ -8,7 +11,7 @@ export const DAIKIN_ICON_ARG_TYPES = {
   icon: {
     description: "Specify the name of the icon",
     control: { type: "select" },
-    options: ICONS,
+    options: iconList,
   },
   color: {
     description: "Specify icon color",

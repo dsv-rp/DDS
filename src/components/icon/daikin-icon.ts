@@ -9,39 +9,19 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import { icons } from "./icons.json";
 
-export const ICONS = [
-  "alarm",
-  "close",
-  "information",
-  "negative",
-  "positive",
-  "warning",
-] as const;
+export const iconList = Object.keys(icons);
 
-export type IconType = (typeof ICONS)[number];
+export type IconType = keyof typeof icons;
 
-const ICON_MAP: Record<IconType, string> = {
-  alarm: "i-daikin-notification-status-alarm",
-  close: "i-daikin-notification-close",
-  information: "i-daikin-notification-status-information",
-  negative: "i-daikin-notification-status-negative",
-  positive: "i-daikin-notification-status-positive",
-  warning: "i-daikin-notification-status-warning",
-};
-
-const ICON_COLOR_MAP: Record<IconType, string> = {
-  alarm: "#000000",
-  close: "#a0a0a0",
-  information: "#000000",
-  negative: "#000000",
-  positive: "#000000",
-  warning: "#000000",
-};
+const iconClassMap = Object.fromEntries(
+  Object.entries(icons).map(([name, object]) => [name, object.class])
+);
 
 const cvaIcon = cva(["block"], {
   variants: {
-    icon: ICON_MAP,
+    icon: iconClassMap,
     size: {
       s: [`w-[--size-s]`, `h-[--size-s]`],
       m: [`w-[--size-m]`, `h-[--size-m]`],
@@ -97,7 +77,7 @@ export class DaikinIcon extends LitElement {
   size: IconVariantProps["size"] = "m";
 
   override render() {
-    const defaultColor = this.icon ? ICON_COLOR_MAP[this.icon] : null;
+    const defaultColor = this.icon ? icons[this.icon].color : null;
 
     return html`<span
       class=${cvaIcon({

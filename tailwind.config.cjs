@@ -14,6 +14,7 @@ function defineConfig(config) {
 module.exports = defineConfig({
   content: [
     "./src/**/*.ts",
+    "./src/**/*.json",
     "!./src/**/*.stories.*",
     "!./src/**/*.test.*",
     "!**/stories/**",
