@@ -1,5 +1,5 @@
 import react from "@vitejs/plugin-react";
-import { env } from "node:process";
+import { env, stderr } from "node:process";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import { storybookFrameworkLoader } from "./build/vite/storybook-framework-loader";
@@ -19,8 +19,9 @@ const frameworkPath = {
   react: "./framework-react",
 }[STORYBOOK_FW];
 
-console.error(
-  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${STORYBOOK_FW} component`
+// Print to stderr so that this can be seen in Playwright logs.
+stderr.write(
+  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${STORYBOOK_FW} component\n`
 );
 
 export default defineConfig({
