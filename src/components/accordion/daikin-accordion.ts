@@ -18,6 +18,7 @@ export class DaikinAccordion extends LitElement {
       width: 100%;
       max-width: 400px;
     }
+
     ::slotted(daikin-accordion-item:not(:last-child)) {
       border-bottom: 1px solid #cecece;
     }
