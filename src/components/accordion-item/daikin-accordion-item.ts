@@ -161,8 +161,6 @@ export class DaikinAccordionItem extends LitElement {
       visible: this.open ? "open" : "close",
     });
 
-    console.log(accordionSummaryClassName);
-
     return html`<details
       class=${accordionDetailsClassName}
       ?open=${this.detailsOpen}
