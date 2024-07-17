@@ -1,7 +1,7 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, userEvent, waitFor } from "@storybook/test";
-import { getByShadowText } from "shadow-dom-testing-library";
+import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_ACCORDION_ITEM_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -23,12 +23,19 @@ export const Default: Story = {
 
     await expect(root).not.toHaveAttribute("open");
 
+    const innerDetails = getByShadowRole(root, "group");
     const innerSummary = getByShadowText(root, "Accordion-title");
+
     await expect(innerSummary).toBeInTheDocument();
+
+    // As `toBeVisible()` could not determine that the Slot element was not being drawn, as an alternative test,
+    // we will check whether the details element has an `open` attribute to confirm that the slot is not being drawn.
+    await expect(innerDetails).not.toHaveAttribute("open");
 
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
-      await expect(root).toHaveAttribute("open");
+      await expect(innerDetails).toHaveAttribute("open");
+      await expect(getByShadowText(root, "Accordion-content")).toBeVisible();
     });
 
     await step("Try to click inner summary again", async () => {
@@ -36,6 +43,8 @@ export const Default: Story = {
       await waitFor(() => expect(root).not.toHaveAttribute("open"), {
         timeout: 500,
       });
+
+      await expect(innerDetails).not.toHaveAttribute("open");
     });
   }),
 };
@@ -56,13 +65,17 @@ export const Disabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-accordion-item")[0];
     await expect(root).toBeInTheDocument();
 
+    const innerDetails = getByShadowRole(root, "group");
     const innerSummary = getByShadowText(root, "Accordion-title");
+
     await expect(innerSummary).toBeInTheDocument();
+    await expect(innerDetails).not.toHaveAttribute("open");
 
     // should not react if inner summary clicked
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
       await expect(root).not.toHaveAttribute("open");
+      await expect(innerDetails).not.toHaveAttribute("open");
     });
   }),
 };
