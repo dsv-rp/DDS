@@ -13,6 +13,7 @@ export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
       target=${args.target}
       variant=${args.variant}
       ?disabled=${args.disabled}
+      ?trailing-slash=${args.trailingSlash}
       >DaikinBreadcrumbItem1</daikin-breadcrumb-item
     >
   `,
