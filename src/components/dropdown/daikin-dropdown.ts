@@ -125,7 +125,7 @@ export class DaikinDropdown extends LitElement {
   label?: string;
 
   /**
-   * Description text
+   * Specify the size of the dropdown
    */
   @property({ type: String })
   size: DropdownVariantProps["size"] = "medium";
@@ -133,18 +133,24 @@ export class DaikinDropdown extends LitElement {
   /**
    * Where the label is located in terms of the dropdown
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true, attribute: "label-position" })
   labelPosition: DropdownVariantProps["labelPosition"] = "top";
 
   /**
    * Icon to the left of the currently selected content. See `daikin-icon` component for available icons.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon?: IconType;
 
+  /**
+   * Whether or not a drop-down menu is displayed
+   */
   @property({ type: Boolean, reflect: true })
   open = false;
 
+  /**
+   * Specify the value of the `aria-label` to be assigned to the dropdown
+   */
   @property({ type: String, attribute: "aria-label" })
   override ariaLabel = "";
 
@@ -184,7 +190,7 @@ export class DaikinDropdown extends LitElement {
   /**
    * Call the event registered in "change"
    */
-  private _handleDropdownItemClick(e: DropdownItemClickEvent) {
+  private _handleClickChange(e: DropdownItemClickEvent) {
     this._buttonLabel = e.detail.text;
     this._value = e.detail.value;
 
@@ -227,7 +233,7 @@ export class DaikinDropdown extends LitElement {
         >
           <slot
             @dropdownItemClick=${(e: DropdownItemClickEvent) =>
-              this._handleDropdownItemClick(e)}
+              this._handleClickChange(e)}
           ></slot>
         </div>
       </div>
