@@ -4,12 +4,18 @@ import type { DaikinInputGroup } from "../daikin-input-group";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {
+  content: "TextInput" | "Textarea";
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
 }
 
 export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
+  content: {
+    description: "Slot content to show",
+    control: "select",
+    options: ["TextInput", "Textarea"],
+  },
   label: {
     description: "Label text to place at the top of the field",
     type: "string",
@@ -34,6 +40,11 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     description:
       "Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.",
     type: "string",
+  },
+  textareaCounter: {
+    description: "Whether to display the counter in the Textarea",
+    defaultValue: false,
+    type: "boolean",
   },
 } satisfies Meta<DaikinInputGroupStoryArgs>["argTypes"];
 

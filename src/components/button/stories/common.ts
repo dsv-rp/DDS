@@ -8,6 +8,7 @@ export interface DaikinButtonStoryArgs
    * Text input for users
    */
   label: string;
+  onClick: (event: Event) => void;
 }
 
 export const DAIKIN_BUTTON_ARG_TYPES = {
