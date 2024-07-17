@@ -1,9 +1,6 @@
-import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-
-const cvaContainer = cva(["w-full", "border-y-[1px]", "border-y-[#CECECE]"]);
 
 /**
  * Primary UI component for user interaction
@@ -25,7 +22,7 @@ export class DaikinAccordion extends LitElement {
   `;
 
   override render() {
-    return html`<div class=${cvaContainer()}>
+    return html`<div class="w-full border-y-[1px] border-y-[#CECECE]">
       <slot></slot>
     </div>`;
   }
