@@ -182,7 +182,7 @@ export class DaikinAccordionItem extends LitElement {
     </details>`;
   }
 
-  override firstUpdated() {
+  override updated() {
     this.detailsOpen = this.open;
   }
 }
