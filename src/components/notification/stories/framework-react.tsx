@@ -9,7 +9,7 @@ const ReactDaikinNotification = createComponent({
   elementClass: DaikinNotification,
   react: React,
   events: {
-    close: "onClose",
+    onClose: "close",
   },
 });
 

@@ -42,11 +42,12 @@
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
     "lint-fix": "eslint --fix && prettier -w .",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
-    "test:interaction-react": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
+    "test:interaction-react": "start-server-and-test storybook:ci-react http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",
     "test:visual-wc": "cross-env STORYBOOK_FW=web-components playwright test",
     "test:visual-react": "cross-env STORYBOOK_FW=react playwright test",
-    "test:visual": "npm run test:visual-wc && npm run test:visual-react"
+    "test:visual": "npm run test:visual-wc && npm run test:visual-react",
+    "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
     "@daikin-oss/dds-tokens": "^0.0.0",
