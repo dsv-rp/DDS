@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import { createRef, ref, type Ref } from "lit/directives/ref.js";
+import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaDetails = cva(
@@ -88,7 +88,7 @@ export class DaikinAccordionItem extends LitElement {
     }
   `;
 
-  contentRef: Ref<HTMLElement> = createRef();
+  private _contentRef = createRef<HTMLElement>();
 
   /**
    * Heading of accordion
@@ -114,13 +114,13 @@ export class DaikinAccordionItem extends LitElement {
    * The default `open` attribute of the default details element does not allow the display of content to have transitions.
    * To solve this, the `open` property that `daikin-accordion-item` receives manages the opening and closing of items independently of the open attribute.
    *
-   * The `open` attribute, which should be present, is taken over by `detailsOpen`.
+   * The `open` attribute, which should be present, is taken over by `_detailsOpen`.
    */
   @state()
-  detailsOpen = false;
+  private _detailsOpen = false;
 
   private _handleSummaryClick(e: PointerEvent) {
-    const content = this.contentRef.value;
+    const content = this._contentRef.value;
 
     e.preventDefault();
 
@@ -138,12 +138,12 @@ export class DaikinAccordionItem extends LitElement {
 
       animation.onfinish = () => {
         // After the animation is finished, remove the open attribute from the details element. This is to allow the element to transition.
-        this.detailsOpen = this.open;
+        this._detailsOpen = this.open;
       };
     } else {
       // Accordion is closed; open it.
       this.open = true;
-      this.detailsOpen = this.open;
+      this._detailsOpen = this.open;
       content.animate(
         [contentCloseKeyframe, getContentOpenKeyframe(content)],
         animationOption
@@ -163,18 +163,18 @@ export class DaikinAccordionItem extends LitElement {
 
     return html`<details
       class=${accordionDetailsClassName}
-      ?open=${this.detailsOpen}
+      ?open=${this._detailsOpen}
       ?data-open=${this.open}
       aria-disabled=${this.disabled}
     >
       <summary
         class=${accordionSummaryClassName}
         @click=${this._handleSummaryClick}
-        tabindex=${this.disabled ? -1 : 0}
+        tabindex=${!this.disabled ? 0 : -1}
       >
         ${this.title}
       </summary>
-      <div ${ref(this.contentRef)}>
+      <div ${ref(this._contentRef)}>
         <div class="pt-2 pb-6 px-5 text-sm">
           <slot></slot>
         </div>
@@ -183,7 +183,7 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override updated() {
-    this.detailsOpen = this.open;
+    this._detailsOpen = this.open;
   }
 }
 
