@@ -1,6 +1,6 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, fn, userEvent, waitFor } from "@storybook/test";
+import { expect, userEvent, waitFor } from "@storybook/test";
 import { getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_ACCORDION_ITEM_ARG_TYPES, type Story } from "./common";
 
@@ -51,9 +51,8 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
-    onClick: fn(),
   },
-  play: definePlay(async ({ args, canvasElement, step }) => {
+  play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-accordion-item")[0];
     await expect(root).toBeInTheDocument();
 
@@ -63,7 +62,7 @@ export const Disabled: Story = {
     // should not react if inner summary clicked
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
-      await expect(args.onClick).not.toHaveBeenCalled();
+      await expect(root).not.toHaveAttribute("open");
     });
   }),
 };
