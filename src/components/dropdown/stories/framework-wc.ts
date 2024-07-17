@@ -20,10 +20,10 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
       <daikin-dropdown
         label=${ifDefined(label)}
         size=${size}
-        labelPosition=${labelPosition}
-        leftIcon=${leftIcon}
+        label-position=${labelPosition}
+        left-icon=${leftIcon}
         ?open=${open}
-        ariaLabel=${ariaLabel}
+        aria-label=${ariaLabel}
         @change=${onChange}
         @click=${onClick}
       >
