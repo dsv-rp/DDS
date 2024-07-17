@@ -17,13 +17,13 @@ export const DAIKIN_DROPDOWN_ARG_TYPES = {
   size: {
     description: "Dropdown size",
     defaultValue: "medium",
-    control: { type: "select" },
+    control: { type: "radio" },
     options: ["small", "medium"],
   },
   labelPosition: {
     description: "Where the label is located in terms of the dropdown",
     defaultValue: "top",
-    control: { type: "select" },
+    control: { type: "radio" },
     options: ["top", "left"],
   },
   leftIcon: {
