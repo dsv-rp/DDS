@@ -149,6 +149,10 @@ npm run test:visual
 docker compose down
 ```
 
+For Podman users, use `podman-compose -f compose.podman.yaml` or `podman compose -f compose.podman.yaml` instead of `docker compose`.
+
+To update snapshots, use `npm run test:visual-update`
+
 ---
 
 Interaction testing, placed in `*.stories.ts`, is performed by Storybook, which also uses Playwright internally.
@@ -158,16 +162,20 @@ Interaction tests do not use containers since rendering differences between envi
 npm run test:interaction
 ```
 
-### Linting
+### Linting and Type checking
 
-Linting is performed by ESLint for general linting of TypeScript and JavaScript, and [lit-analyzer](https://www.npmjs.com/package/lit-analyzer) to type check bindings in lit-html templates.
+Linting is performed by ESLint for general linting of JavaScript and TypeScript, and [lit-analyzer](https://www.npmjs.com/package/lit-analyzer) to type check bindings in lit-html templates.
+[cSpell](https://cspell.org/) is used for spell checking.
 [ls-lint](https://ls-lint.org/) is also used to ensure that consistent filenames are used.
 
 To lint the project, run:
 
 ```bash
 npm run lint
+npx tsc -b
 ```
+
+If you encounter an `Unknown word` error, add the word to the `cspell-dictionary.txt`.
 
 ### Design Tokens
 
@@ -179,19 +187,19 @@ _We are looking for a more efficient way to import tokens._
 
 ```javascript
 import {
-    buttonColorBackgroundPrimaryActive
+  buttonColorBackgroundPrimaryActive
 } from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
 
 class DaikinButton extends LitElement implements DaikinButtonProps {
-    static styles = css`
-        :host {
-            --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
-                buttonColorBackgroundPrimaryActive
-            )};
-        }
-    `;
+  static styles = css`
+    :host {
+      --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
+        buttonColorBackgroundPrimaryActive
+      )};
+    }
+  `;
 
-    ...rest of the code
+  /* ...rest of the code */
 }
 ```
 

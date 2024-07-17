@@ -33,3 +33,4 @@ testid
 
 # Misc.
 FOUC
+textareas
