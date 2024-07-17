@@ -8,8 +8,4 @@ export default {
   ...metadata,
 };
 
-export const Default: Story = {
-  args: {
-    title: "Accordion-title",
-  },
-};
+export const Default: Story = {};
