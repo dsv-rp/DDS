@@ -5,7 +5,7 @@ import type { DaikinTooltipStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   render: ({
-    position,
+    placement,
     variant,
     arrow,
     size,
@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     autoAlign,
   }) => html`
     <daikin-tooltip
-      position=${position}
+      placement=${placement}
       variant=${variant}
       ?arrow=${arrow}
       size=${size}

@@ -6,6 +6,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 const cvaTooltip = cva(
   [
     "invisible",
+    "flex-shrink-0",
     "absolute",
     "opacity-0",
     "font-normal",
@@ -19,11 +20,11 @@ const cvaTooltip = cva(
   ],
   {
     variants: {
-      position: {
-        top: ["bottom-full", "left-1/2", "-ml-[55px]"],
-        bottom: [],
-        left: ["bottom-[20px]", "left-1/2", "-ml-36"],
-        right: [],
+      placement: {
+        top: ["bottom-full", "left-1/2", "-translate-x-1/2"],
+        bottom: ["top-full", "left-1/2", "-translate-x-1/2"],
+        left: ["top-1/2", "right-[120%]", "-translate-y-1/2"],
+        right: ["top-1/2", "left-[120%]", "-translate-y-1/2"],
       },
       variant: {
         primary: ["bg-[#5B5B5B]", "text-white"],
@@ -53,10 +54,10 @@ export class DaikinTooltip extends LitElement {
   `;
 
   /**
-   * Specify how the trigger should position with the tooltip
+   * Specify how the trigger should placement with the tooltip
    */
   @property({ reflect: true, type: String })
-  position: "top" | "bottom" | "left" | "right" = "top";
+  placement: "top" | "bottom" | "left" | "right" = "bottom";
   /**
    * Specify tooltip type
    */
@@ -88,20 +89,20 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;
   /**
-   * Specify whether a auto position functionality should be applied
+   * Specify whether a auto placement functionality should be applied
    */
   @property({ type: Boolean, reflect: true })
   autoAlign = false;
 
   override render() {
     const tooltipClassName = cvaTooltip({
-      position: this.position,
+      placement: this.placement,
       variant: this.variant,
       size: this.size,
     });
     return html`<div class="group relative inline-block">
       <slot></slot>
-      <span class="${tooltipClassName}">test about tooltip 111</span>
+      <span class="${tooltipClassName}"><slot name="description"></slot></span>
     </div>`;
   }
 }

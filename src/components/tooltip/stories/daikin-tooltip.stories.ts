@@ -10,7 +10,7 @@ export default {
 
 export const Primary: Story = {
   args: {
-    position: "top",
+    placement: "top",
     variant: "primary",
     arrow: false,
     size: "default",

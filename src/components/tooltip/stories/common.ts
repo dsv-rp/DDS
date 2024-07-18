@@ -8,7 +8,7 @@ export interface DaikinTooltipStoryArgs
 }
 
 export const DAIKIN_TOOLTIP_ARG_TYPES = {
-  position: {
+  placement: {
     control: { type: "select" },
     options: ["top", "bottom", "left", "right"],
   },
