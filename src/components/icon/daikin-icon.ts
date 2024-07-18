@@ -79,6 +79,15 @@ export class DaikinIcon extends LitElement {
   override render() {
     const defaultColor = this.icon ? icons[this.icon].color : null;
 
+    if (import.meta.env.DEV) {
+      // @ts-expect-error The following conditional branch is checking whether or not null is true
+      if (!(this.icon in icons)) {
+        console.warn(`There is no icon named ${this.icon}.`);
+      } else if (this.color === "colored" && !defaultColor) {
+        console.warn(`The icon ${this.icon} does not have a default color.`);
+      }
+    }
+
     return html`<span
       class=${cvaIcon({
         icon: this.icon,
