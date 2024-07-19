@@ -10,6 +10,7 @@ const cvaTooltip = cva(
     "absolute",
     "opacity-0",
     "font-normal",
+    "font-tooltip",
     "text-center",
     "not-italic",
     "leading-5",
@@ -21,20 +22,71 @@ const cvaTooltip = cva(
   {
     variants: {
       placement: {
-        top: ["bottom-full", "left-1/2", "-translate-x-1/2"],
-        bottom: ["top-full", "left-1/2", "-translate-x-1/2"],
+        top: ["bottom-[120%]", "left-1/2", "-translate-x-1/2"],
+        bottom: ["top-[120%]", "left-1/2", "-translate-x-1/2"],
         left: ["top-1/2", "right-[120%]", "-translate-y-1/2"],
         right: ["top-1/2", "left-[120%]", "-translate-y-1/2"],
       },
       variant: {
         primary: ["bg-[#5B5B5B]", "text-white"],
         secondary: [],
-        teritiary: [],
+        tertiary: [],
         primaryDanger: [],
       },
       size: {
         default: ["text-base"],
         condensed: ["text-xs"],
+      },
+      arrow: {
+        noArrow: [],
+        upArrow: [
+          "before:content-['']",
+          "before:block",
+          "before:absolute",
+          "before:bottom-[99%]",
+          "before:left-1/2",
+          "before:-translate-x-1/2",
+          "before:bg-[#5B5B5B]",
+          "before:h-[6px]",
+          "before:w-[18px]",
+          "before:[clip-path:polygon(50%_0%,_100%_100%,_0%_100%)]",
+        ],
+        downArrow: [
+          "before:content-['']",
+          "before:block",
+          "before:absolute",
+          "before:top-[99%]",
+          "before:left-1/2",
+          "before:-translate-x-1/2",
+          "before:bg-[#5B5B5B]",
+          "before:h-[6px]",
+          "before:w-[18px]",
+          "before:[clip-path:polygon(50%_100%,_0%_0%,_100%_0%)]",
+        ],
+        leftArrow: [
+          "before:content-['']",
+          "before:block",
+          "before:absolute",
+          "before:right-[99%]",
+          "before:top-1/2",
+          "before:-translate-y-1/2",
+          "before:bg-[#5B5B5B]",
+          "before:h-[9px]",
+          "before:w-[12px]",
+          "before:[clip-path:polygon(0%_50%,_100%_0%,_100%_100%)]",
+        ],
+        rightArrow: [
+          "before:content-['']",
+          "before:block",
+          "before:absolute",
+          "before:left-[99%]",
+          "before:top-1/2",
+          "before:-translate-y-1/2",
+          "before:bg-[#5B5B5B]",
+          "before:h-[9px]",
+          "before:w-[12px]",
+          "before:[clip-path:polygon(100%_50%,_0%_0%,_0%_100%)]",
+        ],
       },
     },
   }
@@ -62,7 +114,7 @@ export class DaikinTooltip extends LitElement {
    * Specify tooltip type
    */
   @property({ reflect: true, type: String })
-  variant: "primary" | "secondary" | "teritiary" | "primaryDanger" = "primary";
+  variant: "primary" | "secondary" | "tertiary" | "primaryDanger" = "primary";
   /**
    * Specify the tooltip with arrow or not
    */
@@ -94,11 +146,31 @@ export class DaikinTooltip extends LitElement {
   @property({ type: Boolean, reflect: true })
   autoAlign = false;
 
+  private arrowType:
+    | "upArrow"
+    | "downArrow"
+    | "leftArrow"
+    | "rightArrow"
+    | "noArrow" = "noArrow";
+
   override render() {
+    if (this.arrow) {
+      if (this.placement === "bottom") {
+        this.arrowType = "upArrow";
+      } else if (this.placement === "top") {
+        this.arrowType = "downArrow";
+      } else if (this.placement === "left") {
+        this.arrowType = "rightArrow";
+      } else {
+        this.arrowType = "leftArrow";
+      }
+    }
+
     const tooltipClassName = cvaTooltip({
       placement: this.placement,
       variant: this.variant,
       size: this.size,
+      arrow: this.arrowType,
     });
     return html`<div class="group relative inline-block">
       <slot></slot>
