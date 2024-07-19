@@ -11,12 +11,9 @@ export default {
 export const Primary: Story = {
   args: {
     placement: "top",
-    variant: "primary",
-    arrow: false,
-    size: "default",
+    variant: "light",
     open: false,
     description: "test description",
     closeOnClick: false,
-    autoAlign: false,
   },
 };

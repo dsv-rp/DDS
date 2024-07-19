@@ -4,25 +4,13 @@ import { html } from "lit";
 import type { DaikinTooltipStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
-  render: ({
-    placement,
-    variant,
-    arrow,
-    size,
-    open,
-    description,
-    closeOnClick,
-    autoAlign,
-  }) => html`
+  render: ({ placement, variant, open, description, closeOnClick }) => html`
     <daikin-tooltip
       placement=${placement}
       variant=${variant}
-      ?arrow=${arrow}
-      size=${size}
       ?open=${open}
       description=${description}
       ?closeOnClick=${closeOnClick}
-      ?autoAlign=${autoAlign}
     ></daikin-tooltip>
   `,
 };

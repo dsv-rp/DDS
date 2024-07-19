@@ -14,19 +14,13 @@ export const DAIKIN_TOOLTIP_ARG_TYPES = {
   },
   variant: {
     control: { type: "select" },
-    options: ["primary", "secondary", "teritiary", "primaryDanger"],
-  },
-  arrow: { type: "boolean" },
-  size: {
-    control: { type: "select" },
-    options: ["default", "condensed"],
+    options: ["light", "dark"],
   },
   open: { type: "boolean" },
   description: {
     type: "string",
   },
   closeOnClick: { type: "boolean" },
-  autoAlign: { type: "boolean" },
 } as const satisfies Meta<DaikinTooltipStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTooltipStoryArgs>;

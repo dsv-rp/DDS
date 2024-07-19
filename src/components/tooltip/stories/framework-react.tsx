@@ -17,7 +17,11 @@ const ReactDaikinTooltip = createComponent({
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   component: ({ ...props }: DaikinTooltipStoryArgs) => (
     <ReactDaikinTooltip {...props}>
-      <span slot="description">description</span>
+      <span slot="description">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris feugiat,
+        risus quis fermentum porttitor, turpis ligula laoreet libero, id
+        elementum lectus massa eu ipsum.
+      </span>
       <span>hover me</span>
     </ReactDaikinTooltip>
   ),

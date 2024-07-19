@@ -25,9 +25,6 @@ module.exports = defineConfig({
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
       },
-      fontFamily: {
-        tooltip: ["SF", "Compact", "Display"],
-      },
     },
   },
   plugins: [
