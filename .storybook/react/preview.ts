@@ -3,8 +3,6 @@ import React from "react";
 
 import "../preview-common";
 
-import "../previewCommon";
-
 const preview: Preview = {
   parameters: {
     controls: {

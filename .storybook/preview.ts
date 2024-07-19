@@ -8,8 +8,6 @@ import dknLight from "@daikin-oss/dds-tokens/css/daikin/Light/variables.css?inli
 
 import "./preview-common";
 
-import "./previewCommon";
-
 // Map themes and modes to their respective stylesheets
 const THEME_MAP = {
   DKN: {
