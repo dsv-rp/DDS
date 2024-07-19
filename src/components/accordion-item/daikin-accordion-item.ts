@@ -49,9 +49,9 @@ const cvaSummary = cva(
           "hover:bg-[#DCDCDC]",
           "hover:cursor-pointer",
           "focus-visible:outline",
-          "focus-visible:outline-[3px]",
+          "focus-visible:outline-[2px]",
           "focus-visible:outline-[#0097E0]",
-          "focus-visible:outline-offset-[-3px]",
+          "focus-visible:outline-offset-[-2px]",
 
           "after:text-[#828282]",
         ],
