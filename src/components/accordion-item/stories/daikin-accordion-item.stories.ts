@@ -1,6 +1,6 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, userEvent, waitFor } from "@storybook/test";
+import { expect, userEvent } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_ACCORDION_ITEM_ARG_TYPES, type Story } from "./common";
 
@@ -38,12 +38,8 @@ export const Default: Story = {
       await expect(getByShadowText(root, "Accordion-content")).toBeVisible();
     });
 
-    await step("Try to click inner summary again", async () => {
-      await userEvent.click(innerSummary);
-      await waitFor(() => expect(root).not.toHaveAttribute("open"), {
-        timeout: 500,
-      });
-
+    await step("Try to keyboard navigation", async () => {
+      await userEvent.type(innerSummary, "[enter]");
       await expect(innerDetails).not.toHaveAttribute("open");
     });
   }),
@@ -75,6 +71,11 @@ export const Disabled: Story = {
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
       await expect(root).not.toHaveAttribute("open");
+      await expect(innerDetails).not.toHaveAttribute("open");
+    });
+
+    await step("Try to keyboard navigation", async () => {
+      await userEvent.type(innerSummary, "[enter]");
       await expect(innerDetails).not.toHaveAttribute("open");
     });
   }),
