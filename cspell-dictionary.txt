@@ -1,36 +1,34 @@
+# ARIA Role
+# Colors
+# HTML
+# Misc.
 # Proper nouns
+# Storybook
+# SVG
+# Testing
+autodocs
+Coolgrey
 daikin
+Darkgrey
+docgen
 dotfiles
+eabi
+evenodd
 fontsource
+FOUC
+gnueabihf
 lightningcss
+maxlength
+Mediumgrey
+msvc
+musleabihf
 picocolors
+riscv
 roboto
+slotchange
 tailwindcss
 taze
-tseslint
-
-# Colors
-Coolgrey
-Darkgrey
-Mediumgrey
-
-# ARIA Role
-textbox
-
-# HTML
-maxlength
-slotchange
-
-# SVG
-evenodd
-
-# Storybook
-autodocs
-docgen
-
-# Testing
 testid
-
-# Misc.
-FOUC
 textareas
+textbox
+tseslint
