@@ -1,0 +1,11 @@
+# Docker compose for launching Playwright server
+
+services:
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.45.1-jammy
+    ipc: host
+    extra_hosts:
+      - host.containers.internal:host-gateway
+    command: npx playwright run-server --port 55744
+    ports:
+      - 55744:55744
