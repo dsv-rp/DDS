@@ -27,9 +27,9 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
         @change=${onChange}
         @click=${onClick}
       >
-        <daikin-dropdown-item value="value1">Value1</daikin-dropdown-item>
-        <daikin-dropdown-item value="value2">Value2</daikin-dropdown-item>
-        <daikin-dropdown-item value="value3">Value3</daikin-dropdown-item>
+        <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
+        <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
+        <daikin-dropdown-item value="value3">Item 3</daikin-dropdown-item>
       </daikin-dropdown>
     </div>
   `,

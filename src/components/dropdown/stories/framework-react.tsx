@@ -22,9 +22,9 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
       style={{ width: "max-content", height: "240px" }}
     >
       <ReactDaikinDropdown {...props}>
-        <ReactDaikinDropdownItem value="value1">Value1</ReactDaikinDropdownItem>
-        <ReactDaikinDropdownItem value="value2">Value2</ReactDaikinDropdownItem>
-        <ReactDaikinDropdownItem value="value3">Value3</ReactDaikinDropdownItem>
+        <ReactDaikinDropdownItem value="value1">Item 1</ReactDaikinDropdownItem>
+        <ReactDaikinDropdownItem value="value2">Item 2</ReactDaikinDropdownItem>
+        <ReactDaikinDropdownItem value="value3">Item 3</ReactDaikinDropdownItem>
       </ReactDaikinDropdown>
     </div>
   ),

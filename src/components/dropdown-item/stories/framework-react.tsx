@@ -12,6 +12,6 @@ export const ReactDaikinDropdownItem = createComponent({
 
 export const metadata: Meta<DaikinDropdownItemStoryArgs> = {
   component: ({ ...props }: DaikinDropdownItemStoryArgs) => (
-    <ReactDaikinDropdownItem {...props}>Value</ReactDaikinDropdownItem>
+    <ReactDaikinDropdownItem {...props}>Dropdown Item</ReactDaikinDropdownItem>
   ),
 };

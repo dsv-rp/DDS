@@ -5,6 +5,6 @@ import type { DaikinDropdownItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinDropdownItemStoryArgs> = {
   render: ({ value }) => html`
-    <daikin-dropdown-item value=${value}>Value</daikin-dropdown-item>
+    <daikin-dropdown-item value=${value}>Dropdown Item</daikin-dropdown-item>
   `,
 };
