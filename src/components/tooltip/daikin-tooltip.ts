@@ -7,7 +7,13 @@ import {
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  query,
+  queryAssignedElements,
+  queryAssignedNodes,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTooltip = cva(
@@ -83,7 +89,7 @@ export class DaikinTooltip extends LitElement {
   /**
    * Set the description and it will be showed in tooltips
    */
-  @property({ type: String })
+  @property({ reflect: true, type: String })
   description = "";
   /**
    * if true, the tooltip will hide on click
@@ -91,8 +97,18 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;
 
+  @queryAssignedNodes({ slot: "list", flatten: true })
+  slotItems?: Array<Node>;
+
   @query("#tooltip")
   private _tooltip: HTMLSpanElement | null | undefined;
+
+  @queryAssignedElements({ slot: "description" })
+  private _descriptionElements!: Array<HTMLElement>;
+
+  private _descriptionSlotExist() {
+    return this._descriptionElements.length > 0;
+  }
 
   _handleClick() {
     if (this.closeOnClick && this._tooltip) {
@@ -108,6 +124,10 @@ export class DaikinTooltip extends LitElement {
   }
 
   override render() {
+    const description =
+      this.description && !this._descriptionSlotExist()
+        ? html`<span>${this.description}</span>`
+        : html`<slot name="description"></slot>`;
     const tooltipClassName = cvaTooltip({
       variant: this.variant,
       open: this.open,
@@ -119,9 +139,7 @@ export class DaikinTooltip extends LitElement {
       @mouseleave=${this._resetTooltipVisibility}
     >
       <slot></slot>
-      <span id="tooltip" class="${tooltipClassName}"
-        ><slot name="description"></slot
-      ></span>
+      <span id="tooltip" class="${tooltipClassName}">${description}</span>
     </div>`;
   }
 
@@ -144,9 +162,7 @@ export class DaikinTooltip extends LitElement {
             top: `${y}px`,
           });
         })
-        .catch(() => {
-          console.log("error");
-        });
+        .catch((e: unknown) => console.error(e));
     });
   }
 }
