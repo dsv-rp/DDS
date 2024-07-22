@@ -20,6 +20,8 @@ textbox
 # HTML
 maxlength
 slotchange
+haspopup
+listbox
 
 # SVG
 evenodd
