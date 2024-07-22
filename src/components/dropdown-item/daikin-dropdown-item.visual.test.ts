@@ -40,3 +40,36 @@ test("hover", async ({ page }) => {
   // take screenshot and check for diffs
   await expect(page).toHaveScreenshot(await clipFor(element));
 });
+
+test("active", async ({ page }) => {
+  await page.goto(baseURL);
+
+  // wait for element to be visible
+  const element = await page.waitForSelector("daikin-dropdown-item", {
+    state: "visible",
+  });
+
+  // hover cursor on the element
+  await element.hover();
+  await page.mouse.down();
+
+  // take screenshot and check for diffs
+  await expect(page).toHaveScreenshot(await clipFor(element));
+  await page.mouse.up();
+});
+
+test("focus", async ({ page }) => {
+  await page.goto(baseURL);
+
+  // wait for element to be visible
+  const element = await page.waitForSelector("daikin-dropdown-item", {
+    state: "visible",
+  });
+
+  await page.evaluate((container) => {
+    container.focus();
+  }, element);
+
+  // take screenshot and check for diffs
+  await expect(page).toHaveScreenshot(await clipFor(element));
+});
