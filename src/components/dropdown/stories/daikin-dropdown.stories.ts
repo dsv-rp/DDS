@@ -1,9 +1,6 @@
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import {
-  getAllByShadowRole,
-  getByShadowRole,
-} from "shadow-dom-testing-library";
+import { getByShadowRole } from "shadow-dom-testing-library";
 import { definePlay } from "../../../storybook/define-play";
 import { DAIKIN_DROPDOWN_ARG_TYPES, type Story } from "./common";
 
@@ -18,9 +15,9 @@ export const Default: Story = {
   args: {
     label: "Dropdown-label",
     size: "medium",
+    value: "value1",
     labelPosition: "top",
     open: false,
-    ariaLabel: "Dropdown",
     onClick: fn(),
     onChange: fn(),
   },
@@ -29,14 +26,11 @@ export const Default: Story = {
     await expect(root).toBeInTheDocument();
     await expect(root).not.toHaveAttribute("open");
 
-    const innerButtons = getAllByShadowRole(root, "button", {
-      name: "Value1",
-    });
-    await expect(innerButtons).toHaveLength(2);
-
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.click(innerButtons[0]);
+      await userEvent.click(
+        getByShadowRole(root, "button", { name: "Item 1" })
+      );
       await expect(args.onClick).toHaveBeenCalled();
 
       await expect(root).toHaveAttribute("open");
@@ -44,20 +38,26 @@ export const Default: Story = {
 
     await step("Selecting a dropdown will reflect the value", async () => {
       await userEvent.click(
-        getByShadowRole(root, "button", { name: "Value2" })
+        getByShadowRole(root, "option", { name: "Item 2" })
       );
       await expect(args.onChange).toHaveBeenCalled();
 
       await expect(root).not.toHaveAttribute("open");
       await expect(
-        getAllByShadowRole(root, "button", { name: "Value2" })
-      ).toHaveLength(2);
+        getByShadowRole(root, "button", { name: "Item 2" })
+      ).toBeInTheDocument();
     });
 
-    await userEvent.click(
-      getAllByShadowRole(root, "button", { name: "Value2" })[0]
-    );
-    await userEvent.click(getByShadowRole(root, "button", { name: "Value1" }));
+    await step("Try to keyboard navigation", async () => {
+      getByShadowRole(root, "button", { name: "Item 2" }).focus();
+      await userEvent.keyboard("[Space]");
+      await userEvent.keyboard("[ArrowDown]");
+      await userEvent.keyboard("[Space]");
+
+      await expect(
+        getByShadowRole(root, "button", { name: "Item 1" })
+      ).toBeInTheDocument();
+    });
   }),
 };
 

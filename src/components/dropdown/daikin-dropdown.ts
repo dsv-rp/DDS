@@ -7,7 +7,7 @@ import {
   queryAssignedElements,
   state,
 } from "lit/decorators.js";
-import { createRef, ref, type Ref } from "lit/directives/ref.js";
+import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinDropdownItem } from "../dropdown-item";
@@ -23,6 +23,17 @@ const cvaContainer = cva(["flex", "gap-2", "w-max", "relative"], {
     labelPosition: {
       top: ["flex-col", "gap-2"],
       left: ["items-center", "gap-3"],
+      hidden: [],
+    },
+  },
+});
+
+const cvaLabel = cva([], {
+  variants: {
+    labelPosition: {
+      top: [],
+      left: [],
+      hidden: ["hidden"],
     },
   },
 });
@@ -114,15 +125,11 @@ export class DaikinDropdown extends LitElement {
     }
   `;
 
-  buttonRef: Ref<HTMLElement> = createRef();
-
-  contentsRef: Ref<HTMLElement> = createRef();
-
   /**
    * Label text
    */
   @property({ type: String })
-  label?: string;
+  label: string = "";
 
   /**
    * Specify the size of the dropdown
@@ -142,34 +149,70 @@ export class DaikinDropdown extends LitElement {
   @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon?: IconType;
 
+  @property({ type: String })
+  value = "";
+
   /**
    * Whether or not a drop-down menu is displayed
    */
   @property({ type: Boolean, reflect: true })
   open = false;
 
-  /**
-   * Specify the value of the `aria-label` to be assigned to the dropdown
-   */
-  @property({ type: String, attribute: "aria-label" })
-  override ariaLabel = "";
-
   @state()
   _buttonLabel = "";
 
-  @state()
-  _value = "";
-
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   _items!: DaikinDropdownItem[];
+
+  private _buttonRef = createRef<HTMLElement>();
+
+  private _contentsRef = createRef<HTMLElement>();
 
   private _handleClick() {
     this.open = !this.open;
   }
 
+  private _handleKeyDown(event: KeyboardEvent): void {
+    const moveOffset = {
+      ArrowRight: 1,
+      ArrowDown: 1,
+      ArrowLeft: -1,
+      ArrowUp: -1,
+    }[event.key];
+    if (!moveOffset) {
+      return;
+    }
+
+    // Get focused item if any
+    const activeElement = document.activeElement;
+
+    const focusedItemIndex = activeElement
+      ? this._items.findIndex((item) => item.contains(activeElement))
+      : -1;
+
+    // If there is no item focused, focus on the active (current) item
+    if (focusedItemIndex < 0) {
+      this._items[0].focus();
+      event.preventDefault();
+      return;
+    }
+
+    // If there is a item focused, move focus forward or backward
+    for (let i = 1; i <= this._items.length; i++) {
+      const index =
+        (focusedItemIndex + moveOffset * i + this._items.length * i) %
+        this._items.length;
+      const candidate = this._items[index];
+
+      candidate.focus();
+      event.preventDefault();
+      return;
+    }
+  }
+
   private _optionPosition() {
-    const button = this.buttonRef.value;
-    const contents = this.contentsRef.value;
+    const button = this._buttonRef.value;
+    const contents = this._contentsRef.value;
     if (!button || !contents) {
       return;
     }
@@ -192,11 +235,11 @@ export class DaikinDropdown extends LitElement {
    */
   private _handleClickChange(e: DropdownItemClickEvent) {
     this._buttonLabel = e.detail.text;
-    this._value = e.detail.value;
+    this.value = e.detail.value;
 
     const event = new CustomEvent("change", {
       detail: {
-        value: this._value,
+        value: this.value,
       },
     });
     this.open = false;
@@ -208,15 +251,21 @@ export class DaikinDropdown extends LitElement {
     return html`<div
       class=${cvaContainer({ labelPosition: this.labelPosition })}
     >
-      ${this.label
-        ? html`<div class="text-sm font-medium">${this.label}</div>`
-        : null}
-      <div>
+      <div
+        class="text-sm font-medium ${cvaLabel({
+          labelPosition: this.labelPosition,
+        })}"
+      >
+        ${this.label}
+      </div>
+      <div role="menu" @keydown=${this._handleKeyDown}>
         <button
           type="button"
           class=${cvaButton({ size: this.size })}
+          aria-expanded="${this.open}"
+          aria-haspopup="listbox"
           @click=${this._handleClick}
-          ${ref(this.buttonRef)}
+          ${ref(this._buttonRef)}
         >
           ${this.leftIcon
             ? html`<daikin-icon
@@ -229,11 +278,12 @@ export class DaikinDropdown extends LitElement {
         </button>
         <div
           class=${cvaContent({ state: this.open ? "visible" : "hidden" })}
-          ${ref(this.contentsRef)}
+          role="listbox"
+          aria-label=${this.label}
+          ${ref(this._contentsRef)}
         >
           <slot
-            @dropdownItemClick=${(e: DropdownItemClickEvent) =>
-              this._handleClickChange(e)}
+            @select=${(e: DropdownItemClickEvent) => this._handleClickChange(e)}
           ></slot>
         </div>
       </div>
@@ -243,11 +293,22 @@ export class DaikinDropdown extends LitElement {
   protected override firstUpdated(): void {
     this._optionPosition();
 
-    if (!this._items[0].textContent || !this._items[0].value) {
-      return;
+    const defaultItemIndex = this._items.findIndex(
+      ({ value }) => this.value === value
+    );
+
+    if (defaultItemIndex && !!this._items[defaultItemIndex].textContent) {
+      this._buttonLabel = this._items[defaultItemIndex].textContent;
+      this._items[defaultItemIndex].selected = true;
+    } else {
+      if (!this._items[0].textContent) {
+        return;
+      }
+
+      this.value = this._items[0].value;
+      this._buttonLabel = this._items[0].textContent;
+      this._items[0].selected = true;
     }
-    this._buttonLabel = this._items[0].textContent;
-    this._value = this._items[0].value;
   }
 }
 

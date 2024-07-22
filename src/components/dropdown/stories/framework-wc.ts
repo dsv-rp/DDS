@@ -11,8 +11,8 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     size,
     labelPosition,
     leftIcon,
+    value,
     open,
-    ariaLabel,
     onChange,
     onClick,
   }) => html`
@@ -22,8 +22,8 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
         size=${size}
         label-position=${labelPosition}
         left-icon=${leftIcon}
+        value=${value}
         ?open=${open}
-        aria-label=${ariaLabel}
         @change=${onChange}
         @click=${onClick}
       >

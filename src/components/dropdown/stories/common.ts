@@ -20,11 +20,15 @@ export const DAIKIN_DROPDOWN_ARG_TYPES = {
     control: { type: "radio" },
     options: ["small", "medium"],
   },
+  value: {
+    description: "Value of dropdown",
+    type: "string",
+  },
   labelPosition: {
     description: "Where the label is located in terms of the dropdown",
     defaultValue: "top",
     control: { type: "radio" },
-    options: ["top", "left"],
+    options: ["top", "left", "hidden"],
   },
   leftIcon: {
     description:

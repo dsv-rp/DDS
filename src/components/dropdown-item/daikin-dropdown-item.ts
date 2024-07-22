@@ -3,7 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
- * Primary UI component for user interaction
+ * Use as a direct child element of daikin-dropdown
  */
 @customElement("daikin-dropdown-item")
 export class DaikinDropdownItem extends LitElement {
@@ -22,8 +22,11 @@ export class DaikinDropdownItem extends LitElement {
   @property({ type: String })
   value = "";
 
+  @property({ type: Boolean })
+  selected = false;
+
   private _handleClick() {
-    const event = new CustomEvent("dropdownItemClick", {
+    const event = new CustomEvent("select", {
       bubbles: true,
       detail: {
         value: this.value,
@@ -40,9 +43,15 @@ export class DaikinDropdownItem extends LitElement {
       class="w-[216px] minH-[42px] bg-white py-[10px] px-[12px] font-daikinSerif text-[15px] leading-[22px] text-left hover:bg-[#ebebeb]"
       data-value=${this.value}
       @click=${this._handleClick}
+      role="option"
+      aria-selected="${this.selected}"
     >
       <slot></slot>
     </button>`;
+  }
+
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("button")?.focus(options);
   }
 }
 
