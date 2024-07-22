@@ -17,3 +17,13 @@ export const Light: Story = {
     closeOnClick: false,
   },
 };
+
+export const Dark: Story = {
+  args: {
+    placement: "top",
+    variant: "dark",
+    open: false,
+    description: "test description",
+    closeOnClick: false,
+  },
+};

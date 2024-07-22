@@ -11,7 +11,6 @@ import {
   customElement,
   property,
   query,
-  queryAssignedElements,
   queryAssignedNodes,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -103,13 +102,6 @@ export class DaikinTooltip extends LitElement {
   @query("#tooltip")
   private _tooltip: HTMLSpanElement | null | undefined;
 
-  @queryAssignedElements({ slot: "description" })
-  private _descriptionElements!: Array<HTMLElement>;
-
-  private _descriptionSlotExist() {
-    return this._descriptionElements.length > 0;
-  }
-
   _handleClick() {
     if (this.closeOnClick && this._tooltip) {
       this._tooltip.style.visibility = "hidden";
@@ -124,10 +116,6 @@ export class DaikinTooltip extends LitElement {
   }
 
   override render() {
-    const description =
-      this.description && !this._descriptionSlotExist()
-        ? html`<span>${this.description}</span>`
-        : html`<slot name="description"></slot>`;
     const tooltipClassName = cvaTooltip({
       variant: this.variant,
       open: this.open,
@@ -139,7 +127,9 @@ export class DaikinTooltip extends LitElement {
       @mouseleave=${this._resetTooltipVisibility}
     >
       <slot></slot>
-      <span id="tooltip" class="${tooltipClassName}">${description}</span>
+      <span id="tooltip" class="${tooltipClassName}"
+        ><slot name="description"><span>${this.description}</span></slot></span
+      >
     </div>`;
   }
 
