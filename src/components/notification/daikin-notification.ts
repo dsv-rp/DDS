@@ -198,7 +198,7 @@ export class DaikinNotification extends LitElement {
                       <daikin-icon
                         icon="close"
                         size="l"
-                        color="colored"
+                        color="default"
                       ></daikin-icon>
                     </button>
                   </div>

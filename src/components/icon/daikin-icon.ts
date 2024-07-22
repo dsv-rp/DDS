@@ -31,7 +31,7 @@ const cvaIcon = cva(["block"], {
     color: {
       black: ["text-black"],
       white: ["text-white"],
-      colored: ["text-[--default-color]"],
+      default: ["text-[--default-color]"],
       current: [], // uses `currentColor`
     },
   },
@@ -68,7 +68,7 @@ export class DaikinIcon extends LitElement {
    * Specify icon color
    */
   @property({ type: String, reflect: true })
-  color: IconVariantProps["color"] = "colored";
+  color: IconVariantProps["color"] = "default";
 
   /**
    * Specify the height and width of the icon
@@ -83,7 +83,7 @@ export class DaikinIcon extends LitElement {
       // @ts-expect-error The following conditional branch is checking whether or not null is true
       if (!(this.icon in icons)) {
         console.warn(`There is no icon named ${this.icon}.`);
-      } else if (this.color === "colored" && !defaultColor) {
+      } else if (this.color === "default" && !defaultColor) {
         console.warn(`The icon ${this.icon} does not have a default color.`);
       }
     }
