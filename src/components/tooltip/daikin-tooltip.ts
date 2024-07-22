@@ -1,6 +1,13 @@
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  shift,
+} from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTooltip = cva(
@@ -14,6 +21,8 @@ const cvaTooltip = cva(
     "items-center",
     "rounded",
     "w-max",
+    "top-[0]",
+    "left-[0]",
     "max-w-[312px]",
 
     "text-sm",
@@ -24,16 +33,9 @@ const cvaTooltip = cva(
 
     "group-hover:visible",
     "group-hover:opacity-100",
-    "",
   ],
   {
     variants: {
-      placement: {
-        top: ["bottom-[120%]", "left-1/2", "-translate-x-1/2"],
-        bottom: ["top-[120%]", "left-1/2", "-translate-x-1/2"],
-        left: ["top-1/2", "right-[120%]", "-translate-y-1/2"],
-        right: ["top-1/2", "left-[120%]", "-translate-y-1/2"],
-      },
       variant: {
         light: [
           "border",
@@ -87,15 +89,62 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;
 
+  @query("#tooltip")
+  private _tooltip: HTMLSpanElement | null | undefined;
+
+  _handleClick() {
+    if (this.closeOnClick && this._tooltip) {
+      this._tooltip.style.visibility = "hidden";
+    }
+  }
+
+  _resetTooltipVisibility() {
+    if (!this._tooltip) {
+      return;
+    }
+    this._tooltip.style.visibility = "";
+  }
+
   override render() {
     const tooltipClassName = cvaTooltip({
-      placement: this.placement,
       variant: this.variant,
     });
-    return html`<div class="group relative inline-block">
+    return html`<div
+      class="group relative inline-block"
+      @click=${this._handleClick}
+      @keydown=${this._handleClick}
+      @mouseleave=${this._resetTooltipVisibility}
+    >
       <slot></slot>
-      <span class="${tooltipClassName}"><slot name="description"></slot></span>
+      <span id="tooltip" class="${tooltipClassName}"
+        ><slot name="description"></slot
+      ></span>
     </div>`;
+  }
+
+  protected override updated(): void {
+    const reference = this.shadowRoot
+      ?.querySelector("slot")
+      ?.assignedElements()[0];
+    const float = this.shadowRoot?.querySelector("span");
+    if (!reference || !float) {
+      return;
+    }
+    autoUpdate(reference, float, () => {
+      computePosition(reference, float, {
+        placement: this.placement,
+        middleware: [offset({ mainAxis: 20 }), flip(), shift()],
+      })
+        .then(({ x, y }) => {
+          Object.assign(float.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          });
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    });
   }
 }
 

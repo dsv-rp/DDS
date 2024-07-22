@@ -8,7 +8,7 @@ export default {
   ...metadata,
 };
 
-export const Primary: Story = {
+export const Light: Story = {
   args: {
     placement: "top",
     variant: "light",

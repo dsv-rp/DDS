@@ -4,109 +4,40 @@ import {
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
-import { expect, test, type ElementHandle, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import type { DAIKIN_TOOLTIP_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TOOLTIP_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-tooltip--small", args);
+  getStorybookIframeURL("components-tooltip--light", args);
 
-describeEach(["enabled", "disabled", "readonly"], (variant) => {
-  describeEach(["small", "large"] as const, (size) => {
-    describeEach(["left", "right"] as const, (labelPosition) => {
-      describeEach(
-        ["unchecked", "indeterminate", "checked"] as const,
-        (checkState) => {
-          const baseURL = getPageURL({
-            label: "Checkbox Label",
-            checkState,
-            disabled: variant === "disabled",
-            readonly: variant === "readonly",
-            labelPosition,
-          });
+describeEach(["light", "dark"] as const, (variant) => {
+  describeEach(["top", "bottom", "left", "right"] as const, (placement) => {
+    const baseURL = getPageURL({
+      variant: variant,
+      placement: placement,
+    });
 
-          // ensure that hovering or clicking does not change the image for disabled and readonly
-          const snapshotName =
-            variant !== "enabled"
-              ? `${variant}-${size}-${labelPosition}-${checkState}.png`
-              : null;
+    test("hover", async ({ page }) => {
+      console.log(baseURL);
+      await page.goto(baseURL);
 
-          const testScreenshot = async (
-            page: Page,
-            element: ElementHandle<HTMLElement>
-          ): Promise<void> => {
-            if (snapshotName) {
-              await expect(page).toHaveScreenshot(
-                snapshotName,
-                await clipFor(element)
-              );
-            } else {
-              await expect(page).toHaveScreenshot(await clipFor(element));
-            }
-          };
+      // wait for element to be visible
+      const triggerElement = await page.waitForSelector("daikin-tooltip", {
+        state: "visible",
+      });
+      const viewArea = await page.waitForSelector(".lin", {
+        state: "visible",
+      });
+      await viewArea.scrollIntoViewIfNeeded();
+      await triggerElement.hover();
 
-          test("base", async ({ page }) => {
-            await page.goto(baseURL);
+      // // hover cursor on the element
+      // await element.hover();
 
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-tooltip", {
-              state: "visible",
-            });
-
-            // take screenshot and check for diffs
-            await testScreenshot(page, element);
-          });
-
-          test("hover", async ({ page }) => {
-            await page.goto(baseURL);
-
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-tooltip", {
-              state: "visible",
-            });
-
-            // hover cursor on the element
-            await element.hover();
-
-            // take screenshot and check for diffs
-            await testScreenshot(page, element);
-          });
-
-          test("press", async ({ page }) => {
-            await page.goto(baseURL);
-
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-tooltip", {
-              state: "visible",
-            });
-
-            // hover cursor on the element and hold down mouse button on the element
-            await element.hover();
-            await page.mouse.down();
-
-            // take screenshot and check for diffs
-            await testScreenshot(page, element);
-            await page.mouse.up();
-          });
-
-          test("focus", async ({ page }) => {
-            await page.goto(baseURL);
-
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-tooltip", {
-              state: "visible",
-            });
-
-            await page.evaluate((container) => {
-              container.focus();
-            }, element);
-
-            // take screenshot and check for diffs
-            await testScreenshot(page, element);
-          });
-        }
-      );
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(viewArea));
     });
   });
 });
