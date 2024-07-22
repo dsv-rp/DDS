@@ -6,11 +6,12 @@ import type { DaikinTooltipStoryArgs } from "./common";
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   render: ({ placement, variant, open, description, closeOnClick }) => html`
     <div
-      class="lin"
-      style="width: 500px; height: 500px; overflow: auto; border: 1px solid #ccc"
+      class="viewArea"
+      style="width: 800px; height: 500px; overflow: auto; border: 1px solid #ccc"
     >
       <div
-        style="width: 900px; height: 900px; display: flex; align-items: center; justify-content: center"
+        class="innerArea"
+        style="width: 1500px; height: 900px; display: flex; align-items: center; justify-content: center"
       >
         <daikin-tooltip
           placement=${placement}

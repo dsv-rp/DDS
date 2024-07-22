@@ -16,16 +16,18 @@ const ReactDaikinTooltip = createComponent({
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   component: ({ ...props }: DaikinTooltipStoryArgs) => (
     <div
+      className="viewArea"
       style={{
-        width: 500,
+        width: 800,
         height: 500,
         overflow: "auto",
         border: "1px solid #ccc",
       }}
     >
       <div
+        className="innerArea"
         style={{
-          width: 900,
+          width: 1500,
           height: 900,
           display: "flex",
           alignItems: "center",

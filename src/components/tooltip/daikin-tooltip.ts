@@ -12,9 +12,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTooltip = cva(
   [
-    "invisible",
     "absolute",
-    "opacity-0",
 
     "p-3",
     "justify-center",
@@ -45,6 +43,10 @@ const cvaTooltip = cva(
           "text-[#000]",
         ],
         dark: ["bg-[#414141e6]", "text-[#fff]"],
+      },
+      open: {
+        true: ["visible", "opacity-100"],
+        false: ["invisible", "opacity-0"],
       },
     },
   }
@@ -108,6 +110,7 @@ export class DaikinTooltip extends LitElement {
   override render() {
     const tooltipClassName = cvaTooltip({
       variant: this.variant,
+      open: this.open,
     });
     return html`<div
       class="group relative inline-block"
