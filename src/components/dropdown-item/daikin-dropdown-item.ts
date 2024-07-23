@@ -30,7 +30,6 @@ export class DaikinDropdownItem extends LitElement {
       bubbles: true,
       detail: {
         value: this.value,
-        text: this.textContent,
       },
     });
 

@@ -15,7 +15,7 @@ import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
 type SelectEvent = Event & {
-  detail: { text: string; value: string };
+  detail: { value: string };
 };
 
 const cvaContainer = cva(["flex", "gap-2", "w-max", "relative"], {
@@ -236,8 +236,12 @@ export class DaikinDropdown extends LitElement {
    * Handle `select` event from `daikin-dropdown-item`.
    */
   private _handleSelect(e: SelectEvent) {
-    this._buttonLabel = e.detail.text;
     this.value = e.detail.value;
+
+    const item = this._items.find((item) => item.value === this.value);
+    if (item) {
+      this._buttonLabel = item.textContent ?? "";
+    }
 
     const event = new CustomEvent("change", {
       detail: {
