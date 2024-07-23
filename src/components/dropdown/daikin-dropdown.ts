@@ -14,7 +14,7 @@ import type { DaikinDropdownItem } from "../dropdown-item";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
-type DropdownItemClickEvent = Event & {
+type SelectEvent = Event & {
   detail: { text: string; value: string };
 };
 
@@ -233,7 +233,7 @@ export class DaikinDropdown extends LitElement {
   /**
    * Call the event registered in "change"
    */
-  private _handleClickChange(e: DropdownItemClickEvent) {
+  private _handleClickChange(e: SelectEvent) {
     this._buttonLabel = e.detail.text;
     this.value = e.detail.value;
 
@@ -283,7 +283,7 @@ export class DaikinDropdown extends LitElement {
           ${ref(this._contentsRef)}
         >
           <slot
-            @select=${(e: DropdownItemClickEvent) => this._handleClickChange(e)}
+            @select=${(e: SelectEvent) => this._handleClickChange(e)}
           ></slot>
         </div>
       </div>
