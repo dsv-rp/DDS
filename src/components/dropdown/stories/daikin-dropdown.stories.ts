@@ -18,6 +18,7 @@ export const Default: Story = {
     value: "value1",
     labelPosition: "top",
     open: false,
+    option: "default",
     onClick: fn(),
     onChange: fn(),
   },
@@ -86,5 +87,19 @@ export const Icon: Story = {
   args: {
     ...Default.args,
     leftIcon: "positive",
+  },
+};
+
+export const SingleItem: Story = {
+  args: {
+    ...Default.args,
+    option: "single",
+  },
+};
+
+export const MultipleItem: Story = {
+  args: {
+    ...Default.args,
+    option: "multiple",
   },
 };

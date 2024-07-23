@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinDropdownStoryArgs
   extends Required<ElementProps<DaikinDropdown>> {
-  ariaLabel: string;
+  option: "default" | "single" | "multiple";
   onChange: () => void;
   onClick: () => void;
 }
@@ -33,10 +33,6 @@ export const DAIKIN_DROPDOWN_ARG_TYPES = {
   leftIcon: {
     description:
       "Icon to the left of the currently selected content. See `daikin-icon` component for available icons.",
-    type: "string",
-  },
-  ariaLabel: {
-    description: "Dropdown aria label",
     type: "string",
   },
   open: {
