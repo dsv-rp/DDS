@@ -62,7 +62,7 @@ const cvaButton = cva(
     "after:m-auto",
     "after:top-0",
     "after:bottom-0",
-    "after:right-[12px]",
+    "after:right-3",
   ],
   {
     variants: {
@@ -108,7 +108,17 @@ type DropdownVariantProps = MergeVariantProps<
 >;
 
 /**
- * Primary UI component for user interaction
+ * * A dropdown list component.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-dropdown>
+ *   <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
+ *   <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
+ *   <daikin-dropdown-item value="value3">Item 3</daikin-dropdown-item>
+ * </daikin-dropdown>
+ * ```
  */
 @customElement("daikin-dropdown")
 export class DaikinDropdown extends LitElement {
@@ -174,35 +184,27 @@ export class DaikinDropdown extends LitElement {
 
   private _handleKeyDown(event: KeyboardEvent): void {
     const moveOffset = {
-      ArrowRight: 1,
       ArrowDown: 1,
-      ArrowLeft: -1,
       ArrowUp: -1,
     }[event.key];
     if (!moveOffset) {
       return;
     }
 
+    const items = this._items;
+
     // Get focused item if any
     const activeElement = document.activeElement;
 
     const focusedItemIndex = activeElement
-      ? this._items.findIndex((item) => item.contains(activeElement))
+      ? items.findIndex((item) => item.contains(activeElement))
       : -1;
 
-    // If there is no item focused, focus on the active (current) item
-    if (focusedItemIndex < 0) {
-      this._items[0].focus();
-      event.preventDefault();
-      return;
-    }
-
     // If there is a item focused, move focus forward or backward
-    for (let i = 1; i <= this._items.length; i++) {
+    for (let i = 1; i <= items.length; i++) {
       const index =
-        (focusedItemIndex + moveOffset * i + this._items.length * i) %
-        this._items.length;
-      const candidate = this._items[index];
+        (focusedItemIndex + moveOffset * i + items.length * i) % items.length;
+      const candidate = items[index];
 
       candidate.focus();
       event.preventDefault();
@@ -210,7 +212,7 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
-  private _optionPosition() {
+  private _locateOptions() {
     const button = this._buttonRef.value;
     const contents = this._contentsRef.value;
     if (!button || !contents) {
@@ -231,9 +233,9 @@ export class DaikinDropdown extends LitElement {
   }
 
   /**
-   * Call the event registered in "change"
+   * Handle `select` event from `daikin-dropdown-item`.
    */
-  private _handleClickChange(e: SelectEvent) {
+  private _handleSelect(e: SelectEvent) {
     this._buttonLabel = e.detail.text;
     this.value = e.detail.value;
 
@@ -262,7 +264,7 @@ export class DaikinDropdown extends LitElement {
         <button
           type="button"
           class=${cvaButton({ size: this.size })}
-          aria-expanded="${this.open}"
+          aria-expanded=${this.open}
           aria-haspopup="listbox"
           @click=${this._handleClick}
           ${ref(this._buttonRef)}
@@ -282,31 +284,25 @@ export class DaikinDropdown extends LitElement {
           aria-label=${this.label}
           ${ref(this._contentsRef)}
         >
-          <slot
-            @select=${(e: SelectEvent) => this._handleClickChange(e)}
-          ></slot>
+          <slot @select=${this._handleSelect}></slot>
         </div>
       </div>
     </div>`;
   }
 
   protected override firstUpdated(): void {
-    this._optionPosition();
+    this._locateOptions();
 
     const defaultItemIndex = this._items.findIndex(
       ({ value }) => this.value === value
     );
 
-    if (defaultItemIndex && !!this._items[defaultItemIndex].textContent) {
-      this._buttonLabel = this._items[defaultItemIndex].textContent;
+    if (defaultItemIndex >= 0) {
+      this._buttonLabel = this._items[defaultItemIndex].textContent ?? "";
       this._items[defaultItemIndex].selected = true;
     } else {
-      if (!this._items[0].textContent) {
-        return;
-      }
-
       this.value = this._items[0].value;
-      this._buttonLabel = this._items[0].textContent;
+      this._buttonLabel = this._items[0].textContent ?? "";
       this._items[0].selected = true;
     }
   }
