@@ -22,7 +22,7 @@ export class DaikinDropdownItem extends LitElement {
   @property({ type: String })
   value = "";
 
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   selected = false;
 
   private _handleClick() {
@@ -40,11 +40,11 @@ export class DaikinDropdownItem extends LitElement {
   override render() {
     return html`<button
       type="button"
-      class="w-[216px] minH-[42px] bg-white py-[10px] px-[12px] font-daikinSerif text-[15px] leading-[22px] text-left hover:bg-[#ebebeb]"
+      class="w-[216px] minH-[42px] bg-white py-2.5 px-3 font-daikinSerif text-[15px] leading-[22px] text-left hover:bg-[#ebebeb]"
       data-value=${this.value}
-      @click=${this._handleClick}
       role="option"
       aria-selected="${this.selected}"
+      @click=${this._handleClick}
     >
       <slot></slot>
     </button>`;
