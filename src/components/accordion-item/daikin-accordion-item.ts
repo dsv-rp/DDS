@@ -170,7 +170,7 @@ export class DaikinAccordionItem extends LitElement {
       <summary
         class=${accordionSummaryClassName}
         @click=${this._handleSummaryClick}
-        tabindex=${!this.disabled ? 0 : -1}
+        tabindex=${this.disabled ? -1 : 0}
       >
         ${this.title}
       </summary>
