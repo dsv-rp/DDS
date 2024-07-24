@@ -1,4 +1,6 @@
 import { spawnSync } from "node:child_process";
+import { rm } from "node:fs/promises";
+import { env, stderr } from "node:process";
 import { getStorybookEnv } from "../storybook-env";
 
 const PORT = 6099;
@@ -16,11 +18,27 @@ const command = {
   },
 }[STORYBOOK_FW][STORYBOOK_ENV];
 
-console.info(`> ${command}\n`);
+if (STORYBOOK_ENV === "development") {
+  // Print to stderr so that this can be seen in Playwright logs.
+  stderr.write("Removing node_modules/.cache/storybook...\n");
+  try {
+    await rm("node_modules/.cache/storybook", { force: true, recursive: true });
+  } catch {
+    // do nothing
+  }
+}
+
+// Print to stderr so that this can be seen in Playwright logs.
+stderr.write(`> ${command}\n\n`);
 
 const { status } = spawnSync(command, {
   shell: true,
   stdio: "inherit",
+  env: {
+    ...env,
+    STORYBOOK_ENV,
+    STORYBOOK_FW,
+  },
 });
 
 process.exit(status);
