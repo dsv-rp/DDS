@@ -102,48 +102,25 @@ export class DaikinTooltip extends LitElement {
   @query("#tooltip")
   private _tooltip!: HTMLElement | null;
 
+  get _triggerElement() {
+    return this.shadowRoot?.querySelector("slot")?.assignedElements()[0];
+  }
+
+  private _cleanUpAutoUpdate!: () => void;
+
   _handleClick() {
     if (this.closeOnClick && this._tooltip) {
       this._tooltip.style.visibility = "hidden";
     }
   }
 
-  _resetTooltipVisibility() {
-    if (!this._tooltip) {
-      return;
-    }
-    this._tooltip.style.visibility = "";
-  }
-
-  override render() {
-    const tooltipClassName = cvaTooltip({
-      variant: this.variant,
-      open: this.open,
-    });
-    return html`<div
-      class="group relative inline-block"
-      @click=${this._handleClick}
-      @keydown=${this._handleClick}
-      @mouseleave=${this._resetTooltipVisibility}
-    >
-      <slot></slot>
-      <span id="tooltip" class="${tooltipClassName}">
-        <slot name="description">
-          <span>${this.description}</span>
-        </slot>
-      </span>
-    </div>`;
-  }
-
-  protected override updated(): void {
-    const reference = this.shadowRoot
-      ?.querySelector("slot")
-      ?.assignedElements()[0];
-    const float = this.shadowRoot?.querySelector("span");
+  _runAutoUpdate() {
+    const reference = this._triggerElement;
+    const float = this._tooltip;
     if (!reference || !float) {
       return;
     }
-    autoUpdate(reference, float, () => {
+    this._cleanUpAutoUpdate = autoUpdate(reference, float, () => {
       computePosition(reference, float, {
         placement: this.placement,
         middleware: [offset({ mainAxis: 20 }), flip(), shift()],
@@ -156,6 +133,43 @@ export class DaikinTooltip extends LitElement {
         })
         .catch((e: unknown) => console.error(e));
     });
+  }
+
+  _resetTooltipVisibility() {
+    if (!this._tooltip) {
+      return;
+    }
+    this._tooltip.style.visibility = "";
+  }
+
+  _handleMouseLeave() {
+    this._cleanUpAutoUpdate();
+    this._resetTooltipVisibility();
+  }
+
+  _handleMouseEnter() {
+    this._runAutoUpdate();
+  }
+
+  override render() {
+    const tooltipClassName = cvaTooltip({
+      variant: this.variant,
+      open: this.open,
+    });
+    return html`<div
+      class="group relative inline-block"
+      @click=${this._handleClick}
+      @keydown=${this._handleClick}
+      @mouseleave=${this._handleMouseLeave}
+      @mouseenter=${this._handleMouseEnter}
+    >
+      <slot></slot>
+      <span id="tooltip" class="${tooltipClassName}">
+        <slot name="description">
+          <span>${this.description}</span>
+        </slot>
+      </span>
+    </div>`;
   }
 }
 
