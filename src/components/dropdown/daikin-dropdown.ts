@@ -200,6 +200,13 @@ export class DaikinDropdown extends LitElement {
       ? items.findIndex((item) => item.contains(activeElement))
       : -1;
 
+    // If there is no item focused, focus on first item
+    if (focusedItemIndex < 0) {
+      this._items[0].focus();
+      event.preventDefault();
+      return;
+    }
+
     // If there is a item focused, move focus forward or backward
     for (let i = 1; i <= items.length; i++) {
       const index =
