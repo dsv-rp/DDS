@@ -38,6 +38,7 @@ jobs:
         run: npm run build
 
       - name: Create Release Pull Request or Publish to npm
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: changeset publish
@@ -45,3 +46,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      - name: Deploy Storybook
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          STORYBOOK_ENV=production npm run storybook:build-wc
+          # TODO: Deploy website
