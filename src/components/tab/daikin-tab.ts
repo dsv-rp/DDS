@@ -48,6 +48,19 @@ const cvaTab = cva(
   }
 );
 
+/**
+ * The tab component that can be used within `daikin-tab-group` component.
+ *
+ * @fires click - Emits when the tab is clicked and not disabled.
+ * @slot - Tab content slot.
+ *
+ * @example
+ *
+ * ```html
+ * <!-- See `daikin-tab-group` component for complete example. -->
+ * <daikin-tab value="foo">Foo tab</daikin-tab>
+ * ```
+ */
 @customElement("daikin-tab")
 export class DaikinTab extends LitElement {
   static override readonly styles = css`
@@ -66,7 +79,7 @@ export class DaikinTab extends LitElement {
 
   /**
    * A unique string that identifies a tab.
-   * Must be unique within the tab group.
+   * Must be unique within the `daikin-tab-group` component.
    */
   @property({ type: String, reflect: true })
   value: string = "";
@@ -79,15 +92,16 @@ export class DaikinTab extends LitElement {
   size: "default" | "condensed" = "default";
 
   /**
-   * Whether to show the disabled state
+   * Whether to show the disabled state.
    * @default false
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether to show the active state \
-   * ignored if `disabled` is `true`
+   * Whether to show the active (selected) state.
+   * Ignored if `disabled` is `true`.
+   * Set automatically by `daikin-tab-group` component.
    * @default false
    */
   @property({ type: Boolean, reflect: true })
@@ -96,15 +110,6 @@ export class DaikinTab extends LitElement {
   private _handleClick(event: MouseEvent | PointerEvent) {
     if (this.disabled) {
       event.stopImmediatePropagation();
-    } else {
-      this.dispatchEvent(
-        new CustomEvent("select", {
-          detail: { value: this.value },
-          bubbles: true,
-          composed: true,
-          cancelable: false,
-        })
-      );
     }
   }
 

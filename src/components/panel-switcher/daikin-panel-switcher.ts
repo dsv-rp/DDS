@@ -1,6 +1,5 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -10,9 +9,12 @@ import tailwindStyles from "../../tailwind.css?inline";
  *
  * A completely unstyled panel switcher.
  *
+ * @slot panel:\<name\> - Each panel.
+ *
  * @example
  *
  * ```html
+ * <!-- Note that `panels` must be set via property. -->
  * <daikin-panel-switcher
  *   class="block w-full h-full"
  *   panels='["foo", "bar", "baz"]'
@@ -32,12 +34,15 @@ export class DaikinPanelSwitcher extends LitElement {
   `;
 
   /**
-   * `value` of the currently selected tab.
-   * see {@link DaikinTab.value}
+   * The panel to be displayed.
+   * Set automatically by `daikin-tab-group` if used within it.
    */
   @property({ type: String, reflect: true })
   value: string = "";
 
+  /**
+   * Set automatically by `daikin-tab-group` if used within it.
+   */
   @property({
     type: Array,
     hasChanged: (newValue, oldValue) =>
@@ -45,6 +50,10 @@ export class DaikinPanelSwitcher extends LitElement {
   })
   panels: string[] = [];
 
+  /**
+   * `role` attribute of the container.
+   * Set to "tablist" automatically by `daikin-tab-group` if used within it.
+   */
   @property({ type: String, reflect: true, attribute: "panel-role" })
   panelRole: ARIARole | null = null;
 
@@ -62,7 +71,7 @@ export class DaikinPanelSwitcher extends LitElement {
       (value) =>
         html`<div
           class=${this.value === value ? "contents" : "hidden"}
-          role=${ifDefined(this.panelRole ?? undefined)}
+          role=${this.panelRole ?? nothing}
           ?hidden=${this.value !== value}
         >
           <slot name=${`panel:${value}`}></slot>

@@ -18,21 +18,26 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * > At least one tab must be available (that means, the tab must be present and enabled).
  * > Otherwise, unexpected behavior may be encountered.
  *
+ * @fires beforechange - _Cancellable._ Emits when the current tab is about to be changed by user interaction.
+ * @fires change - Emits when the current tab is changed.
+ *
+ * @slot - Tab list slot. Place `daikin-tab` elements here.
+ * @slot panels - Tab panel slot. Place `daikin-panel-switcher` element(s) here.
+ *
+ * @csspart tablist
+ *
  * @example
  *
  * ```html
- * <!-- See storybook for styling tab group -->
+ * <!-- See storybook for styling tab group. You'll need `::part(tablist)` to style the tab container. -->
  * <daikin-tab-group value="foo">
- *   <!-- Optional (but possibly needed for styling) container for tabs -->
- *   <div>
- *     <daikin-tab value="foo">Foo tab</daikin-tab>
- *     <daikin-tab value="bar">Bar tab</daikin-tab>
- *   </div>
- *   <!-- At least one "daikin-panel-switcher" is needed to switch the content -->
+ *   <daikin-tab value="foo">Foo tab</daikin-tab>
+ *   <daikin-tab value="bar">Bar tab</daikin-tab>
+ *   <!-- At least one "daikin-panel-switcher" is needed to switch the content. -->
  *   <daikin-panel-switcher slot="panels">
- *     <!-- Mind the "panel:" prefix -->
- *     <p slot="panel:foo">Foo tab content</p>
- *     <p slot="panel:bar">Bar tab content</p>
+ *     <!-- Mind the "panel:" prefix. -->
+ *     <p slot="panel:foo">Foo tab content.</p>
+ *     <p slot="panel:bar">Bar tab content.</p>
  *   </daikin-panel-switcher>
  * </daikin-tab-group>
  * ```
@@ -62,7 +67,17 @@ export class DaikinTabGroup extends LitElement {
   @queryAssignedElements({ slot: "panels", selector: "daikin-panel-switcher" })
   private _panelSwitchers!: DaikinPanelSwitcher[];
 
-  private _handleBeforeChange(newValue: string): boolean {
+  /**
+   * Emits `beforechange` event if necessary and returns whether we should proceed.
+   *
+   * 1. Check if `newValue` is different from `value`.
+   * 2. Emit "beforechange" event.
+   * 3. Check if the event is canceled.
+   *
+   * @param newValue The `value` of the newly active tab.
+   * @returns `true` if we should proceed (event is emitted and not canceled). `false` otherwise.
+   */
+  private _emitBeforeChange(newValue: string): boolean {
     if (this.value === newValue) {
       return false;
     }
@@ -83,6 +98,11 @@ export class DaikinTabGroup extends LitElement {
     return true;
   }
 
+  /**
+   * Updates `this.value` and emit "change" event.
+   *
+   * @param newValue The `value` of the newly active tab.
+   */
   private _updateValue(newValue: string): void {
     this.dispatchEvent(
       new CustomEvent("change", {
@@ -96,6 +116,13 @@ export class DaikinTabGroup extends LitElement {
     this.value = newValue;
   }
 
+  /**
+   * Updates `daikin-tab` component(s)' properties in the slot.
+   *
+   * Invoke when:
+   * - `this.value` is changed.
+   * - the default slot's content is changed.
+   */
   private _updateTabs(): void {
     const tabs = this._tabs;
 
@@ -132,6 +159,14 @@ export class DaikinTabGroup extends LitElement {
     scrollIntoViewOnlyParent(selectedTab, "horizontal");
   }
 
+  /**
+   * Updates `daikin-panel-switcher` component(s)' properties in the slot.
+   *
+   * Invoke when:
+   * - `this.value` is changed.
+   * - the default slot's content is changed.
+   * - the panel slot's content is changed.
+   */
   private _updatePanelSwitcher(): void {
     const panelSwitchers = this._panelSwitchers;
     const tabs = this._tabs;
@@ -145,12 +180,15 @@ export class DaikinTabGroup extends LitElement {
     }
   }
 
-  private _handleTabSelect(event: Event): void {
+  /**
+   * Handles "click" event emitted by `daikin-tab` component.
+   */
+  private _handleTabClick(event: Event): void {
     const tabs = this._tabs;
 
     const tab = event.target as DaikinTab | null;
     if (!tab || !tabs.includes(tab)) {
-      // Not from managing tabs.
+      // Not from managed tabs.
       return;
     }
 
@@ -161,7 +199,7 @@ export class DaikinTabGroup extends LitElement {
       return;
     }
 
-    if (!this._handleBeforeChange(tab.value)) {
+    if (!this._emitBeforeChange(tab.value)) {
       // Canceled.
       return;
     }
@@ -172,6 +210,9 @@ export class DaikinTabGroup extends LitElement {
     this._updateValue(tab.value);
   }
 
+  /**
+   * Handles keyboard interactions in the tab list.
+   */
   private _handleKeyDown(event: KeyboardEvent): void {
     const moveOffset = {
       ArrowRight: 1,
@@ -224,13 +265,6 @@ export class DaikinTabGroup extends LitElement {
     }
   }
 
-  constructor() {
-    super();
-
-    // Bubbled from children tabs
-    this.addEventListener("select", this._handleTabSelect);
-  }
-
   private _handleSlotChange(): void {
     this._updateTabs();
     this._updatePanelSwitcher();
@@ -242,7 +276,12 @@ export class DaikinTabGroup extends LitElement {
 
   override render() {
     return html`
-      <div part="tablist" role="tablist" @keydown=${this._handleKeyDown}>
+      <div
+        part="tablist"
+        role="tablist"
+        @click=${this._handleTabClick}
+        @keydown=${this._handleKeyDown}
+      >
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
       <slot

@@ -36,5 +36,8 @@ docgen
 # Testing
 testid
 
+# JSDoc extension
+csspart
+
 # Misc.
 FOUC
