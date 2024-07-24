@@ -77,15 +77,17 @@ export class DaikinIcon extends LitElement {
   size: IconVariantProps["size"] = "m";
 
   override render() {
-    const defaultColor = this.icon ? icons[this.icon].color : null;
+    const defaultColor = (
+      icons as Record<string, (typeof icons)[keyof typeof icons] | undefined>
+    )[this.icon ?? ""]?.color;
 
     if (import.meta.env.DEV) {
       if (!this.icon) {
         console.warn("icon property is not specified");
       } else if (!(this.icon in icons)) {
-        console.warn(`There is no icon named ${this.icon}.`);
+        console.warn(`There is no icon named "${this.icon}".`);
       } else if (this.color === "default" && !defaultColor) {
-        console.warn(`The icon ${this.icon} does not have a default color.`);
+        console.warn(`The icon "${this.icon}" does not have a default color.`);
       }
     }
 
