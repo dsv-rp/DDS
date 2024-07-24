@@ -1,10 +1,12 @@
-type FallbackType = unknown;
+type FallbackType = never;
 
 type StorybookArgType =
   // https://storybook.js.org/docs/api/arg-types#type
   | { type: string }
   // https://storybook.js.org/docs/api/arg-types#options
-  | { options: readonly string[] };
+  | { options: readonly string[] }
+  // non-inferable
+  | object;
 
 type StorybookTypeMap = {
   string: string;

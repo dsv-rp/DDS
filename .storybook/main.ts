@@ -1,8 +1,13 @@
 import type { StorybookConfig } from "@storybook/web-components-vite";
-import { env } from "node:process";
-import { getAllStorybookFiles, STORYBOOK_ADDONS } from "./main-common";
+import {
+  getAllStorybookFiles,
+  setStorybookFW,
+  STORYBOOK_ADDONS,
+  viteFinal,
+} from "./main-common";
 
-env.STORYBOOK_FW = "web-components";
+// Set `STORYBOOK_FW` environment variable to "web-components".
+setStorybookFW("web-components");
 
 const config: StorybookConfig = {
   stories: getAllStorybookFiles("web-components"),
@@ -18,6 +23,7 @@ const config: StorybookConfig = {
       },
     },
   },
+  viteFinal,
 };
 
 export default config;
