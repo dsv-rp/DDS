@@ -4,13 +4,12 @@ import { html } from "lit";
 import type { DaikinTabStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTabStoryArgs> = {
-  render: ({ label, size, active, disabled, onClick, onSelect }) => html`
+  render: ({ label, size, active, disabled, onClick }) => html`
     <daikin-tab
       size=${size}
       ?active=${active}
       ?disabled=${disabled}
       @click=${onClick}
-      @select=${onSelect}
     >
       ${label}
     </daikin-tab>

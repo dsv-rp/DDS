@@ -10,7 +10,6 @@ export const ReactDaikinTab = createComponent({
   react: React,
   events: {
     onClick: "click",
-    onSelect: "select",
   },
 });
 
