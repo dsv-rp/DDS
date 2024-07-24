@@ -1,7 +1,11 @@
 import react from "@vitejs/plugin-react";
+import { env, stderr } from "node:process";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
+import { storybookFrameworkLoader } from "./build/vite/storybook-framework-loader";
 import { getStorybookEnv } from "./storybook-env";
+
+env.VITE_IS_STORYBOOK = "1";
 
 function fromProjectDir(path: string): string {
   return fileURLToPath(new URL(path, import.meta.url));
@@ -15,8 +19,9 @@ const frameworkPath = {
   react: "./framework-react",
 }[STORYBOOK_FW];
 
-console.info(
-  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${STORYBOOK_FW} component`
+// Print to stderr so that this can be seen in Playwright logs.
+stderr.write(
+  `[storybook-vite] Using ${useBuiltPackage ? "built package" : "development code"} of ${STORYBOOK_FW} component\n`
 );
 
 export default defineConfig({
@@ -27,10 +32,6 @@ export default defineConfig({
         replacement: fromProjectDir("src/storybook"),
       },
       {
-        find: "#storybook-framework",
-        replacement: frameworkPath,
-      },
-      {
         find: /^#package\/(.+)$/,
         replacement: useBuiltPackage
           ? "@daikin-oss/design-system-web-components/$1"
@@ -38,5 +39,9 @@ export default defineConfig({
       },
     ],
   },
-  plugins: [react()],
+  plugins: [
+    react(),
+    // "#storybook-framework" loader
+    storybookFrameworkLoader(frameworkPath),
+  ],
 });
