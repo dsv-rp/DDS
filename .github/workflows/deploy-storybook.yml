@@ -14,21 +14,21 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.build-publish.outputs.page_url }}
+      url: ${{ steps.build-deploy.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      # Manual Checkout
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      # Set up Node
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      # Add Storybook build and deploy to GitHub Pages
       # This action does "npm ci" automatically
-      - id: build-publish
+      - name: Build Storybook and Deploy to GitHub Pages
+        id: build-deploy
         uses: bitovi/github-actions-storybook-to-github-pages@v1.0.3
         with:
           build_command: npm run build && STORYBOOK_ENV=production npm run storybook:build-wc
