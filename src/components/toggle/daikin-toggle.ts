@@ -125,11 +125,9 @@ export class DaikinToggle extends LitElement {
   error = false;
 
   override render() {
-    // Specify the component size
-
     const toggleClassName = cvaToggle({ size: this.size });
 
-    const inputTag = html`<input
+    return html`<input
       class=${toggleClassName}
       type="checkbox"
       name=${this.name}
@@ -138,8 +136,6 @@ export class DaikinToggle extends LitElement {
       ?disabled=${this.disabled}
       @change=${this._handleChange}
     />`;
-
-    return html`${inputTag}`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {
