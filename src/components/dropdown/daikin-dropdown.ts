@@ -1,4 +1,4 @@
-import { computePosition, flip, offset } from "@floating-ui/dom";
+import { autoUpdate, computePosition, flip, offset } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import {
@@ -108,7 +108,7 @@ type DropdownVariantProps = MergeVariantProps<
 >;
 
 /**
- * * A dropdown list component.
+ * A dropdown list component.
  *
  * @example
  *
@@ -150,14 +150,14 @@ export class DaikinDropdown extends LitElement {
   /**
    * Where the label is located in terms of the dropdown
    */
-  @property({ type: String, reflect: true, attribute: "label-position" })
+  @property({ type: String, attribute: "label-position" })
   labelPosition: DropdownVariantProps["labelPosition"] = "top";
 
   /**
    * Icon to the left of the currently selected content. See `daikin-icon` component for available icons.
    */
-  @property({ type: String, reflect: true, attribute: "left-icon" })
-  leftIcon?: IconType;
+  @property({ type: String, attribute: "left-icon" })
+  leftIcon: IconType | null = null;
 
   @property({ type: String })
   value = "";
@@ -251,6 +251,20 @@ export class DaikinDropdown extends LitElement {
     this.open = false;
 
     this.dispatchEvent(event);
+  }
+
+  private _cleanup() {
+    const button = this._buttonRef.value;
+    const contents = this._contentsRef.value;
+    if (!button || !contents) {
+      return;
+    }
+
+    autoUpdate(button, contents, this._locateOptions);
+  }
+
+  override disconnectedCallback(): void {
+    this._cleanup();
   }
 
   override render() {
