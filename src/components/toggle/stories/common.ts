@@ -14,7 +14,7 @@ export const DAIKIN_TOGGLE_ARG_TYPES = {
     options: ["default", "small"],
   },
   disabled: { type: "boolean" },
-  toggled: { type: "boolean" },
+  checked: { type: "boolean" },
   name: { type: "string" },
   value: { type: "string" },
 } as const satisfies Meta<DaikinToggleStoryArgs>["argTypes"];

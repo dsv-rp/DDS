@@ -4,11 +4,11 @@ import { html } from "lit";
 import type { DaikinToggleStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinToggleStoryArgs> = {
-  render: ({ disabled, size, toggled, onChange, onClick }) => html`
+  render: ({ disabled, size, checked, onChange, onClick }) => html`
     <daikin-toggle
       ?disabled=${disabled}
       size=${size}
-      ?toggled=${toggled}
+      ?checked=${checked}
       @change=${onChange}
       @click=${onClick}
     >

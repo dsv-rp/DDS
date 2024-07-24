@@ -16,7 +16,7 @@ describeEach(["enabled", "disabled"], (variant) => {
   describeEach(["default", "small"] as const, (size) => {
     describeEach(["checked", "unchecked"] as const, (checkState) => {
       const baseURL = getPageURL({
-        toggled: checkState === "checked",
+        checked: checkState === "checked",
         disabled: variant === "disabled",
         size: size,
       });

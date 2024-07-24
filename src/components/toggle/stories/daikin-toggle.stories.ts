@@ -15,7 +15,7 @@ export const Default: Story = {
   args: {
     size: "default",
     disabled: false,
-    toggled: false,
+    checked: false,
     onChange: fn(),
     onClick: fn(),
   },

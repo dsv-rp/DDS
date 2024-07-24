@@ -74,7 +74,7 @@ export class DaikinToggle extends LitElement {
   private _internals = this.attachInternals();
 
   private _updateFormValue() {
-    this._internals.setFormValue(this.toggled ? this.value : null);
+    this._internals.setFormValue(this.checked ? this.value : null);
   }
 
   @query("input")
@@ -101,10 +101,10 @@ export class DaikinToggle extends LitElement {
   disabled = false;
 
   /**
-   * Specify whether the control is toggled
+   * Specify whether the control is checked
    */
   @property({ type: Boolean, reflect: true })
-  toggled = false;
+  checked = false;
 
   /**
    * The form name.
@@ -134,7 +134,7 @@ export class DaikinToggle extends LitElement {
       type="checkbox"
       name=${this.name}
       value=${this.value}
-      .checked=${this.toggled}
+      .checked=${this.checked}
       ?disabled=${this.disabled}
       @change=${this._handleChange}
     />`;
@@ -143,7 +143,7 @@ export class DaikinToggle extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has("toggled")) {
+    if (changedProperties.has("checked")) {
       this._updateFormValue();
     }
   }
