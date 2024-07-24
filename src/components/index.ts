@@ -7,3 +7,4 @@ export * from "./radio";
 export * from "./tab";
 export * from "./tab-group";
 export * from "./text-input";
+export * from "./textarea";
