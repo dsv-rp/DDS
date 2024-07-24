@@ -24,8 +24,8 @@ const cvaTooltip = cva(
     "items-center",
     "rounded",
     "w-max",
-    "top-[0]",
-    "left-[0]",
+    "top-0",
+    "left-0",
     "max-w-[312px]",
 
     "text-sm",
@@ -45,9 +45,9 @@ const cvaTooltip = cva(
           "border-solid",
           "border-daikinNeutral-800",
           "bg-[#ffffffe6]",
-          "text-[#000]",
+          "text-black",
         ],
-        dark: ["bg-[#414141e6]", "text-[#fff]"],
+        dark: ["bg-[#414141e6]", "text-white"],
       },
       open: {
         true: ["visible", "opacity-100"],
@@ -100,7 +100,7 @@ export class DaikinTooltip extends LitElement {
   slotItems?: Array<Node>;
 
   @query("#tooltip")
-  private _tooltip: HTMLSpanElement | null | undefined;
+  private _tooltip!: HTMLElement | null;
 
   _handleClick() {
     if (this.closeOnClick && this._tooltip) {
@@ -127,9 +127,11 @@ export class DaikinTooltip extends LitElement {
       @mouseleave=${this._resetTooltipVisibility}
     >
       <slot></slot>
-      <span id="tooltip" class="${tooltipClassName}"
-        ><slot name="description"><span>${this.description}</span></slot></span
-      >
+      <span id="tooltip" class="${tooltipClassName}">
+        <slot name="description">
+          <span>${this.description}</span>
+        </slot>
+      </span>
     </div>`;
   }
 
