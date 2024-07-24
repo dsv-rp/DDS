@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTooltipStoryArgs
   extends Required<ElementProps<DaikinTooltip>> {
+  descriptionSlotText: string;
   onClick: (event: Event) => void;
 }
 
@@ -21,6 +22,9 @@ export const DAIKIN_TOOLTIP_ARG_TYPES = {
     type: "string",
   },
   closeOnClick: { type: "boolean" },
+  descriptionSlotText: {
+    type: "string",
+  },
 } as const satisfies Meta<DaikinTooltipStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTooltipStoryArgs>;

@@ -35,11 +35,9 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
         }}
       >
         <ReactDaikinTooltip {...props}>
-          <span slot="description">
-            Lorem ipsum dolor sit abet, consectetur advising edit. Maris
-            fuegian, risus quia ferment protector, tupis ligula Laurent libero,
-            id elemental cetus massa eu ipsum.
-          </span>
+          {props.descriptionSlotText ? (
+            <span slot="description">{props.descriptionSlotText}</span>
+          ) : null}
           <span>hover me</span>
         </ReactDaikinTooltip>
       </div>

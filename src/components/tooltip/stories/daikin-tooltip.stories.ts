@@ -18,6 +18,8 @@ export const Light: Story = {
     open: false,
     description: "test description",
     closeOnClick: false,
+    descriptionSlotText: `Lorem ipsum dolor sit abet, consectetur advising edit. Maris fuegian,
+    risus quia ferment protector, tupis ligula Laurent libero, id elemental cetus massa eu ipsum.`,
   },
 };
 
@@ -28,6 +30,8 @@ export const Dark: Story = {
     open: false,
     description: "test description",
     closeOnClick: true,
+    descriptionSlotText: `Lorem ipsum dolor sit abet, consectetur advising edit. Maris fuegian,
+    risus quia ferment protector, tupis ligula Laurent libero, id elemental cetus massa eu ipsum.`,
   },
   play: definePlay(async ({ canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
