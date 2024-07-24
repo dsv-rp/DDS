@@ -33,9 +33,6 @@ const cvaTooltip = cva(
     "font-normal",
     "not-italic",
     "leading-5",
-
-    "group-hover:visible",
-    "group-hover:opacity-100",
   ],
   {
     variants: {
@@ -102,9 +99,8 @@ export class DaikinTooltip extends LitElement {
   @query("#tooltip")
   private _tooltip!: HTMLElement | null;
 
-  get _triggerElement() {
-    return this.shadowRoot?.querySelector("slot")?.assignedElements()[0];
-  }
+  @query("#reference")
+  private _triggerElement!: HTMLElement | null;
 
   private _cleanUpAutoUpdate!: () => void;
 
@@ -135,6 +131,22 @@ export class DaikinTooltip extends LitElement {
     });
   }
 
+  _showTooltip() {
+    if (!this._tooltip) {
+      return;
+    }
+    this._tooltip.classList.add("visible", "opacity-100");
+    this._tooltip.classList.remove("invisible", "opacity-0");
+  }
+
+  _hideTooltip() {
+    if (!this._tooltip) {
+      return;
+    }
+    this._tooltip.classList.remove("visible", "opacity-100");
+    this._tooltip.classList.add("invisible", "opacity-0");
+  }
+
   _resetTooltipVisibility() {
     if (!this._tooltip) {
       return;
@@ -143,11 +155,13 @@ export class DaikinTooltip extends LitElement {
   }
 
   _handleMouseLeave() {
+    this._hideTooltip();
     this._cleanUpAutoUpdate();
     this._resetTooltipVisibility();
   }
 
   _handleMouseEnter() {
+    this._showTooltip();
     this._runAutoUpdate();
   }
 
@@ -156,14 +170,16 @@ export class DaikinTooltip extends LitElement {
       variant: this.variant,
       open: this.open,
     });
-    return html`<div
-      class="group relative inline-block"
-      @click=${this._handleClick}
-      @keydown=${this._handleClick}
-      @mouseleave=${this._handleMouseLeave}
-      @mouseenter=${this._handleMouseEnter}
-    >
-      <slot></slot>
+    return html`<div class="relative inline-block">
+      <div
+        id="reference"
+        @click=${this._handleClick}
+        @keydown=${this._handleClick}
+        @mouseleave=${this._handleMouseLeave}
+        @mouseenter=${this._handleMouseEnter}
+      >
+        <slot></slot>
+      </div>
       <span id="tooltip" class="${tooltipClassName}">
         <slot name="description">
           <span>${this.description}</span>
