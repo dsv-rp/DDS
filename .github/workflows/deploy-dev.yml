@@ -1,4 +1,7 @@
-name: Deploy Storybook
+# Build and deploy Storybook every time the main branch is updated.
+# This Storybook is a development environment, as the main branch may contain unreleased content.
+
+name: Deploy Storybook (dev)
 
 on:
   push:
@@ -11,7 +14,7 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  deploy-dev:
     environment:
       name: github-pages
       url: ${{ steps.build-deploy.outputs.page_url }}

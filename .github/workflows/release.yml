@@ -48,7 +48,9 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
-      - name: Deploy Storybook
+      # Build and Deploy Storybook
+      # This Storybook is a production environment, as it is built at the same time as the package is released.
+      - name: Deploy Storybook (prod)
         if: steps.changesets.outputs.published == 'true'
         run: |
           STORYBOOK_ENV=production npm run storybook:build-wc
