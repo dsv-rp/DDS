@@ -68,22 +68,22 @@ export class DaikinTooltip extends LitElement {
   `;
 
   /**
-   * Specify how the trigger should placement with the tooltip
+   * Specifies the position of the tooltip relative to the trigger.
    */
   @property({ reflect: true, type: String })
   placement: "top" | "bottom" | "left" | "right" = "bottom";
   /**
-   * Specify tooltip type
+   * Specifies tooltip type
    */
   @property({ reflect: true, type: String })
   variant: "light" | "dark" = "light";
   /**
-   * Specify whether the tooltip should be open when it first renders
+   * Specifies whether the tooltip should be open when it first renders
    */
   @property({ reflect: true, type: Boolean })
   open = false;
   /**
-   * Set the description and it will be showed in tooltips
+   * Specifies the content of the tooltip. Ignored if the description slot exists.
    */
   @property({ reflect: true, type: String })
   description = "";
