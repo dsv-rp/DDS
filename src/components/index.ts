@@ -5,3 +5,4 @@ export * from "./notification";
 export * from "./radio";
 export * from "./text-input";
 export * from "./textarea";
+export * from "./toggle";
