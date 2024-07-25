@@ -14,19 +14,19 @@ export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
       overflow=${args.overflow}
     >
       <daikin-breadcrumb-item href="#"
-        >DaikinBreadcrumbItem1</daikin-breadcrumb-item
+        >Breadcrumb Item 1</daikin-breadcrumb-item
       >
       <daikin-breadcrumb-item href="#"
-        >DaikinBreadcrumbItem2</daikin-breadcrumb-item
+        >Breadcrumb Item 2</daikin-breadcrumb-item
       >
       <daikin-breadcrumb-item href="#"
-        >DaikinBreadcrumbItem3</daikin-breadcrumb-item
+        >Breadcrumb Item 3</daikin-breadcrumb-item
       >
       <daikin-breadcrumb-item href="#"
-        >DaikinBreadcrumbItem4</daikin-breadcrumb-item
+        >Breadcrumb Item 4</daikin-breadcrumb-item
       >
       <daikin-breadcrumb-item href="#"
-        >DaikinBreadcrumbItem5</daikin-breadcrumb-item
+        >Breadcrumb Item 5</daikin-breadcrumb-item
       >
     </daikin-breadcrumb>
   `,

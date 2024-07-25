@@ -81,7 +81,7 @@ export class DaikinBreadcrumbItem extends LitElement {
    * Specify the link target
    */
   @property({ type: String, reflect: true })
-  target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
+  target?: string;
 
   /**
    * Specify the link should show slash at the end or not
@@ -105,17 +105,19 @@ export class DaikinBreadcrumbItem extends LitElement {
       : html``;
     const linkText =
       this.variant === "normal"
-        ? html`<slot></slot>`
-        : html`<span>. . .</span>`;
+        ? html` <slot></slot> `
+        : html` <span aria-label="…">. . .</span> `;
     return html`
-      <slot name="link"
-        ><a
+      <slot name="link">
+        <a
           href="${ifDefined(this.href)}"
           class="${linkClassName}"
-          target="${this.target}"
-          >${linkText}</a
-        >${slash}</slot
-      >
+          target="${ifDefined(this.target)}"
+        >
+          ${linkText}
+        </a>
+        ${slash}
+      </slot>
     `;
   }
 }

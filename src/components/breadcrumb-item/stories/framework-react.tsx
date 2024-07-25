@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
       <ReactDaikinBreadcrumbItem {...props}>
-        DaikinBreadcrumbItem1
+        Breadcrumb Item 1
       </ReactDaikinBreadcrumbItem>
     </div>
   ),

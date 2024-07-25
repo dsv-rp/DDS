@@ -33,12 +33,11 @@ describeEach(["noTrailingSlash", "trailingSlash"], (trailingSlash) => {
 
     test("smallScreen", async ({ page }) => {
       await page.setViewportSize({
-        width: 640,
+        width: 480,
         height: 480,
       });
 
       await page.goto(baseURL);
-      console.log(baseURL);
 
       // wait for element to be visible
       const element = await page.waitForSelector("daikin-breadcrumb", {

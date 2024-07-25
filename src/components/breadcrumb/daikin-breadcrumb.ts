@@ -1,7 +1,13 @@
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 
+import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
 @customElement("daikin-breadcrumb")
 export class DaikinBreadcrumb extends LitElement {
@@ -19,27 +25,11 @@ export class DaikinBreadcrumb extends LitElement {
   });
 
   // get daikin-breadcrumb-item from shadow root
-  get _slottedDaikinBreadCrumbItems() {
-    const daikinBreadCrumbItems = this.shadowRoot
-      ?.querySelector("slot")
-      ?.assignedElements({ flatten: true });
-    return daikinBreadCrumbItems;
-  }
-
-  // get the last daikin-breadcrumb-item from shadow root
-  get _slottedLastDaikinBreadCrumbItem() {
-    const daikinBreadCrumbItems = this.shadowRoot
-      ?.querySelector("slot")
-      ?.assignedElements({ flatten: true });
-    if (!daikinBreadCrumbItems) {
-      return null;
-    }
-    return daikinBreadCrumbItems[daikinBreadCrumbItems.length - 1];
-  }
+  @queryAssignedElements()
+  private _slottedDaikinBreadCrumbItems!: Array<DaikinBreadcrumbItem>;
 
   // get div element from daikin-breadcrumb
-  @query("div")
-  private _divWrap: HTMLElement | null | undefined;
+  private _divWrapRef: Ref<HTMLDivElement> = createRef();
 
   /**
    * Specify whether the last of breadcrumb-item should show slash
@@ -54,82 +44,58 @@ export class DaikinBreadcrumb extends LitElement {
   @property({ type: String, reflect: true })
   overflow: "visible" | "ellipsis" = "visible";
 
-  private divOriginalWidth: number = 0;
+  private _expandedContentWidth: number = 0;
 
-  private omissionMode: boolean = false;
+  private omitted: boolean = false;
 
   get _isEllipsis() {
     return this.overflow === "ellipsis";
   }
 
-  _omit() {
+  private _omit() {
     // remove items and add omission if daikin-breadcrumb is to long
-    const divWidth = this._divWrap?.offsetWidth;
-    const breadcrumbWidth = this.offsetWidth;
+    const shouldOmit =
+      this._isEllipsis && this.offsetWidth < this._expandedContentWidth;
+    if (this.omitted === shouldOmit) {
+      return;
+    }
+    this.omitted = shouldOmit;
+
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
-    if (
-      divWidth &&
-      divWidth >= breadcrumbWidth &&
-      this._isEllipsis &&
-      !this.omissionMode
-    ) {
-      daikinBreadCrumbItems?.forEach(
-        (value: Element, index: number, array: Element[]) => {
-          if (index === 0) {
-            return;
-          } else if (index === 1) {
-            value.setAttribute("variant", "ellipsis");
-            return;
-          } else if (index >= array.length - 2) {
-            return;
-          }
-          value.setAttribute("hidden", "");
+    for (const [index, item] of daikinBreadCrumbItems.entries()) {
+      let mode = "normal";
+      if (shouldOmit) {
+        if (index === 0 || index >= daikinBreadCrumbItems.length - 2) {
+          continue;
+        } else if (index === 1) {
+          mode = "ellipsis";
+        } else {
+          mode = "hidden";
         }
-      );
-      this.omissionMode = true;
-    } else if (
-      (breadcrumbWidth > this.divOriginalWidth || !this._isEllipsis) &&
-      this.omissionMode
-    ) {
-      daikinBreadCrumbItems?.forEach((value: Element) => {
-        value.setAttribute("variant", "normal");
-        value.removeAttribute("hidden");
-      });
-      this.omissionMode = false;
+      }
+      item.hidden = mode === "hidden";
+      item.variant = mode === "ellipsis" ? "ellipsis" : "normal";
     }
   }
 
-  _handleLastItem() {
-    // set last item to disabled
-    const lastDaikinBreadCrumbItem = this._slottedLastDaikinBreadCrumbItem;
-    if (!lastDaikinBreadCrumbItem) {
-      return;
-    }
-    lastDaikinBreadCrumbItem.setAttribute("disabled", "");
-    // remove last item slash if trailingSlash is false
-    if (!this.trailingSlash) {
-      lastDaikinBreadCrumbItem.removeAttribute("trailing-slash");
-    } else {
-      lastDaikinBreadCrumbItem.setAttribute("trailing-slash", "");
-    }
-  }
-
-  _addSlash() {
+  private _updateBreadcrumbs() {
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
-    if (!daikinBreadCrumbItems) {
-      return;
+    for (const [index, item] of daikinBreadCrumbItems.entries()) {
+      if (index === daikinBreadCrumbItems.length - 1) {
+        // last item
+        item.trailingSlash = this.trailingSlash;
+        item.disabled = true;
+        continue;
+      }
+      item.trailingSlash = true;
     }
-    daikinBreadCrumbItems.forEach((item: Element) => {
-      item.setAttribute("trailing-slash", "");
-    });
   }
 
-  _handleChange() {
-    this._addSlash();
-    this._handleLastItem();
+  private _handleChange() {
+    this._updateBreadcrumbs();
   }
 
-  _handleResizeObserver() {
+  private _handleResizeObserver() {
     if (this._isEllipsis) {
       this.resizeObserver.observe(this);
     } else {
@@ -139,7 +105,7 @@ export class DaikinBreadcrumb extends LitElement {
 
   override render() {
     return html`
-      <div class="flex gap-2">
+      <div class="flex gap-2" ${ref(this._divWrapRef)}>
         <slot @slotchange=${this._handleChange}></slot>
       </div>
     `;
@@ -147,7 +113,7 @@ export class DaikinBreadcrumb extends LitElement {
 
   override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("trailingSlash")) {
-      this._handleLastItem();
+      this._updateBreadcrumbs();
     }
     if (changedProperties.has("overflow")) {
       this._omit();
@@ -156,16 +122,16 @@ export class DaikinBreadcrumb extends LitElement {
   }
 
   override async firstUpdated(): Promise<void> {
-    this._handleLastItem();
+    this._updateBreadcrumbs();
     this._omit();
     this._handleResizeObserver();
 
     await this.updateComplete.then(() => {
-      const divElement = this._divWrap;
+      const divElement = this._divWrapRef.value;
       if (!divElement) {
         return;
       }
-      this.divOriginalWidth = divElement.offsetWidth;
+      this._expandedContentWidth = divElement.offsetWidth;
     });
   }
 }
