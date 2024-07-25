@@ -56,7 +56,9 @@ const cvaToggle = cva(
 type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
 
 /**
- * Primary UI component for user interaction
+ * A toggle switch component.
+ *
+ * @fires change - Emitted when the toggle switch is toggled.
  */
 @customElement("daikin-toggle")
 export class DaikinToggle extends LitElement {
