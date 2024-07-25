@@ -13,7 +13,6 @@ export class DaikinAccordion extends LitElement {
     :host {
       display: block;
       width: 100%;
-      max-width: 400px;
     }
 
     ::slotted(daikin-accordion-item:not(:last-child)) {

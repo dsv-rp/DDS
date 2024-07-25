@@ -84,7 +84,6 @@ export class DaikinAccordionItem extends LitElement {
     :host {
       display: block;
       width: 100%;
-      max-width: 400px;
     }
   `;
 
