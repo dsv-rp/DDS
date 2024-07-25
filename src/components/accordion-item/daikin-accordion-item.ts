@@ -186,12 +186,12 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   protected override updated(): void {
-    const toggle = () => (this._detailsOpen = this.open);
+    const sync = () => (this._detailsOpen = this.open);
 
     if (this.open) {
-      toggle();
+      sync();
     } else {
-      setTimeout(() => toggle(), 250);
+      setTimeout(() => sync(), 250);
     }
   }
 }
