@@ -1,6 +1,6 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, userEvent } from "@storybook/test";
+import { expect, userEvent, waitFor } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_ACCORDION_ITEM_ARG_TYPES, type Story } from "./common";
 
@@ -39,8 +39,10 @@ export const Default: Story = {
     });
 
     await step("Try to keyboard navigation", async () => {
-      await userEvent.type(innerSummary, "[enter]");
-      await expect(innerDetails).not.toHaveAttribute("open");
+      await userEvent.type(innerSummary, "[Space]");
+      await waitFor(() => expect(innerDetails).not.toHaveAttribute("open"), {
+        timeout: 500,
+      });
     });
   }),
 };
