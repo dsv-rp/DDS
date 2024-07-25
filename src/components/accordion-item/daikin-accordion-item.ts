@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -189,8 +189,10 @@ export class DaikinAccordionItem extends LitElement {
     this._detailsOpen = this.open;
   }
 
-  protected override updated(): void {
-    this._contentAnimate();
+  protected override updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("open")) {
+      this._contentAnimate();
+    }
   }
 }
 
