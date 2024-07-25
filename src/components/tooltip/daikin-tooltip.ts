@@ -54,7 +54,7 @@ const cvaTooltip = cva(
  * A tooltip component.
  *
  * @slot - A slot for the element to which the tooltip is attached (the trigger element).
- * @slot description - A slot for the tooltip content.
+ * @slot tooltip - A slot for the tooltip content.
  */
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
@@ -82,7 +82,7 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   open = false;
   /**
-   * Specifies the content of the tooltip. Ignored if the description slot exists.
+   * Specifies the content of the tooltip. Ignored if the tooltip slot exists.
    */
   @property({ reflect: true, type: String })
   description = "";
@@ -120,7 +120,7 @@ export class DaikinTooltip extends LitElement {
     });
   }
 
-  private uninstallAutoUpdate() {
+  private _uninstallAutoUpdate() {
     this.open = false;
     this._cleanUpAutoUpdate?.();
     this._cleanUpAutoUpdate = null;
@@ -133,12 +133,11 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _handleMouseLeave() {
-    this.uninstallAutoUpdate();
+    this.open = false;
   }
 
   private _handleMouseEnter() {
     this.open = true;
-    this._startAutoUpdate();
   }
 
   override render() {
@@ -171,12 +170,13 @@ export class DaikinTooltip extends LitElement {
         this._startAutoUpdate();
       } else {
         this._cleanUpAutoUpdate?.();
+        this._cleanUpAutoUpdate = null;
       }
     }
   }
 
   override disconnectedCallback() {
-    this.uninstallAutoUpdate();
+    this._uninstallAutoUpdate();
   }
 }
 
