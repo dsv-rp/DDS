@@ -51,7 +51,12 @@ const cvaTooltip = cva(
 );
 
 /**
- * Primary UI component for user interaction
+ * A tooltip component.
+ *
+ * @fires click - Emitted when the trigger element be clicked.
+ * @fires keydown - Emitted when the key press down on trigger element.
+ * @fires mouseleave - Emitted when the mouse cursor move leave from trigger element
+ * @fires mouseenter - Emitted when the mouse cursor move enter trigger element
  */
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
