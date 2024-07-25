@@ -14,6 +14,7 @@ const command = {
 
 export default defineConfig({
   testMatch: "*.visual.test.ts",
+  fullyParallel: true,
   webServer: {
     command,
     url: "http://127.0.0.1:6099",
@@ -39,8 +40,13 @@ export default defineConfig({
     "{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{ext}",
   expect: {
     toHaveScreenshot: {
-      // Pixel-perfect
+      // Almost pixel-perfect
+      // The `threshold` is not 0, because the output is different between GitHub Actions and local, even though we are using a container.
       maxDiffPixels: 0,
+      threshold: 0.05,
+      // Disable animations
+      animations: "disabled",
+      caret: "hide",
     },
   },
 });
