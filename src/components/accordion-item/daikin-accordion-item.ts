@@ -118,18 +118,21 @@ export class DaikinAccordionItem extends LitElement {
   @state()
   private _detailsOpen = false;
 
-  private _handleSummaryClick(e: PointerEvent) {
+  private _contentAnimate() {
     const content = this._contentRef.value;
-
-    e.preventDefault();
-
-    if (this.disabled || !content) {
+    if (this.disabled || !content || this.open === this._detailsOpen) {
       return;
     }
 
     if (this.open) {
+      // Accordion is closed; open it.
+      this._detailsOpen = this.open;
+      content.animate(
+        [contentCloseKeyframe, getContentOpenKeyframe(content)],
+        animationOption
+      );
+    } else {
       // Accordion is opened; close it.
-      this.open = false;
       const animation = content.animate(
         [getContentOpenKeyframe(content), contentCloseKeyframe],
         animationOption
@@ -139,15 +142,12 @@ export class DaikinAccordionItem extends LitElement {
         // After the animation is finished, remove the open attribute from the details element. This is to allow the element to transition.
         this._detailsOpen = this.open;
       };
-    } else {
-      // Accordion is closed; open it.
-      this.open = true;
-      this._detailsOpen = this.open;
-      content.animate(
-        [contentCloseKeyframe, getContentOpenKeyframe(content)],
-        animationOption
-      );
     }
+  }
+
+  private _handleSummaryClick(e: PointerEvent) {
+    e.preventDefault();
+    this.open = !this.open;
   }
 
   override render() {
@@ -186,13 +186,7 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   protected override updated(): void {
-    const sync = () => (this._detailsOpen = this.open);
-
-    if (this.open) {
-      sync();
-    } else {
-      setTimeout(() => sync(), 250);
-    }
+    this._contentAnimate();
   }
 }
 
