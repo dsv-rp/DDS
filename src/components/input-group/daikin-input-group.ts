@@ -8,6 +8,9 @@ import {
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
+import type { DaikinTextarea } from "../textarea/daikin-textarea";
+
+type ControlElement = DaikinTextInput | DaikinTextarea;
 
 const cvaLabel = cva(["text-base", "font-bold"], {
   variants: {
@@ -77,8 +80,17 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: String, reflect: true })
   error = "";
 
-  @queryAssignedElements({ selector: "daikin-text-input" })
-  _textInputs!: DaikinTextInput[];
+  /**
+   * Whether to display the counter in the Textarea
+   */
+  @property({ type: Boolean, reflect: true })
+  textareaCounter = false;
+
+  @queryAssignedElements({ selector: "daikin-textarea" })
+  _textareas!: DaikinTextarea[];
+
+  @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
+  _controls!: ControlElement[];
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -86,9 +98,13 @@ export class DaikinInputGroup extends LitElement {
 
   private _reflectSlotProperties(): void {
     const isError = !this.disabled && !!this.error;
-    for (const input of this._textInputs) {
-      input.disabled = !!this.disabled;
-      input.error = isError;
+    for (const control of this._controls) {
+      control.disabled = !!this.disabled;
+      control.error = isError;
+    }
+
+    for (const item of this._textareas) {
+      item.counter = this.textareaCounter;
     }
   }
 

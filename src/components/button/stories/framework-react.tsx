@@ -9,7 +9,7 @@ const ReactDaikinButton = createComponent({
   tagName: "daikin-button",
   elementClass: DaikinButton,
   events: {
-    click: "onClick",
+    onClick: "click",
   },
 });
 

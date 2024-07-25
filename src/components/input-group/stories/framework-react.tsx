@@ -3,6 +3,7 @@ import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import { ReactDaikinTextInput } from "../../text-input/stories/framework-react";
+import { ReactDaikinTextarea } from "../../textarea/stories/framework-react";
 import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const ReactDaikinInputGroup = createComponent({
@@ -12,9 +13,12 @@ export const ReactDaikinInputGroup = createComponent({
 });
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
-  component: ({ ...props }: DaikinInputGroupStoryArgs) => (
+  component: ({ content, ...props }: DaikinInputGroupStoryArgs) => (
     <ReactDaikinInputGroup {...props}>
-      <ReactDaikinTextInput value="Value" />
+      {content === "TextInput" && <ReactDaikinTextInput value="Value" />}
+      {content === "Textarea" && (
+        <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
+      )}
     </ReactDaikinInputGroup>
   ),
 };

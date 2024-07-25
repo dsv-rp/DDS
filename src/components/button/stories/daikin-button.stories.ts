@@ -1,5 +1,5 @@
-// This will import either "./framework-wc" or "./framework-react". See `vite.config.storybook.ts`.
 import { definePlay } from "#storybook";
+// This will import either "./framework-wc" or "./framework-react". See `build/vite/storybook-framework-loader.ts`.
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
