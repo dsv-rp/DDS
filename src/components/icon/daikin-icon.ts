@@ -40,7 +40,17 @@ const cvaIcon = cva(["block"], {
 export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
 
 /**
- * Primary UI component for user interaction
+ * Icon component is component that can use icons provided by DDS.
+ *
+ * If you try to call an icon that has not been registered, a warning will be displayed in the development environment console.
+ *
+ * If you want to change the color of the icon to a custom value, specify `current` in the `color` property and then add the text color. For example, this method is useful if you want to use Daikin Blue.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-icon icon="information" color="black" size="m"></daikin-icon>
+ * ```
  */
 @customElement("daikin-icon")
 export class DaikinIcon extends LitElement {

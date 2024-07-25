@@ -12,7 +12,7 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_ICON_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-icon--default", args);
 
-describeEach(["black", "white", "default"] as const, (color) => {
+describeEach(["black", "white", "default", "current"] as const, (color) => {
   describeEach(["s", "m", "l", "xl"] as const, (size) => {
     const baseURL = getPageURL({
       icon: "close",
