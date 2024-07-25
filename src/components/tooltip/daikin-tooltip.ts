@@ -156,7 +156,7 @@ export class DaikinTooltip extends LitElement {
       >
         <slot></slot>
       </div>
-      <span ${ref(this._tooltipRef)} part="tooltip" class="${tooltipClassName}">
+      <span ${ref(this._tooltipRef)} part="tooltip" class=${tooltipClassName}>
         <slot name="tooltip">
           <span class="whitespace-pre-line">${this.description}</span>
         </slot>
