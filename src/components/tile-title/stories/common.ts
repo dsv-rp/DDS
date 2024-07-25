@@ -1,0 +1,21 @@
+import type { DaikinTileTitle } from "#package/components/tile-title/daikin-tile-title";
+import type { ElementProps } from "#storybook";
+import type { Meta, StoryObj } from "@storybook/web-components";
+
+export type DaikinTileTitleStoryArgs = Required<ElementProps<DaikinTileTitle>>;
+
+export const DAIKIN_TILE_TITLE_ARG_TYPES = {
+  href: { type: "string" },
+  variant: {
+    control: { type: "select" },
+    options: ["normal", "ellipsis"],
+  },
+  disabled: { type: "boolean" },
+  target: {
+    control: { type: "select" },
+    options: ["_blank", "_self", "_parent", "_top", "framename"],
+  },
+  trailingSlash: { type: "boolean" },
+} as const satisfies Meta<DaikinTileTitleStoryArgs>["argTypes"];
+
+export type Story = StoryObj<DaikinTileTitleStoryArgs>;
