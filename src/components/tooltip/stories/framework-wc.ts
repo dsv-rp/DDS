@@ -13,7 +13,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     descriptionSlotText,
   }) => {
     const descriptionSlot = descriptionSlotText
-      ? html`<span slot="description"> ${descriptionSlotText} </span>`
+      ? html`<span slot="tooltip"> ${descriptionSlotText} </span>`
       : html``;
     return html`
       <div

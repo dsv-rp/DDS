@@ -36,7 +36,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
       >
         <ReactDaikinTooltip {...props}>
           {props.descriptionSlotText ? (
-            <span slot="description">{props.descriptionSlotText}</span>
+            <span slot="tooltip">{props.descriptionSlotText}</span>
           ) : null}
           <span>hover me</span>
         </ReactDaikinTooltip>

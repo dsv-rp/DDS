@@ -6,7 +6,7 @@ import {
   shift,
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -53,10 +53,8 @@ const cvaTooltip = cva(
 /**
  * A tooltip component.
  *
- * @fires click - Emitted when the trigger element be clicked.
- * @fires keydown - Emitted when the key press down on trigger element.
- * @fires mouseleave - Emitted when the mouse cursor move leave from trigger element
- * @fires mouseenter - Emitted when the mouse cursor move enter trigger element
+ * @slot - A slot for the element to which the tooltip is attached (the trigger element).
+ * @slot description - A slot for the tooltip content.
  */
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
@@ -100,13 +98,7 @@ export class DaikinTooltip extends LitElement {
 
   private _cleanUpAutoUpdate: (() => void) | null = null;
 
-  _handleClick() {
-    if (this.closeOnClick) {
-      this.open = false;
-    }
-  }
-
-  _runAutoUpdate() {
+  private _startAutoUpdate() {
     const reference = this._triggerRef.value;
     const float = this._tooltipRef.value;
     if (!reference || !float) {
@@ -128,31 +120,25 @@ export class DaikinTooltip extends LitElement {
     });
   }
 
-  _showTooltip() {
-    this.open = true;
-  }
-
-  _hideTooltip() {
+  private uninstallAutoUpdate() {
     this.open = false;
-  }
-
-  _resetTooltipVisibility() {
-    if (!this._tooltipRef.value) {
-      return;
-    }
-    this._tooltipRef.value.style.visibility = "";
-  }
-
-  _handleMouseLeave() {
-    this._hideTooltip();
     this._cleanUpAutoUpdate?.();
     this._cleanUpAutoUpdate = null;
-    this._resetTooltipVisibility();
   }
 
-  _handleMouseEnter() {
-    this._showTooltip();
-    this._runAutoUpdate();
+  private _handleClick() {
+    if (this.closeOnClick) {
+      this.open = false;
+    }
+  }
+
+  private _handleMouseLeave() {
+    this.uninstallAutoUpdate();
+  }
+
+  private _handleMouseEnter() {
+    this.open = true;
+    this._startAutoUpdate();
   }
 
   override render() {
@@ -163,6 +149,7 @@ export class DaikinTooltip extends LitElement {
     return html`<div class="relative inline-block">
       <div
         ${ref(this._triggerRef)}
+        part="trigger"
         @click=${this._handleClick}
         @keydown=${this._handleClick}
         @mouseleave=${this._handleMouseLeave}
@@ -170,12 +157,26 @@ export class DaikinTooltip extends LitElement {
       >
         <slot></slot>
       </div>
-      <span ${ref(this._tooltipRef)} class="${tooltipClassName}">
-        <slot name="description">
-          <span>${this.description}</span>
+      <span ${ref(this._tooltipRef)} part="tooltip" class="${tooltipClassName}">
+        <slot name="tooltip">
+          <span class="whitespace-pre-line">${this.description}</span>
         </slot>
       </span>
     </div>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("open")) {
+      if (this.open) {
+        this._startAutoUpdate();
+      } else {
+        this._cleanUpAutoUpdate?.();
+      }
+    }
+  }
+
+  override disconnectedCallback() {
+    this.uninstallAutoUpdate();
   }
 }
 
