@@ -5,6 +5,7 @@ fontsource
 lightningcss
 picocolors
 roboto
+runem
 tailwindcss
 taze
 tseslint
