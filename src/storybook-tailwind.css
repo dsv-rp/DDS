@@ -1,0 +1,10 @@
+/*! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+This file is same as `tailwind.css`. Though we can use `tailwind.css` instead, we dare to leave it to distinguish it from the one for the library.
+The process of distinguishing between libraries and Storybook is actually done in `tailwind.config.cjs`.
+*/
