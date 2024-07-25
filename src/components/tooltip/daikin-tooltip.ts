@@ -7,12 +7,8 @@ import {
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  query,
-  queryAssignedNodes,
-} from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
+import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTooltip = cva(
@@ -93,29 +89,25 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;
 
-  @queryAssignedNodes({ slot: "list", flatten: true })
-  slotItems?: Array<Node>;
+  private _tooltipRef: Ref<HTMLElement> = createRef();
 
-  @query("#tooltip")
-  private _tooltip!: HTMLElement | null;
+  private _triggerRef: Ref<HTMLElement> = createRef();
 
-  @query("#reference")
-  private _triggerElement!: HTMLElement | null;
-
-  private _cleanUpAutoUpdate!: () => void;
+  private _cleanUpAutoUpdate: (() => void) | null = null;
 
   _handleClick() {
-    if (this.closeOnClick && this._tooltip) {
-      this._tooltip.style.visibility = "hidden";
+    if (this.closeOnClick) {
+      this.open = false;
     }
   }
 
   _runAutoUpdate() {
-    const reference = this._triggerElement;
-    const float = this._tooltip;
+    const reference = this._triggerRef.value;
+    const float = this._tooltipRef.value;
     if (!reference || !float) {
       return;
     }
+    this._cleanUpAutoUpdate?.();
     this._cleanUpAutoUpdate = autoUpdate(reference, float, () => {
       computePosition(reference, float, {
         placement: this.placement,
@@ -132,31 +124,24 @@ export class DaikinTooltip extends LitElement {
   }
 
   _showTooltip() {
-    if (!this._tooltip) {
-      return;
-    }
-    this._tooltip.classList.add("visible", "opacity-100");
-    this._tooltip.classList.remove("invisible", "opacity-0");
+    this.open = true;
   }
 
   _hideTooltip() {
-    if (!this._tooltip) {
-      return;
-    }
-    this._tooltip.classList.remove("visible", "opacity-100");
-    this._tooltip.classList.add("invisible", "opacity-0");
+    this.open = false;
   }
 
   _resetTooltipVisibility() {
-    if (!this._tooltip) {
+    if (!this._tooltipRef.value) {
       return;
     }
-    this._tooltip.style.visibility = "";
+    this._tooltipRef.value.style.visibility = "";
   }
 
   _handleMouseLeave() {
     this._hideTooltip();
-    this._cleanUpAutoUpdate();
+    this._cleanUpAutoUpdate?.();
+    this._cleanUpAutoUpdate = null;
     this._resetTooltipVisibility();
   }
 
@@ -172,7 +157,7 @@ export class DaikinTooltip extends LitElement {
     });
     return html`<div class="relative inline-block">
       <div
-        id="reference"
+        ${ref(this._triggerRef)}
         @click=${this._handleClick}
         @keydown=${this._handleClick}
         @mouseleave=${this._handleMouseLeave}
@@ -180,7 +165,7 @@ export class DaikinTooltip extends LitElement {
       >
         <slot></slot>
       </div>
-      <span id="tooltip" class="${tooltipClassName}">
+      <span ${ref(this._tooltipRef)} class="${tooltipClassName}">
         <slot name="description">
           <span>${this.description}</span>
         </slot>
