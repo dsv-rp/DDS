@@ -120,7 +120,7 @@ export class DaikinAccordionItem extends LitElement {
 
   private _contentAnimate() {
     const content = this._contentRef.value;
-    if (this.disabled || !content || this.open === this._detailsOpen) {
+    if (!content || this.open === this._detailsOpen) {
       return;
     }
 
@@ -147,6 +147,10 @@ export class DaikinAccordionItem extends LitElement {
 
   private _handleSummaryClick(e: PointerEvent) {
     e.preventDefault();
+    if (this.disabled) {
+      return;
+    }
+
     this.open = !this.open;
   }
 
