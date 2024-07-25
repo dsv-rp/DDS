@@ -1,3 +1,4 @@
+const { env } = require("node:process");
 const plugin = require("tailwindcss/plugin");
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
@@ -15,10 +16,15 @@ module.exports = defineConfig({
   content: [
     "./src/**/*.ts",
     "./src/**/*.json",
-    "!./src/**/*.stories.*",
-    "!./src/**/*.test.*",
-    "!**/stories/**",
+    // Exclude storybook codes (if not storybook environment)
+    ...(env.VITE_IS_STORYBOOK
+      ? []
+      : ["!./src/**/*.stories.*", "!**/stories/**"]),
+    // Exclude storybook utilities
     "!**/storybook/**",
+    // Exclude test codes
+    "!./src/**/*.test.*",
+    // Exclude test utilities
     "!**/tests/**",
   ],
   theme: {
@@ -41,11 +47,13 @@ module.exports = defineConfig({
         height: "100%",
       },
     }),
-    plugin(({ addVariant }) => {
+    plugin(({ addVariant, matchVariant }) => {
       addVariant("aria-controllable", [
         // We don't know why, but `:read-only` was applied to checkboxes with and without `readonly` attribute, so we use `aria-readonly` instead.
         '&:enabled:not([aria-readonly="true"])',
       ]);
+
+      matchVariant("part", (value) => `&::part(${value})`);
     }),
   ],
 });

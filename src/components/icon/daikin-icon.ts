@@ -31,7 +31,7 @@ const cvaIcon = cva(["block"], {
     color: {
       black: ["text-black"],
       white: ["text-white"],
-      colored: ["text-[--default-color]"],
+      default: ["text-[--default-color]"],
       current: [], // uses `currentColor`
     },
   },
@@ -40,7 +40,17 @@ const cvaIcon = cva(["block"], {
 export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
 
 /**
- * Primary UI component for user interaction
+ * Icon component is component that can use icons provided by DDS.
+ *
+ * If you try to call an icon that has not been registered, a warning will be displayed in the development environment console.
+ *
+ * If you want to change the color of the icon to a custom value, specify `current` in the `color` property and then add the text color. For example, this method is useful if you want to use Daikin Blue.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-icon icon="information" color="black" size="m"></daikin-icon>
+ * ```
  */
 @customElement("daikin-icon")
 export class DaikinIcon extends LitElement {
@@ -68,7 +78,7 @@ export class DaikinIcon extends LitElement {
    * Specify icon color
    */
   @property({ type: String, reflect: true })
-  color: IconVariantProps["color"] = "colored";
+  color: IconVariantProps["color"] = "default";
 
   /**
    * Specify the height and width of the icon
@@ -77,7 +87,19 @@ export class DaikinIcon extends LitElement {
   size: IconVariantProps["size"] = "m";
 
   override render() {
-    const defaultColor = this.icon ? icons[this.icon].color : null;
+    const defaultColor = (
+      icons as Record<string, (typeof icons)[keyof typeof icons] | undefined>
+    )[this.icon ?? ""]?.color;
+
+    if (import.meta.env.DEV) {
+      if (!this.icon) {
+        console.warn("icon property is not specified");
+      } else if (!(this.icon in icons)) {
+        console.warn(`There is no icon named "${this.icon}".`);
+      } else if (this.color === "default" && !defaultColor) {
+        console.warn(`The icon "${this.icon}" does not have a default color.`);
+      }
+    }
 
     return html`<span
       class=${cvaIcon({

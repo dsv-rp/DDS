@@ -14,8 +14,13 @@ Coolgrey
 Darkgrey
 Mediumgrey
 
-# ARIA Role
+# ARIA Roles
+tablist
+tabpanel
 textbox
+
+# Custom Events
+beforechange
 
 # HTML
 maxlength
@@ -32,6 +37,9 @@ docgen
 
 # Testing
 testid
+
+# JSDoc extension
+csspart
 
 # Misc.
 FOUC

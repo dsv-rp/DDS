@@ -15,9 +15,9 @@ import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
 const BUTTON_ICON_SIZE_MAP = {
-  default: "m" as const,
-  condensed: "s" as const,
-};
+  default: "m",
+  condensed: "s",
+} as const;
 
 const cvaButton = cva(
   [

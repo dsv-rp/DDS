@@ -10,8 +10,15 @@ export default {
 
 export const Default: Story = {
   args: {
-    icon: "positive",
+    icon: "information",
     color: "black",
     size: "m",
+  },
+};
+
+export const CurrentColor: Story = {
+  args: {
+    ...Default.args,
+    color: "current",
   },
 };
