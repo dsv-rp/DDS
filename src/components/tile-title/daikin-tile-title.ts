@@ -2,45 +2,36 @@ import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 import { cva } from "class-variance-authority";
-import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
-const cvaLink = cva(
+const cvaContainer = cva(["flex", "items-center", "w-full"], {
+  variants: {
+    withUnderLine: {
+      true: ["border-b", "border-[#E6F1F5]"],
+      false: [],
+    },
+  },
+});
+
+const cvaLabel = cva(
   [
-    "h-8",
-    "font-normal",
-    "not-italic",
-    "leading-8",
-    "text-sm",
-    "text-daikinBlue-500",
-    "outline-none",
+    "py-4",
+    "text-[#1C2325]",
     "font-daikinSerif",
+    "text-[19px]",
+    "not-italic",
+    "font-bold",
+    "leading-[26px]",
   ],
   {
     variants: {
-      variant: {
-        normal: [
-          "hover:text-daikinBlue-300",
-          "active:text-daikinNeutral-800",
-          "focus-visible:text-daikinBlue-700",
-        ],
-        ellipsis: ["hover:text-daikinBlue-300"],
-      },
-      disabled: {
-        true: [
-          "text-daikinNeutral-800",
-          "pointer-events-none",
-          "cursor-default",
-          "focus-visible:text-daikinNeutral-800",
-        ],
+      withIcon: {
+        true: ["border-b", "border-[#E6F1F5]"],
         false: [],
       },
     },
   }
 );
-
-type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
 
 @customElement("daikin-tile-title")
 export class DaikinTileTitle extends LitElement {
@@ -48,28 +39,16 @@ export class DaikinTileTitle extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-flex;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    :host([hidden]) {
-      display: none;
     }
   `;
 
   /**
    * Specify link href
    */
-  @property({ type: String, reflect: true })
-  href? = "";
-
-  /**
-   * Specify link variant
-   */
-  @property({ type: String, reflect: true })
-  variant: LinkVariantProps["variant"] = "normal";
+  @property({ type: Boolean, reflect: true })
+  withUnderLine = false;
 
   /**
    * Specify whether the link should be disabled
@@ -92,31 +71,20 @@ export class DaikinTileTitle extends LitElement {
   /**
    * Specify the link should be hidden when ellipsis mode
    */
-  @property({ type: Boolean, reflect: true })
-  override hidden = false;
+  private withIcon = false;
 
   override render() {
-    const linkClassName = cvaLink({
-      variant: this.variant,
-      disabled: this.disabled,
+    const containerClassName = cvaContainer({
+      withUnderLine: this.withUnderLine,
     });
-    const slash = this.trailingSlash
-      ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
-      : html``;
-    const linkText =
-      this.variant === "normal"
-        ? html`<slot></slot>`
-        : html`<span>. . .</span>`;
-    return html`
-      <slot name="link"
-        ><a
-          href="${ifDefined(this.href)}"
-          class="${linkClassName}"
-          target="${this.target}"
-          >${linkText}</a
-        >${slash}</slot
-      >
-    `;
+
+    const labelClassName = cvaLabel({
+      withIcon: this.withIcon,
+    });
+
+    return html` <div class="${containerClassName}">
+      <span class="${labelClassName}">Card Header</span>
+    </div>`;
   }
 }
 

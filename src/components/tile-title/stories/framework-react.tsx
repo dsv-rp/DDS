@@ -13,8 +13,6 @@ const ReactDaikinTileTitle = createComponent({
 
 export const metadata: Meta<DaikinTileTitleStoryArgs> = {
   component: ({ ...props }: DaikinTileTitleStoryArgs) => (
-    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-      <ReactDaikinTileTitle {...props}>DaikinTileTitle1</ReactDaikinTileTitle>
-    </div>
+    <ReactDaikinTileTitle {...props}>DaikinTileTitle1</ReactDaikinTileTitle>
   ),
 };
