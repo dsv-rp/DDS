@@ -9,6 +9,7 @@ import { customElement, property } from "lit/decorators.js";
 import { EVENT_CLOSE } from "../../constants/events";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import "../icon/daikin-icon";
 
 const cvaContainer = cva(
   ["flex", "box-border", "bg-white", "overflow-hidden", "font-daikinSerif"],
@@ -56,32 +57,6 @@ const cvaIconContainer = cva(
   }
 );
 
-const cvaIcon = cva(
-  [
-    "flex",
-    "justify-center",
-    "items-center",
-    "w-[24px]",
-    "h-[24px]",
-    "flex-none",
-    "text-white",
-  ],
-  {
-    variants: {
-      status: {
-        positive: ["i-daikin-notification-status-positive"],
-        negative: ["i-daikin-notification-status-negative"],
-        warning: ["i-daikin-notification-status-warning"],
-        alarm: ["i-daikin-notification-status-alarm"],
-        information: ["i-daikin-notification-status-information"],
-      },
-    },
-    defaultVariants: {
-      status: "positive",
-    },
-  }
-);
-
 const cvaContent = cva(
   ["flex", "justify-center", "gap-1", "w-fit", "flex-none"],
   {
@@ -98,10 +73,7 @@ const cvaContent = cva(
 );
 
 type NotificationVariantProps = MergeVariantProps<
-  | typeof cvaContainer
-  | typeof cvaIconContainer
-  | typeof cvaIcon
-  | typeof cvaContent
+  typeof cvaContainer | typeof cvaIconContainer | typeof cvaContent
 >;
 
 /**
@@ -195,11 +167,11 @@ export class DaikinNotification extends LitElement {
               status: this.status,
             })}
           >
-            <span
-              class=${cvaIcon({
-                status: this.status,
-              })}
-            ></span>
+            <daikin-icon
+              icon=${this.status}
+              color="white"
+              size="xl"
+            ></daikin-icon>
           </div>
           <div
             class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]"
@@ -220,9 +192,15 @@ export class DaikinNotification extends LitElement {
                   <div class="flex items-center gap-5">
                     <button
                       aria-label="Close"
-                      class="relative flex w-5 h-5 text-daikinNeutral-500 i-daikin-notification-close"
+                      class="relative flex w-5 h-5"
                       @click=${() => this._handleClickClose()}
-                    ></button>
+                    >
+                      <daikin-icon
+                        icon="close"
+                        size="l"
+                        color="default"
+                      ></daikin-icon>
+                    </button>
                   </div>
                 `
               : null}
