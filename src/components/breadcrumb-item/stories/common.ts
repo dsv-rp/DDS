@@ -15,7 +15,7 @@ export const DAIKIN_BREADCRUMB_ITEM_ARG_TYPES = {
   disabled: { type: "boolean" },
   target: {
     control: { type: "select" },
-    options: ["_blank", "_self", "_parent", "_top", "framename"],
+    options: ["_blank", "_self", "_parent", "_top"],
   },
   trailingSlash: { type: "boolean" },
 } as const satisfies Meta<DaikinBreadcrumbItemStoryArgs>["argTypes"];
