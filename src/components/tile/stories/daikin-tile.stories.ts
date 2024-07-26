@@ -10,14 +10,6 @@ export default {
 
 export const Default: TileStory = {
   args: {
-    trailingSlash: false,
-    overflow: "visible",
-  },
-};
-
-export const Omission: TileStory = {
-  args: {
-    trailingSlash: true,
-    overflow: "ellipsis",
+    borderType: "none",
   },
 };

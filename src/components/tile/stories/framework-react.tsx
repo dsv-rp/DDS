@@ -7,7 +7,7 @@ import type { DaikinTileStoryArgs } from "./common";
 
 const ReactDaikinTile = createComponent({
   react: React,
-  tagName: "daikin-title",
+  tagName: "daikin-tile",
   elementClass: DaikinTile,
   events: {},
 });
@@ -22,7 +22,12 @@ const ReactDaikinTileTitle = createComponent({
 export const metadata: Meta<DaikinTileStoryArgs> = {
   component: ({ ...props }: DaikinTileStoryArgs) => (
     <ReactDaikinTile {...props}>
-      <ReactDaikinTileTitle></ReactDaikinTileTitle>
+      <ReactDaikinTileTitle
+        slot="header"
+        label="Card Header"
+        withUnderLine={true}
+      ></ReactDaikinTileTitle>
+      <div style={{ height: 307, width: 437 }}></div>
     </ReactDaikinTile>
   ),
 };

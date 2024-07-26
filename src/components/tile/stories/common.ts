@@ -5,10 +5,9 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export type DaikinTileStoryArgs = Required<ElementProps<DaikinTile>>;
 
 export const DAIKIN_TILE_ARG_TYPES = {
-  trailingSlash: { type: "boolean" },
-  overflow: {
+  borderType: {
     control: { type: "select" },
-    options: ["visible", "ellipsis"],
+    options: ["none", "gray", "red"],
   },
 } as const satisfies Meta<DaikinTileStoryArgs>["argTypes"];
 
