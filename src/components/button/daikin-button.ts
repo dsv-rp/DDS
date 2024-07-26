@@ -11,12 +11,20 @@ import { customElement, property } from "lit/decorators.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import "../icon/daikin-icon";
+import type { IconType } from "../icon/daikin-icon";
+
+const BUTTON_ICON_SIZE_MAP = {
+  default: "m",
+  condensed: "s",
+} as const;
 
 const cvaButton = cva(
   [
     "inline-flex",
     "justify-center",
     "items-center",
+    "gap-2",
     "font-daikinSerif",
     "font-bold",
     "rounded-lg",
@@ -139,13 +147,13 @@ export class DaikinButton extends LitElement {
    * Set a icon in the right of button label.
    */
   @property({ type: String, reflect: true })
-  rightIcon = "";
+  rightIcon: IconType | null = null;
 
   /**
    * Set a icon in the left of button label.
    */
   @property({ type: String, reflect: true })
-  leftIcon = "";
+  leftIcon: IconType | null = null;
 
   /**
    * Link `href`. If present, this button is rendered as `<a>`.
@@ -184,13 +192,25 @@ export class DaikinButton extends LitElement {
     });
 
     const content = html`
-      <slot name="leftIcon"></slot>
-      <span><slot></slot></span>
-      <slot name="rightIcon"></slot>
+      ${this.leftIcon
+        ? html`<daikin-icon
+            icon=${this.leftIcon}
+            size=${BUTTON_ICON_SIZE_MAP[this.size]}
+            color="current"
+          ></daikin-icon>`
+        : null}
+      <slot></slot>
+      ${this.rightIcon
+        ? html`<daikin-icon
+            icon=${this.rightIcon}
+            size=${BUTTON_ICON_SIZE_MAP[this.size]}
+            color="current"
+          ></daikin-icon>`
+        : null}
     `;
 
     if (this.href) {
-      return html` <a
+      return html`<a
         href="${this.href}"
         class="${buttonClassName}"
         role="${this.role}"

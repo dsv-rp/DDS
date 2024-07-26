@@ -15,6 +15,7 @@ function defineConfig(config) {
 module.exports = defineConfig({
   content: [
     "./src/**/*.ts",
+    "./src/**/*.json",
     // Exclude storybook codes (if not storybook environment)
     ...(env.VITE_IS_STORYBOOK
       ? []
