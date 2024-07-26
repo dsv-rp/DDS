@@ -4,14 +4,22 @@ import { customElement, property } from "lit/decorators.js";
 import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaContainer = cva(["flex", "items-center", "w-full"], {
-  variants: {
-    withUnderLine: {
-      true: ["border-b", "border-[#E6F1F5]"],
-      false: [],
+const cvaContainer = cva(
+  ["flex", "items-center", "w-full", "justify-between", "last:pr-6"],
+  {
+    variants: {
+      withUnderLine: {
+        true: ["border-b", "border-[#E6F1F5]"],
+        false: [],
+      },
+      buttonType: {
+        none: [],
+        button: [],
+        link: [],
+      },
     },
-  },
-});
+  }
+);
 
 const cvaLabel = cva(
   [
@@ -26,8 +34,8 @@ const cvaLabel = cva(
   {
     variants: {
       withIcon: {
-        true: ["border-b", "border-[#E6F1F5]"],
-        false: [],
+        true: [],
+        false: ["pl-6"],
       },
     },
   }
@@ -47,31 +55,18 @@ export class DaikinTileTitle extends LitElement {
   /**
    * Specify link href
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, reflect: true, attribute: "with-under-line" })
   withUnderLine = false;
 
   /**
-   * Specify whether the link should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify the link target
+   * Specify link href
    */
   @property({ type: String, reflect: true })
-  target: "_blank" | "_self" | "_parent" | "_top" | "framename" = "_self";
+  label = "";
 
-  /**
-   * Specify the link should show slash at the end or not
-   */
-  @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
-  trailingSlash = false;
-
-  /**
-   * Specify the link should be hidden when ellipsis mode
-   */
   private withIcon = false;
+
+  private buttonType: "none" | "button" | "link" = "none";
 
   override render() {
     const containerClassName = cvaContainer({
@@ -83,7 +78,10 @@ export class DaikinTileTitle extends LitElement {
     });
 
     return html` <div class="${containerClassName}">
-      <span class="${labelClassName}">Card Header</span>
+      <slot name="icon"></slot>
+      <span class="${labelClassName}">${this.label}</span>
+      <slot name="link"></slot>
+      <slot name="button" class="ml-14"></slot>
     </div>`;
   }
 }

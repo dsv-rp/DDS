@@ -10,20 +10,14 @@ export default {
 
 export const Normal: Story = {
   args: {
-    variant: "normal",
-    href: "#",
-    target: "_self",
-    disabled: false,
-    trailingSlash: true,
+    label: "Card Header",
+    withUnderLine: false,
   },
 };
 
-export const Ellipsis: Story = {
+export const WithUnderLine: Story = {
   args: {
-    variant: "ellipsis",
-    href: "#",
-    target: "_self",
-    disabled: false,
-    trailingSlash: true,
+    label: "Card Header",
+    withUnderLine: true,
   },
 };

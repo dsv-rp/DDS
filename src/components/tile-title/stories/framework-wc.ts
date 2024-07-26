@@ -9,12 +9,9 @@ export const metadata: Meta<DaikinTileTitleStoryArgs> = {
   tags: ["autodocs"],
   render: (args) => html`
     <daikin-tile-title
-      href=${args.href}
-      target=${args.target}
-      variant=${args.variant}
-      ?disabled=${args.disabled}
-      ?trailing-slash=${args.trailingSlash}
-      >DaikinTileTitle1</daikin-tile-title
+      label=${args.label}
+      ?with-under-line=${args.withUnderLine}
     >
+    </daikin-tile-title>
   `,
 };
