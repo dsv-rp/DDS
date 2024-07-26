@@ -1,0 +1,28 @@
+{
+  "icons": {
+    "alarm": {
+      "class": "i-daikin-notification-status-alarm",
+      "color": null
+    },
+    "close": {
+      "class": "i-daikin-notification-close",
+      "color": "#a0a0a0"
+    },
+    "information": {
+      "class": "i-daikin-notification-status-information",
+      "color": null
+    },
+    "negative": {
+      "class": "i-daikin-notification-status-negative",
+      "color": null
+    },
+    "positive": {
+      "class": "i-daikin-notification-status-positive",
+      "color": null
+    },
+    "warning": {
+      "class": "i-daikin-notification-status-warning",
+      "color": null
+    }
+  }
+}
