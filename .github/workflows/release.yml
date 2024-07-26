@@ -9,7 +9,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
   # Build and Invoke Changesets Action
-  # Changeset Action will do:
+  # Changesets Action will do:
   # - Create or update release PR if this is not a release commit
   # - Publish to npm if this is a release commit
   # If Changesets Action publishes the package, we will build the Storybook and deploy it to GitHub Pages.
