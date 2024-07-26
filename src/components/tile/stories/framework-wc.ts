@@ -13,7 +13,7 @@ export const metadata: Meta<DaikinTileStoryArgs> = {
       <daikin-tile-title
         slot="header"
         label="Card Header"
-        withUnderLine="true"
+        underLine="true"
       ></daikin-tile-title>
     </daikin-tile>
   `,

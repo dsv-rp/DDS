@@ -25,7 +25,7 @@ export const metadata: Meta<DaikinTileStoryArgs> = {
       <ReactDaikinTileTitle
         slot="header"
         label="Card Header"
-        withUnderLine={true}
+        underLine={true}
       ></ReactDaikinTileTitle>
       <div style={{ height: 307, width: 437 }}></div>
     </ReactDaikinTile>

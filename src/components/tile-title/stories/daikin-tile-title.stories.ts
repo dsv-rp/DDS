@@ -11,13 +11,13 @@ export default {
 export const Normal: Story = {
   args: {
     label: "Card Header",
-    withUnderLine: false,
+    underLine: false,
   },
 };
 
-export const WithUnderLine: Story = {
+export const UnderLine: Story = {
   args: {
     label: "Card Header",
-    withUnderLine: true,
+    underLine: true,
   },
 };

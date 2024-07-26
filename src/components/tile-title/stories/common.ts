@@ -6,7 +6,7 @@ export type DaikinTileTitleStoryArgs = Required<ElementProps<DaikinTileTitle>>;
 
 export const DAIKIN_TILE_TITLE_ARG_TYPES = {
   label: { type: "string" },
-  withUnderLine: { type: "boolean" },
+  underLine: { type: "boolean" },
 } as const satisfies Meta<DaikinTileTitleStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTileTitleStoryArgs>;

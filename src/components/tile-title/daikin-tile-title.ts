@@ -8,7 +8,7 @@ const cvaContainer = cva(
   ["flex", "items-center", "w-full", "justify-between", "last:pr-6"],
   {
     variants: {
-      withUnderLine: {
+      underLine: {
         true: ["border-b", "border-[#E6F1F5]"],
         false: [],
       },
@@ -56,7 +56,7 @@ export class DaikinTileTitle extends LitElement {
    * Specify link href
    */
   @property({ type: Boolean, reflect: true, attribute: "with-under-line" })
-  withUnderLine = false;
+  underLine = false;
 
   /**
    * Specify link href
@@ -70,7 +70,7 @@ export class DaikinTileTitle extends LitElement {
 
   override render() {
     const containerClassName = cvaContainer({
-      withUnderLine: this.withUnderLine,
+      underLine: this.underLine,
     });
 
     const labelClassName = cvaLabel({
