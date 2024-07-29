@@ -12,11 +12,6 @@ const cvaContainer = cva(
         true: ["border-b", "border-[#E6F1F5]"],
         false: [],
       },
-      buttonType: {
-        none: [],
-        button: [],
-        link: [],
-      },
     },
   }
 );
@@ -79,7 +74,7 @@ export class DaikinTileTitle extends LitElement {
       </div>
       <div class="flex gap-3">
         <slot name="link"></slot>
-        <slot name="action" class="ml-14"></slot>
+        <slot name="action"></slot>
       </div>
     </div>`;
   }

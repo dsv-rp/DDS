@@ -1,4 +1,5 @@
 import { DaikinButton } from "#package/components/button/daikin-button";
+import DaikinIcon from "#package/components/icon/daikin-icon";
 import { DaikinTileTitle } from "#package/components/tile-title/daikin-tile-title";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
@@ -19,6 +20,12 @@ const ReactDaikinButton = createComponent({
   events: {},
 });
 
+export const ReactDaikinIcon = createComponent({
+  tagName: "daikin-icon",
+  elementClass: DaikinIcon,
+  react: React,
+});
+
 export const metadata: Meta<DaikinTileTitleStoryArgs> = {
   component: ({ ...props }: DaikinTileTitleStoryArgs) => (
     <div>
@@ -26,18 +33,20 @@ export const metadata: Meta<DaikinTileTitleStoryArgs> = {
         <span slot="label">Card Header</span>
       </ReactDaikinTileTitle>
       <ReactDaikinTileTitle {...props}>
-        <span
-          slot="icon"
-          style={{ height: 16, width: 16, background: "red" }}
-        ></span>
         <span slot="label">Card Header</span>
-        <ReactDaikinButton
-          slot="action"
-          size={"condensed"}
-          variant={"secondary"}
+        <a
+          slot="link"
+          href="#"
+          style={{ color: "#0097e0", textDecoration: "underline" }}
         >
-          Edit
-        </ReactDaikinButton>
+          View
+        </a>
+      </ReactDaikinTileTitle>
+      <ReactDaikinTileTitle {...props}>
+        <div slot="icon" style={{ color: "#AD0404" }}>
+          <ReactDaikinIcon color="current" icon="alarm" />
+        </div>
+        <span slot="label">Card Header</span>
         <ReactDaikinButton
           slot="action"
           size={"condensed"}
