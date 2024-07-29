@@ -22,16 +22,7 @@
         "require": "./dist/cjs-dev/index.cjs"
       }
     },
-    "./*": {
-      "default": "./dist/es/*.js",
-      "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
-      "development": {
-        "import": "./dist/es-dev/*.js",
-        "require": "./dist/cjs-dev/*.cjs"
-      }
-    },
-    "./*.js": {
+    "./dist/*.js": {
       "default": "./dist/es/*.js",
       "import": "./dist/es/*.js",
       "require": "./dist/cjs/*.cjs",
