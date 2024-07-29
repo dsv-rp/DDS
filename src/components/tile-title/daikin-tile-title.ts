@@ -30,12 +30,13 @@ const cvaLabel = cva(
     "not-italic",
     "font-bold",
     "leading-[26px]",
+    "pl-3",
   ],
   {
     variants: {
       withIcon: {
         true: [],
-        false: ["pl-6"],
+        false: [],
       },
     },
   }
@@ -53,20 +54,12 @@ export class DaikinTileTitle extends LitElement {
   `;
 
   /**
-   * Specify link href
+   * If `true` will show a blue line under the tile
    */
   @property({ type: Boolean, reflect: true, attribute: "with-under-line" })
   underLine = false;
 
-  /**
-   * Specify link href
-   */
-  @property({ type: String, reflect: true })
-  label = "";
-
   private withIcon = false;
-
-  private buttonType: "none" | "button" | "link" = "none";
 
   override render() {
     const containerClassName = cvaContainer({
@@ -78,10 +71,16 @@ export class DaikinTileTitle extends LitElement {
     });
 
     return html` <div class="${containerClassName}">
-      <slot name="icon"></slot>
-      <span class="${labelClassName}">${this.label}</span>
-      <slot name="link"></slot>
-      <slot name="button" class="ml-14"></slot>
+      <div class="flex items-center ml-4">
+        <slot name="icon"><span class="w-4 h-4 -mr-5"></span></slot>
+        <div class=${labelClassName}>
+          <slot name="label"></slot>
+        </div>
+      </div>
+      <div class="flex gap-3">
+        <slot name="link"></slot>
+        <slot name="action" class="ml-14"></slot>
+      </div>
     </div>`;
   }
 }

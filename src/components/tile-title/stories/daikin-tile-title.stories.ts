@@ -10,14 +10,12 @@ export default {
 
 export const Normal: Story = {
   args: {
-    label: "Card Header",
     underLine: false,
   },
 };
 
 export const UnderLine: Story = {
   args: {
-    label: "Card Header",
     underLine: true,
   },
 };

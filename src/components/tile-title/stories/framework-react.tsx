@@ -22,10 +22,24 @@ const ReactDaikinButton = createComponent({
 export const metadata: Meta<DaikinTileTitleStoryArgs> = {
   component: ({ ...props }: DaikinTileTitleStoryArgs) => (
     <div>
-      <ReactDaikinTileTitle {...props}></ReactDaikinTileTitle>
       <ReactDaikinTileTitle {...props}>
+        <span slot="label">Card Header</span>
+      </ReactDaikinTileTitle>
+      <ReactDaikinTileTitle {...props}>
+        <span
+          slot="icon"
+          style={{ height: 16, width: 16, background: "red" }}
+        ></span>
+        <span slot="label">Card Header</span>
         <ReactDaikinButton
-          slot="button"
+          slot="action"
+          size={"condensed"}
+          variant={"secondary"}
+        >
+          Edit
+        </ReactDaikinButton>
+        <ReactDaikinButton
+          slot="action"
           size={"condensed"}
           variant={"secondary"}
         >

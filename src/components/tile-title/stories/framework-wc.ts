@@ -8,7 +8,6 @@ export const metadata: Meta<DaikinTileTitleStoryArgs> = {
   title: "Components/TileTitle",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-tile-title label=${args.label} ?with-under-line=${args.underLine}>
-    </daikin-tile-title>
+    <daikin-tile-title ?with-under-line=${args.underLine}> </daikin-tile-title>
   `,
 };

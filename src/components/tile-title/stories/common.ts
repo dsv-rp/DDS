@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export type DaikinTileTitleStoryArgs = Required<ElementProps<DaikinTileTitle>>;
 
 export const DAIKIN_TILE_TITLE_ARG_TYPES = {
-  label: { type: "string" },
   underLine: { type: "boolean" },
 } as const satisfies Meta<DaikinTileTitleStoryArgs>["argTypes"];
 
