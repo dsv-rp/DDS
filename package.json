@@ -51,6 +51,7 @@
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
     "lint-fix": "eslint --fix && prettier -w .",
+    "test:unit": "vitest",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction-react": "start-server-and-test storybook:ci-react http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",
@@ -125,6 +126,7 @@
     "typescript-eslint": "^8.0.0-alpha.41",
     "vite": "^5.3.3",
     "vite-plugin-dts": "^3.9.1",
-    "vite-plugin-externalize-deps": "^0.8.0"
+    "vite-plugin-externalize-deps": "^0.8.0",
+    "vitest": "^2.0.4"
   }
 }
