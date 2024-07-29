@@ -22,11 +22,9 @@ const ReactDaikinTileTitle = createComponent({
 export const metadata: Meta<DaikinTileStoryArgs> = {
   component: ({ ...props }: DaikinTileStoryArgs) => (
     <ReactDaikinTile {...props}>
-      <ReactDaikinTileTitle
-        slot="header"
-        label="Card Header"
-        underLine={true}
-      ></ReactDaikinTileTitle>
+      <ReactDaikinTileTitle slot="header" underLine={true}>
+        <span slot="label">Card Header</span>
+      </ReactDaikinTileTitle>
       <div style={{ height: 307, width: 437 }}></div>
     </ReactDaikinTile>
   ),
