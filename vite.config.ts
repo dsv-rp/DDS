@@ -31,7 +31,7 @@ export default defineConfig(({ mode }) => {
       externalizeDeps(),
       dts({
         tsconfigPath: "tsconfig.lib.json",
-        outDir: [`dist/es${suffix}`, `dist/cjs${suffix}`],
+        outDir: [`dist/es${suffix}/src`, `dist/cjs${suffix}/src`],
         exclude: ["**/node_modules"],
       }),
     ],
