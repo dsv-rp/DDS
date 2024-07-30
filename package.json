@@ -14,21 +14,21 @@
   "types": "./dist/es/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.cjs",
       "development": {
         "import": "./dist/es-dev/index.js",
         "require": "./dist/cjs-dev/index.cjs"
       },
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.cjs",
       "default": "./dist/es/*.js"
     },
     "./dist/*.js": {
-      "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
       "development": {
         "import": "./dist/es-dev/*.js",
         "require": "./dist/cjs-dev/*.cjs"
       },
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
       "default": "./dist/es/*.js"
     }
   },
