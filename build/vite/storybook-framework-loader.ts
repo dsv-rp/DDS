@@ -72,5 +72,21 @@ export const metadata = {
 };
 `;
     },
+    // Storybook docs are written in the component file but they're read from `?storybookMetadata` virtual module.
+    // We have to update the virtual modules manually when the component file updated.
+    async handleHotUpdate({ server, file }) {
+      const mod = server.moduleGraph.getModuleById(file);
+      if (!mod) {
+        return;
+      }
+
+      // Follow component file (`mod`) -> framework file -> virtual module
+      // It is possible that `mod` is not a component file, but in that case, the framework file or virtual module cannot be found, so there is no problem because nothing is updated.
+      const metadataMods = Array.from(mod.importers)
+        .filter((mod) => /\/framework-\w+\.tsx?$/.test(mod.file ?? ""))
+        .flatMap((frameworkMod) => Array.from(frameworkMod.importers))
+        .filter((mod) => mod.id?.endsWith("?storybookMetadata"));
+      await Promise.all(metadataMods.map((mod) => server.reloadModule(mod)));
+    },
   };
 }
