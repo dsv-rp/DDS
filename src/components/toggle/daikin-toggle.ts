@@ -56,9 +56,14 @@ const cvaToggle = cva(
 type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
 
 /**
- * A toggle switch component.
+ * The toggle is be used like checkbox.
+ * User can toggle between enabled or disabled states.
  *
- * @fires change - Emitted when the toggle switch is toggled.
+ * @example
+ *
+ * ```html
+ *  <daikin-toggle name="name", value="value"></daikin-toggle>
+ * ```
  */
 @customElement("daikin-toggle")
 export class DaikinToggle extends LitElement {

@@ -77,7 +77,14 @@ type NotificationVariantProps = MergeVariantProps<
 >;
 
 /**
- * Primary UI component for user interaction
+ * The notification can provider user a alert or short message
+ *
+ * @example
+ *
+ * ```html
+ *  </daikin-notification title="notification title" description="notification description"></daikin-notification>
+ * ```
+ *
  */
 @customElement("daikin-notification")
 export class DaikinNotification extends LitElement {

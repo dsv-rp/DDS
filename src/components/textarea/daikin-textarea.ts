@@ -54,7 +54,17 @@ const cvaCounter = cva(
 );
 
 /**
- * Primary UI component for user interaction
+ * A component to be used for getting user's multi-line text input.
+ *
+ * Can be used in `daikin-input-group`.
+ *
+ * @example
+ *
+ * ```html
+ *  <!-- See `daikin-input-group` component for complete example. -->
+ *  <daikin-textarea name="name"></daikin-textarea>
+ * ```
+ *
  */
 @customElement("daikin-textarea")
 export class DaikinTextarea extends LitElement {

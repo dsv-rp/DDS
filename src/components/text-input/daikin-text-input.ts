@@ -41,7 +41,17 @@ const cvaInput = cva(
 );
 
 /**
- * Primary UI component for user interaction
+ * A component to be used for getting user's input information in a text field
+ *
+ * Can be used in `daikin-input-group`
+ *
+ * @example
+ *
+ * ```html
+ *  <!-- See `daikin-input-group` component for complete example. -->
+ *  <daikin-text-input name="name"></daikin-text-input>
+ * ```
+ *
  */
 @customElement("daikin-text-input")
 export class DaikinTextInput extends LitElement {

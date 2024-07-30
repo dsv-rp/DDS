@@ -96,7 +96,20 @@ const cvaButton = cva(
 type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
 /**
- * Primary UI component for user interaction
+ * You can use `daikin-button` component to trigger an action or event
+ *
+ * @fires click - Emits when the button is clicked and not disabled.
+ *
+ * @slot - button content slot.
+ *
+ * @example
+ *
+ * ```html
+ *  <daikin-button>
+ *    Accordion-1-content
+ *  </daikin-button>
+ * ```
+ *
  */
 @customElement("daikin-button")
 export class DaikinButton extends LitElement {

@@ -85,7 +85,13 @@ type CheckboxVariantProps = MergeVariantProps<
 >;
 
 /**
- * Primary UI component for user interaction
+ * You can build a checkbox using the `daikin-checkbox` and use it in form if a user needs to select multiple values from several options.
+ *
+ * @example
+ *
+ * ```html
+ *  <daikin-checkbox label="checkbox label 1" name="name", value="value"></daikin-checkbox>
+ * ```
  */
 @customElement("daikin-checkbox")
 export class DaikinCheckbox extends LitElement {

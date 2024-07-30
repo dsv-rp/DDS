@@ -52,7 +52,13 @@ const cvaLabel = cva(
 type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
 
 /**
- * Primary UI component for user interaction
+ * You can build a radio using the `daikin-radio` and use it in form if a user needs to select only one values from several options.
+ *
+ * @example
+ *
+ * ```html
+ *  <daikin-radio name="name", value="value"></daikin-radio>
+ * ```
  */
 @customElement("daikin-radio")
 export class DaikinRadio extends LitElement {

@@ -74,7 +74,17 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
 });
 
 /**
- * Primary UI component for user interaction
+ * The accordion item component that can be used within `daikin-accordion` component.
+ *
+ * @slot - accordion item content slot.
+ *
+ * @example
+ *
+ * ```html
+ *  <daikin-accordion-item title="Accordion-1-title">
+ *    Accordion-1-content
+ *  </daikin-accordion-item>
+ * ```
  */
 @customElement("daikin-accordion-item")
 export class DaikinAccordionItem extends LitElement {
