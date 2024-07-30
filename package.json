@@ -61,7 +61,7 @@
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
-    "@daikin-oss/dds-tokens": "^0.0.0",
+    "@daikin-oss/dds-tokens": "^0.1.0",
     "@netlify/classnames-template-literals": "^1.0.3",
     "class-variance-authority": "^0.7.0",
     "lit": "^3.1.4"
