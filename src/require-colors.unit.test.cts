@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+
 import { it } from "vitest";
 
 it("the colors.js can be required", ({ expect }) => {
