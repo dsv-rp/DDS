@@ -39,7 +39,7 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
       externalizeDeps(),
       dts({
         tsconfigPath: "tsconfig.lib.json",
-        outDir: [`dist/es${suffix}/src`, `dist/cjs${suffix}/src`],
+        outDir: [`dist/es${suffix}`, `dist/cjs${suffix}`],
         exclude: ["**/node_modules"],
       }),
     ],

@@ -9,27 +9,27 @@
     "README.md",
     "LICENSE"
   ],
-  "main": "./dist/cjs/src/index.cjs",
-  "module": "./dist/es/src/index.js",
-  "types": "./dist/es/src/index.d.ts",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/es/index.js",
+  "types": "./dist/es/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/es/src/index.js",
-      "require": "./dist/cjs/src/index.cjs",
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.cjs",
       "development": {
-        "import": "./dist/es-dev/src/index.js",
-        "require": "./dist/cjs-dev/src/index.cjs"
+        "import": "./dist/es-dev/index.js",
+        "require": "./dist/cjs-dev/index.cjs"
       },
-      "default": "./dist/es/src/*.js"
+      "default": "./dist/es/*.js"
     },
     "./dist/*.js": {
-      "import": "./dist/es/src/*.js",
-      "require": "./dist/cjs/src/*.cjs",
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
       "development": {
-        "import": "./dist/es-dev/src/*.js",
-        "require": "./dist/cjs-dev/src/*.cjs"
+        "import": "./dist/es-dev/*.js",
+        "require": "./dist/cjs-dev/*.cjs"
       },
-      "default": "./dist/es/src/*.js"
+      "default": "./dist/es/*.js"
     }
   },
   "sideEffects": true,
@@ -61,13 +61,13 @@
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
+    "@daikin-oss/dds-tokens": "^0.0.0",
     "@netlify/classnames-template-literals": "^1.0.3",
     "class-variance-authority": "^0.7.0",
     "lit": "^3.1.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",
-    "@daikin-oss/dds-tokens": "^0.0.0",
     "@daikin-oss/tailwind": "^0.0.1",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@eslint/js": "^9.6.0",
