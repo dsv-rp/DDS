@@ -14,22 +14,22 @@
   "types": "./dist/es/src/index.d.ts",
   "exports": {
     ".": {
-      "default": "./dist/es/src/index.js",
       "import": "./dist/es/src/index.js",
       "require": "./dist/cjs/src/index.cjs",
       "development": {
         "import": "./dist/es-dev/src/index.js",
         "require": "./dist/cjs-dev/src/index.cjs"
-      }
+      },
+      "default": "./dist/es/src/*.js"
     },
     "./dist/*.js": {
-      "default": "./dist/es/src/*.js",
       "import": "./dist/es/src/*.js",
       "require": "./dist/cjs/src/*.cjs",
       "development": {
         "import": "./dist/es-dev/src/*.js",
         "require": "./dist/cjs-dev/src/*.cjs"
-      }
+      },
+      "default": "./dist/es/src/*.js"
     }
   },
   "sideEffects": true,
