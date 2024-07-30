@@ -20,7 +20,7 @@
       },
       "import": "./dist/es/index.js",
       "require": "./dist/cjs/index.cjs",
-      "default": "./dist/es/*.js"
+      "default": "./dist/es/index.js"
     },
     "./dist/*.js": {
       "development": {
