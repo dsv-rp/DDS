@@ -31,7 +31,7 @@ export const Default: Story = {
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
       await userEvent.click(
-        getByShadowRole(root, "button", { name: "Item 1" })
+        getByShadowRole(root, "button", { name: "Dropdown item 1" })
       );
       await expect(args.onClick).toHaveBeenCalled();
 
@@ -40,24 +40,24 @@ export const Default: Story = {
 
     await step("Selecting a dropdown will reflect the value", async () => {
       await userEvent.click(
-        getByShadowRole(root, "option", { name: "Item 2" })
+        getByShadowRole(root, "option", { name: "Dropdown item 2" })
       );
       await expect(args.onChange).toHaveBeenCalled();
 
       await expect(root).not.toHaveAttribute("open");
       await expect(
-        getByShadowRole(root, "button", { name: "Item 2" })
+        getByShadowRole(root, "button", { name: "Dropdown item 2" })
       ).toBeInTheDocument();
     });
 
     await step("Try to keyboard navigation", async () => {
-      getByShadowRole(root, "button", { name: "Item 2" }).focus();
+      getByShadowRole(root, "button", { name: "Dropdown item 2" }).focus();
       await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[ArrowDown]");
       await userEvent.keyboard("[Space]");
 
       await expect(
-        getByShadowRole(root, "button", { name: "Item 1" })
+        getByShadowRole(root, "button", { name: "Dropdown item 1" })
       ).toBeInTheDocument();
     });
   }),
