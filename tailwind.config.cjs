@@ -34,6 +34,8 @@ module.exports = defineConfig({
       },
       keyframes: {
         "progress-bar-indeterminate": {
+          // An animation where the block is outside the left area at the start and outside the right area at the end.
+          // The block takes up 50% of the width of its parent element, and by specifying 200% at the end, it can be moved outside the right area.
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(200%)" },
         },

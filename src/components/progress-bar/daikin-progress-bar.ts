@@ -3,8 +3,8 @@ import {
   colorFeedbackPositive,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaBar = cva(["w-full", "h-1", "overflow-hidden"], {
@@ -14,7 +14,7 @@ const cvaBar = cva(["w-full", "h-1", "overflow-hidden"], {
         "bg-[#DCDCDC]",
         "relative",
         "after:block",
-        "after:w-[--percentage-width]",
+        "after:w-[--bar-width]",
         "after:h-full",
         "after:bg-[#0097e0]",
         "after:absolute",
@@ -107,15 +107,10 @@ export class DaikinProgressBar extends LitElement {
    * Helper text
    */
   @property({ type: String })
-  helper? = "";
-
-  @state()
-  _viewValue = 0;
+  helper = "";
 
   override render() {
-    this._viewValue =
-      Math.sign(this.max - this.value) === 1 ? this.value : this.max;
-    console.log(this._viewValue, this.variant);
+    const progressRatio = Math.min(Math.max(this.value / this.max, 0), 1);
 
     return html`<div class="flex flex-col w-full font-daikinSerif">
       <div class="flex justify-between items-center mb-2.5">
@@ -124,7 +119,7 @@ export class DaikinProgressBar extends LitElement {
       </div>
       <div
         class=${cvaBar({ variant: this.variant })}
-        style=${`--percentage-width:${this.max === 100 ? this._viewValue : (this._viewValue / this.max) * 100}%`}
+        style=${`--bar-width:${progressRatio * 100}%`}
       ></div>
       ${this.helper
         ? html`<span class=${cvaHelper({ variant: this.variant })}
@@ -132,19 +127,6 @@ export class DaikinProgressBar extends LitElement {
           >`
         : null}
     </div>`;
-  }
-
-  protected override updated(changedProperties: PropertyValues): void {
-    if (!(changedProperties.has("value") || changedProperties.has("max"))) {
-      return;
-    }
-
-    if (
-      (this.value >= this.max && this.variant !== "completed") ||
-      (this.value !== this.max && this.variant === "completed")
-    ) {
-      this.variant = this.value >= this.max ? "completed" : "inprogress";
-    }
   }
 }
 
