@@ -4,14 +4,7 @@ import { html } from "lit";
 import type { DaikinPaginationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinPaginationStoryArgs> = {
-  render: ({ disabled, size, checked, onChange, onClick }) => html`
-    <daikin-pagination
-      ?disabled=${disabled}
-      size=${size}
-      ?checked=${checked}
-      @change=${onChange}
-      @click=${onClick}
-    >
-    </daikin-pagination>
+  render: ({ value, max }) => html`
+    <daikin-pagination value=${value} max=${max}> </daikin-pagination>
   `,
 };

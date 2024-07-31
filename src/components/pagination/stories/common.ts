@@ -9,14 +9,8 @@ export interface DaikinPaginationStoryArgs
 }
 
 export const DAIKIN_PAGINATION_ARG_TYPES = {
-  size: {
-    control: { type: "select" },
-    options: ["default", "small"],
-  },
-  disabled: { type: "boolean" },
-  checked: { type: "boolean" },
-  name: { type: "string" },
-  value: { type: "string" },
+  value: { type: "number" },
+  max: { type: "number" },
 } as const satisfies Meta<DaikinPaginationStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinPaginationStoryArgs>;

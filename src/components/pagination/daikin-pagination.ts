@@ -1,19 +1,38 @@
+import "#package/components/icon/daikin-icon";
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, LitElement, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
+import { map } from "lit/directives/map.js";
+import { range } from "lit/directives/range.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
-const cvaPagination = cva([], {
-  variants: {
-    size: {
-      default: [],
-      small: [],
+const cvaButton = cva(
+  [
+    "w-12",
+    "h-12",
+    "font-daikinSerif",
+    "text-base",
+    "not-italic",
+    "font-normal",
+    "leading-6",
+    "border-daikinBlue-600",
+    "hover:border-b",
+    "hover:border-solid",
+  ],
+  {
+    variants: {
+      active: {
+        false: [],
+        true: [
+          "text-daikinBlue-600",
+          "!border-b-2",
+          "border-solid",
+          "border-daikinBlue-600",
+        ],
+      },
     },
-  },
-});
-
-type PaginationVariantProps = MergeVariantProps<typeof cvaPagination>;
+  }
+);
 
 /**
  * A pagination switch component.
@@ -30,80 +49,42 @@ export class DaikinPagination extends LitElement {
     }
   `;
 
-  static readonly formAssociated = true;
-
-  // define _internals to let pagination can be used in form
-  private _internals = this.attachInternals();
-
-  private _updateFormValue() {
-    this._internals.setFormValue(this.checked ? this.value : null);
-  }
-
-  @query("input")
-  private _input: HTMLInputElement | null | undefined;
-
-  private _handleChange(event: Event) {
-    if (!this._input) {
-      return;
-    }
-    this._updateFormValue();
-    this.dispatchEvent(new Event("change", event));
-  }
-
-  /**
-   * Specify the component size
-   */
-  @property({ type: String })
-  size: PaginationVariantProps["size"] = "default";
-
-  /**
-   * Specify whether the Pagination should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify whether the control is checked
-   */
-  @property({ type: Boolean, reflect: true })
-  checked = false;
-
-  /**
-   * The form name.
-   */
-  @property({ type: String, reflect: true })
-  name = "";
-
   /**
    * The value.
    */
-  @property({ type: String, reflect: true })
-  value = "";
+  @property({ type: Number, reflect: true })
+  value = 1;
 
   /**
-   * Specify whether the Pagination is in a error state
+   * The max.
    */
-  @property({ type: Boolean, reflect: true })
-  error = false;
+  @property({ type: Number, reflect: true })
+  max = 1;
 
   override render() {
-    const paginationClassName = cvaPagination({ size: this.size });
-
-    return html`<input
-      class=${paginationClassName}
-      type="checkbox"
-      name=${this.name}
-      value=${this.value}
-      .checked=${this.checked}
-      ?disabled=${this.disabled}
-      @change=${this._handleChange}
-    />`;
-  }
-
-  override updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has("checked")) {
-      this._updateFormValue();
-    }
+    const cvaChevron = cvaButton({
+      active: false,
+    });
+    return html`
+      <div class="inline-flex">
+        <div class="${cvaChevron} flex items-center justify-center ">
+          <daikin-icon icon="chevronLeft"></daikin-icon>
+        </div>
+        <slot>
+          ${map(range(1, this.max + 1), (i) => {
+            const buttonClassName = cvaButton({
+              active: this.value === i,
+            });
+            return html`<button aria-label="page${i}" class=${buttonClassName}>
+              ${i}
+            </button>`;
+          })}
+        </slot>
+        <div class="${cvaChevron} flex items-center justify-center">
+          <daikin-icon icon="chevronRight"></daikin-icon>
+        </div>
+      </div>
+    `;
   }
 }
 

@@ -1,5 +1,4 @@
 import { metadata } from "#storybook-framework";
-import { fn } from "@storybook/test";
 import { DAIKIN_PAGINATION_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -11,10 +10,7 @@ export default {
 
 export const Default: Story = {
   args: {
-    size: "default",
-    disabled: false,
-    checked: false,
-    onChange: fn(),
-    onClick: fn(),
+    value: 1,
+    max: 5,
   },
 };

@@ -23,6 +23,15 @@
     "warning": {
       "class": "i-daikin-notification-status-warning",
       "color": null
+    },
+    "chevronLeft": {
+      "class": "i-daikin-chevron-left",
+      "color": "#414141"
+    }
+    ,
+    "chevronRight": {
+      "class": "i-daikin-chevron-right",
+      "color": "#414141"
     }
   }
 }
