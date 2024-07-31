@@ -1,5 +1,8 @@
+import fg from "fast-glob";
 import { existsSync } from "node:fs";
+import fsp from "node:fs/promises";
 import { createRequire } from "node:module";
+import { basename } from "node:path";
 import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
 
@@ -41,8 +44,32 @@ function createTSProgram(projectDir: string, oldProgram?: Program): Program {
   });
 }
 
+async function createLinkMap(
+  projectDir: string
+): Promise<ReadonlyMap<string, string>> {
+  const linkMap = new Map<string, string>();
+  const files = await fg("src/components/**/daikin-*.stories.ts", {
+    cwd: projectDir,
+    absolute: true,
+  });
+  for (const file of files) {
+    const componentName = basename(file, ".stories.ts");
+    const content = await fsp.readFile(file, "utf-8");
+    const pageName = /\n\s+title: "([^"]+)",\n/.exec(content)?.[1];
+    if (!pageName) {
+      continue;
+    }
+
+    const href = `?path=/docs/${pageName.toLowerCase().replace(/[^a-z\d]/g, "-")}--docs`;
+    linkMap.set(componentName, href);
+  }
+
+  return linkMap;
+}
+
 function getComponentDescription(
   filename: string,
+  linkMap: ReadonlyMap<string, string>,
   program: Program,
   warn: (str: string) => void
 ): string | null {
@@ -71,6 +98,13 @@ function getComponentDescription(
     })
       // Remove component title (e.g. `## daikin-checkbox`)
       .replace(/^\s*#+ .+\n/, "")
+      // Fix "\|" in inline codes in tables
+      .replace(/[^`]`[^`]+`/g, (all) => all.replaceAll("\\|", "|"))
+      // Link-ify
+      .replace(/`(daikin-[^`]+)`/g, (all, name: string) => {
+        const href = linkMap.get(name);
+        return href ? `[${name}](${href})` : all;
+      })
       .trim()
   );
 }
@@ -85,6 +119,7 @@ function getComponentDescription(
 export function storybookFrameworkLoader(frameworkPath: string): Plugin {
   const projectDir = resolve(import.meta.dirname, "../..");
   let program = createTSProgram(projectDir);
+  let linkMapPromise = createLinkMap(projectDir);
 
   return {
     name: "storybook-docs-loader",
@@ -96,7 +131,7 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
       // e.g. "<dir>/stories/daikin-button.stories.ts?storybookMetadata"
       return `${importer}?storybookMetadata`;
     },
-    load(id) {
+    async load(id) {
       if (!id.endsWith("?storybookMetadata")) {
         return;
       }
@@ -111,6 +146,7 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
       const componentFilepath = resolve(storiesId, "../..", `${basename}.ts`);
       const componentDescription = getComponentDescription(
         componentFilepath,
+        await linkMapPromise,
         program,
         this.warn.bind(this)
       );
@@ -152,6 +188,9 @@ export const metadata = {
       if (metadataMods.length === 0) {
         return;
       }
+
+      // Update Link Map
+      linkMapPromise = createLinkMap(projectDir);
 
       // Recreate TS program to reflect changes.
       program = createTSProgram(projectDir, program);
