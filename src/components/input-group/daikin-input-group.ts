@@ -51,7 +51,7 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-text-input value="Value"></daikin-text-input>
+ *   <daikin-text-input value="Content of Text Input"></daikin-text-input>
  * </daikin-input-group>
  * ```
  *
@@ -59,7 +59,7 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-textarea></daikin-textarea>
+ *   <daikin-textarea value="Content of Textarea"></daikin-textarea>
  * </daikin-input-group>
  * ```
  */
