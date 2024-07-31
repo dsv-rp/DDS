@@ -86,14 +86,12 @@ export class DaikinTab extends LitElement {
 
   /**
    * Size of tab
-   * @default "default"
    */
   @property({ type: String, reflect: true })
   size: "default" | "condensed" = "default";
 
   /**
    * Whether to show the disabled state.
-   * @default false
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -102,7 +100,6 @@ export class DaikinTab extends LitElement {
    * Whether to show the active (selected) state.
    * Ignored if `disabled` is `true`.
    * Set automatically by `daikin-tab-group` component.
-   * @default false
    */
   @property({ type: Boolean, reflect: true })
   active = false;
@@ -119,6 +116,10 @@ export class DaikinTab extends LitElement {
     this.addEventListener("click", this._handleClick);
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions | undefined): void {
     this.shadowRoot?.querySelector("button")?.focus(options);
   }

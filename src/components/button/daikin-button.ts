@@ -243,6 +243,10 @@ export class DaikinButton extends LitElement {
     `;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions | undefined): void {
     this.shadowRoot?.querySelector("button")?.focus(options);
   }

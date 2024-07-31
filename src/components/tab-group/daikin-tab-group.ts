@@ -24,7 +24,7 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * @slot - Tab list slot. Place `daikin-tab` elements here.
  * @slot panels - Tab panel slot. Place `daikin-panel-switcher` element(s) here.
  *
- * @csspart tablist
+ * @csspart tablist - The container element for the default (tab list) slot. Has "tablist" role.
  *
  * @example
  *
@@ -49,8 +49,7 @@ export class DaikinTabGroup extends LitElement {
   `;
 
   /**
-   * `value` of the currently selected tab.
-   * see {@link DaikinTab.value}
+   * `value` of the currently selected tab (`daikin-tab`).
    */
   @property({ type: String, reflect: true })
   value: string = "";
