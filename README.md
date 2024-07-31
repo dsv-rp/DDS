@@ -12,10 +12,10 @@ Start by installing the package:
 npm i @daikin-oss/design-system-web-components
 ```
 
-You can then import necessary components in your bundle:
+You can then import necessary components in your bundle (the .js extension is optional):
 
 ```js
-import "@daikin-oss/design-system-web-components/dist/components/button/index.js";
+import "@daikin-oss/design-system-web-components/components/button/index.js";
 ```
 
 By default, out-of-the-box, the styles are for Daikin brand in light mode.

@@ -34,7 +34,7 @@ export default defineConfig({
       {
         find: /^#package\/(.+)$/,
         replacement: useBuiltPackage
-          ? "@daikin-oss/design-system-web-components/dist/$1.js"
+          ? "@daikin-oss/design-system-web-components/$1"
           : fromProjectDir("src") + "/$1",
       },
     ],
