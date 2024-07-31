@@ -6,7 +6,8 @@ import { getComponentDescriptionAsMarkdown } from "./wca";
 
 function formatComponentDescription(
   markdown: string,
-  linkMap: ReadonlyMap<string, string>
+  linkMap: ReadonlyMap<string, string>,
+  linkExcludes: readonly string[]
 ): string {
   return linkify(
     markdown
@@ -15,7 +16,8 @@ function formatComponentDescription(
       // Fix "\|" in inline codes in tables
       .replace(/[^`]`[^`]+`/g, (all) => all.replaceAll("\\|", "|"))
       .trim(),
-    linkMap
+    linkMap,
+    linkExcludes
   );
 }
 
@@ -60,7 +62,8 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
           program,
           this.warn.bind(this)
         ) ?? "",
-        await linkMapPromise
+        await linkMapPromise,
+        [basename]
       );
 
       // prepare additional metadata

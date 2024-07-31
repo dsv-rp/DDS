@@ -27,12 +27,13 @@ export async function createLinkMap(
 
 export function linkify(
   markdown: string,
-  linkMap: ReadonlyMap<string, string>
+  linkMap: ReadonlyMap<string, string>,
+  linkExcludes: readonly string[]
 ): string {
   function linkifyInternal(code: string) {
     return code.replace(/`([^`\n]+)`/g, (all, name: string) => {
       const href = linkMap.get(name);
-      return href ? `[${name}](${href})` : all;
+      return href && !linkExcludes.includes(name) ? `[${name}](${href})` : all;
     });
   }
 
