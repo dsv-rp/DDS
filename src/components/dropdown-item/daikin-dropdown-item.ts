@@ -45,7 +45,7 @@ export class DaikinDropdownItem extends LitElement {
   `;
 
   /**
-   * Dropdown value text
+   * Dropdown item value text
    */
   @property({ type: String })
   value = "";
