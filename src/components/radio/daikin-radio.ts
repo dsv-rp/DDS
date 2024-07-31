@@ -56,6 +56,8 @@ type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
  * It functions similarly to the HTML `<input type="radio">` tag. \
  * Please note that **a radio group component is not yet available**, so you'll need to manually group radio buttons when using multiple instances.
  *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="radio">` element.
+ *
  * @example
  *
  * ```html

@@ -9,7 +9,7 @@ import tailwindStyles from "../../tailwind.css?inline";
  * When a user selects a tab, the panel switcher component ensures the corresponding content panel is shown while hiding the others.
  *
  * Hierarchy:
- * - `daikin-tab-group` > `daikin-panel-switcher`
+ * - `daikin-tab-group` > `daikin-panel-switcher` ("panels" slot)
  *
  * @slot panel:\<name\> - A slot for each panel content.
  *

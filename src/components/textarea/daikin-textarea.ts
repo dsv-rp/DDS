@@ -62,6 +62,8 @@ const cvaCounter = cva(
  * - `daikin-textarea` (can be used solely)
  * - `daikin-input-group` > `daikin-textarea`
  *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<textarea>` element.
+ *
  * @example
  *
  * ```html

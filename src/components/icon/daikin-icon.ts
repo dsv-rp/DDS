@@ -43,7 +43,7 @@ export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
  * The icon component is a versatile UI element used to display small graphical symbols or images that represent actions, objects, or concepts within an application.
  * The icon set is provided by DDS.
  *
- * To use an arbitrary color, specify `current` for the `color` property and set the `color` CSS property to the color you want to use.
+ * To use an arbitrary color, specify `"current"` for the `color` property and set the `color` CSS property to the color you want to use.
  *
  * If you try to use an icon that does not exist, a blank space will be displayed.
  * In the development build, warnings will be displayed in the console, so please check there if you encounter any unexpected behavior.

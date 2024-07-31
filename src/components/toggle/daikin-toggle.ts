@@ -61,6 +61,8 @@ type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
  * This component is ideal for scenarios where the binary choice has a significant or immediate effect, such as enabling or disabling a feature or setting.
  * Unlike `daikin-checkbox`, this component doesn't have a "indeterminate" state.
  *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="checkbox">` element.
+ *
  * @example
  *
  * ```html

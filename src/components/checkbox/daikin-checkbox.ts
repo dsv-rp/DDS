@@ -89,6 +89,8 @@ type CheckboxVariantProps = MergeVariantProps<
  * It functions similarly to the HTML `<input type="checkbox">` tag, enabling users to toggle the selection of each option independently.
  * This component is ideal for cases where multiple selections are allowed or required.
  *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="checkbox">` element.
+ *
  * @example
  *
  * ```html

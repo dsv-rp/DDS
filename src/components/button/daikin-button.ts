@@ -99,7 +99,7 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  * The button component is a versatile UI element that triggers actions or submits forms when clicked.
  * It functions similarly to the HTML `<button>` tag, allowing users to initiate various operations such as submitting data, opening dialogs, or navigating to different sections of an application.
  *
- * @fires click - Emits when the button is clicked and not disabled.
+ * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
  *
  * @slot - A slot for the button content.
  *

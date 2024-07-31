@@ -20,10 +20,10 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  *
  * Hierarchies:
  * - `daikin-tab-group` > `daikin-tab`
- * - `daikin-tab-group` > `daikin-panel-switcher`
+ * - `daikin-tab-group` > `daikin-panel-switcher` ("panels" slot)
  *
- * @fires beforechange - _Cancellable._ Emits when the current tab is about to be changed by user interaction.
- * @fires change - Emits when the current tab is changed.
+ * @fires beforechange - _Cancellable._ A custom event emitted when the current tab is about to be changed by user interaction.
+ * @fires change - A custom event emitted when the current tab is changed.
  *
  * @slot - A slot for tab buttons. Place `daikin-tab` elements here.
  * @slot panels - A slot for a panel switcher component. Place `daikin-panel-switcher` element(s) here.

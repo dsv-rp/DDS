@@ -88,6 +88,8 @@ type NotificationVariantProps = MergeVariantProps<
  * Inline notifications appear within the content of the application, usually embedded directly within a page or section.
  * Inline notifications are more persistent and are used to highlight important information or status updates that should remain visible to the user until they are acknowledged or the issue is resolved.
  *
+ * @fires close - A custom event emitted when a user clicks the close button.
+ *
  * @example
  *
  * ```html
@@ -208,7 +210,7 @@ export class DaikinNotification extends LitElement {
                     <button
                       aria-label="Close"
                       class="relative flex w-5 h-5"
-                      @click=${() => this._handleClickClose()}
+                      @click=${this._handleClickClose}
                     >
                       <daikin-icon
                         icon="close"
