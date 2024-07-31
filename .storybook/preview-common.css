@@ -1,0 +1,12 @@
+/* Docs: Set maximum width for long types. */
+h1 + div table td:not(:last-child) {
+  max-width: 14rem;
+  overflow: auto;
+}
+
+/* Docs: Display "(default)" in the default slot name. */
+#storybook-docs #slots + table td:empty:first-child::before {
+  content: "(default)";
+  font-style: italic;
+  opacity: 0.8;
+}
