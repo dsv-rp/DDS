@@ -38,6 +38,9 @@ jobs:
         env:
           STORYBOOK_ENV: production
 
+      - name: Unit Test
+        run: npm run test:unit
+
       - name: Interaction Test
         run: |
           rm -rf node_modules/.cache/storybook
