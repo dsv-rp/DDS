@@ -177,7 +177,10 @@ export class DaikinDropdown extends LitElement {
   @property({ type: String })
   value = "";
 
-  @state()
+  /**
+   * Whether or not a drop-down menu is displayed
+   */
+  @property({ type: Boolean, reflect: true })
   open = false;
 
   @state()
