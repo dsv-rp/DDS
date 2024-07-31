@@ -75,14 +75,13 @@ export class DaikinDropdownItem extends LitElement {
 
     this.dispatchEvent(event);
   }
-
   override render() {
     return html`<button
       type="button"
       class=${cvaOption({ disabled: this.disabled ? "disabled" : "enabled" })}
       data-value=${this.value}
-      role="option"
-      aria-selected="${this.selected}"
+      role="menuitem"
+      aria-haspopup="menu"
       ?disabled=${this.disabled}
       @click=${this._handleClick}
     >

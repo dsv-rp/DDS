@@ -308,11 +308,7 @@ export class DaikinDropdown extends LitElement {
       >
         ${this.label}
       </div>
-      <div
-        role="menu"
-        aria-disabled=${this.disabled}
-        @keydown=${this._handleKeyDown}
-      >
+      <div aria-disabled=${this.disabled} @keydown=${this._handleKeyDown}>
         <button
           type="button"
           class=${cvaButton({
@@ -320,7 +316,6 @@ export class DaikinDropdown extends LitElement {
             disabled: this.disabled ? "disabled" : "enabled",
           })}
           aria-expanded=${this.open && !this.disabled}
-          aria-haspopup="listbox"
           ?disabled=${this.disabled}
           @click=${this._handleClick}
           ${ref(this._buttonRef)}
@@ -338,7 +333,7 @@ export class DaikinDropdown extends LitElement {
           class=${cvaContent({
             state: this.open && !this.disabled ? "visible" : "hidden",
           })}
-          role="listbox"
+          role="menu"
           aria-label=${this.label}
           ${ref(this._contentsRef)}
         >
