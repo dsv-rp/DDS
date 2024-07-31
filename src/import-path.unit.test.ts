@@ -79,4 +79,26 @@ it("the package can be resolved", ({ expect }) => {
   expect(() =>
     require.resolve("@daikin-oss/design-system-web-components/dist/colors")
   ).toThrow();
+
+  // Error - Invalid import path - Filesystem paths are not import paths
+  expect(() =>
+    require.resolve(
+      "@daikin-oss/design-system-web-components/dist/cjs/colors.cjs"
+    )
+  ).toThrow();
+  expect(() =>
+    require.resolve(
+      "@daikin-oss/design-system-web-components/dist/cjs-dev/colors.cjs"
+    )
+  ).toThrow();
+  expect(() =>
+    require.resolve(
+      "@daikin-oss/design-system-web-components/dist/es/colors.js"
+    )
+  ).toThrow();
+  expect(() =>
+    require.resolve(
+      "@daikin-oss/design-system-web-components/dist/es-dev/colors.js"
+    )
+  ).toThrow();
 });
