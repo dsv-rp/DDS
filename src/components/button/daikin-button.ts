@@ -106,10 +106,9 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  *
  * ```html
  * <daikin-button>
- *   Accordion-1-content
+ *   Button label
  * </daikin-button>
  * ```
- *
  */
 @customElement("daikin-button")
 export class DaikinButton extends LitElement {

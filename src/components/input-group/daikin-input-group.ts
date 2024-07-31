@@ -52,7 +52,6 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *   <daikin-textarea></daikin-textarea>
  * </daikin-input-group>
  * ```
- *
  */
 @customElement("daikin-input-group")
 export class DaikinInputGroup extends LitElement {

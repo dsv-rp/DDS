@@ -90,7 +90,7 @@ type CheckboxVariantProps = MergeVariantProps<
  * @example
  *
  * ```html
- * <daikin-checkbox label="checkbox label 1" name="name" value="value"></daikin-checkbox>
+ * <daikin-checkbox label="Checkbox label" name="name" value="value"></daikin-checkbox>
  * ```
  */
 @customElement("daikin-checkbox")

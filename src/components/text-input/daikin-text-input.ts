@@ -51,7 +51,6 @@ const cvaInput = cva(
  * <!-- See `daikin-input-group` component for complete example. -->
  * <daikin-text-input name="name"></daikin-text-input>
  * ```
- *
  */
 @customElement("daikin-text-input")
 export class DaikinTextInput extends LitElement {

@@ -84,7 +84,6 @@ type NotificationVariantProps = MergeVariantProps<
  * ```html
  * </daikin-notification title="notification title" description="notification description"></daikin-notification>
  * ```
- *
  */
 @customElement("daikin-notification")
 export class DaikinNotification extends LitElement {

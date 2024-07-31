@@ -64,7 +64,6 @@ const cvaCounter = cva(
  * <!-- See `daikin-input-group` component for complete example. -->
  * <daikin-textarea name="name"></daikin-textarea>
  * ```
- *
  */
 @customElement("daikin-textarea")
 export class DaikinTextarea extends LitElement {
