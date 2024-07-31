@@ -53,8 +53,8 @@ type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
 
 /**
  * The radio button component is a UI element that allows users to select one options from a set of choices.
- * It functions similarly to the HTML `<input type="radio">` tag.
- * Please note that a radio group component is not yet available, so you'll need to manually group radio buttons when using multiple instances.
+ * It functions similarly to the HTML `<input type="radio">` tag. \
+ * Please note that **a radio group component is not yet available**, so you'll need to manually group radio buttons when using multiple instances.
  *
  * @example
  *

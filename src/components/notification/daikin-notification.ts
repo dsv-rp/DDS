@@ -82,8 +82,8 @@ type NotificationVariantProps = MergeVariantProps<
  * There are two variants of notification components: `toast` and `inline`.
  *
  * Toast notifications are brief messages that should appear temporarily at the edge of the screen, typically in the bottom or top corner.
- * Toast notifications are ideal for conveying transient information that does not require user interaction, such as success messages, warnings, or alerts.
- * Please note that currently we don't support automatic placement or stacking of toast notifications.
+ * Toast notifications are ideal for conveying transient information that does not require user interaction, such as success messages, warnings, or alerts. \
+ * Please note that **currently we don't support automatic placement or stacking of toast notifications**.
  *
  * Inline notifications appear within the content of the application, usually embedded directly within a page or section.
  * Inline notifications are more persistent and are used to highlight important information or status updates that should remain visible to the user until they are acknowledged or the issue is resolved.

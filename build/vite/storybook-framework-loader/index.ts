@@ -13,6 +13,8 @@ function formatComponentDescription(
     markdown
       // Remove component title (e.g. `## daikin-checkbox`)
       .replace(/^\s*#+ .+\n/, "")
+      // Replace " \" to "  " in the end of lines.
+      .replace(/ \\$/gm, "  ")
       // Fix "\|", "\<" and "\>" in inline codes
       .replace(/[^`]`[^`]+`/g, (all) => all.replace(/\\([|<>])/g, "$1"))
       .trim(),
