@@ -54,9 +54,13 @@ const cvaCounter = cva(
 );
 
 /**
- * A component to be used for getting user's multi-line text input.
+ * The textarea component is designed for multiline text input, similar to the HTML `<textarea>` tag.
+ * It is ideal for situations where users need to enter longer pieces of text, such as comments, descriptions, or messages.
+ * Can be used within `daikin-input-group` component.
  *
- * Can be used in `daikin-input-group`.
+ * Hierarchies:
+ * - `daikin-textarea` (can be used solely)
+ * - `daikin-input-group` > `daikin-textarea`
  *
  * @example
  *

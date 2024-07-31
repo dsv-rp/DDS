@@ -41,9 +41,13 @@ const cvaInput = cva(
 );
 
 /**
- * A component to be used for getting user's input information in a text field.
+ * The text input component is a UI element that allows users to input single-line text data.
+ * It functions similarly to the HTML `<input type="text">` tag, providing a simple and efficient way for users to enter and edit short pieces of texts, such as names, email addresses, or search queries.
+ * Can be used within `daikin-input-group` component.
  *
- * Can be used in `daikin-input-group`.
+ * Hierarchies:
+ * - `daikin-text-input` (can be used solely)
+ * - `daikin-input-group` > `daikin-text-input`
  *
  * @example
  *

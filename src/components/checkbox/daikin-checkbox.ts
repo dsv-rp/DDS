@@ -85,7 +85,9 @@ type CheckboxVariantProps = MergeVariantProps<
 >;
 
 /**
- * You can build a checkbox using the `daikin-checkbox` and use it in form if a user needs to select multiple values from several options.
+ * The checkbox component is a UI element that allows users to select one or more options from a list of choices.
+ * It functions similarly to the HTML `<input type="checkbox">` tag, enabling users to toggle the selection of each option independently.
+ * This component is ideal for cases where multiple selections are allowed or required.
  *
  * @example
  *

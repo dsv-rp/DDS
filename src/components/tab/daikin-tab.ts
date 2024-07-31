@@ -49,10 +49,15 @@ const cvaTab = cva(
 );
 
 /**
- * The tab component that can be used within `daikin-tab-group` component.
+ * The tab component is a child element within the `daikin-tab-group` component, representing a clickable button or label that users interact with to switch between different panels of content.
+ * Each tab corresponds to a specific panel and is typically labeled to indicate the content it reveals.
+ *
+ * Hierarchy:
+ * - `daikin-tab-group` > `daikin-tab`
  *
  * @fires click - Emits when the tab is clicked and not disabled.
- * @slot - Tab content slot.
+ *
+ * @slot - A slot for the tab button content.
  *
  * @example
  *

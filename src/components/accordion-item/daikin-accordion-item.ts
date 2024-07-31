@@ -74,9 +74,14 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
 });
 
 /**
- * The accordion item component that can be used within `daikin-accordion` component.
+ * The accordion item component is a child element within the `daikin-accordion` component.
+ * It functions similarly to the HTML `<details>` and `<summary>` tag, allowing users to expand or collapse the associated content by clicking on the header.
+ * This component is responsible for displaying the specific content within the accordion and allowing users to interact with each section independently.
  *
- * @slot - accordion item content slot.
+ * Hierarchy:
+ * - `daikin-accordion` > `daikin-accordion-item`
+ *
+ * @slot - A slot for the accordion item content.
  *
  * @example
  *

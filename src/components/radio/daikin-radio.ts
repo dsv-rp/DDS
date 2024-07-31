@@ -52,7 +52,9 @@ const cvaLabel = cva(
 type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
 
 /**
- * You can build a radio using the `daikin-radio` and use it in form if a user needs to select only one values from several options.
+ * The radio button component is a UI element that allows users to select one options from a set of choices.
+ * It functions similarly to the HTML `<input type="radio">` tag.
+ * Please note that a radio group component is not yet available, so you'll need to manually group radio buttons when using multiple instances.
  *
  * @example
  *

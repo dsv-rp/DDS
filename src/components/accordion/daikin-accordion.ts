@@ -3,9 +3,13 @@ import { customElement } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
- * A wrapper component and the accordion component manages a group of daikin-accordion-item.
+ * The accordion component serves as the parent element that organizes and manages the overall structure of the accordion.
+ * Currently it only provides appropriate styles for individual accordion items.
  *
- * @slot - accordion items list slot. Place `daikin-accordion-item` elements here.
+ * Hierarchy:
+ * - `daikin-accordion` > `daikin-accordion-item`
+ *
+ * @slot - A slot for the accordion items. Place `daikin-accordion-item` elements here.
  *
  * @example
  *

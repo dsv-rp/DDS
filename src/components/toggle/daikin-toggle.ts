@@ -56,8 +56,10 @@ const cvaToggle = cva(
 type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
 
 /**
- * The toggle is be used like checkbox.
- * User can toggle between enabled or disabled states.
+ * The toggle switch component is a UI element that allows users to switch between two states, typically "on" and "off".
+ * It functions similarly to a `daikin-checkbox` component but provides a more visually intuitive way to represent binary options.
+ * This component is ideal for scenarios where the binary choice has a significant or immediate effect, such as enabling or disabling a feature or setting.
+ * Unlike `daikin-checkbox`, this component doesn't have a "indeterminate" state.
  *
  * @example
  *

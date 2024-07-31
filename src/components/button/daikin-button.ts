@@ -96,11 +96,12 @@ const cvaButton = cva(
 type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
 /**
- * You can use `daikin-button` component to trigger an action or event.
+ * The button component is a versatile UI element that triggers actions or submits forms when clicked.
+ * It functions similarly to the HTML `<button>` tag, allowing users to initiate various operations such as submitting data, opening dialogs, or navigating to different sections of an application.
  *
  * @fires click - Emits when the button is clicked and not disabled.
  *
- * @slot - button content slot.
+ * @slot - A slot for the button content.
  *
  * @example
  *
