@@ -14,31 +14,31 @@
   "types": "./dist/es/index.d.ts",
   "exports": {
     ".": {
-      "default": "./dist/es/index.js",
-      "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.cjs",
       "development": {
         "import": "./dist/es-dev/index.js",
         "require": "./dist/cjs-dev/index.cjs"
-      }
-    },
-    "./*": {
-      "default": "./dist/es/*.js",
-      "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
-      "development": {
-        "import": "./dist/es-dev/*.js",
-        "require": "./dist/cjs-dev/*.cjs"
-      }
+      },
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/es/index.js"
     },
     "./*.js": {
-      "default": "./dist/es/*.js",
-      "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
       "development": {
         "import": "./dist/es-dev/*.js",
         "require": "./dist/cjs-dev/*.cjs"
-      }
+      },
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
+      "default": "./dist/es/*.js"
+    },
+    "./*": {
+      "development": {
+        "import": "./dist/es-dev/*.js",
+        "require": "./dist/cjs-dev/*.cjs"
+      },
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
+      "default": "./dist/es/*.js"
     }
   },
   "sideEffects": true,
@@ -60,6 +60,7 @@
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
     "lint-fix": "eslint --fix && prettier -w .",
+    "test:unit": "vitest",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction-react": "start-server-and-test storybook:ci-react http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",
@@ -69,7 +70,7 @@
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
-    "@daikin-oss/dds-tokens": "^0.0.0",
+    "@daikin-oss/dds-tokens": "^0.1.0",
     "@floating-ui/dom": "^1.6.7",
     "@netlify/classnames-template-literals": "^1.0.3",
     "class-variance-authority": "^0.7.0",
@@ -135,6 +136,7 @@
     "typescript-eslint": "^8.0.0-alpha.41",
     "vite": "^5.3.3",
     "vite-plugin-dts": "^3.9.1",
-    "vite-plugin-externalize-deps": "^0.8.0"
+    "vite-plugin-externalize-deps": "^0.8.0",
+    "vitest": "^2.0.4"
   }
 }
