@@ -9,7 +9,7 @@ This project is an implementation of the Daikin Design Kit using Web Components.
 Start by installing the package:
 
 ```sh
-npm i @daikin-oss/design-system-web-components
+npm install @daikin-oss/design-system-web-components
 ```
 
 You can then import necessary components in your bundle (the .js extension is optional):
@@ -27,7 +27,7 @@ _Due to the encapsulation of styles by the Web Components specification, how the
 For dark-mode support and non-daikin brands, you need to add the `tokens` package and include the CSS reference in your html:
 
 ```sh
-npm install '@daikin-oss/dds-tokens
+npm install @daikin-oss/dds-tokens
 ```
 
 #### Dark Mode
