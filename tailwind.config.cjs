@@ -32,6 +32,12 @@ module.exports = defineConfig({
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
       },
+      keyframes: {
+        "progress-bar-indeterminate": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(200%)" },
+        },
+      },
     },
   },
   plugins: [
