@@ -5,7 +5,7 @@ import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
- * Panel Switcher
+ * Panel Switcher.
  *
  * A completely unstyled panel switcher.
  *

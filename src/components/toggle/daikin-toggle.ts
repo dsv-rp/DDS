@@ -62,7 +62,7 @@ type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
  * @example
  *
  * ```html
- *  <daikin-toggle name="name", value="value"></daikin-toggle>
+ * <daikin-toggle name="name" value="value"></daikin-toggle>
  * ```
  */
 @customElement("daikin-toggle")

@@ -41,15 +41,15 @@ const cvaInput = cva(
 );
 
 /**
- * A component to be used for getting user's input information in a text field
+ * A component to be used for getting user's input information in a text field.
  *
- * Can be used in `daikin-input-group`
+ * Can be used in `daikin-input-group`.
  *
  * @example
  *
  * ```html
- *  <!-- See `daikin-input-group` component for complete example. -->
- *  <daikin-text-input name="name"></daikin-text-input>
+ * <!-- See `daikin-input-group` component for complete example. -->
+ * <daikin-text-input name="name"></daikin-text-input>
  * ```
  *
  */

@@ -61,8 +61,8 @@ const cvaCounter = cva(
  * @example
  *
  * ```html
- *  <!-- See `daikin-input-group` component for complete example. -->
- *  <daikin-textarea name="name"></daikin-textarea>
+ * <!-- See `daikin-input-group` component for complete example. -->
+ * <daikin-textarea name="name"></daikin-textarea>
  * ```
  *
  */

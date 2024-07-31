@@ -77,12 +77,12 @@ type NotificationVariantProps = MergeVariantProps<
 >;
 
 /**
- * The notification can provider user a alert or short message
+ * The notification can provider user a alert or short message.
  *
  * @example
  *
  * ```html
- *  </daikin-notification title="notification title" description="notification description"></daikin-notification>
+ * </daikin-notification title="notification title" description="notification description"></daikin-notification>
  * ```
  *
  */

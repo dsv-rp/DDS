@@ -81,9 +81,9 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * @example
  *
  * ```html
- *  <daikin-accordion-item title="Accordion-1-title">
- *    Accordion-1-content
- *  </daikin-accordion-item>
+ * <daikin-accordion-item title="Accordion-1-title">
+ *   Accordion-1-content
+ * </daikin-accordion-item>
  * ```
  */
 @customElement("daikin-accordion-item")

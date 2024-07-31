@@ -37,17 +37,20 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
 /**
  *
  * A wrapper component to manage input element internal.
- * Using `daikin-input-group` you can control the input element state in internal easily
+ * Using `daikin-input-group` you can control the input element state in internal easily.
  *
  * @slot - input component slot. Place `daikin-text-input` or `daikin-textarea` elements here.
  *
  * @example
  *
  * ```html
- *  <daikin-input-group>
- *    <daikin-text-input value="Value"></daikin-text-input>
- *    <daikin-textarea></daikin-textarea>
- *  </daikin-input-group>
+ * <daikin-input-group>
+ *   <daikin-text-input value="Value"></daikin-text-input>
+ * </daikin-input-group>
+ *
+ * <daikin-input-group>
+ *   <daikin-textarea></daikin-textarea>
+ * </daikin-input-group>
  * ```
  *
  */

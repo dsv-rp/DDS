@@ -57,7 +57,7 @@ type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
  * @example
  *
  * ```html
- *  <daikin-radio name="name", value="value"></daikin-radio>
+ *  <daikin-radio name="name" value="value"></daikin-radio>
  * ```
  */
 @customElement("daikin-radio")
