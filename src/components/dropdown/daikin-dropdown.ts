@@ -157,6 +157,12 @@ export class DaikinDropdown extends LitElement {
   size: DropdownVariantProps["size"] = "medium";
 
   /**
+   * Dropdown value
+   */
+  @property({ type: String })
+  value = "";
+
+  /**
    * Where the label is located in terms of the dropdown
    */
   @property({ type: String, attribute: "label-position" })
@@ -173,9 +179,6 @@ export class DaikinDropdown extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
-
-  @property({ type: String })
-  value = "";
 
   /**
    * Whether or not a drop-down menu is displayed
