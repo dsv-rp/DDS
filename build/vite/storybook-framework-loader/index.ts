@@ -1,111 +1,21 @@
-import fg from "fast-glob";
-import { existsSync } from "node:fs";
-import fsp from "node:fs/promises";
-import { createRequire } from "node:module";
-import { basename } from "node:path";
 import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
+import { createLinkMap, linkify } from "./linkify";
+import { createTSProgram } from "./tsc";
+import { getComponentDescriptionAsMarkdown } from "./wca";
 
-type TS =
-  typeof import("../../node_modules/web-component-analyzer/node_modules/typescript");
-
-// We cannot just `import` web-component-analyzer as this package does not support ESM correctly.
-const require = createRequire(import.meta.url);
-const { analyzeSourceFile, transformAnalyzerResult } =
-  require("web-component-analyzer") as typeof import("web-component-analyzer");
-
-// We use TypeScript of web-component-analyzer's dependency to avoid compatibility issues
-const ts =
-  require("../../node_modules/web-component-analyzer/node_modules/typescript") as TS;
-
-type Program = ReturnType<TS["createProgram"]>;
-
-function createTSProgram(projectDir: string, oldProgram?: Program): Program {
-  const configFile = ts.findConfigFile(
-    projectDir,
-    ts.sys.fileExists,
-    "tsconfig.lib.json"
-  );
-  if (!configFile) {
-    throw Error("tsconfig.lib.json not found");
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const { config } = ts.readConfigFile(configFile, ts.sys.readFile);
-  const { options, fileNames } = ts.parseJsonConfigFileContent(
-    config,
-    ts.sys,
-    projectDir
-  );
-
-  return ts.createProgram({
-    rootNames: fileNames,
-    options,
-    oldProgram,
-  });
-}
-
-async function createLinkMap(
-  projectDir: string
-): Promise<ReadonlyMap<string, string>> {
-  const linkMap = new Map<string, string>();
-  const files = await fg("src/components/**/daikin-*.stories.ts", {
-    cwd: projectDir,
-    absolute: true,
-  });
-  for (const file of files) {
-    const componentName = basename(file, ".stories.ts");
-    const content = await fsp.readFile(file, "utf-8");
-    const pageName = /\n\s+title: "([^"]+)",\n/.exec(content)?.[1];
-    if (!pageName) {
-      continue;
-    }
-
-    const href = `?path=/docs/${pageName.toLowerCase().replace(/[^a-z\d]/g, "-")}--docs`;
-    linkMap.set(componentName, href);
-  }
-
-  return linkMap;
-}
-
-function getComponentDescription(
-  filename: string,
-  linkMap: ReadonlyMap<string, string>,
-  program: Program,
-  warn: (str: string) => void
-): string | null {
-  if (!existsSync(filename)) {
-    warn(`The component file "${filename}" does not exist.`);
-    return null;
-  }
-
-  const sourceFile = program.getSourceFile(filename);
-  if (!sourceFile) {
-    warn(`Cannot obtain SourceFile of "${filename}".`);
-    return null;
-  }
-
-  const result = analyzeSourceFile(sourceFile, {
-    program,
-    ts: ts,
-  });
-
-  return (
-    transformAnalyzerResult("markdown", result, program, {
-      inlineTypes: false,
-      markdown: {
-        headerLevel: 2,
-      },
-    })
+function formatComponentDescription(
+  markdown: string,
+  linkMap: ReadonlyMap<string, string>
+): string {
+  return linkify(
+    markdown
       // Remove component title (e.g. `## daikin-checkbox`)
       .replace(/^\s*#+ .+\n/, "")
       // Fix "\|" in inline codes in tables
       .replace(/[^`]`[^`]+`/g, (all) => all.replaceAll("\\|", "|"))
-      // Link-ify
-      .replace(/`(daikin-[^`]+)`/g, (all, name: string) => {
-        const href = linkMap.get(name);
-        return href ? `[${name}](${href})` : all;
-      })
-      .trim()
+      .trim(),
+    linkMap
   );
 }
 
@@ -117,7 +27,7 @@ function getComponentDescription(
  * @returns A plugin
  */
 export function storybookFrameworkLoader(frameworkPath: string): Plugin {
-  const projectDir = resolve(import.meta.dirname, "../..");
+  const projectDir = resolve(import.meta.dirname, "../../..");
   let program = createTSProgram(projectDir);
   let linkMapPromise = createLinkMap(projectDir);
 
@@ -144,11 +54,13 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
         .replace(/\.stories.tsx?$/, "");
       // get component filepath ("<dir>/daikin-button.ts")
       const componentFilepath = resolve(storiesId, "../..", `${basename}.ts`);
-      const componentDescription = getComponentDescription(
-        componentFilepath,
-        await linkMapPromise,
-        program,
-        this.warn.bind(this)
+      const componentDescription = formatComponentDescription(
+        getComponentDescriptionAsMarkdown(
+          componentFilepath,
+          program,
+          this.warn.bind(this)
+        ) ?? "",
+        await linkMapPromise
       );
 
       // prepare additional metadata
