@@ -119,6 +119,10 @@ type DropdownVariantProps = MergeVariantProps<
 /**
  * A dropdown list component.
  *
+ * @fires change - When an item in the drop-down list is selected, it returns the value of the selected item.
+ *
+ * @slot - Dropdown item list slot. Place `daikin-dropdown-item` elements here.
+ *
  * @example
  *
  * ```html

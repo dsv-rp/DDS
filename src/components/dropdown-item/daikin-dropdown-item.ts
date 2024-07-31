@@ -31,7 +31,7 @@ const cvaOption = cva(
 );
 
 /**
- * Use as a direct child element of daikin-dropdown
+ * The dropdown item component that can be used within `daikin-dropdown` component.
  *
  * @example
  *
