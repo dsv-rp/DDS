@@ -11,6 +11,11 @@ export const DAIKIN_DROPDOWN_ITEM_ARG_TYPES = {
     description: "Dropdown item value",
     type: "string",
   },
+  disabled: {
+    description: "Whether the dropdown item is disabled",
+    type: "boolean",
+    defaultValue: false,
+  },
 } satisfies Meta<DaikinDropdownItemStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinDropdownItemStoryArgs>;

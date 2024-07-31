@@ -11,5 +11,13 @@ export default {
 export const Default: Story = {
   args: {
     value: "value",
+    disabled: false,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
   },
 };

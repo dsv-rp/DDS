@@ -35,6 +35,10 @@ const cvaLabel = cva([], {
       left: [],
       hidden: ["hidden"],
     },
+    disabled: {
+      enabled: [],
+      disabled: ["text-[#DCDCDC]"],
+    },
   },
 });
 
@@ -46,13 +50,10 @@ const cvaButton = cva(
     "w-[218px]",
     "bg-white",
     "border",
-    "border-[#8c8c8c]",
     "rounded-md",
     "overflow-hidden",
     "font-daikinSerif",
     "text-left",
-
-    "hover:bg-[#ebebeb]",
 
     "relative",
     "after:i-daikin-dropdown-chevron-down",
@@ -76,6 +77,14 @@ const cvaButton = cva(
           "leading-[22px]",
         ],
       },
+      disabled: {
+        enabled: ["border-[#8C8C8C]", "after:text-black", "hover:bg-[#ebebeb]"],
+        disabled: [
+          "text-[#DCDCDC]",
+          "border-[#DCDCDC]",
+          "after:text-[#DCDCDC]",
+        ],
+      },
     },
   }
 );
@@ -84,7 +93,7 @@ const cvaContent = cva(
   [
     "w-max",
     "border",
-    "border-[#8c8c8c]",
+    "border-[#8C8C8C]",
     "rounded-md",
     "overflow-hidden",
     "absolute",
@@ -113,10 +122,10 @@ type DropdownVariantProps = MergeVariantProps<
  * @example
  *
  * ```html
- * <daikin-dropdown>
- *   <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
- *   <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
- *   <daikin-dropdown-item value="value3">Item 3</daikin-dropdown-item>
+ * <daikin-dropdown label="Dropdown label">
+ *   <daikin-dropdown-item value="value1">Dropdown item 1</daikin-dropdown-item>
+ *   <daikin-dropdown-item value="value2">Dropdown item 2</daikin-dropdown-item>
+ *   <daikin-dropdown-item value="value3" disabled>Dropdown item 3</daikin-dropdown-item>
  * </daikin-dropdown>
  * ```
  */
@@ -159,13 +168,16 @@ export class DaikinDropdown extends LitElement {
   @property({ type: String, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
+  /**
+   * Whether the dropdown is disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
   @property({ type: String })
   value = "";
 
-  /**
-   * Whether or not a drop-down menu is displayed
-   */
-  @property({ type: Boolean, reflect: true })
+  @state()
   open = false;
 
   @state()
@@ -281,16 +293,25 @@ export class DaikinDropdown extends LitElement {
       <div
         class="text-sm font-medium ${cvaLabel({
           labelPosition: this.labelPosition,
+          disabled: this.disabled ? "disabled" : "enabled",
         })}"
       >
         ${this.label}
       </div>
-      <div role="menu" @keydown=${this._handleKeyDown}>
+      <div
+        role="menu"
+        aria-disabled=${this.disabled}
+        @keydown=${this._handleKeyDown}
+      >
         <button
           type="button"
-          class=${cvaButton({ size: this.size })}
-          aria-expanded=${this.open}
+          class=${cvaButton({
+            size: this.size,
+            disabled: this.disabled ? "disabled" : "enabled",
+          })}
+          aria-expanded=${this.open && !this.disabled}
           aria-haspopup="listbox"
+          ?disabled=${this.disabled}
           @click=${this._handleClick}
           ${ref(this._buttonRef)}
         >
@@ -304,7 +325,9 @@ export class DaikinDropdown extends LitElement {
           <span>${this._buttonLabel}</span>
         </button>
         <div
-          class=${cvaContent({ state: this.open ? "visible" : "hidden" })}
+          class=${cvaContent({
+            state: this.open && !this.disabled ? "visible" : "hidden",
+          })}
           role="listbox"
           aria-label=${this.label}
           ${ref(this._contentsRef)}

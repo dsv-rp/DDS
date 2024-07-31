@@ -1,6 +1,34 @@
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+
+const cvaOption = cva(
+  [
+    "w-[216px]",
+    "minH-[42px]",
+    "bg-white",
+    "py-2.5",
+    "px-3",
+    "font-daikinSerif",
+    "text-[15px]",
+    "leading-[22px]",
+    "text-left",
+  ],
+  {
+    variants: {
+      labelPosition: {
+        top: [],
+        left: [],
+        hidden: ["hidden"],
+      },
+      disabled: {
+        enabled: ["hover:bg-[#ebebeb]"],
+        disabled: ["text-[#DCDCDC]"],
+      },
+    },
+  }
+);
 
 /**
  * Use as a direct child element of daikin-dropdown
@@ -22,6 +50,12 @@ export class DaikinDropdownItem extends LitElement {
   @property({ type: String })
   value = "";
 
+  /**
+   * Whether the dropdown item is disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
   @property({ type: Boolean, reflect: true })
   selected = false;
 
@@ -39,10 +73,11 @@ export class DaikinDropdownItem extends LitElement {
   override render() {
     return html`<button
       type="button"
-      class="w-[216px] minH-[42px] bg-white py-2.5 px-3 font-daikinSerif text-[15px] leading-[22px] text-left hover:bg-[#ebebeb]"
+      class=${cvaOption({ disabled: this.disabled ? "disabled" : "enabled" })}
       data-value=${this.value}
       role="option"
       aria-selected="${this.selected}"
+      ?disabled=${this.disabled}
       @click=${this._handleClick}
     >
       <slot></slot>

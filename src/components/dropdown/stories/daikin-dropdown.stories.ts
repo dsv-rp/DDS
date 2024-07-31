@@ -13,11 +13,12 @@ export default {
 
 export const Default: Story = {
   args: {
-    label: "Dropdown-label",
+    label: "Dropdown label",
     size: "medium",
     value: "value1",
     labelPosition: "top",
     open: false,
+    disabled: false,
     option: "default",
     onClick: fn(),
     onChange: fn(),
@@ -66,6 +67,12 @@ export const Small: Story = {
   args: {
     ...Default.args,
     size: "small",
+  },
+};
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
   },
 };
 

@@ -16,27 +16,30 @@ describeEach(["small", "medium"] as const, (size) => {
   describeEach(["top", "left", "hidden"] as const, (labelPosition) => {
     describeEach(["left", "none"] as const, (icon) => {
       describeEach(["open", "close"] as const, (state) => {
-        const baseURL = getPageURL({
-          size,
-          label: "Dropdown Label",
-          labelPosition,
-          ...(state === "open" && { open: true }),
-          ...(icon === "left" && { leftIcon: "positive" as const }),
-        });
+        describeEach(["enabled", "disabled"] as const, (disabled) => {
+          const baseURL = getPageURL({
+            size,
+            label: "Dropdown Label",
+            labelPosition,
+            ...(icon === "left" && { leftIcon: "positive" as const }),
+            ...(state === "open" && { open: true }),
+            ...(disabled === "disabled" && { disabled: true }),
+          });
 
-        test("base", async ({ page }) => {
-          await page.goto(baseURL);
+          test("base", async ({ page }) => {
+            await page.goto(baseURL);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector(
-            `div[data-testid="vrt-container"]`,
-            {
-              state: "visible",
-            }
-          );
+            // wait for element to be visible
+            const element = await page.waitForSelector(
+              `div[data-testid="vrt-container"]`,
+              {
+                state: "visible",
+              }
+            );
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
+            // take screenshot and check for diffs
+            await expect(page).toHaveScreenshot(await clipFor(element));
+          });
         });
       });
     });

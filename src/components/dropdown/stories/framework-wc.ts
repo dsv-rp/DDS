@@ -9,10 +9,11 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
   render: ({
     label,
     size,
+    value,
     labelPosition,
     leftIcon,
-    value,
     open,
+    disabled,
     option,
     onChange,
     onClick,
@@ -21,10 +22,11 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
       <daikin-dropdown
         label=${ifDefined(label)}
         size=${size}
-        label-position=${labelPosition}
-        left-icon=${leftIcon}
         value=${value}
+        label-position=${labelPosition}
+        .leftIcon=${leftIcon}
         ?open=${open}
+        ?disabled=${disabled}
         @change=${onChange}
         @click=${onClick}
       >
@@ -32,7 +34,9 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
           ? html`
               <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
               <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
-              <daikin-dropdown-item value="value3">Item 3</daikin-dropdown-item>
+              <daikin-dropdown-item value="value3" disabled>
+                Item 3
+              </daikin-dropdown-item>
             `
           : null}
         ${option === "single"
@@ -44,8 +48,12 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
           ? html`
               <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
               <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
-              <daikin-dropdown-item value="value3">Item 3</daikin-dropdown-item>
-              <daikin-dropdown-item value="value4">Item 4</daikin-dropdown-item>
+              <daikin-dropdown-item value="value3" disabled>
+                Item 3
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value4" disabled>
+                Item 4
+              </daikin-dropdown-item>
               <daikin-dropdown-item value="value5">Item 5</daikin-dropdown-item>
               <daikin-dropdown-item value="value6">Item 6</daikin-dropdown-item>
               <daikin-dropdown-item value="value7">Item 7</daikin-dropdown-item>
