@@ -32,65 +32,85 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
       >
         ${option === "default"
           ? html`
-              <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
-              <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
+              <daikin-dropdown-item value="value1">
+                Dropdown item 1
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value2">
+                Dropdown item 2
+              </daikin-dropdown-item>
               <daikin-dropdown-item value="value3" disabled>
-                Item 3
+                Dropdown item 3
               </daikin-dropdown-item>
             `
           : null}
         ${option === "single"
           ? html`
-              <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
+              <daikin-dropdown-item value="value1">
+                Dropdown item 1
+              </daikin-dropdown-item>
             `
           : null}
         ${option === "multiple"
           ? html`
-              <daikin-dropdown-item value="value1">Item 1</daikin-dropdown-item>
-              <daikin-dropdown-item value="value2">Item 2</daikin-dropdown-item>
+              <daikin-dropdown-item value="value1">
+                Dropdown item 1
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value2">
+                Dropdown item 2
+              </daikin-dropdown-item>
               <daikin-dropdown-item value="value3" disabled>
-                Item 3
+                Dropdown item 3
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value4" disabled>
-                Item 4
+                Dropdown item 4
               </daikin-dropdown-item>
-              <daikin-dropdown-item value="value5">Item 5</daikin-dropdown-item>
-              <daikin-dropdown-item value="value6">Item 6</daikin-dropdown-item>
-              <daikin-dropdown-item value="value7">Item 7</daikin-dropdown-item>
-              <daikin-dropdown-item value="value8">Item 8</daikin-dropdown-item>
-              <daikin-dropdown-item value="value9">Item 9</daikin-dropdown-item>
+              <daikin-dropdown-item value="value5">
+                Dropdown item 5
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value6">
+                Dropdown item 6
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value7">
+                Dropdown item 7
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value8">
+                Dropdown item 8
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value9">
+                Dropdown item 9
+              </daikin-dropdown-item>
               <daikin-dropdown-item value="value10">
-                Item 10
+                Dropdown item 10
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value11">
-                Item 11
+                Dropdown item 11
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value12">
-                Item 12
+                Dropdown item 12
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value13">
-                Item 13
+                Dropdown item 13
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value14">
-                Item 14
+                Dropdown item 14
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value15">
-                Item 15
+                Dropdown item 15
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value16">
-                Item 16
+                Dropdown item 16
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value17">
-                Item 17
+                Dropdown item 17
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value18">
-                Item 18
+                Dropdown item 18
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value19">
-                Item 19
+                Dropdown item 19
               </daikin-dropdown-item>
               <daikin-dropdown-item value="value20">
-                Item 20
+                Dropdown item 20
               </daikin-dropdown-item>
             `
           : null}

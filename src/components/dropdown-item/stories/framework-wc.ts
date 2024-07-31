@@ -6,7 +6,7 @@ import type { DaikinDropdownItemStoryArgs } from "./common";
 export const metadata: Meta<DaikinDropdownItemStoryArgs> = {
   render: ({ value, disabled }) => html`
     <daikin-dropdown-item value=${value} ?disabled=${disabled}>
-      Dropdown Item
+      Dropdown item
     </daikin-dropdown-item>
   `,
 };

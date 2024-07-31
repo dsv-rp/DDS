@@ -32,6 +32,12 @@ const cvaOption = cva(
 
 /**
  * Use as a direct child element of daikin-dropdown
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-dropdown-item value="value">Dropdown item</daikin-dropdown-item>
+ * ```
  */
 @customElement("daikin-dropdown-item")
 export class DaikinDropdownItem extends LitElement {
