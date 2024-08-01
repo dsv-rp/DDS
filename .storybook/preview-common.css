@@ -10,3 +10,11 @@
   font-style: italic;
   opacity: 0.8;
 }
+
+/* Docs: Remove "Type" and "Description" columns from Storybook args tables. */
+#storybook-docs
+  .docblock-argstable
+  tr
+  :where(th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3)) {
+  display: none;
+}
