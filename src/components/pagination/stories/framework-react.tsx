@@ -9,7 +9,7 @@ const ReactDaikinPagination = createComponent({
   tagName: "daikin-pagination",
   elementClass: DaikinPagination,
   events: {
-    onChange: "change",
+    onChange: "page-change",
     onClick: "click",
   },
 });

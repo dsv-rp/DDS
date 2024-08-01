@@ -61,30 +61,62 @@ export class DaikinPagination extends LitElement {
   @property({ type: Number, reflect: true })
   max = 1;
 
+  private _handleClickNumber(page: number) {
+    this.value = page;
+  }
+
+  private _handleClickChevron(type: "left" | "right") {
+    if (type === "left" && this.value > 1) {
+      this.value -= 1;
+    } else if (type === "right" && this.value < this.max) {
+      this.value += 1;
+    }
+  }
+
   override render() {
     const cvaChevron = cvaButton({
       active: false,
     });
     return html`
       <div class="inline-flex">
-        <div class="${cvaChevron} flex items-center justify-center ">
-          <daikin-icon icon="chevronLeft"></daikin-icon>
-        </div>
+        <button @click=${() => this._handleClickChevron("left")}>
+          <div class="${cvaChevron} flex items-center justify-center">
+            <daikin-icon icon="chevronLeft"></daikin-icon>
+          </div>
+        </button>
         <slot>
           ${map(range(1, this.max + 1), (i) => {
             const buttonClassName = cvaButton({
               active: this.value === i,
             });
-            return html`<button aria-label="page${i}" class=${buttonClassName}>
+            return html`<button
+              aria-label="page${i}"
+              class=${buttonClassName}
+              value=${i}
+              @click=${() => this._handleClickNumber(i)}
+            >
               ${i}
             </button>`;
           })}
         </slot>
-        <div class="${cvaChevron} flex items-center justify-center">
-          <daikin-icon icon="chevronRight"></daikin-icon>
-        </div>
+        <button @click=${() => this._handleClickChevron("right")}>
+          <div class="${cvaChevron} flex items-center justify-center">
+            <daikin-icon icon="chevronRight"></daikin-icon>
+          </div>
+        </button>
       </div>
     `;
+  }
+
+  protected override updated(): void {
+    this.dispatchEvent(
+      new CustomEvent("page-change", {
+        detail: { page: this.value },
+        bubbles: true,
+        composed: true,
+        cancelable: false,
+      })
+    );
   }
 }
 
