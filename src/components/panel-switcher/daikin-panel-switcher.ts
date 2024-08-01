@@ -71,7 +71,10 @@ export class DaikinPanelSwitcher extends LitElement {
       (value) =>
         html`<div
           class=${this.value === value ? "contents" : "hidden"}
-          role=${this.panelRole ?? nothing}
+          role=${
+            // HACK: Workaround lit-analyzer not recognizing `nothing` (runem/lit-analyzer#207).
+            (this.panelRole ?? nothing) as ARIARole
+          }
           ?hidden=${this.value !== value}
         >
           <slot name=${`panel:${value}`}></slot>

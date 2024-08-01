@@ -38,6 +38,9 @@ jobs:
         env:
           STORYBOOK_ENV: production
 
+      - name: Unit Test
+        run: npm run test:unit
+
       - name: Interaction Test
         run: |
           rm -rf node_modules/.cache/storybook
@@ -84,7 +87,9 @@ jobs:
           STORYBOOK_ENV: production
 
       - name: Visual Regression Test
-        run: npm run test:visual-${{ matrix.framework }}
+        run: |
+          rm -rf node_modules/.cache/storybook
+          npm run test:visual-${{ matrix.framework }}
         env:
           PLAYWRIGHT_NO_CONTAINER: 1
           STORYBOOK_ENV: ${{ matrix.env }}
