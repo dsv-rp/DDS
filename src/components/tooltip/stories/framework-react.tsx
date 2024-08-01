@@ -16,7 +16,7 @@ const ReactDaikinTooltip = createComponent({
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   component: ({ ...props }: DaikinTooltipStoryArgs) => (
     <div
-      className="viewArea"
+      data-testid="view-area"
       style={{
         width: 800,
         height: 500,

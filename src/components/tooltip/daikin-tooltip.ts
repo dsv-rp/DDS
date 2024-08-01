@@ -51,10 +51,28 @@ const cvaTooltip = cva(
 );
 
 /**
- * A tooltip component.
+ * A tooltip component is used to show brief information when a user interacts with an element.
+ *
+ * @fires beforetoggle - _Cancellable._ A custom event emitted when the tooltip is about to be opened or closed by user interaction.
+ *
+ * @fires toggle - A custom event emitted when the tooltip is opened or closed.
  *
  * @slot - A slot for the element to which the tooltip is attached (the trigger element).
+ *
  * @slot tooltip - A slot for the tooltip content.
+ *
+ * @example
+ *
+ * ```html
+ *  </daikin-tooltip>
+ *    <span slot="tooltip">This is a message</span>
+ *    <span>hover me</span>
+ *  </daikin-tooltip>
+ *
+ *  </daikin-tooltip description="This is a message">
+ *    <span>hover me</span>
+ *  </daikin-tooltip>
+ * ```
  */
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
@@ -92,6 +110,12 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;
 
+  /**
+   * Whether the tooltip will be control by mouse hover or changing open state
+   */
+  @property({ reflect: true, type: String })
+  trigger: "hover" | "manual" = "hover";
+
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
   private _triggerRef: Ref<HTMLElement> = createRef();
@@ -126,18 +150,41 @@ export class DaikinTooltip extends LitElement {
     this._cleanUpAutoUpdate = null;
   }
 
+  private _changeOpenState(state: boolean) {
+    if (
+      !this.dispatchEvent(
+        new CustomEvent("beforetoggle", {
+          detail: { open: this.open },
+          bubbles: true,
+          composed: true,
+          cancelable: true,
+        })
+      )
+    ) {
+      return;
+    }
+    if (this.open === state) {
+      return;
+    }
+    this.open = state;
+  }
+
   private _handleClick() {
     if (this.closeOnClick) {
-      this.open = false;
+      this._changeOpenState(false);
     }
   }
 
   private _handleMouseLeave() {
-    this.open = false;
+    if (this.trigger === "hover") {
+      this._changeOpenState(false);
+    }
   }
 
   private _handleMouseEnter() {
-    this.open = true;
+    if (this.trigger === "hover") {
+      this._changeOpenState(true);
+    }
   }
 
   override render() {
@@ -172,6 +219,14 @@ export class DaikinTooltip extends LitElement {
         this._cleanUpAutoUpdate?.();
         this._cleanUpAutoUpdate = null;
       }
+      this.dispatchEvent(
+        new CustomEvent("toggle", {
+          detail: { open: this.open },
+          bubbles: true,
+          composed: true,
+          cancelable: false,
+        })
+      );
     }
   }
 

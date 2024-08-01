@@ -21,6 +21,7 @@ textbox
 
 # Custom Events
 beforechange
+beforetoggle
 
 # HTML
 maxlength

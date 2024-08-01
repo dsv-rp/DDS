@@ -22,6 +22,10 @@ export const DAIKIN_TOOLTIP_ARG_TYPES = {
     type: "string",
   },
   closeOnClick: { type: "boolean" },
+  trigger: {
+    control: { type: "select" },
+    options: ["hover", "manual"],
+  },
   descriptionSlotText: {
     type: "string",
   },

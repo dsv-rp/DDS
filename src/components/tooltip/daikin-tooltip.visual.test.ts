@@ -24,7 +24,7 @@ describeEach(["light", "dark"] as const, (variant) => {
 
       // wait for element to be visible
 
-      const viewArea = await page.waitForSelector(".viewArea", {
+      const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
         state: "visible",
       });
 
@@ -48,7 +48,7 @@ describeEach(["light", "dark"] as const, (variant) => {
 
       // wait for element to be visible
 
-      const viewArea = await page.waitForSelector(".viewArea", {
+      const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
         state: "visible",
       });
 
@@ -72,7 +72,7 @@ describeEach(["light", "dark"] as const, (variant) => {
 
       // wait for element to be visible
 
-      const viewArea = await page.waitForSelector(".viewArea", {
+      const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
         state: "visible",
       });
 
