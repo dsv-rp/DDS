@@ -81,6 +81,8 @@ export class DaikinTooltip extends LitElement {
 
     :host {
       display: inline-block;
+
+      --dds-tooltip-spacing: 20px;
     }
   `;
 
@@ -122,7 +124,9 @@ export class DaikinTooltip extends LitElement {
 
   private _cleanUpAutoUpdate: (() => void) | null = null;
 
-  private _startAutoUpdate() {
+  private _hostStyles = window.getComputedStyle(this);
+
+  private _startAutoUpdate(spacing: number) {
     const reference = this._triggerRef.value;
     const float = this._tooltipRef.value;
     if (!reference || !float) {
@@ -132,7 +136,7 @@ export class DaikinTooltip extends LitElement {
     this._cleanUpAutoUpdate = autoUpdate(reference, float, () => {
       computePosition(reference, float, {
         placement: this.placement,
-        middleware: [offset({ mainAxis: 20 }), flip(), shift()],
+        middleware: [offset({ mainAxis: spacing }), flip(), shift()],
       })
         .then(({ x, y }) => {
           Object.assign(float.style, {
@@ -212,9 +216,14 @@ export class DaikinTooltip extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
+    const spacing = parseInt(
+      this._hostStyles.getPropertyValue("--dds-tooltip-spacing") || "20",
+      10
+    );
+
     if (changedProperties.has("open")) {
       if (this.open) {
-        this._startAutoUpdate();
+        this._startAutoUpdate(spacing);
       } else {
         this._cleanUpAutoUpdate?.();
         this._cleanUpAutoUpdate = null;
