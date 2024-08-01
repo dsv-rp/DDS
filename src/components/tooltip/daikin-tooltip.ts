@@ -72,12 +72,12 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: String })
   placement: "top" | "bottom" | "left" | "right" = "bottom";
   /**
-   * Specifies tooltip type
+   * Specifies tooltip theme.
    */
   @property({ reflect: true, type: String })
   variant: "light" | "dark" = "light";
   /**
-   * Specifies whether the tooltip should be open when it first renders
+   * Whether the tooltip is open.
    */
   @property({ reflect: true, type: Boolean })
   open = false;
@@ -87,7 +87,7 @@ export class DaikinTooltip extends LitElement {
   @property({ reflect: true, type: String })
   description = "";
   /**
-   * if true, the tooltip will hide on click
+   * if true, the tooltip will hide on click.
    */
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;

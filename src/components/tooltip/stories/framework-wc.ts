@@ -21,7 +21,6 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
         style="width: 800px; height: 500px; overflow: auto; border: 1px solid #ccc"
       >
         <div
-          class="innerArea"
           style="width: 1500px; height: 900px; display: flex; align-items: center; justify-content: center"
         >
           <daikin-tooltip

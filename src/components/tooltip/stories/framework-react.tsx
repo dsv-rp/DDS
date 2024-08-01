@@ -25,7 +25,6 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
       }}
     >
       <div
-        className="innerArea"
         style={{
           width: 1500,
           height: 900,
