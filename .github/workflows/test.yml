@@ -29,6 +29,8 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        env:
+          HUSKY: 0
 
       - name: Lint
         run: npm run lint
@@ -78,6 +80,8 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        env:
+          HUSKY: 0
 
       - name: Build
         if: matrix.env == 'production'
