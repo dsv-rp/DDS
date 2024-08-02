@@ -50,28 +50,30 @@ const cvaTooltip = cva(
   }
 );
 
+const DEFAULT_TOOLTIP_SPACING = `20px`;
+
 /**
  * A tooltip component is used to show brief information when a user interacts with an element.
  *
  * @fires beforetoggle - _Cancellable._ A custom event emitted when the tooltip is about to be opened or closed by user interaction.
- *
  * @fires toggle - A custom event emitted when the tooltip is opened or closed.
  *
  * @slot - A slot for the element to which the tooltip is attached (the trigger element).
- *
  * @slot tooltip - A slot for the tooltip content.
+ *
+ * @cssprop [--dds-tooltip-spacing=20px] - Spacing between the tooltip and the trigger
  *
  * @example
  *
  * ```html
- *  </daikin-tooltip>
- *    <span slot="tooltip">This is a message</span>
- *    <span>hover me</span>
- *  </daikin-tooltip>
+ * </daikin-tooltip>
+ *   <span slot="tooltip">This is a message</span>
+ *   <span>hover me</span>
+ * </daikin-tooltip>
  *
- *  </daikin-tooltip description="This is a message">
- *    <span>hover me</span>
- *  </daikin-tooltip>
+ * </daikin-tooltip description="This is a message">
+ *   <span>hover me</span>
+ * </daikin-tooltip>
  * ```
  */
 @customElement("daikin-tooltip")
@@ -81,8 +83,6 @@ export class DaikinTooltip extends LitElement {
 
     :host {
       display: inline-block;
-
-      --dds-tooltip-spacing: 20px;
     }
   `;
 
@@ -126,7 +126,7 @@ export class DaikinTooltip extends LitElement {
 
   private _hostStyles = window.getComputedStyle(this);
 
-  private _startAutoUpdate(spacing: number) {
+  private _startAutoUpdate() {
     const reference = this._triggerRef.value;
     const float = this._tooltipRef.value;
     if (!reference || !float) {
@@ -135,6 +135,11 @@ export class DaikinTooltip extends LitElement {
     this._cleanUpAutoUpdate?.();
     // TODO(DDS-1226): refactor here with popover api + CSS Anchor Positioning instead of using floating-ui
     this._cleanUpAutoUpdate = autoUpdate(reference, float, () => {
+      const spacing = parseInt(
+        this._hostStyles.getPropertyValue("--dds-tooltip-spacing") ||
+          DEFAULT_TOOLTIP_SPACING,
+        10
+      );
       computePosition(reference, float, {
         placement: this.placement,
         middleware: [offset({ mainAxis: spacing }), flip(), shift()],
@@ -156,6 +161,9 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _changeOpenState(state: boolean) {
+    if (this.open === state) {
+      return;
+    }
     if (
       !this.dispatchEvent(
         new CustomEvent("beforetoggle", {
@@ -166,9 +174,6 @@ export class DaikinTooltip extends LitElement {
         })
       )
     ) {
-      return;
-    }
-    if (this.open === state) {
       return;
     }
     this.open = state;
@@ -216,15 +221,19 @@ export class DaikinTooltip extends LitElement {
     </div>`;
   }
 
-  protected override updated(changedProperties: PropertyValues<this>): void {
-    const spacing = parseInt(
-      this._hostStyles.getPropertyValue("--dds-tooltip-spacing") || "20",
-      10
-    );
+  protected override firstUpdated(): void {
+    window.CSS.registerProperty({
+      name: "--dds-tooltip-spacing",
+      syntax: "<length>",
+      inherits: true,
+      initialValue: DEFAULT_TOOLTIP_SPACING,
+    });
+  }
 
+  protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
       if (this.open) {
-        this._startAutoUpdate(spacing);
+        this._startAutoUpdate();
       } else {
         this._cleanUpAutoUpdate?.();
         this._cleanUpAutoUpdate = null;
