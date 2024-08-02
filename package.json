@@ -45,6 +45,8 @@
   "scripts": {
     "prepare": "husky",
     "build": "tsc -b && vite build && vite build --mode development",
+    "changeset-version": "changeset version && npm install --package-lock-only",
+    "changeset-publish": "changeset publish",
     "storybook": "storybook dev -p 6006",
     "storybook:react": "storybook dev -p 6007 -c .storybook/react",
     "storybook:ci-wc": "tsx scripts/storybook-ci.ts web-components",
