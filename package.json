@@ -9,6 +9,11 @@
     "README.md",
     "LICENSE"
   ],
+  "homepage": "https://github.com/dsv-rp/DDS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dsv-rp/DDS.git"
+  },
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.js",
   "types": "./dist/es/index.d.ts",
