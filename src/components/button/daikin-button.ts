@@ -29,7 +29,7 @@ const cvaButton = cva(
     "font-bold",
     "rounded-lg",
     "tracking-wide",
-    "text-wrap",
+    "text-nowrap",
     "disabled:cursor-default",
     "w-full",
     "h-full",
@@ -96,7 +96,20 @@ const cvaButton = cva(
 type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
 /**
- * Primary UI component for user interaction
+ * The button component is a versatile UI element that triggers actions or submits forms when clicked.
+ * It functions similarly to the HTML `<button>` tag, allowing users to initiate various operations such as submitting data, opening dialogs, or navigating to different sections of an application.
+ *
+ * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
+ *
+ * @slot - A slot for the button content.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-button>
+ *   Button label
+ * </daikin-button>
+ * ```
  */
 @customElement("daikin-button")
 export class DaikinButton extends LitElement {
@@ -231,6 +244,10 @@ export class DaikinButton extends LitElement {
     `;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions | undefined): void {
     this.shadowRoot?.querySelector("button")?.focus(options);
   }

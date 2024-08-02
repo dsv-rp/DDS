@@ -8,8 +8,8 @@ import { Meta } from "@storybook/blocks";
 
 If you are using a modern frontend framework, you can import the component and use it like this:
 
-```javascript
-import "@daikin-zen/design-system-web-components/dist/components/button/index.js";
+```js
+import "@daikin-oss/design-system-web-components/components/button/index.js";
 
 <daikin-button
   onClick={() => {
@@ -25,6 +25,9 @@ import "@daikin-zen/design-system-web-components/dist/components/button/index.js
 You can also just use a plain script tag and import it that way.
 However, you would have to import all the components you use, and then bundle it yourself.
 This is very similar to how we recommend users who utilize Server Side Rendering (see below).
+
+Please note that our components require the Roboto font.
+Instructions for installing this font can be found in the [Fonts section of the README](https://github.com/dsv-rp/DDS?tab=readme-ov-file#fonts).
 
 ## Server Side Rendering
 

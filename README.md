@@ -8,17 +8,57 @@ This project is an implementation of the Daikin Design Kit using Web Components.
 
 Start by installing the package:
 
-```bash
-npm i @daikin-oss/design-system-web-components
+```sh
+npm install @daikin-oss/design-system-web-components
 ```
 
-You can then import necessary components in your bundle:
+You can then import necessary components in your bundle (the .js extension is optional):
 
-```javascript
-import "@daikin-oss/design-system-web-components/dist/components/button/index.js";
+```js
+import "@daikin-oss/design-system-web-components/components/button/index.js";
 ```
 
 By default, out-of-the-box, the styles are for Daikin brand in light mode.
+
+### Fonts
+
+We use Roboto as the font for our UI components.
+This font is not included in our package, so developers will need to include it in their apps.
+
+The required weights and variants are as follows:
+
+- Regular (400), Normal
+- Bold (700), Normal
+
+#### With Google Fonts
+
+If you can use an external CDN, you can use Google Fonts to load it.
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
+```
+
+#### With Fontsource
+
+If you want to deliver fonts within your app without relying on an external CDN, you can use a package like [Fontsource](https://fontsource.org/fonts/roboto) to do this.
+
+Install the package with:
+
+```sh
+npm install @fontsource/roboto
+```
+
+Then import it in your app:
+
+```js
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/700.css";
+```
 
 ### Dark Mode and Brands/Themes
 
@@ -26,8 +66,8 @@ _Due to the encapsulation of styles by the Web Components specification, how the
 
 For dark-mode support and non-daikin brands, you need to add the `tokens` package and include the CSS reference in your html:
 
-```bash
-npm install '@daikin-oss/dds-tokens
+```sh
+npm install @daikin-oss/dds-tokens
 ```
 
 #### Dark Mode
