@@ -45,7 +45,7 @@ export const Dark: Story = {
     await expect(tooltip).toBeInTheDocument();
     await expect(tooltip).not.toBeVisible();
 
-    // TODO: hover function is not work well when using storybook test library
+    // TODO(DDS-1269): hover function is not work well when using storybook test library
     // await userEvent.hover(triggerElement);
 
     // await expect(tooltip).toBeVisible();

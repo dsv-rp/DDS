@@ -133,6 +133,7 @@ export class DaikinTooltip extends LitElement {
       return;
     }
     this._cleanUpAutoUpdate?.();
+    // TODO(DDS-1226): refactor here with popover api + CSS Anchor Positioning instead of using floating-ui
     this._cleanUpAutoUpdate = autoUpdate(reference, float, () => {
       computePosition(reference, float, {
         placement: this.placement,
