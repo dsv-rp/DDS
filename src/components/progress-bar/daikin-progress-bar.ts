@@ -60,7 +60,9 @@ const cvaHelper = cva(["text-xs", "mt-2"], {
 });
 
 /**
- * A progress bar component.
+ * The progress bar component is used to visually convey the progress to the user.
+ *
+ * When showing that something is in progress, you can choose between a mode that gives a percentage and illustrates accurate information, and a mode that continues to animate as an indefinite value.
  *
  * @example
  *
