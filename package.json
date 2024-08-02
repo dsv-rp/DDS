@@ -1,6 +1,6 @@
 {
   "name": "@daikin-oss/design-system-web-components",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "description": "Design system using web components",
   "type": "module",
   "files": [
@@ -9,6 +9,11 @@
     "README.md",
     "LICENSE"
   ],
+  "homepage": "https://github.com/dsv-rp/DDS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dsv-rp/DDS.git"
+  },
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.js",
   "types": "./dist/es/index.d.ts",
@@ -45,6 +50,8 @@
   "scripts": {
     "prepare": "husky",
     "build": "tsc -b && vite build && vite build --mode development",
+    "changeset-version": "changeset version && npm install --package-lock-only",
+    "changeset-publish": "changeset publish",
     "storybook": "storybook dev -p 6006",
     "storybook:react": "storybook dev -p 6007 -c .storybook/react",
     "storybook:ci-wc": "tsx scripts/storybook-ci.ts web-components",
@@ -78,6 +85,8 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.7",
     "@daikin-oss/tailwind": "^0.0.1",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@eslint/js": "^9.6.0",
@@ -137,6 +146,7 @@
     "vite": "^5.3.3",
     "vite-plugin-dts": "^3.9.1",
     "vite-plugin-externalize-deps": "^0.8.0",
-    "vitest": "^2.0.4"
+    "vitest": "^2.0.4",
+    "web-component-analyzer": "^2.0.0"
   }
 }

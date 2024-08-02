@@ -52,7 +52,17 @@ const cvaLabel = cva(
 type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
 
 /**
- * Primary UI component for user interaction
+ * The radio button component is a UI element that allows users to select one options from a set of choices.
+ * It functions similarly to the HTML `<input type="radio">` tag. \
+ * Please note that **a radio group component is not yet available**, so you'll need to manually group radio buttons when using multiple instances.
+ *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="radio">` element.
+ *
+ * @example
+ *
+ * ```html
+ *  <daikin-radio name="name" value="value" label="Radio button label"></daikin-radio>
+ * ```
  */
 @customElement("daikin-radio")
 export class DaikinRadio extends LitElement {

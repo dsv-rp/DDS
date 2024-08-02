@@ -9,6 +9,7 @@
     }
   ],
   "dictionaries": ["project-words"],
+  "ignoreRegExpList": ["\\[@[^\\]]+\\]"],
   "ignorePaths": [
     "node_modules",
     "dist",
