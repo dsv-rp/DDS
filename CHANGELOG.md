@@ -1,5 +1,11 @@
 # @daikin-oss/design-system-web-components
 
+## 0.3.1
+
+### Patch Changes
+
+- [#38](https://github.com/dsv-rp/DDS/pull/38) [`8be9351`](https://github.com/dsv-rp/DDS/commit/8be93513040a738f36c0ade2d3a7bb2dc7b0d91f) Thanks [@yodas7](https://github.com/yodas7)! - Fix package not released successfully due to the lack of repository field.
+
 ## 0.3.0
 
 ### Minor Changes
