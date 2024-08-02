@@ -4,6 +4,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   # Linting and Interaction Testing
   # Actually, it is interaction testing and linting, but we are temporarily using this name to merge the PRs.

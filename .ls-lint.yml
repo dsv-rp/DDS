@@ -16,6 +16,8 @@ ls:
   .html: kebab-case
   .json: kebab-case
   .md: SCREAMING_SNAKE_CASE
+  .changeset:
+    .md: kebab-case | SCREAMING_SNAKE_CASE
   .github/PULL_REQUEST_TEMPLATE:
     .md: snake_case
   .github/workflows:
