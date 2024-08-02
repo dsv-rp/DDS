@@ -1,14 +1,22 @@
+import fg from "fast-glob";
 import { env } from "node:process";
-import { defineConfig } from "vite";
+import { defineConfig, type UserConfig } from "vite";
 import dts from "vite-plugin-dts";
 import { externalizeDeps } from "vite-plugin-externalize-deps";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }): Promise<UserConfig> => {
   const isDev = mode === "development";
   const suffix = isDev ? "-dev" : "";
 
-  // This is required to set `import.meta.env.DEV/PROD` correctly
+  // This is required to set `import.meta.env.DEV/PROD` correctly.
   env.NODE_ENV = isDev ? "development" : "production";
+
+  // We have to enumerate index.ts files because rollup eliminates index files in subdirectories.
+  const entry = (
+    await fg("./src/**/index.ts", {
+      ignore: ["**/storybook/**", "**/tests/**"],
+    })
+  ).toSorted();
 
   return {
     build: {
@@ -16,7 +24,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: !isDev,
       cssMinify: "lightningcss",
       lib: {
-        entry: "./src/index.ts",
+        entry,
         formats: ["es", "cjs"],
         fileName: `[format]${suffix}/[name]`,
       },
