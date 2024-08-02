@@ -5,11 +5,13 @@ import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
- * Panel Switcher
+ * The panel switcher component is a child element within the `daikin-tab-group` that controls the display of the content panels associated with each tab.
+ * When a user selects a tab, the panel switcher component ensures the corresponding content panel is shown while hiding the others.
  *
- * A completely unstyled panel switcher.
+ * Hierarchy:
+ * - `daikin-tab-group` > `daikin-panel-switcher` ("panels" slot)
  *
- * @slot panel:\<name\> - Each panel.
+ * @slot panel:\<name\> - A slot for each panel content.
  *
  * @example
  *
@@ -17,7 +19,7 @@ import tailwindStyles from "../../tailwind.css?inline";
  * <!-- Note that `panels` must be set via property. -->
  * <daikin-panel-switcher
  *   class="block w-full h-full"
- *   panels='["foo", "bar", "baz"]'
+ *   .panels="${['foo', 'bar', 'baz']}"
  *   value="foo"
  *   panelRole="tabpanel"
  * >

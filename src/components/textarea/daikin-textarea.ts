@@ -54,7 +54,22 @@ const cvaCounter = cva(
 );
 
 /**
- * Primary UI component for user interaction
+ * The textarea component is designed for multiline text input, similar to the HTML `<textarea>` tag.
+ * It is ideal for situations where users need to enter longer pieces of text, such as comments, descriptions, or messages.
+ * Can be used within `daikin-input-group` component.
+ *
+ * Hierarchies:
+ * - `daikin-textarea` (can be used solely)
+ * - `daikin-input-group` > `daikin-textarea`
+ *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<textarea>` element.
+ *
+ * @example
+ *
+ * ```html
+ * <!-- See `daikin-input-group` component for complete example. -->
+ * <daikin-textarea name="name"></daikin-textarea>
+ * ```
  */
 @customElement("daikin-textarea")
 export class DaikinTextarea extends LitElement {
