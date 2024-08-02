@@ -29,7 +29,7 @@ const cvaButton = cva(
     "font-bold",
     "rounded-lg",
     "tracking-wide",
-    "text-wrap",
+    "text-nowrap",
     "disabled:cursor-default",
     "w-full",
     "h-full",
