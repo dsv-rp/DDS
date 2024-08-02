@@ -19,9 +19,7 @@ describeEach(
       test("base", async ({ page }) => {
         const baseURL = getPageURL({
           variant,
-          ...(variant === "completed" && {
-            value: 100,
-          }),
+          value: variant === "completed" ? 100 : 40,
           ...(helper === "none" && {
             helper: "",
           }),
