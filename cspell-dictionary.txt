@@ -42,4 +42,6 @@ csspart
 
 # Misc.
 FOUC
+linkify
+retargeted
 textareas
