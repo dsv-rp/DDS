@@ -49,10 +49,15 @@ const cvaTab = cva(
 );
 
 /**
- * The tab component that can be used within `daikin-tab-group` component.
+ * The tab component is a child element within the `daikin-tab-group` component, representing a clickable button or label that users interact with to switch between different panels of content.
+ * Each tab corresponds to a specific panel and is typically labeled to indicate the content it reveals.
  *
- * @fires click - Emits when the tab is clicked and not disabled.
- * @slot - Tab content slot.
+ * Hierarchy:
+ * - `daikin-tab-group` > `daikin-tab`
+ *
+ * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
+ *
+ * @slot - A slot for the tab button content.
  *
  * @example
  *
@@ -86,14 +91,12 @@ export class DaikinTab extends LitElement {
 
   /**
    * Size of tab
-   * @default "default"
    */
   @property({ type: String, reflect: true })
   size: "default" | "condensed" = "default";
 
   /**
    * Whether to show the disabled state.
-   * @default false
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -102,7 +105,6 @@ export class DaikinTab extends LitElement {
    * Whether to show the active (selected) state.
    * Ignored if `disabled` is `true`.
    * Set automatically by `daikin-tab-group` component.
-   * @default false
    */
   @property({ type: Boolean, reflect: true })
   active = false;
@@ -119,6 +121,10 @@ export class DaikinTab extends LitElement {
     this.addEventListener("click", this._handleClick);
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions | undefined): void {
     this.shadowRoot?.querySelector("button")?.focus(options);
   }
