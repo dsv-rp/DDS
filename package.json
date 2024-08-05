@@ -6,6 +6,7 @@
   "files": [
     "dist",
     "icons",
+    "CHANGELOG.md",
     "README.md",
     "LICENSE"
   ],
