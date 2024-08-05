@@ -65,6 +65,7 @@ jobs:
 
       - name: Edit Release Pull Request
         if: steps.changesets.outputs.pullRequestNumber != ''
+        continue-on-error: true
         run: gh pr edit $PR_NUMBER --add-label release -t "Release v$(jq -r .version package.json)"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
