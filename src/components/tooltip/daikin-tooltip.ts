@@ -70,7 +70,9 @@ const DEFAULT_TOOLTIP_SPACING = `20px`;
  *   <span slot="tooltip">This is a message</span>
  *   <span>hover me</span>
  * </daikin-tooltip>
+ * ```
  *
+ * ```html
  * </daikin-tooltip description="This is a message">
  *   <span>hover me</span>
  * </daikin-tooltip>
@@ -221,7 +223,7 @@ export class DaikinTooltip extends LitElement {
     </div>`;
   }
 
-  protected override firstUpdated(): void {
+  static registerCSSCustomProperties(): void {
     window.CSS.registerProperty({
       name: "--dds-tooltip-spacing",
       syntax: "<length>",
@@ -259,3 +261,5 @@ declare global {
     "daikin-tooltip": DaikinTooltip;
   }
 }
+
+DaikinTooltip.registerCSSCustomProperties();
