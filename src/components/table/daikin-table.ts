@@ -7,11 +7,11 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaCell = cva(["py-4", "px-6", "min-w-24", "max-w-60"], {
+const cvaCell = cva(["py-4", "min-w-24", "max-w-60"], {
   variants: {
     align: {
-      left: ["text-left"],
-      right: ["text-right"],
+      left: ["pl-6", "pr-8", "text-left"],
+      right: ["pl-6", "pr-6", "text-right"],
     },
   },
 });
