@@ -1,7 +1,6 @@
+import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import { cva } from "class-variance-authority";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -63,7 +62,7 @@ export class DaikinBreadcrumbItem extends LitElement {
    * Specify link href
    */
   @property({ type: String, reflect: true })
-  href? = "";
+  href = "";
 
   /**
    * Specify link variant
@@ -81,7 +80,7 @@ export class DaikinBreadcrumbItem extends LitElement {
    * Specify the link target
    */
   @property({ type: String, reflect: true })
-  target?: string;
+  target: string | null = null;
 
   /**
    * Specify the link should show slash at the end or not
@@ -103,21 +102,19 @@ export class DaikinBreadcrumbItem extends LitElement {
     const slash = this.trailingSlash
       ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
       : html``;
-    const linkText =
-      this.variant === "normal"
-        ? html` <slot></slot> `
-        : html` <span aria-label="…">. . .</span> `;
     return html`
-      <slot name="link">
-        <a
-          href="${ifDefined(this.href)}"
-          class="${linkClassName}"
-          target="${ifDefined(this.target)}"
-        >
-          ${linkText}
-        </a>
-        ${slash}
-      </slot>
+      ${this.variant === "normal"
+        ? html`<slot name="link">
+            <a
+              href="${ifDefined(this.href)}"
+              class="${linkClassName}"
+              target="${ifDefined(ifDefined(this.target))}"
+            >
+              <slot></slot>
+            </a>
+          </slot>`
+        : html`<span aria-label="…">. . .</span>`}
+      ${slash}
     `;
   }
 }
