@@ -63,6 +63,10 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
+      - name: Edit Release Pull Request
+        if: steps.changesets.outputs.hasChangesets == 'true' && steps.changesets.outputs.pullRequestNumber != ''
+        run: gh pr edit ${{ steps.changesets.outputs.pullRequestNumber }} --add-label release -t "Release v$(jq -r .version package.json)"
+
       # Build Storybook and Upload Pages Artifact
       # This Storybook is a production environment, as it is built at the same time as the package is released.
       - name: Build Storybook (prod)
