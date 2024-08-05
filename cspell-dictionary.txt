@@ -1,40 +1,49 @@
-# ARIA Roles
-# Colors
-# Custom Events
-# HTML
-# JSDoc extension
-# Misc.
 # Proper nouns
-# Storybook
-# SVG
-# Testing
-autodocs
-beforechange
-beforetoggle
-Coolgrey
-csspart
-cssprop
 daikin
-Darkgrey
-docgen
 dotfiles
-evenodd
 fontsource
-FOUC
 lightningcss
-linkify
-maxlength
-Mediumgrey
 picocolors
-retargeted
 roboto
 runem
-slotchange
-tablist
-tabpanel
 tailwindcss
 taze
-testid
-textareas
-textbox
 tseslint
+
+# Colors
+Coolgrey
+Darkgrey
+Mediumgrey
+
+# ARIA Roles
+tablist
+tabpanel
+textbox
+
+# Custom Events
+beforechange
+beforetoggle
+
+# HTML
+maxlength
+slotchange
+
+# SVG
+evenodd
+
+# Storybook
+autodocs
+docgen
+
+# Testing
+testid
+
+# JSDoc extension
+csspart
+cssprop
+
+# Misc.
+FOUC
+linkify
+retargeted
+textareas
