@@ -2,9 +2,19 @@ import {
   tableColorBackground,
   tableColorText,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+
+const cvaCell = cva(["py-4", "px-6", "min-w-24", "max-w-60"], {
+  variants: {
+    align: {
+      left: ["text-left"],
+      right: ["text-right"],
+    },
+  },
+});
 
 /**
  * The table component is a component that can display multiple data objects in a tabular format.
@@ -80,16 +90,11 @@ export class DaikinTable extends LitElement {
     return html`<table
       class="bg-[--table-color-background] font-daikinSerif table-fixed text-[15px] leading-[22px]"
     >
-      <thead class="border-b border-b-black font-medium">
+      <thead class="text-[#212121] border-b border-b-black font-medium">
         <tr>
           ${this.headers.map(
             ({ label, align }) =>
-              html`<th
-                class="py-4 px-6 min-w-24 max-w-60 text-[#212121] [text-align:--cell-align]"
-                style=${`--cell-align:${align};`}
-              >
-                ${label}
-              </th>`
+              html`<th class=${cvaCell({ align })}>${label}</th>`
           )}
         </tr>
       </thead>
@@ -99,12 +104,7 @@ export class DaikinTable extends LitElement {
             html`<tr class="border-b border-b-[#EBEBEB]">
               ${this.headers.map(
                 ({ key, align }) =>
-                  html`<td
-                    class="py-4 px-6 min-w-24 max-w-60 [text-align:--cell-align]"
-                    style=${`--cell-align:${align};`}
-                  >
-                    ${row[key]}
-                  </td>`
+                  html`<td class=${cvaCell({ align })}>${row[key]}</td>`
               )}
             </tr>`
         )}
