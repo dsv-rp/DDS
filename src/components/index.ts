@@ -9,6 +9,7 @@ export * from "./panel-switcher";
 export * from "./radio";
 export * from "./tab";
 export * from "./tab-group";
+export * from "./table";
 export * from "./text-input";
 export * from "./textarea";
 export * from "./toggle";
