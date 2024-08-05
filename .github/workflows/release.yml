@@ -65,7 +65,10 @@ jobs:
 
       - name: Edit Release Pull Request
         if: steps.changesets.outputs.hasChangesets == 'true' && steps.changesets.outputs.pullRequestNumber != ''
-        run: gh pr edit ${{ steps.changesets.outputs.pullRequestNumber }} --add-label release -t "Release v$(jq -r .version package.json)"
+        run: gh pr edit $PR_NUMBER --add-label release -t "Release v$(jq -r .version package.json)"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.changesets.outputs.pullRequestNumber }}
 
       # Build Storybook and Upload Pages Artifact
       # This Storybook is a production environment, as it is built at the same time as the package is released.
