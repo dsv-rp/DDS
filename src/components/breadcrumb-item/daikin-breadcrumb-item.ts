@@ -113,7 +113,7 @@ export class DaikinBreadcrumbItem extends LitElement {
               <slot></slot>
             </a>
           </slot>`
-        : html`<span aria-label="…">. . .</span>`}
+        : html`<span class="${linkClassName}" aria-label="…">. . .</span>`}
       ${slash}
     `;
   }
