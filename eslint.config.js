@@ -9,10 +9,13 @@ import { configs as wcConfig } from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
 
 /**
+ * Workaround the issue of incompatibility between the types of `Config` between eslint and eslint-typescript.
+ * We should wait for typescript-eslint v8.0.2, which will have a fix for this issue.
+ * https://github.com/typescript-eslint/typescript-eslint/issues/9724
  * @param {import("eslint").Linter.Config} type
  * @returns {Omit<import("eslint").Linter.Config, "languageOptions">}
  */
-function asConfig(type) {
+function asCompatibleConfig(type) {
   return type;
 }
 
@@ -30,9 +33,9 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.strictTypeChecked,
-  asConfig(wcConfig["flat/recommended"]),
-  asConfig(wcConfig["flat/best-practice"]),
-  asConfig(litConfig["flat/recommended"]),
+  asCompatibleConfig(wcConfig["flat/recommended"]),
+  asCompatibleConfig(wcConfig["flat/best-practice"]),
+  asCompatibleConfig(litConfig["flat/recommended"]),
   litA11yConfigFlatRecommended,
   { rules: prettierRules },
   {
