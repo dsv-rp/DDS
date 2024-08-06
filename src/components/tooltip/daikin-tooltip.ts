@@ -6,7 +6,14 @@ import {
   shift,
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
+import {
+  css,
+  html,
+  isServer,
+  LitElement,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -81,6 +88,10 @@ const DEFAULT_TOOLTIP_SPACING = "20px";
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
   static registerCSSCustomProperties(): void {
+    if (isServer) {
+      return;
+    }
+
     window.CSS.registerProperty({
       name: "--dds-tooltip-spacing",
       syntax: "<length>",
@@ -144,9 +155,13 @@ export class DaikinTooltip extends LitElement {
 
   private _autoUpdateCleanup: (() => void) | null = null;
 
-  private _hostStyles = window.getComputedStyle(this);
+  private _hostStyles = !isServer ? window.getComputedStyle(this) : null;
 
   private _startAutoUpdate() {
+    if (isServer) {
+      return;
+    }
+
     const reference = this._triggerRef.value;
     const float = this._tooltipRef.value;
     if (!reference || !float) {
@@ -157,7 +172,7 @@ export class DaikinTooltip extends LitElement {
     this._autoUpdateCleanup?.();
     this._autoUpdateCleanup = autoUpdate(reference, float, () => {
       const spacing = parseInt(
-        this._hostStyles.getPropertyValue("--dds-tooltip-spacing") ||
+        this._hostStyles?.getPropertyValue("--dds-tooltip-spacing") ||
           DEFAULT_TOOLTIP_SPACING,
         10
       );
