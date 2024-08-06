@@ -11,11 +11,8 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     description,
     closeOnClick,
     trigger,
-    descriptionSlotText,
+    tooltipSlot,
   }) => {
-    const descriptionSlot = descriptionSlotText
-      ? html`<span slot="tooltip">${descriptionSlotText}</span>`
-      : null;
     return html`
       <div
         data-testid="view-area"
@@ -32,7 +29,9 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
             ?closeOnClick=${closeOnClick}
             trigger=${trigger}
           >
-            ${descriptionSlot}
+            ${tooltipSlot
+              ? html`<span slot="tooltip">${tooltipSlot}</span>`
+              : null}
             <span>hover me</span>
           </daikin-tooltip>
         </div>

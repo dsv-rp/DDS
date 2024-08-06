@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTooltipStoryArgs
   extends Required<ElementProps<DaikinTooltip>> {
-  descriptionSlotText: string;
+    tooltipSlot: string;
   onClick: (event: Event) => void;
 }
 
@@ -26,7 +26,7 @@ export const DAIKIN_TOOLTIP_ARG_TYPES = {
     control: { type: "select" },
     options: ["hover", "manual"],
   },
-  descriptionSlotText: {
+  tooltipSlot: {
     type: "string",
   },
 } as const satisfies Meta<DaikinTooltipStoryArgs>["argTypes"];

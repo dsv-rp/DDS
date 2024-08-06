@@ -13,27 +13,21 @@ export default {
 
 export const Light: Story = {
   args: {
-    placement: "top",
+    placement: "bottom",
     variant: "light",
     open: false,
-    description: "test description",
+    description: "Test description.\nNewlines supported.",
     closeOnClick: false,
     trigger: "hover",
-    descriptionSlotText: `Lorem ipsum dolor sit abet, consectetur advising edit. Maris fuegian,
-    risus quia ferment protector, tupis ligula Laurent libero, id elemental cetus massa eu ipsum.`,
+    tooltipSlot:
+      "Lorem ipsum dolor sit abet, consectetur advising edit. Maris fuegian, risus quia ferment protector, tupis ligula Laurent libero, id elemental cetus massa eu ipsum.",
   },
 };
 
 export const Dark: Story = {
   args: {
-    placement: "top",
+    ...Light.args,
     variant: "dark",
-    open: false,
-    description: "test description",
-    closeOnClick: true,
-    trigger: "hover",
-    descriptionSlotText: `Lorem ipsum dolor sit abet, consectetur advising edit. Maris fuegian,
-    risus quia ferment protector, tupis ligula Laurent libero, id elemental cetus massa eu ipsum.`,
   },
   play: definePlay(async ({ canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
