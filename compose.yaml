@@ -6,6 +6,13 @@ services:
     ipc: host
     extra_hosts:
       - host.containers.internal:host-gateway
-    command: npx playwright run-server --port 55744
+    command:
+      - /bin/bash
+      - -c
+      - |
+        # We have to explicitly install the version of Playwright we want, or the latest (and may not compatible) version will be installed.
+        # In the CI environment, this does not occur since `npm ci` is executed within the Playwright container.
+        npm i -g playwright@1.45.1
+        npx playwright run-server --port 55744
     ports:
       - 55744:55744
