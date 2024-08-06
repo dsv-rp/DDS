@@ -63,7 +63,7 @@ export class DaikinPagination extends LitElement {
    * The show pages.
    */
   @property({ type: Number, reflect: true })
-  showPages = 5;
+  showPages = 6;
 
   @state()
   private _pageArray: Array<Array<number>> = [[], [], [], [], []];
@@ -84,17 +84,42 @@ export class DaikinPagination extends LitElement {
     this.value = page;
   }
 
+  private _moveMinValueLeftShow() {
+    const minValue3 = Math.min(...this._pageArray[3]);
+    this._pageArray[3].splice(this._pageArray[3].indexOf(minValue3), 1);
+    this._pageArray[2].push(minValue3);
+  }
+
+  private _moveMinValueLeftOmission() {
+    const minValue2 = Math.min(...this._pageArray[2]);
+    this._pageArray[2].splice(this._pageArray[2].indexOf(minValue2), 1);
+    this._pageArray[1].push(minValue2);
+  }
+
+  private _moveMaxValueRightOmission() {
+    const maxValue2 = Math.max(...this._pageArray[2]);
+    this._pageArray[2].splice(this._pageArray[2].indexOf(maxValue2), 1);
+    this._pageArray[3].unshift(maxValue2);
+  }
+
+  private _moveMaxValueRightShow() {
+    const maxValue1 = Math.max(...this._pageArray[1]);
+    this._pageArray[1].splice(this._pageArray[1].indexOf(maxValue1), 1);
+    this._pageArray[2].unshift(maxValue1);
+  }
+
   private _handleClickChevron(type: "left" | "right") {
     if (type === "left" && this.value > 1) {
       this.value -= 1;
       if (this.value < Math.min(...this._pageArray[2]) && this.value != 1) {
-        const maxValue2 = Math.max(...this._pageArray[2]);
-        this._pageArray[2].splice(this._pageArray[2].indexOf(maxValue2), 1);
-        this._pageArray[3].unshift(maxValue2);
-
-        const maxValue1 = Math.max(...this._pageArray[1]);
-        this._pageArray[1].splice(this._pageArray[1].indexOf(maxValue1), 1);
-        this._pageArray[2].unshift(maxValue1);
+        this._moveMaxValueRightOmission();
+        if (this._pageArray[3].length === 1) {
+          this._moveMaxValueRightOmission();
+        }
+        this._moveMaxValueRightShow();
+        if (this._pageArray[1].length === 1) {
+          this._moveMaxValueRightShow();
+        }
       }
     } else if (type === "right" && this.value < this.max) {
       this.value += 1;
@@ -102,13 +127,14 @@ export class DaikinPagination extends LitElement {
         this.value > Math.max(...this._pageArray[2]) &&
         this.value != this._pageArray[4][0]
       ) {
-        const minValue3 = Math.min(...this._pageArray[3]);
-        this._pageArray[3].splice(this._pageArray[3].indexOf(minValue3), 1);
-        this._pageArray[2].push(minValue3);
-
-        const minValue2 = Math.min(...this._pageArray[2]);
-        this._pageArray[2].splice(this._pageArray[2].indexOf(minValue2), 1);
-        this._pageArray[1].push(minValue2);
+        this._moveMinValueLeftOmission();
+        if (this._pageArray[1].length === 1) {
+          this._moveMinValueLeftOmission();
+        }
+        this._moveMinValueLeftShow();
+        if (this._pageArray[3].length === 1) {
+          this._moveMinValueLeftShow();
+        }
       }
     }
     this.requestUpdate();
