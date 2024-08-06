@@ -54,6 +54,7 @@ module.exports = defineConfig({
       ]);
 
       matchVariant("part", (value) => `&::part(${value})`);
+      addVariant("slotted", ["&::slotted", "&>*"]);
     }),
   ],
 });
