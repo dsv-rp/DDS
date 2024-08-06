@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTooltipStoryArgs
   extends Required<ElementProps<DaikinTooltip>> {
-    tooltipSlot: string;
+  tooltipSlot: string;
   onClick: (event: Event) => void;
 }
 

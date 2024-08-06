@@ -89,11 +89,13 @@ describeEach(["light", "dark"] as const, (variant) => {
   });
 
   test("newline", async ({ page }) => {
-    await page.goto(getPageURL({
-      variant,
-      placement: "bottom",
-      tooltipSlot: "",
-    }));
+    await page.goto(
+      getPageURL({
+        variant,
+        placement: "bottom",
+        tooltipSlot: "",
+      })
+    );
 
     // wait for element to be visible
     const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
