@@ -1,4 +1,3 @@
-// This will import either "./framework-wc" or "./framework-react". See `vite.config.storybook.ts`.
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect } from "@storybook/test";
