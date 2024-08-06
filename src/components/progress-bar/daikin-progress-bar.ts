@@ -64,8 +64,8 @@ const cvaHelper = cva(["text-xs", "mt-2"], {
  *
  * - "inprogress": The default variant. Use this when you know the exact progress. The length of the bar is the ratio of `value` to `max`.
  * - "indeterminate": Use this variant when you don't know the exact progress. In this variant, the `value` is ignored and the bar always animates from left to right with a constant length.
- * - "completed": In addition to "inprogress", a completed icon is added. The bar length refers to the `value`, so the user needs to update the `value` so that it is the same as `max`.
- * - "error": In addition to "inprogress", an error icon is added and the color becomes red. The length of the bar refers to the `value`. When transitioning from "indeterminate", you need to set an appropriate (but not need to be accurate) `value`.
+ * - "completed": In addition to "inprogress", a completed icon is added. In this variant, the `value` is ignored and the bar always expands to the full width.
+ * - "error": In addition to "inprogress", an error icon is added and the color becomes red. In this variant, the `value` is ignored and the bar always expands to the full width.
  *
  * @example
  *
