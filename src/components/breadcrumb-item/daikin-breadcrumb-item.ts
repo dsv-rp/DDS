@@ -5,7 +5,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
-const cvaLink = cva(
+const cvaLinkSlot = cva(
   [
     "slotted:h-8",
     "slotted:font-normal",
@@ -39,7 +39,7 @@ const cvaLink = cva(
   }
 );
 
-type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
+type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
 
 @customElement("daikin-breadcrumb-item")
 export class DaikinBreadcrumbItem extends LitElement {
@@ -95,18 +95,14 @@ export class DaikinBreadcrumbItem extends LitElement {
   override hidden = false;
 
   override render() {
-    const linkClassName = cvaLink({
-      variant: this.variant,
-      disabled: this.disabled,
-    });
     const slash = this.trailingSlash
       ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
-      : html``;
+      : null;
     return html`
       ${this.variant === "normal"
-        ? html`<slot name="link" class=${linkClassName}>
+        ? html`<slot name="link" class=${cvaLinkSlot(this)}>
             <a
-              href="${ifDefined(this.href)}"
+              href=${ifDefined(this.href)}
               target=${
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
                 ifDefined(this.target) as any
@@ -115,7 +111,8 @@ export class DaikinBreadcrumbItem extends LitElement {
               <slot></slot>
             </a>
           </slot>`
-        : html`<span class="${linkClassName}" aria-label="…">
+        : // Though `cvaLinkSlot` is designed for slots, it contains "& > *" selector for fallback content so it can be used here.
+          html`<span class=${cvaLinkSlot(this)} aria-label="…">
             <span>. . .</span>
           </span> `}
       ${slash}

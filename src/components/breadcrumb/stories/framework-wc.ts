@@ -13,21 +13,21 @@ export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
       ?trailing-slash=${args.trailingSlash}
       overflow=${args.overflow}
     >
-      <daikin-breadcrumb-item href="#"
-        >Breadcrumb Item 1</daikin-breadcrumb-item
-      >
-      <daikin-breadcrumb-item href="#"
-        >Breadcrumb Item 2</daikin-breadcrumb-item
-      >
-      <daikin-breadcrumb-item href="#"
-        >Breadcrumb Item 3</daikin-breadcrumb-item
-      >
-      <daikin-breadcrumb-item href="#"
-        >Breadcrumb Item 4</daikin-breadcrumb-item
-      >
-      <daikin-breadcrumb-item href="#"
-        >Breadcrumb Item 5</daikin-breadcrumb-item
-      >
+      <daikin-breadcrumb-item href="#">
+        Breadcrumb Item 1
+      </daikin-breadcrumb-item>
+      <daikin-breadcrumb-item href="#">
+        Breadcrumb Item 2
+      </daikin-breadcrumb-item>
+      <daikin-breadcrumb-item href="#">
+        Breadcrumb Item 3
+      </daikin-breadcrumb-item>
+      <daikin-breadcrumb-item href="#">
+        Breadcrumb Item 4
+      </daikin-breadcrumb-item>
+      <daikin-breadcrumb-item href="#">
+        Breadcrumb Item 5
+      </daikin-breadcrumb-item>
     </daikin-breadcrumb>
   `,
 };

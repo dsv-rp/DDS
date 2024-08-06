@@ -54,7 +54,13 @@ module.exports = defineConfig({
       ]);
 
       matchVariant("part", (value) => `&::part(${value})`);
-      addVariant("slotted", ["&::slotted", "&>*"]);
+
+      addVariant("slotted", [
+        // `::slotted` is equivalent to `::slotted(*)`
+        "&::slotted",
+        // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
+        "&>*",
+      ]);
     }),
   ],
 });
