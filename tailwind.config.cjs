@@ -61,6 +61,10 @@ module.exports = defineConfig({
         // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
         "&>*",
       ]);
+      addVariant("slotted-focus", [
+        "&::slotted(*:focus-visible)",
+        "&>*:focus-visible",
+      ]);
     }),
   ],
 });

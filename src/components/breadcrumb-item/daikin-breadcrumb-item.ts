@@ -22,16 +22,16 @@ const cvaLinkSlot = cva(
         normal: [
           "slotted:hover:text-daikinBlue-300",
           "slotted:active:text-daikinNeutral-800",
-          "slotted:focus-visible:text-daikinBlue-700",
+          "slotted-focus:text-daikinBlue-700",
         ],
         ellipsis: ["slotted:hover:text-daikinBlue-300"],
       },
       disabled: {
         true: [
-          "slotted:text-daikinNeutral-800",
+          "slotted:!text-daikinNeutral-800",
           "slotted:pointer-events-none",
           "slotted:cursor-default",
-          "slotted:focus-visible:text-daikinNeutral-800",
+          "slotted-focus:!text-daikinNeutral-800",
         ],
         false: [],
       },
