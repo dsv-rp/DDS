@@ -11,20 +11,24 @@ import { scrollIntoViewOnlyParent } from "./scroller";
 
 /**
  * The tab group component manages a group of tabs and switches the content displayed using the panel switcher component.
- *
- * Tab groups do not provide styles; users must apply styles to the wrapper of the tabs and the panel switcher(s).
+ * It allows users to navigate between different sections of content by clicking on individual tabs.
+ * Tab groups do not provide styles; developers must apply styles to the wrapper of the tabs (`tablist` part) and to the panel switcher(s).
  *
  * > [!WARNING]
  * > At least one tab must be available (that means, the tab must be present and enabled).
  * > Otherwise, unexpected behavior may be encountered.
  *
- * @fires beforechange - _Cancellable._ Emits when the current tab is about to be changed by user interaction.
- * @fires change - Emits when the current tab is changed.
+ * Hierarchies:
+ * - `daikin-tab-group` > `daikin-tab`
+ * - `daikin-tab-group` > `daikin-panel-switcher` ("panels" slot)
  *
- * @slot - Tab list slot. Place `daikin-tab` elements here.
- * @slot panels - Tab panel slot. Place `daikin-panel-switcher` element(s) here.
+ * @fires beforechange - _Cancellable._ A custom event emitted when the current tab is about to be changed by user interaction.
+ * @fires change - A custom event emitted when the current tab is changed.
  *
- * @csspart tablist
+ * @slot - A slot for tab buttons. Place `daikin-tab` elements here.
+ * @slot panels - A slot for a panel switcher component. Place `daikin-panel-switcher` element(s) here.
+ *
+ * @csspart tablist - The container element for the default (tab list) slot. Has "tablist" role.
  *
  * @example
  *
@@ -49,8 +53,7 @@ export class DaikinTabGroup extends LitElement {
   `;
 
   /**
-   * `value` of the currently selected tab.
-   * see {@link DaikinTab.value}
+   * `value` of the currently selected tab (`daikin-tab`).
    */
   @property({ type: String, reflect: true })
   value: string = "";

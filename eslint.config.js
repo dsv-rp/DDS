@@ -53,7 +53,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.cjs"],
+    files: ["**/*.cjs", "**/*.cts"],
     languageOptions: {
       sourceType: "commonjs",
     },

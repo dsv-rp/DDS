@@ -56,9 +56,18 @@ const cvaToggle = cva(
 type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
 
 /**
- * A toggle switch component.
+ * The toggle switch component is a UI element that allows users to switch between two states, typically "on" and "off".
+ * It functions similarly to a `daikin-checkbox` component but provides a more visually intuitive way to represent binary options.
+ * This component is ideal for scenarios where the binary choice has a significant or immediate effect, such as enabling or disabling a feature or setting.
+ * Unlike `daikin-checkbox`, this component doesn't have a label and a "indeterminate" state.
  *
- * @fires change - Emitted when the toggle switch is toggled.
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="checkbox">` element.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-toggle name="name" value="value"></daikin-toggle>
+ * ```
  */
 @customElement("daikin-toggle")
 export class DaikinToggle extends LitElement {

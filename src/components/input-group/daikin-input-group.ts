@@ -35,7 +35,33 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
 });
 
 /**
- * Primary UI component for user interaction
+ * The input group component serves as a wrapper for a `daikin-text-input` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
+ * It enhances the user experience by associating supplementary information or functionality directly with the input field.
+ * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
+ *
+ * Hierarchies:
+ * - `daikin-input-group` > `daikin-text-input`
+ * - `daikin-input-group` > `daikin-textarea`
+ *
+ * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` element here.
+ *
+ * @example
+ *
+ * With Text Input:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-text-input value="Content of Text Input"></daikin-text-input>
+ * </daikin-input-group>
+ * ```
+ *
+ * With Textarea:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-textarea value="Content of Textarea"></daikin-textarea>
+ * </daikin-input-group>
+ * ```
  */
 @customElement("daikin-input-group")
 export class DaikinInputGroup extends LitElement {

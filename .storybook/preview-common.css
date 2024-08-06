@@ -1,0 +1,20 @@
+/* Docs: Set maximum width for long columns except descriptions. */
+#storybook-docs h1 + div table td:not(:last-child) {
+  max-width: 14rem;
+  overflow: auto;
+}
+
+/* Docs: Display "(default)" in the default slot name. */
+#storybook-docs #slots + table td:empty:first-child::before {
+  content: "(default)";
+  font-style: italic;
+  opacity: 0.8;
+}
+
+/* Docs: Remove "Type" and "Description" columns from Storybook args tables. */
+#storybook-docs
+  .docblock-argstable
+  tr
+  :where(th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3)) {
+  display: none;
+}

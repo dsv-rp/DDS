@@ -1,6 +1,6 @@
 {
   "name": "@daikin-oss/design-system-web-components",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "description": "Design system using web components",
   "type": "module",
   "files": [
@@ -9,42 +9,49 @@
     "README.md",
     "LICENSE"
   ],
+  "homepage": "https://github.com/dsv-rp/DDS",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dsv-rp/DDS.git"
+  },
   "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.js",
   "types": "./dist/es/index.d.ts",
   "exports": {
     ".": {
-      "default": "./dist/es/index.js",
-      "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.cjs",
       "development": {
         "import": "./dist/es-dev/index.js",
         "require": "./dist/cjs-dev/index.cjs"
-      }
-    },
-    "./*": {
-      "default": "./dist/es/*.js",
-      "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
-      "development": {
-        "import": "./dist/es-dev/*.js",
-        "require": "./dist/cjs-dev/*.cjs"
-      }
+      },
+      "import": "./dist/es/index.js",
+      "require": "./dist/cjs/index.cjs",
+      "default": "./dist/es/index.js"
     },
     "./*.js": {
-      "default": "./dist/es/*.js",
-      "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
       "development": {
         "import": "./dist/es-dev/*.js",
         "require": "./dist/cjs-dev/*.cjs"
-      }
+      },
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
+      "default": "./dist/es/*.js"
+    },
+    "./*": {
+      "development": {
+        "import": "./dist/es-dev/*.js",
+        "require": "./dist/cjs-dev/*.cjs"
+      },
+      "import": "./dist/es/*.js",
+      "require": "./dist/cjs/*.cjs",
+      "default": "./dist/es/*.js"
     }
   },
   "sideEffects": true,
   "scripts": {
     "prepare": "husky",
     "build": "tsc -b && vite build && vite build --mode development",
+    "changeset-version": "changeset version && npm install --package-lock-only",
+    "changeset-publish": "changeset publish",
     "storybook": "storybook dev -p 6006",
     "storybook:react": "storybook dev -p 6007 -c .storybook/react",
     "storybook:ci-wc": "tsx scripts/storybook-ci.ts web-components",
@@ -60,6 +67,7 @@
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
     "lint-fix": "eslint --fix && prettier -w .",
+    "test:unit": "vitest",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction-react": "start-server-and-test storybook:ci-react http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction": "npm run test:interaction-wc && npm run test:interaction-react",
@@ -69,13 +77,15 @@
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
-    "@daikin-oss/dds-tokens": "^0.0.0",
+    "@daikin-oss/dds-tokens": "^0.1.0",
     "@netlify/classnames-template-literals": "^1.0.3",
     "class-variance-authority": "^0.7.0",
     "lit": "^3.1.4"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",
+    "@changesets/changelog-github": "^0.5.0",
+    "@changesets/cli": "^2.27.7",
     "@daikin-oss/tailwind": "^0.0.1",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@eslint/js": "^9.6.0",
@@ -134,6 +144,8 @@
     "typescript-eslint": "^8.0.0-alpha.41",
     "vite": "^5.3.3",
     "vite-plugin-dts": "^3.9.1",
-    "vite-plugin-externalize-deps": "^0.8.0"
+    "vite-plugin-externalize-deps": "^0.8.0",
+    "vitest": "^2.0.4",
+    "web-component-analyzer": "^2.0.0"
   }
 }
