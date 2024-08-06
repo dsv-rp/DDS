@@ -7,35 +7,32 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaBar = cva(["w-full", "h-1", "overflow-hidden"], {
-  variants: {
-    variant: {
-      inprogress: [
-        "bg-daikinNeutral-200",
-        "relative",
-        "after:block",
-        "after:w-[--bar-width]",
-        "after:h-full",
-        "after:bg-daikinBlue-500",
-        "after:absolute",
-        "after:left-0",
-      ],
-      completed: ["bg-[--colorFeedbackPositive]"],
-      indeterminate: [
-        "bg-daikinNeutral-200",
-        "relative",
-        "after:block",
-        "after:w-1/2",
-        "after:h-full",
-        "after:bg-daikinBlue-500",
-        "after:absolute",
-        "after:left-0",
-        "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
-      ],
-      error: ["bg-[--colorFeedbackNegative]"],
+const cvaBar = cva(
+  [
+    "w-full",
+    "h-1",
+    "overflow-hidden",
+    "relative",
+    "after:block",
+    "after:h-full",
+    "after:absolute",
+    "after:left-0",
+  ],
+  {
+    variants: {
+      variant: {
+        inprogress: ["after:w-[--bar-width]", "after:bg-daikinBlue-500"],
+        completed: ["after:w-full", "after:bg-[--colorFeedbackPositive]"],
+        indeterminate: [
+          "after:w-1/2",
+          "after:bg-daikinBlue-500",
+          "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
+        ],
+        error: ["after:w-full", "after:bg-[--colorFeedbackNegative]"],
+      },
     },
-  },
-});
+  }
+);
 
 const cvaIcon = cva(["size-4"], {
   variants: {
