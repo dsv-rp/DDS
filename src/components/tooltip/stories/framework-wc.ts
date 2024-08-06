@@ -14,8 +14,8 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     descriptionSlotText,
   }) => {
     const descriptionSlot = descriptionSlotText
-      ? html`<span slot="tooltip"> ${descriptionSlotText} </span>`
-      : html``;
+      ? html`<span slot="tooltip">${descriptionSlotText}</span>`
+      : null;
     return html`
       <div
         data-testid="view-area"
@@ -33,8 +33,8 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
             trigger=${trigger}
           >
             ${descriptionSlot}
-            <span>hover me</span></daikin-tooltip
-          >
+            <span>hover me</span>
+          </daikin-tooltip>
         </div>
       </div>
     `;

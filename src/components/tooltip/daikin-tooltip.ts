@@ -37,10 +37,10 @@ const cvaTooltip = cva(
           "border",
           "border-solid",
           "border-daikinNeutral-800",
-          "bg-[#ffffffe6]",
+          "bg-white/90",
           "text-black",
         ],
-        dark: ["bg-[#414141e6]", "text-white"],
+        dark: ["bg-daikinNeutral-800/90", "text-white"],
       },
       open: {
         true: ["visible", "opacity-100"],
@@ -50,7 +50,7 @@ const cvaTooltip = cva(
   }
 );
 
-const DEFAULT_TOOLTIP_SPACING = `20px`;
+const DEFAULT_TOOLTIP_SPACING = "20px";
 
 /**
  * A tooltip component is used to show brief information when a user interacts with an element.
@@ -80,11 +80,22 @@ const DEFAULT_TOOLTIP_SPACING = `20px`;
  */
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
+  static registerCSSCustomProperties(): void {
+    window.CSS.registerProperty({
+      name: "--dds-tooltip-spacing",
+      syntax: "<length>",
+      inherits: true,
+      initialValue: "0px",
+    });
+  }
+
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
     :host {
       display: inline-block;
+
+      --dds-tooltip-spacing: ${unsafeCSS(DEFAULT_TOOLTIP_SPACING)};
     }
   `;
 
@@ -93,21 +104,26 @@ export class DaikinTooltip extends LitElement {
    */
   @property({ reflect: true, type: String })
   placement: "top" | "bottom" | "left" | "right" = "bottom";
+
   /**
-   * Specifies tooltip theme.
+   * Specifies the tooltip theme.
    */
   @property({ reflect: true, type: String })
   variant: "light" | "dark" = "light";
+
   /**
    * Whether the tooltip is open.
    */
   @property({ reflect: true, type: Boolean })
   open = false;
+
   /**
-   * Specifies the content of the tooltip. Ignored if the tooltip slot exists.
+   * Specifies the content of the tooltip.
+   * Ignored if the `tooltip` slot exists.
    */
-  @property({ reflect: true, type: String })
+  @property({ type: String })
   description = "";
+
   /**
    * if true, the tooltip will hide on click.
    */
@@ -115,7 +131,9 @@ export class DaikinTooltip extends LitElement {
   closeOnClick = false;
 
   /**
-   * Whether the tooltip will be control by mouse hover or changing open state
+   * How the tooltip is controlled.
+   * - "hover": The tooltip is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering. (default)
+   * - "manual": The tooltip does not respond to user interaction. Use this to control the tooltip programmatically.
    */
   @property({ reflect: true, type: String })
   trigger: "hover" | "manual" = "hover";
@@ -124,7 +142,7 @@ export class DaikinTooltip extends LitElement {
 
   private _triggerRef: Ref<HTMLElement> = createRef();
 
-  private _cleanUpAutoUpdate: (() => void) | null = null;
+  private _autoUpdateCleanup: (() => void) | null = null;
 
   private _hostStyles = window.getComputedStyle(this);
 
@@ -134,9 +152,10 @@ export class DaikinTooltip extends LitElement {
     if (!reference || !float) {
       return;
     }
-    this._cleanUpAutoUpdate?.();
-    // TODO(DDS-1226): refactor here with popover api + CSS Anchor Positioning instead of using floating-ui
-    this._cleanUpAutoUpdate = autoUpdate(reference, float, () => {
+
+    // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
+    this._autoUpdateCleanup?.();
+    this._autoUpdateCleanup = autoUpdate(reference, float, () => {
       const spacing = parseInt(
         this._hostStyles.getPropertyValue("--dds-tooltip-spacing") ||
           DEFAULT_TOOLTIP_SPACING,
@@ -158,8 +177,8 @@ export class DaikinTooltip extends LitElement {
 
   private _uninstallAutoUpdate() {
     this.open = false;
-    this._cleanUpAutoUpdate?.();
-    this._cleanUpAutoUpdate = null;
+    this._autoUpdateCleanup?.();
+    this._autoUpdateCleanup = null;
   }
 
   private _changeOpenState(state: boolean) {
@@ -223,22 +242,13 @@ export class DaikinTooltip extends LitElement {
     </div>`;
   }
 
-  static registerCSSCustomProperties(): void {
-    window.CSS.registerProperty({
-      name: "--dds-tooltip-spacing",
-      syntax: "<length>",
-      inherits: true,
-      initialValue: DEFAULT_TOOLTIP_SPACING,
-    });
-  }
-
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
       if (this.open) {
         this._startAutoUpdate();
       } else {
-        this._cleanUpAutoUpdate?.();
-        this._cleanUpAutoUpdate = null;
+        this._autoUpdateCleanup?.();
+        this._autoUpdateCleanup = null;
       }
       this.dispatchEvent(
         new CustomEvent("toggle", {
