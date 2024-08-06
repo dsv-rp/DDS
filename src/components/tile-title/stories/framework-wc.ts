@@ -10,10 +10,10 @@ export const metadata: Meta<DaikinTileTitleStoryArgs> = {
   title: "Components/TileTitle",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-tile-title ?with-under-line=${args.underLine}>
+    <daikin-tile-title ?under-line=${args.underLine}>
       <span slot="label">Card Header</span>
     </daikin-tile-title>
-    <daikin-tile-title ?with-under-line=${args.underLine}>
+    <daikin-tile-title ?under-line=${args.underLine}>
       <span slot="label">Card Header</span>
       <a
         slot="link"
@@ -23,7 +23,7 @@ export const metadata: Meta<DaikinTileTitleStoryArgs> = {
         View
       </a>
     </daikin-tile-title>
-    <daikin-tile-title ?with-under-line=${args.underLine}>
+    <daikin-tile-title ?under-line=${args.underLine}>
       <div slot="icon">
         <daikin-icon color="current" icon="alarm"></daikin-icon>
       </div>

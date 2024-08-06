@@ -51,7 +51,7 @@ export class DaikinTileTitle extends LitElement {
   /**
    * If `true` will show a blue line under the tile
    */
-  @property({ type: Boolean, reflect: true, attribute: "with-under-line" })
+  @property({ type: Boolean, reflect: true, attribute: "under-line" })
   underLine = false;
 
   private withIcon = false;

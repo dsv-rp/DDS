@@ -9,8 +9,8 @@ export const metadata: Meta<DaikinTileStoryArgs> = {
   title: "Components/Tile",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-tile borderType=${args.borderType}>
-      <daikin-tile-title slot="header" underLine="true">
+    <daikin-tile border-type=${args.borderType}>
+      <daikin-tile-title slot="header" ?under-line=${true}>
         <span slot="label">Card Header</span>
       </daikin-tile-title>
     </daikin-tile>
