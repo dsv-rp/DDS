@@ -6,16 +6,10 @@ import {
   shift,
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import {
-  css,
-  html,
-  isServer,
-  LitElement,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
+import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTooltip = cva(
@@ -88,7 +82,7 @@ const DEFAULT_TOOLTIP_SPACING = "20px";
 @customElement("daikin-tooltip")
 export class DaikinTooltip extends LitElement {
   static registerCSSCustomProperties(): void {
-    if (isServer) {
+    if (!isClient) {
       return;
     }
 
@@ -155,10 +149,10 @@ export class DaikinTooltip extends LitElement {
 
   private _autoUpdateCleanup: (() => void) | null = null;
 
-  private _hostStyles = !isServer ? window.getComputedStyle(this) : null;
+  private _hostStyles = isClient ? window.getComputedStyle(this) : null;
 
   private _startAutoUpdate() {
-    if (isServer) {
+    if (!isClient) {
       return;
     }
 
