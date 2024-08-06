@@ -8,6 +8,14 @@ import {
 import { configs as wcConfig } from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
 
+/**
+ * @param {import("eslint").Linter.Config} type
+ * @returns {Omit<import("eslint").Linter.Config, "languageOptions">}
+ */
+function asConfig(type) {
+  return type;
+}
+
 const { rules: prettierRules } = prettierPkg;
 
 // convert eslint-plugin-lit-a11y's recommended config into a flat one
@@ -22,9 +30,9 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.strictTypeChecked,
-  wcConfig["flat/recommended"],
-  wcConfig["flat/best-practice"],
-  litConfig["flat/recommended"],
+  asConfig(wcConfig["flat/recommended"]),
+  asConfig(wcConfig["flat/best-practice"]),
+  asConfig(litConfig["flat/recommended"]),
   litA11yConfigFlatRecommended,
   { rules: prettierRules },
   {
