@@ -55,16 +55,21 @@ module.exports = defineConfig({
 
       matchVariant("part", (value) => `&::part(${value})`);
 
-      addVariant("slotted", [
-        // `::slotted` is equivalent to `::slotted(*)`
-        "&::slotted",
-        // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
-        "&>*",
-      ]);
-      addVariant("slotted-focus", [
-        "&::slotted(*:focus-visible)",
-        "&>*:focus-visible",
-      ]);
+      matchVariant(
+        "slotted",
+        (value) => [
+          // `::slotted` is equivalent to `::slotted(*)`
+          `&::slotted(${value})`,
+          // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
+          `& > ${value}`,
+        ],
+        {
+          values: {
+            // `DEFAULT` is used when the option is not specified (e.g. "slotted:text-white")
+            DEFAULT: "*",
+          },
+        }
+      );
     }),
   ],
 });
