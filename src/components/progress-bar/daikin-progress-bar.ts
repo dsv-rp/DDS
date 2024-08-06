@@ -11,6 +11,7 @@ const cvaBar = cva(
   [
     "w-full",
     "h-1",
+    "bg-daikinNeutral-200",
     "overflow-hidden",
     "relative",
     "after:block",
