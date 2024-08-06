@@ -15,8 +15,8 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(["light", "dark"] as const, (variant) => {
   describeEach(["top", "bottom", "left", "right"] as const, (placement) => {
     const baseURL = getPageURL({
-      variant: variant,
-      placement: placement,
+      variant,
+      placement,
     });
 
     test("center", async ({ page }) => {
@@ -86,5 +86,32 @@ describeEach(["light", "dark"] as const, (variant) => {
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(viewArea));
     });
+  });
+
+  test("newline", async ({ page }) => {
+    await page.goto(getPageURL({
+      variant,
+      placement: "bottom",
+      tooltipSlot: "",
+    }));
+
+    // wait for element to be visible
+    const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
+      state: "visible",
+    });
+
+    const triggerElement = await page.waitForSelector("daikin-tooltip", {
+      state: "visible",
+    });
+
+    await viewArea.evaluate((el) => {
+      el.scrollTo(350, 220);
+    });
+
+    // hover cursor on the element
+    await triggerElement.hover();
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(viewArea));
   });
 });
