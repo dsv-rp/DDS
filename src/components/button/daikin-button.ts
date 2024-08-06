@@ -195,8 +195,8 @@ export class DaikinButton extends LitElement {
   /**
    * Specify the button role.
    */
-  @property({ type: String, reflect: true })
-  override role: ARIARole = "button";
+  @property({ type: String, reflect: true, attribute: "button-role" })
+  buttonRole: ARIARole = "button";
 
   /**
    * Specify whether the button is loading.
@@ -232,7 +232,7 @@ export class DaikinButton extends LitElement {
       return html`<a
         href="${this.href}"
         class="${buttonClassName}"
-        role="${this.role}"
+        role="${this.buttonRole}"
       >
         ${content}
       </a>`;
@@ -243,7 +243,7 @@ export class DaikinButton extends LitElement {
         class="${buttonClassName}"
         ?disabled="${this.disabled}"
         type="${this.type}"
-        role="${this.role}"
+        role="${this.buttonRole}"
       >
         ${content}
       </button>
