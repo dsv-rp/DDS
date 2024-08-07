@@ -341,7 +341,7 @@ export class DaikinDropdown extends LitElement {
           class=${cvaContent({
             state: this.open && !this.disabled ? "visible" : "hidden",
           })}
-          role="menu"
+          role="listbox"
           aria-label=${this.label}
           ${ref(this._contentsRef)}
         >
