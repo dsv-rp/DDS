@@ -40,7 +40,7 @@ export const Default: Story = {
 
     await step("Selecting a dropdown will reflect the value", async () => {
       await userEvent.click(
-        getByShadowRole(root, "menuitem", { name: "Dropdown item 2" })
+        getByShadowRole(root, "option", { name: "Dropdown item 2" })
       );
       await expect(args.onChange).toHaveBeenCalled();
 
