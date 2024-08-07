@@ -5,7 +5,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaOption = cva(
   [
-    "w-[216px]",
+    "w-full",
     "minH-[42px]",
     "bg-white",
     "py-2.5",
@@ -46,7 +46,7 @@ export class DaikinDropdownItem extends LitElement {
 
     :host {
       display: block;
-      width: max-content;
+      width: 100%;
     }
   `;
 

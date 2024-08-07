@@ -18,7 +18,7 @@ type SelectEvent = Event & {
   detail: { value: string };
 };
 
-const cvaContainer = cva(["flex", "gap-2", "w-max", "relative"], {
+const cvaContainer = cva(["flex", "gap-2", "w-full", "relative"], {
   variants: {
     labelPosition: {
       top: ["flex-col", "gap-2"],
@@ -28,7 +28,7 @@ const cvaContainer = cva(["flex", "gap-2", "w-max", "relative"], {
   },
 });
 
-const cvaLabel = cva([], {
+const cvaLabel = cva(["flex-none", "text-sm", "font-medium"], {
   variants: {
     labelPosition: {
       top: [],
@@ -47,7 +47,7 @@ const cvaButton = cva(
     "flex",
     "items-center",
     "gap-2",
-    "w-[218px]",
+    "w-full",
     "bg-white",
     "border",
     "rounded-md",
@@ -91,7 +91,7 @@ const cvaButton = cva(
 
 const cvaContent = cva(
   [
-    "w-max",
+    "w-full",
     "border",
     "border-[#8C8C8C]",
     "rounded-md",
@@ -140,7 +140,11 @@ export class DaikinDropdown extends LitElement {
 
     :host {
       display: block;
-      width: max-content;
+      width: 100%;
+    }
+
+    ::slotted {
+      width: 100%;
     }
 
     ::slotted(daikin-dropdown-item:not(:last-child)) {
@@ -301,14 +305,18 @@ export class DaikinDropdown extends LitElement {
       class=${cvaContainer({ labelPosition: this.labelPosition })}
     >
       <div
-        class="text-sm font-medium ${cvaLabel({
+        class="${cvaLabel({
           labelPosition: this.labelPosition,
           disabled: this.disabled ? "disabled" : "enabled",
         })}"
       >
         ${this.label}
       </div>
-      <div aria-disabled=${this.disabled} @keydown=${this._handleKeyDown}>
+      <div
+        class="w-full relative"
+        aria-disabled=${this.disabled}
+        @keydown=${this._handleKeyDown}
+      >
         <button
           type="button"
           class=${cvaButton({
