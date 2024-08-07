@@ -1,6 +1,6 @@
 import { autoUpdate, computePosition, flip, offset } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
@@ -353,18 +353,22 @@ export class DaikinDropdown extends LitElement {
 
   protected override firstUpdated(): void {
     this._locateOptions();
+  }
 
-    const defaultItemIndex = this._items.findIndex(
-      ({ value }) => this.value === value
-    );
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("value")) {
+      const defaultItemIndex = this._items.findIndex(
+        ({ value }) => this.value === value
+      );
 
-    if (defaultItemIndex >= 0) {
-      this._buttonLabel = this._items[defaultItemIndex].textContent ?? "";
-      this._items[defaultItemIndex].selected = true;
-    } else {
-      this.value = this._items[0].value;
-      this._buttonLabel = this._items[0].textContent ?? "";
-      this._items[0].selected = true;
+      if (defaultItemIndex >= 0) {
+        this._buttonLabel = this._items[defaultItemIndex].textContent ?? "";
+        this._items[defaultItemIndex].selected = true;
+      } else {
+        this.value = this._items[0].value;
+        this._buttonLabel = this._items[0].textContent ?? "";
+        this._items[0].selected = true;
+      }
     }
   }
 }
