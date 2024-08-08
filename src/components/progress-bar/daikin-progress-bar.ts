@@ -28,7 +28,6 @@ const cvaBar = cva(
           "after:w-1/2",
           "after:bg-daikinBlue-500",
           "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
-          "after:will-change-transform",
         ],
         error: ["after:w-full", "after:bg-[--colorFeedbackNegative]"],
       },
