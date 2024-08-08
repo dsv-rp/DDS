@@ -19,6 +19,7 @@ Mediumgrey
 tablist
 tabpanel
 textbox
+progressbar
 
 # Custom Events
 beforechange
@@ -26,6 +27,7 @@ beforechange
 # HTML
 maxlength
 slotchange
+valuenow
 
 # SVG
 evenodd

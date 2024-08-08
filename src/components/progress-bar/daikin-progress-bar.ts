@@ -146,6 +146,11 @@ export class DaikinProgressBar extends LitElement {
       </div>
       <div
         class=${cvaBar({ variant: this.variant })}
+        role="progressbar"
+        aria-label=${this.textContent ?? ""}
+        aria-valuenow=${this.value}
+        aria-valuemin="0"
+        aria-valuemax=${this.max}
         style=${`--bar-width:${progressRatio * 100}%`}
       ></div>
       ${this.helper
