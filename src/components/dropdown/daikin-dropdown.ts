@@ -8,6 +8,7 @@ import {
   state,
 } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinDropdownItem } from "../dropdown-item";
@@ -204,6 +205,45 @@ export class DaikinDropdown extends LitElement {
 
   private _contentsRef = createRef<HTMLElement>();
 
+  private _autoUpdateCleanup: (() => void) | null = null;
+
+  private _startAutoUpdate() {
+    if (!isClient) {
+      return;
+    }
+
+    const button = this._buttonRef.value;
+    const contents = this._contentsRef.value;
+    if (!button || !contents) {
+      return;
+    }
+
+    // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
+    this._autoUpdateCleanup?.();
+    this._autoUpdateCleanup = autoUpdate(button, contents, () => {
+      computePosition(button, contents, {
+        placement: "bottom",
+        middleware: [
+          flip({ fallbackStrategy: "initialPlacement" }),
+          offset({ mainAxis: 10 }),
+        ],
+      })
+        .then(({ x, y }) => {
+          Object.assign(contents.style, {
+            left: `${x}px`,
+            top: `${y}px`,
+          });
+        })
+        .catch((e: unknown) => console.error(e));
+    });
+  }
+
+  private _uninstallAutoUpdate() {
+    this.open = false;
+    this._autoUpdateCleanup?.();
+    this._autoUpdateCleanup = null;
+  }
+
   private _handleClick() {
     this.open = !this.open;
   }
@@ -245,26 +285,6 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
-  private _locateOptions() {
-    const button = this._buttonRef.value;
-    const contents = this._contentsRef.value;
-    if (!button || !contents) {
-      return;
-    }
-
-    computePosition(button, contents, {
-      placement: "bottom",
-      middleware: [flip({ fallbackStrategy: "initialPlacement" }), offset(10)],
-    })
-      .then(({ x, y }) => {
-        Object.assign(contents.style, {
-          left: `${x}px`,
-          top: `${y}px`,
-        });
-      })
-      .catch((e: unknown) => console.error(e));
-  }
-
   /**
    * Handle `select` event from `daikin-dropdown-item`.
    */
@@ -286,18 +306,8 @@ export class DaikinDropdown extends LitElement {
     this.dispatchEvent(event);
   }
 
-  private _cleanup() {
-    const button = this._buttonRef.value;
-    const contents = this._contentsRef.value;
-    if (!button || !contents) {
-      return;
-    }
-
-    autoUpdate(button, contents, this._locateOptions);
-  }
-
   override disconnectedCallback(): void {
-    this._cleanup();
+    this._uninstallAutoUpdate();
   }
 
   override render() {
@@ -351,11 +361,16 @@ export class DaikinDropdown extends LitElement {
     </div>`;
   }
 
-  protected override firstUpdated(): void {
-    this._locateOptions();
-  }
-
   protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("open")) {
+      if (this.open) {
+        this._startAutoUpdate();
+      } else {
+        this._autoUpdateCleanup?.();
+        this._autoUpdateCleanup = null;
+      }
+    }
+
     if (changedProperties.has("value")) {
       const defaultItemIndex = this._items.findIndex(
         ({ value }) => this.value === value
