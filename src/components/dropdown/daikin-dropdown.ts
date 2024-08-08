@@ -361,7 +361,7 @@ export class DaikinDropdown extends LitElement {
     </div>`;
   }
 
-  protected override updated(changedProperties: PropertyValues): void {
+  protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
       if (this.open) {
         this._startAutoUpdate();
@@ -372,18 +372,16 @@ export class DaikinDropdown extends LitElement {
     }
 
     if (changedProperties.has("value")) {
-      const defaultItemIndex = this._items.findIndex(
+      let itemIndex = this._items.findIndex(
         ({ value }) => this.value === value
       );
 
-      if (defaultItemIndex >= 0) {
-        this._buttonLabel = this._items[defaultItemIndex].textContent ?? "";
-        this._items[defaultItemIndex].selected = true;
-      } else {
-        this.value = this._items[0].value;
-        this._buttonLabel = this._items[0].textContent ?? "";
-        this._items[0].selected = true;
+      if (itemIndex < 0) {
+        itemIndex = 0;
+        this.value = this._items[itemIndex].value;
       }
+      this._buttonLabel = this._items[itemIndex].textContent ?? "";
+      this._items[itemIndex].selected = true;
     }
   }
 }
