@@ -33,6 +33,8 @@ This PR adds Button (`daikin-button`) component.
 
 ## Checklist
 
+- [ ] I have added a changeset file that describes the changes.  
+       _Hint_: run `npx changeset`.
 - [ ] I have performed a self-review of my code.
 - [ ] I have added appropriate visual regression tests.
 - [ ] I have added appropriate interaction tests.
