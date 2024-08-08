@@ -3,7 +3,7 @@ import {
   colorFeedbackPositive,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -114,6 +114,28 @@ export class DaikinProgressBar extends LitElement {
   @property({ type: String })
   helper = "";
 
+  // Validate the 'value' and 'max' properties to ensure they are valid
+  private _validateProperties() {
+    if (typeof this.value !== "number" || this.value < 0) {
+      console.warn(
+        `Invalid 'value' property: ${this.value}. Falling back to 0.`
+      );
+      this.value = 0;
+    }
+
+    if (typeof this.max !== "number" || this.max <= 0) {
+      console.warn(`Invalid 'max' property: ${this.max}. Falling back to 100.`);
+      this.max = 100;
+    }
+
+    if (this.value > this.max) {
+      console.warn(
+        `'value' property: ${this.value} exceeds 'max' property: ${this.max}. Clamping value to max.`
+      );
+      this.value = this.max;
+    }
+  }
+
   override render() {
     const progressRatio = Math.min(Math.max(this.value / this.max, 0), 1);
 
@@ -132,6 +154,12 @@ export class DaikinProgressBar extends LitElement {
           >`
         : null}
     </div>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("value") || changedProperties.has("max")) {
+      this._validateProperties();
+    }
   }
 }
 
