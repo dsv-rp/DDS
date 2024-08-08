@@ -118,21 +118,29 @@ export class DaikinProgressBar extends LitElement {
   // Validate the 'value' and 'max' properties to ensure they are valid
   private _validateProperties() {
     if (typeof this.value !== "number" || this.value < 0) {
-      console.warn(
-        `Invalid 'value' property: ${this.value}. Falling back to 0.`
-      );
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'value' property: ${this.value}. Falling back to 0.`
+        );
+      }
       this.value = 0;
     }
 
     if (typeof this.max !== "number" || this.max <= 0) {
-      console.warn(`Invalid 'max' property: ${this.max}. Falling back to 100.`);
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'max' property: ${this.max}. Falling back to 100.`
+        );
+      }
       this.max = 100;
     }
 
     if (this.value > this.max) {
-      console.warn(
-        `'value' property: ${this.value} exceeds 'max' property: ${this.max}. Clamping value to max.`
-      );
+      if (import.meta.env.DEV) {
+        console.warn(
+          `'value' property: ${this.value} exceeds 'max' property: ${this.max}. Clamping value to max.`
+        );
+      }
       this.value = this.max;
     }
   }
