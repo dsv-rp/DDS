@@ -32,6 +32,27 @@ const cvaButton = cva(
   }
 );
 
+const cvaDropDown = cva(
+  [
+    "flex",
+    "flex-col",
+    "justify-center",
+    "items-center",
+    "flex-shrink-0",
+    "absolute",
+    "w-12",
+    "mt-[3px]",
+  ],
+  {
+    variants: {
+      open: {
+        false: ["hidden"],
+        true: [],
+      },
+    },
+  }
+);
+
 /**
  * A pagination switch component.
  *
@@ -63,10 +84,16 @@ export class DaikinPagination extends LitElement {
    * The show pages.
    */
   @property({ type: Number, reflect: true })
-  showPages = 6;
+  showPages = 8;
 
   @state()
   private _pageArray: Array<Array<number>> = [[], [], [], [], []];
+
+  @state()
+  private _leftDropDownOpen = false;
+
+  @state()
+  private _rightDropDownOpen = false;
 
   private _resetPagesStart() {
     this._pageArray = [[], [], [], [], []];
@@ -86,11 +113,11 @@ export class DaikinPagination extends LitElement {
     const tempPageArray = Array.from({ length: this.max }, (_, i) => i + 1);
     this._pageArray[0] = [tempPageArray[0]];
 
-    this._pageArray[1] = tempPageArray.slice(1, this.showPages - 1);
-    this._pageArray[2] = tempPageArray.slice(
-      this.showPages - 1,
-      tempPageArray[tempPageArray.length - 1] - 1
+    this._pageArray[1] = tempPageArray.slice(
+      1,
+      tempPageArray.length - this.showPages + 1
     );
+    this._pageArray[2] = tempPageArray.slice(-this.showPages + 1, -1);
 
     this._pageArray[4] = [tempPageArray[tempPageArray.length - 1]];
     this.requestUpdate();
@@ -166,6 +193,70 @@ export class DaikinPagination extends LitElement {
     this.requestUpdate();
   }
 
+  private _handleLeftEllipsisClick() {
+    this._leftDropDownOpen = !this._leftDropDownOpen;
+  }
+
+  private _handleRightEllipsisClick() {
+    this._rightDropDownOpen = !this._rightDropDownOpen;
+  }
+
+  private _handleBlurFromLeftDropDown(event: FocusEvent) {
+    const clickTarget = event.relatedTarget as HTMLButtonElement | null;
+    if (!clickTarget || clickTarget.name != "dropDownItemLeft") {
+      this._leftDropDownOpen = false;
+      this._rightDropDownOpen = false;
+    }
+  }
+
+  private _handleBlurFromRightDropDown(event: FocusEvent) {
+    const clickTarget = event.relatedTarget as HTMLButtonElement | null;
+    if (!clickTarget || clickTarget.name != "dropDownItemRight") {
+      this._leftDropDownOpen = false;
+      this._rightDropDownOpen = false;
+    }
+  }
+
+  private _handleChosePageRight(value: number) {
+    this.value = value;
+    if (this.value >= this.max - 2) {
+      this._resetPagesEnd();
+      return;
+    }
+    // move 4 to 3 to show
+    const moveCount1 = this._pageArray[3].filter((x) => x <= value).length;
+    for (let i = 0; i < moveCount1; i++) {
+      this._moveMinValueLeftShow();
+    }
+    // move 3 to 2 to hide
+    const moveCount2 = this._pageArray[2].length - (this.showPages - 3);
+    for (let j = 0; j < moveCount2; j++) {
+      this._moveMinValueLeftOmission();
+    }
+    this._rightDropDownOpen = false;
+    this.requestUpdate();
+  }
+
+  private _handleChosePageLeft(value: number) {
+    this.value = value;
+    if (this.value <= 3) {
+      this._resetPagesStart();
+      return;
+    }
+    // move 2 to 3 to show
+    const moveCount1 = this._pageArray[1].filter((x) => x >= value).length;
+    for (let i = 0; i < moveCount1; i++) {
+      this._moveMaxValueRightShow();
+    }
+    // move 3 to 4 to hide
+    const moveCount2 = this._pageArray[2].length - (this.showPages - 3);
+    for (let i = 0; i < moveCount2; i++) {
+      this._moveMaxValueRightOmission();
+    }
+    this._leftDropDownOpen = false;
+    this.requestUpdate();
+  }
+
   override render() {
     const cvaChevron = cvaButton({
       active: false,
@@ -179,17 +270,64 @@ export class DaikinPagination extends LitElement {
         </button>
         <slot>
           ${this._pageArray.map((i, index) => {
-            if (index === 1 || index === 3) {
+            const ellipsisClassName = cvaButton({
+              active: false,
+            });
+            const aTagClassName =
+              "flex justify-center items-center px-4 py-[2px] w-full font-daikinSerif text-sm not-italic font-normal leading-5 border-t border-r border-l border-solid border-daikinNeutral-600 first:rounded-t last:rounded-b last:border-b hover:bg-daikinNeutral-100";
+            if (index === 1) {
+              const cvaDropDownLeftClassName = cvaDropDown({
+                open: this._leftDropDownOpen,
+              });
               if (i.length > 0) {
-                const ellipsisClassName = cvaButton({
-                  active: false,
-                });
-                return html`<button
-                  class=${ellipsisClassName}
-                  aria-label="pageDetail"
-                >
-                  ${". . ."}
-                </button>`;
+                return html`<div class="relative">
+                  <button
+                    class=${ellipsisClassName}
+                    aria-label="pageDetail"
+                    @click=${this._handleLeftEllipsisClick}
+                    @blur=${this._handleBlurFromLeftDropDown}
+                  >
+                    ${". . ."}
+                  </button>
+                  <div class=${cvaDropDownLeftClassName}>
+                    ${i.map((value) => {
+                      return html`<button
+                        name="dropDownItemLeft"
+                        class=${aTagClassName}
+                        @click=${() => this._handleChosePageLeft(value)}
+                      >
+                        ${value}
+                      </button>`;
+                    })}
+                  </div>
+                </div>`;
+              }
+            } else if (index === 3) {
+              const cvaDropDownRightClassName = cvaDropDown({
+                open: this._rightDropDownOpen,
+              });
+              if (i.length > 0) {
+                return html`<div class="relative">
+                  <button
+                    class=${ellipsisClassName}
+                    aria-label="pageDetail"
+                    @click=${this._handleRightEllipsisClick}
+                    @blur=${this._handleBlurFromRightDropDown}
+                  >
+                    ${". . ."}
+                  </button>
+                  <div class=${cvaDropDownRightClassName}>
+                    ${i.map((value) => {
+                      return html`<button
+                        name="dropDownItemRight"
+                        class=${aTagClassName}
+                        @click=${() => this._handleChosePageRight(value)}
+                      >
+                        ${value}
+                      </button>`;
+                    })}
+                  </div>
+                </div>`;
               }
             }
             return html`${i.map((j) => {
