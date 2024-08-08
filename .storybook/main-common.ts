@@ -58,6 +58,7 @@ export function viteFinal(config: InlineConfig): InlineConfig {
         "@daikin-oss/dds-tokens/js/aaf/Light/variables.js",
         "@daikin-oss/dds-tokens/js/daikin/Dark/variables.js",
         "@daikin-oss/dds-tokens/js/daikin/Light/variables.js",
+        "@floating-ui/dom",
         "class-variance-authority",
         "lit",
         "lit/**/*.js",

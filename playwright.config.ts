@@ -49,4 +49,6 @@ export default defineConfig({
       caret: "hide",
     },
   },
+  // A workaround for flaky tests that occur in tests using the development build, where screenshots are sometimes taken before the component has finished rendering.
+  retries: 3,
 });
