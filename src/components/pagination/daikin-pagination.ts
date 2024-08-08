@@ -83,8 +83,8 @@ export class DaikinPagination extends LitElement {
   /**
    * The show pages.
    */
-  @property({ type: Number, reflect: true })
-  showPages = 8;
+  @property({ type: Number, reflect: true, attribute: "show-pages" })
+  showPages = 5;
 
   @state()
   private _pageArray: Array<Array<number>> = [[], [], [], [], []];

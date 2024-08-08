@@ -4,7 +4,11 @@ import { html } from "lit";
 import type { DaikinPaginationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinPaginationStoryArgs> = {
-  render: ({ value, max }) => html`
-    <daikin-pagination value=${value} max=${max}> </daikin-pagination>
+  render: ({ value, max, showPages }) => html`
+    <daikin-pagination
+      value=${value}
+      max=${max}
+      show-pages=${showPages}
+    ></daikin-pagination>
   `,
 };
