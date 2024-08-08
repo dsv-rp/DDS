@@ -105,6 +105,8 @@ export class DaikinPagination extends LitElement {
       tempPageArray[tempPageArray.length - 1] - 1
     );
     this._pageArray[4] = [tempPageArray[tempPageArray.length - 1]];
+    this._leftDropDownOpen = false;
+    this._rightDropDownOpen = false;
     this.requestUpdate();
   }
 
@@ -120,6 +122,8 @@ export class DaikinPagination extends LitElement {
     this._pageArray[2] = tempPageArray.slice(-this.showPages + 1, -1);
 
     this._pageArray[4] = [tempPageArray[tempPageArray.length - 1]];
+    this._leftDropDownOpen = false;
+    this._rightDropDownOpen = false;
     this.requestUpdate();
   }
 
