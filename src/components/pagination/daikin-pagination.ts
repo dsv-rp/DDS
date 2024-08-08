@@ -16,6 +16,10 @@ const cvaButton = cva(
     "border-daikinBlue-600",
     "hover:border-b",
     "hover:border-solid",
+    "focus-visible:outline-none",
+    "focus-visible:!border-b-2",
+    "focus-visible:border-solid",
+    "focus-visible:border-daikinBlue-600",
   ],
   {
     variants: {
@@ -267,8 +271,12 @@ export class DaikinPagination extends LitElement {
     });
     return html`
       <div class="inline-flex">
-        <button @click=${() => this._handleClickChevron("left")}>
-          <div class="${cvaChevron} flex items-center justify-center">
+        <button
+          aria-label="leftChevron"
+          class=${cvaChevron}
+          @click=${() => this._handleClickChevron("left")}
+        >
+          <div class="flex items-center justify-center">
             <daikin-icon icon="chevronLeft"></daikin-icon>
           </div>
         </button>
@@ -349,8 +357,12 @@ export class DaikinPagination extends LitElement {
             })}`;
           })}
         </slot>
-        <button @click=${() => this._handleClickChevron("right")}>
-          <div class="${cvaChevron} flex items-center justify-center">
+        <button
+          aria-label="rightChevron"
+          class=${cvaChevron}
+          @click=${() => this._handleClickChevron("right")}
+        >
+          <div class="flex items-center justify-center">
             <daikin-icon icon="chevronRight"></daikin-icon>
           </div>
         </button>
