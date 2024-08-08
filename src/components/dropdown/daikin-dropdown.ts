@@ -372,16 +372,16 @@ export class DaikinDropdown extends LitElement {
     }
 
     if (changedProperties.has("value")) {
-      let itemIndex = this._items.findIndex(
-        ({ value }) => this.value === value
-      );
+      const items = this._items;
+
+      let itemIndex = items.findIndex(({ value }) => this.value === value);
 
       if (itemIndex < 0) {
         itemIndex = 0;
-        this.value = this._items[itemIndex].value;
+        this.value = items[itemIndex].value;
       }
-      this._buttonLabel = this._items[itemIndex].textContent ?? "";
-      this._items[itemIndex].selected = true;
+      this._buttonLabel = items[itemIndex].textContent ?? "";
+      items[itemIndex].selected = true;
     }
   }
 }
