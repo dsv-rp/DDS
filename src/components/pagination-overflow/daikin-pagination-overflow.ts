@@ -1,0 +1,222 @@
+import "#package/components/icon/daikin-icon";
+import { cva } from "class-variance-authority";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
+import { map } from "lit/directives/map.js";
+import { range } from "lit/directives/range.js";
+import tailwindStyles from "../../tailwind.css?inline";
+
+const cvaDropDown = cva(
+  [
+    "flex",
+    "flex-col",
+    "justify-center",
+    "items-center",
+    "flex-shrink-0",
+    "w-12",
+    "mt-3",
+  ],
+  {
+    variants: {
+      open: {
+        false: ["hidden"],
+        true: [],
+      },
+    },
+  }
+);
+
+const cvaDropDownItem = cva(
+  [
+    "flex",
+    "justify-center",
+    "items-center",
+    "px-4",
+    "py-[2px]",
+    "w-full",
+    "font-daikinSerif",
+    "text-sm",
+    "not-italic",
+    "font-normal",
+    "leading-5",
+    "border-t",
+    "border-r",
+    "border-l",
+    "border-solid",
+    "border-daikinNeutral-600",
+    "first:rounded-t",
+    "last:rounded-b",
+    "last:border-b",
+    "hover:bg-daikinNeutral-100",
+  ],
+  {
+    variants: {
+      active: {
+        false: [],
+        true: ["bg-daikinNeutral-100"],
+      },
+    },
+  }
+);
+
+/**
+ * A pagination switch component.
+ *
+ * @fires change - Emitted when the pagination switch is pagination.
+ */
+@customElement("daikin-pagination-overflow")
+export class DaikinPaginationOverflow extends LitElement {
+  static override readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
+
+    :host {
+      display: inline-flex;
+    }
+  `;
+
+  /**
+   * The value.
+   */
+  @property({ type: Number, reflect: true })
+  value = 1;
+
+  /**
+   * The max.
+   */
+  @property({ type: Number, reflect: true })
+  max = 5;
+
+  /**
+   * The total items.
+   */
+  @property({ type: Number, reflect: true, attribute: "total-items" })
+  totalItems = 5;
+
+  @state()
+  open = false;
+
+  @state()
+  totalPages = 1;
+
+  @state()
+  itemFrom = 1;
+
+  @state()
+  itemTo = this.max;
+
+  private _handleClickNumber(value: number) {
+    this.value = value;
+    this.open = false;
+  }
+
+  private _handleClickArrow() {
+    this.open = !this.open;
+  }
+
+  private _handleClickChevron(type: "left" | "right") {
+    if (type === "left" && this.value > 1) {
+      this.value -= 1;
+    } else if (type === "right" && this.value < this.totalPages) {
+      this.value += 1;
+    }
+  }
+
+  override render() {
+    const cvaDropDownClassName = cvaDropDown({
+      open: this.open,
+    });
+
+    const dropDownMenu = html`<div class=${cvaDropDownClassName}>
+      ${map(range(1, this.totalPages + 1), (j) => {
+        const dropDownItemClassName = cvaDropDownItem({
+          active: this.value === j,
+        });
+        return html`
+          <button
+            name="page-${j}"
+            class=${dropDownItemClassName}
+            value=${j}
+            @click=${() => this._handleClickNumber(j)}
+            @keydown=${() => {
+              return;
+            }}
+            aria-label="page${j}"
+          >
+            ${j}
+          </button>
+        `;
+      })}
+    </div>`;
+
+    return html`
+      <div
+        class="inline-flex h-12 text-daikinNeutral-800 font-daikinSerif text-[15px] not-italic font-medium leading-[22px]"
+      >
+        <div class="flex items-center justify-center py-3 px-[17px] flex-col ">
+          ${this.itemFrom}-${this.itemTo} / ${this.totalItems}
+        </div>
+        <div
+          class="flex w-12 items-center justify-center py-[13px] px-[5px] ml-4"
+        >
+          page:
+        </div>
+
+        <div class="relative">
+          ${!this.open
+            ? html`<div
+                class="flex w-12 items-center justify-center py-[13px] px-[5px]"
+              >
+                ${this.value}
+              </div>`
+            : dropDownMenu}
+        </div>
+
+        <div class="relative flex w-8 items-center justify-center">
+          <button aria-label="arrowUp" @click=${this._handleClickArrow}>
+            <daikin-icon icon="arrowUp"></daikin-icon>
+          </button>
+        </div>
+        <div class="flex w-12 items-center justify-center">
+          <button
+            aria-label="chevronLeft"
+            @click=${() => this._handleClickChevron("left")}
+          >
+            <daikin-icon icon="chevronLeft"></daikin-icon>
+          </button>
+        </div>
+        <div class="flex w-12 items-center justify-center">
+          <button
+            aria-label="chevronRight"
+            @click=${() => this._handleClickChevron("right")}
+          >
+            <daikin-icon icon="chevronRight"></daikin-icon>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  protected override updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("max") || changedProperties.has("totalItems")) {
+      this.totalPages = Math.ceil(this.totalItems / this.max);
+    }
+    if (changedProperties.has("value")) {
+      if (this.value === 1) {
+        this.itemFrom = 1;
+        this.itemTo = this.max;
+      } else if (this.value === this.totalPages) {
+        this.itemFrom = this.value * this.max;
+        this.itemTo = this.totalItems;
+      } else {
+        this.itemFrom = this.value * this.max;
+        this.itemTo = this.value * this.max + this.max;
+      }
+    }
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "daikin-pagination-overflow": DaikinPaginationOverflow;
+  }
+}
