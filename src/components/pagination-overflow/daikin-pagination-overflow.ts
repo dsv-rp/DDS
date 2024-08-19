@@ -198,7 +198,11 @@ export class DaikinPaginationOverflow extends LitElement {
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("max") || changedProperties.has("totalItems")) {
-      this.totalPages = Math.ceil(this.totalItems / this.max);
+      if (this.totalItems % this.max === 0) {
+        this.totalPages = this.totalItems / this.max - 1;
+      } else {
+        this.totalPages = Math.floor(this.totalItems / this.max);
+      }
     }
     if (changedProperties.has("value")) {
       if (this.value === 1) {
