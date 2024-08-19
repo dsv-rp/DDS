@@ -17,6 +17,7 @@ export const Default: Story = {
     disabled: false,
     readonly: false,
     error: false,
+    vrtArgs: null,
     onChange: fn(),
     onInput: fn(),
   },

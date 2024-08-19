@@ -4,6 +4,7 @@ import type { DaikinTextarea } from "../daikin-textarea";
 
 export interface DaikinTextareaStoryArgs
   extends Required<ElementProps<DaikinTextarea>> {
+  vrtArgs: "resizeSmall" | "resizeLarge" | null;
   onChange: () => void;
   onInput: () => void;
 }
@@ -31,6 +32,9 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
     description: "Error state. Ignored if the `disabled` is `true`.",
     defaultValue: false,
     type: "boolean",
+  },
+  vrtArgs: {
+    type: "string",
   },
 } satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
 

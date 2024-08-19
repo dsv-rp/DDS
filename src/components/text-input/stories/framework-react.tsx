@@ -2,6 +2,7 @@ import { DaikinTextInput } from "#package/components/text-input/daikin-text-inpu
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import "../../../storybook-tailwind.css";
 import type { DaikinTextInputStoryArgs } from "./common";
 
 export const ReactDaikinTextInput = createComponent({
@@ -17,6 +18,18 @@ export const ReactDaikinTextInput = createComponent({
 
 export const metadata: Meta<DaikinTextInputStoryArgs> = {
   component: ({ ...props }: DaikinTextInputStoryArgs) => (
-    <ReactDaikinTextInput {...props} />
+    <div
+      style={{
+        ["--vrt-width" as string]:
+          props.vrtArgs === "resizeLarge"
+            ? "800px"
+            : props.vrtArgs === "resizeSmall"
+              ? "160px"
+              : "340px",
+      }}
+      className="[&>daikin-text-input]:w-[--vrt-width]"
+    >
+      <ReactDaikinTextInput {...props} />
+    </div>
   ),
 };

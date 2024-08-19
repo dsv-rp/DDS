@@ -4,6 +4,7 @@ import type { DaikinTextInput } from "../daikin-text-input";
 
 export interface DaikinTextInputStoryArgs
   extends Required<ElementProps<DaikinTextInput>> {
+  vrtArgs: "resizeSmall" | "resizeLarge" | null;
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
@@ -51,6 +52,9 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
     description: "Error state. Ignored if the `disabled` is `true`.",
     defaultValue: false,
     type: "boolean",
+  },
+  vrtArgs: {
+    type: "string",
   },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 
