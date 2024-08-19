@@ -196,10 +196,10 @@ export class DaikinDropdown extends LitElement {
   open = false;
 
   @state()
-  _buttonLabel = "";
+  private _buttonLabel = "";
 
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
-  _items!: DaikinDropdownItem[];
+  private _items!: DaikinDropdownItem[];
 
   private _buttonRef = createRef<HTMLElement>();
 
