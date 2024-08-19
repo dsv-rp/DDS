@@ -168,6 +168,7 @@ export class DaikinPagination extends LitElement {
 
   private _handleClickNumber(page: number) {
     this.value = page;
+    this._closeDropDownMenu();
   }
 
   // Move the min value from RightDropDown to ShowPages
@@ -270,29 +271,18 @@ export class DaikinPagination extends LitElement {
         this._resetPagesStart();
       }
     }
+    this._closeDropDownMenu();
     this.requestUpdate();
   }
 
   private _handleLeftEllipsisClick() {
     this._leftDropDownOpen = !this._leftDropDownOpen;
+    this._rightDropDownOpen = false;
   }
 
   private _handleRightEllipsisClick() {
     this._rightDropDownOpen = !this._rightDropDownOpen;
-  }
-
-  private _handleBlurFromLeftDropDown(event: FocusEvent) {
-    const clickTarget = event.relatedTarget as HTMLButtonElement | null;
-    if (!clickTarget) {
-      this._closeDropDownMenu();
-    }
-  }
-
-  private _handleBlurFromRightDropDown(event: FocusEvent) {
-    const clickTarget = event.relatedTarget as HTMLButtonElement | null;
-    if (!clickTarget) {
-      this._closeDropDownMenu();
-    }
+    this._leftDropDownOpen = false;
   }
 
   private _handleChoosePageRight(value: number) {
@@ -341,6 +331,13 @@ export class DaikinPagination extends LitElement {
     this.requestUpdate();
   }
 
+  private _handleWindowClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (target.nodeName != "DAIKIN-PAGINATION") {
+      this._closeDropDownMenu();
+    }
+  }
+
   override render() {
     const cvaChevron = cvaButton({
       active: false,
@@ -373,7 +370,6 @@ export class DaikinPagination extends LitElement {
                   <button
                     aria-label="pageDetailLeft"
                     @click=${this._handleLeftEllipsisClick}
-                    @blur=${this._handleBlurFromLeftDropDown}
                   >
                     ${". . ."}
                   </button>
@@ -403,7 +399,6 @@ export class DaikinPagination extends LitElement {
                   <button
                     aria-label="pageDetailRight"
                     @click=${this._handleRightEllipsisClick}
-                    @blur=${this._handleBlurFromRightDropDown}
                   >
                     ${". . ."}
                   </button>
@@ -454,6 +449,19 @@ export class DaikinPagination extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    window.addEventListener("click", (event) => {
+      this._handleWindowClick(event);
+    });
+  }
+
+  override disconnectedCallback(): void {
+    window.removeEventListener("click", (event) => {
+      this._handleWindowClick(event);
+    });
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
