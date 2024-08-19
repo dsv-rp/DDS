@@ -1,5 +1,12 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
+import {
+  css,
+  html,
+  LitElement,
+  nothing,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -103,7 +110,8 @@ export class DaikinCheckbox extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: inline-flex;
+      width: max-content;
     }
   `;
 
@@ -155,7 +163,7 @@ export class DaikinCheckbox extends LitElement {
    * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
    */
   @property({ type: String, attribute: "label-position" })
-  labelPosition: "left" | "right" = "right";
+  labelPosition: "left" | "right" | "hidden" = "right";
 
   /**
    * Specify whether the Checkbox should be disabled
@@ -209,6 +217,7 @@ export class DaikinCheckbox extends LitElement {
       name=${this.name}
       value=${this.value}
       aria-readonly=${this.readonly}
+      aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
       .indeterminate=${isIndeterminate}
       .checked=${this.checked}
       ?readonly=${this.readonly}
@@ -217,9 +226,11 @@ export class DaikinCheckbox extends LitElement {
       @click=${this._handleClick}
     />`;
     const content =
-      this.labelPosition === "left"
-        ? html`${labelText}${inputTag}`
-        : html`${inputTag}${labelText}`;
+      this.labelPosition === "hidden"
+        ? html`${inputTag}`
+        : this.labelPosition === "left"
+          ? html`${labelText}${inputTag}`
+          : html`${inputTag}${labelText}`;
     return html`<label
       class="inline-flex gap-[10px] items-center font-daikinSerif"
       >${content}</label

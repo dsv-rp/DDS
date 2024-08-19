@@ -23,6 +23,22 @@
     "warning": {
       "class": "i-daikin-notification-status-warning",
       "color": null
+    },
+    "search": {
+      "class": "i-daikin-search",
+      "color": null
+    },
+    "sort-chevron-up": {
+      "class": "i-daikin-sort-chevron-up",
+      "color": null
+    },
+    "sort-chevron-down": {
+      "class": "i-daikin-sort-chevron-down",
+      "color": null
+    },
+    "sort-chevron-up-and-down": {
+      "class": "i-daikin-sort-chevron-up-and-down",
+      "color": null
     }
   }
 }

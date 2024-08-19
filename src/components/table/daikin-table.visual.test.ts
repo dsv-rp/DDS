@@ -1,25 +1,17 @@
-import {
-  type InferStorybookArgTypes,
-  clipFor,
-  getStorybookIframeURL,
-} from "#tests/visual";
+import { clipFor, describeEach, getStorybookIframeURL } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_TABLE_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABLE_ARG_TYPES>;
+describeEach(["checkbox", "search", "sort", "pagination", "all"], (option) => {
+  test("base", async ({ page }) => {
+    const baseURL = getStorybookIframeURL(`components-table--${option}`, {});
+    await page.goto(baseURL);
 
-const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-table--default", args);
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-table", {
+      state: "visible",
+    });
 
-test("base", async ({ page }) => {
-  const baseURL = getPageURL();
-  await page.goto(baseURL);
-
-  // wait for element to be visible
-  const element = await page.waitForSelector("daikin-table", {
-    state: "visible",
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
-
-  // take screenshot and check for diffs
-  await expect(page).toHaveScreenshot(await clipFor(element));
 });
