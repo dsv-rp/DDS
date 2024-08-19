@@ -21,9 +21,9 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     const additionalClassNames = {
       "": "",
       resizeLarge:
-        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[300px]",
+        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[320px]",
       resizeSmall:
-        "[&>daikin-text-input]:w-[100px] [&>daikin-text-input]:h-[30px]",
+        "[&>daikin-text-input]:w-[160px] [&>daikin-text-input]:h-[40px]",
     }[props.vrtArgs ?? ""];
 
     return (

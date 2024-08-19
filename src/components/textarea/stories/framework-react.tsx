@@ -20,9 +20,8 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     const additionalClassNames = {
       "": "",
       resizeLarge:
-        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[300px]",
-      resizeSmall:
-        "[&>daikin-text-input]:w-[100px] [&>daikin-text-input]:h-[30px]",
+        "[&>daikin-textarea]:w-[800px] [&>daikin-textarea]:h-[320px]",
+      resizeSmall: "[&>daikin-textarea]:w-[160px] [&>daikin-textarea]:h-[40px]",
     }[props.vrtArgs ?? ""];
 
     return (
