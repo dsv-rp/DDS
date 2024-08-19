@@ -20,31 +20,32 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     onChange,
     onInput,
     onKeyDown,
-  }) => html`
-    <div
-      style=${`--vrt-width:${
-        vrtArgs === "resizeLarge"
-          ? "800px"
-          : vrtArgs === "resizeSmall"
-            ? "160px"
-            : "340px"
-      }`}
-      class=${"[&>daikin-text-input]:w-[--vrt-width]"}
-    >
-      <daikin-text-input
-        value=${value}
-        type=${type}
-        placeholder=${placeholder}
-        name=${ifDefined(name)}
-        maxlength=${ifDefined(maxlength)}
-        autocomplete=${ifDefined(autocomplete)}
-        ?disabled=${disabled}
-        ?readonly=${readonly}
-        ?error=${error}
-        @change=${onChange}
-        @input=${onInput}
-        @keydown=${onKeyDown}
-      ></daikin-text-input>
-    </div>
-  `,
+  }) => {
+    const additionalClassNames = {
+      "": "",
+      resizeLarge:
+        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[300px]",
+      resizeSmall:
+        "[&>daikin-text-input]:w-[100px] [&>daikin-text-input]:h-[30px]",
+    }[vrtArgs ?? ""];
+
+    return html`
+      <div class=${additionalClassNames}>
+        <daikin-text-input
+          value=${value}
+          type=${type}
+          placeholder=${placeholder}
+          name=${ifDefined(name)}
+          maxlength=${ifDefined(maxlength)}
+          autocomplete=${ifDefined(autocomplete)}
+          ?disabled=${disabled}
+          ?readonly=${readonly}
+          ?error=${error}
+          @change=${onChange}
+          @input=${onInput}
+          @keydown=${onKeyDown}
+        ></daikin-text-input>
+      </div>
+    `;
+  },
 };

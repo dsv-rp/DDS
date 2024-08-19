@@ -15,95 +15,108 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(["enabled", "disabled", "readonly"], (variant) => {
   describeEach(["normal", "error"] as const, (error) => {
     describeEach(["empty", "placeholder", "filled"] as const, (content) => {
-      describeEach(["resizeSmall", "resizeLarge", null] as const, (vrtArgs) => {
-        const baseURL = getPageURL({
-          disabled: variant === "disabled",
-          readonly: variant === "readonly",
-          error: error === "error",
-          placeholder: content !== "empty" ? "Placeholder Text" : "",
-          ...(!!vrtArgs && { vrtArgs }),
+      const baseURL = getPageURL({
+        disabled: variant === "disabled",
+        readonly: variant === "readonly",
+        error: error === "error",
+        placeholder: content !== "empty" ? "Placeholder Text" : "",
+      });
+
+      // ensure that hovering or clicking does not change the image for disabled
+      const snapshotName =
+        variant === "disabled" ? `${variant}-${error}-${content}.png` : null;
+
+      const testScreenshot = async (
+        page: Page,
+        element: ElementHandle<HTMLElement>
+      ): Promise<void> => {
+        if (snapshotName) {
+          await expect(page).toHaveScreenshot(
+            snapshotName,
+            await clipFor(element)
+          );
+        } else {
+          await expect(page).toHaveScreenshot(await clipFor(element));
+        }
+      };
+
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-textarea", {
+          state: "visible",
         });
 
-        // ensure that hovering or clicking does not change the image for disabled
-        const snapshotName =
-          variant === "disabled"
-            ? `${variant}-${error}-${content}-${vrtArgs ?? "null"}.png`
-            : null;
+        // take screenshot and check for diffs
+        await testScreenshot(page, element);
+      });
 
-        const testScreenshot = async (
-          page: Page,
-          element: ElementHandle<HTMLElement>
-        ): Promise<void> => {
-          if (snapshotName) {
-            await expect(page).toHaveScreenshot(
-              snapshotName,
-              await clipFor(element)
-            );
-          } else {
-            await expect(page).toHaveScreenshot(await clipFor(element));
-          }
-        };
+      test("hover", async ({ page }) => {
+        await page.goto(baseURL);
 
-        test("base", async ({ page }) => {
-          await page.goto(baseURL);
-
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-textarea", {
-            state: "visible",
-          });
-
-          // take screenshot and check for diffs
-          await testScreenshot(page, element);
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-textarea", {
+          state: "visible",
         });
 
-        test("hover", async ({ page }) => {
-          await page.goto(baseURL);
+        // hover cursor on the element
+        await element.hover();
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-textarea", {
-            state: "visible",
-          });
+        // take screenshot and check for diffs
+        await testScreenshot(page, element);
+      });
 
-          // hover cursor on the element
-          await element.hover();
+      test("press", async ({ page }) => {
+        await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          await testScreenshot(page, element);
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-textarea", {
+          state: "visible",
         });
 
-        test("press", async ({ page }) => {
-          await page.goto(baseURL);
+        // hover cursor on the element and hold down mouse button on the element
+        await element.hover();
+        await page.mouse.down();
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-textarea", {
-            state: "visible",
-          });
+        // take screenshot and check for diffs
+        await testScreenshot(page, element);
+        await page.mouse.up();
+      });
 
-          // hover cursor on the element and hold down mouse button on the element
-          await element.hover();
-          await page.mouse.down();
+      test("focus", async ({ page }) => {
+        await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          await testScreenshot(page, element);
-          await page.mouse.up();
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-textarea", {
+          state: "visible",
         });
 
-        test("focus", async ({ page }) => {
-          await page.goto(baseURL);
+        await page.evaluate((container) => {
+          container.focus();
+        }, element);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-textarea", {
-            state: "visible",
-          });
-
-          await page.evaluate((container) => {
-            container.focus();
-          }, element);
-
-          // take screenshot and check for diffs
-          await testScreenshot(page, element);
-        });
+        // take screenshot and check for diffs
+        await testScreenshot(page, element);
       });
     });
+  });
+});
+
+describeEach(["resizeSmall", "resizeLarge"] as const, (vrtArgs) => {
+  const baseURL = getPageURL({
+    vrtArgs,
+  });
+
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-textarea", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });

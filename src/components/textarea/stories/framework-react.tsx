@@ -16,19 +16,19 @@ export const ReactDaikinTextarea = createComponent({
 });
 
 export const metadata: Meta<DaikinTextareaStoryArgs> = {
-  component: ({ ...props }: DaikinTextareaStoryArgs) => (
-    <div
-      style={{
-        ["--vrt-width" as string]:
-          props.vrtArgs === "resizeLarge"
-            ? "800px"
-            : props.vrtArgs === "resizeSmall"
-              ? "160px"
-              : "340px",
-      }}
-      className="[&>daikin-textarea]:w-[--vrt-width]"
-    >
-      <ReactDaikinTextarea {...props} />
-    </div>
-  ),
+  component: ({ ...props }: DaikinTextareaStoryArgs) => {
+    const additionalClassNames = {
+      "": "",
+      resizeLarge:
+        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[300px]",
+      resizeSmall:
+        "[&>daikin-text-input]:w-[100px] [&>daikin-text-input]:h-[30px]",
+    }[props.vrtArgs ?? ""];
+
+    return (
+      <div className={additionalClassNames}>
+        <ReactDaikinTextarea {...props} />
+      </div>
+    );
+  },
 };
