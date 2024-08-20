@@ -203,25 +203,6 @@ export class DaikinTable extends LitElement {
     [key in (typeof this.headers)[number]["key"]]: string;
   })[] = [];
 
-  // NOTE: About the functions that exist on the table and the processing order
-
-  // There are four functions available on the table.
-  // - Checkbox
-  // - Search
-  // - Sort
-  // - Pagination
-
-  // These can be used in any combination, but changing one of them may require another process to be carried out at the same time.
-  // In this case, the processes are carried out in the following order:
-  // 1. Search and Sort - These are carried out in any order, and are also grouped together in the variable. Check: `_sortedAndSearchedRows`
-  // 2. Pagination - From the generated `_sortedAndSearchedRows`, a new array `_showRows` is generated with the display items narrowed down as specified by pagination.
-  // 3. Checkbox - Since it has page-specific checkboxes, this is processed after pagination.
-
-  // There are two basic functions used in these processes. The roles of each function and the naming conventions are as follows.
-  // 1. `_update[Function name]()` - Common processing that needs to be fired in conjunction with another event
-  // 2. `_emit[Function name]Event()` - Processing that returns a value in response to an event
-  // The above generalized processing and event-specific processing are executed together in a function starting with `_handle`.
-
   private _updateCheck() {
     this.checkedIds =
       this.checkedIds?.filter((checkedId) =>
@@ -308,8 +289,23 @@ export class DaikinTable extends LitElement {
     );
   }
 
-  private _resetRows() {
-    this._sortedAndSearchedRows = this.rows;
+  // NOTE: About the functions that exist on the table and the processing order
+
+  // There are four functions available on the table.
+  // - Checkbox
+  // - Search
+  // - Sort
+  // - Pagination
+
+  // These can be used in any combination, but changing one of them may require another process to be carried out at the same time.
+  // In this case, the processes are carried out in the following order:
+  // 1. Search and Sort - These are carried out in any order, and are also grouped together in the variable. Check: `_sortedAndSearchedRows`
+  // 2. Pagination - From the generated `_sortedAndSearchedRows`, a new array `_showRows` is generated with the display items narrowed down as specified by pagination.
+  // 3. Checkbox - Since it has page-specific checkboxes, this is processed after pagination.
+  private _resetRows(isFirstUpdated = false) {
+    if (!isFirstUpdated) {
+      this._sortedAndSearchedRows = this.rows;
+    }
 
     this._updateSort();
     this._updateSearch();
@@ -335,7 +331,7 @@ export class DaikinTable extends LitElement {
     this.keyword = (e.target as HTMLInputElement).value;
   }
 
-  private _handleRowHeaderChange(): void {
+  private _handleCheckboxRowHeaderChange(): void {
     switch (this._allItemCheckState) {
       case "unchecked":
       case "indeterminate":
@@ -361,7 +357,7 @@ export class DaikinTable extends LitElement {
     this._emitChangeCheckEvent();
   }
 
-  private _handleRowItemChange(id: string): void {
+  private _handleCheckboxRowItemChange(id: string): void {
     if (this.checkedIds?.includes(id)) {
       this.checkedIds = this.checkedIds.filter((checkedId) => checkedId !== id);
     } else {
@@ -381,7 +377,6 @@ export class DaikinTable extends LitElement {
     }
 
     this._resetRows();
-
     this.dispatchEvent(
       new CustomEvent("change-sort", {
         detail: { key: this.sortedKey, orderBy: this.orderBy },
@@ -413,12 +408,20 @@ export class DaikinTable extends LitElement {
     ).length;
 
     this._allItemCheckState =
-      Number(this._replaceSelectedRange) <= (this.checkedIds?.length ?? 0) &&
-      Number(this._replaceSelectedRange) === checkedIdLengthInCurrentPage
+      this._replaceSelectedRange <= (this.checkedIds?.length ?? 0) &&
+      this._replaceSelectedRange === checkedIdLengthInCurrentPage
         ? "checked"
         : checkedIdLengthInCurrentPage
           ? "indeterminate"
           : "unchecked";
+  }
+
+  private _setReplaceSelectedRange() {
+    if (!this.hasPagination || this.selectedRange === "All") {
+      this._replaceSelectedRange = this._sortedAndSearchedRows.length;
+    } else {
+      this._replaceSelectedRange = this.selectedRange;
+    }
   }
 
   override render() {
@@ -466,7 +469,7 @@ export class DaikinTable extends LitElement {
                     .checkState=${this._allItemCheckState}
                     label="Select all"
                     label-position="hidden"
-                    @change=${this._handleRowHeaderChange}
+                    @change=${this._handleCheckboxRowHeaderChange}
                   ></daikin-checkbox
                 ></span>
               </th>`
@@ -517,7 +520,7 @@ export class DaikinTable extends LitElement {
                           : "unchecked"}
                         label="Select row"
                         label-position="hidden"
-                        @change=${() => this._handleRowItemChange(id)}
+                        @change=${() => this._handleCheckboxRowItemChange(id)}
                       ></daikin-checkbox>
                     </span>
                   </td>`
@@ -592,32 +595,15 @@ export class DaikinTable extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._resetRows();
+    this._sortedAndSearchedRows = this.rows;
 
-    if (this.keyword) {
-      this._updateSearch();
-    }
-    if (this.sortedKey) {
-      this._updateSort();
-    }
-    if (this.selectedRange === "All") {
-      this._showRows = this._sortedAndSearchedRows;
-      this._replaceSelectedRange = this._sortedAndSearchedRows.length;
-    } else {
-      this._replaceSelectedRange = this.selectedRange;
-      this._updateCurrentPageRows();
-    }
-
-    this._updateCheck();
+    this._setReplaceSelectedRange();
+    this._resetRows(true);
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("selectedRange")) {
-      if (this.selectedRange === "All") {
-        this._replaceSelectedRange = this._sortedAndSearchedRows.length;
-      } else {
-        this._replaceSelectedRange = this.selectedRange;
-      }
+      this._setReplaceSelectedRange();
     }
   }
 }
