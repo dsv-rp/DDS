@@ -449,7 +449,7 @@ export class DaikinTable extends LitElement {
         aria-label="Search"
         @click=${this._handleSearchClick}
       >
-        <daikin-icon icon="search" size="l"></daikin-icon>
+        <daikin-icon icon="search" size="l" color="black"></daikin-icon>
       </button>
     </div>`;
 
@@ -494,6 +494,7 @@ export class DaikinTable extends LitElement {
                                 : "sort-chevron-up-and-down"
                             : "sort-chevron-up-and-down"}
                           size="s"
+                          color="black"
                         ></daikin-icon>
                       </button>
                     `
