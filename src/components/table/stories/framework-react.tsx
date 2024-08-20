@@ -10,14 +10,14 @@ const ReactDaikinTable = createComponent({
   react: React,
   events: {
     onChangeCheck: "change-check",
-    onSearch: "search",
-    onChangeSort: "change-sort",
     onChangePage: "change-page",
+    onChangeSort: "change-sort",
+    onSearch: "search",
   },
 });
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
   component: ({ ...props }: DaikinTableStoryArgs) => (
-    <ReactDaikinTable {...props}></ReactDaikinTable>
+    <ReactDaikinTable {...props} />
   ),
 };

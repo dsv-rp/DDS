@@ -5,9 +5,9 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export interface DaikinTableStoryArgs
   extends Required<ElementProps<DaikinTable>> {
   onChangeCheck: () => void;
-  onSearch: () => void;
-  onChangeSort: () => void;
   onChangePage: () => void;
+  onChangeSort: () => void;
+  onSearch: () => void;
 }
 
 export const DAIKIN_TABLE_ARG_TYPES = {

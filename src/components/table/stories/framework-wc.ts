@@ -20,9 +20,9 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     selectedRange,
     ranges,
     onChangeCheck,
-    onSearch,
-    onChangeSort,
     onChangePage,
+    onChangeSort,
+    onSearch,
   }) =>
     html`<daikin-table
       .headers=${headers}
@@ -40,8 +40,8 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       ?hasPagination=${hasPagination}
       ?hasSort=${hasSort}
       @change-check=${onChangeCheck}
-      @search=${onSearch}
-      @change-sort=${onChangeSort}
       @change-page=${onChangePage}
+      @change-sort=${onChangeSort}
+      @search=${onSearch}
     ></daikin-table>`,
 };
