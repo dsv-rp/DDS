@@ -123,7 +123,9 @@ export class DaikinPaginationOverflow extends LitElement {
   }
 
   private _handleClickArrow() {
-    this.open = !this.open;
+    if (this.totalPages > 1) {
+      this.open = !this.open;
+    }
   }
 
   private _handleClickChevron(type: "left" | "right") {
@@ -218,10 +220,12 @@ export class DaikinPaginationOverflow extends LitElement {
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("max") || changedProperties.has("totalItems")) {
-      if (this.totalItems % this.max === 0) {
-        this.totalPages = this.totalItems / this.max - 1;
+      if (this.totalItems === this.max) {
+        this.totalPages = 1;
+      } else if (this.totalItems % this.max === 0) {
+        this.totalPages = this.totalItems / this.max;
       } else {
-        this.totalPages = Math.floor(this.totalItems / this.max);
+        this.totalPages = Math.ceil(this.totalItems / this.max);
       }
     }
     if (changedProperties.has("value")) {
@@ -229,11 +233,11 @@ export class DaikinPaginationOverflow extends LitElement {
         this.itemFrom = 1;
         this.itemTo = this.max;
       } else if (this.value === this.totalPages) {
-        this.itemFrom = this.value * this.max;
+        this.itemFrom = (this.value - 1) * this.max;
         this.itemTo = this.totalItems;
       } else {
-        this.itemFrom = this.value * this.max;
-        this.itemTo = this.value * this.max + this.max;
+        this.itemFrom = (this.value - 1) * this.max;
+        this.itemTo = (this.value - 1) * this.max + this.max;
       }
       this.dispatchEvent(
         new CustomEvent("page-change", {
