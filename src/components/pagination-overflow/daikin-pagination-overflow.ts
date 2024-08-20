@@ -20,10 +20,12 @@ const cvaChevron = cva([
   "w-12",
   "items-center",
   "justify-center",
+  "border-daikinBlue-600",
   "hover:border-b",
   "hover:border-solid",
-  "hover:border-daikinBlue-600",
   "focus-visible:outline-none",
+  "focus-visible:border-b-2",
+  "focus-visible:border-solid",
 ]);
 
 const cvaDropDown = cva(
@@ -148,6 +150,13 @@ export class DaikinPaginationOverflow extends LitElement {
     this.open = false;
   }
 
+  private _handleWindowClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (target.nodeName != "DAIKIN-PAGINATION-OVERFLOW") {
+      this.open = false;
+    }
+  }
+
   override render() {
     const cvaDropDownClassName = cvaDropDown({
       open: this.open,
@@ -227,6 +236,19 @@ export class DaikinPaginationOverflow extends LitElement {
         </button>
       </div>
     `;
+  }
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    window.addEventListener("click", (event) => {
+      this._handleWindowClick(event);
+    });
+  }
+
+  override disconnectedCallback(): void {
+    window.removeEventListener("click", (event) => {
+      this._handleWindowClick(event);
+    });
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
