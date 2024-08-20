@@ -289,6 +289,10 @@ export class DaikinTable extends LitElement {
     );
   }
 
+  private _resetRows() {
+    this._sortedAndSearchedRows = this.rows;
+  }
+
   // NOTE: About the functions that exist on the table and the processing order
 
   // There are four functions available on the table.
@@ -302,15 +306,16 @@ export class DaikinTable extends LitElement {
   // 1. Search and Sort - These are carried out in any order, and are also grouped together in the variable. Check: `_sortedAndSearchedRows`
   // 2. Pagination - From the generated `_sortedAndSearchedRows`, a new array `_showRows` is generated with the display items narrowed down as specified by pagination.
   // 3. Checkbox - Since it has page-specific checkboxes, this is processed after pagination.
-  private _resetRows(isFirstUpdated = false) {
-    if (!isFirstUpdated) {
-      this._sortedAndSearchedRows = this.rows;
-    }
-
+  private _updateAllProperties() {
     this._updateSort();
     this._updateSearch();
     this._updateCurrentPageRows();
     this._updateCheck();
+  }
+
+  private _updateTable() {
+    this._resetRows();
+    this._updateAllProperties();
   }
 
   private _handleSearchKeydown(e: KeyboardEvent): void {
@@ -318,12 +323,12 @@ export class DaikinTable extends LitElement {
       return;
     }
 
-    this._resetRows();
+    this._updateTable();
     this._emitSearchEvent();
   }
 
   private _handleSearchClick(): void {
-    this._resetRows();
+    this._updateTable();
     this._emitSearchEvent();
   }
 
@@ -376,7 +381,7 @@ export class DaikinTable extends LitElement {
       this.orderBy = "asc";
     }
 
-    this._resetRows();
+    this._updateTable();
     this.dispatchEvent(
       new CustomEvent("change-sort", {
         detail: { key: this.sortedKey, orderBy: this.orderBy },
@@ -391,14 +396,14 @@ export class DaikinTable extends LitElement {
       this.selectedRange = Number(e.detail.value);
     }
 
-    this._resetRows();
+    this._updateTable();
     this._emitChangePageEvent();
   }
 
   private _handlePageChange(e: Event & { detail: { page: number } }) {
     this.currentPage = e.detail.page;
 
-    this._resetRows();
+    this._updateTable();
     this._emitChangePageEvent();
   }
 
@@ -595,10 +600,10 @@ export class DaikinTable extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._sortedAndSearchedRows = this.rows;
+    this._resetRows();
 
     this._setReplaceSelectedRange();
-    this._resetRows(true);
+    this._updateAllProperties();
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
