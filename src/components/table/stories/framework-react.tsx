@@ -8,6 +8,12 @@ const ReactDaikinTable = createComponent({
   tagName: "daikin-table",
   elementClass: DaikinTable,
   react: React,
+  events: {
+    onChangeCheck: "change-check",
+    onSearch: "search",
+    onChangeSort: "change-sort",
+    onChangePage: "change-page",
+  },
 });
 
 export const metadata: Meta<DaikinTableStoryArgs> = {

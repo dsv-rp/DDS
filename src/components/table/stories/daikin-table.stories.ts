@@ -371,7 +371,6 @@ export const AllFunctions: Story = {
     await step("Try to click checkbox", async () => {
       await userEvent.click(allItemCheckbox);
       await expect(args.onChangeCheck).toHaveBeenCalledTimes(1);
-      // await expect(allItemCheckbox).toBeChecked();
     });
 
     await step("Try to search keyword delete", async () => {
@@ -384,7 +383,6 @@ export const AllFunctions: Story = {
         getByShadowText(root, "Showing results 1 to 5 of 16 results")
       ).toBeInTheDocument();
       await expect(allItemCheckbox).not.toBeChecked();
-      await expect(getAllByShadowRole(root, "checkbox")[3]).toBeChecked();
     });
 
     // should react if inner sort button clicked

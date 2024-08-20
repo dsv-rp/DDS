@@ -44,6 +44,5 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       @search=${onSearch}
       @change-sort=${onChangeSort}
       @change-page=${onChangePage}
-    >
-    </daikin-table>`,
+    ></daikin-table>`,
 };
