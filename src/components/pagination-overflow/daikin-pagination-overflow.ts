@@ -6,7 +6,7 @@ import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaDropDownIcon = cva([], {
+const cvaDropDownIcon = cva(["flex", "w-8", "items-center", "justify-center"], {
   variants: {
     open: {
       false: [],
@@ -23,6 +23,7 @@ const cvaChevron = cva([
   "hover:border-b",
   "hover:border-solid",
   "hover:border-daikinBlue-600",
+  "focus-visible:outline-none",
 ]);
 
 const cvaDropDown = cva(
@@ -201,31 +202,29 @@ export class DaikinPaginationOverflow extends LitElement {
             : dropDownMenu}
         </div>
 
-        <div class="relative flex w-8 items-center justify-center">
-          <button
-            aria-label="arrow"
-            class=${cvaDropDownIconClassName}
-            @click=${this._handleClickArrow}
-          >
-            <daikin-icon icon="arrowUp"></daikin-icon>
-          </button>
-        </div>
-        <div class=${cvaChevronClassName}>
-          <button
-            aria-label="chevronLeft"
-            @click=${() => this._handleClickChevron("left")}
-          >
-            <daikin-icon icon="chevronLeft"></daikin-icon>
-          </button>
-        </div>
-        <div class=${cvaChevronClassName}>
-          <button
-            aria-label="chevronRight"
-            @click=${() => this._handleClickChevron("right")}
-          >
-            <daikin-icon icon="chevronRight"></daikin-icon>
-          </button>
-        </div>
+        <button
+          aria-label="arrow"
+          class=${cvaDropDownIconClassName}
+          @click=${this._handleClickArrow}
+        >
+          <daikin-icon icon="arrowUp"></daikin-icon>
+        </button>
+
+        <button
+          aria-label="chevronLeft"
+          class=${cvaChevronClassName}
+          @click=${() => this._handleClickChevron("left")}
+        >
+          <daikin-icon icon="chevronLeft"></daikin-icon>
+        </button>
+
+        <button
+          aria-label="chevronRight"
+          class=${cvaChevronClassName}
+          @click=${() => this._handleClickChevron("right")}
+        >
+          <daikin-icon icon="chevronRight"></daikin-icon>
+        </button>
       </div>
     `;
   }
