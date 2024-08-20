@@ -267,7 +267,10 @@ export class DaikinPagination extends LitElement {
     });
     return html`
       <div class="inline-flex">
-        <button @click=${() => this._handleClickChevron("left")}>
+        <button
+          aria-label="Prev"
+          @click=${() => this._handleClickChevron("left")}
+        >
           <div class="${cvaChevron} flex items-center justify-center"></div>
         </button>
         <slot>
@@ -347,7 +350,10 @@ export class DaikinPagination extends LitElement {
             })}`;
           })}
         </slot>
-        <button @click=${() => this._handleClickChevron("right")}>
+        <button
+          aria-label="Next"
+          @click=${() => this._handleClickChevron("right")}
+        >
           <div class="${cvaChevron} flex items-center justify-center"></div>
         </button>
       </div>
