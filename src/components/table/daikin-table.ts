@@ -17,6 +17,7 @@ import "../checkbox/daikin-checkbox";
 import "../dropdown-item/daikin-dropdown-item";
 import "../dropdown/daikin-dropdown";
 import "../icon/daikin-icon";
+import "../pagination/daikin-pagination";
 import "../text-input/daikin-text-input";
 
 const cvaCellContainer = cva(["flex", "items-center", "w-full", "gap-2"], {
@@ -577,12 +578,12 @@ export class DaikinTable extends LitElement {
     };
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
-      ${this.hasSearch || !!this.textContent
+      ${this.hasSearch
         ? html`<div
             class="flex items-center justify-between gap-12 w-full px-6"
           >
-            <div>${this.textContent ? html`<slot></slot>` : nothing}</div>
-            ${this.hasSearch ? search : nothing}
+            <div></div>
+            ${search}
           </div>`
         : nothing}${table}
       ${this.hasPagination ? pagination() : nothing}
