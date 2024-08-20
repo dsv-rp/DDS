@@ -6,15 +6,30 @@ import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
+const cvaDropDownIcon = cva([], {
+  variants: {
+    open: {
+      false: [],
+      true: ["rotate-180"],
+    },
+  },
+});
+
 const cvaDropDown = cva(
   [
     "flex",
     "flex-col",
-    "justify-center",
     "items-center",
     "flex-shrink-0",
     "w-12",
     "mt-3",
+    "max-h-[226px]",
+    "overflow-auto",
+    "border-t",
+    "rounded-t",
+    "border-b",
+    "rounded-b",
+    "border-daikinNeutral-600",
   ],
   {
     variants: {
@@ -44,9 +59,7 @@ const cvaDropDownItem = cva(
     "border-l",
     "border-solid",
     "border-daikinNeutral-600",
-    "first:rounded-t",
-    "last:rounded-b",
-    "last:border-b",
+    "first:border-t-0",
     "hover:bg-daikinNeutral-100",
   ],
   {
@@ -119,12 +132,15 @@ export class DaikinPaginationOverflow extends LitElement {
     } else if (type === "right" && this.value < this.totalPages) {
       this.value += 1;
     }
+    this.open = false;
   }
 
   override render() {
     const cvaDropDownClassName = cvaDropDown({
       open: this.open,
     });
+
+    const cvaDropDownIconClassName = cvaDropDownIcon({ open: this.open });
 
     const dropDownMenu = html`<div class=${cvaDropDownClassName}>
       ${map(range(1, this.totalPages + 1), (j) => {
@@ -172,7 +188,11 @@ export class DaikinPaginationOverflow extends LitElement {
         </div>
 
         <div class="relative flex w-8 items-center justify-center">
-          <button aria-label="arrowUp" @click=${this._handleClickArrow}>
+          <button
+            aria-label="arrow"
+            class=${cvaDropDownIconClassName}
+            @click=${this._handleClickArrow}
+          >
             <daikin-icon icon="arrowUp"></daikin-icon>
           </button>
         </div>
@@ -215,6 +235,18 @@ export class DaikinPaginationOverflow extends LitElement {
         this.itemFrom = this.value * this.max;
         this.itemTo = this.value * this.max + this.max;
       }
+      this.dispatchEvent(
+        new CustomEvent("page-change", {
+          detail: {
+            page: this.value,
+            offset: this.itemFrom,
+            limit: this.itemTo,
+          },
+          bubbles: true,
+          composed: true,
+          cancelable: false,
+        })
+      );
     }
   }
 }

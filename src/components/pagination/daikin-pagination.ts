@@ -41,12 +41,19 @@ const cvaDropDown = cva(
   [
     "flex",
     "flex-col",
-    "justify-center",
+    "justify-start",
     "items-center",
     "flex-shrink-0",
     "absolute",
     "w-12",
     "mt-[3px]",
+    "max-h-[226px]",
+    "overflow-auto",
+    "border-t",
+    "rounded-t",
+    "border-b",
+    "rounded-b",
+    "border-daikinNeutral-600",
   ],
   {
     variants: {
@@ -359,7 +366,7 @@ export class DaikinPagination extends LitElement {
             active: false,
           });
           const dropDownItemClassName =
-            "flex justify-center items-center px-4 py-[2px] w-full font-daikinSerif text-sm not-italic font-normal leading-5 border-t border-r border-l border-solid border-daikinNeutral-600 first:rounded-t last:rounded-b last:border-b hover:bg-daikinNeutral-100";
+            "flex justify-center items-center px-4 py-[2px] w-full font-daikinSerif text-sm not-italic font-normal leading-5 border-t first:border-t-0 border-r border-l border-solid border-daikinNeutral-600 hover:bg-daikinNeutral-100";
           if (index === 1) {
             const cvaDropDownLeftClassName = cvaDropDown({
               open: this._leftDropDownOpen,
