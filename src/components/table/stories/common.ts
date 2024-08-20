@@ -13,7 +13,7 @@ export interface DaikinTableStoryArgs
 export const DAIKIN_TABLE_ARG_TYPES = {
   headers: {
     description:
-      "Columns of the table. The value of `key` corresponds to the key, excluding the id of rows. As a whole array, the value of `key` must be unique.",
+      "Headers of the table. The value of `key` corresponds to the key, excluding the id of rows. As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.",
     control: { type: "object" },
   },
   rows: {

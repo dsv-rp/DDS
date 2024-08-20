@@ -85,7 +85,7 @@ export class DaikinTable extends LitElement {
   /**
    * Headers of the table.
    * The value of `key` corresponds to the key, excluding the id of rows.
-   * As a whole array, the value of `key` must be unique.
+   * As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.
    */
   @property({ type: Array, attribute: false })
   headers: { key: string; label: string; align: "left" | "right" }[] = [];
