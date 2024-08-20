@@ -446,7 +446,6 @@ export class DaikinPagination extends LitElement {
         <div class=${cvaChevron}>
           <button
             aria-label="rightChevron"
-            class=${cvaChevron}
             @click=${() => this._handleClickChevron("right")}
           >
             <div class="flex items-center justify-center">

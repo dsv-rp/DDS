@@ -5,10 +5,13 @@ import type { DaikinPaginationOverflowStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinPaginationOverflowStoryArgs> = {
   render: ({ value, max, totalItems }) => html`
-    <daikin-pagination
-      value=${value}
-      max=${max}
-      show-pages=${totalItems}
-    ></daikin-pagination>
+    <div id="storyWrap" style="width:400px; height:200px">
+      <daikin-pagination-overflow
+        value=${value}
+        max=${max}
+        total-items=${totalItems}
+      >
+      </daikin-pagination-overflow>
+    </div>
   `,
 };

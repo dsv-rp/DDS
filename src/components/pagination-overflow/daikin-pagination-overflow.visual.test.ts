@@ -12,38 +12,79 @@ type StoryArgs = InferStorybookArgTypes<
 >;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-pagination--default", args);
+  getStorybookIframeURL("components-pagination-overflow--default", args);
 
-describeEach(["max6page", "max15page"], (max) => {
-  describeEach(["show6page"] as const, () => {
-    describeEach(["value1", "value2"] as const, (value) => {
+describeEach(["total15items"], () => {
+  describeEach(["max5items"] as const, () => {
+    describeEach(["value1"] as const, () => {
       const baseURL = getPageURL({
-        max: max === "max6page" ? 6 : 15,
-        totalItems: 6,
-        value: value === "value1" ? 1 : 2,
+        max: 5,
+        totalItems: 15,
+        value: 1,
       });
 
       test("base", async ({ page }) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-pagination", {
-          state: "visible",
-        });
+        const element = await page.waitForSelector(
+          "daikin-pagination-overflow",
+          {
+            state: "visible",
+          }
+        );
 
         // take screenshot and check for diffs
         await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      test("hover", async ({ page }) => {
+      test("click dropdown", async ({ page }) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-pagination", {
+        await page.waitForSelector("daikin-pagination-overflow", {
           state: "visible",
         });
 
-        await page.getByLabel("3").hover();
+        const element = await page.waitForSelector("#storyWrap", {
+          state: "visible",
+        });
+
+        await page.getByLabel("arrow").click();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+
+      test("hover left chevron", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector(
+          "daikin-pagination-overflow",
+          {
+            state: "visible",
+          }
+        );
+
+        await page.getByLabel("chevronLeft").hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+
+      test("hover right chevron", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector(
+          "daikin-pagination-overflow",
+          {
+            state: "visible",
+          }
+        );
+
+        await page.getByLabel("chevronRight").hover();
 
         // take screenshot and check for diffs
         await expect(page).toHaveScreenshot(await clipFor(element));

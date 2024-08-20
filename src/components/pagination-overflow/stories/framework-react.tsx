@@ -16,6 +16,8 @@ const ReactDaikinPaginationOverflow = createComponent({
 
 export const metadata: Meta<DaikinPaginationOverflowStoryArgs> = {
   component: ({ ...props }: DaikinPaginationOverflowStoryArgs) => (
-    <ReactDaikinPaginationOverflow {...props} />
+    <div id="storyWrap" style={{ width: 400, height: 200 }}>
+      <ReactDaikinPaginationOverflow {...props} />
+    </div>
   ),
 };

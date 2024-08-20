@@ -15,6 +15,16 @@ const cvaDropDownIcon = cva([], {
   },
 });
 
+const cvaChevron = cva([
+  "flex",
+  "w-12",
+  "items-center",
+  "justify-center",
+  "hover:border-b",
+  "hover:border-solid",
+  "hover:border-daikinBlue-600",
+]);
+
 const cvaDropDown = cva(
   [
     "flex",
@@ -142,6 +152,8 @@ export class DaikinPaginationOverflow extends LitElement {
       open: this.open,
     });
 
+    const cvaChevronClassName = cvaChevron();
+
     const cvaDropDownIconClassName = cvaDropDownIcon({ open: this.open });
 
     const dropDownMenu = html`<div class=${cvaDropDownClassName}>
@@ -198,7 +210,7 @@ export class DaikinPaginationOverflow extends LitElement {
             <daikin-icon icon="arrowUp"></daikin-icon>
           </button>
         </div>
-        <div class="flex w-12 items-center justify-center">
+        <div class=${cvaChevronClassName}>
           <button
             aria-label="chevronLeft"
             @click=${() => this._handleClickChevron("left")}
@@ -206,7 +218,7 @@ export class DaikinPaginationOverflow extends LitElement {
             <daikin-icon icon="chevronLeft"></daikin-icon>
           </button>
         </div>
-        <div class="flex w-12 items-center justify-center">
+        <div class=${cvaChevronClassName}>
           <button
             aria-label="chevronRight"
             @click=${() => this._handleClickChevron("right")}
