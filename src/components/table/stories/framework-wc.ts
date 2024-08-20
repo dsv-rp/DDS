@@ -1,7 +1,6 @@
 import "#package/components/table/daikin-table";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import "../../pagination/daikin-pagination";
 import type { DaikinTableStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
