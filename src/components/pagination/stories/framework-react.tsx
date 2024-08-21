@@ -16,6 +16,8 @@ const ReactDaikinPagination = createComponent({
 
 export const metadata: Meta<DaikinPaginationStoryArgs> = {
   component: ({ ...props }: DaikinPaginationStoryArgs) => (
-    <ReactDaikinPagination {...props} />
+    <div id="storyWrap" style={{ width: 600, height: 300 }}>
+      <ReactDaikinPagination {...props} />
+    </div>
   ),
 };

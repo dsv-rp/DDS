@@ -95,9 +95,30 @@ const cvaDropDownItem = cva([
 ]);
 
 /**
- * A pagination component.
+ * The pagination component is used to navigate through a list of items that are divided into multiple pages.
  *
- * @fires change - Emitted when the pagination value is changed.
+ * @fires page-change - Emitted when the pagination value is changed.
+ *
+ * @slot page-{value} - A slot for the page content
+ *
+ * @example
+ *
+ * ```html
+ * <!-- You can create a pagination just specify the max pages and how many pages should be show. -->
+ * <daikin-pagination max="15" show-pages="5">
+ * </daikin-pagination>
+ * ```
+ *
+ * ```html
+ * <!-- You can use a tag to replace the default page button. -->
+ * <daikin-pagination max="5" show-pages="5">
+ *  <a slot="page-1" href={url1}>1</a>
+ *  <a slot="page-2" href={url2}>2</a>
+ *  <a slot="page-3" href={url3}>3</a>
+ *  <a slot="page-4" href={url4}>4</a>
+ *  <a slot="page-5" href={url5}>5</a>
+ * </daikin-pagination>
+ * ```
  */
 @customElement("daikin-pagination")
 export class DaikinPagination extends LitElement {
@@ -263,7 +284,7 @@ export class DaikinPagination extends LitElement {
     const slot = this.shadowRoot?.querySelector(
       `slot[name=page-${this.value}]`
     ) as HTMLSlotElement;
-    const a = slot?.assignedElements()[0] as HTMLElement | null;
+    const a = slot?.assignedElements()[0] as HTMLElement | null | undefined;
     if (a && a.tagName === "A") {
       a.click();
     }

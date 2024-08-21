@@ -86,9 +86,16 @@ const cvaDropDownItem = cva(
 );
 
 /**
- * A pagination switch component.
+ * The pagination-overflow component is similar pagination and it can control how many items should be show in one page.
  *
- * @fires change - Emitted when the pagination switch is pagination.
+ * @fires page-change - Emitted when the pagination value is changed.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-pagination-overflow max="5" total-items="25">
+ * </<daikin-pagination-overflow>
+ * ```
  */
 @customElement("daikin-pagination-overflow")
 export class DaikinPaginationOverflow extends LitElement {
@@ -107,7 +114,7 @@ export class DaikinPaginationOverflow extends LitElement {
   value = 1;
 
   /**
-   * The max.
+   * Specify how many items should be show in one page.
    */
   @property({ type: Number, reflect: true })
   max = 5;
@@ -119,55 +126,55 @@ export class DaikinPaginationOverflow extends LitElement {
   totalItems = 5;
 
   @state()
-  open = false;
+  private _open = false;
 
   @state()
-  totalPages = 1;
+  private _totalPages = 1;
 
   @state()
-  itemFrom = 1;
+  private _itemFrom = 1;
 
   @state()
-  itemTo = this.max;
+  private _itemTo = this.max;
 
   private _handleClickNumber(value: number) {
     this.value = value;
-    this.open = false;
+    this._open = false;
   }
 
   private _handleClickArrow() {
-    if (this.totalPages > 1) {
-      this.open = !this.open;
+    if (this._totalPages > 1) {
+      this._open = !this._open;
     }
   }
 
   private _handleClickChevron(type: "left" | "right") {
     if (type === "left" && this.value > 1) {
       this.value -= 1;
-    } else if (type === "right" && this.value < this.totalPages) {
+    } else if (type === "right" && this.value < this._totalPages) {
       this.value += 1;
     }
-    this.open = false;
+    this._open = false;
   }
 
   private _handleWindowClick(event: Event) {
     const target = event.target as HTMLElement;
     if (target.nodeName != "DAIKIN-PAGINATION-OVERFLOW") {
-      this.open = false;
+      this._open = false;
     }
   }
 
   override render() {
     const cvaDropDownClassName = cvaDropDown({
-      open: this.open,
+      open: this._open,
     });
 
     const cvaChevronClassName = cvaChevron();
 
-    const cvaDropDownIconClassName = cvaDropDownIcon({ open: this.open });
+    const cvaDropDownIconClassName = cvaDropDownIcon({ open: this._open });
 
     const dropDownMenu = html`<div class=${cvaDropDownClassName}>
-      ${map(range(1, this.totalPages + 1), (j) => {
+      ${map(range(1, this._totalPages + 1), (j) => {
         const dropDownItemClassName = cvaDropDownItem({
           active: this.value === j,
         });
@@ -190,10 +197,10 @@ export class DaikinPaginationOverflow extends LitElement {
 
     return html`
       <div
-        class="inline-flex h-12 text-daikinNeutral-800 font-daikinSerif text-[15px] not-italic font-medium leading-[22px]"
+        class="inline-flex justify-end w-[332px] h-12 text-daikinNeutral-800 font-daikinSerif text-[15px] not-italic font-medium leading-[22px]"
       >
-        <div class="flex items-center justify-center py-3 px-[17px] flex-col ">
-          ${this.itemFrom}-${this.itemTo} / ${this.totalItems}
+        <div class="flex items-center justify-center py-3 pr-[17px] flex-col ">
+          ${this._itemFrom}-${this._itemTo} / ${this.totalItems}
         </div>
         <div
           class="flex w-12 items-center justify-center py-[13px] px-[5px] ml-4"
@@ -202,7 +209,7 @@ export class DaikinPaginationOverflow extends LitElement {
         </div>
 
         <div class="relative">
-          ${!this.open
+          ${!this._open
             ? html`<div
                 class="flex w-12 items-center justify-center py-[13px] px-[5px]"
               >
@@ -254,30 +261,30 @@ export class DaikinPaginationOverflow extends LitElement {
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("max") || changedProperties.has("totalItems")) {
       if (this.totalItems === this.max) {
-        this.totalPages = 1;
+        this._totalPages = 1;
       } else if (this.totalItems % this.max === 0) {
-        this.totalPages = this.totalItems / this.max;
+        this._totalPages = this.totalItems / this.max;
       } else {
-        this.totalPages = Math.ceil(this.totalItems / this.max);
+        this._totalPages = Math.ceil(this.totalItems / this.max);
       }
     }
     if (changedProperties.has("value")) {
       if (this.value === 1) {
-        this.itemFrom = 1;
-        this.itemTo = this.max;
-      } else if (this.value === this.totalPages) {
-        this.itemFrom = (this.value - 1) * this.max;
-        this.itemTo = this.totalItems;
+        this._itemFrom = 1;
+        this._itemTo = this.max;
+      } else if (this.value === this._totalPages) {
+        this._itemFrom = (this.value - 1) * this.max;
+        this._itemTo = this.totalItems;
       } else {
-        this.itemFrom = (this.value - 1) * this.max;
-        this.itemTo = (this.value - 1) * this.max + this.max;
+        this._itemFrom = (this.value - 1) * this.max;
+        this._itemTo = (this.value - 1) * this.max + this.max;
       }
       this.dispatchEvent(
         new CustomEvent("page-change", {
           detail: {
             page: this.value,
-            offset: this.itemFrom,
-            limit: this.itemTo,
+            offset: this._itemFrom,
+            limit: this._itemTo,
           },
           bubbles: true,
           composed: true,

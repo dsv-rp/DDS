@@ -5,10 +5,9 @@ import type { DaikinPaginationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinPaginationStoryArgs> = {
   render: ({ value, max, showPages }) => html`
-    <daikin-pagination
-      value=${value}
-      max=${max}
-      show-pages=${showPages}
-    ></daikin-pagination>
+    <div id="storyWrap" style="width: 600px; height: 300px">
+      <daikin-pagination value=${value} max=${max} show-pages=${showPages}>
+      </daikin-pagination>
+    </div>
   `,
 };
