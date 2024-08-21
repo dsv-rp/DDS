@@ -16,79 +16,68 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["total15items"], () => {
   describeEach(["max5items"] as const, () => {
-    describeEach(["value1"] as const, () => {
-      const baseURL = getPageURL({
-        max: 5,
-        totalItems: 15,
-        value: 1,
+    const baseURL = getPageURL({
+      max: 5,
+      totalItems: 15,
+      value: 1,
+    });
+
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination-overflow", {
+        state: "visible",
       });
 
-      test("base", async ({ page }) => {
-        await page.goto(baseURL);
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
 
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          "daikin-pagination-overflow",
-          {
-            state: "visible",
-          }
-        );
+    test("click dropdown", async ({ page }) => {
+      await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+      // wait for element to be visible
+      await page.waitForSelector("daikin-pagination-overflow", {
+        state: "visible",
       });
 
-      test("click dropdown", async ({ page }) => {
-        await page.goto(baseURL);
-
-        // wait for element to be visible
-        await page.waitForSelector("daikin-pagination-overflow", {
-          state: "visible",
-        });
-
-        const element = await page.waitForSelector("#storyWrap", {
-          state: "visible",
-        });
-
-        await page.getByLabel("arrow").click();
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+      const element = await page.waitForSelector("#storyWrap", {
+        state: "visible",
       });
 
-      test("hover left chevron", async ({ page }) => {
-        await page.goto(baseURL);
+      await page.getByLabel("arrow").click();
 
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          "daikin-pagination-overflow",
-          {
-            state: "visible",
-          }
-        );
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
 
-        await page.getByLabel("chevronLeft").hover();
+    test("hover left chevron", async ({ page }) => {
+      await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination-overflow", {
+        state: "visible",
       });
 
-      test("hover right chevron", async ({ page }) => {
-        await page.goto(baseURL);
+      await page.getByLabel("chevronLeft").hover();
 
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          "daikin-pagination-overflow",
-          {
-            state: "visible",
-          }
-        );
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
 
-        await page.getByLabel("chevronRight").hover();
+    test("hover right chevron", async ({ page }) => {
+      await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination-overflow", {
+        state: "visible",
       });
+
+      await page.getByLabel("chevronRight").hover();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });
