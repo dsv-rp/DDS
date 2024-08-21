@@ -1,10 +1,10 @@
-import "#package/components/icon/daikin-icon";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { map } from "lit/directives/map.js";
 import { range } from "lit/directives/range.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
 
 const cvaDropDownIcon = cva(["flex", "w-8", "items-center", "justify-center"], {
   variants: {

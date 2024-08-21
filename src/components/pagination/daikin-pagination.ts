@@ -1,8 +1,8 @@
-import "#package/components/icon/daikin-icon";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
 
 const cvaButton = cva(
   [
