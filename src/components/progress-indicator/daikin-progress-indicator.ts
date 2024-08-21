@@ -37,7 +37,7 @@ const cvaContainer = cva(
  *     Title 1
  *     <span slot="description">Description 1</span>
  *   </daikin-progress-indicator-item>
- *   <daikin-progress-indicator-item state="progress">
+ *   <daikin-progress-indicator-item state="inprogress">
  *     Title 2
  *     <span slot="description">Description 2</span>
  *   </daikin-progress-indicator-item>

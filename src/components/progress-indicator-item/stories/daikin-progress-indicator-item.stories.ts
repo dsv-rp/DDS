@@ -25,7 +25,7 @@ export const Vertical: Story = {
 export const Progress: Story = {
   args: {
     ...Default.args,
-    status: "progress",
+    status: "inprogress",
   },
 };
 

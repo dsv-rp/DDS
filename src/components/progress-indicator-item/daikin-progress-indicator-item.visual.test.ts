@@ -16,7 +16,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["horizontal", "vertical"] as const, (direction) => {
   describeEach(
-    ["unfinished", "progress", "finished", "disabled", "error"] as const,
+    ["unfinished", "inprogress", "finished", "disabled", "error"] as const,
     (status) => {
       const baseURL = getPageURL({
         status,

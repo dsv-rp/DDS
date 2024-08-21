@@ -17,7 +17,7 @@ export const DAIKIN_PROGRESS_INDICATOR_ITEM_ARG_TYPES = {
   status: {
     description: "Status of the progress indicator item",
     control: { type: "radio" },
-    options: ["unfinished", "progress", "finished", "disabled", "error"],
+    options: ["unfinished", "inprogress", "finished", "disabled", "error"],
   },
 } satisfies Meta<DaikinProgressIndicatorItemStoryArgs>["argTypes"];
 

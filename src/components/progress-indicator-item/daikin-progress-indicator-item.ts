@@ -14,7 +14,7 @@ const cvaContainer = cva(["flex", "flex-col", "h-[60px]", "font-daikinSerif"], {
     },
     status: {
       unfinished: ["border-[#DCDCDC]"],
-      progress: [],
+      inprogress: [],
       finished: ["border-daikinBlue-500"],
       error: ["border-[#DCDCDC]"],
       disabled: ["text-[#DCDCDC]", "border-[#DCDCDC]"],
@@ -26,7 +26,7 @@ const cvaIcon = cva([], {
   variants: {
     status: {
       unfinished: [],
-      progress: [],
+      inprogress: [],
       finished: ["text-daikinBlue-500"],
       error: [],
       disabled: [],
@@ -38,7 +38,7 @@ const cvaDescription = cva(["text-xs", "leading-5"], {
   variants: {
     status: {
       unfinished: [],
-      progress: [],
+      inprogress: [],
       finished: [],
       error: ["text-[--progress-indicator-item-text-color-error]"],
       disabled: [],
@@ -48,7 +48,7 @@ const cvaDescription = cva(["text-xs", "leading-5"], {
 
 const ICON_MAP = {
   unfinished: null,
-  progress: null,
+  inprogress: null,
   finished: "success",
   error: "error",
   disabled: null,

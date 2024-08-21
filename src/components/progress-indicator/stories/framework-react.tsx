@@ -18,7 +18,7 @@ export const metadata: Meta<DaikinProgressIndicatorStoryArgs> = {
         <span>Title 1</span>
         <span slot="description">Description 1</span>
       </ReactDaikinProgressIndicatorItem>
-      <ReactDaikinProgressIndicatorItem status="progress">
+      <ReactDaikinProgressIndicatorItem status="inprogress">
         <span>Title 2</span>
         <span slot="description">Description 2</span>
       </ReactDaikinProgressIndicatorItem>
