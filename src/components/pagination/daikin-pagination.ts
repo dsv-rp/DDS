@@ -6,6 +6,9 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaButton = cva(
   [
+    "slotted:text-inherit",
+    "slotted:border-0",
+    "slotted:no-underline",
     "slotted:flex",
     "slotted:items-center",
     "slotted:justify-center",
@@ -17,6 +20,7 @@ const cvaButton = cva(
     "slotted:font-normal",
     "slotted:leading-6",
     "slotted:!border-daikinBlue-600",
+    "slotted:hover:!border-b",
     "slotted:hover:!border-solid",
     "slotted-[*:focus-visible]:outline-none",
     "slotted-[*:focus-visible]:!border-b-2",
@@ -64,6 +68,31 @@ const cvaDropDown = cva(
     },
   }
 );
+
+const cvaDropDownItem = cva([
+  "slotted:box-border",
+  "slotted:text-inherit",
+  "slotted:border-0",
+  "slotted:no-underline",
+  "slotted:flex",
+  "slotted:justify-center",
+  "slotted:items-center",
+  "slotted:px-4",
+  "slotted:py-[2px]",
+  "slotted:w-full",
+  "slotted:font-daikinSerif",
+  "slotted:text-sm",
+  "slotted:not-italic",
+  "slotted:font-normal",
+  "slotted:leading-5",
+  "slotted:border-t",
+  "slotted:first:border-t-0",
+  "slotted:border-r",
+  "slotted:border-l",
+  "slotted:border-solid",
+  "slotted:border-daikinNeutral-600",
+  "slotted:hover:bg-daikinNeutral-100",
+]);
 
 /**
  * A pagination component.
@@ -230,12 +259,23 @@ export class DaikinPagination extends LitElement {
     this._pageArray[this._PageIndex.ShowPages].unshift(maxValueLeftDropDown);
   }
 
+  private _clickATag() {
+    const slot = this.shadowRoot?.querySelector(
+      `slot[name=page-${this.value}]`
+    ) as HTMLSlotElement;
+    const a = slot?.assignedElements()[0] as HTMLElement | null;
+    if (a && a.tagName === "A") {
+      a.click();
+    }
+  }
+
   private _handleClickChevron(type: "left" | "right") {
     if (type === "left") {
       if (this.value === 1) {
         return;
       }
       this.value -= 1;
+      this._clickATag();
       if (
         this.value < Math.min(...this._pageArray[this._PageIndex.ShowPages]) &&
         this.value != 1
@@ -259,6 +299,7 @@ export class DaikinPagination extends LitElement {
         return;
       }
       this.value += 1;
+      this._clickATag();
       if (
         this.value > Math.max(...this._pageArray[this._PageIndex.ShowPages]) &&
         this.value != this._pageArray[this._PageIndex.LastPage][0]
@@ -365,8 +406,7 @@ export class DaikinPagination extends LitElement {
           const ellipsisClassName = cvaButton({
             active: false,
           });
-          const dropDownItemClassName =
-            "flex justify-center items-center px-4 py-[2px] w-full font-daikinSerif text-sm not-italic font-normal leading-5 border-t first:border-t-0 border-r border-l border-solid border-daikinNeutral-600 hover:bg-daikinNeutral-100";
+          const dropDownItemClassName = cvaDropDownItem();
           if (index === 1) {
             const cvaDropDownLeftClassName = cvaDropDown({
               open: this._leftDropDownOpen,
