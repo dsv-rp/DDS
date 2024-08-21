@@ -20,7 +20,7 @@ export const Default: Story = {
     disabled: false,
     readonly: false,
     error: false,
-    vrtArgs: null,
+    __vrtArgs__: "",
     onChange: fn(),
     onInput: fn(),
   },

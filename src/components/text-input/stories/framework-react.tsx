@@ -20,16 +20,10 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
   component: ({ ...props }: DaikinTextInputStoryArgs) => {
     const additionalClassNames = {
       "": "",
-      resizeLarge:
-        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[320px]",
-      resizeSmall:
-        "[&>daikin-text-input]:w-[160px] [&>daikin-text-input]:h-[40px]",
-    }[props.vrtArgs ?? ""];
+      resizeLarge: "w-[800px] h-[320px]",
+      resizeSmall: "w-[160px] h-[40px]",
+    }[props.__vrtArgs__];
 
-    return (
-      <div className={additionalClassNames}>
-        <ReactDaikinTextInput {...props} />
-      </div>
-    );
+    return <ReactDaikinTextInput {...props} className={additionalClassNames} />;
   },
 };

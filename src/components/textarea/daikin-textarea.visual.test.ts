@@ -103,9 +103,9 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
   });
 });
 
-describeEach(["resizeSmall", "resizeLarge"] as const, (vrtArgs) => {
+describeEach(["resizeSmall", "resizeLarge"] as const, (__vrtArgs__) => {
   const baseURL = getPageURL({
-    vrtArgs,
+    __vrtArgs__,
   });
 
   test("base", async ({ page }) => {

@@ -12,29 +12,27 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     disabled,
     readonly,
     error,
-    vrtArgs,
+    __vrtArgs__,
     onChange,
     onInput,
   }) => {
     const additionalClassNames = {
       "": "",
-      resizeLarge:
-        "[&>daikin-textarea]:w-[800px] [&>daikin-textarea]:h-[320px]",
-      resizeSmall: "[&>daikin-textarea]:w-[160px] [&>daikin-textarea]:h-[40px]",
-    }[vrtArgs ?? ""];
+      resizeLarge: "w-[800px] h-[320px]",
+      resizeSmall: "w-[160px] h-[40px]",
+    }[__vrtArgs__];
 
     return html`
-      <div class=${additionalClassNames}>
-        <daikin-textarea
-          ?disabled=${disabled}
-          ?readonly=${readonly}
-          ?error=${error}
-          placeholder=${placeholder}
-          maxlength=${ifDefined(maxlength)}
-          @change=${onChange}
-          @input=${onInput}
-        ></daikin-textarea>
-      </div>
+      <daikin-textarea
+        class=${additionalClassNames}
+        ?disabled=${disabled}
+        ?readonly=${readonly}
+        ?error=${error}
+        placeholder=${placeholder}
+        maxlength=${ifDefined(maxlength)}
+        @change=${onChange}
+        @input=${onInput}
+      ></daikin-textarea>
     `;
   },
 };

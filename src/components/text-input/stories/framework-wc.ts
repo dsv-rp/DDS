@@ -16,36 +16,33 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     disabled,
     readonly,
     error,
-    vrtArgs,
+    __vrtArgs__,
     onChange,
     onInput,
     onKeyDown,
   }) => {
     const additionalClassNames = {
       "": "",
-      resizeLarge:
-        "[&>daikin-text-input]:w-[800px] [&>daikin-text-input]:h-[320px]",
-      resizeSmall:
-        "[&>daikin-text-input]:w-[160px] [&>daikin-text-input]:h-[40px]",
-    }[vrtArgs ?? ""];
+      resizeLarge: "w-[800px] h-[320px]",
+      resizeSmall: "w-[160px] h-[40px]",
+    }[__vrtArgs__];
 
     return html`
-      <div class=${additionalClassNames}>
-        <daikin-text-input
-          value=${value}
-          type=${type}
-          placeholder=${placeholder}
-          name=${ifDefined(name)}
-          maxlength=${ifDefined(maxlength)}
-          autocomplete=${ifDefined(autocomplete)}
-          ?disabled=${disabled}
-          ?readonly=${readonly}
-          ?error=${error}
-          @change=${onChange}
-          @input=${onInput}
-          @keydown=${onKeyDown}
-        ></daikin-text-input>
-      </div>
+      <daikin-text-input
+        class=${additionalClassNames}
+        value=${value}
+        type=${type}
+        placeholder=${placeholder}
+        name=${ifDefined(name)}
+        maxlength=${ifDefined(maxlength)}
+        autocomplete=${ifDefined(autocomplete)}
+        ?disabled=${disabled}
+        ?readonly=${readonly}
+        ?error=${error}
+        @change=${onChange}
+        @input=${onInput}
+        @keydown=${onKeyDown}
+      ></daikin-text-input>
     `;
   },
 };
