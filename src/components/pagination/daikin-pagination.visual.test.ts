@@ -32,23 +32,53 @@ describeEach(["max6page", "max15page"], (max) => {
       await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    test("click dropdown", async ({ page }) => {
-      await page.goto(baseURL);
+    if (max === "max15page") {
+      test("click dropdown", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      await page.waitForSelector("daikin-pagination", {
-        state: "visible",
+        // wait for element to be visible
+        await page.waitForSelector("daikin-pagination", {
+          state: "visible",
+        });
+
+        const element = await page.waitForSelector("#storyWrap", {
+          state: "visible",
+        });
+
+        await page.getByLabel("pageDetailRight").click();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      const element = await page.waitForSelector("#storyWrap", {
-        state: "visible",
+      test("hover dropdown", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-pagination", {
+          state: "visible",
+        });
+
+        await page.getByLabel("pageDetailRight").hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      await page.getByLabel("pageDetailRight").click();
+      test("focus dropdown", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-pagination", {
+          state: "visible",
+        });
+
+        await page.getByLabel("pageDetailRight").focus();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+    }
 
     test("hover page number", async ({ page }) => {
       await page.goto(baseURL);
@@ -73,34 +103,6 @@ describeEach(["max6page", "max15page"], (max) => {
       });
 
       await page.getByLabel("3").focus();
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
-
-    test("hover dropdown", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-pagination", {
-        state: "visible",
-      });
-
-      await page.getByLabel("pageDetailRight").hover();
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
-
-    test("focus dropdown", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-pagination", {
-        state: "visible",
-      });
-
-      await page.getByLabel("pageDetailRight").focus();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
