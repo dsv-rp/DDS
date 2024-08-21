@@ -66,6 +66,20 @@ describeEach(["total15items"], () => {
       await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
+    test("focus left chevron", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination-overflow", {
+        state: "visible",
+      });
+
+      await page.getByLabel("chevronLeft").focus();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+
     test("hover right chevron", async ({ page }) => {
       await page.goto(baseURL);
 
@@ -75,6 +89,20 @@ describeEach(["total15items"], () => {
       });
 
       await page.getByLabel("chevronRight").hover();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+
+    test("focus right chevron", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination-overflow", {
+        state: "visible",
+      });
+
+      await page.getByLabel("chevronRight").focus();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
