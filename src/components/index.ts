@@ -15,3 +15,4 @@ export * from "./tab-group";
 export * from "./text-input";
 export * from "./textarea";
 export * from "./toggle";
+export * from "./tooltip";
