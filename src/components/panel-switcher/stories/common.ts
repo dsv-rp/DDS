@@ -1,6 +1,6 @@
+import type { DaikinPanelSwitcher } from "#package/components/panel-switcher/daikin-panel-switcher";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinPanelSwitcher } from "../daikin-panel-switcher";
 
 export interface DaikinPanelSwitcherStoryArgs
   extends Required<ElementProps<DaikinPanelSwitcher>> {
