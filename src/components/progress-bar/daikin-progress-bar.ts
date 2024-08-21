@@ -3,9 +3,17 @@ import {
   colorFeedbackPositive,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import {
+  LitElement,
+  css,
+  html,
+  nothing,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
 
 const cvaBar = cva(
   [
@@ -35,17 +43,6 @@ const cvaBar = cva(
   }
 );
 
-const cvaIcon = cva(["size-4"], {
-  variants: {
-    variant: {
-      inprogress: ["none"],
-      completed: ["i-daikin-status-positive"],
-      indeterminate: [],
-      error: ["i-daikin-status-negative"],
-    },
-  },
-});
-
 const cvaHelper = cva(["text-xs", "mt-2"], {
   variants: {
     variant: {
@@ -56,6 +53,24 @@ const cvaHelper = cva(["text-xs", "mt-2"], {
     },
   },
 });
+
+const cvaIcon = cva([], {
+  variants: {
+    variant: {
+      inprogress: [],
+      completed: ["text-[--colorFeedbackPositive]"],
+      indeterminate: [],
+      error: ["text-[--colorFeedbackNegative]"],
+    },
+  },
+});
+
+const ICON_MAP = {
+  inprogress: null,
+  completed: "success",
+  indeterminate: null,
+  error: "error",
+} as const;
 
 /**
  * The progress bar component is used to visually convey the progress to the user.
@@ -147,10 +162,20 @@ export class DaikinProgressBar extends LitElement {
   override render() {
     const progressRatio = Math.min(Math.max(this.value / this.max, 0), 1);
 
+    const progressBarIconClassName = cvaIcon({
+      variant: this.variant,
+    });
+
+    const icon = ICON_MAP[this.variant];
+
     return html`<div class="flex flex-col w-full font-daikinSerif">
       <div class="flex justify-between items-center mb-2.5">
         <span class="text-sm leading-[22px] font-medium"><slot></slot></span>
-        <span class=${cvaIcon({ variant: this.variant })}></span>
+        ${icon
+          ? html`<div class=${progressBarIconClassName}>
+              <daikin-icon icon=${icon} color="current"></daikin-icon>
+            </div>`
+          : nothing}
       </div>
       <div
         class=${cvaBar({ variant: this.variant })}

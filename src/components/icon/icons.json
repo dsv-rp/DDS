@@ -26,11 +26,11 @@
     },
     "success": {
       "class": "i-daikin-status-success",
-      "color": null
+      "color": "#0097E0"
     },
     "error": {
       "class": "i-daikin-status-error",
-      "color": null
+      "color": "#FF4949"
     }
   }
 }

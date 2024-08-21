@@ -7,6 +7,7 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
@@ -154,10 +155,12 @@ export class DaikinInputGroup extends LitElement {
           ? html`<span class=${inputGroupHelperClassName}>${this.helper}</span>`
           : null}
         ${!this.disabled && !!this.error
-          ? html`<span
-              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-status-negative before:block before:w-[16px] before:h-[22px]"
-              >${this.error}</span
-            >`
+          ? html`<div
+              class="flex items-center gap-2 text-[--input-group-border-color-error] leading-[22px]"
+            >
+              <daikin-icon icon="error"></daikin-icon>
+              <span> ${this.error}</span>
+            </div>`
           : null}
       </label>
     </fieldset>`;

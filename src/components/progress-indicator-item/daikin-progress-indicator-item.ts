@@ -28,7 +28,7 @@ const cvaIcon = cva([], {
       unfinished: [],
       inprogress: [],
       finished: ["text-daikinBlue-500"],
-      error: [],
+      error: ["text-[--progress-indicator-item-text-color-error]"],
       disabled: [],
     },
   },
