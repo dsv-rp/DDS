@@ -7,6 +7,8 @@ export * from "./input-group";
 export * from "./notification";
 export * from "./panel-switcher";
 export * from "./progress-bar";
+export * from "./progress-indicator";
+export * from "./progress-indicator-item";
 export * from "./radio";
 export * from "./tab";
 export * from "./tab-group";
