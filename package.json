@@ -88,6 +88,7 @@
     "@changesets/cli": "^2.27.7",
     "@daikin-oss/tailwind": "^0.0.1",
     "@egoist/tailwindcss-icons": "^1.8.1",
+    "@eslint/compat": "^1.1.1",
     "@eslint/js": "^9.6.0",
     "@fontsource/roboto": "^5.0.13",
     "@lit/react": "^1.0.5",

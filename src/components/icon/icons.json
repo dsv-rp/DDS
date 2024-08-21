@@ -27,13 +27,11 @@
     "chevronLeft": {
       "class": "i-daikin-chevron-left",
       "color": "#414141"
-    }
-    ,
+    },
     "chevronRight": {
       "class": "i-daikin-chevron-right",
       "color": "#414141"
-    }
-    ,
+    },
     "arrowUp": {
       "class": "i-daikin-arrow-up",
       "color": "#414141"

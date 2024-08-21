@@ -284,7 +284,7 @@ export class DaikinPagination extends LitElement {
     const slot = this.shadowRoot?.querySelector(
       `slot[name=page-${this.value}]`
     ) as HTMLSlotElement;
-    const a = slot?.assignedElements()[0] as HTMLElement | null | undefined;
+    const a = slot.assignedElements()[0] as HTMLElement | null | undefined;
     if (a && a.tagName === "A") {
       a.click();
     }
@@ -400,12 +400,12 @@ export class DaikinPagination extends LitElement {
     this.requestUpdate();
   }
 
-  private _handleWindowClick(event: Event) {
+  private _handleWindowClick = (event: Event) => {
     const target = event.target as HTMLElement;
     if (target.nodeName != "DAIKIN-PAGINATION") {
       this._closeDropDownMenu();
     }
-  }
+  };
 
   override render() {
     const cvaChevron = cvaButton({
@@ -447,7 +447,6 @@ export class DaikinPagination extends LitElement {
                     return html`<slot
                       name="page-${value}"
                       class=${dropDownItemClassName}
-                      value=${value}
                       @click=${() => this._handleChoosePageLeft(value)}
                       @keydown=${() => this._handleChoosePageLeft(value)}
                     >
@@ -476,7 +475,6 @@ export class DaikinPagination extends LitElement {
                     return html`<slot
                       name="page-${value}"
                       class=${dropDownItemClassName}
-                      value=${value}
                       @click=${() => this._handleChoosePageRight(value)}
                       @keydown=${() => this._handleChoosePageRight(value)}
                     >
@@ -494,7 +492,6 @@ export class DaikinPagination extends LitElement {
             return html`<slot
               name="page-${j}"
               class=${buttonClassName}
-              value=${j}
               @click=${() => this._handleClickNumber(j)}
               @keydown=${() => {
                 return;
@@ -520,15 +517,12 @@ export class DaikinPagination extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener("click", (event) => {
-      this._handleWindowClick(event);
-    });
+    window.addEventListener("click", this._handleWindowClick);
   }
 
   override disconnectedCallback(): void {
-    window.removeEventListener("click", (event) => {
-      this._handleWindowClick(event);
-    });
+    super.disconnectedCallback();
+    window.removeEventListener("click", this._handleWindowClick);
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {

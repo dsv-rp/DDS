@@ -157,12 +157,12 @@ export class DaikinPaginationOverflow extends LitElement {
     this._open = false;
   }
 
-  private _handleWindowClick(event: Event) {
+  private _handleWindowClick = (event: Event) => {
     const target = event.target as HTMLElement;
     if (target.nodeName != "DAIKIN-PAGINATION-OVERFLOW") {
       this._open = false;
     }
-  }
+  };
 
   override render() {
     const cvaDropDownClassName = cvaDropDown({
@@ -247,15 +247,12 @@ export class DaikinPaginationOverflow extends LitElement {
 
   override connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener("click", (event) => {
-      this._handleWindowClick(event);
-    });
+    window.addEventListener("click", this._handleWindowClick);
   }
 
   override disconnectedCallback(): void {
-    window.removeEventListener("click", (event) => {
-      this._handleWindowClick(event);
-    });
+    super.disconnectedCallback();
+    window.removeEventListener("click", this._handleWindowClick);
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
