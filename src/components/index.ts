@@ -1,5 +1,7 @@
 export * from "./accordion";
 export * from "./accordion-item";
+export * from "./breadcrumb";
+export * from "./breadcrumb-item";
 export * from "./button";
 export * from "./checkbox";
 export * from "./icon";

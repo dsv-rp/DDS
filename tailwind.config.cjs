@@ -62,6 +62,22 @@ module.exports = defineConfig({
       ]);
 
       matchVariant("part", (value) => `&::part(${value})`);
+
+      matchVariant(
+        "slotted",
+        (value) => [
+          // `::slotted` is equivalent to `::slotted(*)`
+          `&::slotted(${value})`,
+          // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
+          `& > ${value}`,
+        ],
+        {
+          values: {
+            // `DEFAULT` is used when the option is not specified (e.g. "slotted:text-white")
+            DEFAULT: "*",
+          },
+        }
+      );
     }),
   ],
 });
