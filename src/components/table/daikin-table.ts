@@ -132,8 +132,8 @@ export class DaikinTable extends LitElement {
   /**
    * An array of `id`s for the `rows` that have been checked
    */
-  @property({ type: Array, attribute: "checked-ids" })
-  checkedIds: string[] | undefined = [];
+  @property({ type: Array, attribute: false })
+  checkedIds: string[] = [];
 
   /**
    * Search keywords for the table
@@ -151,7 +151,7 @@ export class DaikinTable extends LitElement {
    * Specify which page you are viewing using the table pagination
    */
   @property({ type: Number, reflect: true })
-  currentPage: number | null = 1;
+  currentPage: number = 1;
 
   /**
    * Specify this when you want to customize the sort function.
@@ -212,10 +212,9 @@ export class DaikinTable extends LitElement {
   })[] = [];
 
   private _updateCheck() {
-    this.checkedIds =
-      this.checkedIds?.filter((checkedId) =>
-        this._sortedAndSearchedRows.find(({ id }) => checkedId === id)
-      ) ?? [];
+    this.checkedIds = this.checkedIds.filter((checkedId) =>
+      this._sortedAndSearchedRows.find(({ id }) => checkedId === id)
+    );
 
     this._checkHeaderFunction();
   }
@@ -224,8 +223,8 @@ export class DaikinTable extends LitElement {
     this._showRows = this._sortedAndSearchedRows.filter((_, index) =>
       this.selectedRange === ("All" as const)
         ? true
-        : index >= this.selectedRange * ((this.currentPage ?? 1) - 1) &&
-          index < this.selectedRange * (this.currentPage ?? 1)
+        : index >= this.selectedRange * (this.currentPage - 1) &&
+          index < this.selectedRange * this.currentPage
     );
   }
 
@@ -349,19 +348,17 @@ export class DaikinTable extends LitElement {
       case "unchecked":
       case "indeterminate":
         this._allItemCheckState = "checked";
-        this.checkedIds = this.checkedIds
-          ? [
-              ...new Set([
-                ...this.checkedIds,
-                ...this._showRows.map(({ id }) => id),
-              ]),
-            ]
-          : this._showRows.map(({ id }) => id);
+        this.checkedIds = [
+          ...new Set([
+            ...this.checkedIds,
+            ...this._showRows.map(({ id }) => id),
+          ]),
+        ];
         break;
 
       case "checked":
         this._allItemCheckState = "unchecked";
-        this.checkedIds = this.checkedIds?.filter(
+        this.checkedIds = this.checkedIds.filter(
           (checkedId) => !this._showRows.find(({ id }) => checkedId === id)
         );
         break;
@@ -371,10 +368,10 @@ export class DaikinTable extends LitElement {
   }
 
   private _handleCheckboxRowItemChange(id: string): void {
-    if (this.checkedIds?.includes(id)) {
+    if (this.checkedIds.includes(id)) {
       this.checkedIds = this.checkedIds.filter((checkedId) => checkedId !== id);
     } else {
-      this.checkedIds = this.checkedIds ? [...this.checkedIds, id] : [id];
+      this.checkedIds = [...this.checkedIds, id];
     }
 
     this._checkHeaderFunction();
@@ -417,11 +414,11 @@ export class DaikinTable extends LitElement {
 
   private _checkHeaderFunction() {
     const checkedIdLengthInCurrentPage = this._showRows.filter(({ id }) =>
-      this.checkedIds?.find((checkedId) => checkedId === id)
+      this.checkedIds.find((checkedId) => checkedId === id)
     ).length;
 
     this._allItemCheckState =
-      this._replaceSelectedRange <= (this.checkedIds?.length ?? 0) &&
+      this._replaceSelectedRange <= this.checkedIds.length &&
       this._replaceSelectedRange === checkedIdLengthInCurrentPage
         ? "checked"
         : checkedIdLengthInCurrentPage
@@ -528,7 +525,7 @@ export class DaikinTable extends LitElement {
                     <span class="flex">
                       <daikin-checkbox
                         name=${id}
-                        .checkState=${this.checkedIds?.includes(id)
+                        .checkState=${this.checkedIds.includes(id)
                           ? "checked"
                           : "unchecked"}
                         label="Select row"
@@ -551,11 +548,11 @@ export class DaikinTable extends LitElement {
       const topIndex =
         this.selectedRange === ("All" as const)
           ? 1
-          : this.selectedRange * ((this.currentPage ?? 1) - 1) + 1;
+          : this.selectedRange * (this.currentPage - 1) + 1;
       const calculatedBottomIndex =
         this.selectedRange === ("All" as const)
           ? this.rows.length
-          : this.selectedRange * (this.currentPage ?? 1);
+          : this.selectedRange * this.currentPage;
       const buttonIndex =
         this._sortedAndSearchedRows.length < calculatedBottomIndex
           ? this._sortedAndSearchedRows.length
@@ -588,7 +585,7 @@ export class DaikinTable extends LitElement {
           max=${Math.ceil(
             this._sortedAndSearchedRows.length / this._replaceSelectedRange
           )}
-          value=${this.currentPage ?? 1}
+          value=${this.currentPage}
           @page-change=${this._handlePageChange}
         ></daikin-pagination>
       </div>`;

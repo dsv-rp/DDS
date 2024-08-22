@@ -129,7 +129,6 @@ export const Default: Story = {
     hasSearch: false,
     hasPagination: false,
     hasSort: false,
-    selectedRange: "All",
   },
 };
 
@@ -202,7 +201,6 @@ export const Pagination: Story = {
   args: {
     ...Default.args,
     hasPagination: true,
-    ranges: [5, 10, 25, "All"],
     selectedRange: 5,
     onChangePage: fn(),
   },
@@ -332,11 +330,11 @@ export const AllFunctions: Story = {
     hasPagination: true,
     hasSearch: true,
     hasSort: true,
-    ranges: [5, 10, 25, "All"],
     selectedRange: 5,
     onChangeCheck: fn(),
-    onSearch: fn(),
+    onChangePage: fn(),
     onChangeSort: fn(),
+    onSearch: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-table")[0];
