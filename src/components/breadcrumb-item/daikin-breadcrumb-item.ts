@@ -42,7 +42,7 @@ const cvaLinkSlot = cva(
 type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
 
 /**
- * The daikin-breadcrumb-item component is a child element within the `daikin-breadcrumb` component
+ * The `daikin-breadcrumb-item` is a component used to represent each item of the breadcrumb list, and is used as a child element of the `daikin-breadcrumb` component.
  *
  * Hierarchy:
  * - `daikin-breadcrumb` > `daikin-breadcrumb-item`

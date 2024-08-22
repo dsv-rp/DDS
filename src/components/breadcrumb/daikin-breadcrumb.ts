@@ -10,7 +10,10 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
 /**
- * You can use breadcrumb component and breadcrumb-item component to display the current location within a hierarchy. And allow user going back to states higher up in the hierarchy.
+ * `daikin-breadcrumb` is a component for representing a breadcrumb list, and is used together with the `daikin-breadcrumb-item` component.
+ *
+ * Hierarchy:
+ * - `daikin-breadcrumb` > `daikin-breadcrumb-item`
  *
  * @slot - A slot for breadcrumb items. Place `breadcrumb-item` elements here.
  *
