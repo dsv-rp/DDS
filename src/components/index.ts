@@ -7,6 +7,7 @@ export * from "./checkbox";
 export * from "./icon";
 export * from "./input-group";
 export * from "./notification";
+export * from "./pagination-overflow";
 export * from "./panel-switcher";
 export * from "./progress-bar";
 export * from "./radio";
