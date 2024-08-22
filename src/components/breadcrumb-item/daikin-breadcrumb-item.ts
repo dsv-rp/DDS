@@ -102,7 +102,7 @@ export class DaikinBreadcrumbItem extends LitElement {
   target: string | null = null;
 
   /**
-   * Whether the link should have trailing slash.
+   * Whether the slash after the link should shown.
    * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
