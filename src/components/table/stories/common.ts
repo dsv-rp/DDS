@@ -69,7 +69,7 @@ export const DAIKIN_TABLE_ARG_TYPES = {
     control: { type: "object" },
   },
   selectedRange: {
-    description: "",
+    description: "Number of items currently displayed",
     type: "string",
   },
 } satisfies Meta<DaikinTableStoryArgs>["argTypes"];

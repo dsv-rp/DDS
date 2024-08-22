@@ -45,6 +45,11 @@ const cvaCell = cva(["py-4", "min-w-24", "max-w-60"], {
  *
  * The table provides four functions: checkboxes, search, sorting, and pagination, and you can select the functions you need. You can also add any components to the slot to further expand the functions.
  *
+ * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
+ * @fires change-page - When the number of items per page or the total number of items on a page is changed, it returns the current page and the number of items currently displayed.
+ * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
+ * @fires search - When a search is performed, the keywords used in the search are returned.
+ *
  * @example
  *
  * ```html
@@ -175,6 +180,9 @@ export class DaikinTable extends LitElement {
   @property({ type: Array })
   ranges: (number | "All")[] = [5, 10, 25, 50, 100, "All"];
 
+  /**
+   * Number of items currently displayed
+   */
   @property({ type: String, attribute: "selected-range" })
   selectedRange: (typeof this.ranges)[number] | "All" = "All";
 
