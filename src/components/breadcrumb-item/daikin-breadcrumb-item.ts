@@ -82,7 +82,9 @@ export class DaikinBreadcrumbItem extends LitElement {
   href = "";
 
   /**
-   * Specify link variant
+   * Specifies the display content.
+   * If `ellipsis`, the "..." will be displayed instead of the link.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: String, reflect: true })
   variant: LinkVariantProps["variant"] = "normal";
@@ -100,13 +102,15 @@ export class DaikinBreadcrumbItem extends LitElement {
   target: string | null = null;
 
   /**
-   * Specify the link should show slash at the end or not
+   * Whether the link should have trailing slash.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
   /**
-   * Specify the link should be hidden when ellipsis mode
+   * Whether the link should be hidden when ellipsis mode.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: Boolean, reflect: true })
   override hidden = false;

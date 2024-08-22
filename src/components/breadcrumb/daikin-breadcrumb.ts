@@ -53,14 +53,14 @@ export class DaikinBreadcrumb extends LitElement {
   private _divWrapRef: Ref<HTMLDivElement> = createRef();
 
   /**
-   * Specify whether the last of breadcrumb-item should show slash
+   * Whether the last breadcrumb item should have trailing slash.
    */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
   /**
-   * Specify overflow
-   * when `visible` the breadcrumb will not be omitted even breadcrumb-items total width exceed container width
+   * Specifies overflow.
+   * If `ellipsis`, some breadcrumb items will be omitted when the total width exceeds the container width.
    */
   @property({ type: String, reflect: true })
   overflow: "visible" | "ellipsis" = "visible";
