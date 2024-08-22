@@ -97,9 +97,9 @@ const cvaDropDownItem = cva([
 /**
  * The pagination component is used to navigate through a list of items that are divided into multiple pages.
  *
- * @fires page-change - Emitted when the pagination value is changed.
+ * @fires page-change - Emitted when the pagination currentPage is changed.
  *
- * @slot page-{value} - A slot for the page content
+ * @slot page-{currentPage} - A slot for the page content
  *
  * @example
  *
@@ -131,22 +131,22 @@ export class DaikinPagination extends LitElement {
   `;
 
   /**
-   * The value.
+   * The current page number.
    */
-  @property({ type: Number, reflect: true })
-  value = 1;
+  @property({ type: Number, reflect: true, attribute: "current-page" })
+  currentPage = 1;
 
   /**
-   * The max.
+   * The last or total number of pages.
    */
-  @property({ type: Number, reflect: true })
-  max = 5;
+  @property({ type: Number, reflect: true, attribute: "last-page" })
+  lastPage = 5;
 
   /**
-   * The show pages.
+   * How many page number to show at a time.
    */
-  @property({ type: Number, reflect: true, attribute: "show-pages" })
-  showPages = 5;
+  @property({ type: Number, reflect: true, attribute: "page-window" })
+  pageWindow = 5;
 
   /**
    * Using nested array to simulate paginator
@@ -177,7 +177,7 @@ export class DaikinPagination extends LitElement {
   private _rightDropDownOpen = false;
 
   private _getAllPagesArray() {
-    return Array.from({ length: this.max }, (_, i) => i + 1);
+    return Array.from({ length: this.lastPage }, (_, i) => i + 1);
   }
 
   private _closeDropDownMenu() {
@@ -191,10 +191,10 @@ export class DaikinPagination extends LitElement {
     this._pageArray[this._PageIndex.FirstPage] = [allPagesArray[0]];
     this._pageArray[this._PageIndex.ShowPages] = allPagesArray.slice(
       1,
-      this.showPages - 1
+      this.pageWindow - 1
     );
     this._pageArray[this._PageIndex.RightDropDown] = allPagesArray.slice(
-      this.showPages - 1,
+      this.pageWindow - 1,
       allPagesArray[allPagesArray.length - 1] - 1
     );
     this._pageArray[this._PageIndex.LastPage] = [
@@ -210,10 +210,10 @@ export class DaikinPagination extends LitElement {
     this._pageArray[this._PageIndex.FirstPage] = [allPagesArray[0]];
     this._pageArray[this._PageIndex.LeftDropDown] = allPagesArray.slice(
       1,
-      -this.showPages + 1
+      -this.pageWindow + 1
     );
     this._pageArray[this._PageIndex.ShowPages] = allPagesArray.slice(
-      -this.showPages + 1,
+      -this.pageWindow + 1,
       -1
     );
     this._pageArray[this._PageIndex.LastPage] = [
@@ -224,11 +224,11 @@ export class DaikinPagination extends LitElement {
   }
 
   private _handleClickNumber(page: number) {
-    this.value = page;
+    this.currentPage = page;
     this._closeDropDownMenu();
   }
 
-  // Move the min value from RightDropDown to ShowPages
+  // Move the min currentPage from RightDropDown to ShowPages
   private _moveMinValueLeftShow() {
     const minValueRightDropDown = Math.min(
       ...this._pageArray[this._PageIndex.RightDropDown]
@@ -242,7 +242,7 @@ export class DaikinPagination extends LitElement {
     this._pageArray[this._PageIndex.ShowPages].push(minValueRightDropDown);
   }
 
-  // Move the min value from ShowPages to LeftDropDown
+  // Move the min currentPage from ShowPages to LeftDropDown
   private _moveMinValueLeftOmission() {
     const minValueShowPages = Math.min(
       ...this._pageArray[this._PageIndex.ShowPages]
@@ -254,7 +254,7 @@ export class DaikinPagination extends LitElement {
     this._pageArray[this._PageIndex.LeftDropDown].push(minValueShowPages);
   }
 
-  // Move the max value from showPages to rightDropDown
+  // Move the max currentPage from pageWindow to rightDropDown
   private _moveMaxValueRightOmission() {
     const maxValueShowPages = Math.max(
       ...this._pageArray[this._PageIndex.ShowPages]
@@ -266,7 +266,7 @@ export class DaikinPagination extends LitElement {
     this._pageArray[this._PageIndex.RightDropDown].unshift(maxValueShowPages);
   }
 
-  // Move the max value from leftDropDown to showPages
+  // Move the max currentPage from leftDropDown to pageWindow
   private _moveMaxValueRightShow() {
     const maxValueLeftDropDown = Math.max(
       ...this._pageArray[this._PageIndex.LeftDropDown]
@@ -282,7 +282,7 @@ export class DaikinPagination extends LitElement {
 
   private _clickATag() {
     const slot = this.shadowRoot?.querySelector(
-      `slot[name=page-${this.value}]`
+      `slot[name=page-${this.currentPage}]`
     ) as HTMLSlotElement;
     const a = slot.assignedElements()[0] as HTMLElement | null | undefined;
     if (a && a.tagName === "A") {
@@ -292,14 +292,15 @@ export class DaikinPagination extends LitElement {
 
   private _handleClickChevron(type: "left" | "right") {
     if (type === "left") {
-      if (this.value === 1) {
+      if (this.currentPage === 1) {
         return;
       }
-      this.value -= 1;
+      this.currentPage -= 1;
       this._clickATag();
       if (
-        this.value < Math.min(...this._pageArray[this._PageIndex.ShowPages]) &&
-        this.value != 1
+        this.currentPage <
+          Math.min(...this._pageArray[this._PageIndex.ShowPages]) &&
+        this.currentPage != 1
       ) {
         this._moveMaxValueRightOmission();
         if (this._pageArray[this._PageIndex.RightDropDown].length === 1) {
@@ -310,20 +311,21 @@ export class DaikinPagination extends LitElement {
           this._moveMaxValueRightShow();
         }
       } else if (
-        this.value === this.max - 1 &&
+        this.currentPage === this.lastPage - 1 &&
         this._pageArray[this._PageIndex.RightDropDown].length > 0
       ) {
         this._resetPagesEnd();
       }
     } else {
-      if (this.value === this.max) {
+      if (this.currentPage === this.lastPage) {
         return;
       }
-      this.value += 1;
+      this.currentPage += 1;
       this._clickATag();
       if (
-        this.value > Math.max(...this._pageArray[this._PageIndex.ShowPages]) &&
-        this.value != this._pageArray[this._PageIndex.LastPage][0]
+        this.currentPage >
+          Math.max(...this._pageArray[this._PageIndex.ShowPages]) &&
+        this.currentPage != this._pageArray[this._PageIndex.LastPage][0]
       ) {
         this._moveMinValueLeftOmission();
         if (this._pageArray[this._PageIndex.LeftDropDown].length === 1) {
@@ -334,7 +336,7 @@ export class DaikinPagination extends LitElement {
           this._moveMinValueLeftShow();
         }
       } else if (
-        this.value === 2 &&
+        this.currentPage === 2 &&
         this._pageArray[this._PageIndex.LeftDropDown].length > 0
       ) {
         this._resetPagesStart();
@@ -354,22 +356,22 @@ export class DaikinPagination extends LitElement {
     this._leftDropDownOpen = false;
   }
 
-  private _handleChoosePageRight(value: number) {
-    this.value = value;
-    if (this.value >= this.max - 2) {
+  private _handleChoosePageRight(currentPage: number) {
+    this.currentPage = currentPage;
+    if (this.currentPage >= this.lastPage - 2) {
       this._resetPagesEnd();
       return;
     }
     // move RightDropDown to ShowPages to show
     const moveCount1 = this._pageArray[this._PageIndex.RightDropDown].filter(
-      (x) => x <= value
+      (x) => x <= currentPage
     ).length;
     for (let i = 0; i < moveCount1; i++) {
       this._moveMinValueLeftShow();
     }
     // move ShowPages to LeftDropDown to hide
     const moveCount2 =
-      this._pageArray[this._PageIndex.ShowPages].length - (this.showPages - 3);
+      this._pageArray[this._PageIndex.ShowPages].length - (this.pageWindow - 3);
     for (let j = 0; j < moveCount2; j++) {
       this._moveMinValueLeftOmission();
     }
@@ -377,22 +379,22 @@ export class DaikinPagination extends LitElement {
     this.requestUpdate();
   }
 
-  private _handleChoosePageLeft(value: number) {
-    this.value = value;
-    if (this.value <= 3) {
+  private _handleChoosePageLeft(currentPage: number) {
+    this.currentPage = currentPage;
+    if (this.currentPage <= 3) {
       this._resetPagesStart();
       return;
     }
     // move LeftDropDown to ShowPages to show
     const moveCount1 = this._pageArray[this._PageIndex.LeftDropDown].filter(
-      (x) => x >= value
+      (x) => x >= currentPage
     ).length;
     for (let i = 0; i < moveCount1; i++) {
       this._moveMaxValueRightShow();
     }
     // move ShowPages to RightDropDown to hide
     const moveCount2 =
-      this._pageArray[this._PageIndex.ShowPages].length - (this.showPages - 3);
+      this._pageArray[this._PageIndex.ShowPages].length - (this.pageWindow - 3);
     for (let i = 0; i < moveCount2; i++) {
       this._moveMaxValueRightOmission();
     }
@@ -443,14 +445,14 @@ export class DaikinPagination extends LitElement {
                   </button>
                 </div>
                 <div class=${cvaDropDownLeftClassName}>
-                  ${i.map((value) => {
+                  ${i.map((currentPage) => {
                     return html`<slot
-                      name="page-${value}"
+                      name="page-${currentPage}"
                       class=${dropDownItemClassName}
-                      @click=${() => this._handleChoosePageLeft(value)}
-                      @keydown=${() => this._handleChoosePageLeft(value)}
+                      @click=${() => this._handleChoosePageLeft(currentPage)}
+                      @keydown=${() => this._handleChoosePageLeft(currentPage)}
                     >
-                      <button>${value}</button>
+                      <button>${currentPage}</button>
                     </slot>`;
                   })}
                 </div>
@@ -471,14 +473,14 @@ export class DaikinPagination extends LitElement {
                   </button>
                 </div>
                 <div class=${cvaDropDownRightClassName}>
-                  ${i.map((value) => {
+                  ${i.map((currentPage) => {
                     return html`<slot
-                      name="page-${value}"
+                      name="page-${currentPage}"
                       class=${dropDownItemClassName}
-                      @click=${() => this._handleChoosePageRight(value)}
-                      @keydown=${() => this._handleChoosePageRight(value)}
+                      @click=${() => this._handleChoosePageRight(currentPage)}
+                      @keydown=${() => this._handleChoosePageRight(currentPage)}
                     >
-                      <button>${value}</button>
+                      <button>${currentPage}</button>
                     </slot>`;
                   })}
                 </div>
@@ -487,7 +489,7 @@ export class DaikinPagination extends LitElement {
           }
           return html`${i.map((j) => {
             const buttonClassName = cvaButton({
-              active: this.value === j,
+              active: this.currentPage === j,
             });
             return html`<slot
               name="page-${j}"
@@ -526,21 +528,25 @@ export class DaikinPagination extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("max")) {
+    if (changedProperties.has("lastPage")) {
       this._resetPagesStart();
     }
-    if (changedProperties.has("value")) {
-      if (this._pageArray[this._PageIndex.LeftDropDown].includes(this.value)) {
-        this._handleChoosePageLeft(this.value);
-      } else if (
-        this._pageArray[this._PageIndex.RightDropDown].includes(this.value)
+    if (changedProperties.has("currentPage")) {
+      if (
+        this._pageArray[this._PageIndex.LeftDropDown].includes(this.currentPage)
       ) {
-        this._handleChoosePageRight(this.value);
+        this._handleChoosePageLeft(this.currentPage);
+      } else if (
+        this._pageArray[this._PageIndex.RightDropDown].includes(
+          this.currentPage
+        )
+      ) {
+        this._handleChoosePageRight(this.currentPage);
       }
     }
     this.dispatchEvent(
       new CustomEvent("page-change", {
-        detail: { page: this.value },
+        detail: { page: this.currentPage },
         bubbles: true,
         composed: true,
         cancelable: false,

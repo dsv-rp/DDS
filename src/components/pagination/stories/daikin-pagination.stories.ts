@@ -29,7 +29,7 @@ const checkPageButton = async (
   }
 
   const disappearPages = allPages.filter(
-    (value) => !existPages.includes(value)
+    (currentPage) => !existPages.includes(currentPage)
   );
   for (const number of disappearPages) {
     const button = queryByShadowText(root, number.toString(), {
@@ -41,21 +41,21 @@ const checkPageButton = async (
 
 export const Default: Story = {
   args: {
-    value: 1,
-    max: 5,
-    showPages: 5,
+    currentPage: 1,
+    lastPage: 5,
+    pageWindow: 5,
     onChange: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-pagination")[0];
     await expect(root).toBeInTheDocument();
 
-    for (let i = 1; i < args.max + 1; i++) {
+    for (let i = 1; i < args.lastPage + 1; i++) {
       const button = getByShadowText(root, i.toString());
       await expect(button).toBeInTheDocument();
     }
-    // default value should be 1
-    await expect(root.value).toEqual(1);
+    // default currentPage should be 1
+    await expect(root.currentPage).toEqual(1);
 
     // chevron button should be in document
     const chevronLeft = getByShadowRole(root, "button", {
@@ -67,56 +67,56 @@ export const Default: Story = {
     });
     await expect(chevronRight).toBeInTheDocument();
 
-    // value should be changed when click page button
+    // currentPage should be changed when click page button
     await step("Try to click page button", async () => {
       const page2 = getByShadowText(root, "2");
       await userEvent.click(page2);
-      await expect(root.value).toEqual(2);
+      await expect(root.currentPage).toEqual(2);
     });
 
-    // value should be +1 when click right chevron
+    // currentPage should be +1 when click right chevron
     await step("Try to click right chevron", async () => {
       await userEvent.click(chevronRight);
-      await expect(root.value).toEqual(3);
+      await expect(root.currentPage).toEqual(3);
     });
-    // value should not be changed when click right chevron if max value
+    // currentPage should not be changed when click right chevron if max currentPage
     await step("Try to click right chevron to max", async () => {
       await userEvent.click(chevronRight);
       await userEvent.click(chevronRight);
-      await expect(root.value).toEqual(5);
+      await expect(root.currentPage).toEqual(5);
       await userEvent.click(chevronRight);
-      await expect(root.value).toEqual(5);
+      await expect(root.currentPage).toEqual(5);
     });
-    // value should be -1 when click left chevron
+    // currentPage should be -1 when click left chevron
     await step("Try to click left chevron", async () => {
       await userEvent.click(chevronLeft);
-      await expect(root.value).toEqual(4);
+      await expect(root.currentPage).toEqual(4);
     });
-    // value should not be changed when click left chevron if min value
+    // currentPage should not be changed when click left chevron if min currentPage
     await step("Try to click right chevron to min", async () => {
       await userEvent.click(chevronLeft);
       await userEvent.click(chevronLeft);
       await userEvent.click(chevronLeft);
-      await expect(root.value).toEqual(1);
+      await expect(root.currentPage).toEqual(1);
       await userEvent.click(chevronLeft);
-      await expect(root.value).toEqual(1);
+      await expect(root.currentPage).toEqual(1);
     });
   }),
 };
 
 export const Ellipsis: Story = {
   args: {
-    value: 1,
-    max: 15,
-    showPages: 6,
+    currentPage: 1,
+    lastPage: 15,
+    pageWindow: 6,
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
-    const allPages = Array.from({ length: args.max }, (_, i) => i + 1);
+    const allPages = Array.from({ length: args.lastPage }, (_, i) => i + 1);
 
     const root = canvasElement.getElementsByTagName("daikin-pagination")[0];
     await expect(root).toBeInTheDocument();
 
-    for (let i = 1; i < args.showPages; i++) {
+    for (let i = 1; i < args.pageWindow; i++) {
       const button = getByShadowText(root, i.toString(), {
         ignore: ".hidden > *",
       });
@@ -132,8 +132,8 @@ export const Ellipsis: Story = {
       ignore: ".hidden > *",
     });
     await expect(buttonLast).toBeInTheDocument();
-    // default value should be 1
-    await expect(root.value).toEqual(1);
+    // default currentPage should be 1
+    await expect(root.currentPage).toEqual(1);
 
     // chevron button should be in document
     const chevronLeft = getByShadowRole(root, "button", {
@@ -145,27 +145,27 @@ export const Ellipsis: Story = {
     });
     await expect(chevronRight).toBeInTheDocument();
 
-    // value should be changed when click page button
+    // currentPage should be changed when click page button
     await step("Try to click page button", async () => {
       const page2 = getByShadowText(root, "2");
       await userEvent.click(page2);
-      await expect(root.value).toEqual(2);
+      await expect(root.currentPage).toEqual(2);
     });
 
-    // value should be +1 when click right chevron before right ellipsis button
+    // currentPage should be +1 when click right chevron before right ellipsis button
     await step(
-      "Try to click right chevron when the value is before right ellipsis button",
+      "Try to click right chevron when the currentPage is before right ellipsis button",
       async () => {
         await userEvent.click(chevronRight);
         await userEvent.click(chevronRight);
         await userEvent.click(chevronRight);
-        await expect(root.value).toEqual(5);
+        await expect(root.currentPage).toEqual(5);
         await userEvent.click(chevronRight);
-        await expect(root.value).toEqual(6);
+        await expect(root.currentPage).toEqual(6);
         await checkPageButton(root, [1, 4, 5, 6, 15], allPages);
       }
     );
-    // value should be changed when click page number from dropdown menu
+    // currentPage should be changed when click page number from dropdown menu
     await step("Try to click page number from drop down menu", async () => {
       const ellipsisButton = getByShadowRole(root, "button", {
         name: "pageDetailRight",
@@ -177,7 +177,7 @@ export const Ellipsis: Story = {
       });
       await expect(page8).toBeInTheDocument();
       await userEvent.click(page8);
-      await expect(root.value).toEqual(8);
+      await expect(root.currentPage).toEqual(8);
       await checkPageButton(root, [1, 6, 7, 8, 15], allPages);
     });
     // click last page and click left chevron will hidden right ellipsis button
@@ -187,9 +187,9 @@ export const Ellipsis: Story = {
       });
       await expect(page15).toBeInTheDocument();
       await userEvent.click(page15);
-      await expect(root.value).toEqual(15);
+      await expect(root.currentPage).toEqual(15);
       await userEvent.click(chevronLeft);
-      await expect(root.value).toEqual(14);
+      await expect(root.currentPage).toEqual(14);
       await checkPageButton(root, [1, 11, 12, 13, 14, 15], allPages);
     });
     // click first page and click right chevron will hidden left ellipsis button
@@ -199,9 +199,9 @@ export const Ellipsis: Story = {
       });
       await expect(page1).toBeInTheDocument();
       await userEvent.click(page1);
-      await expect(root.value).toEqual(1);
+      await expect(root.currentPage).toEqual(1);
       await userEvent.click(chevronRight);
-      await expect(root.value).toEqual(2);
+      await expect(root.currentPage).toEqual(2);
       await checkPageButton(root, [1, 2, 3, 4, 5, 15], allPages);
     });
   }),

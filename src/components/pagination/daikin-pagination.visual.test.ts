@@ -15,9 +15,9 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(["max6page", "max15page"], (max) => {
   describeEach(["show6page"] as const, () => {
     const baseURL = getPageURL({
-      max: max === "max6page" ? 6 : 15,
-      showPages: 6,
-      value: 1,
+      lastPage: max === "max6page" ? 6 : 15,
+      pageWindow: 6,
+      currentPage: 1,
     });
 
     test("base", async ({ page }) => {
