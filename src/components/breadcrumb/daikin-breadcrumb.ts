@@ -9,6 +9,24 @@ import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
+/**
+ * You can use breadcrumb component and breadcrumb-item component to display the current location within a hierarchy. And allow user going back to states higher up in the hierarchy.
+ *
+ * @slot - A slot for breadcrumb items. Place `breadcrumb-item` elements here.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-breadcrumb>
+ *  <daikin-breadcrumb-item href="#">
+ *   Breadcrumb Item 1
+ *  </daikin-breadcrumb-item>
+ *  <daikin-breadcrumb-item href="#">
+ *   Breadcrumb Item 2
+ *  </daikin-breadcrumb-item>
+ * </daikin-breadcrumb>
+ * ```
+ */
 @customElement("daikin-breadcrumb")
 export class DaikinBreadcrumb extends LitElement {
   static override readonly styles = css`

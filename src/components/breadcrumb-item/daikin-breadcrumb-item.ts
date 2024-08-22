@@ -41,6 +41,23 @@ const cvaLinkSlot = cva(
 
 type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
 
+/**
+ * The daikin-breadcrumb-item component is a child element within the `daikin-breadcrumb` component
+ *
+ * Hierarchy:
+ * - `daikin-breadcrumb` > `daikin-breadcrumb-item`
+ *
+ * @slot - A slot for the breadcrumb item content.
+ *
+ * @example
+ *
+ * ```html
+ * <!-- See `daikin-breadcrumb` component for complete example. -->
+ * <daikin-breadcrumb-item href="#">
+ *   Breadcrumb Item 1
+ * </daikin-breadcrumb-item>
+ * ```
+ */
 @customElement("daikin-breadcrumb-item")
 export class DaikinBreadcrumbItem extends LitElement {
   static override styles = css`
