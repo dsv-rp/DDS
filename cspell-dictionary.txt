@@ -23,6 +23,7 @@ progressbar
 
 # Custom Events
 beforechange
+beforetoggle
 
 # HTML
 maxlength
@@ -41,6 +42,7 @@ testid
 
 # JSDoc extension
 csspart
+cssprop
 
 # Misc.
 FOUC
