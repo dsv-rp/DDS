@@ -4,45 +4,52 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinNotificationStoryArgs
   extends Required<ElementProps<DaikinNotification>> {
+  __vrtDescription__: string;
   onClose: () => void;
 }
 
 export const DAIKIN_NOTIFICATION_ARG_TYPES = {
   title: {
-    description: "Title text",
     type: "string",
+    description: "Title text",
   },
   description: {
-    description: "Description text",
     type: "string",
+    description: "Description text",
   },
   variant: {
-    description: "Type of notification",
     defaultValue: "toast",
     control: { type: "select" },
     options: ["toast", "inline"],
+    description: "Type of notification",
   },
   status: {
-    description: "Status of notification",
     defaultValue: "positive",
     control: { type: "select" },
     options: ["positive", "negative", "warning", "alarm", "information"],
+    description: "Status of notification",
   },
   line: {
-    description: "Display in single or multiple lines",
     defaultValue: "single",
     control: { type: "select" },
     options: ["single", "multi"],
+    description: "Display in single or multiple lines",
   },
   open: {
-    description: "Whether the component is open",
     defaultValue: true,
     type: "boolean",
+    description: "Whether the component is open",
   },
   closeButton: {
-    description: "Whether to display the close button",
     defaultValue: false,
     type: "boolean",
+    description: "Whether to display the close button",
+  },
+  __vrtDescription__: {
+    name: "",
+    type: "string",
+    defaultValue: "",
+    description: "Slot of `description` for the Visual Regression Test.",
   },
 } satisfies Meta<DaikinNotificationStoryArgs>["argTypes"];
 

@@ -90,10 +90,18 @@ type NotificationVariantProps = MergeVariantProps<
  *
  * @fires close - A custom event emitted when a user clicks the close button.
  *
+ * @slot description - A slot for the notification description content.
+ *
  * @example
  *
  * ```html
- * </daikin-notification title="Notification title" description="Notification description."></daikin-notification>
+ * <daikin-notification title="Notification title">
+ *   <span slot="description">Notification description.</span>
+ * </daikin-notification>
+ * ```
+ *
+ * ```html
+ * <daikin-notification title="Notification title" description="Notification description."></daikin-notification>
  * ```
  */
 @customElement("daikin-notification")
@@ -127,7 +135,8 @@ export class DaikinNotification extends LitElement {
   override title = "";
 
   /**
-   * Description text
+   * Description text.
+   * Ignored if the `description` slot exists.
    */
   @property({ type: String })
   description = "";
@@ -202,7 +211,11 @@ export class DaikinNotification extends LitElement {
               html`<header class="text-[18px] font-bold flex-none">
                 ${this.title}
               </header>`}
-              <p class="text-[18px] flex-none">${this.description}</p>
+              <span part="description" class="text-[18px] flex-none">
+                <slot name="description">
+                  <span>${this.description}</span>
+                </slot>
+              </span>
             </div>
             ${this.closeButton
               ? html`

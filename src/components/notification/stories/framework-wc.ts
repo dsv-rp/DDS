@@ -1,6 +1,6 @@
 import "#package/components/notification/daikin-notification";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinNotificationStoryArgs } from "./common";
 
@@ -13,6 +13,7 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
     variant,
     line,
     status,
+    __vrtDescription__,
     onClose,
   }) => html`
     <daikin-notification
@@ -24,6 +25,10 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
       line=${line}
       status=${status}
       @close=${onClose}
-    ></daikin-notification>
+    >
+      ${__vrtDescription__.length
+        ? html`<span slot="description">${__vrtDescription__}</span>`
+        : nothing}
+    </daikin-notification>
   `,
 };

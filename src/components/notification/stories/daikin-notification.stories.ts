@@ -25,6 +25,7 @@ export const Toast: Story = {
     line: "single",
     open: true,
     closeButton: false,
+    __vrtDescription__: "Notification-description: Toast",
     onClose: fn(),
   },
   play: definePlay(async ({ canvasElement, step }) => {
@@ -49,6 +50,7 @@ export const Inline: Story = {
   args: {
     ...Toast.args,
     description: "Notification-description: Inline",
+    __vrtDescription__: "Notification-description: Inline",
     variant: "inline",
     onClose: fn(),
   },
