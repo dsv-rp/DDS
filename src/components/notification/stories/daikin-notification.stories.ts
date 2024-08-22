@@ -18,7 +18,7 @@ export default {
 
 export const Toast: Story = {
   args: {
-    title: "Notification-title",
+    heading: "Notification-title",
     description: "Notification-description: Toast",
     variant: "toast",
     status: "positive",
@@ -31,9 +31,9 @@ export const Toast: Story = {
     const root = canvasElement.getElementsByTagName("daikin-notification")[0];
     await expect(root).toBeInTheDocument();
 
-    await step("Title should be visible", async () => {
-      const title = getByShadowText(root, "Notification-title");
-      await expect(title).toBeInTheDocument();
+    await step("Heading should be visible", async () => {
+      const heading = getByShadowText(root, "Notification-title");
+      await expect(heading).toBeInTheDocument();
     });
 
     await step("Close button should not be visible", async () => {
@@ -64,9 +64,9 @@ export const ToastClosable: Story = {
     const root = canvasElement.getElementsByTagName("daikin-notification")[0];
     await expect(root).toBeInTheDocument();
 
-    await step("Title should be visible", async () => {
-      const title = getByShadowText(root, "Notification-title");
-      await expect(title).toBeInTheDocument();
+    await step("Heading should be visible", async () => {
+      const heading = getByShadowText(root, "Notification-title");
+      await expect(heading).toBeInTheDocument();
     });
 
     const closeButton = getByShadowRole(root, "button", {
@@ -86,8 +86,8 @@ export const ToastClosable: Story = {
     await step(
       "Notification should disappear after close button clicked",
       async () => {
-        const title = queryByShadowText(root, "Notification-title");
-        await expect(title).not.toBeInTheDocument();
+        const heading = queryByShadowText(root, "Notification-title");
+        await expect(heading).not.toBeInTheDocument();
       }
     );
   }),

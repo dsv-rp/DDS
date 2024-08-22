@@ -186,11 +186,9 @@ export class DaikinTextarea extends LitElement {
         @keydown=${this._handleInput}
       ></textarea>
       ${this.counter
-        ? html`
-            <span class=${textareaCounterClassName}
-              >${this._textareaCounter}/${this.maxlength}</span
-            >
-          `
+        ? html`<span class=${textareaCounterClassName}>
+            ${this._textareaCounter}/${this.maxlength}
+          </span>`
         : null}`;
   }
 

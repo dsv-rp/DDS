@@ -86,7 +86,7 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * @example
  *
  * ```html
- * <daikin-accordion-item title="The first accordion item">
+ * <daikin-accordion-item heading="The first accordion item">
  *   Accordion 1 content.
  * </daikin-accordion-item>
  * ```
@@ -108,7 +108,7 @@ export class DaikinAccordionItem extends LitElement {
    * Heading of accordion
    */
   @property({ type: String })
-  override title = "";
+  heading = "";
 
   /**
    * Whether the accordion is open
@@ -190,7 +190,7 @@ export class DaikinAccordionItem extends LitElement {
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
       >
-        ${this.title}
+        ${this.heading}
       </summary>
       <div ${ref(this._contentRef)}>
         <div class="pt-2 pb-6 px-5 text-sm">

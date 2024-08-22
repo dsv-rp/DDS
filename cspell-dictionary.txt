@@ -45,3 +45,4 @@ FOUC
 linkify
 retargeted
 textareas
+classfield

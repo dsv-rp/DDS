@@ -93,7 +93,7 @@ type NotificationVariantProps = MergeVariantProps<
  * @example
  *
  * ```html
- * </daikin-notification title="Notification title" description="Notification description."></daikin-notification>
+ * </daikin-notification heading="Notification title" description="Notification description."></daikin-notification>
  * ```
  */
 @customElement("daikin-notification")
@@ -121,10 +121,10 @@ export class DaikinNotification extends LitElement {
   `;
 
   /**
-   * Title text
+   * Heading text
    */
   @property({ type: String })
-  override title = "";
+  heading = "";
 
   /**
    * Description text
@@ -159,7 +159,7 @@ export class DaikinNotification extends LitElement {
   /**
    * Whether to display the close button
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: "close-button" })
   closeButton = false;
 
   /**
@@ -198,9 +198,9 @@ export class DaikinNotification extends LitElement {
                 line: this.line,
               })}
             >
-              ${this.title &&
+              ${this.heading &&
               html`<header class="text-[18px] font-bold flex-none">
-                ${this.title}
+                ${this.heading}
               </header>`}
               <p class="text-[18px] flex-none">${this.description}</p>
             </div>

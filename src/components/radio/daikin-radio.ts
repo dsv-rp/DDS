@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -163,8 +163,8 @@ export class DaikinRadio extends LitElement {
     const radioClassName = cvaRadio({ size: this.size });
 
     const labelText = this.label
-      ? html`<span class="${labelClassName}">${this.label}</span>`
-      : html``;
+      ? html`<span class=${labelClassName}>${this.label}</span>`
+      : nothing;
 
     const inputTag = html`<input
       class=${radioClassName}
@@ -179,14 +179,15 @@ export class DaikinRadio extends LitElement {
     />`;
 
     const inputArea =
-      this.labelPosition === "left"
+      this.labelPosition !== "right"
         ? html`${labelText}${inputTag}`
         : html`${inputTag}${labelText}`;
 
     return html`<label
       class="inline-flex w-full h-full gap-[8px] items-center font-daikinSerif"
-      >${inputArea}</label
-    >`;
+    >
+      ${inputArea}
+    </label>`;
   }
 }
 

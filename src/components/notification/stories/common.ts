@@ -8,7 +8,7 @@ export interface DaikinNotificationStoryArgs
 }
 
 export const DAIKIN_NOTIFICATION_ARG_TYPES = {
-  title: {
+  heading: {
     description: "Title text",
     type: "string",
   },

@@ -109,7 +109,7 @@ export class DaikinInputGroup extends LitElement {
   /**
    * Whether to display the counter in the Textarea
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, reflect: true, attribute: "textarea-counter" })
   textareaCounter = false;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
@@ -156,8 +156,9 @@ export class DaikinInputGroup extends LitElement {
         ${!this.disabled && !!this.error
           ? html`<span
               class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-input-group-error before:block before:w-[16px] before:h-[22px]"
-              >${this.error}</span
-            >`
+            >
+              ${this.error}
+            </span>`
           : null}
       </label>
     </fieldset>`;

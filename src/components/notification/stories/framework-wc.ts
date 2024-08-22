@@ -8,7 +8,7 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
   render: ({
     open,
     closeButton,
-    title,
+    heading,
     description,
     variant,
     line,
@@ -18,7 +18,7 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
     <daikin-notification
       ?open=${open}
       ?closeButton=${closeButton}
-      title=${ifDefined(title)}
+      heading=${ifDefined(heading)}
       description=${description}
       variant=${variant}
       line=${line}

@@ -26,7 +26,7 @@ describeEach(["toast", "inline"] as const, (variant) => {
               status,
               line,
               closeButton,
-              title: "Example Notification",
+              heading: "Example Notification",
               description: "Description of the notification",
             });
 

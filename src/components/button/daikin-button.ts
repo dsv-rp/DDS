@@ -159,13 +159,13 @@ export class DaikinButton extends LitElement {
   /**
    * Set a icon in the right of button label.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true, attribute: "right-icon" })
   rightIcon: IconType | null = null;
 
   /**
    * Set a icon in the left of button label.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
   /**
@@ -189,14 +189,8 @@ export class DaikinButton extends LitElement {
   /**
    * Specify the button role.
    */
-  @property({ type: String, reflect: true })
-  override role: ARIARole = "button";
-
-  /**
-   * Specify whether the button is loading.
-   */
-  @property({ type: Boolean })
-  isLoading = false;
+  @property({ type: String, reflect: true, attribute: "button-role" })
+  buttonRole: ARIARole = "button";
 
   override render() {
     const buttonClassName = cvaButton({
@@ -224,9 +218,9 @@ export class DaikinButton extends LitElement {
 
     if (this.href) {
       return html`<a
-        href="${this.href}"
-        class="${buttonClassName}"
-        role="${this.role}"
+        href=${this.href}
+        class=${buttonClassName}
+        role=${this.buttonRole}
       >
         ${content}
       </a>`;
@@ -234,10 +228,10 @@ export class DaikinButton extends LitElement {
 
     return html`
       <button
-        class="${buttonClassName}"
-        ?disabled="${this.disabled}"
-        type="${this.type}"
-        role="${this.role}"
+        class=${buttonClassName}
+        ?disabled=${this.disabled}
+        type=${this.type}
+        role=${this.buttonRole}
       >
         ${content}
       </button>

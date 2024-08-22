@@ -66,6 +66,16 @@ export default tseslint.config(
           allowNumber: true,
         },
       ],
+      // Web Components and lit
+      "lit/attribute-names": "error",
+      "lit/lifecycle-super": "error",
+      "lit/no-classfield-shadowing": "error",
+      "lit/no-native-attributes": "error",
+      "lit/no-this-assign-in-render": "error",
+      "lit/prefer-nothing": "warn",
+      "lit/prefer-static-styles": "error",
+      "lit/quoted-expressions": "error",
+      "lit/value-after-constraints": "error",
     },
   },
   // Restrict imports
