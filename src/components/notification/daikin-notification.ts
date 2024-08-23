@@ -134,7 +134,7 @@ export class DaikinNotification extends LitElement {
   `;
 
   /**
-   * Title text
+   * Title text.
    * Ignored if the `title` slot exists.
    */
   @property({ type: String })
