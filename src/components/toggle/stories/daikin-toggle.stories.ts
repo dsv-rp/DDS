@@ -1,8 +1,8 @@
+import type { DaikinToggle } from "#package/components/toggle/daikin-toggle";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import type { DaikinToggle } from "../daikin-toggle";
 import { DAIKIN_TOGGLE_ARG_TYPES, type Story } from "./common";
 
 export default {
