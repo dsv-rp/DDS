@@ -1,8 +1,8 @@
+import type { DaikinCheckbox } from "#package/components/checkbox/daikin-checkbox";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
-import type { DaikinCheckbox } from "../daikin-checkbox";
 import { DAIKIN_CHECKBOX_ARG_TYPES, type Story } from "./common";
 
 export default {

@@ -1,8 +1,8 @@
+import type { DaikinTextarea } from "#package/components/textarea/daikin-textarea";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import type { DaikinTextarea } from "../daikin-textarea";
 import { DAIKIN_TEXTAREA_ARG_TYPES, type Story } from "./common";
 
 export default {

@@ -1,8 +1,8 @@
+import type { DaikinTextInput } from "#package/components/text-input/daikin-text-input";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import type { DaikinTextInput } from "../daikin-text-input";
 import { DAIKIN_TEXT_INPUT_ARG_TYPES, type Story } from "./common";
 
 export default {
