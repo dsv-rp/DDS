@@ -39,12 +39,20 @@ const checkPageButton = async (
   }
 };
 
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    currentPage: (event.target as DaikinPagination).currentPage,
+  };
+}
+
 export const Default: Story = {
   args: {
     currentPage: 1,
     lastPage: 5,
     pageWindow: 5,
-    onChange: fn(),
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-pagination")[0];
@@ -55,6 +63,7 @@ export const Default: Story = {
       await expect(button).toBeInTheDocument();
     }
     // default currentPage should be 1
+    await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 1 });
     await expect(root.currentPage).toEqual(1);
 
     // chevron button should be in document
@@ -71,25 +80,30 @@ export const Default: Story = {
     await step("Try to click page button", async () => {
       const page2 = getByShadowText(root, "2");
       await userEvent.click(page2);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 2 });
       await expect(root.currentPage).toEqual(2);
     });
 
     // currentPage should be +1 when click right chevron
     await step("Try to click right chevron", async () => {
       await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 3 });
       await expect(root.currentPage).toEqual(3);
     });
     // currentPage should not be changed when click right chevron if max currentPage
     await step("Try to click right chevron to max", async () => {
       await userEvent.click(chevronRight);
       await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 5 });
       await expect(root.currentPage).toEqual(5);
       await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 5 });
       await expect(root.currentPage).toEqual(5);
     });
     // currentPage should be -1 when click left chevron
     await step("Try to click left chevron", async () => {
       await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 4 });
       await expect(root.currentPage).toEqual(4);
     });
     // currentPage should not be changed when click left chevron if min currentPage
@@ -97,8 +111,10 @@ export const Default: Story = {
       await userEvent.click(chevronLeft);
       await userEvent.click(chevronLeft);
       await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 1 });
       await expect(root.currentPage).toEqual(1);
       await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 1 });
       await expect(root.currentPage).toEqual(1);
     });
   }),
@@ -109,6 +125,8 @@ export const Ellipsis: Story = {
     currentPage: 1,
     lastPage: 15,
     pageWindow: 6,
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const allPages = Array.from({ length: args.lastPage }, (_, i) => i + 1);
@@ -133,6 +151,7 @@ export const Ellipsis: Story = {
     });
     await expect(buttonLast).toBeInTheDocument();
     // default currentPage should be 1
+    await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 1 });
     await expect(root.currentPage).toEqual(1);
 
     // chevron button should be in document
@@ -149,6 +168,7 @@ export const Ellipsis: Story = {
     await step("Try to click page button", async () => {
       const page2 = getByShadowText(root, "2");
       await userEvent.click(page2);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 2 });
       await expect(root.currentPage).toEqual(2);
     });
 
@@ -159,8 +179,10 @@ export const Ellipsis: Story = {
         await userEvent.click(chevronRight);
         await userEvent.click(chevronRight);
         await userEvent.click(chevronRight);
+        await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 5 });
         await expect(root.currentPage).toEqual(5);
         await userEvent.click(chevronRight);
+        await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 6 });
         await expect(root.currentPage).toEqual(6);
         await checkPageButton(root, [1, 4, 5, 6, 15], allPages);
       }
@@ -177,6 +199,7 @@ export const Ellipsis: Story = {
       });
       await expect(page8).toBeInTheDocument();
       await userEvent.click(page8);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 8 });
       await expect(root.currentPage).toEqual(8);
       await checkPageButton(root, [1, 6, 7, 8, 15], allPages);
     });
@@ -187,8 +210,10 @@ export const Ellipsis: Story = {
       });
       await expect(page15).toBeInTheDocument();
       await userEvent.click(page15);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 15 });
       await expect(root.currentPage).toEqual(15);
       await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 14 });
       await expect(root.currentPage).toEqual(14);
       await checkPageButton(root, [1, 11, 12, 13, 14, 15], allPages);
     });
@@ -199,8 +224,10 @@ export const Ellipsis: Story = {
       });
       await expect(page1).toBeInTheDocument();
       await userEvent.click(page1);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 1 });
       await expect(root.currentPage).toEqual(1);
       await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 2 });
       await expect(root.currentPage).toEqual(2);
       await checkPageButton(root, [1, 2, 3, 4, 5, 15], allPages);
     });

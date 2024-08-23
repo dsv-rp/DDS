@@ -432,7 +432,7 @@ export class DaikinPagination extends LitElement {
           const dropDownItemClassName = cvaDropDownItem();
           if (index === 1) {
             const cvaDropDownLeftClassName = cvaDropDown({
-              open: this._leftDropDownOpen,
+              open: false,
             });
             if (i.length > 0) {
               return html`<div class="relative">
@@ -460,7 +460,7 @@ export class DaikinPagination extends LitElement {
             }
           } else if (index === 3) {
             const cvaDropDownRightClassName = cvaDropDown({
-              open: this._rightDropDownOpen,
+              open: false,
             });
             if (i.length > 0) {
               return html`<div class="relative">
