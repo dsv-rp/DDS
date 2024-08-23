@@ -272,6 +272,8 @@ export class DaikinTooltip extends LitElement {
 
   override disconnectedCallback() {
     this._uninstallAutoUpdate();
+
+    super.disconnectedCallback();
   }
 }
 
