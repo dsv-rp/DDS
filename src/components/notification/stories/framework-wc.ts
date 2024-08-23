@@ -17,7 +17,7 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
   }) => html`
     <daikin-notification
       ?open=${open}
-      ?closeButton=${closeButton}
+      ?close-button=${closeButton}
       heading=${ifDefined(heading)}
       description=${description}
       variant=${variant}
