@@ -95,6 +95,7 @@ export class DaikinToggle extends LitElement {
     if (!this._input) {
       return;
     }
+    this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
     this.dispatchEvent(new Event("change", event));
   }
