@@ -3,7 +3,6 @@ import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import {
   getByShadowRole,
-  getByShadowText,
   queryByShadowRole,
   queryByShadowText,
 } from "shadow-dom-testing-library";
@@ -25,17 +24,13 @@ export const Toast: Story = {
     line: "single",
     open: true,
     closeButton: false,
+    __vrtTitle__: "Notification-title",
     __vrtDescription__: "Notification-description: Toast",
     onClose: fn(),
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-notification")[0];
     await expect(root).toBeInTheDocument();
-
-    await step("Title should be visible", async () => {
-      const title = getByShadowText(root, "Notification-title");
-      await expect(title).toBeInTheDocument();
-    });
 
     await step("Close button should not be visible", async () => {
       const closeButton = queryByShadowRole(root, "button", {
@@ -65,11 +60,6 @@ export const ToastClosable: Story = {
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-notification")[0];
     await expect(root).toBeInTheDocument();
-
-    await step("Title should be visible", async () => {
-      const title = getByShadowText(root, "Notification-title");
-      await expect(title).toBeInTheDocument();
-    });
 
     const closeButton = getByShadowRole(root, "button", {
       name: "Close",

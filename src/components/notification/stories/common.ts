@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinNotificationStoryArgs
   extends Required<ElementProps<DaikinNotification>> {
+  __vrtTitle__: string;
   __vrtDescription__: string;
   onClose: () => void;
 }
@@ -45,11 +46,19 @@ export const DAIKIN_NOTIFICATION_ARG_TYPES = {
     type: "boolean",
     description: "Whether to display the close button",
   },
+  __vrtTitle__: {
+    name: "",
+    type: "string",
+    defaultValue: "",
+    description:
+      "Content of `title` slot. (only for the Visual Regression Test)",
+  },
   __vrtDescription__: {
     name: "",
     type: "string",
     defaultValue: "",
-    description: "Slot of `description` for the Visual Regression Test.",
+    description:
+      "Content of `description` slot. (only for the Visual Regression Test)",
   },
 } satisfies Meta<DaikinNotificationStoryArgs>["argTypes"];
 
