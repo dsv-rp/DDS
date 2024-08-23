@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-fix toggle component checked state not reflect to host element.
+Toggle: Fix `checked` property not updated on `change` event. (DDS-1317)
