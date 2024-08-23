@@ -3,9 +3,10 @@ function format(key: string, value: string | number | boolean): string {
   return `${encodeURIComponent(key)}:${encodeURIComponent(strValue)}`;
 }
 
-export function getStorybookIframeURL<
-  T extends Record<string, string | number | boolean | undefined>,
->(id: string, args: T): string {
+export function getStorybookIframeURL(
+  id: string,
+  args: Record<string, string | number | boolean | undefined>
+): string {
   return `/iframe.html?viewMode=story&disable-autoplay=1&id=${encodeURIComponent(id)}&args=${Object.entries(
     args
   )
