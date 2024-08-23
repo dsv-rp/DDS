@@ -14,12 +14,13 @@ export default {
   ...metadata,
 };
 
-export const Primary: Story = {
+export const Solid: Story = {
   args: {
-    variant: "primary",
+    variant: "solid",
+    color: "primary",
     disabled: false,
     label: "button",
-    size: "default",
+    size: "medium",
     type: "button",
     onClick: fn(),
   },
@@ -44,33 +45,33 @@ export const Primary: Story = {
   }),
 };
 
-export const Secondary: Story = {
+export const Outline: Story = {
   args: {
-    ...Primary.args,
-    variant: "secondary",
+    ...Solid.args,
+    variant: "outline",
     onClick: fn(),
   },
 };
 
-export const Tertiary: Story = {
+export const Ghost: Story = {
   args: {
-    ...Primary.args,
-    variant: "tertiary",
+    ...Solid.args,
+    variant: "ghost",
     onClick: fn(),
   },
 };
 
-export const PrimaryDanger: Story = {
+export const Danger: Story = {
   args: {
-    ...Primary.args,
-    variant: "primaryDanger",
+    ...Solid.args,
+    color: "danger",
     onClick: fn(),
   },
 };
 
 export const Disabled: Story = {
   args: {
-    ...Primary.args,
+    ...Solid.args,
     disabled: true,
     onClick: fn(),
   },

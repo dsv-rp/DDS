@@ -15,8 +15,8 @@ import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
 const BUTTON_ICON_SIZE_MAP = {
-  default: "m",
-  condensed: "s",
+  medium: "m",
+  small: "s",
 } as const;
 
 const cvaButton = cva(
@@ -25,76 +25,68 @@ const cvaButton = cva(
     "justify-center",
     "items-center",
     "gap-2",
+    "w-full",
+    "h-full",
     "font-daikinSerif",
     "font-bold",
     "rounded",
     "tracking-wide",
     "text-nowrap",
     "disabled:cursor-default",
-    "w-full",
-    "h-full",
     "focus-visible:outline-none",
   ],
   {
     variants: {
-      intent: {
-        primary: [
+      variant: {
+        solid: [
           "text-white",
-          "bg-[--buttonColorBackgroundPrimaryActive]",
-          "enabled:focus-visible:bg-[--buttonColorBackgroundPrimaryFocus]",
-          "enabled:hover:bg-[--buttonColorBackgroundPrimaryHover]",
-          "enabled:active:bg-[--buttonColorBackgroundPrimaryPress]",
-          "disabled:bg-[--buttonColorBackgroundPrimaryDisabled]",
-        ],
-        secondary: [
-          "border",
-          "bg-white",
-          "text-daikinBlue-500",
-          "border-daikinBlue-500",
-          "enabled:hover:text-daikinBlue-300",
-          "enabled:hover:border-daikinBlue-300",
-          "enabled:active:text-daikinBlue-600",
-          "enabled:active:border-daikinBlue-600",
-          "enabled:focus-visible:text-daikinBlue-700",
-          "enabled:focus-visible:border-daikinBlue-700",
-          "disabled:border-daikinNeutral-200",
-          "disabled:text-daikinNeutral-200",
-        ],
-        tertiary: [
-          "border",
-          "bg-white",
-          "text-daikinNeutral-600",
-          "border-daikinNeutral-600",
-          "enabled:hover:text-white",
-          "enabled:hover:border-daikinNeutral-300",
-          "enabled:hover:bg-daikinNeutral-300",
-          "enabled:active:text-white",
-          "enabled:active:border-daikinNeutral-600",
-          "enabled:active:bg-daikinNeutral-600",
-          "enabled:focus-visible:text-white",
-          "enabled:focus-visible:border-daikinNeutral-800",
-          "enabled:focus-visible:bg-daikinNeutral-800",
-          "disabled:border-daikinNeutral-200",
-          "disabled:text-daikinNeutral-200",
-        ],
-        primaryDanger: [
-          "bg-daikinRed-500",
-          "text-white",
-          "enabled:hover:bg-daikinRed-400",
-          "enabled:active:bg-daikinRed-600",
-          "enabled:focus-visible:bg-daikinRed-700",
-          "enabled:active:bg-daikinRed-700",
+          "enabled:bg-[--color-base]",
+          "enabled:hover:bg-[--color-hover]",
+          "enabled:active:bg-[--color-active]",
+          "enabled:focus-visible:bg-[--color-focus]",
           "disabled:bg-daikinNeutral-200",
+        ],
+        outline: [
+          "border",
+          "bg-white",
+          "text-[--color-base]",
+          "border-[--color-base]",
+          "enabled:hover:text-[--color-hover]",
+          "enabled:hover:border-[--color-hover]",
+          "enabled:active:text-[--color-active]",
+          "enabled:active:border-[--color-active]",
+          "enabled:focus-visible:text-[--color-focus]",
+          "enabled:focus-visible:border-[--color-focus]",
+          "disabled:border-daikinNeutral-200",
+          "disabled:text-daikinNeutral-200",
+        ],
+        ghost: [
+          "bg-white",
+          "enabled:text-[--color-base]",
+          "enabled:hover:text-[--color-hover]",
+          "enabled:active:text-[--color-active]",
+          "enabled:focus-visible:text-[--color-focus]",
+          "disabled:text-daikinNeutral-200",
         ],
       },
       size: {
-        default: ["px-4", "text-[14px]"],
-        condensed: ["px-3", "text-[12px]"],
+        small: ["px-3", "text-xs"],
+        medium: ["px-4", "text-sm"],
       },
-    },
-    defaultVariants: {
-      intent: "primary",
-      size: "condensed",
+      color: {
+        primary: [
+          "var-color-daikinBlue-500/color-base",
+          "var-color-daikinBlue-300/color-hover",
+          "var-color-daikinBlue-600/color-active",
+          "var-color-daikinBlue-700/color-focus",
+        ],
+        danger: [
+          "var-color-daikinRed-500/color-base",
+          "var-color-daikinRed-400/color-hover",
+          "var-color-daikinRed-600/color-active",
+          "var-color-daikinRed-700/color-focus",
+        ],
+      },
     },
   }
 );
@@ -141,12 +133,14 @@ export class DaikinButton extends LitElement {
 
       display: inline-block;
       width: fit-content;
-      min-height: 42px;
-      height: 1px;
     }
 
-    :host([size="condensed"]) {
-      min-height: 32px;
+    :host([size="small"]) {
+      height: 32px;
+    }
+
+    :host([size="medium"]) {
+      height: 44px;
     }
   `;
 
@@ -154,7 +148,19 @@ export class DaikinButton extends LitElement {
    * Type of variant.
    */
   @property({ type: String })
-  variant: ButtonVariantProps["intent"] = "primary";
+  variant: ButtonVariantProps["variant"] = "solid";
+
+  /**
+   * Type of color.
+   */
+  @property({ type: String })
+  color: "primary" | "danger" = "primary";
+
+  /**
+   * Specify the button size.
+   */
+  @property({ type: String, reflect: true })
+  size: ButtonVariantProps["size"] = "medium";
 
   /**
    * `true` if the button should be disabled.
@@ -181,12 +187,6 @@ export class DaikinButton extends LitElement {
   href = "";
 
   /**
-   * Specify the button size.
-   */
-  @property({ type: String, reflect: true })
-  size: ButtonVariantProps["size"] = "default";
-
-  /**
    * Specify the button type.
    */
   @property({ type: String, reflect: true })
@@ -206,8 +206,9 @@ export class DaikinButton extends LitElement {
 
   override render() {
     const buttonClassName = cvaButton({
-      intent: this.variant,
+      variant: this.variant,
       size: this.size,
+      color: this.color,
     });
 
     const content = html`
@@ -230,9 +231,9 @@ export class DaikinButton extends LitElement {
 
     if (this.href) {
       return html`<a
-        href="${this.href}"
-        class="${buttonClassName}"
-        role="${this.buttonRole}"
+        href=${this.href}
+        class=${buttonClassName}
+        role=${this.buttonRole}
       >
         ${content}
       </a>`;
@@ -240,10 +241,10 @@ export class DaikinButton extends LitElement {
 
     return html`
       <button
-        class="${buttonClassName}"
-        ?disabled="${this.disabled}"
-        type="${this.type}"
-        role="${this.buttonRole}"
+        class=${buttonClassName}
+        ?disabled=${this.disabled}
+        type=${this.type}
+        role=${this.buttonRole}
       >
         ${content}
       </button>
