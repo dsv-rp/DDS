@@ -9,6 +9,27 @@ import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
+/**
+ * `daikin-breadcrumb` is a component for representing a breadcrumb list, and is used together with the `daikin-breadcrumb-item` component.
+ *
+ * Hierarchy:
+ * - `daikin-breadcrumb` > `daikin-breadcrumb-item`
+ *
+ * @slot - A slot for breadcrumb items. Place `breadcrumb-item` elements here.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-breadcrumb>
+ *  <daikin-breadcrumb-item href="#">
+ *   Breadcrumb Item 1
+ *  </daikin-breadcrumb-item>
+ *  <daikin-breadcrumb-item href="#">
+ *   Breadcrumb Item 2
+ *  </daikin-breadcrumb-item>
+ * </daikin-breadcrumb>
+ * ```
+ */
 @customElement("daikin-breadcrumb")
 export class DaikinBreadcrumb extends LitElement {
   static override readonly styles = css`
@@ -32,14 +53,14 @@ export class DaikinBreadcrumb extends LitElement {
   private _divWrapRef: Ref<HTMLDivElement> = createRef();
 
   /**
-   * Specify whether the last of breadcrumb-item should show slash
+   * Whether the last breadcrumb item should have trailing slash.
    */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
   /**
-   * Specify overflow
-   * when `visible` the breadcrumb will not be omitted even breadcrumb-items total width exceed container width
+   * Specifies overflow.
+   * If `ellipsis`, some breadcrumb items will be omitted when the total width exceeds the container width.
    */
   @property({ type: String, reflect: true })
   overflow: "visible" | "ellipsis" = "visible";
