@@ -32,6 +32,14 @@ module.exports = defineConfig({
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
       },
+      keyframes: {
+        "progress-bar-indeterminate": {
+          // An animation where the block is outside the left area at the start and outside the right area at the end.
+          // The block takes up 50% of the width of its parent element, and by specifying 200% at the end, it can be moved outside the right area.
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(200%)" },
+        },
+      },
     },
   },
   plugins: [
@@ -54,6 +62,22 @@ module.exports = defineConfig({
       ]);
 
       matchVariant("part", (value) => `&::part(${value})`);
+
+      matchVariant(
+        "slotted",
+        (value) => [
+          // `::slotted` is equivalent to `::slotted(*)`
+          `&::slotted(${value})`,
+          // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
+          `& > ${value}`,
+        ],
+        {
+          values: {
+            // `DEFAULT` is used when the option is not specified (e.g. "slotted:text-white")
+            DEFAULT: "*",
+          },
+        }
+      );
     }),
   ],
 });
