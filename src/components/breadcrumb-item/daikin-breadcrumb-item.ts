@@ -108,13 +108,6 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
-  /**
-   * Whether the link should be hidden when ellipsis mode.
-   * Set automatically by `daikin-breadcrumb`.
-   */
-  @property({ type: Boolean, reflect: true })
-  override hidden = false;
-
   override render() {
     const slash = this.trailingSlash
       ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
