@@ -2,6 +2,7 @@ import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
+import type { DaikinTextInput } from "../daikin-text-input";
 import { DAIKIN_TEXT_INPUT_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -10,6 +11,13 @@ export default {
   argTypes: DAIKIN_TEXT_INPUT_ARG_TYPES,
   ...metadata,
 };
+
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    value: (event.target as DaikinTextInput).value,
+  };
+}
 
 export const Default: Story = {
   args: {
@@ -20,8 +28,8 @@ export const Default: Story = {
     disabled: false,
     readonly: false,
     error: false,
-    onChange: fn(),
-    onInput: fn(),
+    onChange: fn(eventPayloadTransformer),
+    onInput: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-text-input")[0];
@@ -36,6 +44,9 @@ export const Default: Story = {
     await step("Try to type inner textbox", async () => {
       await userEvent.type(innerInput, "Example");
       await expect(args.onInput).toHaveBeenCalled();
+      await expect(args.onInput).toHaveLastReturnedWith({
+        value: "ValueExample",
+      });
       await expect(innerInput).toHaveValue("ValueExample");
     });
 

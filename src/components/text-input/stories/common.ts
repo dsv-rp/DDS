@@ -4,9 +4,9 @@ import type { DaikinTextInput } from "../daikin-text-input";
 
 export interface DaikinTextInputStoryArgs
   extends Required<ElementProps<DaikinTextInput>> {
-  onChange: () => void;
-  onInput: () => void;
-  onKeyDown: () => void;
+  onChange: (event: Event) => void;
+  onInput: (event: Event) => void;
+  onKeyDown: (event: Event) => void;
 }
 
 export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
