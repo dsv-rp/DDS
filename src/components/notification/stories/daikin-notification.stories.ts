@@ -1,11 +1,7 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import {
-  getByShadowRole,
-  queryByShadowRole,
-  queryByShadowText,
-} from "shadow-dom-testing-library";
+import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
 import { DAIKIN_NOTIFICATION_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -78,8 +74,7 @@ export const ToastClosable: Story = {
     await step(
       "Notification should disappear after close button clicked",
       async () => {
-        const title = queryByShadowText(root, "Notification-title");
-        await expect(title).not.toBeInTheDocument();
+        await expect(root).not.toHaveAttribute("open");
       }
     );
   }),
