@@ -2,6 +2,7 @@ import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
+import type { DaikinToggle } from "../daikin-toggle";
 import { DAIKIN_TOGGLE_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -11,13 +12,20 @@ export default {
   ...metadata,
 };
 
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    checked: (event.target as DaikinToggle).checked,
+  };
+}
+
 export const Default: Story = {
   args: {
     size: "default",
     disabled: false,
     checked: false,
-    onChange: fn(),
-    onClick: fn(),
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-toggle")[0];
@@ -33,6 +41,8 @@ export const Default: Story = {
       await userEvent.click(toggle);
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onClick).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
+      await expect(args.onClick).toHaveLastReturnedWith({ checked: false }); // "click" event is sent before "change" event.
       await expect(toggle).toBeChecked();
     });
 
@@ -40,6 +50,8 @@ export const Default: Story = {
       await userEvent.click(toggle);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
       await expect(args.onClick).toHaveBeenCalledTimes(2);
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: false });
+      await expect(args.onClick).toHaveLastReturnedWith({ checked: true }); // "click" event is sent before "change" event.
       await expect(toggle).not.toBeChecked();
     });
 
