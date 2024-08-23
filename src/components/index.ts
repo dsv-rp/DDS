@@ -3,6 +3,8 @@ export * from "./accordion-item";
 export * from "./breadcrumb";
 export * from "./breadcrumb-item";
 export * from "./button";
+export * from "./card";
+export * from "./card-title";
 export * from "./checkbox";
 export * from "./icon";
 export * from "./input-group";
