@@ -76,6 +76,8 @@ export default tseslint.config(
       "lit/prefer-static-styles": "error",
       "lit/quoted-expressions": "error",
       "lit/value-after-constraints": "error",
+
+      "wc/guard-super-call": "off", // Disabled as it's checked by TypeScript
     },
   },
   // Restrict imports
