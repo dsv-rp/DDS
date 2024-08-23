@@ -27,10 +27,10 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
       status=${status}
       @close=${onClose}
     >
-      ${__vrtTitle__.length
+      ${__vrtTitle__
         ? html`<span slot="title">${__vrtTitle__}</span>`
         : nothing}
-      ${__vrtDescription__.length
+      ${__vrtDescription__
         ? html`<span slot="description">${__vrtDescription__}</span>`
         : nothing}
     </daikin-notification>

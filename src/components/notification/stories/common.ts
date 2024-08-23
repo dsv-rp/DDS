@@ -4,8 +4,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinNotificationStoryArgs
   extends Required<ElementProps<DaikinNotification>> {
-  __vrtTitle__: string;
-  __vrtDescription__: string;
+  __vrtTitle__?: string;
+  __vrtDescription__?: string;
   onClose: () => void;
 }
 
