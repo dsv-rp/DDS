@@ -107,16 +107,16 @@ export class DaikinTabGroup extends LitElement {
    * @param newValue The `value` of the newly active tab.
    */
   private _updateValue(newValue: string): void {
+    const oldValue = this.value;
+    this.value = newValue;
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { oldValue: this.value, newValue },
+        detail: { oldValue: oldValue, newValue },
         bubbles: true,
         composed: true,
         cancelable: false,
       })
     );
-
-    this.value = newValue;
   }
 
   /**
