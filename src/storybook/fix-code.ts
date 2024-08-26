@@ -76,6 +76,9 @@ function prettyHTML(
     if (!result) {
       throw new Error("Cannot consume.");
     }
+    if (!result[0]) {
+      throw new Error("Nothing consumed. This could lead to an infinite loop.");
+    }
 
     remaining = remaining.slice(result[0].length);
     return result.slice(1);
