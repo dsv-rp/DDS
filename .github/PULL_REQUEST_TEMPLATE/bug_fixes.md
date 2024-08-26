@@ -26,16 +26,6 @@
 
 <!-- Describe what automated tests you added or updated to verify the bug fix. -->
 
-### Regression Tests
-
-- Tests covering the [describe specific functionality or edge cases] have been updated/added.
-- Verified that the bug does not reoccur under [specific scenarios].
-
-### Manual Testing
-
-- Verified the fix manually by [describe the manual testing process].
-- Ensured that the issue no longer occurs in the following states: [Normal; Hover; Pressed; Disabled], if applicable.
-
 ## Checklist
 
 - [ ] I have added a changeset file that describes the changes.
