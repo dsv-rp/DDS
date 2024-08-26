@@ -107,11 +107,12 @@ export class DaikinTabGroup extends LitElement {
    * @param newValue The `value` of the newly active tab.
    */
   private _updateValue(newValue: string): void {
+    // DDS-1317 To ensure `event.target.value` has the correct value, we have to update `this.value` before emitting the "change" event.
     const oldValue = this.value;
     this.value = newValue;
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { oldValue: oldValue, newValue },
+        detail: { oldValue, newValue },
         bubbles: true,
         composed: true,
         cancelable: false,
