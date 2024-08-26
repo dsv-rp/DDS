@@ -1,6 +1,6 @@
 import { DaikinButton } from "#package/components/button/daikin-button";
 import { DaikinCardTitle } from "#package/components/card-title/daikin-card-title";
-import DaikinIcon from "#package/components/icon/daikin-icon";
+import { DaikinIcon } from "#package/components/icon/daikin-icon";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
