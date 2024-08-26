@@ -24,8 +24,8 @@ export const metadata: Meta<DaikinCardTitleStoryArgs> = {
       </a>
     </daikin-card-title>
     <daikin-card-title ?under-line=${args.underLine}>
-      <div slot="icon">
-        <daikin-icon color="current" icon="alarm"></daikin-icon>
+      <div slot="icon" style="color: #AD0404">
+        <daikin-icon slot="icon" color="current" icon="alarm"></daikin-icon>
       </div>
       <span slot="label">Card Header</span>
       <daikin-button slot="action" size="condensed" variant="secondary">

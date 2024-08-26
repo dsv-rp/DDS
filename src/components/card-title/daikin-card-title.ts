@@ -37,6 +37,32 @@ const cvaLabel = cva(
   }
 );
 
+/**
+ * `daikin-card-title` is used to represent header of the card component, and is used as a child element of the `daikin-card` component.
+ *
+ * Hierarchy:
+ * - `daikin-card` > `daikin-card-title`
+ *
+ * @slot icon - A slot for card title icon. Place `daikin-icon` element here.
+ *
+ * @slot label - A slot for card title Text content. Place a text element here.
+ *
+ * @slot link - A slot for card title link. Place link elements here.
+ *
+ * @slot action - A slot for card title button. Place `daikin-button` elements here.
+ *
+ * @example
+ *
+ * ```html
+ * <!-- See `daikin-card` component for complete example. -->
+ * <daikin-card-title>
+ *  <span slot="label">Card Header</span>
+ *  <daikin-button slot="action" size="condensed" variant="secondary">
+ *    Edit
+ *  </daikin-button>
+ * </daikin-card-title>
+ * ```
+ */
 @customElement("daikin-card-title")
 export class DaikinCardTitle extends LitElement {
   static override styles = css`

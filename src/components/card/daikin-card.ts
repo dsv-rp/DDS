@@ -17,6 +17,24 @@ const cvaContainer = cva(
   }
 );
 
+/**
+ * `daikin-card` is a component for display content related to a single subject. The content can consist of multiple elements of varying types and sizes.
+ *
+ * Hierarchy:
+ * - `daikin-card` > `daikin-card-title`
+ *
+ * @slot header - A slot for card title. Place `daikin-card-title` elements here.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-card>
+ *  <daikin-card-title slot="header">
+ *   <span slot="label">Card Header</span>
+ *  </daikin-card-title>
+ * </daikin-card>
+ * ```
+ */
 @customElement("daikin-card")
 export class DaikinCard extends LitElement {
   static override styles = css`
@@ -29,7 +47,7 @@ export class DaikinCard extends LitElement {
   `;
 
   /**
-   * Specify the border style
+   * Specify the card's border style
    */
   @property({ type: String, reflect: true, attribute: "border-type" })
   borderType: "none" | "gray" | "red" = "none";
