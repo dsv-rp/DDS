@@ -22,12 +22,12 @@ describeEach(["toast", "inline"] as const, (variant) => {
           (value) => (value ? "withClose" : "withoutClose"),
           (closeButton) => {
             const baseURL = getPageURL({
+              title: "Example Notification",
+              description: "Description of the notification",
               variant,
               status,
               line,
               closeButton,
-              __vrtTitle__: "Example Notification",
-              __vrtDescription__: "Description of the notification",
             });
 
             test("base", async ({ page }) => {
