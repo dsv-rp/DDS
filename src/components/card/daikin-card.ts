@@ -43,6 +43,7 @@ export class DaikinCard extends LitElement {
     :host {
       display: flex;
       align-items: center;
+      width: fit-content;
     }
   `;
 

@@ -10,27 +10,29 @@ export const metadata: Meta<DaikinCardTitleStoryArgs> = {
   title: "Components/CardTitle",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-card-title ?under-line=${args.underLine}>
-      <span slot="label">Card Header</span>
-    </daikin-card-title>
-    <daikin-card-title ?under-line=${args.underLine}>
-      <span slot="label">Card Header</span>
-      <a
-        slot="link"
-        href="#"
-        style="color: #0097e0; text-decoration: underline"
-      >
-        View
-      </a>
-    </daikin-card-title>
-    <daikin-card-title ?under-line=${args.underLine}>
-      <div slot="icon" style="color: #AD0404">
-        <daikin-icon slot="icon" color="current" icon="alarm"></daikin-icon>
-      </div>
-      <span slot="label">Card Header</span>
-      <daikin-button slot="action" size="condensed" variant="secondary">
-        Edit
-      </daikin-button>
-    </daikin-card-title>
+    <div data-testid="cardTitleArea">
+      <daikin-card-title ?under-line=${args.underLine}>
+        <span slot="label">Card Header</span>
+      </daikin-card-title>
+      <daikin-card-title ?under-line=${args.underLine}>
+        <span slot="label">Card Header</span>
+        <a
+          slot="link"
+          href="#"
+          style="color: #0097e0; text-decoration: underline"
+        >
+          View
+        </a>
+      </daikin-card-title>
+      <daikin-card-title ?under-line=${args.underLine}>
+        <div slot="icon" style="color: #AD0404">
+          <daikin-icon slot="icon" color="current" icon="alarm"></daikin-icon>
+        </div>
+        <span slot="label">Card Header</span>
+        <daikin-button slot="action" size="condensed" variant="secondary">
+          Edit
+        </daikin-button>
+      </daikin-card-title>
+    </div>
   `,
 };

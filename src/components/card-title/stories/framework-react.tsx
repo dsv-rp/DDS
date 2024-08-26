@@ -28,7 +28,7 @@ export const ReactDaikinIcon = createComponent({
 
 export const metadata: Meta<DaikinCardTitleStoryArgs> = {
   component: ({ ...props }: DaikinCardTitleStoryArgs) => (
-    <div>
+    <div data-testid="cardTitleArea">
       <ReactDaikinCardTitle {...props}>
         <span slot="label">Card Header</span>
       </ReactDaikinCardTitle>
