@@ -4,33 +4,41 @@ import type { DaikinTextarea } from "../daikin-textarea";
 
 export interface DaikinTextareaStoryArgs
   extends Required<ElementProps<DaikinTextarea>> {
+  __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
   onChange: () => void;
   onInput: () => void;
 }
 
 export const DAIKIN_TEXTAREA_ARG_TYPES = {
   placeholder: {
-    description: "Placeholder text",
     type: "string",
+    description: "Placeholder text",
   },
   disabled: {
-    description: "Whether the field is disabled",
-    defaultValue: false,
     type: "boolean",
+    defaultValue: false,
+    description: "Whether the field is disabled",
   },
   readonly: {
-    description: "Whether the field is readonly",
-    defaultValue: false,
     type: "boolean",
+    defaultValue: false,
+    description: "Whether the field is readonly",
   },
   maxlength: {
-    description: "Maximum length in field values",
     type: "number",
+    description: "Maximum length in field values",
   },
   error: {
-    description: "Error state. Ignored if the `disabled` is `true`.",
-    defaultValue: false,
     type: "boolean",
+    defaultValue: false,
+    description: "Error state. Ignored if the `disabled` is `true`.",
+  },
+  __vrtArgs__: {
+    name: "",
+    type: "string",
+    control: false,
+    defaultValue: "",
+    description: "Custom arguments for the Visual Regression Test.",
   },
 } satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
 
