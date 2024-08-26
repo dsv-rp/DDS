@@ -87,7 +87,12 @@ function prettyHTML(
     /** Current indent depth */
     let indent = 0;
     /** Summary of the most recent content written in `result` */
-    let lastWriteOperation: string | null = null;
+    let lastWriteOperation:
+      | `START:${string}`
+      | `END:${string}`
+      | "COMMENT"
+      | "TEXT"
+      | null = null;
 
     while (remaining.length > 0) {
       // Retrieve the types of content: start tag, end tag, comment, or text.
@@ -151,7 +156,7 @@ function prettyHTML(
           indent++;
         }
 
-        lastWriteOperation = `<${tag}>`;
+        lastWriteOperation = `START:${tag}`;
       } else if (prefix === "</") {
         // End tag
 
@@ -163,7 +168,7 @@ function prettyHTML(
         if (!isVoidElementTag(tag)) {
           indent--;
         }
-        if (lastWriteOperation === `<${tag}>`) {
+        if (lastWriteOperation === `START:${tag}`) {
           // If the last thing written was a start tag, write tags inline.
           // e.g. `<div hidden></div>`
           result = `${result.trimEnd()}${chunk}\n`;
@@ -173,7 +178,7 @@ function prettyHTML(
           result += `${indentOf(indent)}${chunk}\n`;
         }
 
-        lastWriteOperation = `</${tag}>`;
+        lastWriteOperation = `END:${tag}`;
       } else if (prefix === "<!") {
         // Comment
 
