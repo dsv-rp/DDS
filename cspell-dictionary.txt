@@ -20,13 +20,16 @@ tablist
 tabpanel
 textbox
 listbox
+progressbar
 
 # Custom Events
 beforechange
+beforetoggle
 
 # HTML
 maxlength
 slotchange
+valuenow
 
 # SVG
 evenodd
@@ -40,6 +43,7 @@ testid
 
 # JSDoc extension
 csspart
+cssprop
 
 # Misc.
 FOUC
