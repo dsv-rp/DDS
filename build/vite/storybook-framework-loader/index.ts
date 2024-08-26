@@ -1,5 +1,6 @@
 import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
+import type { StorybookFrameworkName } from "../../../storybook-env";
 import { createLinkMap, linkify } from "./linkify";
 import { createTSProgram } from "./tsc";
 import { getComponentDescriptionAsMarkdown } from "./wca";
@@ -30,7 +31,10 @@ function formatComponentDescription(
  * @param frameworkPath Actual path for framework-specific exports. (e.g. `./framework-wc`)
  * @returns A plugin
  */
-export function storybookFrameworkLoader(frameworkPath: string): Plugin {
+export function storybookFrameworkLoader(
+  framework: StorybookFrameworkName,
+  frameworkPath: string
+): Plugin {
   const projectDir = resolve(import.meta.dirname, "../../..");
   let program = createTSProgram(projectDir);
   let linkMapPromise = createLinkMap(projectDir);
@@ -69,7 +73,7 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
       );
 
       return `
-import { transformCode } from "#storybook";
+import { getCodeTransformerForFramework } from "#storybook";
 import { defu } from "defu";
 import { metadata as fwMetadata } from ${JSON.stringify(frameworkPath)};
 
@@ -80,7 +84,7 @@ export const metadata = defu(fwMetadata, {
         component: ${JSON.stringify(componentDescription)},
       },
       source: {
-        transform: transformCode,
+        transform: getCodeTransformerForFramework(${JSON.stringify(framework)}),
       },
     },
   },

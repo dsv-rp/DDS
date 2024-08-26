@@ -230,7 +230,10 @@ function createAttributeTypeMap(context: Context): AttributeTypeMap {
   );
 }
 
-export function transformCode(code: string, context: Context): string {
+export function transformCodeWebComponents(
+  code: string,
+  context: Context
+): string {
   const firstComponentTag = /<(daikin-[\w-]+)/.exec(code)?.[1].toLowerCase();
   const tagNameFromFilename = /\/(daikin-[\w-]+)\.stories\.ts/.exec(
     context.parameters.fileName
@@ -239,4 +242,22 @@ export function transformCode(code: string, context: Context): string {
   return prettyHTML(code, {
     [componentTagName]: createAttributeTypeMap(context),
   });
+}
+
+export function transformCodeReact(code: string): string {
+  // no-op
+  return code;
+}
+
+export function getCodeTransformerForFramework(
+  framework: "react" | "web-component"
+): typeof transformCodeWebComponents {
+  switch (framework) {
+    case "react":
+      return transformCodeReact;
+
+    case "web-component":
+    default:
+      return transformCodeWebComponents;
+  }
 }
