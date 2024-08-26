@@ -3,4 +3,4 @@
 ---
 
 Added an optional `title` and `description` slot to the Notification component.
-This can be used to specify the title and description of the Notification instead of the `title` and `description` attribute.
+They can be used to specify the title and description of the Notification instead of the `title` and `description` attribute.
