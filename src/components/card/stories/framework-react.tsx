@@ -22,9 +22,11 @@ const ReactDaikinCardTitle = createComponent({
 export const metadata: Meta<DaikinCardStoryArgs> = {
   component: ({ ...props }: DaikinCardStoryArgs) => (
     <ReactDaikinCard {...props}>
-      <ReactDaikinCardTitle slot="header" underLine={true}>
-        <span slot="label">Card Header</span>
-      </ReactDaikinCardTitle>
+      {props.withHeader ? (
+        <ReactDaikinCardTitle slot="header" underLine={true}>
+          <span slot="label">Card Header</span>
+        </ReactDaikinCardTitle>
+      ) : null}
       <div style={{ height: 307, width: 437 }}></div>
     </ReactDaikinCard>
   ),

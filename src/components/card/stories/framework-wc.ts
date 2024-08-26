@@ -10,9 +10,12 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
   tags: ["autodocs"],
   render: (args) => html`
     <daikin-card border-type=${args.borderType}>
-      <daikin-card-title slot="header" ?under-line=${true}>
-        <span slot="label">Card Header</span>
-      </daikin-card-title>
+      ${args.withHeader
+        ? html`<daikin-card-title slot="header" ?under-line=${true}>
+            <span slot="label">Card Header</span>
+          </daikin-card-title>`
+        : null}
+      <div style="height: 307px; width: 437px"></div>
     </daikin-card>
   `,
 };

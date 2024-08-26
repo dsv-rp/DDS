@@ -11,5 +11,13 @@ export default {
 export const Default: CardStory = {
   args: {
     borderType: "none",
+    withHeader: false,
+  },
+};
+
+export const WithHeader: CardStory = {
+  args: {
+    borderType: "none",
+    withHeader: true,
   },
 };
