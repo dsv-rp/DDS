@@ -7,8 +7,8 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTextarea = cva(
   [
-    "w-[340px]",
-    "h-[120px]",
+    "w-full",
+    "h-full",
     "text-daikinNeutral-900",
     "border",
     "border-solid",
@@ -84,7 +84,7 @@ export class DaikinTextarea extends LitElement {
       --text-input-background-color: #ffffff;
 
       display: block;
-      width: max-content;
+      width: 340px;
       height: 120px;
       position: relative;
     }
