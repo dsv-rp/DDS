@@ -68,25 +68,24 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
         [basename]
       );
 
-      // prepare additional metadata
-      const additionalMetadata = {
-        parameters: {
-          docs: {
-            description: {
-              component: componentDescription,
-            },
-          },
-        },
-      };
-
       return `
+import { transformCode } from "#storybook";
+import { defu } from "defu";
 import { metadata as fwMetadata } from ${JSON.stringify(frameworkPath)};
 
-export const metadata = {
-  ...fwMetadata,
-  ...(${JSON.stringify(additionalMetadata)}),
-};
-`;
+export const metadata = defu(fwMetadata, {
+  parameters: {
+    docs: {
+      description: {
+        component: ${JSON.stringify(componentDescription)},
+      },
+      source: {
+        transform: transformCode,
+      },
+    },
+  },
+});
+      `;
     },
     // Storybook docs are written in the component file but they're read from `?storybookMetadata` virtual module.
     // We have to update the virtual modules manually when the component file updated.
