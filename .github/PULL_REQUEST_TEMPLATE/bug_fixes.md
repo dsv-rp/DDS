@@ -1,6 +1,5 @@
-<!-- Fill in the component or bug name below -->
-
-# Bug Fix: [Component/Bug Name]
+<!-- Make sure PR name is like the following -->
+<!-- DDS-XXXX [Component Name 1, Component Name 2] Fix ... -->
 
 ## Related Ticket(s) and Links
 
