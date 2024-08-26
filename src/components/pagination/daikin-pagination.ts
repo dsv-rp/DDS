@@ -431,6 +431,7 @@ export class DaikinPagination extends LitElement {
           });
           const dropDownItemClassName = cvaDropDownItem();
           if (index === 1) {
+            // TODO: We are considering whether we need dropdown to select page, so close it temporarily
             const cvaDropDownLeftClassName = cvaDropDown({
               open: false,
             });
@@ -459,6 +460,7 @@ export class DaikinPagination extends LitElement {
               </div>`;
             }
           } else if (index === 3) {
+            // TODO: We are considering whether we need dropdown to select page, so close it temporarily
             const cvaDropDownRightClassName = cvaDropDown({
               open: false,
             });
