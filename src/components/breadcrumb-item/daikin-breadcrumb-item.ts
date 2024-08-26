@@ -41,6 +41,23 @@ const cvaLinkSlot = cva(
 
 type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
 
+/**
+ * The `daikin-breadcrumb-item` is a component used to represent each item of the breadcrumb list, and is used as a child element of the `daikin-breadcrumb` component.
+ *
+ * Hierarchy:
+ * - `daikin-breadcrumb` > `daikin-breadcrumb-item`
+ *
+ * @slot - A slot for the breadcrumb item content.
+ *
+ * @example
+ *
+ * ```html
+ * <!-- See `daikin-breadcrumb` component for complete example. -->
+ * <daikin-breadcrumb-item href="#">
+ *   Breadcrumb Item 1
+ * </daikin-breadcrumb-item>
+ * ```
+ */
 @customElement("daikin-breadcrumb-item")
 export class DaikinBreadcrumbItem extends LitElement {
   static override styles = css`
@@ -65,7 +82,9 @@ export class DaikinBreadcrumbItem extends LitElement {
   href = "";
 
   /**
-   * Specify link variant
+   * Specifies the display content.
+   * If `ellipsis`, the "..." will be displayed instead of the link.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: String, reflect: true })
   variant: LinkVariantProps["variant"] = "normal";
@@ -83,13 +102,15 @@ export class DaikinBreadcrumbItem extends LitElement {
   target: string | null = null;
 
   /**
-   * Specify the link should show slash at the end or not
+   * Whether the slash after the link should shown.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
   trailingSlash = false;
 
   /**
-   * Specify the link should be hidden when ellipsis mode
+   * Whether the link should be hidden when ellipsis mode.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: Boolean, reflect: true })
   override hidden = false;
