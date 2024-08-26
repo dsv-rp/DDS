@@ -52,31 +52,22 @@ describeEach(["toast", "inline"] as const, (variant) => {
 });
 
 describeEach(["attribute", "slot"] as const, (insert) => {
-  describeEach(["title", "description"] as const, (text) => {
-    const baseURL = getPageURL({
-      variant: "toast",
-      title: "Example Notification by attribute",
-      description: "Description of the notification by attribute",
-      ...(insert === "slot" &&
-        text === "title" && {
-          __vrtTitle__: "Example Notification by slot",
-        }),
-      ...(insert === "slot" &&
-        text === "description" && {
-          __vrtDescription__: "Description of the notification by slot",
-        }),
+  const baseURL = getPageURL({
+    variant: "toast",
+    title: "Example Notification by attribute",
+    description: "Description of the notification by attribute",
+    ...(insert === "slot" && {
+      __vrtTitle__: "Example Notification by slot",
+      __vrtDescription__: "Description of the notification by slot",
+    }),
+  });
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-notification", {
+      state: "visible",
     });
-
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-notification", {
-        state: "visible",
-      });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });
