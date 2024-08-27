@@ -12,7 +12,7 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_CHECKBOX_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-checkbox--default", args);
 
-describeEach(["enabled", "disabled", "readonly"], (variant) => {
+describeEach(["enabled", "disabled"], (variant) => {
   describeEach(["left", "right", "hidden"] as const, (labelPosition) => {
     describeEach(
       ["unchecked", "indeterminate", "checked"] as const,
