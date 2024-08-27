@@ -1,43 +1,28 @@
-export type AttributeType = "preserve" | "removeIfEmpty" | "boolean";
+export type AttributeType = "defaultNotEmpty" | "defaultEmpty" | "boolean";
 export type AttributeTypeMap = Partial<Readonly<Record<string, AttributeType>>>;
 export type TagAttributeTypeMap = Partial<
   Readonly<Record<string, AttributeTypeMap>>
 >;
 
-interface ArgType {
-  control?: { type: string };
-  type?: { name: string };
-  defaultValue?: unknown;
-}
-
 interface StorybookParameters {
-  fileName: string;
+  // See build/vite/storybook-framework-loader/index.ts for how this is created.
+  readonly _ddsMetadata: {
+    readonly componentAttributeMetadataMap: TagAttributeTypeMap;
+  };
+  readonly fileName: string;
 }
 
 interface Context {
-  readonly argTypes: Readonly<Record<string, ArgType>>;
-  readonly initialArgs: Partial<Readonly<Record<string, unknown>>>;
   readonly parameters: StorybookParameters;
 }
 
 const DEFAULT_ATTRIBUTE_TYPE_MAP: AttributeTypeMap = {
-  /* cSpell:disable */
   hidden: "boolean",
-  class: "removeIfEmpty",
-  id: "removeIfEmpty",
-  role: "removeIfEmpty",
-  datatestid: "removeIfEmpty",
-  /* cSpell:enable */
+  class: "defaultEmpty",
+  id: "defaultEmpty",
+  role: "defaultEmpty",
+  "data-testid": "defaultEmpty",
 };
-
-/**
- * Converts attribute or property to unified key.
- * @param str attribute or property
- * @returns unified key
- */
-function attributeOrPropertyToKey(str: string): string {
-  return str.toLowerCase().replaceAll("-", "");
-}
 
 function isVoidElementTag(tagName: string): boolean {
   return [
@@ -141,20 +126,20 @@ export function prettyHTML(
               return `${attribute}${value}`;
             }
 
-            const key = attributeOrPropertyToKey(attribute);
+            const key = attribute.toLowerCase();
             // Obtain the way to handle the empty attribute.
             // If `attributeTypeMap` is not set, it means an empty attribute in another component. In this case, if an empty attribute is specified, it is almost certainly a boolean attribute.
             // If `attributeTypeMap` exists but the type could not be obtained, the automatic inference has failed. In this case, leave the attribute as-is just to be sure.
             const fallbackType: AttributeType = attributeTypeMap
-              ? "preserve"
+              ? "defaultNotEmpty"
               : "boolean";
             const attributeType =
               attributeTypeMap?.[key] ??
               DEFAULT_ATTRIBUTE_TYPE_MAP[key] ??
               fallbackType;
             const content = {
-              preserve: `${attribute}${value}`, // e.g. `label=""`
-              removeIfEmpty: "",
+              defaultNotEmpty: `${attribute}${value}`, // e.g. `label=""`
+              defaultEmpty: "",
               boolean: attribute, // e.g. `hidden`
             }[attributeType];
             return content;
@@ -236,34 +221,14 @@ export function prettyHTML(
   }
 }
 
-function createAttributeTypeMap(context: Context): AttributeTypeMap {
-  return Object.fromEntries(
-    Object.entries(context.argTypes).map(([key, value]) => [
-      attributeOrPropertyToKey(key),
-      // If the control or type is boolean, treat the attribute as a boolean attribute.
-      value.control?.type === "boolean" || value.type?.name === "boolean"
-        ? "boolean"
-        : // For attributes that do not have an initial value set, an empty string can be given to omit the attribute.
-          !value.defaultValue && !context.initialArgs[key]
-          ? "removeIfEmpty"
-          : // Otherwise, output attribute as-is.
-            "preserve",
-    ])
-  );
-}
-
 export function transformCodeWebComponents(
   code: string,
   context: Context
 ): string {
-  const firstComponentTag = /<(daikin-[\w-]+)/.exec(code)?.[1].toLowerCase();
-  const tagNameFromFilename = /\/(daikin-[\w-]+)\.stories\.ts/.exec(
-    context.parameters.fileName
-  )?.[1];
-  const componentTagName = tagNameFromFilename ?? firstComponentTag ?? "";
-  return prettyHTML(code, {
-    [componentTagName]: createAttributeTypeMap(context),
-  });
+  return prettyHTML(
+    code,
+    context.parameters._ddsMetadata.componentAttributeMetadataMap
+  );
 }
 
 export function transformCodeReact(code: string): string {

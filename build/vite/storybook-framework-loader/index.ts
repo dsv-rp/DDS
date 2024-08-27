@@ -3,7 +3,11 @@ import { normalizePath, type Plugin } from "vite";
 import type { StorybookFrameworkName } from "../../../storybook-env";
 import { createLinkMap, linkify } from "./linkify";
 import { createTSProgram } from "./tsc";
-import { getComponentDescriptionAsMarkdown } from "./wca";
+import {
+  analyzeComponentFile,
+  collectComponentAttributeMetadata,
+  formatAnalyzerResultToMarkdown,
+} from "./wca";
 
 function formatComponentDescription(
   markdown: string,
@@ -62,15 +66,25 @@ export function storybookFrameworkLoader(
         .replace(/\.stories.tsx?$/, "");
       // get component filepath ("<dir>/daikin-button.ts")
       const componentFilepath = resolve(storiesId, "../..", `${basename}.ts`);
+      const analyzerResult = analyzeComponentFile(
+        componentFilepath,
+        program,
+        this.warn.bind(this)
+      );
       const componentDescription = formatComponentDescription(
-        getComponentDescriptionAsMarkdown(
-          componentFilepath,
-          program,
-          this.warn.bind(this)
-        ) ?? "",
+        analyzerResult
+          ? formatAnalyzerResultToMarkdown(program, analyzerResult)
+          : "",
         await linkMapPromise,
         [basename]
       );
+
+      const componentAttributeMetadataMap = analyzerResult
+        ? collectComponentAttributeMetadata(analyzerResult)
+        : {};
+      const ddsMetadata = {
+        componentAttributeMetadataMap,
+      };
 
       return `
 import { getCodeTransformerForFramework } from "#storybook";
@@ -87,6 +101,7 @@ export const metadata = defu(fwMetadata, {
         transform: getCodeTransformerForFramework(${JSON.stringify(framework)}),
       },
     },
+    _ddsMetadata: ${JSON.stringify(ddsMetadata)},
   },
 });
       `;

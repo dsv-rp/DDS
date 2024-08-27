@@ -3,12 +3,9 @@ import { prettyHTML } from "./fix-code";
 
 const TAG_ATTR_TYPE_MAP = {
   "custom-element": {
-    // Keys must be normalized to lowercase without hyphens.
-    /* cSpell:disable */
-    attrboolean: "boolean",
-    attrpreserve: "preserve",
-    attrremove: "removeIfEmpty",
-    /* cSpell:enable */
+    "attr-boolean": "boolean",
+    "attr-preserve": "defaultNotEmpty",
+    "attr-remove": "defaultEmpty",
   },
 } as const;
 
@@ -145,8 +142,8 @@ test("prettyHTML should modify empty HTML attributes", () => {
   expect(
     prettyHTML(
       `
-      <custom-element preserve="" id="" class="" role="" hidden="" data-test-id=""></custom-element>
-      <unknown-element boolean="" id="" class="" role="" hidden="" data-test-id=""></unknown-element>
+      <custom-element preserve="" id="" class="" role="" hidden="" data-testid=""></custom-element>
+      <unknown-element boolean="" id="" class="" role="" hidden="" data-testid=""></unknown-element>
       `,
       TAG_ATTR_TYPE_MAP
     )
