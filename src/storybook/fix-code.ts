@@ -243,13 +243,13 @@ export function transformCodeReact(code: string): string {
 }
 
 export function getCodeTransformerForFramework(
-  framework: "react" | "web-component"
+  framework: "react" | "web-components"
 ): typeof transformCodeWebComponents {
   switch (framework) {
     case "react":
       return transformCodeReact;
 
-    case "web-component":
+    case "web-components":
     default:
       return transformCodeWebComponents;
   }
