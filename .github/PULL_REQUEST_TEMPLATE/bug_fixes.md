@@ -29,11 +29,11 @@
 ## Checklist
 
 - [ ] I have added a changeset file that describes the changes.
-       _Hint_: run `npx changeset`.
+      _Hint_: run `npx changeset`.
 - [ ] I have performed a self-review of my code.
 - [ ] I have added/updated appropriate regression tests.
 - [ ] I have confirmed that there are no accessibility warnings that can be addressed.
-       _Hint_: check the Accessibility tab in the Storybook.
+      _Hint_: check the Accessibility tab in the Storybook.
 - [ ] I have confirmed that the bug fix does not affect the keyboard accessibility of the component.
 - [ ] I have confirmed that the fix does not introduce any new visual regressions.
 
