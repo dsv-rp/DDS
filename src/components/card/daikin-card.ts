@@ -58,7 +58,7 @@ export class DaikinCard extends LitElement {
       borderType: this.borderType,
     });
 
-    return html` <div class="${containerClassName}">
+    return html` <div class=${containerClassName}>
       <slot name="header"></slot>
       <slot></slot>
     </div>`;

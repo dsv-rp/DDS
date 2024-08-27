@@ -11,10 +11,10 @@ export const metadata: Meta<DaikinCardTitleStoryArgs> = {
   tags: ["autodocs"],
   render: (args) => html`
     <div data-testid="cardTitleArea">
-      <daikin-card-title ?under-line=${args.underLine}>
+      <daikin-card-title ?under-line=${args.underline}>
         <span slot="label">Card Header</span>
       </daikin-card-title>
-      <daikin-card-title ?under-line=${args.underLine}>
+      <daikin-card-title ?under-line=${args.underline}>
         <span slot="label">Card Header</span>
         <a
           slot="link"
@@ -24,7 +24,7 @@ export const metadata: Meta<DaikinCardTitleStoryArgs> = {
           View
         </a>
       </daikin-card-title>
-      <daikin-card-title ?under-line=${args.underLine}>
+      <daikin-card-title ?under-line=${args.underline}>
         <div slot="icon" style="color: #AD0404">
           <daikin-icon slot="icon" color="current" icon="alarm"></daikin-icon>
         </div>

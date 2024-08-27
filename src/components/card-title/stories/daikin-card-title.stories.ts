@@ -10,12 +10,12 @@ export default {
 
 export const Normal: Story = {
   args: {
-    underLine: false,
+    underline: false,
   },
 };
 
-export const UnderLine: Story = {
+export const Underline: Story = {
   args: {
-    underLine: true,
+    underline: true,
   },
 };

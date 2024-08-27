@@ -1,6 +1,6 @@
-import { DaikinButton } from "#package/components/button/daikin-button";
+import { ReactDaikinButton } from "#package/components/button/stories/framework-react";
 import { DaikinCardTitle } from "#package/components/card-title/daikin-card-title";
-import { DaikinIcon } from "#package/components/icon/daikin-icon";
+import { ReactDaikinIcon } from "#package/components/icon/stories/framework-react";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
@@ -11,19 +11,6 @@ const ReactDaikinCardTitle = createComponent({
   tagName: "daikin-card-title",
   elementClass: DaikinCardTitle,
   events: {},
-});
-
-const ReactDaikinButton = createComponent({
-  react: React,
-  tagName: "daikin-button",
-  elementClass: DaikinButton,
-  events: {},
-});
-
-export const ReactDaikinIcon = createComponent({
-  tagName: "daikin-icon",
-  elementClass: DaikinIcon,
-  react: React,
 });
 
 export const metadata: Meta<DaikinCardTitleStoryArgs> = {

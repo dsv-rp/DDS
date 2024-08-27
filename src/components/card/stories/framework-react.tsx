@@ -23,7 +23,7 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
   component: ({ ...props }: DaikinCardStoryArgs) => (
     <ReactDaikinCard {...props}>
       {props.withHeader ? (
-        <ReactDaikinCardTitle slot="header" underLine={true}>
+        <ReactDaikinCardTitle slot="header" underline={true}>
           <span slot="label">Card Header</span>
         </ReactDaikinCardTitle>
       ) : null}

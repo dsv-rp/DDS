@@ -8,7 +8,7 @@ const cvaContainer = cva(
   ["flex", "items-center", "w-full", "justify-between", "last:pr-6"],
   {
     variants: {
-      underLine: {
+      underline: {
         true: ["border-b", "border-[#E6F1F5]"],
         false: [],
       },
@@ -43,13 +43,10 @@ const cvaLabel = cva(
  * Hierarchy:
  * - `daikin-card` > `daikin-card-title`
  *
- * @slot icon - A slot for card title icon. Place `daikin-icon` element here.
- *
- * @slot label - A slot for card title Text content. Place a text element here.
- *
- * @slot link - A slot for card title link. Place link elements here.
- *
- * @slot action - A slot for card title button. Place `daikin-button` elements here.
+ * @slot icon - A slot for card title icon. Place a `daikin-icon` element here.
+ * @slot label - A slot for card title text content. Place a text here.
+ * @slot link - A slot for card title link. Place a link element here.
+ * @slot action - A slot for card title button. Place a `daikin-button` element here.
  *
  * @example
  *
@@ -77,21 +74,21 @@ export class DaikinCardTitle extends LitElement {
   /**
    * If `true` will show a blue line under the card
    */
-  @property({ type: Boolean, reflect: true, attribute: "under-line" })
-  underLine = false;
+  @property({ type: Boolean, reflect: true })
+  underline = false;
 
   private withIcon = false;
 
   override render() {
     const containerClassName = cvaContainer({
-      underLine: this.underLine,
+      underline: this.underline,
     });
 
     const labelClassName = cvaLabel({
       withIcon: this.withIcon,
     });
 
-    return html` <div class="${containerClassName}">
+    return html` <div class=${containerClassName}>
       <div class="flex items-center ml-4">
         <slot name="icon"><span class="w-4 h-4 -mr-5"></span></slot>
         <div class=${labelClassName}>

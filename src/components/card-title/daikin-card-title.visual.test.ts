@@ -14,7 +14,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["normal", "withUnderline"], (type) => {
   const baseURL = getPageURL({
-    underLine: type === "withUnderline",
+    underline: type === "withUnderline",
   });
 
   test("base", async ({ page }) => {
