@@ -3,6 +3,7 @@ import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
+import { PaginationCalculator } from "./pagination-utils";
 
 const cvaButton = cva(
   [
@@ -94,6 +95,14 @@ const cvaDropDownItem = cva([
   "slotted:hover:bg-daikinNeutral-100",
 ]);
 
+export interface PaginationContent {
+  leftMost: number;
+  leftEllipsis: number[];
+  middle: number[];
+  rightEllipsis: number[];
+  rightMost: number;
+}
+
 /**
  * The pagination component is used to navigate through a list of items that are divided into multiple pages.
  *
@@ -149,26 +158,35 @@ export class DaikinPagination extends LitElement {
   pageWindow = 5;
 
   /**
+   * @readonly
    * Using nested array to simulate paginator
+   * leftMost: mean page 1
+   * leftEllipsis: mean the page which hidden in the left ellipsis button
+   * middle: mean the page be showed except first page and last page
+   * rightEllipsis: mean the page which hidden in the right ellipsis button
+   * rightMost: mean the last page
    */
   @state()
-  private _pageArray: Array<Array<number>> = [[], [], [], [], []];
+  private _pageArray: PaginationContent = {
+    leftMost: 1,
+    leftEllipsis: [],
+    middle: [],
+    rightEllipsis: [],
+    rightMost: this.lastPage,
+  };
 
-  /**
-   * @readonly
-   * FirstPage: mean page 1
-   * LeftDropDown: mean the page which hidden in the left ellipsis button
-   * ShowPages: mean the page be showed except first page and last page
-   * RightDropDown: mean the page which hidden in the right ellipsis button
-   * LastPage: mean the last page
-   */
-  private _PageIndex = Object.freeze({
-    FirstPage: 0,
-    LeftDropDown: 1,
-    ShowPages: 2,
-    RightDropDown: 3,
-    LastPage: 4,
-  });
+  private _paginationCalculator = new PaginationCalculator(
+    this.lastPage,
+    this.pageWindow
+  );
+
+  private _initPaginationCalculator() {
+    this._paginationCalculator = new PaginationCalculator(
+      this.lastPage,
+      this.pageWindow
+    );
+    this._pageArray = this._paginationCalculator.resetPagesStart();
+  }
 
   @state()
   private _leftDropDownOpen = false;
@@ -176,51 +194,9 @@ export class DaikinPagination extends LitElement {
   @state()
   private _rightDropDownOpen = false;
 
-  private _getAllPagesArray() {
-    return Array.from({ length: this.lastPage }, (_, i) => i + 1);
-  }
-
   private _closeDropDownMenu() {
     this._leftDropDownOpen = false;
     this._rightDropDownOpen = false;
-  }
-
-  private _resetPagesStart() {
-    this._pageArray = [[], [], [], [], []];
-    const allPagesArray = this._getAllPagesArray();
-    this._pageArray[this._PageIndex.FirstPage] = [allPagesArray[0]];
-    this._pageArray[this._PageIndex.ShowPages] = allPagesArray.slice(
-      1,
-      this.pageWindow - 1
-    );
-    this._pageArray[this._PageIndex.RightDropDown] = allPagesArray.slice(
-      this.pageWindow - 1,
-      allPagesArray[allPagesArray.length - 1] - 1
-    );
-    this._pageArray[this._PageIndex.LastPage] = [
-      allPagesArray[allPagesArray.length - 1],
-    ];
-    this._closeDropDownMenu();
-    this.requestUpdate();
-  }
-
-  private _resetPagesEnd() {
-    this._pageArray = [[], [], [], [], []];
-    const allPagesArray = this._getAllPagesArray();
-    this._pageArray[this._PageIndex.FirstPage] = [allPagesArray[0]];
-    this._pageArray[this._PageIndex.LeftDropDown] = allPagesArray.slice(
-      1,
-      -this.pageWindow + 1
-    );
-    this._pageArray[this._PageIndex.ShowPages] = allPagesArray.slice(
-      -this.pageWindow + 1,
-      -1
-    );
-    this._pageArray[this._PageIndex.LastPage] = [
-      allPagesArray[allPagesArray.length - 1],
-    ];
-    this._closeDropDownMenu();
-    this.requestUpdate();
   }
 
   private _handleClickNumber(page: number) {
@@ -228,58 +204,7 @@ export class DaikinPagination extends LitElement {
     this._closeDropDownMenu();
   }
 
-  // Move the min currentPage from RightDropDown to ShowPages
-  private _moveMinValueLeftShow() {
-    const minValueRightDropDown = Math.min(
-      ...this._pageArray[this._PageIndex.RightDropDown]
-    );
-    this._pageArray[this._PageIndex.RightDropDown].splice(
-      this._pageArray[this._PageIndex.RightDropDown].indexOf(
-        minValueRightDropDown
-      ),
-      1
-    );
-    this._pageArray[this._PageIndex.ShowPages].push(minValueRightDropDown);
-  }
-
-  // Move the min currentPage from ShowPages to LeftDropDown
-  private _moveMinValueLeftOmission() {
-    const minValueShowPages = Math.min(
-      ...this._pageArray[this._PageIndex.ShowPages]
-    );
-    this._pageArray[this._PageIndex.ShowPages].splice(
-      this._pageArray[this._PageIndex.ShowPages].indexOf(minValueShowPages),
-      1
-    );
-    this._pageArray[this._PageIndex.LeftDropDown].push(minValueShowPages);
-  }
-
-  // Move the max currentPage from pageWindow to rightDropDown
-  private _moveMaxValueRightOmission() {
-    const maxValueShowPages = Math.max(
-      ...this._pageArray[this._PageIndex.ShowPages]
-    );
-    this._pageArray[this._PageIndex.ShowPages].splice(
-      this._pageArray[this._PageIndex.ShowPages].indexOf(maxValueShowPages),
-      1
-    );
-    this._pageArray[this._PageIndex.RightDropDown].unshift(maxValueShowPages);
-  }
-
-  // Move the max currentPage from leftDropDown to pageWindow
-  private _moveMaxValueRightShow() {
-    const maxValueLeftDropDown = Math.max(
-      ...this._pageArray[this._PageIndex.LeftDropDown]
-    );
-    this._pageArray[this._PageIndex.LeftDropDown].splice(
-      this._pageArray[this._PageIndex.LeftDropDown].indexOf(
-        maxValueLeftDropDown
-      ),
-      1
-    );
-    this._pageArray[this._PageIndex.ShowPages].unshift(maxValueLeftDropDown);
-  }
-
+  // If user replace <a> tag to page slot, this function will simulate click the page button
   private _clickATag() {
     const slot = this.shadowRoot?.querySelector(
       `slot[name=page-${this.currentPage}]`
@@ -290,58 +215,41 @@ export class DaikinPagination extends LitElement {
     }
   }
 
+  // Chose page from left ellipsis button
+  private _handleChoosePageLeft(currentPage: number) {
+    this.currentPage = currentPage;
+    this._pageArray =
+      this._paginationCalculator.handleChoosePageLeft(currentPage);
+    this._closeDropDownMenu();
+    this.requestUpdate();
+  }
+
+  // Chose page from right ellipsis button
+  private _handleChoosePageRight(currentPage: number) {
+    this.currentPage = currentPage;
+    this._pageArray =
+      this._paginationCalculator.handleChoosePageRight(currentPage);
+    this._closeDropDownMenu();
+    this.requestUpdate();
+  }
+
   private _handleClickChevron(type: "left" | "right") {
     if (type === "left") {
       if (this.currentPage === 1) {
         return;
       }
       this.currentPage -= 1;
-      this._clickATag();
-      if (
-        this.currentPage <
-          Math.min(...this._pageArray[this._PageIndex.ShowPages]) &&
-        this.currentPage != 1
-      ) {
-        this._moveMaxValueRightOmission();
-        if (this._pageArray[this._PageIndex.RightDropDown].length === 1) {
-          this._moveMaxValueRightOmission();
-        }
-        this._moveMaxValueRightShow();
-        if (this._pageArray[this._PageIndex.LeftDropDown].length === 1) {
-          this._moveMaxValueRightShow();
-        }
-      } else if (
-        this.currentPage === this.lastPage - 1 &&
-        this._pageArray[this._PageIndex.RightDropDown].length > 0
-      ) {
-        this._resetPagesEnd();
-      }
     } else {
       if (this.currentPage === this.lastPage) {
         return;
       }
       this.currentPage += 1;
-      this._clickATag();
-      if (
-        this.currentPage >
-          Math.max(...this._pageArray[this._PageIndex.ShowPages]) &&
-        this.currentPage != this._pageArray[this._PageIndex.LastPage][0]
-      ) {
-        this._moveMinValueLeftOmission();
-        if (this._pageArray[this._PageIndex.LeftDropDown].length === 1) {
-          this._moveMinValueLeftOmission();
-        }
-        this._moveMinValueLeftShow();
-        if (this._pageArray[this._PageIndex.RightDropDown].length === 1) {
-          this._moveMinValueLeftShow();
-        }
-      } else if (
-        this.currentPage === 2 &&
-        this._pageArray[this._PageIndex.LeftDropDown].length > 0
-      ) {
-        this._resetPagesStart();
-      }
     }
+    this._clickATag();
+    this._pageArray = this._paginationCalculator.handleClickChevron(
+      type,
+      this.currentPage
+    );
     this._closeDropDownMenu();
     this.requestUpdate();
   }
@@ -354,52 +262,6 @@ export class DaikinPagination extends LitElement {
   private _handleRightEllipsisClick() {
     this._rightDropDownOpen = !this._rightDropDownOpen;
     this._leftDropDownOpen = false;
-  }
-
-  private _handleChoosePageRight(currentPage: number) {
-    this.currentPage = currentPage;
-    if (this.currentPage >= this.lastPage - 2) {
-      this._resetPagesEnd();
-      return;
-    }
-    // move RightDropDown to ShowPages to show
-    const moveCount1 = this._pageArray[this._PageIndex.RightDropDown].filter(
-      (x) => x <= currentPage
-    ).length;
-    for (let i = 0; i < moveCount1; i++) {
-      this._moveMinValueLeftShow();
-    }
-    // move ShowPages to LeftDropDown to hide
-    const moveCount2 =
-      this._pageArray[this._PageIndex.ShowPages].length - (this.pageWindow - 3);
-    for (let j = 0; j < moveCount2; j++) {
-      this._moveMinValueLeftOmission();
-    }
-    this._closeDropDownMenu();
-    this.requestUpdate();
-  }
-
-  private _handleChoosePageLeft(currentPage: number) {
-    this.currentPage = currentPage;
-    if (this.currentPage <= 3) {
-      this._resetPagesStart();
-      return;
-    }
-    // move LeftDropDown to ShowPages to show
-    const moveCount1 = this._pageArray[this._PageIndex.LeftDropDown].filter(
-      (x) => x >= currentPage
-    ).length;
-    for (let i = 0; i < moveCount1; i++) {
-      this._moveMaxValueRightShow();
-    }
-    // move ShowPages to RightDropDown to hide
-    const moveCount2 =
-      this._pageArray[this._PageIndex.ShowPages].length - (this.pageWindow - 3);
-    for (let i = 0; i < moveCount2; i++) {
-      this._moveMaxValueRightOmission();
-    }
-    this._closeDropDownMenu();
-    this.requestUpdate();
   }
 
   private _handleWindowClick = (event: Event) => {
@@ -425,17 +287,36 @@ export class DaikinPagination extends LitElement {
             </div>
           </button>
         </div>
-        ${this._pageArray.map((i, index) => {
+
+        ${Object.entries(this._pageArray).map(([key, i]) => {
+          const button1ClassName = cvaButton({
+            active: this.currentPage === 1,
+          });
+          const buttonLastClassName = cvaButton({
+            active: this.currentPage === this.lastPage,
+          });
           const ellipsisClassName = cvaButton({
             active: false,
           });
           const dropDownItemClassName = cvaDropDownItem();
-          if (index === 1) {
+          if (key === "leftMost") {
+            return html`<slot
+              name="page-1"
+              class=${button1ClassName}
+              @click=${() => this._handleClickNumber(1)}
+              @keydown=${() => {
+                return;
+              }}
+            >
+              <button aria-label="page1">1</button>
+            </slot>`;
+          } else if (key === "leftEllipsis") {
+            const leftEllipsisPages = i as Array<number>;
             // TODO: We are considering whether we need dropdown to select page, so close it temporarily
             const cvaDropDownLeftClassName = cvaDropDown({
               open: false,
             });
-            if (i.length > 0) {
+            if (leftEllipsisPages.length > 0) {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
                   <button
@@ -446,25 +327,43 @@ export class DaikinPagination extends LitElement {
                   </button>
                 </div>
                 <div class=${cvaDropDownLeftClassName}>
-                  ${i.map((currentPage) => {
+                  ${leftEllipsisPages.map((page) => {
                     return html`<slot
-                      name="page-${currentPage}"
+                      name="page-${page}"
                       class=${dropDownItemClassName}
-                      @click=${() => this._handleChoosePageLeft(currentPage)}
-                      @keydown=${() => this._handleChoosePageLeft(currentPage)}
+                      @click=${() => this._handleChoosePageLeft(page)}
+                      @keydown=${() => this._handleChoosePageLeft(page)}
                     >
-                      <button>${currentPage}</button>
+                      <button>${page}</button>
                     </slot>`;
                   })}
                 </div>
               </div>`;
             }
-          } else if (index === 3) {
+          } else if (key === "middle") {
+            const showPages = i as Array<number>;
+            return html`${showPages.map((page) => {
+              const buttonClassName = cvaButton({
+                active: this.currentPage === page,
+              });
+              return html`<slot
+                name="page-${page}"
+                class=${buttonClassName}
+                @click=${() => this._handleClickNumber(page)}
+                @keydown=${() => {
+                  return;
+                }}
+              >
+                <button aria-label="page${page}">${page}</button>
+              </slot>`;
+            })}`;
+          } else if (key === "rightEllipsis") {
+            const rightEllipsisPages = i as Array<number>;
             // TODO: We are considering whether we need dropdown to select page, so close it temporarily
             const cvaDropDownRightClassName = cvaDropDown({
               open: false,
             });
-            if (i.length > 0) {
+            if (rightEllipsisPages.length > 0) {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
                   <button
@@ -475,35 +374,33 @@ export class DaikinPagination extends LitElement {
                   </button>
                 </div>
                 <div class=${cvaDropDownRightClassName}>
-                  ${i.map((currentPage) => {
+                  ${rightEllipsisPages.map((page) => {
                     return html`<slot
-                      name="page-${currentPage}"
+                      name="page-${page}"
                       class=${dropDownItemClassName}
-                      @click=${() => this._handleChoosePageRight(currentPage)}
-                      @keydown=${() => this._handleChoosePageRight(currentPage)}
+                      @click=${() => this._handleChoosePageRight(page)}
+                      @keydown=${() => this._handleChoosePageRight(page)}
                     >
-                      <button>${currentPage}</button>
+                      <button>${page}</button>
                     </slot>`;
                   })}
                 </div>
               </div>`;
             }
-          }
-          return html`${i.map((j) => {
-            const buttonClassName = cvaButton({
-              active: this.currentPage === j,
-            });
+          } else {
             return html`<slot
-              name="page-${j}"
-              class=${buttonClassName}
-              @click=${() => this._handleClickNumber(j)}
+              name="page-${this.lastPage}"
+              class=${buttonLastClassName}
+              @click=${() => this._handleClickNumber(this.lastPage)}
               @keydown=${() => {
                 return;
               }}
             >
-              <button aria-label="page${j}">${j}</button>
+              <button aria-label="page${this.lastPage}">
+                ${this.lastPage}
+              </button>
             </slot>`;
-          })}`;
+          }
         })}
         <div class=${cvaChevron}>
           <button
@@ -530,19 +427,16 @@ export class DaikinPagination extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("lastPage")) {
-      this._resetPagesStart();
+    if (
+      changedProperties.has("lastPage") ||
+      changedProperties.has("pageWindow")
+    ) {
+      this._initPaginationCalculator();
     }
     if (changedProperties.has("currentPage")) {
-      if (
-        this._pageArray[this._PageIndex.LeftDropDown].includes(this.currentPage)
-      ) {
+      if (this._pageArray.leftEllipsis.includes(this.currentPage)) {
         this._handleChoosePageLeft(this.currentPage);
-      } else if (
-        this._pageArray[this._PageIndex.RightDropDown].includes(
-          this.currentPage
-        )
-      ) {
+      } else if (this._pageArray.rightEllipsis.includes(this.currentPage)) {
         this._handleChoosePageRight(this.currentPage);
       }
     }
