@@ -1,55 +1,54 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
-const cvaRadio = cva(
-  [
-    "appearance-none",
-    "relative",
-
-    "after:absolute",
-    "after:i-daikin-radio-unchecked",
-    "checked:after:i-daikin-radio-checked",
-    "enabled:after:text-[#8C8C8C]",
-    "enabled:checked:after:text-daikinBlue-500",
-
-    "aria-controllable:hover:after:i-daikin-radio-checked",
-    "aria-controllable:hover:after:text-daikinBlue-300",
-    "aria-controllable:active:after:i-daikin-radio-checked",
-    "aria-controllable:active:after:text-daikinBlue-500",
-
-    "focus-visible:outline-none",
-    "aria-controllable:focus-visible:after:i-daikin-radio-unchecked",
-    "aria-controllable:focus-visible:checked:after:i-daikin-radio-checked",
-    "aria-controllable:focus-visible:after:text-daikinBlue-700",
-
-    "disabled:after:text-daikinNeutral-200",
-  ],
+const cvaContainer = cva(
+  ["flex", "gap-2", "items-center", "font-daikinSerif"],
   {
     variants: {
-      size: {
-        small: ["w-[14px]", "h-[14px]"],
-        large: ["w-4", "h-4"],
+      labelPosition: {
+        left: ["[&>span]:order-1", "[&>input]:order-2"],
+        right: ["[&>span]:order-2", "[&>input]:order-1"],
       },
     },
   }
 );
 
-const cvaLabel = cva(
-  ["leading-8", "not-italic", "font-normal", "align-middle"],
-  {
-    variants: {
-      size: {
-        small: ["text-sm"],
-        large: ["text-base"],
-      },
-    },
-  }
-);
+const cvaRadio = cva([
+  "flex",
+  "justify-center",
+  "items-center",
+  "size-4",
+  "bg-white",
+  "border-[1.5px]",
+  "border-daikinNeutral-600",
+  "rounded-full",
+  "relative",
+  "appearance-none",
+  "aria-controllable:hover:before:content-normal",
+  "aria-controllable:hover:before:block",
+  "aria-controllable:hover:before:size-1.5",
+  "aria-controllable:hover:before:rounded-full",
+  "aria-controllable:hover:before:absolute",
+  "aria-controllable:hover:before:bg-daikinNeutral-100",
+  "aria-controllable:active:before:content-normal",
+  "aria-controllable:active:before:block",
+  "aria-controllable:active:before:size-1.5",
+  "aria-controllable:active:before:rounded-full",
+  "aria-controllable:active:before:absolute",
+  "aria-controllable:active:before:bg-daikinNeutral-100",
+  "aria-controllable:checked:hover:before:hidden",
+  "focus-visible:outline-1",
+  "focus-visible:outline-offset-[3px]",
+  "focus-visible:outline-daikinBlue-700",
+  "checked:border-[5px]",
+  "checked:border-daikinBlue-500",
+  "disabled:border-daikinNeutral-200",
+]);
 
-type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
+type RadioVariantProps = MergeVariantProps<typeof cvaContainer>;
 
 /**
  * The radio button component is a UI element that allows users to select one options from a set of choices.
@@ -110,17 +109,11 @@ export class DaikinRadio extends LitElement {
   label = "";
 
   /**
-   * Specify the component size
-   */
-  @property({ type: String })
-  size: RadioVariantProps["size"] = "small";
-
-  /**
    * Specify the label position
    * when `left` the label will be in left of radio, when `right` label will be in right of radio
    */
   @property({ type: String, attribute: "label-position" })
-  labelPosition: "left" | "right" = "right";
+  labelPosition: RadioVariantProps["labelPosition"] = "right";
 
   /**
    * Specify whether the Radio should be disabled
@@ -159,34 +152,24 @@ export class DaikinRadio extends LitElement {
   error = false;
 
   override render() {
-    const labelClassName = cvaLabel({ size: this.size });
-    const radioClassName = cvaRadio({ size: this.size });
-
-    const labelText = this.label
-      ? html`<span class="${labelClassName}">${this.label}</span>`
-      : html``;
-
-    const inputTag = html`<input
-      class=${radioClassName}
-      type="radio"
-      name=${this.name}
-      value=${this.value}
-      aria-readonly=${this.readonly}
-      ?disabled=${this.disabled}
-      .checked=${this.checked}
-      @click=${this._handleClick}
-      @change=${this._handleChange}
-    />`;
-
-    const inputArea =
-      this.labelPosition === "left"
-        ? html`${labelText}${inputTag}`
-        : html`${inputTag}${labelText}`;
-
     return html`<label
-      class="inline-flex w-full h-full gap-[8px] items-center font-daikinSerif"
-      >${inputArea}</label
-    >`;
+      class=${cvaContainer({ labelPosition: this.labelPosition })}
+    >
+      <input
+        class=${cvaRadio()}
+        type="radio"
+        name=${this.name}
+        value=${this.value}
+        aria-readonly=${this.readonly}
+        ?disabled=${this.disabled}
+        .checked=${this.checked}
+        @click=${this._handleClick}
+        @change=${this._handleChange}
+      />
+      ${this.label
+        ? html`<span class="text-base">${this.label}</span>`
+        : nothing}
+    </label>`;
   }
 }
 

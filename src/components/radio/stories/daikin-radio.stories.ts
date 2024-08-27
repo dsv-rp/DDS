@@ -11,12 +11,13 @@ export default {
   ...metadata,
 };
 
-export const Small: Story = {
+export const Default: Story = {
   args: {
-    size: "small",
     disabled: false,
     readonly: false,
     label: "Radio label",
+    labelPosition: "right",
+    checked: false,
     onChange: fn(),
     onClick: fn(),
   },
@@ -52,18 +53,9 @@ export const Small: Story = {
   }),
 };
 
-export const Large: Story = {
-  args: {
-    ...Small.args,
-    size: "large",
-    onChange: fn(),
-    onClick: fn(),
-  },
-};
-
 export const Disabled: Story = {
   args: {
-    ...Small.args,
+    ...Default.args,
     disabled: true,
     onChange: fn(),
     onClick: fn(),
@@ -100,7 +92,7 @@ export const Disabled: Story = {
 
 export const Readonly: Story = {
   args: {
-    ...Small.args,
+    ...Default.args,
     readonly: true,
     onChange: fn(),
     onClick: fn(),

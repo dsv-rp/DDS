@@ -5,7 +5,6 @@ import type { DaikinRadioStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinRadioStoryArgs> = {
   render: ({
-    size,
     name,
     value,
     label,
@@ -17,7 +16,6 @@ export const metadata: Meta<DaikinRadioStoryArgs> = {
     onClick,
   }) => html`
     <daikin-radio
-      size=${size}
       name=${name}
       value=${value}
       label=${label}
