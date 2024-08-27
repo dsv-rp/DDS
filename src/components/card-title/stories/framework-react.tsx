@@ -1,9 +1,9 @@
-import { ReactDaikinButton } from "#package/components/button/stories/framework-react";
 import { DaikinCardTitle } from "#package/components/card-title/daikin-card-title";
-import { ReactDaikinIcon } from "#package/components/icon/stories/framework-react";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinButton } from "../../button/stories/framework-react";
+import { ReactDaikinIcon } from "../../icon/stories/framework-react";
 import type { DaikinCardTitleStoryArgs } from "./common";
 
 const ReactDaikinCardTitle = createComponent({
