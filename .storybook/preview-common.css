@@ -18,3 +18,8 @@
   :where(th:nth-child(2), td:nth-child(2), th:nth-child(3), td:nth-child(3)) {
   display: none;
 }
+
+/* Docs: Remove unnamed Storybook args. */
+#storybook-docs .docblock-argstable tbody tr:has(td:first-child > span:empty) {
+  display: none;
+}

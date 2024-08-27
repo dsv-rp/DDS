@@ -25,6 +25,7 @@ export const Default: Story = {
     disabled: false,
     readonly: false,
     error: false,
+    __vrtArgs__: "",
     onChange: fn(eventPayloadTransformer),
     onInput: fn(eventPayloadTransformer),
   },
