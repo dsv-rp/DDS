@@ -69,10 +69,12 @@ export function collectComponentAttributeMetadata(
       )?.toLowerCase();
       const key = attrName.toLowerCase();
       object[key] =
-        strType === "boolean"
+        strType === "boolean" || defaultValue === false
           ? "boolean"
-          : typeof defaultValue === "string" || defaultValue == null
-            ? { default: defaultValue ?? "" }
+          : typeof defaultValue === "string" ||
+              typeof defaultValue === "number" ||
+              defaultValue == null
+            ? { default: String(defaultValue ?? "") }
             : "unknown";
     }
   }
