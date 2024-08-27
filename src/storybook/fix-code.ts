@@ -20,6 +20,16 @@ interface Context {
   readonly parameters: StorybookParameters;
 }
 
+const DEFAULT_ATTRIBUTE_TYPE_MAP: AttributeTypeMap = {
+  /* cSpell:disable */
+  hidden: "boolean",
+  class: "removeIfEmpty",
+  id: "removeIfEmpty",
+  role: "removeIfEmpty",
+  datatestid: "removeIfEmpty",
+  /* cSpell:enable */
+};
+
 /**
  * Converts attribute or property to unified key.
  * @param str attribute or property
@@ -133,13 +143,15 @@ export function prettyHTML(
 
             const key = attributeOrPropertyToKey(attribute);
             // Obtain the way to handle the empty attribute.
-            const attributeType = !attributeTypeMap
-              ? // If `attributeTypeMap` is not set, it means an empty attribute in another component.
-                // In this case, if an empty attribute is specified, it is almost certainly a boolean attribute.
-                "boolean"
-              : // If `attributeTypeMap` exists but the type could not be obtained, the automatic acquisition has failed.
-                // In this case, leave the attribute as-is just to be sure.
-                (attributeTypeMap[key] ?? "preserve");
+            // If `attributeTypeMap` is not set, it means an empty attribute in another component. In this case, if an empty attribute is specified, it is almost certainly a boolean attribute.
+            // If `attributeTypeMap` exists but the type could not be obtained, the automatic inference has failed. In this case, leave the attribute as-is just to be sure.
+            const fallbackType: AttributeType = attributeTypeMap
+              ? "preserve"
+              : "boolean";
+            const attributeType =
+              attributeTypeMap?.[key] ??
+              DEFAULT_ATTRIBUTE_TYPE_MAP[key] ??
+              fallbackType;
             const content = {
               preserve: `${attribute}${value}`, // e.g. `label=""`
               removeIfEmpty: "",

@@ -127,6 +127,7 @@ test("prettyHTML should output as-is for broken or unsupported HTMLs", () => {
 });
 
 test("prettyHTML should modify empty HTML attributes", () => {
+  // Custom HTML attributes
   expect(
     prettyHTML(
       `
@@ -138,6 +139,20 @@ test("prettyHTML should modify empty HTML attributes", () => {
   ).toMatchInlineSnapshot(`
     "<custom-element attr-preserve="" attr-boolean attr-unknown=""></custom-element>
     <custom-element attr-preserve='' attr-boolean attr-unknown=''></custom-element>"
+  `);
+
+  // Standard HTML attributes
+  expect(
+    prettyHTML(
+      `
+      <custom-element preserve="" id="" class="" role="" hidden="" data-test-id=""></custom-element>
+      <unknown-element boolean="" id="" class="" role="" hidden="" data-test-id=""></unknown-element>
+      `,
+      TAG_ATTR_TYPE_MAP
+    )
+  ).toMatchInlineSnapshot(`
+    "<custom-element preserve="" hidden></custom-element>
+    <unknown-element boolean hidden></unknown-element>"
   `);
 });
 
