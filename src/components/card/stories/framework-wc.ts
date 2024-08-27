@@ -11,7 +11,7 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
   render: (args) => html`
     <daikin-card border-type=${args.borderType}>
       ${args.withHeader
-        ? html`<daikin-card-title slot="header" ?under-line=${true}>
+        ? html`<daikin-card-title slot="header" ?underline=${true}>
             <span slot="label">Card Header</span>
           </daikin-card-title>`
         : null}
