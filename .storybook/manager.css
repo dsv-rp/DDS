@@ -1,0 +1,4 @@
+/* Manager: Remove unnamed Storybook args. */
+.docblock-argstable tbody tr:has(td:first-child > span:empty) {
+  display: none;
+}
