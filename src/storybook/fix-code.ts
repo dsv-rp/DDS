@@ -1,4 +1,7 @@
-export type AttributeType = "defaultNotEmpty" | "defaultEmpty" | "boolean";
+export type AttributeType =
+  | "boolean"
+  | "unknown"
+  | { readonly default: string };
 export type AttributeTypeMap = Partial<Readonly<Record<string, AttributeType>>>;
 export type TagAttributeTypeMap = Partial<
   Readonly<Record<string, AttributeTypeMap>>
@@ -18,10 +21,10 @@ interface Context {
 
 const DEFAULT_ATTRIBUTE_TYPE_MAP: AttributeTypeMap = {
   hidden: "boolean",
-  class: "defaultEmpty",
-  id: "defaultEmpty",
-  role: "defaultEmpty",
-  "data-testid": "defaultEmpty",
+  class: { default: "" },
+  id: { default: "" },
+  role: { default: "" },
+  "data-testid": { default: "" },
 };
 
 function isVoidElementTag(tagName: string): boolean {
@@ -117,31 +120,34 @@ export function prettyHTML(
         // - Delete the empty attribute (`foo=""`) or replace it with a boolean attribute (`foo`).
         // - Escape line breaks in attribute values.
         const modifiedAttributes = Array.from(attributeMatches)
-          .map(([, attribute, value = ""]) => {
-            // Escape line breaks in attribute values.
-            value = value.replaceAll("\n", "&#10;");
-
-            // Keep original string if attribute value is not empty
-            if (value !== '=""' && value !== "=''") {
-              return `${attribute}${value}`;
-            }
-
+          .map(([, attribute, valuePart = ""]) => {
             const key = attribute.toLowerCase();
-            // Obtain the way to handle the empty attribute.
-            // If `attributeTypeMap` is not set, it means an empty attribute in another component. In this case, if an empty attribute is specified, it is almost certainly a boolean attribute.
+            const parsedValue = valuePart.slice(2, -1);
+            const isEmpty = parsedValue === "";
+
+            // Escape line breaks in attribute values.
+            valuePart = valuePart.replaceAll("\n", "&#10;");
+
+            // Obtain the way to handle the attribute.
+            // If `attributeTypeMap` is not set, it means an attribute in another component. In this case, if an empty attribute is specified, it is almost certainly a boolean attribute.
             // If `attributeTypeMap` exists but the type could not be obtained, the automatic inference has failed. In this case, leave the attribute as-is just to be sure.
-            const fallbackType: AttributeType = attributeTypeMap
-              ? "defaultNotEmpty"
-              : "boolean";
+            const fallbackType: AttributeType =
+              attributeTypeMap || !isEmpty ? "unknown" : "boolean";
             const attributeType =
               attributeTypeMap?.[key] ??
               DEFAULT_ATTRIBUTE_TYPE_MAP[key] ??
               fallbackType;
-            const content = {
-              defaultNotEmpty: `${attribute}${value}`, // e.g. `label=""`
-              defaultEmpty: "",
-              boolean: attribute, // e.g. `hidden`
-            }[attributeType];
+
+            const content =
+              // If the attribute value is empty and the attribute is a boolean attribute, omit `=""`.
+              isEmpty && attributeType === "boolean"
+                ? attribute
+                : // If the attribute value is equal to attribute's default value, omit whole attribute.
+                  typeof attributeType === "object" &&
+                    attributeType.default === parsedValue
+                  ? ""
+                  : // Otherwise, leave as-is.
+                    `${attribute}${valuePart}`;
             return content;
           })
           .filter((value) => !!value)

@@ -1,14 +1,6 @@
 import { expect, test } from "vitest";
 import { prettyHTML } from "./fix-code";
 
-const TAG_ATTR_TYPE_MAP = {
-  "custom-element": {
-    "attr-boolean": "boolean",
-    "attr-preserve": "defaultNotEmpty",
-    "attr-remove": "defaultEmpty",
-  },
-} as const;
-
 test("prettyHTML should format HTML", () => {
   expect(prettyHTML("")).toMatchInlineSnapshot(`""`);
   expect(prettyHTML("<div></div>")).toMatchInlineSnapshot(`"<div></div>"`);
@@ -123,68 +115,44 @@ test("prettyHTML should output as-is for broken or unsupported HTMLs", () => {
   expect(prettyHTML("<!broken\n\n")).toBe("<!broken\n\n");
 });
 
-test("prettyHTML should modify empty HTML attributes", () => {
+test("prettyHTML should modify HTML attributes", () => {
   // Custom HTML attributes
+  // `not-exist` will be treated as `unknown` attribute for `<custom-element>`, but treated as `boolean` attribute for `<unknown-element>`.
+  // This is because `<custom-element>` exists in the `tagAttributeTypeMap` argument but `<unknown-element>` is not.
+  // For unregistered elements, we treat an unknown attribute as a boolean attribute if its value is empty, since that case occurs frequently in the code snippets in Storybook.
   expect(
     prettyHTML(
       `
-      <custom-element attr-preserve="" attr-remove="" attr-boolean="" attr-unknown=""></custom-element>
-      <custom-element attr-preserve='' attr-remove='' attr-boolean='' attr-unknown=''></custom-element>
+      <!-- Custom HTML Attributes (empty) -->
+      <custom-element attr-default-foo="" attr-default-empty="" attr-boolean="" attr-unknown="" attr-unspecified=""></custom-element>
+      <custom-element attr-default-foo='' attr-default-empty='' attr-boolean='' attr-unknown='' attr-unspecified=''></custom-element>
+
+      <!-- Custom HTML Attributes (with value) -->
+      <custom-element attr-default-foo="foo" attr-default-empty="foo" attr-boolean="foo" attr-unknown="foo" attr-unspecified="foo"></custom-element>
+      <custom-element attr-default-foo='foo' attr-default-empty='foo' attr-boolean='foo' attr-unknown='foo' attr-unspecified='foo'></custom-element>
+
+      <!-- Standard HTML Attributes -->
+      <custom-element not-exist="" id="" class="" role="" hidden="" data-testid=""></custom-element>
+      <unknown-element not-exist="" id="" class="" role="" hidden="" data-testid=""></unknown-element>
       `,
-      TAG_ATTR_TYPE_MAP
+      {
+        "custom-element": {
+          "attr-boolean": "boolean",
+          "attr-unknown": "unknown",
+          "attr-default-empty": { default: "" },
+          "attr-default-foo": { default: "foo" },
+        },
+      }
     )
   ).toMatchInlineSnapshot(`
-    "<custom-element attr-preserve="" attr-boolean attr-unknown=""></custom-element>
-    <custom-element attr-preserve='' attr-boolean attr-unknown=''></custom-element>"
+    "<!-- Custom HTML Attributes (empty) -->
+    <custom-element attr-default-foo="" attr-boolean attr-unknown="" attr-unspecified=""></custom-element>
+    <custom-element attr-default-foo='' attr-boolean attr-unknown='' attr-unspecified=''></custom-element>
+    <!-- Custom HTML Attributes (with value) -->
+    <custom-element attr-default-empty="foo" attr-boolean="foo" attr-unknown="foo" attr-unspecified="foo"></custom-element>
+    <custom-element attr-default-empty='foo' attr-boolean='foo' attr-unknown='foo' attr-unspecified='foo'></custom-element>
+    <!-- Standard HTML Attributes -->
+    <custom-element not-exist="" hidden></custom-element>
+    <unknown-element not-exist hidden></unknown-element>"
   `);
-
-  // Standard HTML attributes
-  expect(
-    prettyHTML(
-      `
-      <custom-element preserve="" id="" class="" role="" hidden="" data-testid=""></custom-element>
-      <unknown-element boolean="" id="" class="" role="" hidden="" data-testid=""></unknown-element>
-      `,
-      TAG_ATTR_TYPE_MAP
-    )
-  ).toMatchInlineSnapshot(`
-    "<custom-element preserve="" hidden></custom-element>
-    <unknown-element boolean hidden></unknown-element>"
-  `);
-});
-
-test("prettyHTML should keep non-empty HTML attributes", () => {
-  expect(
-    prettyHTML(
-      `
-      <custom-element attr-preserve attr-remove attr-boolean attr-unknown></custom-element>
-      <custom-element attr-preserve="a" attr-remove="b" attr-boolean="c" attr-unknown="d"></custom-element>
-      <custom-element attr-preserve='a' attr-remove='b' attr-boolean='c' attr-unknown='d'></custom-element>
-      `,
-      TAG_ATTR_TYPE_MAP
-    )
-  ).toMatchInlineSnapshot(`
-    "<custom-element attr-preserve attr-remove attr-boolean attr-unknown></custom-element>
-    <custom-element attr-preserve="a" attr-remove="b" attr-boolean="c" attr-unknown="d"></custom-element>
-    <custom-element attr-preserve='a' attr-remove='b' attr-boolean='c' attr-unknown='d'></custom-element>"
-  `);
-});
-
-test("prettyHTML should treat empty attributes in unknown elements as boolean attributes", () => {
-  expect(
-    prettyHTML(
-      `<unknown-element attr-empty-1="" attr-empty-2=''></unknown-element>`
-    )
-  ).toMatchInlineSnapshot(
-    `"<unknown-element attr-empty-1 attr-empty-2></unknown-element>"`
-  );
-
-  expect(
-    prettyHTML(
-      `<unknown-element attr-boolean attr-empty-1="" attr-empty-2='' attr-with-value-1="a" attr-with-value-2='b'></unknown-element>`,
-      TAG_ATTR_TYPE_MAP
-    )
-  ).toMatchInlineSnapshot(
-    `"<unknown-element attr-boolean attr-empty-1 attr-empty-2 attr-with-value-1="a" attr-with-value-2='b'></unknown-element>"`
-  );
 });

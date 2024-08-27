@@ -10,7 +10,7 @@ const { analyzeSourceFile, transformAnalyzerResult } =
 
 export type ComponentAttributeMetadataMap = Record<
   string,
-  Record<string, "boolean" | "defaultEmpty" | "defaultNotEmpty">
+  Record<string, "boolean" | "unknown" | { default: string }>
 >;
 
 export function analyzeComponentFile(
@@ -71,9 +71,9 @@ export function collectComponentAttributeMetadata(
       object[key] =
         strType === "boolean"
           ? "boolean"
-          : defaultValue
-            ? "defaultNotEmpty"
-            : "defaultEmpty";
+          : typeof defaultValue === "string" || defaultValue == null
+            ? { default: defaultValue ?? "" }
+            : "unknown";
     }
   }
 
