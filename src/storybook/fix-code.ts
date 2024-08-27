@@ -1,6 +1,8 @@
-type AttributeType = "preserve" | "removeIfEmpty" | "boolean";
-type AttributeTypeMap = Partial<Readonly<Record<string, AttributeType>>>;
-type TagAttributeTypeMap = Partial<Readonly<Record<string, AttributeTypeMap>>>;
+export type AttributeType = "preserve" | "removeIfEmpty" | "boolean";
+export type AttributeTypeMap = Partial<Readonly<Record<string, AttributeType>>>;
+export type TagAttributeTypeMap = Partial<
+  Readonly<Record<string, AttributeTypeMap>>
+>;
 
 interface ArgType {
   control?: { type: string };
@@ -59,9 +61,9 @@ function indentOf(num: number): string {
  * @param tagAttributeTypeMap The way to handle empty attributes
  * @returns Pretty printed HTML code
  */
-function prettyHTML(
+export function prettyHTML(
   code: string,
-  tagAttributeTypeMap: TagAttributeTypeMap
+  tagAttributeTypeMap: TagAttributeTypeMap = {}
 ): string {
   /** Remaining code string */
   let remaining = code.trim();
@@ -120,7 +122,7 @@ function prettyHTML(
         // - Delete the empty attribute (`foo=""`) or replace it with a boolean attribute (`foo`).
         // - Escape line breaks in attribute values.
         const modifiedAttributes = Array.from(attributeMatches)
-          .map(([, attribute, value]) => {
+          .map(([, attribute, value = ""]) => {
             // Escape line breaks in attribute values.
             value = value.replaceAll("\n", "&#10;");
 
