@@ -11,12 +11,11 @@ export default {
   ...metadata,
 };
 
-export const Small: Story = {
+export const Default: Story = {
   args: {
-    size: "small",
     disabled: false,
-    readonly: false,
     label: "Checkbox label",
+    checkState: "unchecked",
     onChange: fn(),
     onClick: fn(),
   },
@@ -52,18 +51,9 @@ export const Small: Story = {
   }),
 };
 
-export const Large: Story = {
-  args: {
-    ...Small.args,
-    size: "large",
-    onChange: fn(),
-    onClick: fn(),
-  },
-};
-
 export const Disabled: Story = {
   args: {
-    ...Small.args,
+    ...Default.args,
     disabled: true,
     onChange: fn(),
     onClick: fn(),
@@ -96,15 +86,4 @@ export const Disabled: Story = {
       await expect(innerCheckbox).not.toBeChecked();
     });
   }),
-};
-
-export const Readonly: Story = {
-  args: {
-    ...Small.args,
-    readonly: true,
-    onChange: fn(),
-    onClick: fn(),
-  },
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
-  play: Disabled.play!,
 };
