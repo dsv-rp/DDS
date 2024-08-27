@@ -1,9 +1,23 @@
 import { expect, test } from "vitest";
 import { prettyHTML } from "./fix-code";
 
+const TAG_ATTR_TYPE_MAP = {
+  "custom-element": {
+    // Keys must be normalized to lowercase without hyphens.
+    /* cSpell:disable */
+    attrboolean: "boolean",
+    attrpreserve: "preserve",
+    attrremove: "removeIfEmpty",
+    /* cSpell:enable */
+  },
+} as const;
+
 test("prettyHTML should format HTML", () => {
   expect(prettyHTML("")).toMatchInlineSnapshot(`""`);
   expect(prettyHTML("<div></div>")).toMatchInlineSnapshot(`"<div></div>"`);
+  expect(prettyHTML("<div>\t \r\n\n</div>")).toMatchInlineSnapshot(
+    `"<div></div>"`
+  );
   expect(prettyHTML("<div>singleline text</div>")).toMatchInlineSnapshot(`
     "<div>
       singleline text
@@ -107,65 +121,58 @@ Comment 2
   `);
 });
 
+test("prettyHTML should output as-is for broken or unsupported HTMLs", () => {
+  expect(prettyHTML("<!DOCTYPE html>\n\n")).toBe("<!DOCTYPE html>\n\n");
+  expect(prettyHTML("<!broken\n\n")).toBe("<!broken\n\n");
+});
+
 test("prettyHTML should modify empty HTML attributes", () => {
   expect(
     prettyHTML(
-      `<custom-element attr-preserve="" attr-remove="" attr-boolean="" attr-unknown=""></custom-element>`,
-      {
-        "custom-element": {
-          "attr-boolean": "boolean",
-          "attr-preserve": "preserve",
-          "attr-remove": "removeIfEmpty",
-        },
-      }
+      `
+      <custom-element attr-preserve="" attr-remove="" attr-boolean="" attr-unknown=""></custom-element>
+      <custom-element attr-preserve='' attr-remove='' attr-boolean='' attr-unknown=''></custom-element>
+      `,
+      TAG_ATTR_TYPE_MAP
     )
-  ).toMatchInlineSnapshot(
-    `"<custom-element attr-preserve="" attr-remove="" attr-boolean="" attr-unknown=""></custom-element>"`
-  );
+  ).toMatchInlineSnapshot(`
+    "<custom-element attr-preserve="" attr-boolean attr-unknown=""></custom-element>
+    <custom-element attr-preserve='' attr-boolean attr-unknown=''></custom-element>"
+  `);
 });
 
 test("prettyHTML should keep non-empty HTML attributes", () => {
-  expect(
-    prettyHTML(`<unknown-element attr-empty=""></unknown-element>`)
-  ).toMatchInlineSnapshot(`"<unknown-element attr-empty></unknown-element>"`);
-
   expect(
     prettyHTML(
       `
       <custom-element attr-preserve attr-remove attr-boolean attr-unknown></custom-element>
       <custom-element attr-preserve="a" attr-remove="b" attr-boolean="c" attr-unknown="d"></custom-element>
+      <custom-element attr-preserve='a' attr-remove='b' attr-boolean='c' attr-unknown='d'></custom-element>
       `,
-      {
-        "custom-element": {
-          "attr-boolean": "boolean",
-          "attr-preserve": "preserve",
-          "attr-remove": "removeIfEmpty",
-        },
-      }
+      TAG_ATTR_TYPE_MAP
     )
   ).toMatchInlineSnapshot(`
     "<custom-element attr-preserve attr-remove attr-boolean attr-unknown></custom-element>
-    <custom-element attr-preserve="a" attr-remove="b" attr-boolean="c" attr-unknown="d"></custom-element>"
+    <custom-element attr-preserve="a" attr-remove="b" attr-boolean="c" attr-unknown="d"></custom-element>
+    <custom-element attr-preserve='a' attr-remove='b' attr-boolean='c' attr-unknown='d'></custom-element>"
   `);
 });
 
-test("prettyHTML should treat empty attributes in unknown element as boolean attributes", () => {
+test("prettyHTML should treat empty attributes in unknown elements as boolean attributes", () => {
   expect(
-    prettyHTML(`<unknown-element attr-empty=""></unknown-element>`)
-  ).toMatchInlineSnapshot(`"<unknown-element attr-empty></unknown-element>"`);
+    prettyHTML(
+      `<unknown-element attr-empty-1="" attr-empty-2=''></unknown-element>`
+    )
+  ).toMatchInlineSnapshot(
+    `"<unknown-element attr-empty-1 attr-empty-2></unknown-element>"`
+  );
 
   expect(
     prettyHTML(
-      `<unknown-element attr-boolean attr-empty="" attr-with-value="a"></unknown-element>`,
-      {
-        "custom-element": {
-          "attr-boolean": "boolean",
-          "attr-preserve": "preserve",
-          "attr-remove": "removeIfEmpty",
-        },
-      }
+      `<unknown-element attr-boolean attr-empty-1="" attr-empty-2='' attr-with-value-1="a" attr-with-value-2='b'></unknown-element>`,
+      TAG_ATTR_TYPE_MAP
     )
   ).toMatchInlineSnapshot(
-    `"<unknown-element attr-boolean attr-empty attr-with-value="a"></unknown-element>"`
+    `"<unknown-element attr-boolean attr-empty-1 attr-empty-2 attr-with-value-1="a" attr-with-value-2='b'></unknown-element>"`
   );
 });

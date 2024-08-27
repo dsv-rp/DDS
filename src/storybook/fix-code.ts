@@ -117,7 +117,7 @@ export function prettyHTML(
         /** @example [[" hidden", "hidden", null], [' class="foo"', "class", '="foo"'], [' custom-prop=""', "custom-prop", '=""']] */
         const attributeMatches = chunk
           .slice(tag.length + 1)
-          .matchAll(/\s+([\w:?@.-]+)(="[^"]*")?/g);
+          .matchAll(/\s+([\w:?@.-]+)(="[^"]*"|='[^']*')?/g);
         // Modify attribute part of the `chunk`.
         // - Delete the empty attribute (`foo=""`) or replace it with a boolean attribute (`foo`).
         // - Escape line breaks in attribute values.
@@ -127,7 +127,7 @@ export function prettyHTML(
             value = value.replaceAll("\n", "&#10;");
 
             // Keep original string if attribute value is not empty
-            if (value !== '=""') {
+            if (value !== '=""' && value !== "=''") {
               return `${attribute}${value}`;
             }
 
