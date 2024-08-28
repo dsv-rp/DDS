@@ -25,58 +25,42 @@ const cvaContainer = cva(
 );
 
 const cvaCheckbox = cva([
-  "appearance-none",
-
   "inline-block",
   "size-[18px]",
   "relative",
-  "rounded-sm",
   "border-daikinNeutral-600",
   "border-2",
-
+  "rounded-sm",
+  "appearance-none",
   "before:absolute",
   "before:text-white",
-
   "before:i-daikin-checkbox-checked",
   "indeterminate:before:i-daikin-checkbox-indeterminate",
 
-  "focus-visible:outline-none",
-
-  "border-daikinNeutral-400",
-
-  "enabled:indeterminate:border-daikinBlue-600",
-  "enabled:indeterminate:bg-daikinBlue-600",
-
-  "enabled:checked:border-daikinBlue-600",
-  "enabled:checked:bg-daikinBlue-600",
-
   "aria-controllable:hover:before:text-daikinNeutral-100",
-  "aria-controllable:active:before:text-daikinNeutral-100",
+  "aria-controllable:active:before:text-daikinNeutral-200",
+  "aria-controllable:focus-visible:outline-daikinBlue-700",
+  "focus-visible:outline-none",
   "aria-controllable:focus-visible:outline-1",
   "aria-controllable:focus-visible:outline-offset-1",
-  "aria-controllable:focus-visible:outline-daikinBlue-700",
 
   "aria-controllable:checked:border-daikinBlue-500",
   "aria-controllable:checked:bg-daikinBlue-500",
-  "aria-controllable:checked:hover:border-daikinBlue-600",
-  "aria-controllable:checked:hover:bg-daikinBlue-600",
+  "aria-controllable:checked:hover:bg-daikinBlue-300",
+  "aria-controllable:checked:hover:border-daikinBlue-300",
   "aria-controllable:checked:hover:before:text-white",
-  "aria-controllable:checked:active:before:text-white",
-  "aria-controllable:checked:active:border-daikinBlue-600",
   "aria-controllable:checked:active:bg-daikinBlue-600",
-  "aria-controllable:checked:focus-visible:border-daikinBlue-500",
-  "aria-controllable:checked:focus-visible:bg-daikinBlue-500",
+  "aria-controllable:checked:active:border-daikinBlue-600",
+  "aria-controllable:checked:active:before:text-white",
 
-  "aria-controllable:indeterminate:border-daikinBlue-500",
   "aria-controllable:indeterminate:bg-daikinBlue-500",
-  "aria-controllable:indeterminate:hover:border-daikinBlue-600",
-  "aria-controllable:indeterminate:hover:bg-daikinBlue-600",
-  "aria-controllable:indeterminate:active:border-daikinBlue-600",
+  "aria-controllable:indeterminate:border-daikinBlue-500",
+  "aria-controllable:indeterminate:hover:bg-daikinBlue-300",
+  "aria-controllable:indeterminate:hover:border-daikinBlue-300",
+  "aria-controllable:indeterminate:hover:before:text-white",
   "aria-controllable:indeterminate:active:bg-daikinBlue-600",
-  "aria-controllable:indeterminate:focus-visible:border-daikinBlue-500",
-  "aria-controllable:indeterminate:focus-visible:bg-daikinBlue-500",
-  "aria-controllable:indeterminate:focus-visible:border-daikinBlue-500",
-  "aria-controllable:indeterminate:focus-visible:bg-daikinBlue-500",
+  "aria-controllable:indeterminate:active:border-daikinBlue-600",
+  "aria-controllable:indeterminate:active:before:text-white",
 
   "disabled:border-daikinNeutral-200",
   "disabled:bg-white",
