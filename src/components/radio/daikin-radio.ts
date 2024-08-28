@@ -27,26 +27,34 @@ const cvaRadio = cva([
   "rounded-full",
   "relative",
   "appearance-none",
-  "aria-controllable:hover:before:content-normal",
+  "before:content-normal",
+  "before:block",
+  "before:size-1.5",
+  "before:rounded-full",
+  "before:absolute",
   "aria-controllable:hover:before:block",
-  "aria-controllable:hover:before:size-1.5",
-  "aria-controllable:hover:before:rounded-full",
-  "aria-controllable:hover:before:absolute",
   "aria-controllable:hover:before:bg-daikinNeutral-100",
-  "aria-controllable:active:before:content-normal",
   "aria-controllable:active:before:block",
-  "aria-controllable:active:before:size-1.5",
-  "aria-controllable:active:before:rounded-full",
-  "aria-controllable:active:before:absolute",
-  "aria-controllable:active:before:bg-daikinNeutral-100",
+  "aria-controllable:active:before:bg-daikinNeutral-200",
   "aria-controllable:checked:hover:before:hidden",
   "focus-visible:outline-1",
   "focus-visible:outline-offset-[3px]",
   "focus-visible:outline-daikinBlue-700",
   "checked:border-[5px]",
   "checked:border-daikinBlue-500",
+  "checked:hover:border-daikinBlue-300",
+  "checked:active:border-daikinBlue-600",
   "disabled:border-daikinNeutral-200",
 ]);
+
+const cvaLabel = cva([], {
+  variants: {
+    status: {
+      enabled: [],
+      disabled: ["text-daikinNeutral-200"],
+    },
+  },
+});
 
 type RadioVariantProps = MergeVariantProps<typeof cvaContainer>;
 
@@ -167,7 +175,12 @@ export class DaikinRadio extends LitElement {
         @change=${this._handleChange}
       />
       ${this.label
-        ? html`<span class="text-base">${this.label}</span>`
+        ? html`<span
+            class=${cvaLabel({
+              status: this.disabled ? "disabled" : "enabled",
+            })}
+            >${this.label}</span
+          >`
         : nothing}
     </label>`;
   }
