@@ -12,7 +12,7 @@ There are three types of events, but in all cases \`event.target\` always points
 
 - A custom event. This is a component-specific event that does not belong to the HTML standard.
 - A cloned event. This is a cloned event of a non-composed standard HTML event.
-- A [retargeted](https://lit.dev/docs/components/events/#shadowdom-retargeting) event. This is a [composed](https://developer.mozilla.org/en-US/docs/Web/API/Event/composed) event of the HTML standard that is dispatched by an element inside the component.
+- A [retargeted](https://lit.dev/docs/components/events/#shadowdom-retargeting) event. This is a [composed](https://developer.mozilla.org/en-US/docs/Web/API/Event/composed) event of the HTML standard that is dispatched by an element inside the component. As this is an HTML standard event, it may not be fully covered in the table below.
 `.trim();
 
   return linkify(
