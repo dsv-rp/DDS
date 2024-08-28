@@ -1,32 +1,14 @@
 import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
 import type { StorybookFrameworkName } from "../../../storybook-env";
-import { createLinkMap, linkify } from "./linkify";
+import { createComponentDescription } from "./description";
+import { createLinkMap } from "./linkify";
 import { createTSProgram } from "./tsc";
 import {
   analyzeComponentFile,
   collectComponentAttributeMetadata,
   formatAnalyzerResultToMarkdown,
 } from "./wca";
-
-function formatComponentDescription(
-  markdown: string,
-  linkMap: ReadonlyMap<string, string>,
-  linkExcludes: readonly string[]
-): string {
-  return linkify(
-    markdown
-      // Remove component title (e.g. `## daikin-checkbox`)
-      .replace(/^\s*#+ .+\n/, "")
-      // Replace " \" to "  " in the end of lines.
-      .replace(/ \\$/gm, "  ")
-      // Fix "\|", "\<" and "\>" in inline codes
-      .replace(/[^`]`[^`]+`/g, (all) => all.replace(/\\([|<>])/g, "$1"))
-      .trim(),
-    linkMap,
-    linkExcludes
-  );
-}
 
 /**
  * Loader plugin for `#storybook-framework`. \
@@ -66,19 +48,24 @@ export function storybookFrameworkLoader(
         .replace(/\.stories.tsx?$/, "");
       // get component filepath ("<dir>/daikin-button.ts")
       const componentFilepath = resolve(storiesId, "../..", `${basename}.ts`);
+      // analyze component using web-component-analyzer (wca)
       const analyzerResult = analyzeComponentFile(
         componentFilepath,
         program,
         this.warn.bind(this)
       );
-      const componentDescription = formatComponentDescription(
-        analyzerResult
-          ? formatAnalyzerResultToMarkdown(program, analyzerResult)
-          : "",
+      // render analysis result to markdown
+      const wcaMarkdown = analyzerResult
+        ? formatAnalyzerResultToMarkdown(program, analyzerResult)
+        : "";
+      // adjust the rendered markdown for Storybook
+      const componentDescription = createComponentDescription(
+        wcaMarkdown,
         await linkMapPromise,
         [basename]
       );
 
+      // create a map of attributes and types using analysis result
       const componentAttributeMetadataMap = analyzerResult
         ? collectComponentAttributeMetadata(analyzerResult)
         : {};
