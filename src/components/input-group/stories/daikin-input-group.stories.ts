@@ -17,11 +17,11 @@ export default {
 
 export const Default: Story = {
   args: {
-    __vrtContent__: "TextInput",
     label: "Label text",
     helper: "Helper text",
     disabled: false,
     required: false,
+    __vrtContent__: "TextInput",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];

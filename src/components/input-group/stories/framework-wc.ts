@@ -27,6 +27,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       <!-- value="Value" -->
       ${__vrtContent__ === "TextInput"
         ? html`<daikin-text-input
+            value="Value"
             placeholder="Placeholder text"
           ></daikin-text-input>`
         : null}
