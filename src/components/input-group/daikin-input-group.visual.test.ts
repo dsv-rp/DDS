@@ -14,25 +14,28 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["TextInput", "Textarea"] as const, (__vrtContent__) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
-    describeEach(["normal", "error"] as const, (error) => {
-      describeEach(["visible", "hidden"] as const, (textareaCounter) => {
-        const baseURL = getPageURL({
-          disabled: state === "disabled",
-          error: error === "error" ? "Error text" : undefined,
-          textareaCounter: textareaCounter === "visible",
-          __vrtContent__,
-        });
-
-        test("base", async ({ page }) => {
-          await page.goto(baseURL);
-
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-input-group", {
-            state: "visible",
+    describeEach(["optional", "required"] as const, (required) => {
+      describeEach(["normal", "error"] as const, (error) => {
+        describeEach(["visible", "hidden"] as const, (textareaCounter) => {
+          const baseURL = getPageURL({
+            __vrtContent__,
+            disabled: state === "disabled",
+            required: required === "required",
+            error: error === "error" ? "Error Text" : undefined,
+            textareaCounter: textareaCounter === "visible",
           });
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
+          test("base", async ({ page }) => {
+            await page.goto(baseURL);
+
+            // wait for element to be visible
+            const element = await page.waitForSelector("daikin-input-group", {
+              state: "visible",
+            });
+
+            // take screenshot and check for diffs
+            await expect(page).toHaveScreenshot(await clipFor(element));
+          });
         });
       });
     });

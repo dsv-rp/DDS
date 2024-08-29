@@ -13,6 +13,15 @@ import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 type ControlElement = DaikinTextInput | DaikinTextarea;
 
+const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
+  variants: {
+    required: {
+      optional: [],
+      required: ["after:i-daikin-required", "after:size-4", "after:ml-1"],
+    },
+  },
+});
+
 const cvaHelper = cva(["h-[22px]", "text-sm"], {
   variants: {
     variant: {
@@ -83,6 +92,12 @@ export class DaikinInputGroup extends LitElement {
   disabled = false;
 
   /**
+   * Whether the field is required. An additional star mark will be added if `true`.
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  /**
    * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
    */
   @property({ type: String, reflect: true })
@@ -120,7 +135,13 @@ export class DaikinInputGroup extends LitElement {
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center w-max gap-2 font-daikinSerif">
         ${this.label
-          ? html`<span class="font-bold leading-5">${this.label}</span>`
+          ? html`<span
+              class=${cvaLabel({
+                required: this.required ? "required" : "optional",
+              })}
+            >
+              ${this.label}
+            </span>`
           : null}
         <slot @slotchange=${this._handleSlotChange}></slot>
         ${this.helper && !this.error

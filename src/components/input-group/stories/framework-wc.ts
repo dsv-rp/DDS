@@ -12,6 +12,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     helper,
     error,
     disabled,
+    required,
     textareaCounter,
     __vrtContent__,
   }) => html`
@@ -20,6 +21,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       helper=${ifDefined(helper)}
       error=${ifDefined(error)}
       ?disabled=${disabled}
+      ?required=${required}
       ?textareaCounter=${textareaCounter}
     >
       <!-- value="Value" -->

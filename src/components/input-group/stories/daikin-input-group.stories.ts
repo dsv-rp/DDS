@@ -21,6 +21,7 @@ export const Default: Story = {
     label: "Label text",
     helper: "Helper text",
     disabled: false,
+    required: false,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
@@ -40,6 +41,13 @@ export const Default: Story = {
     innerInput.value = "Value";
     innerInput.blur();
   }),
+};
+
+export const Required: Story = {
+  args: {
+    ...Default.args,
+    required: true,
+  },
 };
 
 export const Disabled: Story = {

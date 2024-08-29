@@ -25,6 +25,12 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     defaultValue: false,
     type: "boolean",
   },
+  required: {
+    description:
+      "Whether the field is required. An additional star mark will be added if `true`.",
+    defaultValue: false,
+    type: "boolean",
+  },
   error: {
     description:
       "Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.",
@@ -36,7 +42,7 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     type: "boolean",
   },
   __vrtContent__: {
-    description: "Content inside for the Visual Regression Test",
+    description: "Content for the Visual Regression Test",
     control: "select",
     options: ["TextInput", "Textarea"],
   },
