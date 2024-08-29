@@ -11,7 +11,6 @@ export const metadata: Meta<DaikinRadioStoryArgs> = {
     labelPosition,
     checked,
     disabled,
-    readonly,
     onChange,
     onClick,
   }) => html`
@@ -22,7 +21,6 @@ export const metadata: Meta<DaikinRadioStoryArgs> = {
       label-position=${labelPosition}
       ?checked=${checked}
       ?disabled=${disabled}
-      ?readonly=${readonly}
       @change=${onChange}
       @click=${onClick}
     ></daikin-radio>

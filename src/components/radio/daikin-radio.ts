@@ -42,6 +42,7 @@ const cvaContainer = cva(
       labelPosition: {
         left: ["flex-row-reverse"],
         right: [],
+        hidden: [],
       },
     },
   }
@@ -82,7 +83,7 @@ export class DaikinRadio extends LitElement {
   `;
 
   private _handleClick(event: MouseEvent) {
-    if (this.readonly || this.disabled) {
+    if (this.disabled) {
       event.preventDefault();
     }
   }
@@ -130,12 +131,6 @@ export class DaikinRadio extends LitElement {
   disabled = false;
 
   /**
-   * Specify whether the radio is read only
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly = false;
-
-  /**
    * Specify whether the radio is be checked
    */
   @property({ type: Boolean, reflect: true })
@@ -168,21 +163,20 @@ export class DaikinRadio extends LitElement {
         type="radio"
         name=${this.name}
         value=${this.value}
-        aria-readonly=${this.readonly}
+        aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
         ?disabled=${this.disabled}
         .checked=${this.checked}
         @click=${this._handleClick}
         @change=${this._handleChange}
       />
-      ${this.label
-        ? html`<span
-            class=${cvaLabel({
-              disabled: this.disabled,
-            })}
-          >
-            ${this.label}
-          </span>`
-        : nothing}
+      <span
+        class=${cvaLabel({
+          disabled: this.disabled,
+        })}
+        ?hidden=${this.labelPosition === "hidden"}
+      >
+        ${this.label}
+      </span>
     </label>`;
   }
 }

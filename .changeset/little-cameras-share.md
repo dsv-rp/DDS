@@ -3,4 +3,5 @@
 ---
 
 **BREAKING CHANGE** Radio: The `size` property has been removed and replaced with a standard size. (DDS-1350)
+Radio: The `labelPosition` property now accepts `"hidden"` value. (DDS-1350)
 Radio: Updated appearance. (DDS-1350)

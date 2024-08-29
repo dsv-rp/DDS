@@ -19,10 +19,7 @@ export const DAIKIN_RADIO_ARG_TYPES = {
     control: {
       type: "radio",
     },
-    options: ["left", "right"],
-  },
-  readonly: {
-    type: "boolean",
+    options: ["left", "right", "hidden"],
   },
   label: {
     type: "string",

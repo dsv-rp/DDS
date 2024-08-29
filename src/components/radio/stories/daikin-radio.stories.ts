@@ -14,7 +14,6 @@ export default {
 export const Default: Story = {
   args: {
     disabled: false,
-    readonly: false,
     label: "Radio label",
     labelPosition: "right",
     checked: false,
@@ -88,15 +87,4 @@ export const Disabled: Story = {
       await expect(innerRadio).not.toBeChecked();
     });
   }),
-};
-
-export const Readonly: Story = {
-  args: {
-    ...Default.args,
-    readonly: true,
-    onChange: fn(),
-    onClick: fn(),
-  },
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
-  play: Disabled.play!,
 };

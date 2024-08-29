@@ -12,13 +12,12 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_RADIO_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-radio--default", args);
 
-describeEach(["enabled", "disabled", "readonly"], (variant) => {
+describeEach(["enabled", "disabled"], (variant) => {
   describeEach(["left", "right"] as const, (labelPosition) => {
     describeEach(["checked", "unchecked"] as const, (checkState) => {
       const baseURL = getPageURL({
         checked: checkState === "checked",
         disabled: variant === "disabled",
-        readonly: variant === "readonly",
         labelPosition,
       });
 
