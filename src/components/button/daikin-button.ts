@@ -38,7 +38,7 @@ const cvaButton = cva(
   {
     variants: {
       variant: {
-        solid: [
+        fill: [
           "text-white",
           "enabled:bg-[--color-base]",
           "enabled:hover:bg-[--color-hover]",
@@ -70,11 +70,11 @@ const cvaButton = cva(
         ],
       },
       size: {
-        small: ["px-3", "text-xs"],
-        medium: ["px-4", "text-sm"],
+        small: ["min-w-12", "px-3", "text-xs"],
+        medium: ["min-w-[60px]", "px-4", "text-sm"],
       },
       color: {
-        primary: [
+        default: [
           "var-color-daikinBlue-500/color-base",
           "var-color-daikinBlue-300/color-hover",
           "var-color-daikinBlue-600/color-active",
@@ -148,13 +148,13 @@ export class DaikinButton extends LitElement {
    * Type of variant.
    */
   @property({ type: String })
-  variant: ButtonVariantProps["variant"] = "solid";
+  variant: ButtonVariantProps["variant"] = "fill";
 
   /**
    * Type of color.
    */
   @property({ type: String })
-  color: "primary" | "danger" = "primary";
+  color: ButtonVariantProps["color"] = "default";
 
   /**
    * Specify the button size.

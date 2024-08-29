@@ -10,10 +10,10 @@ import type { DAIKIN_BUTTON_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_BUTTON_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-button--solid", args);
+  getStorybookIframeURL("components-button--fill", args);
 
-describeEach(["solid", "outline", "ghost"] as const, (variant) => {
-  describeEach(["primary", "danger"] as const, (color) => {
+describeEach(["fill", "outline", "ghost"] as const, (variant) => {
+  describeEach(["default", "danger"] as const, (color) => {
     describeEach(["small", "medium"] as const, (size) => {
       describeEach(["none", "left", "right"] as const, (icon) => {
         const baseArgs = {

@@ -14,11 +14,11 @@ export interface DaikinButtonStoryArgs
 export const DAIKIN_BUTTON_ARG_TYPES = {
   variant: {
     control: { type: "radio" },
-    options: ["solid", "outline", "ghost"],
+    options: ["fill", "outline", "ghost"],
   },
   color: {
     control: { type: "radio" },
-    options: ["primary", "danger"],
+    options: ["default", "danger"],
   },
   size: {
     control: { type: "radio" },

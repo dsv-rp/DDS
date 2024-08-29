@@ -14,10 +14,10 @@ export default {
   ...metadata,
 };
 
-export const Solid: Story = {
+export const Fill: Story = {
   args: {
-    variant: "solid",
-    color: "primary",
+    variant: "fill",
+    color: "default",
     disabled: false,
     label: "button",
     size: "medium",
@@ -47,7 +47,7 @@ export const Solid: Story = {
 
 export const Outline: Story = {
   args: {
-    ...Solid.args,
+    ...Fill.args,
     variant: "outline",
     onClick: fn(),
   },
@@ -55,7 +55,7 @@ export const Outline: Story = {
 
 export const Ghost: Story = {
   args: {
-    ...Solid.args,
+    ...Fill.args,
     variant: "ghost",
     onClick: fn(),
   },
@@ -63,7 +63,7 @@ export const Ghost: Story = {
 
 export const Danger: Story = {
   args: {
-    ...Solid.args,
+    ...Fill.args,
     color: "danger",
     onClick: fn(),
   },
@@ -71,7 +71,7 @@ export const Danger: Story = {
 
 export const Disabled: Story = {
   args: {
-    ...Solid.args,
+    ...Fill.args,
     disabled: true,
     onClick: fn(),
   },
