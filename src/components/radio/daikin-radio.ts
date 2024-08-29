@@ -9,8 +9,8 @@ const cvaContainer = cva(
   {
     variants: {
       labelPosition: {
-        left: ["[&>span]:order-1", "[&>input]:order-2"],
-        right: ["[&>span]:order-2", "[&>input]:order-1"],
+        left: ["flex-row-reverse"],
+        right: [],
       },
     },
   }
@@ -129,7 +129,7 @@ export class DaikinRadio extends LitElement {
   error = false;
 
   override render() {
-    const RADIO_CLASSNAME = cva([
+    const RADIO_CLASS_NAME = cva([
       "flex",
       "justify-center",
       "items-center",
@@ -164,7 +164,7 @@ export class DaikinRadio extends LitElement {
       class=${cvaContainer({ labelPosition: this.labelPosition })}
     >
       <input
-        class=${RADIO_CLASSNAME}
+        class=${RADIO_CLASS_NAME}
         type="radio"
         name=${this.name}
         value=${this.value}
