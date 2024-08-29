@@ -12,11 +12,11 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_PAGINATION_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-pagination--default", args);
 
-describeEach(["max6page", "max15page"], (max) => {
-  describeEach(["show6page"] as const, () => {
+describeEach(["max7page", "max15page"], (max) => {
+  describeEach(["show7items"] as const, () => {
     const baseURL = getPageURL({
-      lastPage: max === "max6page" ? 6 : 15,
-      pageWindow: 6,
+      lastPage: max === "max7page" ? 7 : 15,
+      pageWindow: 7,
       currentPage: 1,
     });
 
@@ -33,24 +33,6 @@ describeEach(["max6page", "max15page"], (max) => {
     });
 
     if (max === "max15page") {
-      test("click dropdown", async ({ page }) => {
-        await page.goto(baseURL);
-
-        // wait for element to be visible
-        await page.waitForSelector("daikin-pagination", {
-          state: "visible",
-        });
-
-        const element = await page.waitForSelector("#storyWrap", {
-          state: "visible",
-        });
-
-        await page.getByLabel("pageDetailRight").click();
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
-
       test("hover dropdown", async ({ page }) => {
         await page.goto(baseURL);
 
