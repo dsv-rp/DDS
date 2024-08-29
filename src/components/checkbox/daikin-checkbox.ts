@@ -68,6 +68,15 @@ const cvaContainer = cva(
   }
 );
 
+const cvaLabel = cva([], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
+    },
+  },
+});
+
 type CheckboxVariantProps = MergeVariantProps<typeof cvaContainer>;
 
 /**
@@ -176,7 +185,12 @@ export class DaikinCheckbox extends LitElement {
         @change=${this._handleChange}
         @click=${this._handleClick}
       />
-      <span class="text-base" ?hidden=${this.labelPosition === "hidden"}>
+      <span
+        class=${cvaLabel({
+          disabled: this.disabled,
+        })}
+        ?hidden=${this.labelPosition === "hidden"}
+      >
         ${this.label}
       </span>
     </label>`;
