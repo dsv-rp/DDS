@@ -16,42 +16,11 @@ const cvaContainer = cva(
   }
 );
 
-const cvaRadio = cva([
-  "flex",
-  "justify-center",
-  "items-center",
-  "size-4",
-  "bg-white",
-  "border-[1.5px]",
-  "border-daikinNeutral-600",
-  "rounded-full",
-  "relative",
-  "appearance-none",
-  "before:content-normal",
-  "before:block",
-  "before:size-1.5",
-  "before:rounded-full",
-  "before:absolute",
-  "aria-controllable:hover:before:block",
-  "aria-controllable:hover:before:bg-daikinNeutral-100",
-  "aria-controllable:active:before:block",
-  "aria-controllable:active:before:bg-daikinNeutral-200",
-  "aria-controllable:checked:hover:before:hidden",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-[3px]",
-  "focus-visible:outline-daikinBlue-700",
-  "checked:border-[5px]",
-  "checked:border-daikinBlue-500",
-  "checked:hover:border-daikinBlue-300",
-  "checked:active:border-daikinBlue-600",
-  "disabled:border-daikinNeutral-200",
-]);
-
 const cvaLabel = cva([], {
   variants: {
-    status: {
-      enabled: [],
-      disabled: ["text-daikinNeutral-200"],
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
     },
   },
 });
@@ -160,11 +129,42 @@ export class DaikinRadio extends LitElement {
   error = false;
 
   override render() {
+    const RADIO_CLASSNAME = cva([
+      "flex",
+      "justify-center",
+      "items-center",
+      "size-4",
+      "bg-white",
+      "border-[1.5px]",
+      "border-daikinNeutral-600",
+      "rounded-full",
+      "relative",
+      "appearance-none",
+      "before:content-normal",
+      "before:block",
+      "before:size-1.5",
+      "before:rounded-full",
+      "before:absolute",
+      "aria-controllable:hover:before:block",
+      "aria-controllable:hover:before:bg-daikinNeutral-100",
+      "aria-controllable:active:before:block",
+      "aria-controllable:active:before:bg-daikinNeutral-200",
+      "aria-controllable:checked:hover:before:hidden",
+      "focus-visible:outline-1",
+      "focus-visible:outline-offset-[3px]",
+      "focus-visible:outline-daikinBlue-700",
+      "checked:border-[5px]",
+      "checked:border-daikinBlue-500",
+      "checked:hover:border-daikinBlue-300",
+      "checked:active:border-daikinBlue-600",
+      "disabled:border-daikinNeutral-200",
+    ])();
+
     return html`<label
       class=${cvaContainer({ labelPosition: this.labelPosition })}
     >
       <input
-        class=${cvaRadio()}
+        class=${RADIO_CLASSNAME}
         type="radio"
         name=${this.name}
         value=${this.value}
@@ -177,7 +177,7 @@ export class DaikinRadio extends LitElement {
       ${this.label
         ? html`<span
             class=${cvaLabel({
-              status: this.disabled ? "disabled" : "enabled",
+              disabled: this.disabled,
             })}
             >${this.label}</span
           >`
