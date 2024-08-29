@@ -124,7 +124,7 @@ export const Ellipsis: Story = {
   args: {
     currentPage: 1,
     lastPage: 15,
-    pageWindow: 6,
+    pageWindow: 7,
     onChange: fn(eventPayloadTransformer),
     onClick: fn(eventPayloadTransformer),
   },
@@ -181,10 +181,11 @@ export const Ellipsis: Story = {
         await userEvent.click(chevronRight);
         await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 5 });
         await expect(root.currentPage).toEqual(5);
+        await checkPageButton(root, [1, 4, 5, 6, 15], allPages);
         await userEvent.click(chevronRight);
         await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 6 });
         await expect(root.currentPage).toEqual(6);
-        await checkPageButton(root, [1, 4, 5, 6, 15], allPages);
+        await checkPageButton(root, [1, 5, 6, 7, 15], allPages);
       }
     );
     // currentPage should be changed when click page number from dropdown menu
@@ -201,7 +202,7 @@ export const Ellipsis: Story = {
       await userEvent.click(page8);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 8 });
       await expect(root.currentPage).toEqual(8);
-      await checkPageButton(root, [1, 6, 7, 8, 15], allPages);
+      await checkPageButton(root, [1, 7, 8, 9, 15], allPages);
     });
     // click last page and click left chevron will hidden right ellipsis button
     await step("Try to click last page and click left chevron", async () => {
@@ -212,10 +213,23 @@ export const Ellipsis: Story = {
       await userEvent.click(page15);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 15 });
       await expect(root.currentPage).toEqual(15);
+      await checkPageButton(root, [1, 11, 12, 13, 14, 15], allPages);
       await userEvent.click(chevronLeft);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 14 });
       await expect(root.currentPage).toEqual(14);
       await checkPageButton(root, [1, 11, 12, 13, 14, 15], allPages);
+      await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 13 });
+      await expect(root.currentPage).toEqual(13);
+      await checkPageButton(root, [1, 11, 12, 13, 14, 15], allPages);
+      await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 12 });
+      await expect(root.currentPage).toEqual(12);
+      await checkPageButton(root, [1, 11, 12, 13, 15], allPages);
+      await userEvent.click(chevronLeft);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 11 });
+      await expect(root.currentPage).toEqual(11);
+      await checkPageButton(root, [1, 10, 11, 12, 15], allPages);
     });
     // click first page and click right chevron will hidden left ellipsis button
     await step("Try to click first page and click right chevron", async () => {
@@ -225,11 +239,24 @@ export const Ellipsis: Story = {
       await expect(page1).toBeInTheDocument();
       await userEvent.click(page1);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 1 });
+      await checkPageButton(root, [1, 2, 3, 4, 5, 15], allPages);
       await expect(root.currentPage).toEqual(1);
       await userEvent.click(chevronRight);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 2 });
       await expect(root.currentPage).toEqual(2);
       await checkPageButton(root, [1, 2, 3, 4, 5, 15], allPages);
+      await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 3 });
+      await expect(root.currentPage).toEqual(3);
+      await checkPageButton(root, [1, 2, 3, 4, 5, 15], allPages);
+      await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 4 });
+      await expect(root.currentPage).toEqual(4);
+      await checkPageButton(root, [1, 3, 4, 5, 15], allPages);
+      await userEvent.click(chevronRight);
+      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 5 });
+      await expect(root.currentPage).toEqual(5);
+      await checkPageButton(root, [1, 4, 5, 6, 15], allPages);
     });
   }),
 };
