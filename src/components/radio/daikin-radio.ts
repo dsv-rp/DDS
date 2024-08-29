@@ -82,11 +82,42 @@ export class DaikinRadio extends LitElement {
     }
   `;
 
-  private _handleClick(event: MouseEvent) {
-    if (this.disabled) {
-      event.preventDefault();
-    }
-  }
+  /**
+   * The form name
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * The form value
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Specify the label text for the radio
+   */
+  @property({ type: String })
+  label = "";
+
+  /**
+   * Specify the label position.
+   * when `left` the label will be in left of radio, when `right` label will be in right of radio.
+   */
+  @property({ type: String, attribute: "label-position" })
+  labelPosition: RadioVariantProps["labelPosition"] = "right";
+
+  /**
+   * Specify whether the radio is be checked
+   */
+  @property({ type: Boolean, reflect: true })
+  checked = false;
+
+  /**
+   * Specify whether the Radio should be disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
 
   static readonly formAssociated = true;
 
@@ -103,6 +134,12 @@ export class DaikinRadio extends LitElement {
     }
   }
 
+  private _handleClick(event: MouseEvent) {
+    if (this.disabled) {
+      event.preventDefault();
+    }
+  }
+
   private _handleChange(event: Event) {
     const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
     this.checked = input.checked;
@@ -110,49 +147,6 @@ export class DaikinRadio extends LitElement {
     const newEvent = new Event("change", event);
     this.dispatchEvent(newEvent);
   }
-
-  /**
-   * Specify the label text for the radio
-   */
-  @property({ type: String })
-  label = "";
-
-  /**
-   * Specify the label position
-   * when `left` the label will be in left of radio, when `right` label will be in right of radio
-   */
-  @property({ type: String, attribute: "label-position" })
-  labelPosition: RadioVariantProps["labelPosition"] = "right";
-
-  /**
-   * Specify whether the Radio should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify whether the radio is be checked
-   */
-  @property({ type: Boolean, reflect: true })
-  checked = false;
-
-  /**
-   * The form name.
-   */
-  @property({ type: String, reflect: true })
-  name = "";
-
-  /**
-   * The form value.
-   */
-  @property({ type: String, reflect: true })
-  value = "";
-
-  /**
-   * Specify whether the Radio is in a error state
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
 
   override render() {
     return html`<label

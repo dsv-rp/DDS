@@ -9,11 +9,14 @@ export interface DaikinRadioStoryArgs
 }
 
 export const DAIKIN_RADIO_ARG_TYPES = {
-  checked: {
-    type: "boolean",
+  name: {
+    type: "string",
   },
-  disabled: {
-    type: "boolean",
+  value: {
+    type: "string",
+  },
+  label: {
+    type: "string",
   },
   labelPosition: {
     control: {
@@ -21,14 +24,11 @@ export const DAIKIN_RADIO_ARG_TYPES = {
     },
     options: ["left", "right", "hidden"],
   },
-  label: {
-    type: "string",
+  checked: {
+    type: "boolean",
   },
-  name: {
-    type: "string",
-  },
-  value: {
-    type: "string",
+  disabled: {
+    type: "boolean",
   },
 } satisfies Meta<DaikinRadioStoryArgs>["argTypes"];
 
