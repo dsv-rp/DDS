@@ -90,8 +90,6 @@ export class DaikinCheckbox extends LitElement {
 
     :host {
       display: inline-flex;
-      width: max-content;
-      height: max-content;
     }
   `;
 
