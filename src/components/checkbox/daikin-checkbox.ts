@@ -185,9 +185,9 @@ export class DaikinCheckbox extends LitElement {
         @change=${this._handleChange}
         @click=${this._handleClick}
       />
-      ${this.labelPosition === "hidden"
-        ? nothing
-        : html`<span class="text-base">${this.label}</span>`}
+      <span class="text-base" ?hidden=${this.labelPosition === "hidden"}>
+        ${this.label}
+      </span>
     </label>`;
   }
 
