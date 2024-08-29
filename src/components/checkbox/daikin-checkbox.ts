@@ -93,10 +93,48 @@ export class DaikinCheckbox extends LitElement {
     }
   `;
 
-  private _handleClick(event: PointerEvent) {
-    if (this.disabled) {
-      event.preventDefault();
-    }
+  /**
+   * The form name
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * The value
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Specify the label text for check box
+   */
+  @property({ type: String })
+  label = "";
+
+  /**
+   * Specify the label position.
+   * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox.
+   */
+  @property({ type: String, attribute: "label-position" })
+  labelPosition: CheckboxVariantProps["labelPosition"] = "right";
+
+  /**
+   * Specify whether the checkbox is be checked
+   */
+  @property({ type: String, reflect: true, attribute: "check-state" })
+  checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
+
+  /**
+   * Specify whether the Checkbox should be disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  @query("input")
+  private _input: HTMLInputElement | null | undefined;
+
+  get checked() {
+    return this.checkState === "checked";
   }
 
   static readonly formAssociated = true;
@@ -108,13 +146,11 @@ export class DaikinCheckbox extends LitElement {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  @query("input")
-  private _input: HTMLInputElement | null | undefined;
-
-  get checked() {
-    return this.checkState === "checked";
+  private _handleClick(event: PointerEvent) {
+    if (this.disabled) {
+      event.preventDefault();
+    }
   }
-
   private _handleChange(event: Event) {
     if (!this._input) {
       return;
@@ -123,49 +159,6 @@ export class DaikinCheckbox extends LitElement {
     this._updateFormValue();
     this.dispatchEvent(new Event("change", event));
   }
-
-  /**
-   * Specify the label text for check box
-   */
-  @property({ type: String })
-  label = "";
-
-  /**
-   * Specify the label position
-   * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
-   */
-  @property({ type: String, attribute: "label-position" })
-  labelPosition: CheckboxVariantProps["labelPosition"] = "right";
-
-  /**
-   * Specify whether the Checkbox should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify whether the checkbox is be checked
-   */
-  @property({ type: String, reflect: true, attribute: "check-state" })
-  checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
-
-  /**
-   * The form name.
-   */
-  @property({ type: String, reflect: true })
-  name = "";
-
-  /**
-   * The value.
-   */
-  @property({ type: String, reflect: true })
-  value = "";
-
-  /**
-   * Specify whether the Checkbox is in a error state
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
 
   override render() {
     return html`<label

@@ -9,12 +9,14 @@ export interface DaikinCheckboxStoryArgs
 }
 
 export const DAIKIN_CHECKBOX_ARG_TYPES = {
-  checkState: {
-    control: { type: "radio" },
-    options: ["unchecked", "indeterminate", "checked"],
+  name: {
+    type: "string",
   },
-  disabled: {
-    type: "boolean",
+  value: {
+    type: "string",
+  },
+  label: {
+    type: "string",
   },
   labelPosition: {
     control: {
@@ -22,14 +24,12 @@ export const DAIKIN_CHECKBOX_ARG_TYPES = {
     },
     options: ["left", "right", "hidden"],
   },
-  label: {
-    type: "string",
+  checkState: {
+    control: { type: "radio" },
+    options: ["unchecked", "indeterminate", "checked"],
   },
-  name: {
-    type: "string",
-  },
-  value: {
-    type: "string",
+  disabled: {
+    type: "boolean",
   },
 } as const satisfies Meta<DaikinCheckboxStoryArgs>["argTypes"];
 
