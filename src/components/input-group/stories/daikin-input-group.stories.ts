@@ -17,11 +17,10 @@ export default {
 
 export const Default: Story = {
   args: {
-    content: "TextInput",
+    __vrtContent__: "TextInput",
     label: "Label text",
     helper: "Helper text",
     disabled: false,
-    required: false,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
@@ -41,13 +40,6 @@ export const Default: Story = {
     innerInput.value = "Value";
     innerInput.blur();
   }),
-};
-
-export const Required: Story = {
-  args: {
-    ...Default.args,
-    required: true,
-  },
 };
 
 export const Disabled: Story = {
@@ -84,7 +76,7 @@ export const Error: Story = {
 export const Textarea: Story = {
   args: {
     ...Default.args,
-    content: "Textarea",
+    __vrtContent__: "Textarea",
     textareaCounter: true,
   },
   play: definePlay(async ({ canvasElement, step }) => {

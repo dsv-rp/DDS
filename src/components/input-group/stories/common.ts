@@ -4,18 +4,13 @@ import type { DaikinInputGroup } from "../daikin-input-group";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {
-  content: "TextInput" | "Textarea";
+  __vrtContent__: "TextInput" | "Textarea";
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
 }
 
 export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
-  content: {
-    description: "Slot content to show",
-    control: "select",
-    options: ["TextInput", "Textarea"],
-  },
   label: {
     description: "Label text to place at the top of the field",
     type: "string",
@@ -30,12 +25,6 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     defaultValue: false,
     type: "boolean",
   },
-  required: {
-    description:
-      "Whether the field is required. An additional star mark will be added if `true`.",
-    defaultValue: false,
-    type: "boolean",
-  },
   error: {
     description:
       "Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.",
@@ -45,6 +34,11 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     description: "Whether to display the counter in the Textarea",
     defaultValue: false,
     type: "boolean",
+  },
+  __vrtContent__: {
+    description: "Content inside for the Visual Regression Test",
+    control: "select",
+    options: ["TextInput", "Textarea"],
   },
 } satisfies Meta<DaikinInputGroupStoryArgs>["argTypes"];
 

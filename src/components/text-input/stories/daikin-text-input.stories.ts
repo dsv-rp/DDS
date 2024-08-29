@@ -54,6 +54,24 @@ export const Error: Story = {
   },
 };
 
+export const LeftIcon: Story = {
+  args: {
+    ...Default.args,
+    leftIcon: "positive",
+    onChange: fn(),
+    onInput: fn(),
+  },
+};
+
+export const RightIcon: Story = {
+  args: {
+    ...Default.args,
+    rightIcon: "positive",
+    onChange: fn(),
+    onInput: fn(),
+  },
+};
+
 export const Disabled: Story = {
   args: {
     ...Default.args,

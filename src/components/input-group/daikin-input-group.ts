@@ -7,25 +7,13 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 type ControlElement = DaikinTextInput | DaikinTextarea;
 
-const cvaLabel = cva(["text-base", "font-bold"], {
-  variants: {
-    variant: {
-      enabled: ["text-daikinNeutral-800"],
-      disabled: ["text-daikinNeutral-200"],
-    },
-    required: {
-      optional: [],
-      required: ["after:content-['*']", "after:ml-[2px]"],
-    },
-  },
-});
-
-const cvaHelper = cva(["h-[22px]", "text-xs"], {
+const cvaHelper = cva(["h-[22px]", "text-sm"], {
   variants: {
     variant: {
       enabled: ["text-daikinNeutral-800"],
@@ -95,12 +83,6 @@ export class DaikinInputGroup extends LitElement {
   disabled = false;
 
   /**
-   * Whether the field is required. An additional star mark will be added if `true`.
-   */
-  @property({ type: Boolean, reflect: true })
-  required = false;
-
-  /**
    * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
    */
   @property({ type: String, reflect: true })
@@ -135,29 +117,32 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
-    const inputGroupLabelClassName = cvaLabel({
-      variant: this.disabled ? "disabled" : "enabled",
-      required: this.required ? "required" : "optional",
-    });
-
-    const inputGroupHelperClassName = cvaHelper({
-      variant: this.disabled ? "disabled" : "enabled",
-    });
-
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
+      <label class="flex flex-col justify-center w-max gap-2 font-daikinSerif">
         ${this.label
-          ? html`<span class=${inputGroupLabelClassName}>${this.label}</span>`
+          ? html`<span class="font-bold leading-5">${this.label}</span>`
           : null}
         <slot @slotchange=${this._handleSlotChange}></slot>
         ${this.helper && !this.error
-          ? html`<span class=${inputGroupHelperClassName}>${this.helper}</span>`
+          ? html`<span
+              class=${cvaHelper({
+                variant: this.disabled ? "disabled" : "enabled",
+              })}
+            >
+              ${this.helper}
+            </span>`
           : null}
         ${!this.disabled && !!this.error
-          ? html`<span
-              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-status-negative before:block before:w-[16px] before:h-[22px]"
-              >${this.error}</span
-            >`
+          ? html`
+              <div class="flex items-center gap-1">
+                <daikin-icon icon="error"></daikin-icon>
+                <span
+                  class="text-[--input-group-border-color-error] font-bold leading-5"
+                >
+                  ${this.error}
+                </span>
+              </div>
+            `
           : null}
       </label>
     </fieldset>`;

@@ -1,9 +1,18 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
+import {
+  LitElement,
+  type PropertyValues,
+  css,
+  html,
+  nothing,
+  unsafeCSS,
+} from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
+import type { IconType } from "../icon/daikin-icon";
 
 const cvaInput = cva(
   [
@@ -12,29 +21,68 @@ const cvaInput = cva(
     "text-daikinNeutral-900",
     "border",
     "border-solid",
-    "px-[9px]",
     "rounded-[6px]",
     "font-daikinSerif",
-    "placeholder:text-daikinNeutral-200",
+    "relative",
+    "placeholder:text-daikinNeutral-700",
 
     "enabled:hover:outline",
+    "enabled:hover:outline-offset-[-2px]",
+    "enabled:hover:outline-daikinNeutral-300",
     "enabled:hover:outline-2",
-    "enabled:hover:outline-[--text-input-outline-color-hover]",
+
     "enabled:active:outline",
+    "enabled:active:outline-offset-[-2px]",
+    "enabled:active:outline-daikinNeutral-300",
     "enabled:active:outline-2",
-    "enabled:active:outline-[--text-input-outline-color-active]",
-    "focus-visible:outline",
-    "focus-visible:outline-2",
-    "focus-visible:outline-[--text-input-outline-color-active]",
+
+    "enabled:focus-visible:outline",
+    "enabled:focus-visible:outline-offset-[-2px]",
+    "enabled:focus-visible:outline-daikinBlue-700",
+    "enabled:focus-visible:outline-2",
+
     "disabled:text-[--text-input-outline-color-disabled]",
     "disabled:bg-[--text-input-background-color]",
     "disabled:border-[--text-input-outline-color-disabled]",
+    "disabled:placeholder:text-[--text-input-outline-color-disabled]",
   ],
   {
     variants: {
-      variant: {
-        normal: ["border-daikinNeutral-600"],
-        error: ["bg-daikinRed-50", "border-[--text-input-border-color-error]"],
+      status: {
+        default: ["border-daikinNeutral-600"],
+        error: ["border-[--text-input-border-color-error]"],
+      },
+      icon: {
+        left: ["pl-[44px]", "pr-3"],
+        right: ["pl-3", "pr-[44px]"],
+        none: ["px-3"],
+      },
+    },
+  }
+);
+
+const cvaIconContainer = cva(
+  [
+    "flex",
+    "justify-center",
+    "items-center",
+    "w-6",
+    "h-6",
+    "absolute",
+    "top-0",
+    "bottom-0",
+    "m-auto",
+    "z-[1]",
+  ],
+  {
+    variants: {
+      status: {
+        default: [],
+        disabled: ["text-[--text-input-outline-color-disabled]"],
+      },
+      position: {
+        left: ["left-3"],
+        right: ["right-3"],
       },
     },
   }
@@ -134,18 +182,29 @@ export class DaikinTextInput extends LitElement {
   @property({ type: Boolean, reflect: true })
   error = false;
 
+  /**
+   * Set a icon in the left of label
+   */
+  @property({ type: String })
+  leftIcon: IconType | null = null;
+
+  /**
+   * Set a icon in the right of label
+   */
+  @property({ type: String })
+  rightIcon: IconType | null = null;
+
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
     this._internals.setFormValue(this.value);
   }
 
   override render() {
-    const textInputInputClassName = cvaInput({
-      variant: !this.disabled && this.error ? "error" : "normal",
-    });
-
-    return html`<input
-      class=${textInputInputClassName}
+    const input = html`<input
+      class=${cvaInput({
+        status: !this.disabled && this.error ? "error" : "default",
+        icon: this.leftIcon ? "left" : this.rightIcon ? "right" : "none",
+      })}
       type=${this.type}
       value=${this.value}
       placeholder=${this.placeholder}
@@ -160,6 +219,38 @@ export class DaikinTextInput extends LitElement {
       @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
       @input=${this._handleInput}
     />`;
+
+    return !!this.leftIcon || !!this.rightIcon
+      ? html`<div class="w-full h-full relative">
+          ${this.leftIcon
+            ? html`<div
+                class=${cvaIconContainer({
+                  status: this.disabled ? "disabled" : "default",
+                  position: "left",
+                })}
+              >
+                <daikin-icon
+                  icon=${this.leftIcon}
+                  size="m"
+                  color="current"
+                ></daikin-icon>
+              </div>`
+            : nothing}${input}${this.rightIcon
+            ? html`<div
+                class=${cvaIconContainer({
+                  status: this.disabled ? "disabled" : "default",
+                  position: "right",
+                })}
+              >
+                <daikin-icon
+                  icon=${this.rightIcon}
+                  size="m"
+                  color="current"
+                ></daikin-icon>
+              </div>`
+            : nothing}
+        </div>`
+      : input;
   }
 
   override updated(changedProperties: PropertyValues<this>) {

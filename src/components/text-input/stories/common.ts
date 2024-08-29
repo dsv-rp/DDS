@@ -53,6 +53,14 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
     defaultValue: false,
     description: "Error state. Ignored if the `disabled` is `true`.",
   },
+  leftIcon: {
+    type: "string",
+    description: "Set a icon in the left of label",
+  },
+  rightIcon: {
+    type: "string",
+    description: "Set a icon in the right of label",
+  },
   __vrtArgs__: {
     name: "",
     type: "string",

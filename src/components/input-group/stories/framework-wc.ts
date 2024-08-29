@@ -8,26 +8,27 @@ import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
   render: ({
-    content,
     label,
     helper,
     error,
     disabled,
-    required,
     textareaCounter,
+    __vrtContent__,
   }) => html`
     <daikin-input-group
       label=${ifDefined(label)}
       helper=${ifDefined(helper)}
       error=${ifDefined(error)}
       ?disabled=${disabled}
-      ?required=${required}
       ?textareaCounter=${textareaCounter}
     >
-      ${content === "TextInput"
-        ? html`<daikin-text-input value="Value"></daikin-text-input>`
+      <!-- value="Value" -->
+      ${__vrtContent__ === "TextInput"
+        ? html`<daikin-text-input
+            placeholder="Placeholder text"
+          ></daikin-text-input>`
         : null}
-      ${content === "Textarea"
+      ${__vrtContent__ === "Textarea"
         ? html`<daikin-textarea
             value="Value"
             placeholder="Placeholder text"
