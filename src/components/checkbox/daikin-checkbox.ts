@@ -11,20 +11,7 @@ import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
-const cvaContainer = cva(
-  ["flex", "gap-2.5", "items-center", "font-daikinSerif"],
-  {
-    variants: {
-      labelPosition: {
-        left: ["[&>span]:order-1", "[&>input]:order-2"],
-        right: ["[&>span]:order-2", "[&>input]:order-1"],
-        hidden: [],
-      },
-    },
-  }
-);
-
-const cvaCheckbox = cva([
+const CHECKBOX_CLASS_NAME = cva([
   "inline-block",
   "size-[18px]",
   "relative",
@@ -37,36 +24,49 @@ const cvaCheckbox = cva([
   "before:i-daikin-checkbox-checked",
   "indeterminate:before:i-daikin-checkbox-indeterminate",
 
-  "aria-controllable:hover:before:text-daikinNeutral-100",
-  "aria-controllable:active:before:text-daikinNeutral-200",
-  "aria-controllable:focus-visible:outline-daikinBlue-700",
+  "enabled:hover:before:text-daikinNeutral-100",
+  "enabled:active:before:text-daikinNeutral-200",
+  "enabled:focus-visible:outline-daikinBlue-700",
   "focus-visible:outline-none",
-  "aria-controllable:focus-visible:outline-1",
-  "aria-controllable:focus-visible:outline-offset-1",
+  "enabled:focus-visible:outline-1",
+  "enabled:focus-visible:outline-offset-1",
 
-  "aria-controllable:checked:border-daikinBlue-500",
-  "aria-controllable:checked:bg-daikinBlue-500",
-  "aria-controllable:checked:hover:bg-daikinBlue-300",
-  "aria-controllable:checked:hover:border-daikinBlue-300",
-  "aria-controllable:checked:hover:before:text-white",
-  "aria-controllable:checked:active:bg-daikinBlue-600",
-  "aria-controllable:checked:active:border-daikinBlue-600",
-  "aria-controllable:checked:active:before:text-white",
+  "enabled:checked:border-daikinBlue-500",
+  "enabled:checked:bg-daikinBlue-500",
+  "enabled:checked:hover:bg-daikinBlue-300",
+  "enabled:checked:hover:border-daikinBlue-300",
+  "enabled:checked:hover:before:text-white",
+  "enabled:checked:active:bg-daikinBlue-600",
+  "enabled:checked:active:border-daikinBlue-600",
+  "enabled:checked:active:before:text-white",
 
-  "aria-controllable:indeterminate:bg-daikinBlue-500",
-  "aria-controllable:indeterminate:border-daikinBlue-500",
-  "aria-controllable:indeterminate:hover:bg-daikinBlue-300",
-  "aria-controllable:indeterminate:hover:border-daikinBlue-300",
-  "aria-controllable:indeterminate:hover:before:text-white",
-  "aria-controllable:indeterminate:active:bg-daikinBlue-600",
-  "aria-controllable:indeterminate:active:border-daikinBlue-600",
-  "aria-controllable:indeterminate:active:before:text-white",
+  "enabled:indeterminate:bg-daikinBlue-500",
+  "enabled:indeterminate:border-daikinBlue-500",
+  "enabled:indeterminate:hover:bg-daikinBlue-300",
+  "enabled:indeterminate:hover:border-daikinBlue-300",
+  "enabled:indeterminate:hover:before:text-white",
+  "enabled:indeterminate:active:bg-daikinBlue-600",
+  "enabled:indeterminate:active:border-daikinBlue-600",
+  "enabled:indeterminate:active:before:text-white",
 
   "disabled:border-daikinNeutral-200",
   "disabled:bg-white",
   "disabled:checked:bg-daikinNeutral-200",
   "disabled:indeterminate:bg-daikinNeutral-200",
-]);
+])();
+
+const cvaContainer = cva(
+  ["flex", "gap-2.5", "items-center", "font-daikinSerif"],
+  {
+    variants: {
+      labelPosition: {
+        left: ["flex-row-reverse"],
+        right: [],
+        hidden: [],
+      },
+    },
+  }
+);
 
 type CheckboxVariantProps = MergeVariantProps<typeof cvaContainer>;
 
@@ -174,7 +174,7 @@ export class DaikinCheckbox extends LitElement {
       class=${cvaContainer({ labelPosition: this.labelPosition })}
     >
       <input
-        class=${cvaCheckbox()}
+        class=${CHECKBOX_CLASS_NAME}
         type="checkbox"
         name=${this.name}
         value=${this.value}
