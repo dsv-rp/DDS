@@ -21,10 +21,10 @@ function eventPayloadTransformer(event: Event) {
 
 export const Default: Story = {
   args: {
-    disabled: false,
     label: "Radio label",
     labelPosition: "right",
     checked: false,
+    disabled: false,
     onChange: fn(eventPayloadTransformer),
     onClick: fn(eventPayloadTransformer),
   },
