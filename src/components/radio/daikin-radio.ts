@@ -126,12 +126,6 @@ export class DaikinRadio extends LitElement {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  override updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has("checked")) {
-      this._updateFormValue();
-    }
-  }
-
   private _handleClick(event: MouseEvent) {
     if (this.disabled) {
       event.preventDefault();
@@ -168,6 +162,12 @@ export class DaikinRadio extends LitElement {
         ${this.label}
       </span>
     </label>`;
+  }
+
+  override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("checked")) {
+      this._updateFormValue();
+    }
   }
 }
 
