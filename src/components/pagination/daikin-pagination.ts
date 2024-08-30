@@ -289,7 +289,7 @@ export class DaikinPagination extends LitElement {
             const leftEllipsisPages = i as Array<number>;
             // TODO: We are considering whether we need dropdown to select page, so close it temporarily
             const cvaDropDownLeftClassName = cvaDropDown({
-              open: this._leftDropDownOpen,
+              open: false,
             });
             if (leftEllipsisPages.length > 0) {
               return html`<div class="relative">
@@ -336,7 +336,7 @@ export class DaikinPagination extends LitElement {
             const rightEllipsisPages = i as Array<number>;
             // TODO: We are considering whether we need dropdown to select page, so close it temporarily
             const cvaDropDownRightClassName = cvaDropDown({
-              open: this._rightDropDownOpen,
+              open: false,
             });
             if (rightEllipsisPages.length > 0) {
               return html`<div class="relative">

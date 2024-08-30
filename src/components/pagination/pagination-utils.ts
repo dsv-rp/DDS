@@ -18,6 +18,10 @@ export function calculatePagination(
     rightEllipsis: [],
     rightMost: lastPage,
   } as PaginationContent;
+  if (pageWindow < 5) {
+    pageWindow = 5;
+  }
+
   if (lastPage <= pageWindow) {
     result.middle = range(2, lastPage, 1);
     return result;
@@ -28,18 +32,17 @@ export function calculatePagination(
     adjustFlag = 1;
   }
 
-  if (currentPage < pageWindow - 3) {
+  const noHideLeftFlag = pageWindow === 6 ? 4 : pageWindow - 3;
+  if (currentPage < noHideLeftFlag) {
     result.middle = range(2, pageWindow - 1);
     result.rightEllipsis = range(pageWindow - 1, lastPage);
     return result;
   }
-
   if (currentPage > lastPage - 1 - Math.floor((pageWindow - 3) / 2)) {
     result.leftEllipsis = range(2, lastPage - (pageWindow - 3));
     result.middle = range(lastPage - (pageWindow - 3), lastPage);
     return result;
   }
-
   const leftPages = Math.max(2, currentPage - Math.floor((pageWindow - 3) / 2));
   const rightPages = Math.min(
     lastPage - 1,

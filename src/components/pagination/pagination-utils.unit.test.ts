@@ -447,6 +447,71 @@ describe("test calculatePagination some special case", () => {
       rightMost: 5,
     });
   });
+
+  it("test calculatePagination when lastPage: 10, currentPage: 3, pageWindow: 6", ({
+    expect,
+  }) => {
+    const result = calculatePagination(10, 3, 6);
+    expect(result).toEqual({
+      leftMost: 1,
+      leftEllipsis: [],
+      middle: [2, 3, 4],
+      rightEllipsis: [5, 6, 7, 8, 9],
+      rightMost: 10,
+    });
+  });
+
+  it("test calculatePagination when lastPage: 10, currentPage: 4, pageWindow: 6", ({
+    expect,
+  }) => {
+    const result = calculatePagination(10, 4, 6);
+    expect(result).toEqual({
+      leftMost: 1,
+      leftEllipsis: [2],
+      middle: [3, 4],
+      rightEllipsis: [5, 6, 7, 8, 9],
+      rightMost: 10,
+    });
+  });
+
+  it("test calculatePagination when lastPage: 10, currentPage: 2, pageWindow: 5", ({
+    expect,
+  }) => {
+    const result = calculatePagination(10, 2, 5);
+    expect(result).toEqual({
+      leftMost: 1,
+      leftEllipsis: [],
+      middle: [2, 3],
+      rightEllipsis: [4, 5, 6, 7, 8, 9],
+      rightMost: 10,
+    });
+  });
+
+  it("test calculatePagination when lastPage: 10, currentPage: 4, pageWindow: 5", ({
+    expect,
+  }) => {
+    const result = calculatePagination(10, 4, 5);
+    expect(result).toEqual({
+      leftMost: 1,
+      leftEllipsis: [2, 3],
+      middle: [4],
+      rightEllipsis: [5, 6, 7, 8, 9],
+      rightMost: 10,
+    });
+  });
+
+  it("test calculatePagination when lastPage: 4, currentPage: 2, pageWindow: 5", ({
+    expect,
+  }) => {
+    const result = calculatePagination(4, 2, 5);
+    expect(result).toEqual({
+      leftMost: 1,
+      leftEllipsis: [],
+      middle: [2, 3],
+      rightEllipsis: [],
+      rightMost: 4,
+    });
+  });
 });
 
 describe("test range function", () => {
