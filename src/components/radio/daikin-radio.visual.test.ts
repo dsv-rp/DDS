@@ -21,7 +21,7 @@ describeEach(["enabled", "disabled"], (variant) => {
         labelPosition,
       });
 
-      // ensure that hovering or clicking does not change the image for disabled and readonly
+      // ensure that hovering or clicking does not change the image for disabled
       const snapshotName =
         variant !== "enabled"
           ? `${variant}-${labelPosition}-${checkState}.png`

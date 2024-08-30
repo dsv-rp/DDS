@@ -98,7 +98,9 @@ export class DaikinRadio extends LitElement {
 
   /**
    * Specify the label position.
-   * when `left` the label will be in left of radio, when `right` label will be in right of radio.
+   * - `right` (default): The label will be placed to the right of the radio button.
+   * - `left`: The label will be placed to the left of the radio button.
+   * - `hidden`: The label will not be shown.
    */
   @property({ type: String, attribute: "label-position" })
   labelPosition: RadioVariantProps["labelPosition"] = "right";
