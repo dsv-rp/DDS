@@ -32,13 +32,13 @@ export function calculatePagination(
     adjustFlag = 1;
   }
 
-  const noHideLeftFlag = pageWindow === 6 ? 4 : pageWindow - 3;
+  const noHideLeftFlag = pageWindow === 6 ? 4 : pageWindow - 2;
   if (currentPage < noHideLeftFlag) {
     result.middle = range(2, pageWindow - 1);
     result.rightEllipsis = range(pageWindow - 1, lastPage);
     return result;
   }
-  if (currentPage > lastPage - 1 - Math.floor((pageWindow - 3) / 2)) {
+  if (currentPage > lastPage - 2 - Math.floor((pageWindow - 3) / 2)) {
     result.leftEllipsis = range(2, lastPage - (pageWindow - 3));
     result.middle = range(lastPage - (pageWindow - 3), lastPage);
     return result;

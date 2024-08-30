@@ -47,8 +47,8 @@ describe("test calculatePagination function when lastPage is odd number and page
     const result = calculatePagination(15, 4, 7);
     expect(result).toEqual({
       leftMost: 1,
-      leftEllipsis: [2],
-      middle: [3, 4, 5],
+      leftEllipsis: [],
+      middle: [2, 3, 4, 5],
       rightEllipsis: [6, 7, 8, 9, 10, 11, 12, 13, 14],
       rightMost: 15,
     });
@@ -152,8 +152,8 @@ describe("test calculatePagination function when lastPage is odd number and page
     expect(result).toEqual({
       leftMost: 1,
       leftEllipsis: [2, 3, 4, 5, 6, 7, 8, 9, 10],
-      middle: [11, 12, 13],
-      rightEllipsis: [14],
+      middle: [11, 12, 13, 14],
+      rightEllipsis: [],
       rightMost: 15,
     });
   });
@@ -257,8 +257,8 @@ describe("test calculatePagination function when lastPage is odd number and page
     const result = calculatePagination(15, 5, 8);
     expect(result).toEqual({
       leftMost: 1,
-      leftEllipsis: [2],
-      middle: [3, 4, 5, 6],
+      leftEllipsis: [],
+      middle: [2, 3, 4, 5, 6],
       rightEllipsis: [7, 8, 9, 10, 11, 12, 13, 14],
       rightMost: 15,
     });
@@ -349,8 +349,8 @@ describe("test calculatePagination function when lastPage is odd number and page
     expect(result).toEqual({
       leftMost: 1,
       leftEllipsis: [2, 3, 4, 5, 6, 7, 8, 9],
-      middle: [10, 11, 12, 13],
-      rightEllipsis: [14],
+      middle: [10, 11, 12, 13, 14],
+      rightEllipsis: [],
       rightMost: 15,
     });
   });
@@ -416,8 +416,8 @@ describe("test calculatePagination some special case", () => {
     expect(result).toEqual({
       leftMost: 1,
       leftEllipsis: [2, 3, 4, 5, 6, 7],
-      middle: [8],
-      rightEllipsis: [9],
+      middle: [8, 9],
+      rightEllipsis: [],
       rightMost: 10,
     });
   });
