@@ -225,7 +225,7 @@ export const Ellipsis: Story = {
       await userEvent.click(chevronLeft);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 12 });
       await expect(root.currentPage).toEqual(12);
-      await checkPageButton(root, [1, 11, 12, 13, 15], allPages);
+      await checkPageButton(root, [1, 11, 12, 13, 14, 15], allPages);
       await userEvent.click(chevronLeft);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 11 });
       await expect(root.currentPage).toEqual(11);
@@ -252,7 +252,7 @@ export const Ellipsis: Story = {
       await userEvent.click(chevronRight);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 4 });
       await expect(root.currentPage).toEqual(4);
-      await checkPageButton(root, [1, 3, 4, 5, 15], allPages);
+      await checkPageButton(root, [1, 2, 3, 4, 5, 15], allPages);
       await userEvent.click(chevronRight);
       await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 5 });
       await expect(root.currentPage).toEqual(5);
