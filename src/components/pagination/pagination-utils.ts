@@ -45,11 +45,6 @@ export function calculatePagination(
     lastPage - 1,
     currentPage + Math.floor((pageWindow - 3) / 2)
   );
-  if (currentPage === leftPages) {
-    result.middle = range(leftPages, rightPages + 1);
-    result.rightEllipsis = range(rightPages + 1, lastPage);
-    return result;
-  }
   result.leftEllipsis = range(2, leftPages + adjustFlag);
   result.rightEllipsis = range(rightPages, lastPage);
   result.middle = range(leftPages + adjustFlag, rightPages);
