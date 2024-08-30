@@ -1,3 +1,4 @@
+import type { DaikinCheckbox } from "#package/components/checkbox/daikin-checkbox";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
@@ -11,13 +12,20 @@ export default {
   ...metadata,
 };
 
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    checked: (event.target as DaikinCheckbox).checked,
+  };
+}
+
 export const Default: Story = {
   args: {
-    disabled: false,
     label: "Checkbox label",
     checkState: "unchecked",
-    onChange: fn(),
-    onClick: fn(),
+    disabled: false,
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-checkbox")[0];
@@ -37,6 +45,7 @@ export const Default: Story = {
     await step("Try to click inner checkbox", async () => {
       await userEvent.click(innerCheckbox);
       await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
       await expect(innerCheckbox).toBeChecked();
     });
 
@@ -44,6 +53,7 @@ export const Default: Story = {
     await step("Try to click label", async () => {
       await userEvent.click(label);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: false });
       await expect(innerCheckbox).not.toBeChecked();
     });
 

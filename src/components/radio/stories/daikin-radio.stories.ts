@@ -1,3 +1,4 @@
+import type { DaikinRadio } from "#package/components/radio/daikin-radio";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
@@ -11,14 +12,21 @@ export default {
   ...metadata,
 };
 
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    checked: (event.target as DaikinRadio).checked,
+  };
+}
+
 export const Small: Story = {
   args: {
     size: "small",
     disabled: false,
     readonly: false,
     label: "Radio label",
-    onChange: fn(),
-    onClick: fn(),
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-radio")[0];
@@ -38,6 +46,7 @@ export const Small: Story = {
     await step("Try to click inner radio", async () => {
       await userEvent.click(innerRadio);
       await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
       await expect(innerRadio).toBeChecked();
       root.checked = false;
     });
@@ -46,6 +55,7 @@ export const Small: Story = {
     await step("Try to click label", async () => {
       await userEvent.click(label);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
       await expect(innerRadio).toBeChecked();
       root.checked = false;
     });
