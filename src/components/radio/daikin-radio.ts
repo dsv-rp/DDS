@@ -15,23 +15,19 @@ const RADIO_CLASS_NAME = cva([
   "rounded-full",
   "relative",
   "appearance-none",
-  "before:content-normal",
   "before:block",
   "before:size-1.5",
   "before:rounded-full",
   "before:absolute",
-  "aria-controllable:hover:before:block",
-  "aria-controllable:hover:before:bg-daikinNeutral-100",
-  "aria-controllable:active:before:block",
-  "aria-controllable:active:before:bg-daikinNeutral-200",
-  "aria-controllable:checked:hover:before:hidden",
+  "enabled:[&:not(:checked)]:hover:before:bg-daikinNeutral-100",
+  "enabled:[&:not(:checked)]:active:before:bg-daikinNeutral-200",
   "focus-visible:outline-1",
   "focus-visible:outline-offset-[3px]",
   "focus-visible:outline-daikinBlue-700",
   "checked:border-[5px]",
-  "checked:border-daikinBlue-500",
-  "checked:hover:border-daikinBlue-300",
-  "checked:active:border-daikinBlue-600",
+  "enabled:checked:border-daikinBlue-500",
+  "enabled:checked:hover:border-daikinBlue-300",
+  "enabled:checked:active:border-daikinBlue-600",
   "disabled:border-daikinNeutral-200",
 ])();
 
@@ -141,11 +137,9 @@ export class DaikinRadio extends LitElement {
   }
 
   private _handleChange(event: Event) {
-    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
-    this.checked = input.checked;
+    this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
-    const newEvent = new Event("change", event);
-    this.dispatchEvent(newEvent);
+    this.dispatchEvent(new Event("change", event));
   }
 
   override render() {
