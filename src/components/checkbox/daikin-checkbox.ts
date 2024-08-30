@@ -122,7 +122,9 @@ export class DaikinCheckbox extends LitElement {
 
   /**
    * Specify the label position.
-   * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox.
+   * - `right` (default): The label will be placed to the right of the checkbox.
+   * - `left`: The label will be placed to the left of the checkbox.
+   * - `hidden`: The label will not be shown.
    */
   @property({ type: String, attribute: "label-position" })
   labelPosition: CheckboxVariantProps["labelPosition"] = "right";
