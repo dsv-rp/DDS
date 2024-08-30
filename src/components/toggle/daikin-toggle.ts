@@ -2,58 +2,41 @@ import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
-const cvaToggle = cva(
-  [
-    "appearance-none",
-    "cursor-pointer",
-    "relative",
-    "bg-daikinNeutral-200",
-    "rounded-3xl",
-    "transition-color",
-    "duration-300",
-    "disabled:bg-daikinNeutral-200",
+const TOGGLE_CLASS_NAME = cva([
+  "w-16",
+  "h-8",
+  "relative",
+  "bg-daikinNeutral-600",
+  "rounded-full",
+  "cursor-pointer",
+  "transition-[background]",
+  "duration-300",
+  "appearance-none",
+  "enabled:hover:bg-daikinNeutral-500",
+  "enabled:active:bg-daikinNeutral-800",
+  "focus-visible:outline-1",
+  "focus-visible:outline-offset-4",
+  "focus-visible:outline-daikinBlue-700",
+  "enabled:checked:bg-daikinBlue-500",
+  "enabled:checked:hover:bg-daikinBlue-300",
+  "enabled:checked:active:bg-daikinBlue-600",
+  "disabled:bg-daikinNeutral-200",
+  "disabled:cursor-default",
 
-    "before:content-['']",
-    "before:absolute",
-    "before:rounded-full",
-    "before:transition",
-    "before:disabled:bg-daikinNeutral-400",
-  ],
-  {
-    variants: {
-      size: {
-        default: [
-          "w-[51px]",
-          "h-[31px]",
-          "checked:bg-daikinBlue-500",
-
-          "before:h-[27px]",
-          "before:w-[27px]",
-          "before:bg-white",
-          "before:top-[2px]",
-          "before:left-[2px]",
-          "before:checked:translate-x-5",
-        ],
-        small: [
-          "w-8",
-          "h-[14px]",
-          "checked:bg-daikinBlue-50",
-
-          "before:h-5",
-          "before:w-5",
-          "before:top-[-3px]",
-          "before:bg-daikinNeutral-600",
-          "before:checked:bg-daikinBlue-500",
-          "before:checked:translate-x-3",
-        ],
-      },
-    },
-  }
-);
-
-type ToggleVariantProps = MergeVariantProps<typeof cvaToggle>;
+  "before:content-['']",
+  "before:size-6",
+  "before:bg-white",
+  "before:m-auto",
+  "before:rounded-full",
+  "before:absolute",
+  "before:top-0",
+  "before:bottom-0",
+  "before:left-1",
+  "before:transition",
+  "before:duration-300",
+  "before:checked:translate-x-8",
+])();
 
 /**
  * The toggle switch component is a UI element that allows users to switch between two states, typically "on" and "off".
@@ -79,6 +62,30 @@ export class DaikinToggle extends LitElement {
     }
   `;
 
+  /**
+   * The form name
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * The value
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Specify whether the control is checked
+   */
+  @property({ type: Boolean, reflect: true })
+  checked = false;
+
+  /**
+   * Specify whether the Toggle should be disabled
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
   static readonly formAssociated = true;
 
   // define _internals to let toggle can be used in form
@@ -95,47 +102,9 @@ export class DaikinToggle extends LitElement {
     this.dispatchEvent(new Event("change", event));
   }
 
-  /**
-   * Specify the component size
-   */
-  @property({ type: String })
-  size: ToggleVariantProps["size"] = "default";
-
-  /**
-   * Specify whether the Toggle should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify whether the control is checked
-   */
-  @property({ type: Boolean, reflect: true })
-  checked = false;
-
-  /**
-   * The form name.
-   */
-  @property({ type: String, reflect: true })
-  name = "";
-
-  /**
-   * The value.
-   */
-  @property({ type: String, reflect: true })
-  value = "";
-
-  /**
-   * Specify whether the Toggle is in a error state
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
-
   override render() {
-    const toggleClassName = cvaToggle({ size: this.size });
-
     return html`<input
-      class=${toggleClassName}
+      class=${TOGGLE_CLASS_NAME}
       type="checkbox"
       name=${this.name}
       value=${this.value}
