@@ -7,7 +7,7 @@ import {
   unsafeCSS,
   type PropertyValues,
 } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -24,30 +24,30 @@ const CHECKBOX_CLASS_NAME = cva([
   "before:i-daikin-checkbox-checked",
   "indeterminate:before:i-daikin-checkbox-indeterminate",
 
-  "enabled:hover:before:text-daikinNeutral-100",
-  "enabled:active:before:text-daikinNeutral-200",
-  "enabled:focus-visible:outline-daikinBlue-700",
+  "enabled:group-hover:before:text-daikinNeutral-100",
+  "enabled:group-active:before:text-daikinNeutral-200",
+  "focus-visible:outline-daikinBlue-700",
   "focus-visible:outline-none",
-  "enabled:focus-visible:outline-1",
-  "enabled:focus-visible:outline-offset-1",
+  "focus-visible:outline-1",
+  "focus-visible:outline-offset-1",
 
   "enabled:checked:border-daikinBlue-500",
   "enabled:checked:bg-daikinBlue-500",
-  "enabled:checked:hover:bg-daikinBlue-300",
-  "enabled:checked:hover:border-daikinBlue-300",
-  "enabled:checked:hover:before:text-white",
-  "enabled:checked:active:bg-daikinBlue-600",
-  "enabled:checked:active:border-daikinBlue-600",
-  "enabled:checked:active:before:text-white",
+  "enabled:checked:group-hover:bg-daikinBlue-300",
+  "enabled:checked:group-hover:border-daikinBlue-300",
+  "enabled:checked:group-hover:before:text-white",
+  "enabled:checked:group-active:bg-daikinBlue-600",
+  "enabled:checked:group-active:border-daikinBlue-600",
+  "enabled:checked:group-active:before:text-white",
 
   "enabled:indeterminate:bg-daikinBlue-500",
   "enabled:indeterminate:border-daikinBlue-500",
-  "enabled:indeterminate:hover:bg-daikinBlue-300",
-  "enabled:indeterminate:hover:border-daikinBlue-300",
-  "enabled:indeterminate:hover:before:text-white",
-  "enabled:indeterminate:active:bg-daikinBlue-600",
-  "enabled:indeterminate:active:border-daikinBlue-600",
-  "enabled:indeterminate:active:before:text-white",
+  "enabled:indeterminate:group-hover:bg-daikinBlue-300",
+  "enabled:indeterminate:group-hover:border-daikinBlue-300",
+  "enabled:indeterminate:group-hover:before:text-white",
+  "enabled:indeterminate:group-active:bg-daikinBlue-600",
+  "enabled:indeterminate:group-active:border-daikinBlue-600",
+  "enabled:indeterminate:group-active:before:text-white",
 
   "disabled:border-daikinNeutral-200",
   "disabled:bg-white",
@@ -56,7 +56,7 @@ const CHECKBOX_CLASS_NAME = cva([
 ])();
 
 const cvaContainer = cva(
-  ["flex", "gap-2.5", "items-center", "font-daikinSerif"],
+  ["group", "flex", "gap-2.5", "items-center", "font-daikinSerif"],
   {
     variants: {
       labelPosition: {
@@ -139,9 +139,6 @@ export class DaikinCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  @query("input")
-  private _input: HTMLInputElement | null | undefined;
-
   get checked() {
     return this.checkState === "checked";
   }
@@ -160,11 +157,11 @@ export class DaikinCheckbox extends LitElement {
       event.preventDefault();
     }
   }
+
   private _handleChange(event: Event) {
-    if (!this._input) {
-      return;
-    }
-    this.checkState = this._input.checked ? "checked" : "unchecked";
+    this.checkState = (event.target as HTMLInputElement).checked
+      ? "checked"
+      : "unchecked";
     this._updateFormValue();
     this.dispatchEvent(new Event("change", event));
   }
