@@ -158,7 +158,7 @@ export class DaikinInputGroup extends LitElement {
               <div class="flex items-center gap-1">
                 <daikin-icon icon="error"></daikin-icon>
                 <span
-                  class="text-[--input-group-border-color-error] font-bold leading-5"
+                  class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
                 >
                   ${this.error}
                 </span>
