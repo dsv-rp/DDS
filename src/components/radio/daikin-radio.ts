@@ -19,20 +19,20 @@ const RADIO_CLASS_NAME = cva([
   "before:size-1.5",
   "before:rounded-full",
   "before:absolute",
-  "enabled:[&:not(:checked)]:hover:before:bg-daikinNeutral-100",
-  "enabled:[&:not(:checked)]:active:before:bg-daikinNeutral-200",
+  "enabled:[&:not(:checked)]:group-hover:before:bg-daikinNeutral-100",
+  "enabled:[&:not(:checked)]:group-active:before:bg-daikinNeutral-200",
   "focus-visible:outline-1",
   "focus-visible:outline-offset-[3px]",
   "focus-visible:outline-daikinBlue-700",
   "checked:border-[5px]",
   "enabled:checked:border-daikinBlue-500",
-  "enabled:checked:hover:border-daikinBlue-300",
-  "enabled:checked:active:border-daikinBlue-600",
+  "enabled:checked:group-hover:border-daikinBlue-300",
+  "enabled:checked:group-active:border-daikinBlue-600",
   "disabled:border-daikinNeutral-200",
 ])();
 
 const cvaContainer = cva(
-  ["flex", "gap-2", "items-center", "font-daikinSerif"],
+  ["group", "flex", "gap-2", "items-center", "font-daikinSerif"],
   {
     variants: {
       labelPosition: {
