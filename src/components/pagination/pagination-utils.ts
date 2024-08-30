@@ -27,10 +27,7 @@ export function calculatePagination(
     return result;
   }
 
-  let adjustFlag = 0;
-  if ((pageWindow - 3) % 2 === 0) {
-    adjustFlag = 1;
-  }
+  const adjustFlag = (pageWindow - 3) % 2 === 0 ? 1 : 0;
 
   const noHideLeftFlag = pageWindow === 6 ? 4 : pageWindow - 2;
   if (currentPage < noHideLeftFlag) {
@@ -53,12 +50,8 @@ export function calculatePagination(
     result.rightEllipsis = range(rightPages + 1, lastPage);
     return result;
   }
-  if (leftPages >= 2) {
-    result.leftEllipsis = range(2, leftPages + adjustFlag);
-  }
-  if (rightPages <= lastPage - 1) {
-    result.rightEllipsis = range(rightPages, lastPage);
-  }
+  result.leftEllipsis = range(2, leftPages + adjustFlag);
+  result.rightEllipsis = range(rightPages, lastPage);
   result.middle = range(leftPages + adjustFlag, rightPages);
   return result;
 }
