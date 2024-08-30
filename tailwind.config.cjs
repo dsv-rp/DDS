@@ -61,6 +61,8 @@ module.exports = defineConfig({
         '&:enabled:not([aria-readonly="true"])',
       ]);
 
+      addVariant("unchecked", ["&:not(:checked)"]);
+
       matchVariant("part", (value) => `&::part(${value})`);
 
       matchVariant(
