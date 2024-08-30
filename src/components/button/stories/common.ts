@@ -13,17 +13,21 @@ export interface DaikinButtonStoryArgs
 
 export const DAIKIN_BUTTON_ARG_TYPES = {
   variant: {
-    control: { type: "select" },
-    options: ["primary", "secondary", "tertiary", "primaryDanger"],
+    control: { type: "radio" },
+    options: ["fill", "outline", "ghost"],
   },
-  disabled: { type: "boolean" },
+  color: {
+    control: { type: "radio" },
+    options: ["default", "danger"],
+  },
+  size: {
+    control: { type: "radio" },
+    options: ["small", "medium"],
+  },
   label: {
     type: "string",
   },
-  size: {
-    control: { type: "select" },
-    options: ["default", "condensed"],
-  },
+  disabled: { type: "boolean" },
   href: {
     type: "string",
   },
