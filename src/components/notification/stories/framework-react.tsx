@@ -16,10 +16,8 @@ const ReactDaikinNotification = createComponent({
 export const metadata: Meta<DaikinNotificationStoryArgs> = {
   component: ({ ...props }: DaikinNotificationStoryArgs) => (
     <ReactDaikinNotification {...props}>
-      {!!props.__vrtTitle__ && <span slot="title">{props.__vrtTitle__}</span>}
-      {!!props.__vrtDescription__ && (
-        <span slot="description">{props.__vrtDescription__}</span>
-      )}
+      <span slot="title">{props.__vrtTitle__}</span>
+      <span slot="description">{props.__vrtDescription__}</span>
     </ReactDaikinNotification>
   ),
 };

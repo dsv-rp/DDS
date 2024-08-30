@@ -10,29 +10,21 @@ export interface DaikinNotificationStoryArgs
 }
 
 export const DAIKIN_NOTIFICATION_ARG_TYPES = {
-  title: {
-    type: "string",
-    description: "Title text",
-  },
-  description: {
-    type: "string",
-    description: "Description text",
-  },
   variant: {
     defaultValue: "toast",
-    control: { type: "select" },
+    control: { type: "radio" },
     options: ["toast", "inline"],
     description: "Type of notification",
   },
   status: {
     defaultValue: "positive",
-    control: { type: "select" },
+    control: { type: "radio" },
     options: ["positive", "negative", "warning", "alarm", "information"],
     description: "Status of notification",
   },
   line: {
     defaultValue: "single",
-    control: { type: "select" },
+    control: { type: "radio" },
     options: ["single", "multi"],
     description: "Display in single or multiple lines",
   },

@@ -13,13 +13,13 @@ export default {
 
 export const Toast: Story = {
   args: {
-    title: "Notification-title",
-    description: "Notification-description: Toast",
     variant: "toast",
     status: "positive",
     line: "single",
     open: true,
     closeButton: false,
+    __vrtTitle__: "Notification-title",
+    __vrtDescription__: "Notification-description: Toast",
     onClose: fn(),
   },
   play: definePlay(async ({ canvasElement, step }) => {
@@ -38,8 +38,8 @@ export const Toast: Story = {
 export const Inline: Story = {
   args: {
     ...Toast.args,
-    description: "Notification-description: Inline",
     variant: "inline",
+    __vrtDescription__: "Notification-description: Inline",
     onClose: fn(),
   },
 };

@@ -2,5 +2,4 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-Notification: Added an optional `title` and `description` slots.  
-These can be used to specify the title and description of the notification instead of the `title` and `description` attributes.
+**BREAKING CHANGE** Notification: The `title` and `description` attributes have been removed, and they are now received in the slot.

@@ -1,15 +1,12 @@
 import "#package/components/notification/daikin-notification";
 import type { Meta } from "@storybook/web-components";
-import { html, nothing } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
+import { html } from "lit";
 import type { DaikinNotificationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinNotificationStoryArgs> = {
   render: ({
     open,
     closeButton,
-    title,
-    description,
     variant,
     line,
     status,
@@ -20,19 +17,13 @@ export const metadata: Meta<DaikinNotificationStoryArgs> = {
     <daikin-notification
       ?open=${open}
       ?closeButton=${closeButton}
-      title=${ifDefined(title)}
-      description=${description}
       variant=${variant}
       line=${line}
       status=${status}
       @close=${onClose}
     >
-      ${__vrtTitle__
-        ? html`<span slot="title">${__vrtTitle__}</span>`
-        : nothing}
-      ${__vrtDescription__
-        ? html`<span slot="description">${__vrtDescription__}</span>`
-        : nothing}
+      <span slot="title">${__vrtTitle__}</span>
+      <span slot="description">${__vrtDescription__}</span>
     </daikin-notification>
   `,
 };

@@ -93,9 +93,6 @@ type NotificationVariantProps = MergeVariantProps<
  * @slot title - A slot for the notification title content.
  * @slot description - A slot for the notification description content.
  *
- * @csspart title - The container element for the `title` slot.
- * @csspart description - The container element for the `description` slot.
- *
  * @example
  *
  * ```html
@@ -103,10 +100,6 @@ type NotificationVariantProps = MergeVariantProps<
  *   <span slot="title">Notification title</span>
  *   <span slot="description">Notification description.</span>
  * </daikin-notification>
- * ```
- *
- * ```html
- * <daikin-notification title="Notification title" description="Notification description."></daikin-notification>
  * ```
  */
 @customElement("daikin-notification")
@@ -132,20 +125,6 @@ export class DaikinNotification extends LitElement {
       width: 100%;
     }
   `;
-
-  /**
-   * Title text.
-   * Ignored if the `title` slot exists.
-   */
-  @property({ type: String })
-  override title = "";
-
-  /**
-   * Description text.
-   * Ignored if the `description` slot exists.
-   */
-  @property({ type: String })
-  description = "";
 
   /**
    * Type of notification
@@ -206,18 +185,18 @@ export class DaikinNotification extends LitElement {
             ></daikin-icon>
           </div>
           <div
-            class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]"
+            class="flex justify-between items-center gap-5 p-5 text-[18px] flex-[1_0_auto]"
           >
             <div
               class=${cvaContent({
                 line: this.line,
               })}
             >
-              <header part="title" class="text-[18px] font-bold flex-none">
+              <header class="font-bold flex-none">
                 <slot name="title">${this.title}</slot>
               </header>
-              <div part="description" class="text-[18px] flex-none">
-                <slot name="description">${this.description}</slot>
+              <div class="flex-none">
+                <slot name="description"></slot>
               </div>
             </div>
             ${this.closeButton
