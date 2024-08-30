@@ -21,16 +21,12 @@ export function calculatePagination(
   if (pageWindow < 5) {
     pageWindow = 5;
   }
-
   if (lastPage <= pageWindow) {
     result.middle = range(2, lastPage, 1);
     return result;
   }
-
   const adjustFlag = (pageWindow - 3) % 2 === 0 ? 1 : 0;
-
-  const noHideLeftFlag = pageWindow === 6 ? 4 : pageWindow - 2;
-  if (currentPage < noHideLeftFlag) {
+  if (currentPage < pageWindow - 2) {
     result.middle = range(2, pageWindow - 1);
     result.rightEllipsis = range(pageWindow - 1, lastPage);
     return result;
