@@ -98,7 +98,7 @@ type NotificationVariantProps = MergeVariantProps<
  * ```html
  * <daikin-notification>
  *   <span slot="title">Notification title</span>
- *   <span slot="description">Notification description.</span>
+ *   <span slot="description">Notification description</span>
  * </daikin-notification>
  * ```
  */
@@ -193,7 +193,7 @@ export class DaikinNotification extends LitElement {
               })}
             >
               <header class="font-bold flex-none">
-                <slot name="title">${this.title}</slot>
+                <slot name="title"></slot>
               </header>
               <div class="flex-none">
                 <slot name="description"></slot>
