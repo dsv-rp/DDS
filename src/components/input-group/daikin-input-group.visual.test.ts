@@ -4,7 +4,7 @@ import {
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
-import { expect, test } from "@playwright/test";
+import { expect, test, type ElementHandle, type Page } from "@playwright/test";
 import type { DAIKIN_INPUT_GROUP_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
@@ -16,14 +16,38 @@ describeEach(["TextInput", "Textarea"] as const, (__vrtContent__) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
-        describeEach(["visible", "hidden"] as const, (textareaCounter) => {
+        describeEach(["exist", "hidden"] as const, (counter) => {
           const baseURL = getPageURL({
             __vrtContent__,
             disabled: state === "disabled",
             required: required === "required",
-            error: error === "error" ? "Error Text" : undefined,
-            textareaCounter: textareaCounter === "visible",
+            ...(error === "error" && {
+              error: "Error Text",
+            }),
+            ...(counter === "exist" && {
+              textareaMaxCount: 100,
+            }),
           });
+
+          // ensure that hovering or clicking does not change the image for disabled
+          const snapshotName =
+            __vrtContent__ === "TextInput"
+              ? `${__vrtContent__}-${state}-${required}-${error}.png`
+              : null;
+
+          const testScreenshot = async (
+            page: Page,
+            element: ElementHandle<HTMLElement>
+          ): Promise<void> => {
+            if (snapshotName) {
+              await expect(page).toHaveScreenshot(
+                snapshotName,
+                await clipFor(element)
+              );
+            } else {
+              await expect(page).toHaveScreenshot(await clipFor(element));
+            }
+          };
 
           test("base", async ({ page }) => {
             await page.goto(baseURL);
@@ -34,7 +58,7 @@ describeEach(["TextInput", "Textarea"] as const, (__vrtContent__) => {
             });
 
             // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
+            await testScreenshot(page, element);
           });
         });
       });

@@ -7,38 +7,28 @@ export interface DaikinTextareaStoryArgs
   __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
+  onChangeCount: (event: Event) => void;
 }
 
 export const DAIKIN_TEXTAREA_ARG_TYPES = {
   placeholder: {
     type: "string",
-    description: "Placeholder text",
   },
   disabled: {
     type: "boolean",
-    defaultValue: false,
-    description: "Whether the field is disabled",
   },
   readonly: {
     type: "boolean",
-    defaultValue: false,
-    description: "Whether the field is readonly",
-  },
-  maxlength: {
-    type: "number",
-    description: "Maximum length in field values",
   },
   error: {
     type: "boolean",
-    defaultValue: false,
-    description: "Error state. Ignored if the `disabled` is `true`.",
+  },
+  allowResize: {
+    type: "boolean",
   },
   __vrtArgs__: {
-    name: "",
     type: "string",
     control: false,
-    defaultValue: "",
-    description: "Custom arguments for the Visual Regression Test.",
   },
 } satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
 

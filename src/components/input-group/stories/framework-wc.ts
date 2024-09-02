@@ -13,7 +13,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     error,
     disabled,
     required,
-    textareaCounter,
+    textareaMaxCount,
     __vrtContent__,
   }) => html`
     <daikin-input-group
@@ -22,7 +22,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       error=${ifDefined(error)}
       ?disabled=${disabled}
       ?required=${required}
-      ?textareaCounter=${textareaCounter}
+      .textareaMaxCount=${textareaMaxCount}
     >
       <!-- value="Value" -->
       ${__vrtContent__ === "TextInput"

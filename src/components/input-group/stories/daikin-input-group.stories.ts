@@ -84,28 +84,28 @@ export const Error: Story = {
 export const Textarea: Story = {
   args: {
     ...Default.args,
+    textareaMaxCount: 100,
     __vrtContent__: "Textarea",
-    textareaCounter: true,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
     await expect(root).toBeInTheDocument();
 
-    const inner = canvasElement.getElementsByTagName("daikin-textarea")[0];
     const innerInput: HTMLInputElement = getByShadowRole(root, "textbox");
     await expect(innerInput).toBeInTheDocument();
 
     await expect(innerInput).toHaveValue("Value");
-    await expect(getByShadowText(root, "5/100")).toBeInTheDocument();
+    await expect(getByShadowText(root, "5")).toBeInTheDocument();
 
     // has counter
     await step("Try to type inner textbox", async () => {
-      await userEvent.type(innerInput, "Example");
-      await expect(getByShadowText(root, "12/100")).toBeInTheDocument();
-      await expect(queryByShadowText(root, "5/100")).not.toBeInTheDocument();
+      await userEvent.type(innerInput, "A");
+      await expect(getByShadowText(root, "6")).toBeInTheDocument();
+      await expect(queryByShadowText(root, "5")).not.toBeInTheDocument();
     });
 
-    inner.value = "";
+    await userEvent.keyboard("[BackSpace]");
+    await expect(queryByShadowText(root, "5")).toBeInTheDocument();
     innerInput.blur();
   }),
 };

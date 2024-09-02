@@ -1,7 +1,7 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -12,42 +12,37 @@ const cvaTextarea = cva(
     "text-daikinNeutral-900",
     "border",
     "border-solid",
-    "px-[9px]",
-    "py-1",
+    "p-3",
     "font-daikinSerif",
     "rounded-[6px]",
-    "placeholder:text-daikinNeutral-200",
+    "placeholder:text-daikinNeutral-700",
 
     "enabled:hover:outline",
+    "enabled:hover:outline-offset-[-2px]",
+    "enabled:hover:outline-daikinNeutral-300",
     "enabled:hover:outline-2",
-    "enabled:hover:outline-[--text-input-outline-color-hover]",
     "enabled:active:outline",
+    "enabled:active:outline-offset-[-2px]",
+    "enabled:active:outline-daikinNeutral-300",
     "enabled:active:outline-2",
-    "enabled:active:outline-[--text-input-outline-color-active]",
-    "focus-visible:outline",
-    "focus-visible:outline-2",
-    "focus-visible:outline-[--text-input-outline-color-active]",
+    "enabled:focus-visible:outline",
+    "enabled:focus-visible:outline-offset-[-2px]",
+    "enabled:focus-visible:outline-daikinBlue-700",
+    "enabled:focus-visible:outline-2",
     "disabled:text-[--text-input-outline-color-disabled]",
     "disabled:bg-[--text-input-background-color]",
     "disabled:border-[--text-input-outline-color-disabled]",
+    "disabled:placeholder:text-[--text-input-outline-color-disabled]",
   ],
   {
     variants: {
-      variant: {
-        normal: ["border-daikinNeutral-600"],
-        error: ["bg-daikinRed-50", "border-[--text-input-border-color-error]"],
+      status: {
+        default: ["border-daikinNeutral-600"],
+        error: ["border-[--text-input-border-color-error]"],
       },
-    },
-  }
-);
-
-const cvaCounter = cva(
-  ["absolute", "top-[-24px]", "right-0", "text-[12px]", "font-daikinSerif"],
-  {
-    variants: {
-      variant: {
-        normal: ["text-daikinNeutral-900"],
-        disabled: ["text-[--text-input-outline-color-disabled]"],
+      resize: {
+        false: ["resize-none"],
+        true: [],
       },
     },
   }
@@ -84,8 +79,8 @@ export class DaikinTextarea extends LitElement {
       --text-input-background-color: #ffffff;
 
       display: block;
-      width: 340px;
-      height: 120px;
+      width: 360px;
+      height: 87px;
       position: relative;
     }
   `;
@@ -125,12 +120,6 @@ export class DaikinTextarea extends LitElement {
   readonly = false;
 
   /**
-   * Maximum length in field values
-   */
-  @property({ type: Number, reflect: true })
-  maxlength: number = 100;
-
-  /**
    * Specify auto-completion values
    */
   @property({ type: String, reflect: true })
@@ -143,55 +132,49 @@ export class DaikinTextarea extends LitElement {
   error = false;
 
   /**
-   * Whether to display a counter at the top of the text area
+   * Whether to allow resizing of the text area
    */
   @property({ type: Boolean, reflect: true })
-  counter = false;
+  allowResize = false;
 
-  @state()
-  protected _textareaCounter: number = 0;
-
-  private _updateValueAndCounter(value: string): void {
+  private _updateValue(value: string): void {
     this._internals.setFormValue(value);
-    this._textareaCounter = [...value].length;
   }
 
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
-    this._updateValueAndCounter(this.value);
+    this._updateValue(this.value);
+
+    this.dispatchEvent(
+      new CustomEvent("change-count", {
+        detail: {
+          valueCount: this.value.length,
+        },
+        bubbles: true,
+        composed: true,
+        cancelable: false,
+      })
+    );
   }
 
   override render() {
-    const textareaClassName = cvaTextarea({
-      variant: !this.disabled && this.error ? "error" : "normal",
-    });
-
-    const textareaCounterClassName = cvaCounter({
-      variant: this.disabled ? "disabled" : "normal",
-    });
-
     return html`<textarea
-        class=${textareaClassName}
-        .value=${this.value}
-        placeholder=${this.placeholder}
-        maxlength=${this.maxlength}
-        autocomplete=${
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-          ifDefined(this.autocomplete as any)
-        }
-        ?disabled=${this.disabled}
-        ?readonly=${this.readonly}
-        @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
-        @input=${this._handleInput}
-        @keydown=${this._handleInput}
-      ></textarea>
-      ${this.counter
-        ? html`
-            <span class=${textareaCounterClassName}
-              >${this._textareaCounter}/${this.maxlength}</span
-            >
-          `
-        : null}`;
+      class=${cvaTextarea({
+        status: !this.disabled && this.error ? "error" : "default",
+        resize: this.allowResize,
+      })}
+      .value=${this.value}
+      placeholder=${this.placeholder}
+      autocomplete=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.autocomplete as any)
+      }
+      ?disabled=${this.disabled}
+      ?readonly=${this.readonly}
+      @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+      @input=${this._handleInput}
+      @keydown=${this._handleInput}
+    ></textarea>`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {
@@ -199,7 +182,7 @@ export class DaikinTextarea extends LitElement {
       return;
     }
 
-    this._updateValueAndCounter(this.value);
+    this._updateValue(this.value);
   }
 }
 

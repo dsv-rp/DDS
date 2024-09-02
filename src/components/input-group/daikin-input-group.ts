@@ -1,10 +1,11 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
@@ -23,6 +24,24 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
         "after:text-daikinRed-500",
         "after:ml-1",
       ],
+    },
+  },
+});
+
+const cvaCounter = cva(["text-xs"], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-[--text-input-outline-color-disabled]"],
+    },
+  },
+});
+
+const cvaCounterValueLength = cva([], {
+  variants: {
+    error: {
+      false: [],
+      true: ["text-daikinRed-500"],
     },
   },
 });
@@ -109,10 +128,10 @@ export class DaikinInputGroup extends LitElement {
   error = "";
 
   /**
-   * Whether to display the counter in the Textarea
+   * Maximum value to display on the counter. When `null`, the counter will be hidden.
    */
-  @property({ type: Boolean, reflect: true })
-  textareaCounter = false;
+  @property({ type: Number, reflect: true })
+  textareaMaxCount: number | null = null;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
   _textareas!: DaikinTextarea[];
@@ -120,8 +139,29 @@ export class DaikinInputGroup extends LitElement {
   @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
   _controls!: ControlElement[];
 
+  @state()
+  _isTextarea: boolean = false;
+
+  @state()
+  _textareaValueLength: number = 0;
+
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
+
+    const textarea = this._textareas[0] as DaikinTextarea | undefined;
+
+    if (textarea) {
+      this._isTextarea = true;
+      this._textareaValueLength = textarea.value.length;
+    } else {
+      this._isTextarea = false;
+    }
+  }
+
+  private _handleChangeCount(
+    e: Event & { detail: { valueCount: number } }
+  ): void {
+    this._textareaValueLength = e.detail.valueCount;
   }
 
   private _reflectSlotProperties(): void {
@@ -130,25 +170,42 @@ export class DaikinInputGroup extends LitElement {
       control.disabled = !!this.disabled;
       control.error = isError;
     }
-
-    for (const item of this._textareas) {
-      item.counter = this.textareaCounter;
-    }
   }
 
   override render() {
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-2 font-daikinSerif">
-        ${this.label
-          ? html`<span
-              class=${cvaLabel({
-                required: this.required,
-              })}
-            >
-              ${this.label}
-            </span>`
-          : null}
-        <slot @slotchange=${this._handleSlotChange}></slot>
+      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
+        <div class="flex justify-between items-center gap-2">
+          ${this.label
+            ? html`<span
+                class=${cvaLabel({
+                  required: this.required,
+                })}
+              >
+                ${this.label}
+              </span>`
+            : null}
+          ${!!this.textareaMaxCount && !!this._isTextarea
+            ? html`
+                <span
+                  class=${cvaCounter({
+                    disabled: this.disabled,
+                  })}
+                >
+                  <span
+                    class=${cvaCounterValueLength({
+                      error: this.textareaMaxCount < this._textareaValueLength,
+                    })}
+                    >${this._textareaValueLength}</span
+                  ><span>/</span><span>${this.textareaMaxCount}</span>
+                </span>
+              `
+            : nothing}
+        </div>
+        <slot
+          @slotchange=${this._handleSlotChange}
+          @change-count=${this._handleChangeCount}
+        ></slot>
         ${this.helper && !this.error
           ? html`<span
               class=${cvaHelper({

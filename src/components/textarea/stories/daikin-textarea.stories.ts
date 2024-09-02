@@ -25,9 +25,11 @@ export const Default: Story = {
     disabled: false,
     readonly: false,
     error: false,
+    allowResize: true,
     __vrtArgs__: "",
     onChange: fn(eventPayloadTransformer),
     onInput: fn(eventPayloadTransformer),
+    onChangeCount: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-textarea")[0];
