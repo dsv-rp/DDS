@@ -16,17 +16,22 @@ type ControlElement = DaikinTextInput | DaikinTextarea;
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
     required: {
-      optional: [],
-      required: ["after:i-daikin-required", "after:size-4", "after:ml-1"],
+      false: [],
+      true: [
+        "after:i-daikin-required",
+        "after:size-4",
+        "after:text-daikinRed-500",
+        "after:ml-1",
+      ],
     },
   },
 });
 
 const cvaHelper = cva(["h-[22px]", "text-sm"], {
   variants: {
-    variant: {
-      enabled: ["text-daikinNeutral-800"],
-      disabled: ["text-daikinNeutral-200"],
+    disabled: {
+      false: ["text-daikinNeutral-800"],
+      true: ["text-daikinNeutral-200"],
     },
   },
 });
@@ -137,7 +142,7 @@ export class DaikinInputGroup extends LitElement {
         ${this.label
           ? html`<span
               class=${cvaLabel({
-                required: this.required ? "required" : "optional",
+                required: this.required,
               })}
             >
               ${this.label}
@@ -147,7 +152,7 @@ export class DaikinInputGroup extends LitElement {
         ${this.helper && !this.error
           ? html`<span
               class=${cvaHelper({
-                variant: this.disabled ? "disabled" : "enabled",
+                disabled: this.disabled,
               })}
             >
               ${this.helper}

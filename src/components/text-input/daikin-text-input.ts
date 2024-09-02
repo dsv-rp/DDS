@@ -48,9 +48,9 @@ const cvaInput = cva(
   ],
   {
     variants: {
-      status: {
-        default: ["border-daikinNeutral-600"],
-        error: ["border-[--text-input-border-color-error]"],
+      error: {
+        false: ["border-daikinNeutral-600"],
+        true: ["border-[--text-input-border-color-error]"],
       },
       icon: {
         left: ["pl-[44px]", "pr-3"],
@@ -76,9 +76,9 @@ const cvaIconContainer = cva(
   ],
   {
     variants: {
-      status: {
-        default: [],
-        disabled: ["text-[--text-input-outline-color-disabled]"],
+      disabled: {
+        false: [],
+        true: ["text-[--text-input-outline-color-disabled]"],
       },
       position: {
         left: ["left-3"],
@@ -202,7 +202,7 @@ export class DaikinTextInput extends LitElement {
   override render() {
     const input = html`<input
       class=${cvaInput({
-        status: !this.disabled && this.error ? "error" : "default",
+        error: !this.disabled && this.error,
         icon: this.leftIcon ? "left" : this.rightIcon ? "right" : "none",
       })}
       type=${this.type}
@@ -225,7 +225,7 @@ export class DaikinTextInput extends LitElement {
           ${this.leftIcon
             ? html`<div
                 class=${cvaIconContainer({
-                  status: this.disabled ? "disabled" : "default",
+                  disabled: this.disabled,
                   position: "left",
                 })}
               >
@@ -238,7 +238,7 @@ export class DaikinTextInput extends LitElement {
             : nothing}${input}${this.rightIcon
             ? html`<div
                 class=${cvaIconContainer({
-                  status: this.disabled ? "disabled" : "default",
+                  disabled: this.disabled,
                   position: "right",
                 })}
               >
