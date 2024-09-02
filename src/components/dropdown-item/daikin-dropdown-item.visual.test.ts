@@ -12,10 +12,9 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ITEM_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-dropdown-item--default", args);
 
-describeEach(["enabled", "disabled"] as const, (disabled) => {
-  const baseURL = getPageURL({
-    ...(disabled === "disabled" && { disabled: true }),
-  });
+describeEach(["default", "selected"] as const, (state) => {
+  const baseArgs = { __vrtSelected__: state === "selected" };
+  const baseURL = getPageURL(baseArgs);
 
   test("base", async ({ page }) => {
     await page.goto(baseURL);
@@ -72,6 +71,18 @@ describeEach(["enabled", "disabled"] as const, (disabled) => {
     await page.evaluate((container) => {
       container.focus();
     }, element);
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
+  test("disabled", async ({ page }) => {
+    await page.goto(getPageURL({ ...baseArgs, disabled: true }));
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-dropdown-item", {
+      state: "visible",
+    });
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));

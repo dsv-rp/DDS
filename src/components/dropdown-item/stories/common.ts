@@ -2,19 +2,20 @@ import type { DaikinDropdownItem } from "#package/components/dropdown-item/daiki
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export type DaikinDropdownItemStoryArgs = Required<
-  ElementProps<DaikinDropdownItem>
->;
+export interface DaikinDropdownItemStoryArgs
+  extends Required<ElementProps<DaikinDropdownItem>> {
+  __vrtSelected__: boolean;
+}
 
 export const DAIKIN_DROPDOWN_ITEM_ARG_TYPES = {
   value: {
-    description: "Dropdown item value",
     type: "string",
   },
   disabled: {
-    description: "Whether the dropdown item is disabled",
     type: "boolean",
-    defaultValue: false,
+  },
+  __vrtSelected__: {
+    type: "boolean",
   },
 } satisfies Meta<DaikinDropdownItemStoryArgs>["argTypes"];
 

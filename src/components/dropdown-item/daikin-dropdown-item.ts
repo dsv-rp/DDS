@@ -5,26 +5,36 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaOption = cva(
   [
+    "flex",
+    "items-center",
+    "justify-between",
     "w-full",
-    "minH-[42px]",
-    "bg-white",
-    "py-2.5",
-    "px-3",
+    "min-h-12",
+    "text-daikinNeutral-900",
+    "p-3",
     "font-daikinSerif",
-    "text-[15px]",
-    "leading-[22px]",
+    "leading-5",
     "text-left",
+    "border-transparent",
+    "border-2",
+
+    "enabled:active:bg-daikinNeutral-100",
+    "enabled:focus-visible:border-daikinBlue-700",
+    "focus-visible:outline-none",
+
+    "disabled:text-daikinNeutral-200",
   ],
   {
     variants: {
-      labelPosition: {
-        top: [],
-        left: [],
-        hidden: ["hidden"],
-      },
-      disabled: {
-        enabled: ["hover:bg-[#ebebeb]"],
-        disabled: ["text-[#DCDCDC]"],
+      selected: {
+        false: ["bg-white", "enabled:hover:bg-daikinNeutral-50"],
+        true: [
+          "bg-daikinNeutral-100",
+          "after:i-daikin-dropdown-check",
+          "after:size-5",
+          "enabled:after:text-daikinNeutral-900",
+          "disabled:after:text-daikinNeutral-200",
+        ],
       },
     },
   }
@@ -75,10 +85,11 @@ export class DaikinDropdownItem extends LitElement {
 
     this.dispatchEvent(event);
   }
+
   override render() {
     return html`<button
       type="button"
-      class=${cvaOption({ disabled: this.disabled ? "disabled" : "enabled" })}
+      class=${cvaOption({ selected: this.selected })}
       data-value=${this.value}
       role="option"
       aria-selected=${this.selected}

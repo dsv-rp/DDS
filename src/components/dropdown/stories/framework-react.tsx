@@ -20,7 +20,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     <div
       data-testid="vrt-container"
       style={{
-        width: props.labelPosition === "left" ? "320px" : "218px",
+        width: "max-content",
         height: "240px",
       }}
     >

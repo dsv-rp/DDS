@@ -10,38 +10,12 @@ import {
 import { createRef, ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinDropdownItem } from "../dropdown-item";
 import "../icon/daikin-icon";
-import type { IconType } from "../icon/daikin-icon";
 
 type SelectEvent = Event & {
   detail: { value: string };
 };
-
-const cvaContainer = cva(["flex", "gap-2", "w-full", "relative"], {
-  variants: {
-    labelPosition: {
-      top: ["flex-col", "gap-2"],
-      left: ["items-center", "gap-3"],
-      hidden: [],
-    },
-  },
-});
-
-const cvaLabel = cva(["flex-none", "text-sm", "font-medium"], {
-  variants: {
-    labelPosition: {
-      top: [],
-      left: [],
-      hidden: ["hidden"],
-    },
-    disabled: {
-      enabled: [],
-      disabled: ["text-[#DCDCDC]"],
-    },
-  },
-});
 
 const cvaButton = cva(
   [
@@ -49,17 +23,37 @@ const cvaButton = cva(
     "items-center",
     "gap-2",
     "w-full",
+    "min-h-12",
     "bg-white",
+    "px-3",
     "border",
+    "border-daikinNeutral-600",
     "rounded-md",
     "overflow-hidden",
     "font-daikinSerif",
     "text-left",
-
+    "leading-5",
     "relative",
+
+    "enabled:hover:outline",
+    "enabled:hover:-outline-offset-2",
+    "enabled:hover:outline-daikinNeutral-300",
+    "enabled:hover:outline-2",
+    "enabled:active:outline",
+    "enabled:active:-outline-offset-2",
+    "enabled:active:outline-daikinNeutral-300",
+    "enabled:active:outline-2",
+    "enabled:focus-visible:outline",
+    "enabled:focus-visible:-outline-offset-2",
+    "enabled:focus-visible:outline-daikinBlue-700",
+    "enabled:focus-visible:outline-2",
+
+    "disabled:text-daikinNeutral-200",
+    "disabled:border-daikinNeutral-200",
+
     "after:i-daikin-dropdown-chevron-down",
-    "after:w-3",
-    "after:h-3",
+    "after:w-6",
+    "after:h-6",
     "after:absolute",
     "after:m-auto",
     "after:top-0",
@@ -68,23 +62,9 @@ const cvaButton = cva(
   ],
   {
     variants: {
-      size: {
-        small: ["min-h-8", "py-1", "px-2", "text-[13px]", "leading-5"],
-        medium: [
-          "min-h-[42px]",
-          "py-2.5",
-          "px-3",
-          "text-[15px]",
-          "leading-[22px]",
-        ],
-      },
       disabled: {
-        enabled: ["border-[#8C8C8C]", "after:text-black", "hover:bg-[#ebebeb]"],
-        disabled: [
-          "text-[#DCDCDC]",
-          "border-[#DCDCDC]",
-          "after:text-[#DCDCDC]",
-        ],
+        false: ["text-daikinNeutral-900"],
+        true: ["text-daikinNeutral-200"],
       },
     },
   }
@@ -93,15 +73,14 @@ const cvaButton = cva(
 const cvaContent = cva(
   [
     "w-full",
-    "border",
-    "border-[#8C8C8C]",
-    "rounded-md",
     "overflow-hidden",
     "absolute",
     "top-0",
     "left-0",
     "opacity-1",
     "transition-[opacity]",
+    "rounded-[4px]",
+    "shadow-dropdown",
   ],
   {
     variants: {
@@ -112,10 +91,6 @@ const cvaContent = cva(
     },
   }
 );
-
-type DropdownVariantProps = MergeVariantProps<
-  typeof cvaContainer | typeof cvaButton
->;
 
 /**
  * A dropdown list component.
@@ -141,15 +116,11 @@ export class DaikinDropdown extends LitElement {
 
     :host {
       display: block;
-      width: 100%;
+      width: 360px;
     }
 
     ::slotted {
       width: 100%;
-    }
-
-    ::slotted(daikin-dropdown-item:not(:last-child)) {
-      border-bottom: 1px solid #8c8c8c;
     }
   `;
 
@@ -160,28 +131,10 @@ export class DaikinDropdown extends LitElement {
   label: string = "";
 
   /**
-   * Specify the size of the dropdown
-   */
-  @property({ type: String })
-  size: DropdownVariantProps["size"] = "medium";
-
-  /**
    * Dropdown value
    */
   @property({ type: String })
   value = "";
-
-  /**
-   * Where the label is located in terms of the dropdown
-   */
-  @property({ type: String, attribute: "label-position" })
-  labelPosition: DropdownVariantProps["labelPosition"] = "top";
-
-  /**
-   * Icon to the left of the currently selected content. See `daikin-icon` component for available icons.
-   */
-  @property({ type: String, attribute: "left-icon" })
-  leftIcon: IconType | null = null;
 
   /**
    * Whether the dropdown is disabled
@@ -225,7 +178,7 @@ export class DaikinDropdown extends LitElement {
         placement: "bottom",
         middleware: [
           flip({ fallbackStrategy: "initialPlacement" }),
-          offset({ mainAxis: 10 }),
+          offset({ mainAxis: -1 }),
         ],
       })
         .then(({ x, y }) => {
@@ -311,17 +264,8 @@ export class DaikinDropdown extends LitElement {
   }
 
   override render() {
-    return html`<div
-      class=${cvaContainer({ labelPosition: this.labelPosition })}
-    >
-      <div
-        class="${cvaLabel({
-          labelPosition: this.labelPosition,
-          disabled: this.disabled ? "disabled" : "enabled",
-        })}"
-      >
-        ${this.label}
-      </div>
+    return html`<div class="flex flex-col gap-2 w-full relative">
+      <div class="font-bold">${this.label}</div>
       <div
         class="w-full relative"
         aria-disabled=${this.disabled}
@@ -329,23 +273,13 @@ export class DaikinDropdown extends LitElement {
       >
         <button
           type="button"
-          class=${cvaButton({
-            size: this.size,
-            disabled: this.disabled ? "disabled" : "enabled",
-          })}
+          class=${cvaButton({ disabled: this.disabled })}
           aria-expanded=${this.open && !this.disabled}
           ?disabled=${this.disabled}
           @click=${this._handleClick}
           ${ref(this._buttonRef)}
         >
-          ${this.leftIcon
-            ? html`<daikin-icon
-                icon=${this.leftIcon}
-                color="current"
-                size="m"
-              ></daikin-icon>`
-            : null}
-          <span>${this._buttonLabel}</span>
+          ${this._buttonLabel}
         </button>
         <div
           class=${cvaContent({
@@ -376,9 +310,15 @@ export class DaikinDropdown extends LitElement {
 
       let itemIndex = items.findIndex(({ value }) => this.value === value);
 
+      console.log(itemIndex);
+
       if (itemIndex < 0) {
         itemIndex = 0;
         this.value = items[itemIndex].value;
+      } else {
+        for (const item of items) {
+          item.selected = false;
+        }
       }
       this._buttonLabel = items[itemIndex].textContent ?? "";
       items[itemIndex].selected = true;

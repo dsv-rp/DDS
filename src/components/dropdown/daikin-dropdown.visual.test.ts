@@ -12,36 +12,26 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-dropdown--default", args);
 
-describeEach(["small", "medium"] as const, (size) => {
-  describeEach(["top", "left", "hidden"] as const, (labelPosition) => {
-    describeEach(["left", "none"] as const, (icon) => {
-      describeEach(["open", "close"] as const, (state) => {
-        describeEach(["enabled", "disabled"] as const, (disabled) => {
-          const baseURL = getPageURL({
-            size,
-            label: "Dropdown Label",
-            labelPosition,
-            ...(icon === "left" && { leftIcon: "positive" as const }),
-            ...(state === "open" && { open: true }),
-            ...(disabled === "disabled" && { disabled: true }),
-          });
+describeEach(["open", "close"] as const, (state) => {
+  describeEach(["enabled", "disabled"] as const, (disabled) => {
+    const baseURL = getPageURL({
+      ...(state === "open" && { open: true }),
+      ...(disabled === "disabled" && { disabled: true }),
+    });
 
-          test("base", async ({ page }) => {
-            await page.goto(baseURL);
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
 
-            // wait for element to be visible
-            const element = await page.waitForSelector(
-              `div[data-testid="vrt-container"]`,
-              {
-                state: "visible",
-              }
-            );
+      // wait for element to be visible
+      const element = await page.waitForSelector(
+        `div[data-testid="vrt-container"]`,
+        {
+          state: "visible",
+        }
+      );
 
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
-          });
-        });
-      });
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });

@@ -14,9 +14,7 @@ export default {
 export const Default: Story = {
   args: {
     label: "Dropdown label",
-    size: "medium",
     value: "value1",
-    labelPosition: "top",
     open: false,
     disabled: false,
     option: "default",
@@ -63,37 +61,10 @@ export const Default: Story = {
   }),
 };
 
-export const Small: Story = {
-  args: {
-    ...Default.args,
-    size: "small",
-  },
-};
 export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
-  },
-};
-
-export const LabelLeft: Story = {
-  args: {
-    ...Default.args,
-    labelPosition: "left",
-  },
-};
-
-export const NonLabel: Story = {
-  args: {
-    ...Default.args,
-    label: "",
-  },
-};
-
-export const Icon: Story = {
-  args: {
-    ...Default.args,
-    leftIcon: "positive",
   },
 };
 
