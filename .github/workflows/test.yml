@@ -15,7 +15,7 @@ jobs:
     container:
       image: mcr.microsoft.com/playwright:v1.46.1-jammy
 
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Checkout code
