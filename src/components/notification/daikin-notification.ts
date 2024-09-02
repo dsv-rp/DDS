@@ -185,7 +185,7 @@ export class DaikinNotification extends LitElement {
             ></daikin-icon>
           </div>
           <div
-            class="flex justify-between items-center gap-5 p-5 text-[18px] flex-[1_0_auto]"
+            class="flex justify-between items-center gap-5 p-5 text-lg flex-auto flex-shrink-0"
           >
             <div
               class=${cvaContent({
