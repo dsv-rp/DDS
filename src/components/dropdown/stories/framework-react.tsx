@@ -40,7 +40,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
         )}
         {props.option === "single" && (
           <ReactDaikinDropdownItem value="value1">
-            Item 1
+            Dropdown item 1
           </ReactDaikinDropdownItem>
         )}
         {props.option === "multiple" && (
