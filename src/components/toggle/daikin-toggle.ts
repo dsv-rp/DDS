@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -88,13 +88,9 @@ export class DaikinToggle extends LitElement {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  @query("input")
-  private _input: HTMLInputElement | null | undefined;
-
   private _handleChange(event: Event) {
-    if (!this._input) {
-      return;
-    }
+    // DDS-1317 To ensure `event.target.checked` has the correct value, we have to update `this.checked` before emitting the "change" event.
+    this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
     this.dispatchEvent(new Event("change", event));
   }
