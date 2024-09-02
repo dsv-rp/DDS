@@ -37,22 +37,10 @@ export class DaikinRadioGroup extends LitElement {
   @queryAssignedElements()
   private _radios!: Array<DaikinRadio>;
 
-  private _handleSlotChange(): void {
-    for (const radio of this._radios) {
-      if (radio.value === this.defaultSelected) {
-        radio.checked = true;
-        this.value = radio.value;
-      }
-      if (this.disabled) {
-        radio.disabled = true;
-      }
-    }
-  }
-
   /**
    * Specify the label text for radio group
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   label = "";
 
   /**
@@ -64,7 +52,7 @@ export class DaikinRadioGroup extends LitElement {
   /**
    * The `value` attribute for the `<input>` for selection.
    */
-  @property()
+  @property({ type: String, reflect: true })
   defaultSelected!: string;
 
   /**
@@ -81,17 +69,22 @@ export class DaikinRadioGroup extends LitElement {
   disabled = false;
 
   /**
+   * The form name.
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
    * `value` of the currently selected radio.
    * see {@link DaikinRadio.value}
    */
-  @property()
+  @property({ type: String, reflect: true })
   value = "";
 
-  private _handleRadioChange = (event: CustomEvent<{ value: string }>) => {
-    const detail = event.detail;
+  private _updateRadios(value: string) {
     for (const daikinRadio of this._radios) {
-      if (daikinRadio.value === detail.value) {
-        this.value = detail.value;
+      if (daikinRadio.value === value) {
+        this.value = value;
         daikinRadio.checked = true;
         daikinRadio.internals.setFormValue(daikinRadio.value);
       } else {
@@ -99,7 +92,16 @@ export class DaikinRadioGroup extends LitElement {
         daikinRadio.internals.setFormValue(null);
       }
     }
+  }
+
+  private _handleRadioChange = (event: CustomEvent<{ value: string }>) => {
+    const detail = event.detail;
+    this._updateRadios(detail.value);
   };
+
+  private _handleSlotChange(): void {
+    this._updateRadios(this.defaultSelected);
+  }
 
   override render() {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });

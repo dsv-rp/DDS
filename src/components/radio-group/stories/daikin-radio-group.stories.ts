@@ -15,6 +15,7 @@ export const Default: Story = {
     disabled: false,
     label: "Radio group",
     defaultSelected: "value1",
+    name: "name1",
     onChange: fn(),
     onClick: fn(),
   },

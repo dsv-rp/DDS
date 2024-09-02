@@ -7,6 +7,7 @@ import type { DaikinRadioGroupStoryArgs } from "./common";
 export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
   render: ({
     orientation,
+    name,
     value,
     label,
     labelPosition,
@@ -16,6 +17,7 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
   }) => html`
     <daikin-radio-group
       orientation=${orientation}
+      name=${name}
       value=${value}
       label=${label}
       label-position=${labelPosition}

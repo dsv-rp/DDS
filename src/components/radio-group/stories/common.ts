@@ -19,7 +19,7 @@ export const DAIKIN_RADIO_GROUP_ARG_TYPES = {
   label: {
     type: "string",
   },
-  value: { type: "string" },
+  name: { type: "string" },
 } satisfies Meta<DaikinRadioGroupStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinRadioGroupStoryArgs>;
