@@ -10,7 +10,6 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
     name,
     value,
     label,
-    labelPosition,
     disabled,
     onChange,
     onClick,
@@ -20,7 +19,6 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
       name=${name}
       value=${value}
       label=${label}
-      label-position=${labelPosition}
       ?disabled=${disabled}
       @change=${onChange}
       @click=${onClick}

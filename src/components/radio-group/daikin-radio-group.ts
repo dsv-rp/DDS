@@ -56,13 +56,6 @@ export class DaikinRadioGroup extends LitElement {
   defaultSelected!: string;
 
   /**
-   * Specify the label position
-   * when `left` the label will be in left of radioGroup, when `right` label will be in right of radioGroup
-   */
-  @property({ type: String, attribute: "label-position" })
-  labelPosition: "left" | "right" = "right";
-
-  /**
    * Specify whether the RadioGroup should be disabled
    */
   @property({ type: Boolean, reflect: true })
