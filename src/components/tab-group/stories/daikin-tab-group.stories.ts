@@ -1,3 +1,4 @@
+import type { DaikinTabGroup } from "#package/components/tab-group/daikin-tab-group";
 import { definePlay, isVisible } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { clearAllMocks, expect, fn, userEvent } from "@storybook/test";
@@ -11,13 +12,20 @@ export default {
   ...metadata,
 };
 
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    value: (event.target as DaikinTabGroup).value,
+  };
+}
+
 export const Default: Story = {
   args: {
     tabs: ["Foo", "!Bar", "Baz"],
     value: "foo",
     size: "default",
-    onBeforeChange: fn(),
-    onChange: fn(),
+    onBeforeChange: fn(eventPayloadTransformer),
+    onChange: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tab-group")[0];
@@ -41,7 +49,13 @@ export const Default: Story = {
     await step("Try to click baz tab", async () => {
       clearAllMocks();
       await userEvent.click(bazTab);
+      await expect(args.onBeforeChange).toHaveLastReturnedWith({
+        value: "foo",
+      });
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "baz",
+      });
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
 
@@ -76,7 +90,13 @@ export const Default: Story = {
     await step("Try to click foo tab", async () => {
       clearAllMocks();
       await userEvent.click(fooTab);
+      await expect(args.onBeforeChange).toHaveLastReturnedWith({
+        value: "baz",
+      });
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "foo",
+      });
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
 
@@ -98,7 +118,13 @@ export const Default: Story = {
       ).toBe(bazTab);
 
       await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveLastReturnedWith({
+        value: "foo",
+      });
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "baz",
+      });
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
 
@@ -120,7 +146,13 @@ export const Default: Story = {
       ).toBe(fooTab);
 
       await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveLastReturnedWith({
+        value: "baz",
+      });
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "foo",
+      });
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
 
@@ -142,7 +174,13 @@ export const Default: Story = {
       ).toBe(bazTab);
 
       await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveLastReturnedWith({
+        value: "foo",
+      });
       await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "baz",
+      });
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
 

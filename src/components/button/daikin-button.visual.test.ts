@@ -10,16 +10,15 @@ import type { DAIKIN_BUTTON_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_BUTTON_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-button--primary", args);
+  getStorybookIframeURL("components-button--fill", args);
 
-describeEach(
-  ["primary", "secondary", "tertiary", "primaryDanger"] as const,
-  (variant) => {
-    describeEach(["default", "condensed"] as const, (size) => {
+describeEach(["fill", "outline", "ghost"] as const, (variant) => {
+  describeEach(["default", "danger"] as const, (color) => {
+    describeEach(["small", "medium"] as const, (size) => {
       describeEach(["none", "left", "right"] as const, (icon) => {
-        const baseURL = getPageURL({
-          label: "Button1",
+        const baseArgs = {
           variant,
+          color,
           size,
           ...(icon === "right" && {
             rightIcon: "positive",
@@ -27,19 +26,8 @@ describeEach(
           ...(icon === "left" && {
             leftIcon: "positive",
           }),
-        });
-        const disabledURL = getPageURL({
-          label: "Button1",
-          variant,
-          size,
-          disabled: true,
-          ...(icon === "right" && {
-            rightIcon: "positive",
-          }),
-          ...(icon === "left" && {
-            leftIcon: "positive",
-          }),
-        });
+        };
+        const baseURL = getPageURL(baseArgs);
 
         test("base", async ({ page }) => {
           await page.goto(baseURL);
@@ -103,7 +91,12 @@ describeEach(
 
         test("disabled", async ({ page }) => {
           // load page with disabled=true
-          await page.goto(disabledURL);
+          await page.goto(
+            getPageURL({
+              ...baseArgs,
+              disabled: true,
+            })
+          );
 
           // wait for element to be visible
           const element = await page.waitForSelector("daikin-button", {
@@ -115,5 +108,5 @@ describeEach(
         });
       });
     });
-  }
-);
+  });
+});
