@@ -83,10 +83,10 @@ export class DaikinRadio extends LitElement {
   static readonly formAssociated = true;
 
   // define internals to let radio can be used in form
-  private _internals = this.attachInternals();
+  public internals = this.attachInternals();
 
   private _updateFormValue() {
-    this._internals.setFormValue(this.checked ? this.value : null);
+    this.internals.setFormValue(this.checked ? this.value : null);
   }
 
   override updated(changedProperties: Map<string, unknown>) {
@@ -98,7 +98,12 @@ export class DaikinRadio extends LitElement {
   private _handleChange(event: Event) {
     this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
-    const newEvent = new Event("change", event);
+    const newEvent = new CustomEvent("change", {
+      detail: { value: this.value },
+      bubbles: true,
+      composed: true,
+      cancelable: false,
+    });
     this.dispatchEvent(newEvent);
   }
 
