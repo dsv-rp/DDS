@@ -27,17 +27,17 @@ const cvaInput = cva(
     "placeholder:text-daikinNeutral-700",
 
     "enabled:hover:outline",
-    "enabled:hover:outline-offset-[-2px]",
+    "enabled:hover:-outline-offset-2",
     "enabled:hover:outline-daikinNeutral-300",
     "enabled:hover:outline-2",
 
     "enabled:active:outline",
-    "enabled:active:outline-offset-[-2px]",
+    "enabled:active:-outline-offset-2",
     "enabled:active:outline-daikinNeutral-300",
     "enabled:active:outline-2",
 
     "enabled:focus-visible:outline",
-    "enabled:focus-visible:outline-offset-[-2px]",
+    "enabled:focus-visible:-outline-offset-2",
     "enabled:focus-visible:outline-daikinBlue-700",
     "enabled:focus-visible:outline-2",
 
@@ -53,8 +53,8 @@ const cvaInput = cva(
         true: ["border-[--text-input-border-color-error]"],
       },
       icon: {
-        left: ["pl-[44px]", "pr-3"],
-        right: ["pl-3", "pr-[44px]"],
+        left: ["pl-11", "pr-3"],
+        right: ["pl-3", "pr-11"],
         none: ["px-3"],
       },
     },
