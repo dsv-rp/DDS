@@ -13,14 +13,16 @@ export const ReactDaikinInputGroup = createComponent({
 });
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
-  component: ({ __vrtContent__, ...props }: DaikinInputGroupStoryArgs) => {
-    const content = {
+  component: ({ content, ...props }: DaikinInputGroupStoryArgs) => {
+    const inputContent = {
       TextInput: <ReactDaikinTextInput value="Value" />,
       Textarea: (
         <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
       ),
-    }[__vrtContent__];
+    }[content];
 
-    return <ReactDaikinInputGroup {...props}>{content}</ReactDaikinInputGroup>;
+    return (
+      <ReactDaikinInputGroup {...props}>{inputContent}</ReactDaikinInputGroup>
+    );
   },
 };

@@ -4,7 +4,7 @@ import type { DaikinInputGroup } from "../daikin-input-group";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {
-  __vrtContent__: "TextInput" | "Textarea";
+  content: "TextInput" | "Textarea";
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
@@ -29,7 +29,7 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   textareaMaxCount: {
     type: "number",
   },
-  __vrtContent__: {
+  content: {
     control: "select",
     options: ["TextInput", "Textarea"],
   },

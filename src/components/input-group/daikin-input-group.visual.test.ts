@@ -12,13 +12,13 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
-describeEach(["TextInput", "Textarea"] as const, (__vrtContent__) => {
+describeEach(["TextInput", "Textarea"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
         describeEach(["exist", "hidden"] as const, (counter) => {
           const baseURL = getPageURL({
-            __vrtContent__,
+            content,
             disabled: state === "disabled",
             required: required === "required",
             ...(error === "error" && {
@@ -31,8 +31,8 @@ describeEach(["TextInput", "Textarea"] as const, (__vrtContent__) => {
 
           // ensure that hovering or clicking does not change the image for disabled
           const snapshotName =
-            __vrtContent__ === "TextInput"
-              ? `${__vrtContent__}-${state}-${required}-${error}.png`
+            content === "TextInput"
+              ? `${content}-${state}-${required}-${error}.png`
               : null;
 
           const testScreenshot = async (
