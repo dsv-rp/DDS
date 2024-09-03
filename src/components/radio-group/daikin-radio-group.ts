@@ -22,7 +22,24 @@ const radioGroupCN = cva(["flex"], {
 type RadioGroupProps = MergeVariantProps<typeof radioGroupCN>;
 
 /**
- * Primary UI component for user interaction
+ * Radio groups are used to group multiple radio buttons so that make sure that only one will be selected in the group
+ *
+ * Hierarchies:
+ * - `daikin-radio-group` > `daikin-radio`
+ *
+ * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<slot>` element.
+ *
+ * @slot - A slot for radio buttons. Place `daikin-radio` elements here.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-radio-group>
+ *  <daikin-radio name="name1" value="value1" label="Option1"></daikin-radio>
+ *  <daikin-radio name="name2" value="value2" label="Option2"></daikin-radio>
+ *  <daikin-radio name="name3" value="value3" label="Option3"></daikin-radio>
+ * </daikin-radio-group>
+ * ```
  */
 @customElement("daikin-radio-group")
 export class DaikinRadioGroup extends LitElement {
