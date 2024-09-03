@@ -4,24 +4,21 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinButtonStoryArgs
   extends Required<ElementProps<DaikinButton>> {
-  /**
-   * Text input for users
-   */
   label: string;
   onClick: (event: Event) => void;
 }
 
 export const DAIKIN_BUTTON_ARG_TYPES = {
   variant: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["fill", "outline", "ghost"],
   },
   color: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["default", "danger"],
   },
   size: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["small", "medium"],
   },
   label: {
@@ -32,20 +29,16 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
     type: "string",
   },
   type: {
-    control: { type: "select" },
+    control: "select",
     options: ["button", "submit", "reset"],
   },
   role: {
     type: "string",
   },
   leftIcon: {
-    description:
-      "Specify the left icon to be inserted. See `daikin-icon` component for available icons.",
     type: "string",
   },
   rightIcon: {
-    description:
-      "Specify the right icon to be inserted. See `daikin-icon` component for available icons.",
     type: "string",
   },
 } as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
