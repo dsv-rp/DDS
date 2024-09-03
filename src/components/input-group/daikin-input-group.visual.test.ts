@@ -29,7 +29,6 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
             }),
           });
 
-          // ensure that hovering or clicking does not change the image for disabled
           const snapshotName =
             content === "TextInput"
               ? `${content}-${state}-${required}-${error}.png`
