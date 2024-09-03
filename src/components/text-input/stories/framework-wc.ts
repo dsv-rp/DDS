@@ -7,10 +7,10 @@ import type { DaikinTextInputStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTextInputStoryArgs> = {
   render: ({
-    value,
     type,
-    placeholder,
+    value,
     name,
+    placeholder,
     maxlength,
     autocomplete,
     disabled,
@@ -32,17 +32,17 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     return html`
       <daikin-text-input
         class=${additionalClassNames}
-        value=${value}
         type=${type}
-        placeholder=${placeholder}
+        value=${value}
         name=${ifDefined(name)}
+        placeholder=${placeholder}
         maxlength=${ifDefined(maxlength)}
         autocomplete=${ifDefined(autocomplete)}
-        .leftIcon=${leftIcon}
-        .rightIcon=${rightIcon}
         ?disabled=${disabled}
         ?readonly=${readonly}
         ?error=${error}
+        .leftIcon=${leftIcon}
+        .rightIcon=${rightIcon}
         @change=${onChange}
         @input=${onInput}
         @keydown=${onKeyDown}
