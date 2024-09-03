@@ -31,10 +31,10 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       <daikin-input-group
         label=${ifDefined(label)}
         helper=${ifDefined(helper)}
-        textareaMaxCount=${ifDefined(textareaMaxCount)}
         ?disabled=${disabled}
         ?required=${required}
         error=${ifDefined(error)}
+        textareaMaxCount=${ifDefined(textareaMaxCount)}
       >
         ${inputContent}
       </daikin-input-group>
