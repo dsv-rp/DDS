@@ -21,7 +21,7 @@ export const Default: Story = {
     helper: "Helper text",
     disabled: false,
     required: false,
-    __vrtContent__: "TextInput",
+    content: "TextInput",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
@@ -84,7 +84,7 @@ export const Error: Story = {
 export const Textarea: Story = {
   args: {
     ...Default.args,
-    __vrtContent__: "Textarea",
+    content: "Textarea",
     textareaCounter: true,
   },
   play: definePlay(async ({ canvasElement, step }) => {

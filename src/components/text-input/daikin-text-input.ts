@@ -75,7 +75,6 @@ const cvaIconContainer = cva(
     "top-0",
     "bottom-0",
     "m-auto",
-    "z-[1]",
   ],
   {
     variants: {
@@ -216,7 +215,6 @@ export class DaikinTextInput extends LitElement {
         : nothing;
 
     return html`<div class="w-full h-full relative">
-      ${createIcon("left", this.leftIcon)}
       <input
         class=${cvaInput({
           error: !this.disabled && this.error,
@@ -237,6 +235,7 @@ export class DaikinTextInput extends LitElement {
         @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
         @input=${this._handleInput}
       />
+      ${createIcon("left", this.leftIcon)}
       ${createIcon("right", this.rightIcon)}
     </div>`;
   }
