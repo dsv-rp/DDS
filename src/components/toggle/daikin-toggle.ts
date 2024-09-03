@@ -10,7 +10,7 @@ const TOGGLE_CLASS_NAME = cva([
   "bg-daikinNeutral-600",
   "rounded-full",
   "cursor-pointer",
-  "transition-[background]",
+  "transition-colors",
   "duration-300",
   "appearance-none",
   "enabled:hover:bg-daikinNeutral-500",
@@ -24,7 +24,6 @@ const TOGGLE_CLASS_NAME = cva([
   "disabled:bg-daikinNeutral-200",
   "disabled:cursor-default",
 
-  "before:content-['']",
   "before:size-6",
   "before:bg-white",
   "before:m-auto",
