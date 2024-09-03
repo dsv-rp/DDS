@@ -19,6 +19,15 @@ function eventPayloadTransformer(event: Event) {
   };
 }
 
+function eventPayloadTransformerForOnChangeInput(
+  event: Event & { detail: { valueCount: number } }
+) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    value: event.detail.valueCount,
+  };
+}
+
 export const Default: Story = {
   args: {
     placeholder: "Placeholder text",
@@ -29,7 +38,7 @@ export const Default: Story = {
     __vrtArgs__: "",
     onChange: fn(eventPayloadTransformer),
     onInput: fn(eventPayloadTransformer),
-    onChangeCount: fn(eventPayloadTransformer),
+    onChangeCount: fn(eventPayloadTransformerForOnChangeInput),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-textarea")[0];
@@ -47,6 +56,7 @@ export const Default: Story = {
       await expect(args.onInput).toHaveLastReturnedWith({
         value: "Example",
       });
+      await expect(args.onChangeCount).toHaveLastReturnedWith({ value: 7 });
       await expect(innerInput).toHaveValue("Example");
     });
 
