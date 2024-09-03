@@ -18,9 +18,21 @@ const ReactDaikinRadioGroup = createComponent({
 export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
   component: ({ ...props }: DaikinRadioGroupStoryArgs) => (
     <ReactDaikinRadioGroup {...props}>
-      <ReactDaikinRadio name="name1" value="value1" />
-      <ReactDaikinRadio name="name2" value="value2" />
-      <ReactDaikinRadio name="name3" value="value3" />
+      <ReactDaikinRadio
+        name="name1"
+        value="value1"
+        label="Option1"
+      ></ReactDaikinRadio>
+      <ReactDaikinRadio
+        name="name2"
+        value="value2"
+        label="Option2"
+      ></ReactDaikinRadio>
+      <ReactDaikinRadio
+        name="name3"
+        value="value3"
+        label="Option3"
+      ></ReactDaikinRadio>
     </ReactDaikinRadioGroup>
   ),
 };

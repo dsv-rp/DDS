@@ -19,6 +19,7 @@ export const DAIKIN_RADIO_ARG_TYPES = {
   label: {
     type: "string",
   },
+  checked: { type: "boolean" },
   name: { type: "string" },
   value: { type: "string" },
 } satisfies Meta<DaikinRadioStoryArgs>["argTypes"];

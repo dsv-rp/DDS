@@ -102,7 +102,7 @@ export class DaikinRadio extends LitElement {
       detail: { value: this.value },
       bubbles: true,
       composed: true,
-      cancelable: false,
+      cancelable: true,
     });
     this.dispatchEvent(newEvent);
   }

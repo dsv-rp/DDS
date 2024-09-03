@@ -89,6 +89,7 @@ export class DaikinRadioGroup extends LitElement {
 
   private _handleRadioChange = (event: CustomEvent<{ value: string }>) => {
     const detail = event.detail;
+    event.preventDefault();
     this._updateRadios(detail.value);
   };
 
@@ -112,7 +113,6 @@ export class DaikinRadioGroup extends LitElement {
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("disabled")) {
-      // check default radio
       for (const radio of this._radios) {
         if (this.disabled) {
           radio.disabled = true;

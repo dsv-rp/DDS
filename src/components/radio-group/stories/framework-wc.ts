@@ -11,6 +11,7 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
     value,
     label,
     disabled,
+    defaultSelected,
     onChange,
     onClick,
   }) => html`
@@ -20,12 +21,13 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
       value=${value}
       label=${label}
       ?disabled=${disabled}
+      defaultSelected=${defaultSelected}
       @change=${onChange}
       @click=${onClick}
     >
-      <daikin-radio name="name1" value="value1"></daikin-radio>
-      <daikin-radio name="name2" value="value2"></daikin-radio>
-      <daikin-radio name="name3" value="value3"></daikin-radio>
+      <daikin-radio name="name1" value="value1" label="Option1"></daikin-radio>
+      <daikin-radio name="name2" value="value2" label="Option2"></daikin-radio>
+      <daikin-radio name="name3" value="value3" label="Option3"></daikin-radio>
     </daikin-radio-group>
   `,
 };
