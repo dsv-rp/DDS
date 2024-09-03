@@ -32,8 +32,13 @@ const cvaButton = cva(
     "rounded",
     "tracking-wide",
     "text-nowrap",
+
+    "enabled:focus-visible:outline",
+    "enabled:focus-visible:outline-1",
+    "enabled:focus-visible:outline-offset-1",
+    "enabled:focus-visible:outline-daikinBlue-700",
+
     "disabled:cursor-default",
-    "focus-visible:outline-none",
   ],
   {
     variants: {
@@ -43,7 +48,6 @@ const cvaButton = cva(
           "enabled:bg-[--color-base]",
           "enabled:hover:bg-[--color-hover]",
           "enabled:active:bg-[--color-active]",
-          "enabled:focus-visible:bg-[--color-focus]",
           "disabled:bg-daikinNeutral-200",
         ],
         outline: [
@@ -55,8 +59,6 @@ const cvaButton = cva(
           "enabled:hover:border-[--color-hover]",
           "enabled:active:text-[--color-active]",
           "enabled:active:border-[--color-active]",
-          "enabled:focus-visible:text-[--color-focus]",
-          "enabled:focus-visible:border-[--color-focus]",
           "disabled:border-daikinNeutral-200",
           "disabled:text-daikinNeutral-200",
         ],
@@ -65,7 +67,6 @@ const cvaButton = cva(
           "enabled:text-[--color-base]",
           "enabled:hover:text-[--color-hover]",
           "enabled:active:text-[--color-active]",
-          "enabled:focus-visible:text-[--color-focus]",
           "disabled:text-daikinNeutral-200",
         ],
       },
@@ -78,13 +79,11 @@ const cvaButton = cva(
           "var-color-daikinBlue-500/color-base",
           "var-color-daikinBlue-300/color-hover",
           "var-color-daikinBlue-600/color-active",
-          "var-color-daikinBlue-700/color-focus",
         ],
         danger: [
           "var-color-daikinRed-500/color-base",
           "var-color-daikinRed-400/color-hover",
           "var-color-daikinRed-600/color-active",
-          "var-color-daikinRed-700/color-focus",
         ],
       },
     },
@@ -145,37 +144,37 @@ export class DaikinButton extends LitElement {
   `;
 
   /**
-   * Type of variant.
+   * Variant of button
    */
   @property({ type: String })
   variant: ButtonVariantProps["variant"] = "fill";
 
   /**
-   * Type of color.
+   * Color of button
    */
   @property({ type: String })
   color: ButtonVariantProps["color"] = "default";
 
   /**
-   * Specify the button size.
+   * Size of button
    */
   @property({ type: String, reflect: true })
   size: ButtonVariantProps["size"] = "medium";
 
   /**
-   * `true` if the button should be disabled.
+   * Whether the button is disabled
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Set a icon in the right of button label.
+   * Set a icon in the right of button label
    */
   @property({ type: String, reflect: true })
   rightIcon: IconType | null = null;
 
   /**
-   * Set a icon in the left of button label.
+   * Set a icon in the left of button label
    */
   @property({ type: String, reflect: true })
   leftIcon: IconType | null = null;
@@ -187,25 +186,19 @@ export class DaikinButton extends LitElement {
   href = "";
 
   /**
-   * Specify the button type.
+   * Specify the button type
    */
   @property({ type: String, reflect: true })
   type: "button" | "submit" | "reset" = "button";
 
   /**
-   * Specify the button role.
+   * Specify the button role
    */
   @property({ type: String, reflect: true, attribute: "button-role" })
   buttonRole: ARIARole = "button";
 
-  /**
-   * Specify whether the button is loading.
-   */
-  @property({ type: Boolean })
-  isLoading = false;
-
   override render() {
-    const buttonClassName = cvaButton({
+    const BUTTON_CLASS_NAME = cvaButton({
       variant: this.variant,
       size: this.size,
       color: this.color,
@@ -232,7 +225,7 @@ export class DaikinButton extends LitElement {
     if (this.href) {
       return html`<a
         href=${this.href}
-        class=${buttonClassName}
+        class=${BUTTON_CLASS_NAME}
         role=${this.buttonRole}
       >
         ${content}
@@ -241,7 +234,7 @@ export class DaikinButton extends LitElement {
 
     return html`
       <button
-        class=${buttonClassName}
+        class=${BUTTON_CLASS_NAME}
         ?disabled=${this.disabled}
         type=${this.type}
         role=${this.buttonRole}
