@@ -214,7 +214,7 @@ export class DaikinInputGroup extends LitElement {
             >
               ${this.helper}
             </span>`
-          : null}
+          : nothing}
         ${!this.disabled && !!this.error
           ? html`
               <div class="flex items-center gap-1">
@@ -226,7 +226,7 @@ export class DaikinInputGroup extends LitElement {
                 </span>
               </div>
             `
-          : null}
+          : nothing}
       </label>
     </fieldset>`;
   }

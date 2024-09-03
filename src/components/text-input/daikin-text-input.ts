@@ -129,16 +129,22 @@ export class DaikinTextInput extends LitElement {
   private _internals = this.attachInternals();
 
   /**
+   * Type of field
+   */
+  @property({ type: String })
+  type: "text" | "email" | "tel" | "search" = "text";
+
+  /**
    * Field value
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Type of field
+   * Name of the input field control used in the form
    */
-  @property({ type: String })
-  type: "text" | "email" | "tel" | "search" = "text";
+  @property({ type: String, reflect: true })
+  name?: string;
 
   /**
    * Placeholder text
@@ -159,10 +165,10 @@ export class DaikinTextInput extends LitElement {
   readonly = false;
 
   /**
-   * Name of the input field control used in the form
+   * Error state. Ignored if the `disabled` is `true`.
    */
-  @property({ type: String, reflect: true })
-  name?: string;
+  @property({ type: Boolean, reflect: true })
+  error = false;
 
   /**
    * Maximum length in field values
@@ -175,12 +181,6 @@ export class DaikinTextInput extends LitElement {
    */
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
-
-  /**
-   * Error state. Ignored if the `disabled` is `true`.
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
 
   /**
    * Set a icon in the left of label

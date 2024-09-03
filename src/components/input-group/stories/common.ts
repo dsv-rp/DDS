@@ -30,7 +30,6 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     type: "number",
   },
   __vrtContent__: {
-    description: "Content for the Visual Regression Test",
     control: "select",
     options: ["TextInput", "Textarea"],
   },
