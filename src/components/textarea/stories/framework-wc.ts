@@ -10,7 +10,7 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     disabled,
     readonly,
     error,
-    allowResize,
+    resizable,
     __vrtArgs__,
     onChange,
     onInput,
@@ -29,7 +29,7 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
         ?readonly=${readonly}
         ?error=${error}
         placeholder=${placeholder}
-        ?allowResize=${allowResize}
+        ?resizable=${resizable}
         @change=${onChange}
         @input=${onInput}
         @change-count=${onChangeCount}

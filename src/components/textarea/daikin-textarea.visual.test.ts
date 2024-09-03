@@ -13,7 +13,7 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-textarea--default", args);
 
 describeEach(["enabled", "disabled", "readonly"], (variant) => {
-  describeEach(["resize", "fixed"] as const, (allowResize) => {
+  describeEach(["resize", "fixed"] as const, (resizable) => {
     describeEach(["normal", "error"] as const, (error) => {
       describeEach(["empty", "placeholder", "filled"] as const, (content) => {
         const baseURL = getPageURL({
@@ -21,13 +21,13 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
           readonly: variant === "readonly",
           error: error === "error",
           placeholder: content !== "empty" ? "Placeholder Text" : "",
-          allowResize: allowResize === "resize",
+          resizable: resizable === "resize",
         });
 
         // ensure that hovering or clicking does not change the image for disabled
         const snapshotName =
           variant !== "enabled"
-            ? `${variant}-${error}-${content}-${allowResize}.png`
+            ? `${variant}-${error}-${content}-${resizable}.png`
             : null;
 
         const testScreenshot = async (

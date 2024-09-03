@@ -23,7 +23,7 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
   error: {
     type: "boolean",
   },
-  allowResize: {
+  resizable: {
     type: "boolean",
   },
   __vrtArgs__: {

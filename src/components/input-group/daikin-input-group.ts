@@ -140,7 +140,7 @@ export class DaikinInputGroup extends LitElement {
   _controls!: ControlElement[];
 
   @state()
-  _isTextarea: boolean = false;
+  _hasTextarea: boolean = false;
 
   @state()
   _textareaValueLength: number = 0;
@@ -151,10 +151,10 @@ export class DaikinInputGroup extends LitElement {
     const textarea = this._textareas[0] as DaikinTextarea | undefined;
 
     if (textarea) {
-      this._isTextarea = true;
+      this._hasTextarea = true;
       this._textareaValueLength = textarea.value.length;
     } else {
-      this._isTextarea = false;
+      this._hasTextarea = false;
     }
   }
 
@@ -184,8 +184,8 @@ export class DaikinInputGroup extends LitElement {
               >
                 ${this.label}
               </span>`
-            : null}
-          ${!!this.textareaMaxCount && !!this._isTextarea
+            : nothing}
+          ${!!this.textareaMaxCount && !!this._hasTextarea
             ? html`
                 <span
                   class=${cvaCounter({

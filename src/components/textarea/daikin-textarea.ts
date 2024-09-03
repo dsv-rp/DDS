@@ -42,7 +42,7 @@ const cvaTextarea = cva(
       },
       resize: {
         false: ["resize-none"],
-        true: [],
+        true: ["resize-vertical"],
       },
     },
   }
@@ -129,7 +129,7 @@ export class DaikinTextarea extends LitElement {
    * Whether to allow resizing of the text area
    */
   @property({ type: Boolean, reflect: true })
-  allowResize = false;
+  resizable = false;
 
   private _updateValue(value: string): void {
     this._internals.setFormValue(value);
@@ -155,7 +155,7 @@ export class DaikinTextarea extends LitElement {
     return html`<textarea
       class=${cvaTextarea({
         status: !this.disabled && this.error ? "error" : "default",
-        resize: this.allowResize,
+        resize: this.resizable,
       })}
       .value=${this.value}
       placeholder=${this.placeholder}
