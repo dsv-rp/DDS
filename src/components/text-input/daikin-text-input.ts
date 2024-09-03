@@ -220,34 +220,21 @@ export class DaikinTextInput extends LitElement {
       @input=${this._handleInput}
     />`;
 
+    const icon = (position: "left" | "right", icon: IconType) =>
+      html`<div
+        class=${cvaIconContainer({
+          disabled: this.disabled,
+          position,
+        })}
+      >
+        <daikin-icon icon=${icon} size="m" color="current"></daikin-icon>
+      </div>`;
+
     return !!this.leftIcon || !!this.rightIcon
       ? html`<div class="w-full h-full relative">
-          ${this.leftIcon
-            ? html`<div
-                class=${cvaIconContainer({
-                  disabled: this.disabled,
-                  position: "left",
-                })}
-              >
-                <daikin-icon
-                  icon=${this.leftIcon}
-                  size="m"
-                  color="current"
-                ></daikin-icon>
-              </div>`
-            : nothing}${input}${this.rightIcon
-            ? html`<div
-                class=${cvaIconContainer({
-                  disabled: this.disabled,
-                  position: "right",
-                })}
-              >
-                <daikin-icon
-                  icon=${this.rightIcon}
-                  size="m"
-                  color="current"
-                ></daikin-icon>
-              </div>`
+          ${this.leftIcon ? icon("left", this.leftIcon) : nothing}${input}${this
+            .rightIcon
+            ? icon("right", this.rightIcon)
             : nothing}
         </div>`
       : input;
