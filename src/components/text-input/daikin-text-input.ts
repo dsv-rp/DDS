@@ -52,10 +52,13 @@ const cvaInput = cva(
         false: ["border-daikinNeutral-600"],
         true: ["border-[--text-input-border-color-error]"],
       },
-      icon: {
-        left: ["pl-11", "pr-3"],
-        right: ["pl-3", "pr-11"],
-        none: ["px-3"],
+      leftIcon: {
+        false: ["pl-3"],
+        true: ["pl-11"],
+      },
+      rightIcon: {
+        false: ["pr-3"],
+        true: ["pr-11"],
       },
     },
   }
@@ -200,44 +203,42 @@ export class DaikinTextInput extends LitElement {
   }
 
   override render() {
-    const input = html`<input
-      class=${cvaInput({
-        error: !this.disabled && this.error,
-        icon: this.leftIcon ? "left" : this.rightIcon ? "right" : "none",
-      })}
-      type=${this.type}
-      value=${this.value}
-      placeholder=${this.placeholder}
-      name=${ifDefined(this.name)}
-      maxlength=${ifDefined(this.maxlength)}
-      autocomplete=${
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(this.autocomplete as any)
-      }
-      ?disabled=${this.disabled}
-      ?readonly=${this.readonly}
-      @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
-      @input=${this._handleInput}
-    />`;
+    const createIcon = (position: "left" | "right", icon: IconType | null) =>
+      icon
+        ? html`<div
+            class=${cvaIconContainer({
+              disabled: this.disabled,
+              position,
+            })}
+          >
+            <daikin-icon icon=${icon} size="m" color="current"></daikin-icon>
+          </div>`
+        : nothing;
 
-    const icon = (position: "left" | "right", icon: IconType) =>
-      html`<div
-        class=${cvaIconContainer({
-          disabled: this.disabled,
-          position,
+    return html`<div class="w-full h-full relative">
+      ${createIcon("left", this.leftIcon)}
+      <input
+        class=${cvaInput({
+          error: !this.disabled && this.error,
+          leftIcon: !!this.leftIcon,
+          rightIcon: !!this.rightIcon,
         })}
-      >
-        <daikin-icon icon=${icon} size="m" color="current"></daikin-icon>
-      </div>`;
-
-    return !!this.leftIcon || !!this.rightIcon
-      ? html`<div class="w-full h-full relative">
-          ${this.leftIcon ? icon("left", this.leftIcon) : nothing}${input}${this
-            .rightIcon
-            ? icon("right", this.rightIcon)
-            : nothing}
-        </div>`
-      : input;
+        type=${this.type}
+        value=${this.value}
+        placeholder=${this.placeholder}
+        name=${ifDefined(this.name)}
+        maxlength=${ifDefined(this.maxlength)}
+        autocomplete=${
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+          ifDefined(this.autocomplete as any)
+        }
+        ?disabled=${this.disabled}
+        ?readonly=${this.readonly}
+        @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+        @input=${this._handleInput}
+      />
+      ${createIcon("right", this.rightIcon)}
+    </div>`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {
