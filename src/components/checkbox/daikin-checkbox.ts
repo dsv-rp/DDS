@@ -26,10 +26,10 @@ const CHECKBOX_CLASS_NAME = cva([
 
   "enabled:group-hover:before:text-daikinNeutral-100",
   "enabled:group-active:before:text-daikinNeutral-200",
-  "focus-visible:outline-daikinBlue-700",
-  "focus-visible:outline-none",
+  "focus-visible:outline",
   "focus-visible:outline-1",
   "focus-visible:outline-offset-1",
+  "focus-visible:outline-daikinBlue-700",
 
   "enabled:checked:border-daikinBlue-500",
   "enabled:checked:bg-daikinBlue-500",
