@@ -108,28 +108,22 @@ export class DaikinTextarea extends LitElement {
   disabled = false;
 
   /**
-   * Whether the field is required
-   */
-  @property({ type: Boolean, reflect: true })
-  required = false;
-
-  /**
    * Whether the field is readonly
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Specify auto-completion values
-   */
-  @property({ type: String, reflect: true })
-  autocomplete?: HTMLInputElement["autocomplete"];
-
-  /**
    * Error state. Ignored if the `disabled` is `true`.
    */
   @property({ type: Boolean, reflect: true })
   error = false;
+
+  /**
+   * Specify auto-completion values
+   */
+  @property({ type: String, reflect: true })
+  autocomplete?: HTMLInputElement["autocomplete"];
 
   /**
    * Whether to allow resizing of the text area
