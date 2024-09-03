@@ -38,7 +38,7 @@ export const Default: Story = {
     await expect(toggle).not.toBeChecked();
 
     // should react if inner toggle clicked
-    await step("Try to click toggle", async () => {
+    await step("Try to toggle by mouse click", async () => {
       await userEvent.click(toggle);
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onClick).toHaveBeenCalledOnce();
@@ -47,7 +47,7 @@ export const Default: Story = {
       await expect(toggle).toBeChecked();
     });
 
-    await step("Try to press keyboard", async () => {
+    await step("Try to toggle by space key", async () => {
       root.focus();
       await userEvent.keyboard("[Space]");
       await expect(args.onChange).toHaveBeenCalledTimes(2);
