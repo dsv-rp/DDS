@@ -110,3 +110,39 @@ describeEach(["fill", "outline", "ghost"] as const, (variant) => {
     });
   });
 });
+
+describeEach(["button", "link"] as const, (type) => {
+  const baseArgs = {
+    ...(type === "link" && { href: "#" }),
+  };
+
+  test("base", async ({ page }) => {
+    await page.goto(getPageURL(baseArgs));
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-button", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
+  test("disabled", async ({ page }) => {
+    // load page with disabled=true
+    await page.goto(
+      getPageURL({
+        ...baseArgs,
+        disabled: true,
+      })
+    );
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-button", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+});
