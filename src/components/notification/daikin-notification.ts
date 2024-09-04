@@ -4,7 +4,7 @@ import {
   colorFeedbackWarning,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { EVENT_CLOSE } from "../../constants/events";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -166,12 +166,20 @@ export class DaikinNotification extends LitElement {
   }
 
   override render() {
+    const role = (
+      {
+        inline: "status",
+        toast: "alert",
+      } as const
+    )[this.variant];
+
     return this.open
       ? html`<aside
           class=${cvaContainer({
             variant: this.variant,
             status: this.status,
           })}
+          role=${role}
         >
           <div
             class=${cvaIconContainer({
@@ -192,9 +200,9 @@ export class DaikinNotification extends LitElement {
                 line: this.line,
               })}
             >
-              <header class="font-bold flex-none">
+              <div class="font-bold flex-none">
                 <slot name="title"></slot>
-              </header>
+              </div>
               <div class="flex-none">
                 <slot name="description"></slot>
               </div>
@@ -215,10 +223,10 @@ export class DaikinNotification extends LitElement {
                     </button>
                   </div>
                 `
-              : null}
+              : nothing}
           </div>
         </aside>`
-      : null;
+      : nothing;
   }
 }
 
