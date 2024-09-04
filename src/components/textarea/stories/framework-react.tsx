@@ -1,5 +1,5 @@
 import { DaikinTextarea } from "#package/components/textarea/daikin-textarea";
-import { createComponent } from "@lit/react";
+import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import "../../../storybook-tailwind.css";
@@ -12,6 +12,9 @@ export const ReactDaikinTextarea = createComponent({
   events: {
     onChange: "change",
     onInput: "input",
+    onChangeCount: "change-count" as EventName<
+      Event & { detail: { valueCount: number } }
+    >,
   },
 });
 
