@@ -159,9 +159,9 @@ export class DaikinInputGroup extends LitElement {
   }
 
   private _handleChangeCount(
-    e: Event & { detail: { valueCount: number } }
+    e: Event & { detail: { count: number } }
   ): void {
-    this._textareaValueLength = e.detail.valueCount;
+    this._textareaValueLength = e.detail.count;
   }
 
   private _reflectSlotProperties(): void {

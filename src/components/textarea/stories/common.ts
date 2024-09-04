@@ -7,7 +7,7 @@ export interface DaikinTextareaStoryArgs
   __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
-  onChangeCount: (event: Event & { detail: { valueCount: number } }) => void;
+  onChangeCount: (event: Event & { detail: { count: number } }) => void;
 }
 
 export const DAIKIN_TEXTAREA_ARG_TYPES = {

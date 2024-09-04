@@ -13,7 +13,7 @@ export const ReactDaikinTextarea = createComponent({
     onChange: "change",
     onInput: "input",
     onChangeCount: "change-count" as EventName<
-      Event & { detail: { valueCount: number } }
+      Event & { detail: { count: number } }
     >,
   },
 });

@@ -142,7 +142,7 @@ export class DaikinTextarea extends LitElement {
     this.dispatchEvent(
       new CustomEvent("change-count", {
         detail: {
-          valueCount: this.value.length,
+          count: this.value.length,
         },
         bubbles: true,
         composed: true,
