@@ -37,37 +37,31 @@ const cvaButton = cva(
     "focus-visible:outline-1",
     "focus-visible:outline-offset-1",
     "focus-visible:outline-daikinBlue-700",
-
-    "disabled:cursor-default",
   ],
   {
     variants: {
       variant: {
         fill: [
           "text-white",
-          "enabled:bg-[--color-base]",
-          "enabled:hover:bg-[--color-hover]",
-          "enabled:active:bg-[--color-active]",
-          "disabled:bg-daikinNeutral-200",
+          "bg-[--color-base]",
+          "hover:bg-[--color-hover]",
+          "active:bg-[--color-active]",
         ],
         outline: [
           "border",
           "bg-white",
           "text-[--color-base]",
           "border-[--color-base]",
-          "enabled:hover:text-[--color-hover]",
-          "enabled:hover:border-[--color-hover]",
-          "enabled:active:text-[--color-active]",
-          "enabled:active:border-[--color-active]",
-          "disabled:border-daikinNeutral-200",
-          "disabled:text-daikinNeutral-200",
+          "hover:text-[--color-hover]",
+          "hover:border-[--color-hover]",
+          "active:text-[--color-active]",
+          "active:border-[--color-active]",
         ],
         ghost: [
           "bg-white",
-          "enabled:text-[--color-base]",
-          "enabled:hover:text-[--color-hover]",
-          "enabled:active:text-[--color-active]",
-          "disabled:text-daikinNeutral-200",
+          "text-[--color-base]",
+          "hover:text-[--color-hover]",
+          "active:text-[--color-active]",
         ],
       },
       size: {
@@ -85,6 +79,10 @@ const cvaButton = cva(
           "var-color-daikinRed-400/color-hover",
           "var-color-daikinRed-600/color-active",
         ],
+      },
+      disabled: {
+        false: [],
+        true: ["var-color-daikinNeutral-200/color-base", "pointer-events-none"],
       },
     },
   }
@@ -202,6 +200,7 @@ export class DaikinButton extends LitElement {
       variant: this.variant,
       size: this.size,
       color: this.color,
+      disabled: this.disabled,
     });
 
     const content = html`
@@ -223,13 +222,15 @@ export class DaikinButton extends LitElement {
     `;
 
     if (this.href) {
-      return html`<a
-        href=${this.href}
-        class=${BUTTON_CLASS_NAME}
-        role=${this.buttonRole}
-      >
-        ${content}
-      </a>`;
+      return this.disabled
+        ? html`<div class=${BUTTON_CLASS_NAME}>${content}</div>`
+        : html`<a
+            href=${this.href}
+            class=${BUTTON_CLASS_NAME}
+            role=${this.buttonRole}
+          >
+            ${content}
+          </a>`;
     }
 
     return html`
