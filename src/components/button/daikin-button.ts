@@ -19,74 +19,115 @@ const BUTTON_ICON_SIZE_MAP = {
   small: "s",
 } as const;
 
-const cvaButton = cva(
-  [
-    "inline-flex",
-    "justify-center",
-    "items-center",
-    "gap-2",
-    "w-full",
-    "h-full",
-    "font-daikinSerif",
-    "font-bold",
-    "rounded",
-    "tracking-wide",
-    "text-nowrap",
+const cvaButtonBase = [
+  "inline-flex",
+  "justify-center",
+  "items-center",
+  "gap-2",
+  "w-full",
+  "h-full",
+  "font-daikinSerif",
+  "font-bold",
+  "rounded",
+  "tracking-wide",
+  "text-nowrap",
 
-    "focus-visible:outline",
-    "focus-visible:outline-1",
-    "focus-visible:outline-offset-1",
-    "focus-visible:outline-daikinBlue-700",
-  ],
-  {
-    variants: {
-      variant: {
-        fill: [
-          "text-white",
-          "bg-[--color-base]",
-          "hover:bg-[--color-hover]",
-          "active:bg-[--color-active]",
-        ],
-        outline: [
-          "border",
-          "bg-white",
-          "text-[--color-base]",
-          "border-[--color-base]",
-          "hover:text-[--color-hover]",
-          "hover:border-[--color-hover]",
-          "active:text-[--color-active]",
-          "active:border-[--color-active]",
-        ],
-        ghost: [
-          "bg-white",
-          "text-[--color-base]",
-          "hover:text-[--color-hover]",
-          "active:text-[--color-active]",
-        ],
-      },
-      size: {
-        small: ["min-w-12", "px-3", "text-xs"],
-        medium: ["min-w-[60px]", "px-4", "text-sm"],
-      },
-      color: {
-        default: [
-          "var-color-daikinBlue-500/color-base",
-          "var-color-daikinBlue-300/color-hover",
-          "var-color-daikinBlue-600/color-active",
-        ],
-        danger: [
-          "var-color-daikinRed-500/color-base",
-          "var-color-daikinRed-400/color-hover",
-          "var-color-daikinRed-600/color-active",
-        ],
-      },
-      disabled: {
-        false: [],
-        true: ["var-color-daikinNeutral-200/color-base", "pointer-events-none"],
-      },
+  "focus-visible:outline",
+  "focus-visible:outline-1",
+  "focus-visible:outline-offset-1",
+  "focus-visible:outline-daikinBlue-700",
+];
+
+const cvaButtonVariant = {
+  size: {
+    small: ["min-w-12", "px-3", "text-xs"],
+    medium: ["min-w-[60px]", "px-4", "text-sm"],
+  },
+  color: {
+    default: [
+      "var-color-daikinBlue-500/color-base",
+      "var-color-daikinBlue-300/color-hover",
+      "var-color-daikinBlue-600/color-active",
+    ],
+    danger: [
+      "var-color-daikinRed-500/color-base",
+      "var-color-daikinRed-400/color-hover",
+      "var-color-daikinRed-600/color-active",
+    ],
+  },
+};
+
+const cvaButton = cva(cvaButtonBase, {
+  variants: {
+    variant: {
+      fill: [
+        "text-white",
+        "bg-[--color-base]",
+        "enabled:hover:bg-[--color-hover]",
+        "enabled:active:bg-[--color-active]",
+        "disabled:bg-daikinNeutral-200",
+      ],
+      outline: [
+        "border",
+        "bg-white",
+        "text-[--color-base]",
+        "border-[--color-base]",
+        "enabled:hover:text-[--color-hover]",
+        "enabled:hover:border-[--color-hover]",
+        "enabled:active:text-[--color-active]",
+        "enabled:active:border-[--color-active]",
+        "disabled:text-daikinNeutral-200",
+        "disabled:border-daikinNeutral-200",
+      ],
+      ghost: [
+        "bg-white",
+        "text-[--color-base]",
+        "enabled:hover:text-[--color-hover]",
+        "enabled:active:text-[--color-active]",
+        "disabled:text-daikinNeutral-200",
+      ],
     },
-  }
-);
+    ...cvaButtonVariant,
+  },
+});
+
+const cvaLink = cva(cvaButtonBase, {
+  variants: {
+    variant: {
+      fill: [
+        "text-white",
+        "bg-[--color-base]",
+        "hover:bg-[--color-hover]",
+        "active:bg-[--color-active]",
+      ],
+      outline: [
+        "border",
+        "bg-white",
+        "text-[--color-base]",
+        "border-[--color-base]",
+        "hover:text-[--color-hover]",
+        "hover:border-[--color-hover]",
+        "active:text-[--color-active]",
+        "active:border-[--color-active]",
+      ],
+      ghost: [
+        "bg-white",
+        "text-[--color-base]",
+        "hover:text-[--color-hover]",
+        "active:text-[--color-active]",
+      ],
+    },
+    ...cvaButtonVariant,
+    disabled: {
+      false: [],
+      true: [
+        "var-color-daikinNeutral-200/color-base",
+        "var-color-daikinNeutral-200/color-hover",
+        "var-color-daikinNeutral-200/color-active",
+      ],
+    },
+  },
+});
 
 type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
@@ -196,12 +237,16 @@ export class DaikinButton extends LitElement {
   buttonRole: ARIARole = "button";
 
   override render() {
-    const BUTTON_CLASS_NAME = cvaButton({
+    const baseVariants = {
       variant: this.variant,
       size: this.size,
       color: this.color,
+    };
+
+    const variantsWithStatus = {
+      ...baseVariants,
       disabled: this.disabled,
-    });
+    };
 
     const content = html`
       ${this.leftIcon
@@ -223,10 +268,10 @@ export class DaikinButton extends LitElement {
 
     if (this.href) {
       return this.disabled
-        ? html`<div class=${BUTTON_CLASS_NAME}>${content}</div>`
+        ? html`<div class=${cvaLink(variantsWithStatus)}>${content}</div>`
         : html`<a
             href=${this.href}
-            class=${BUTTON_CLASS_NAME}
+            class=${cvaLink(variantsWithStatus)}
             role=${this.buttonRole}
           >
             ${content}
@@ -235,7 +280,7 @@ export class DaikinButton extends LitElement {
 
     return html`
       <button
-        class=${BUTTON_CLASS_NAME}
+        class=${cvaButton(baseVariants)}
         ?disabled=${this.disabled}
         type=${this.type}
         role=${this.buttonRole}
