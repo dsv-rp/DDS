@@ -33,10 +33,10 @@ const cvaButton = cva(
     "tracking-wide",
     "text-nowrap",
 
-    "enabled:focus-visible:outline",
-    "enabled:focus-visible:outline-1",
-    "enabled:focus-visible:outline-offset-1",
-    "enabled:focus-visible:outline-daikinBlue-700",
+    "focus-visible:outline",
+    "focus-visible:outline-1",
+    "focus-visible:outline-offset-1",
+    "focus-visible:outline-daikinBlue-700",
 
     "disabled:cursor-default",
   ],
