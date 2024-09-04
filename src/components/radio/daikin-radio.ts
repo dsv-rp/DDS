@@ -96,8 +96,7 @@ export class DaikinRadio extends LitElement {
   }
 
   private _handleChange(event: Event) {
-    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
-    this.checked = input.checked;
+    this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
     const newEvent = new Event("change", event);
     this.dispatchEvent(newEvent);

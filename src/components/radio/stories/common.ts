@@ -4,8 +4,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinRadioStoryArgs
   extends Required<ElementProps<DaikinRadio>> {
-  onChange: () => void;
-  onClick: () => void;
+  onChange: (event: Event) => void;
+  onClick: (event: Event) => void;
 }
 
 export const DAIKIN_RADIO_ARG_TYPES = {

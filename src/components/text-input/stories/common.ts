@@ -4,53 +4,61 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTextInputStoryArgs
   extends Required<ElementProps<DaikinTextInput>> {
-  onChange: () => void;
-  onInput: () => void;
-  onKeyDown: () => void;
+  __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
+  onChange: (event: Event) => void;
+  onInput: (event: Event) => void;
+  onKeyDown: (event: Event) => void;
 }
 
 export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   value: {
-    description: "Field value",
     type: "string",
+    description: "Field value",
   },
   type: {
-    description: "Type of field",
-    defaultValue: "text",
-    control: { type: "radio" },
     options: ["text", "email", "tel", "search"],
+    control: { type: "radio" },
+    defaultValue: "text",
+    description: "Type of field",
   },
   placeholder: {
-    description: "Placeholder text",
     type: "string",
+    description: "Placeholder text",
   },
   disabled: {
-    description: "Whether the field is disabled",
-    defaultValue: false,
     type: "boolean",
+    defaultValue: false,
+    description: "Whether the field is disabled",
   },
   readonly: {
-    description: "Whether the field is readonly",
-    defaultValue: false,
     type: "boolean",
+    defaultValue: false,
+    description: "Whether the field is readonly",
   },
   name: {
-    description: "Name of the input field control used in the form",
-    defaultValue: "Example",
     type: "string",
+    defaultValue: "Example",
+    description: "Name of the input field control used in the form",
   },
   maxlength: {
-    description: "Maximum length in field values",
     type: "number",
+    description: "Maximum length in field values",
   },
   autocomplete: {
-    description: "Specify autocomplete attribute for form",
     type: "string",
+    description: "Specify autocomplete attribute for form",
   },
   error: {
-    description: "Error state. Ignored if the `disabled` is `true`.",
-    defaultValue: false,
     type: "boolean",
+    defaultValue: false,
+    description: "Error state. Ignored if the `disabled` is `true`.",
+  },
+  __vrtArgs__: {
+    name: "",
+    type: "string",
+    control: false,
+    defaultValue: "",
+    description: "Custom arguments for the Visual Regression Test.",
   },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 
