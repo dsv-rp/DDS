@@ -26,8 +26,8 @@ describeEach(["toast", "inline"] as const, (variant) => {
               status,
               line,
               closeButton,
-              heading: "Example Notification",
-              description: "Description of the notification",
+              slotTitle: "Example Notification",
+              slotDescription: "Description of the notification",
             });
 
             test("base", async ({ page }) => {
