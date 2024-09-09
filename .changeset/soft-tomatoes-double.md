@@ -4,10 +4,9 @@
 
 **BREAKING CHANGE** Some attributes and properties have been renamed or removed.
 
-The following attributes and properties have been renamed because they conflict with standard HTML attributes:
+The following attribute and property have been renamed because they conflict with standard HTML attribute:
 
 - `<daikin-accordion-item>`: ~~`title`~~ -> `heading`
-- `<daikin-notification>`: ~~`title`~~ -> `heading`
 
 The following attributes (not properties) have been renamed to kebab case:
 
