@@ -13,25 +13,28 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-dropdown--default", args);
 
 describeEach(["open", "close"] as const, (state) => {
-  describeEach(["enabled", "disabled"] as const, (disabled) => {
-    const baseURL = getPageURL({
-      ...(state === "open" && { open: true }),
-      ...(disabled === "disabled" && { disabled: true }),
-    });
+  describeEach(["normal", "error"] as const, (error) => {
+    describeEach(["selected", "unselected"] as const, (value) => {
+      const baseURL = getPageURL({
+        open: state === "open",
+        value: value === "selected" ? "value1" : undefined,
+        error: error === "error",
+      });
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector(
-        `div[data-testid="vrt-container"]`,
-        {
-          state: "visible",
-        }
-      );
+        // wait for element to be visible
+        const element = await page.waitForSelector(
+          `div[data-testid="vrt-container"]`,
+          {
+            state: "visible",
+          }
+        );
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
     });
   });
 });
@@ -99,6 +102,25 @@ test("focus", async ({ page }) => {
   await page.evaluate((container) => {
     container.focus();
   }, button);
+
+  // take screenshot and check for diffs
+  await expect(page).toHaveScreenshot(await clipFor(element));
+});
+
+test("disabled", async ({ page }) => {
+  await page.goto(
+    getPageURL({
+      disabled: true,
+    })
+  );
+
+  // wait for element to be visible
+  const element = await page.waitForSelector(
+    `div[data-testid="vrt-container"]`,
+    {
+      state: "visible",
+    }
+  );
 
   // take screenshot and check for diffs
   await expect(page).toHaveScreenshot(await clipFor(element));

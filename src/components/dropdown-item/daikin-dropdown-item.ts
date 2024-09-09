@@ -18,8 +18,7 @@ const cvaOption = cva(
     "border-transparent",
     "border-2",
 
-    "enabled:active:bg-daikinNeutral-100",
-    "enabled:focus-visible:border-daikinBlue-700",
+    "focus-visible:border-daikinBlue-700",
     "focus-visible:outline-none",
 
     "disabled:text-daikinNeutral-200",
@@ -27,9 +26,13 @@ const cvaOption = cva(
   {
     variants: {
       selected: {
-        false: ["bg-white", "enabled:hover:bg-daikinNeutral-50"],
+        false: [
+          "bg-white",
+          "enabled:hover:bg-daikinNeutral-100",
+          "enabled:active:bg-daikinNeutral-200",
+        ],
         true: [
-          "bg-daikinNeutral-100",
+          "bg-daikinBlue-50",
           "after:i-daikin-dropdown-check",
           "after:size-5",
           "enabled:after:text-daikinNeutral-900",

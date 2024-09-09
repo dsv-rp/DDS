@@ -6,13 +6,25 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinDropdownStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinDropdownStoryArgs> = {
-  render: ({ label, value, open, disabled, option, onChange, onClick }) => html`
+  render: ({
+    label,
+    value,
+    placeholder,
+    open,
+    disabled,
+    error,
+    option,
+    onChange,
+    onClick,
+  }) => html`
     <div data-testid="vrt-container" style="width:max-content; height:240px;">
       <daikin-dropdown
         label=${ifDefined(label)}
         value=${value}
+        placeholder=${placeholder}
         ?open=${open}
         ?disabled=${disabled}
+        ?error=${error}
         @change=${onChange}
         @click=${onClick}
       >

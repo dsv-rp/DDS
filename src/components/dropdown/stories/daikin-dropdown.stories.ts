@@ -14,9 +14,10 @@ export default {
 export const Default: Story = {
   args: {
     label: "Dropdown label",
-    value: "value1",
     open: false,
+    placeholder: "Choose an Option",
     disabled: false,
+    error: false,
     option: "default",
     onClick: fn(),
     onChange: fn(),
@@ -29,10 +30,10 @@ export const Default: Story = {
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
       await userEvent.click(
-        getByShadowRole(root, "button", { name: "Dropdown item 1" })
+        getByShadowRole(root, "button", { name: "Choose an Option" })
       );
-      await expect(args.onClick).toHaveBeenCalled();
 
+      await expect(args.onClick).toHaveBeenCalled();
       await expect(root).toHaveAttribute("open");
     });
 
@@ -40,8 +41,8 @@ export const Default: Story = {
       await userEvent.click(
         getByShadowRole(root, "option", { name: "Dropdown item 2" })
       );
-      await expect(args.onChange).toHaveBeenCalled();
 
+      await expect(args.onChange).toHaveBeenCalled();
       await expect(root).not.toHaveAttribute("open");
       await expect(
         getByShadowRole(root, "button", { name: "Dropdown item 2" })
@@ -50,6 +51,7 @@ export const Default: Story = {
 
     await step("Try to keyboard navigation", async () => {
       getByShadowRole(root, "button", { name: "Dropdown item 2" }).focus();
+
       await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[ArrowDown]");
       await userEvent.keyboard("[Space]");
@@ -61,10 +63,23 @@ export const Default: Story = {
   }),
 };
 
+export const Unselected: Story = {
+  args: {
+    ...Default.args,
+  },
+};
+
 export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
+  },
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    error: true,
   },
 };
 

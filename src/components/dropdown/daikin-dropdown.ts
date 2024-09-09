@@ -27,7 +27,6 @@ const cvaButton = cva(
     "bg-white",
     "px-3",
     "border",
-    "border-daikinNeutral-600",
     "rounded-md",
     "overflow-hidden",
     "font-daikinSerif",
@@ -62,9 +61,13 @@ const cvaButton = cva(
   ],
   {
     variants: {
-      disabled: {
-        false: ["text-daikinNeutral-900"],
-        true: ["text-daikinNeutral-200"],
+      error: {
+        false: ["border-daikinNeutral-600"],
+        true: ["border-daikinRed-500"],
+      },
+      type: {
+        placeholder: ["text-daikinNeutral-700"],
+        value: ["text-daikinNeutral-900"],
       },
     },
   }
@@ -128,19 +131,31 @@ export class DaikinDropdown extends LitElement {
    * Label text
    */
   @property({ type: String })
-  label: string = "";
+  label = "";
 
   /**
    * Dropdown value
    */
   @property({ type: String })
-  value = "";
+  value?: string;
+
+  /**
+   * Placeholder text
+   */
+  @property({ type: String })
+  placeholder = "";
 
   /**
    * Whether the dropdown is disabled
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Whether the dropdown is error
+   */
+  @property({ type: Boolean, reflect: true })
+  error = false;
 
   /**
    * Whether or not a drop-down menu is displayed
@@ -150,6 +165,9 @@ export class DaikinDropdown extends LitElement {
 
   @state()
   private _buttonLabel = "";
+
+  @state()
+  private _buttonLabelType: "value" | "placeholder" = "placeholder";
 
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private _items!: DaikinDropdownItem[];
@@ -273,7 +291,10 @@ export class DaikinDropdown extends LitElement {
       >
         <button
           type="button"
-          class=${cvaButton({ disabled: this.disabled })}
+          class=${cvaButton({
+            error: this.error,
+            type: this._buttonLabelType,
+          })}
           aria-expanded=${this.open && !this.disabled}
           ?disabled=${this.disabled}
           @click=${this._handleClick}
@@ -308,20 +329,20 @@ export class DaikinDropdown extends LitElement {
     if (changedProperties.has("value")) {
       const items = this._items;
 
-      let itemIndex = items.findIndex(({ value }) => this.value === value);
+      const itemIndex: number | undefined = items.findIndex(
+        ({ value }) => this.value === value
+      );
 
-      console.log(itemIndex);
-
-      if (itemIndex < 0) {
-        itemIndex = 0;
-        this.value = items[itemIndex].value;
-      } else {
+      if (itemIndex > -1) {
         for (const item of items) {
           item.selected = false;
         }
+        this._buttonLabel = items[itemIndex].textContent ?? "";
+        this._buttonLabelType = "value";
+        items[itemIndex].selected = true;
+      } else {
+        this._buttonLabel = this.placeholder;
       }
-      this._buttonLabel = items[itemIndex].textContent ?? "";
-      items[itemIndex].selected = true;
     }
   }
 }

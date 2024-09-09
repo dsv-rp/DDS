@@ -16,14 +16,20 @@ export const DAIKIN_DROPDOWN_ARG_TYPES = {
   value: {
     type: "string",
   },
+  placeholder: {
+    type: "string",
+  },
   open: {
     type: "boolean",
   },
   disabled: {
     type: "boolean",
   },
+  error: {
+    type: "boolean",
+  },
   option: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["default", "single", "multiple"],
   },
 } satisfies Meta<DaikinDropdownStoryArgs>["argTypes"];
