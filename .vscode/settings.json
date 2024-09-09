@@ -3,8 +3,6 @@
     "cspell-dictionary.txt": "ignore"
   },
   "tailwindCSS.experimental.classRegex": [
-    // ctl
-    "ctl\\(\\s*`((?:\\\\.|[^`])+)`\\s*\\)",
     // cva
     [
       "\\[((?:[\\s,]|/\\*[\\s\\S]*?\\*/|//[^\\n]*|\"(?:\\\\.|[^\"])*\")*)\\]",
