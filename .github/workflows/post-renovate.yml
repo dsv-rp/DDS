@@ -58,7 +58,7 @@ jobs:
 
       - name: Update VRT Snapshots
         continue-on-error: true
-        if: contains(github.head_ref, 'playwright')
+        if: contains(github.ref_name, 'playwright')
         run: |
           docker compose up -d
           npm run test:visual-update
