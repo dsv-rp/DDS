@@ -51,10 +51,10 @@ jobs:
       - name: Update Code
         continue-on-error: true
         run: |
-          npx eslint --fix
-          npx prettier -w .
+          npx eslint --fix || true
+          npx prettier -w . || true
           git add -u
-          git commit -m "chore: format and lint"
+          git commit -m "chore: format and lint" || true
 
       - name: Update VRT Snapshots
         continue-on-error: true
@@ -64,7 +64,7 @@ jobs:
           npm run test:visual-update
           docker compose down
           git add -u
-          git commit -m "test: update VRT snapshots"
+          git commit -m "test: update VRT snapshots" || true
 
       - name: Push
         run: git push
