@@ -18,32 +18,39 @@
   ],
   "packageRules": [
     {
-      "groupName": "Playwright",
-      "groupSlug": "playwright",
-      "rangeStrategy": "pin",
       "matchPackageNames": [
         "playwright",
         "@playwright/test",
         "mcr.microsoft.com/playwright"
       ],
+      "groupName": "Playwright",
+      "groupSlug": "playwright",
+      "rangeStrategy": "pin",
       "postUpgradeTasks": {
         "commands": [
           "npm ci",
           "docker compose up -d",
           "test:visual-update",
           "docker compose down"
-        ],
-        "executionMode": "update"
+        ]
       }
     },
     {
+      "matchPackageNames": ["@daikin-oss/dds-tokens"],
       "groupName": "DDS tokens",
-      "groupSlug": "dds-tokens",
-      "matchPackageNames": ["@daikin-oss/dds-tokens"]
+      "groupSlug": "dds-tokens"
+    },
+    {
+      "matchPackageNames": ["eslint", "@eslint/*", "eslint-*"],
+      "postUpgradeTasks": {
+        "commands": ["npm ci", "npx eslint --fix"]
+      }
+    },
+    {
+      "matchPackageNames": ["prettier", "prettier-plugin-*"],
+      "postUpgradeTasks": {
+        "commands": ["npm ci", "npx prettier -w ."]
+      }
     }
-  ],
-  "postUpgradeTasks": {
-    "commands": ["npm ci", "npx prettier -w .", "npx eslint --fix"],
-    "executionMode": "update"
-  }
+  ]
 }
