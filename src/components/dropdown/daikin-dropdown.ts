@@ -310,30 +310,31 @@ export class DaikinDropdown extends LitElement {
   }
 
   override render() {
-    return html`<div
-      class="w-full relative"
-      aria-disabled=${this.disabled}
-      @keydown=${this._handleKeyDown}
-    >
+    return html`<div class="w-full relative" @keydown=${this._handleKeyDown}>
       <button
         type="button"
         class=${cvaButton({
           error: this.error,
           placeholder: !this._hasSelectedItem,
         })}
-        aria-expanded=${this.open && !this.disabled}
         ?disabled=${this.disabled}
+        role="combobox"
+        aria-label=${this.label}
+        aria-expanded=${this.open && !this.disabled}
+        aria-disabled=${this.disabled}
+        aria-controls="dropdown-items"
         @click=${this._handleClick}
         ${ref(this._buttonRef)}
       >
         ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
       </button>
       <div
+        id="dropdown-items"
         class=${cvaContent({
           open: this.open && !this.disabled,
         })}
-        role="listbox"
         aria-label=${this.label}
+        role="listbox"
         ${ref(this._contentsRef)}
       >
         <slot @select=${this._handleSelect}></slot>
