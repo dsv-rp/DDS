@@ -5,6 +5,16 @@
     "mergeConfidence:all-badges",
     "group:allNonMajor"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^compose.*\\.ya?ml"],
+      "matchStrings": [
+        "npm (?:i|install) (?:.* )?(?<depName>\\S+)@(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "npm"
+    }
+  ],
   "packageRules": [
     {
       "groupName": "Playwright",

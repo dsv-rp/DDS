@@ -44,6 +44,9 @@ testid
 csspart
 cssprop
 
+# Renovate
+datasource
+
 # Misc.
 FOUC
 linkify
