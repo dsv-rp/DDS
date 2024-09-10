@@ -291,6 +291,18 @@ export class DaikinDropdown extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
+  constructor() {
+    super();
+
+    window.addEventListener("click", (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+
+      if (this.open && target && !target.closest("daikin-dropdown")) {
+        this.open = false;
+      }
+    });
+  }
+
   override disconnectedCallback(): void {
     this._uninstallAutoUpdate();
   }
@@ -305,6 +317,7 @@ export class DaikinDropdown extends LitElement {
       >
         <button
           type="button"
+          id="dropdown-button"
           class=${cvaButton({
             error: this.error,
             placeholder: !this._hasSelectedItem,
@@ -317,6 +330,7 @@ export class DaikinDropdown extends LitElement {
           ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
         </button>
         <div
+          id="dropdown-list-container"
           class=${cvaContent({
             open: this.open && !this.disabled,
           })}
