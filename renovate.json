@@ -5,7 +5,6 @@
     "mergeConfidence:all-badges",
     "group:allNonMajor"
   ],
-  "commitMessageSuffix": "[skip ci]",
   "rangeStrategy": "bump",
   "customManagers": [
     {
