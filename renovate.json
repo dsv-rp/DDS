@@ -5,6 +5,7 @@
     "mergeConfidence:all-badges",
     "group:allNonMajor"
   ],
+  "commitMessageSuffix": "[skip ci]",
   "rangeStrategy": "bump",
   "customManagers": [
     {
@@ -25,32 +26,12 @@
       ],
       "groupName": "Playwright",
       "groupSlug": "playwright",
-      "rangeStrategy": "pin",
-      "postUpgradeTasks": {
-        "commands": [
-          "npm ci",
-          "docker compose up -d",
-          "test:visual-update",
-          "docker compose down"
-        ]
-      }
+      "rangeStrategy": "pin"
     },
     {
       "matchPackageNames": ["@daikin-oss/dds-tokens"],
       "groupName": "DDS tokens",
       "groupSlug": "dds-tokens"
-    },
-    {
-      "matchPackageNames": ["eslint", "@eslint/*", "eslint-*"],
-      "postUpgradeTasks": {
-        "commands": ["npm ci", "npx eslint --fix"]
-      }
-    },
-    {
-      "matchPackageNames": ["prettier", "prettier-plugin-*"],
-      "postUpgradeTasks": {
-        "commands": ["npm ci", "npx prettier -w ."]
-      }
     }
   ]
 }
