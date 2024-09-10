@@ -1,11 +1,11 @@
 import { ReactDaikinDropdownItem } from "#package/components/dropdown-item/stories/framework-react";
 import { ReactDaikinDropdown } from "#package/components/dropdown/stories/framework-react";
 import { DaikinInputGroup } from "#package/components/input-group/daikin-input-group";
+import { ReactDaikinTextInput } from "#package/components/text-input/stories/framework-react";
+import { ReactDaikinTextarea } from "#package/components/textarea/stories/framework-react";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
-import { ReactDaikinTextInput } from "../../text-input/stories/framework-react";
-import { ReactDaikinTextarea } from "../../textarea/stories/framework-react";
 import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const ReactDaikinInputGroup = createComponent({

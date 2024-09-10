@@ -27,9 +27,6 @@ describeEach(["TextInput", "Textarea", "Dropdown"] as const, (content) => {
             textareaCounter: textareaCounter === "visible",
           });
 
-          if (content === "Dropdown") {
-            console.log(baseURL);
-          }
           test("base", async ({ page }) => {
             await page.goto(baseURL);
 
