@@ -100,6 +100,7 @@ const cvaContent = cva(
  *
  * Hierarchy:
  * - `daikin-dropdown` > `daikin-dropdown-item`
+ * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
  *
  * @fires change - A custom event emitted when a user selects a dropdown item.
  *
@@ -309,36 +310,33 @@ export class DaikinDropdown extends LitElement {
   }
 
   override render() {
-    return html`<div class="flex flex-col gap-2 w-full relative">
-      <div class="font-bold">${this.label}</div>
-      <div
-        class="w-full relative"
-        aria-disabled=${this.disabled}
-        @keydown=${this._handleKeyDown}
+    return html`<div
+      class="w-full relative"
+      aria-disabled=${this.disabled}
+      @keydown=${this._handleKeyDown}
+    >
+      <button
+        type="button"
+        class=${cvaButton({
+          error: this.error,
+          placeholder: !this._hasSelectedItem,
+        })}
+        aria-expanded=${this.open && !this.disabled}
+        ?disabled=${this.disabled}
+        @click=${this._handleClick}
+        ${ref(this._buttonRef)}
       >
-        <button
-          type="button"
-          class=${cvaButton({
-            error: this.error,
-            placeholder: !this._hasSelectedItem,
-          })}
-          aria-expanded=${this.open && !this.disabled}
-          ?disabled=${this.disabled}
-          @click=${this._handleClick}
-          ${ref(this._buttonRef)}
-        >
-          ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
-        </button>
-        <div
-          class=${cvaContent({
-            open: this.open && !this.disabled,
-          })}
-          role="listbox"
-          aria-label=${this.label}
-          ${ref(this._contentsRef)}
-        >
-          <slot @select=${this._handleSelect}></slot>
-        </div>
+        ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
+      </button>
+      <div
+        class=${cvaContent({
+          open: this.open && !this.disabled,
+        })}
+        role="listbox"
+        aria-label=${this.label}
+        ${ref(this._contentsRef)}
+      >
+        <slot @select=${this._handleSelect}></slot>
       </div>
     </div>`;
   }

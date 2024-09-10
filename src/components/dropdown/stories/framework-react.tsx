@@ -5,7 +5,7 @@ import React from "react";
 import { ReactDaikinDropdownItem } from "../../dropdown-item/stories/framework-react";
 import type { DaikinDropdownStoryArgs } from "./common";
 
-const ReactDaikinDropdown = createComponent({
+export const ReactDaikinDropdown = createComponent({
   tagName: "daikin-dropdown",
   elementClass: DaikinDropdown,
   react: React,
@@ -21,7 +21,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
       data-testid="vrt-container"
       style={{
         width: "max-content",
-        height: "320px",
+        height: "240px",
       }}
     >
       <ReactDaikinDropdown {...props}>

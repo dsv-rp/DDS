@@ -1,3 +1,5 @@
+import { ReactDaikinDropdownItem } from "#package/components/dropdown-item/stories/framework-react";
+import { ReactDaikinDropdown } from "#package/components/dropdown/stories/framework-react";
 import { DaikinInputGroup } from "#package/components/input-group/daikin-input-group";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
@@ -18,6 +20,19 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       {content === "TextInput" && <ReactDaikinTextInput value="Value" />}
       {content === "Textarea" && (
         <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
+      )}
+      {content === "Dropdown" && (
+        <ReactDaikinDropdown placeholder="Choose an Option">
+          <ReactDaikinDropdownItem value="value1">
+            Dropdown item 1
+          </ReactDaikinDropdownItem>
+          <ReactDaikinDropdownItem value="value2">
+            Dropdown item 2
+          </ReactDaikinDropdownItem>
+          <ReactDaikinDropdownItem value="value3">
+            Dropdown item 3
+          </ReactDaikinDropdownItem>
+        </ReactDaikinDropdown>
       )}
     </ReactDaikinInputGroup>
   ),
