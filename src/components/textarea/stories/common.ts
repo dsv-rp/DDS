@@ -20,8 +20,14 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
   readonly: {
     type: "boolean",
   },
+  required: {
+    type: "boolean",
+  },
   error: {
     type: "boolean",
+  },
+  autocomplete: {
+    type: "string",
   },
   resizable: {
     type: "boolean",

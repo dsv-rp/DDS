@@ -1,14 +1,17 @@
 import "#package/components/textarea/daikin-textarea";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../storybook-tailwind.css";
 import type { DaikinTextareaStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTextareaStoryArgs> = {
   render: ({
     placeholder,
+    autocomplete,
     disabled,
     readonly,
+    required,
     error,
     resizable,
     __vrtArgs__,
@@ -25,10 +28,12 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     return html`
       <daikin-textarea
         class=${additionalClassNames}
+        placeholder=${placeholder}
+        autocomplete=${ifDefined(autocomplete)}
         ?disabled=${disabled}
         ?readonly=${readonly}
+        ?required=${required}
         ?error=${error}
-        placeholder=${placeholder}
         ?resizable=${resizable}
         @change=${onChange}
         @input=${onInput}
