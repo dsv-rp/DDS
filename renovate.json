@@ -5,6 +5,7 @@
     "mergeConfidence:all-badges",
     "group:allNonMajor"
   ],
+  "rangeStrategy": "bump",
   "customManagers": [
     {
       "customType": "regex",
@@ -19,11 +20,21 @@
     {
       "groupName": "Playwright",
       "groupSlug": "playwright",
+      "rangeStrategy": "pin",
       "matchPackageNames": [
         "playwright",
         "@playwright/test",
         "mcr.microsoft.com/playwright"
-      ]
+      ],
+      "postUpgradeTasks": {
+        "commands": [
+          "npm ci",
+          "docker compose up -d",
+          "test:visual-update",
+          "docker compose down"
+        ],
+        "executionMode": "update"
+      }
     },
     {
       "groupName": "DDS tokens",
@@ -32,8 +43,7 @@
     }
   ],
   "postUpgradeTasks": {
-    "commands": [],
-    "fileFilters": [],
+    "commands": ["npm ci", "npx prettier -w .", "npx eslint --fix"],
     "executionMode": "update"
   }
 }
