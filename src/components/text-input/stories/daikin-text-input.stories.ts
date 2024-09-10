@@ -27,6 +27,7 @@ export const Default: Story = {
     name: "Example",
     disabled: false,
     readonly: false,
+    required: false,
     error: false,
     __vrtArgs__: "",
     onChange: fn(eventPayloadTransformer),

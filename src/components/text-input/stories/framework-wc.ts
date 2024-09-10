@@ -17,6 +17,7 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     rightIcon,
     disabled,
     readonly,
+    required,
     error,
     __vrtArgs__,
     onChange,
@@ -42,6 +43,7 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
         rightIcon=${ifDefined(rightIcon)}
         ?disabled=${disabled}
         ?readonly=${readonly}
+        ?required=${required}
         ?error=${error}
         @change=${onChange}
         @input=${onInput}

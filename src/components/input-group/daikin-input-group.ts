@@ -128,6 +128,7 @@ export class DaikinInputGroup extends LitElement {
     const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
       control.disabled = !!this.disabled;
+      control.required = !!this.required;
       control.error = isError;
     }
 
