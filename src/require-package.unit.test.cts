@@ -1,4 +1,4 @@
-import { it } from "vitest";
+const { it } = require("vitest") as typeof import("vitest");
 
 // Note that these tests require the package built beforehand - run `npm run build` before running the test.
 
