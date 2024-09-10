@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaOption = cva(
@@ -36,6 +36,7 @@ const cvaOption = cva(
           "after:i-daikin-dropdown-check",
           "after:size-5",
           "enabled:after:text-daikinNeutral-900",
+          "enabled:active:bg-daikinBlue-100",
           "disabled:after:text-daikinNeutral-200",
         ],
       },
@@ -45,6 +46,13 @@ const cvaOption = cva(
 
 /**
  * The dropdown item component that can be used within `daikin-dropdown` component.
+ *
+ * Hierarchy:
+ * - `daikin-dropdown` > `daikin-dropdown-item`
+ *
+ * @fires select - This fires when a dropdown item is selected.
+ *
+ * @slot - A slot for the button content.
  *
  * @example
  *
@@ -78,6 +86,9 @@ export class DaikinDropdownItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   selected = false;
 
+  @query("button")
+  private _button: HTMLButtonElement | null | undefined;
+
   private _handleClick() {
     const event = new CustomEvent("select", {
       bubbles: true,
@@ -104,7 +115,7 @@ export class DaikinDropdownItem extends LitElement {
   }
 
   override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
+    this._button?.focus(options);
   }
 }
 

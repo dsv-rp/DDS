@@ -5,7 +5,6 @@ import {
   customElement,
   property,
   queryAssignedElements,
-  state,
 } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
@@ -65,9 +64,9 @@ const cvaButton = cva(
         false: ["border-daikinNeutral-600"],
         true: ["border-daikinRed-500"],
       },
-      type: {
-        placeholder: ["text-daikinNeutral-700"],
-        value: ["text-daikinNeutral-900"],
+      placeholder: {
+        false: ["text-daikinNeutral-900"],
+        true: ["text-daikinNeutral-700"],
       },
     },
   }
@@ -87,9 +86,9 @@ const cvaContent = cva(
   ],
   {
     variants: {
-      state: {
-        visible: [],
-        hidden: ["opacity-0", "pointer-events-none"],
+      open: {
+        false: ["opacity-0", "pointer-events-none"],
+        true: [],
       },
     },
   }
@@ -98,7 +97,10 @@ const cvaContent = cva(
 /**
  * A dropdown list component.
  *
- * @fires change - When an item in the drop-down list is selected, it returns the value of the selected item.
+ * Hierarchy:
+ * - `daikin-dropdown` > `daikin-dropdown-item`
+ *
+ * @fires change - A custom event emitted when a user selects a dropdown item.
  *
  * @slot - Dropdown item list slot. Place `daikin-dropdown-item` elements here.
  *
@@ -163,18 +165,16 @@ export class DaikinDropdown extends LitElement {
   @property({ type: Boolean, reflect: true })
   open = false;
 
-  @state()
-  private _buttonLabel = "";
-
-  @state()
-  private _buttonLabelType: "value" | "placeholder" = "placeholder";
-
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private _items!: DaikinDropdownItem[];
 
   private _buttonRef = createRef<HTMLElement>();
 
   private _contentsRef = createRef<HTMLElement>();
+
+  private _hasSelectedItem = false;
+
+  private _selectedItemLabel = "";
 
   private _autoUpdateCleanup: (() => void) | null = null;
 
@@ -215,23 +215,16 @@ export class DaikinDropdown extends LitElement {
     this._autoUpdateCleanup = null;
   }
 
-  private _reflectButtonLabel() {
+  private _reflectItemsAndLabel() {
     const items = this._items;
 
-    const itemIndex: number = items.findIndex(
-      ({ value }) => this.value === value
-    );
-
-    if (itemIndex > -1) {
-      for (const item of items) {
-        item.selected = false;
-      }
-      this._buttonLabel = items[itemIndex].textContent ?? "";
-      this._buttonLabelType = "value";
-      items[itemIndex].selected = true;
-    } else {
-      this._buttonLabel = this.placeholder;
+    const selectedItem = items.find(({ value }) => this.value === value);
+    for (const item of items) {
+      item.selected = item === selectedItem;
     }
+
+    this._hasSelectedItem = !!selectedItem;
+    this._selectedItemLabel = selectedItem?.textContent ?? "";
   }
 
   private _handleClick() {
@@ -278,22 +271,24 @@ export class DaikinDropdown extends LitElement {
   /**
    * Handle `select` event from `daikin-dropdown-item`.
    */
-  private _handleSelect(e: SelectEvent) {
-    this.value = e.detail.value;
+  private _handleSelect(event: SelectEvent) {
+    const target = event.target as DaikinDropdownItem | null;
 
-    const item = this._items.find((item) => item.value === this.value);
-    if (item) {
-      this._buttonLabel = item.textContent ?? "";
+    if (!target) {
+      return;
     }
 
-    const event = new CustomEvent("change", {
-      detail: {
-        value: this.value,
-      },
-    });
-    this.open = false;
+    if (!this._items.includes(target)) {
+      return;
+    }
 
-    this.dispatchEvent(event);
+    this._hasSelectedItem = true;
+    this._selectedItemLabel = target.textContent ?? "";
+
+    this.open = false;
+    this.value = event.detail.value;
+
+    this.dispatchEvent(new Event("change"));
   }
 
   override disconnectedCallback(): void {
@@ -312,18 +307,18 @@ export class DaikinDropdown extends LitElement {
           type="button"
           class=${cvaButton({
             error: this.error,
-            type: this._buttonLabelType,
+            placeholder: !this._hasSelectedItem,
           })}
           aria-expanded=${this.open && !this.disabled}
           ?disabled=${this.disabled}
           @click=${this._handleClick}
           ${ref(this._buttonRef)}
         >
-          ${this._buttonLabel}
+          ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
         </button>
         <div
           class=${cvaContent({
-            state: this.open && !this.disabled ? "visible" : "hidden",
+            open: this.open && !this.disabled,
           })}
           role="listbox"
           aria-label=${this.label}
@@ -336,7 +331,7 @@ export class DaikinDropdown extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._reflectButtonLabel();
+    this._reflectItemsAndLabel();
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
@@ -350,7 +345,7 @@ export class DaikinDropdown extends LitElement {
     }
 
     if (changedProperties.has("value")) {
-      this._reflectButtonLabel();
+      this._reflectItemsAndLabel();
     }
   }
 }
