@@ -32,6 +32,10 @@ export default defineConfig({
         replacement: fromProjectDir("src/storybook"),
       },
       {
+        find: "#tests/visual",
+        replacement: fromProjectDir("src/tests/visual"),
+      },
+      {
         find: /^#package\/(.+)$/,
         replacement: useBuiltPackage
           ? "@daikin-oss/design-system-web-components/$1"

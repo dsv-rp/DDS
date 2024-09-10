@@ -60,11 +60,18 @@ jobs:
         continue-on-error: true
         if: contains(github.ref_name, 'playwright')
         run: |
+          npm run build
+          npm run build-storybook
+
           docker compose up -d
-          npm run test:visual-update
+          npx playwright test --update-snapshots
           docker compose down
+
           git add -u
           git commit -m "test: update VRT snapshots" || true
+        env:
+          STORYBOOK_FW: web-components
+          STORYBOOK_ENV: production
 
       - name: Push
         run: git push
