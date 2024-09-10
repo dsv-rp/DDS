@@ -36,7 +36,10 @@ const cvaTab = cva(
   {
     variants: {
       active: {
-        false: ["hover:text-daikinNeutral-500", "active:text-daikinBlue-700"],
+        false: [
+          "hover:text-daikinNeutral-500",
+          "active:text-daikinNeutral-700",
+        ],
         true: [
           "text-daikinBlue-500",
           "hover:text-daikinBlue-300",
