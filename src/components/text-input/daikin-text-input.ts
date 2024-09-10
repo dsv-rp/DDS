@@ -167,6 +167,12 @@ export class DaikinTextInput extends LitElement {
   readonly = false;
 
   /**
+   * Whether the field is required
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  /**
    * Error state. Ignored if the `disabled` is `true`.
    */
   @property({ type: Boolean, reflect: true })
@@ -232,6 +238,7 @@ export class DaikinTextInput extends LitElement {
         }
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
+        aria-required=${this.required}
         @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
         @input=${this._handleInput}
       />

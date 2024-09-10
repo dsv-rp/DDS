@@ -13,60 +13,44 @@ export interface DaikinTextInputStoryArgs
 export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   value: {
     type: "string",
-    description: "Field value",
   },
   type: {
+    control: "radio",
     options: ["text", "email", "tel", "search"],
-    control: { type: "radio" },
-    defaultValue: "text",
-    description: "Type of field",
   },
   placeholder: {
     type: "string",
-    description: "Placeholder text",
   },
   disabled: {
     type: "boolean",
-    defaultValue: false,
-    description: "Whether the field is disabled",
   },
   readonly: {
     type: "boolean",
-    defaultValue: false,
-    description: "Whether the field is readonly",
+  },
+  required: {
+    type: "boolean",
   },
   name: {
     type: "string",
-    defaultValue: "Example",
-    description: "Name of the input field control used in the form",
   },
   maxlength: {
     type: "number",
-    description: "Maximum length in field values",
   },
   autocomplete: {
     type: "string",
-    description: "Specify autocomplete attribute for form",
   },
   error: {
     type: "boolean",
-    defaultValue: false,
-    description: "Error state. Ignored if the `disabled` is `true`.",
   },
   leftIcon: {
     type: "string",
-    description: "Set a icon in the left of label",
   },
   rightIcon: {
     type: "string",
-    description: "Set a icon in the right of label",
   },
   __vrtArgs__: {
-    name: "",
     type: "string",
     control: false,
-    defaultValue: "",
-    description: "Custom arguments for the Visual Regression Test.",
   },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 
