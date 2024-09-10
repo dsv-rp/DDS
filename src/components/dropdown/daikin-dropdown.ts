@@ -75,7 +75,8 @@ const cvaButton = cva(
 const cvaContent = cva(
   [
     "w-full",
-    "overflow-hidden",
+    "max-h-[200px]",
+    "overflow-y-auto",
     "absolute",
     "top-0",
     "left-0",
@@ -317,7 +318,6 @@ export class DaikinDropdown extends LitElement {
       >
         <button
           type="button"
-          id="dropdown-button"
           class=${cvaButton({
             error: this.error,
             placeholder: !this._hasSelectedItem,
@@ -330,7 +330,6 @@ export class DaikinDropdown extends LitElement {
           ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
         </button>
         <div
-          id="dropdown-list-container"
           class=${cvaContent({
             open: this.open && !this.disabled,
           })}

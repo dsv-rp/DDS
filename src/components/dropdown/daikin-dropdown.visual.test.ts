@@ -12,6 +12,22 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-dropdown--default", args);
 
+const base = (baseURL: string) =>
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
+
+    // wait for element to be visible
+    const element = await page.waitForSelector(
+      `div[data-testid="vrt-container"]`,
+      {
+        state: "visible",
+      }
+    );
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
 describeEach(["open", "close"] as const, (state) => {
   describeEach(["normal", "error"] as const, (error) => {
     describeEach(["selected", "unselected"] as const, (value) => {
@@ -21,22 +37,18 @@ describeEach(["open", "close"] as const, (state) => {
         error: error === "error",
       });
 
-      test("base", async ({ page }) => {
-        await page.goto(baseURL);
-
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          `div[data-testid="vrt-container"]`,
-          {
-            state: "visible",
-          }
-        );
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
+      base(baseURL);
     });
   });
+});
+
+describeEach(["default", "multiple"] as const, (option) => {
+  const baseURL = getPageURL({
+    open: true,
+    option,
+  });
+
+  base(baseURL);
 });
 
 test("hover", async ({ page }) => {
