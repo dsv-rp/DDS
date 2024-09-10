@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "mergeConfidence:all-badges",
+    "group:allNonMajor"
+  ],
+  "packageRules": [
+    {
+      "groupName": "Playwright",
+      "groupSlug": "playwright",
+      "matchPackageNames": [
+        "playwright",
+        "@playwright/test",
+        "mcr.microsoft.com/playwright"
+      ]
+    },
+    {
+      "groupName": "DDS tokens",
+      "groupSlug": "dds-tokens",
+      "matchPackageNames": ["@daikin-oss/dds-tokens"]
+    }
+  ],
+  "postUpgradeTasks": {
+    "commands": [],
+    "fileFilters": [],
+    "executionMode": "update"
+  }
+}
