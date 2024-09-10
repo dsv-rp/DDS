@@ -5,8 +5,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export interface DaikinDropdownStoryArgs
   extends Required<ElementProps<DaikinDropdown>> {
   option: "default" | "single" | "multiple";
-  onChange: () => void;
-  onClick: () => void;
+  onChange: (event: Event) => void;
+  onClick: (event: Event) => void;
 }
 
 export const DAIKIN_DROPDOWN_ARG_TYPES = {

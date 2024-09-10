@@ -1,5 +1,7 @@
+import type { DaikinDropdown } from "#package/components/dropdown";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
+import { PointerEventsCheckLevel } from "@testing-library/user-event";
 import { getByShadowRole } from "shadow-dom-testing-library";
 import { definePlay } from "../../../storybook/define-play";
 import { DAIKIN_DROPDOWN_ARG_TYPES, type Story } from "./common";
@@ -11,6 +13,13 @@ export default {
   ...metadata,
 };
 
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.value` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    value: (event.target as DaikinDropdown).value,
+  };
+}
+
 export const Default: Story = {
   args: {
     label: "Dropdown label",
@@ -19,8 +28,8 @@ export const Default: Story = {
     disabled: false,
     error: false,
     option: "default",
-    onClick: fn(),
-    onChange: fn(),
+    onClick: fn(eventPayloadTransformer),
+    onChange: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-dropdown")[0];
@@ -33,7 +42,7 @@ export const Default: Story = {
         getByShadowRole(root, "button", { name: "Choose an Option" })
       );
 
-      await expect(args.onClick).toHaveBeenCalled();
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
       await expect(root).toHaveAttribute("open");
     });
 
@@ -42,11 +51,27 @@ export const Default: Story = {
         getByShadowRole(root, "option", { name: "Dropdown item 2" })
       );
 
-      await expect(args.onChange).toHaveBeenCalled();
+      await expect(args.onChange).toHaveBeenCalledTimes(1);
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "value2",
+      });
       await expect(root).not.toHaveAttribute("open");
       await expect(
         getByShadowRole(root, "button", { name: "Dropdown item 2" })
       ).toBeInTheDocument();
+    });
+
+    await step("Try to select the disabled option", async () => {
+      await userEvent.click(
+        getByShadowRole(root, "option", {
+          name: "Dropdown item 3",
+        }),
+        {
+          pointerEventsCheck: PointerEventsCheckLevel.Never,
+        }
+      );
+
+      await expect(args.onChange).toHaveBeenCalledTimes(1);
     });
 
     await step("Try to keyboard navigation", async () => {
@@ -59,6 +84,10 @@ export const Default: Story = {
       await expect(
         getByShadowRole(root, "button", { name: "Dropdown item 1" })
       ).toBeInTheDocument();
+      await expect(args.onChange).toHaveBeenCalledTimes(2);
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "value1",
+      });
     });
   }),
 };
@@ -73,7 +102,23 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
+    onClick: fn(eventPayloadTransformer),
+    onChange: fn(eventPayloadTransformer),
   },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-dropdown")[0];
+    await expect(root).toBeInTheDocument();
+    await expect(root).not.toHaveAttribute("open");
+
+    // should not react if inner button clicked
+    await step("Try to click inner button", async () => {
+      await userEvent.click(
+        getByShadowRole(root, "button", { name: "Choose an Option" })
+      );
+
+      await expect(args.onClick).not.toHaveBeenCalled();
+    });
+  }),
 };
 
 export const Error: Story = {

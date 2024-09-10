@@ -8,6 +8,9 @@ export const ReactDaikinDropdownItem = createComponent({
   tagName: "daikin-dropdown-item",
   elementClass: DaikinDropdownItem,
   react: React,
+  events: {
+    onSelect: "select",
+  },
 });
 
 export const metadata: Meta<DaikinDropdownItemStoryArgs> = {

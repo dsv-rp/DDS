@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinDropdownItemStoryArgs
   extends Required<ElementProps<DaikinDropdownItem>> {
+  onSelect: (event: Event) => void;
   __vrtSelected__: boolean;
 }
 
