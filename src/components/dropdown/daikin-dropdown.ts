@@ -323,6 +323,7 @@ export class DaikinDropdown extends LitElement {
         aria-expanded=${this.open && !this.disabled}
         aria-disabled=${this.disabled}
         aria-controls="dropdown-items"
+        aria-autocomplete="list"
         @click=${this._handleClick}
         ${ref(this._buttonRef)}
       >
