@@ -276,11 +276,7 @@ export class DaikinDropdown extends LitElement {
   private _handleSelect(event: SelectEvent) {
     const target = event.target as DaikinDropdownItem | null;
 
-    if (!target) {
-      return;
-    }
-
-    if (!this._items.includes(target)) {
+    if (!target || !this._items.includes(target)) {
       return;
     }
 
@@ -288,25 +284,30 @@ export class DaikinDropdown extends LitElement {
     this._selectedItemLabel = target.textContent ?? "";
 
     this.open = false;
-    this.value = event.detail.value;
+    this.value = target.value;
 
     this.dispatchEvent(new Event("change"));
   }
 
-  constructor() {
-    super();
+  private _handleClickOutside = (event: MouseEvent) => {
+    const target = event.target as HTMLElement | null;
 
-    window.addEventListener("click", (event: MouseEvent) => {
-      const target = event.target as HTMLElement | null;
+    if (target && !target.closest(`daikin-dropdown[label='${this.label}']`)) {
+      this.open = false;
+    }
+  };
 
-      if (this.open && target && !target.closest("daikin-dropdown")) {
-        this.open = false;
-      }
-    });
+  override connectedCallback() {
+    super.connectedCallback();
+
+    window.addEventListener("click", this._handleClickOutside);
   }
 
   override disconnectedCallback(): void {
     this._uninstallAutoUpdate();
+    window.removeEventListener("click", this._handleClickOutside);
+
+    super.disconnectedCallback();
   }
 
   override render() {
