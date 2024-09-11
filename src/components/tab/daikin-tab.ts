@@ -26,7 +26,6 @@ const cvaTab = cva(
     "focus-visible:before:w-full",
     "focus-visible:before:h-[calc(100%_-_4px)]",
     "focus-visible:before:border",
-    "focus-visible:before:border-solid",
     "focus-visible:before:border-daikinBlue-700",
     "focus-visible:before:absolute",
     "focus-visible:before:top-0",
@@ -81,7 +80,6 @@ export class DaikinTab extends LitElement {
 
     :host {
       display: inline-block;
-      width: max-content;
     }
   `;
 
