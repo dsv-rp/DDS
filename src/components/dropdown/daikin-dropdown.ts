@@ -292,7 +292,7 @@ export class DaikinDropdown extends LitElement {
   private _handleClickOutside = (event: MouseEvent) => {
     const target = event.target as HTMLElement | null;
 
-    if (target && !target.closest(`daikin-dropdown[label='${this.label}']`)) {
+    if (target && !target.closest(`daikin-dropdown`)) {
       this.open = false;
     }
   };
