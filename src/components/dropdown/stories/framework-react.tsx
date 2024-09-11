@@ -1,8 +1,8 @@
-import { ReactDaikinDropdownItem } from "#package/components/dropdown-item/stories/framework-react";
 import { DaikinDropdown } from "#package/components/dropdown/daikin-dropdown";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinDropdownItem } from "../../dropdown-item/stories/framework-react";
 import type { DaikinDropdownStoryArgs } from "./common";
 
 export const ReactDaikinDropdown = createComponent({
