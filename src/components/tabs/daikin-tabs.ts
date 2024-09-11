@@ -26,7 +26,7 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * @fires change - A custom event emitted when the current tab is changed.
  *
  * @slot - A slot for tab buttons. Place `daikin-tab` elements here.
- * @slot panels - A slot for a panel switcher component. Place `daikin-tab-panels` element(s) here.
+ * @slot panels - A slot for tab panels component. Place a `daikin-tab-panels` element here.
  *
  * @csspart tablist - The container element for the default (tab list) slot. Has "tablist" role.
  *
