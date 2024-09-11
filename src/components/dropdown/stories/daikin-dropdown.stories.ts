@@ -38,9 +38,7 @@ export const Default: Story = {
 
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.click(
-        getByShadowRole(root, "button", { name: "Choose an Option" })
-      );
+      await userEvent.click(getByShadowRole(root, "combobox"));
 
       await expect(args.onClick).toHaveBeenCalledTimes(1);
       await expect(root).toHaveAttribute("open");
@@ -56,12 +54,10 @@ export const Default: Story = {
         value: "value2",
       });
       await expect(root).not.toHaveAttribute("open");
-      await expect(
-        getByShadowRole(root, "button", { name: "Dropdown item 2" })
-      ).toBeInTheDocument();
     });
 
     await step("Try to select the disabled option", async () => {
+      await userEvent.click(getByShadowRole(root, "combobox"));
       await userEvent.click(
         getByShadowRole(root, "option", {
           name: "Dropdown item 3",
@@ -75,15 +71,13 @@ export const Default: Story = {
     });
 
     await step("Try to keyboard navigation", async () => {
-      getByShadowRole(root, "button", { name: "Dropdown item 2" }).focus();
+      getByShadowRole(root, "combobox").focus();
 
       await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[ArrowDown]");
       await userEvent.keyboard("[Space]");
 
-      await expect(
-        getByShadowRole(root, "button", { name: "Dropdown item 1" })
-      ).toBeInTheDocument();
+      await expect(getByShadowRole(root, "combobox")).toBeInTheDocument();
       await expect(args.onChange).toHaveBeenCalledTimes(2);
       await expect(args.onChange).toHaveLastReturnedWith({
         value: "value1",
@@ -112,9 +106,7 @@ export const Disabled: Story = {
 
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.click(
-        getByShadowRole(root, "button", { name: "Choose an Option" })
-      );
+      await userEvent.click(getByShadowRole(root, "combobox"));
 
       await expect(args.onClick).not.toHaveBeenCalled();
     });
