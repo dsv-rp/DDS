@@ -15,16 +15,16 @@ import tailwindStyles from "../../tailwind.css?inline";
  *
  * ```html
  * <daikin-accordion>
- *   <daikin-accordion-item title="The first accordion item">
+ *   <daikin-accordion-item heading="The first accordion item">
  *     Accordion 1 content.
  *   </daikin-accordion-item>
- *   <daikin-accordion-item title="The second accordion item" open>
+ *   <daikin-accordion-item heading="The second accordion item" open>
  *     Accordion 2 content.
  *   </daikin-accordion-item>
- *   <daikin-accordion-item title="The third accordion item" disabled>
+ *   <daikin-accordion-item heading="The third accordion item" disabled>
  *     Accordion 3 content.
  *   </daikin-accordion-item>
- *   <daikin-accordion-item title="The fourth accordion item" open disabled>
+ *   <daikin-accordion-item heading="The fourth accordion item" open disabled>
  *     Accordion 4 content.
  *   </daikin-accordion-item>
  * </daikin-accordion>
