@@ -147,7 +147,6 @@ export class DaikinTextInput extends LitElement {
     return html`<input
       class=${textInputInputClassName}
       type=${this.type}
-      value=${this.value}
       placeholder=${this.placeholder}
       name=${ifDefined(this.name)}
       maxlength=${ifDefined(this.maxlength)}
@@ -155,6 +154,7 @@ export class DaikinTextInput extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.autocomplete as any)
       }
+      value=${this.value}
       ?disabled=${this.disabled}
       ?readonly=${this.readonly}
       @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}

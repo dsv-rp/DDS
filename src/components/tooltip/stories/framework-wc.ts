@@ -26,7 +26,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
             variant=${variant}
             ?open=${open}
             description=${description}
-            ?closeOnClick=${closeOnClick}
+            ?close-on-click=${closeOnClick}
             trigger=${trigger}
           >
             ${tooltipSlot

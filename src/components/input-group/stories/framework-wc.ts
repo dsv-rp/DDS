@@ -24,7 +24,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       error=${ifDefined(error)}
       ?disabled=${disabled}
       ?required=${required}
-      ?textareaCounter=${textareaCounter}
+      ?textarea-counter=${textareaCounter}
     >
       ${content === "TextInput"
         ? html`<daikin-text-input value="Value"></daikin-text-input>`

@@ -108,7 +108,7 @@ export class DaikinAccordionItem extends LitElement {
    * Heading of accordion
    */
   @property({ type: String })
-  override title = "";
+  heading = "";
 
   /**
    * Whether the accordion is open
