@@ -1,4 +1,4 @@
-import { autoUpdate, computePosition, flip, offset } from "@floating-ui/dom";
+import { flip, offset, type ComputePositionConfig } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
@@ -7,7 +7,8 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
-import { isClient } from "../../is-client";
+import { ClickOutsideController } from "../../controllers/click-outside";
+import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinDropdownItem } from "../dropdown-item";
 import "../icon/daikin-icon";
@@ -78,8 +79,8 @@ const cvaContent = cva(
     "max-h-[200px]",
     "overflow-y-auto",
     "absolute",
-    "top-0",
-    "left-0",
+    "left-[--floating-x,0]",
+    "top-[--floating-y,0]",
     "opacity-1",
     "transition-[opacity]",
     "rounded-[4px]",
@@ -130,6 +131,15 @@ export class DaikinDropdown extends LitElement {
       width: 100%;
     }
   `;
+
+  private static readonly _floatingPositionOptions: Partial<ComputePositionConfig> =
+    {
+      placement: "bottom",
+      middleware: [
+        flip({ fallbackStrategy: "initialPlacement" }),
+        offset({ mainAxis: -1 }),
+      ],
+    };
 
   /**
    * Label text
@@ -184,43 +194,19 @@ export class DaikinDropdown extends LitElement {
 
   private _selectedItemLabel = "";
 
-  private _autoUpdateCleanup: (() => void) | null = null;
+  private _autoUpdateController = new FloatingUIAutoUpdateController(
+    this,
+    this._buttonRef,
+    this._contentsRef
+  );
 
-  private _startAutoUpdate() {
-    if (!isClient) {
-      return;
-    }
+  private _clickOutsideController = new ClickOutsideController(
+    this,
+    this._onClickOutside
+  );
 
-    const button = this._buttonRef.value;
-    const contents = this._contentsRef.value;
-    if (!button || !contents) {
-      return;
-    }
-
-    // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
-    this._autoUpdateCleanup?.();
-    this._autoUpdateCleanup = autoUpdate(button, contents, () => {
-      computePosition(button, contents, {
-        placement: "bottom",
-        middleware: [
-          flip({ fallbackStrategy: "initialPlacement" }),
-          offset({ mainAxis: -1 }),
-        ],
-      })
-        .then(({ x, y }) => {
-          Object.assign(contents.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-          });
-        })
-        .catch((e: unknown) => console.error(e));
-    });
-  }
-
-  private _uninstallAutoUpdate() {
+  private _onClickOutside(): void {
     this.open = false;
-    this._autoUpdateCleanup?.();
-    this._autoUpdateCleanup = null;
   }
 
   private _reflectItemsAndLabel() {
@@ -295,27 +281,6 @@ export class DaikinDropdown extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
-  private _handleClickOutside = (event: MouseEvent) => {
-    const target = event.target as HTMLElement | null;
-
-    if (target && !target.closest("daikin-dropdown")) {
-      this.open = false;
-    }
-  };
-
-  override connectedCallback() {
-    super.connectedCallback();
-
-    window.addEventListener("click", this._handleClickOutside);
-  }
-
-  override disconnectedCallback(): void {
-    this._uninstallAutoUpdate();
-    window.removeEventListener("click", this._handleClickOutside);
-
-    super.disconnectedCallback();
-  }
-
   override render() {
     return html`<div class="w-full relative" @keydown=${this._handleKeyDown}>
       <button
@@ -348,6 +313,18 @@ export class DaikinDropdown extends LitElement {
       >
         <slot @select=${this._handleSelect}></slot>
       </div>
+      ${
+        // Activate auto update only when the dropdown is open.
+        // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
+        this._autoUpdateController.observe(
+          DaikinDropdown._floatingPositionOptions,
+          this.open && !this.disabled
+        )
+      }
+      ${
+        // Listen to click outside only when the dropdown is open.
+        this._clickOutsideController.observe(this.open && !this.disabled)
+      }
     </div>`;
   }
 
@@ -356,15 +333,6 @@ export class DaikinDropdown extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("open")) {
-      if (this.open) {
-        this._startAutoUpdate();
-      } else {
-        this._autoUpdateCleanup?.();
-        this._autoUpdateCleanup = null;
-      }
-    }
-
     if (changedProperties.has("value")) {
       this._reflectItemsAndLabel();
     }
