@@ -12,6 +12,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     placeholder,
     open,
     disabled,
+    required,
     error,
     option,
     onChange,
@@ -24,6 +25,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
         placeholder=${placeholder}
         ?open=${open}
         ?disabled=${disabled}
+        ?required=${required}
         ?error=${error}
         @change=${onChange}
         @click=${onClick}

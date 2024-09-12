@@ -25,6 +25,9 @@ export const DAIKIN_DROPDOWN_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
+  required: {
+    type: "boolean",
+  },
   error: {
     type: "boolean",
   },

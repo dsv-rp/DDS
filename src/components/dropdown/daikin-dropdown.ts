@@ -156,6 +156,12 @@ export class DaikinDropdown extends LitElement {
   disabled = false;
 
   /**
+   * Whether the dropdown is required
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  /**
    * Whether the dropdown is error
    */
   @property({ type: Boolean, reflect: true })
@@ -325,6 +331,7 @@ export class DaikinDropdown extends LitElement {
         aria-disabled=${this.disabled}
         aria-controls="dropdown-items"
         aria-autocomplete="list"
+        aria-required=${this.required}
         @click=${this._handleClick}
         ${ref(this._buttonRef)}
       >

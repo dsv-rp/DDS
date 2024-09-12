@@ -26,6 +26,7 @@ export const Default: Story = {
     open: false,
     placeholder: "Choose an Option",
     disabled: false,
+    required: false,
     error: false,
     option: "default",
     onClick: fn(eventPayloadTransformer),
