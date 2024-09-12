@@ -123,7 +123,7 @@ export class DaikinInputGroup extends LitElement {
   /**
    * Whether to display the counter in the Textarea
    */
-  @property({ type: Boolean, reflect: true, attribute: "textarea-counter" })
+  @property({ type: Boolean, reflect: true })
   textareaCounter = false;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
@@ -146,16 +146,14 @@ export class DaikinInputGroup extends LitElement {
     for (const control of this._controls) {
       control.disabled = !!this.disabled;
       control.error = isError;
+    }
 
-      switch (control.tagName) {
-        case "DAIKIN-DROPDOWN":
-          (control as DaikinDropdown).label = this.label;
-          break;
+    for (const item of this._textareas) {
+      item.counter = this.textareaCounter;
+    }
 
-        case "DAIKIN-TEXTAREA":
-          (control as DaikinTextarea).counter = this.textareaCounter;
-          break;
-      }
+    for (const item of this._dropdowns) {
+      item.label = this.label;
     }
   }
 

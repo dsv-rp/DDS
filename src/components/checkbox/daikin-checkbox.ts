@@ -1,12 +1,5 @@
 import { cva } from "class-variance-authority";
-import {
-  css,
-  html,
-  LitElement,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
+import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -209,7 +202,7 @@ export class DaikinCheckbox extends LitElement {
 
     const labelText = this.label
       ? html`<span class=${labelClassName}>${this.label}</span>`
-      : nothing;
+      : html``;
     const inputTag = html`<input
       class=${checkboxClassName}
       type="checkbox"

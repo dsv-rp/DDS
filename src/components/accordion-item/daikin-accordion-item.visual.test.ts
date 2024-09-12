@@ -15,7 +15,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(["open", "close"] as const, (open) => {
   describeEach(["enabled", "disabled"] as const, (disabled) => {
     const baseURL = getPageURL({
-      heading: "Accordion-title",
+      title: "Accordion-title",
       open: open === "open",
       disabled: disabled === "disabled",
     });

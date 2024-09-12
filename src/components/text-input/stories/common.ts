@@ -1,6 +1,6 @@
-import type { DaikinTextInput } from "#package/components/text-input/daikin-text-input";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
+import type { DaikinTextInput } from "../daikin-text-input";
 
 export interface DaikinTextInputStoryArgs
   extends Required<ElementProps<DaikinTextInput>> {

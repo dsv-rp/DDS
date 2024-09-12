@@ -132,7 +132,7 @@ export class DaikinTooltip extends LitElement {
   /**
    * if true, the tooltip will hide on click.
    */
-  @property({ reflect: true, type: Boolean, attribute: "close-on-click" })
+  @property({ reflect: true, type: Boolean })
   closeOnClick = false;
 
   /**
@@ -272,8 +272,6 @@ export class DaikinTooltip extends LitElement {
 
   override disconnectedCallback() {
     this._uninstallAutoUpdate();
-
-    super.disconnectedCallback();
   }
 }
 

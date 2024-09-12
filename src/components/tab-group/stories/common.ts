@@ -1,7 +1,7 @@
-import type { DaikinTabGroup } from "#package/components/tab-group/daikin-tab-group";
-import type { DaikinTab } from "#package/components/tab/daikin-tab";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
+import type { DaikinTab } from "../../tab/daikin-tab";
+import type { DaikinTabGroup } from "../daikin-tab-group";
 
 export interface DaikinTabGroupStoryArgs
   extends Required<ElementProps<DaikinTabGroup>> {

@@ -171,13 +171,13 @@ export class DaikinButton extends LitElement {
   /**
    * Set a icon in the right of button label.
    */
-  @property({ type: String, reflect: true, attribute: "right-icon" })
+  @property({ type: String, reflect: true })
   rightIcon: IconType | null = null;
 
   /**
    * Set a icon in the left of button label.
    */
-  @property({ type: String, reflect: true, attribute: "left-icon" })
+  @property({ type: String, reflect: true })
   leftIcon: IconType | null = null;
 
   /**
@@ -201,7 +201,7 @@ export class DaikinButton extends LitElement {
   /**
    * Specify whether the button is loading.
    */
-  @property({ type: Boolean, attribute: "is-loading" })
+  @property({ type: Boolean })
   isLoading = false;
 
   override render() {

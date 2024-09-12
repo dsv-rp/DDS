@@ -7,7 +7,7 @@ export type DaikinAccordionItemStoryArgs = Required<
 >;
 
 export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
-  heading: {
+  title: {
     description: "Heading of accordion",
     type: "string",
   },
