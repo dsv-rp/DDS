@@ -182,6 +182,8 @@ export class DaikinRadio extends LitElement {
       .checked=${this.checked}
       @click=${this._handleClick}
       @change=${this._handleChange}
+      aria-checked=${this.checked}
+      tabindex=${this.checked ? 0 : -1}
     />`;
 
     const inputArea =

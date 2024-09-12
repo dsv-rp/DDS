@@ -58,7 +58,7 @@ export class DaikinRadioGroup extends LitElement {
     }
   `;
 
-  @queryAssignedElements()
+  @queryAssignedElements({ selector: "daikin-radio" })
   private _radios!: Array<DaikinRadio>;
 
   /**
@@ -119,10 +119,81 @@ export class DaikinRadioGroup extends LitElement {
     this._updateRadios(this.defaultSelected);
   }
 
+  /**
+   * Handles keyboard interactions in the radio list.
+   * https://www.w3.org/WAI/ARIA/apg/patterns/radio/
+   */
+  private _handleKeyDown(event: KeyboardEvent): void {
+    const moveOffset = {
+      ArrowRight: 1,
+      ArrowDown: 1,
+      ArrowLeft: -1,
+      ArrowUp: -1,
+    }[event.key];
+    if (!moveOffset) {
+      return;
+    }
+
+    // Retrieve all radios
+    const radios = this._radios;
+
+    // Check if there is at least one radio available
+    if (!radios.some((radio) => !radio.disabled)) {
+      // No radios available!
+      if (import.meta.env.DEV) {
+        console.warn(
+          `[daikin-radio-group] No radios that can be activated! This may cause unexpected behavior.`
+        );
+      }
+      return;
+    }
+
+    // Get focused radio if any
+    const activeElement = document.activeElement;
+    const focusedRadioIndex = activeElement
+      ? radios.findIndex((radio) => radio.contains(activeElement))
+      : -1;
+
+    // If there is no radio focused, focus on the active (current) radio
+    if (focusedRadioIndex < 0) {
+      const activeRadio = radios.find(
+        (radio) => !radio.disabled && radio.checked
+      );
+      activeRadio?.shadowRoot?.querySelector("input")?.focus();
+      event.preventDefault();
+      return;
+    }
+
+    // If there is a radio focused, move focus forward or backward
+    for (let i = 1; i <= radios.length; i++) {
+      const index =
+        (focusedRadioIndex + moveOffset * i + radios.length * i) %
+        radios.length;
+      const nextRadio = radios[index];
+      if (nextRadio.disabled) {
+        continue;
+      }
+      const nextRadioInput = nextRadio.shadowRoot?.querySelector("input");
+      // const target = nextRadio.shadowRoot?.querySelector("input");
+      nextRadioInput?.focus();
+      nextRadio.checked = true;
+
+      const beforeRadio = radios[focusedRadioIndex];
+      beforeRadio.checked = false;
+      event.preventDefault();
+
+      this.dispatchEvent(new Event("change"));
+      return;
+    }
+  }
+
   override render() {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
 
-    return html`<fieldset ?disabled=${this.disabled}>
+    return html`<fieldset
+      ?disabled=${this.disabled}
+      @keydown=${this._handleKeyDown}
+    >
       ${this.label ? html`<span>${this.label}</span>` : nothing}
       <slot
         class=${radioGroupClassName}
