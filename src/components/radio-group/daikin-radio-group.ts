@@ -1,4 +1,11 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import {
+  LitElement,
+  css,
+  html,
+  nothing,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
 import {
   customElement,
   property,
@@ -35,9 +42,9 @@ type RadioGroupProps = MergeVariantProps<typeof radioGroupCN>;
  *
  * ```html
  * <daikin-radio-group>
- *  <daikin-radio name="name1" value="value1" label="Option1"></daikin-radio>
- *  <daikin-radio name="name2" value="value2" label="Option2"></daikin-radio>
- *  <daikin-radio name="name3" value="value3" label="Option3"></daikin-radio>
+ *  <daikin-radio name="name" value="value1" label="Option1"></daikin-radio>
+ *  <daikin-radio name="name" value="value2" label="Option2"></daikin-radio>
+ *  <daikin-radio name="name" value="value3" label="Option3"></daikin-radio>
  * </daikin-radio-group>
  * ```
  */
@@ -105,9 +112,7 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   private _handleRadioChange = (event: CustomEvent<{ value: string }>) => {
-    const detail = event.detail;
-    event.preventDefault();
-    this._updateRadios(detail.value);
+    this._updateRadios((event.target as HTMLInputElement).value);
   };
 
   private _handleSlotChange(): void {
@@ -118,7 +123,7 @@ export class DaikinRadioGroup extends LitElement {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
 
     return html`<fieldset ?disabled=${this.disabled}>
-      ${this.label ? html` <span class="">${this.label}</span>` : ""}
+      ${this.label ? html`<span>${this.label}</span>` : nothing}
       <slot
         class=${radioGroupClassName}
         @slotchange=${this._handleSlotChange}
@@ -137,6 +142,10 @@ export class DaikinRadioGroup extends LitElement {
           radio.disabled = false;
         }
       }
+    }
+
+    if (changedProperties.has("value")) {
+      this._updateRadios(this.value);
     }
   }
 }
