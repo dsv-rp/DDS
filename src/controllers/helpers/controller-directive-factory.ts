@@ -1,8 +1,6 @@
 import { noChange } from "lit";
 import { AsyncDirective, directive } from "lit/async-directive.js";
 
-export type DependencyItem = string | number | boolean;
-
 function argsChanged(
   current: readonly unknown[],
   previous: readonly unknown[]
@@ -24,7 +22,7 @@ export function createControllerDirective<T extends unknown[]>(
   shouldRenew: (newArgs: T, oldArgs: T) => boolean = argsChanged
 ) {
   class ControllerDirective extends AsyncDirective {
-    /** The arguments passed to render. This is immutable. */
+    /** The arguments passed to render. */
     private _args: T | undefined;
 
     /** Cleanup function. (exists iff activated) */
