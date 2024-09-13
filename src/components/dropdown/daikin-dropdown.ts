@@ -5,6 +5,7 @@ import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
@@ -185,8 +186,10 @@ export class DaikinDropdown extends LitElement {
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private _items!: DaikinDropdownItem[];
 
+  @state()
   private _hasSelectedItem = false;
 
+  @state()
   private _selectedItemLabel = "";
 
   private _autoUpdateController = new FloatingUIAutoUpdateController(this);
@@ -203,7 +206,7 @@ export class DaikinDropdown extends LitElement {
   private _reflectItemsAndLabel() {
     const items = this._items;
 
-    const selectedItem = items.find(({ value }) => this.value === value);
+    const selectedItem = items.find((item) => item.value === this.value);
     for (const item of items) {
       item.selected = item === selectedItem;
     }
@@ -258,7 +261,6 @@ export class DaikinDropdown extends LitElement {
    */
   private _handleSelect(event: SelectEvent) {
     const target = event.target as DaikinDropdownItem | null;
-
     if (!target || !this._items.includes(target)) {
       return;
     }
@@ -317,10 +319,6 @@ export class DaikinDropdown extends LitElement {
         this._clickOutsideController.directive(this.open && !this.disabled)
       }
     </div>`;
-  }
-
-  protected override firstUpdated(): void {
-    this._reflectItemsAndLabel();
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
