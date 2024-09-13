@@ -11,7 +11,6 @@ import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinDropdownItem } from "../dropdown-item";
-import "../icon/daikin-icon";
 import type { DaikinInputGroup } from "../input-group";
 
 const cvaButton = cva(
