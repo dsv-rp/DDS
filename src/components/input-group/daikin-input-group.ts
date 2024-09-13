@@ -94,7 +94,7 @@ export class DaikinInputGroup extends LitElement {
    * Label text to place at the top of the field
    */
   @property({ type: String })
-  label?: string;
+  label = "";
 
   /**
    * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
@@ -155,15 +155,13 @@ export class DaikinInputGroup extends LitElement {
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center w-max font-daikinSerif">
-        ${this.label
-          ? html`<span
-              class=${cvaLabel({
-                required: this.required,
-              })}
-            >
-              ${this.label}
-            </span>`
-          : nothing}
+        <span
+          class=${cvaLabel({
+            required: this.required,
+          })}
+        >
+          ${this.label}
+        </span>
         <slot @slotchange=${this._handleSlotChange}></slot>
         <div
           class=${cvaHelperAndErrorContainer({
