@@ -14,6 +14,18 @@ import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 type ControlElement = DaikinTextInput | DaikinTextarea;
 
+const cvaLabelContainer = cva(
+  ["flex", "justify-between", "items-center", "gap-2"],
+  {
+    variants: {
+      visible: {
+        false: [],
+        true: ["mb-2"],
+      },
+    },
+  }
+);
+
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
     required: {
@@ -46,11 +58,20 @@ const cvaCounterValueLength = cva([], {
   },
 });
 
-const cvaHelper = cva(["h-[22px]", "text-sm"], {
+const cvaHelper = cva(["block", "h-[22px]", "text-sm"], {
   variants: {
     disabled: {
       false: ["text-daikinNeutral-800"],
       true: ["text-daikinNeutral-200"],
+    },
+  },
+});
+
+const cvaHelperAndErrorContainer = cva(["h-max"], {
+  variants: {
+    visible: {
+      false: [],
+      true: ["mt-2"],
     },
   },
 });
@@ -172,9 +193,12 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
+    const isHelper = this.helper && !this.error;
+    const isError = !this.disabled && !!this.error;
+
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
-        <div class="flex justify-between items-center gap-2">
+      <label class="flex flex-col justify-center w-max font-daikinSerif">
+        <div class=${cvaLabelContainer({ visible: !!this.label })}>
           ${this.label
             ? html`<span
                 class=${cvaLabel({
@@ -205,27 +229,32 @@ export class DaikinInputGroup extends LitElement {
           @slotchange=${this._handleSlotChange}
           @change-count=${this._handleChangeCount}
         ></slot>
-        ${this.helper && !this.error
-          ? html`<span
-              class=${cvaHelper({
-                disabled: this.disabled,
-              })}
+        <div
+          class=${cvaHelperAndErrorContainer({
+            visible: isHelper || isError,
+          })}
+        >
+          ${isHelper
+            ? html`<span
+                class=${cvaHelper({
+                  disabled: this.disabled,
+                })}
+              >
+                ${this.helper}
+              </span>`
+            : nothing}
+          <div class="flex items-center gap-1 h-max">
+            ${isError
+              ? html`<daikin-icon icon="error"></daikin-icon>`
+              : nothing}
+            <span
+              class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
+              aria-live="polite"
             >
-              ${this.helper}
-            </span>`
-          : nothing}
-        ${!this.disabled && !!this.error
-          ? html`
-              <div class="flex items-center gap-1">
-                <daikin-icon icon="error"></daikin-icon>
-                <span
-                  class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
-                >
-                  ${this.error}
-                </span>
-              </div>
-            `
-          : nothing}
+              ${isError ? this.error : ""}
+            </span>
+          </div>
+        </div>
       </label>
     </fieldset>`;
   }
