@@ -16,6 +16,7 @@ describeEach(["horizontal", "vertical"], (orientation) => {
   const baseURL = getPageURL({
     label: "Radio group",
     orientation: orientation,
+    value: "value1",
   });
 
   test("base", async ({ page }) => {
