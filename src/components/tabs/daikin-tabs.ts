@@ -62,13 +62,13 @@ export class DaikinTabs extends LitElement {
    * Tab(s) in the default slot.
    */
   @queryAssignedElements({ selector: "daikin-tab" })
-  private _tabs!: DaikinTab[];
+  private readonly _tabs!: readonly DaikinTab[];
 
   /**
    * Panel switcher(s) in the `panels` slot.
    */
   @queryAssignedElements({ slot: "panels", selector: "daikin-tab-panels" })
-  private _panelSwitchers!: DaikinTabPanels[];
+  private readonly _panelSwitchers!: readonly DaikinTabPanels[];
 
   /**
    * Emits `beforechange` event if necessary and returns whether we should proceed.

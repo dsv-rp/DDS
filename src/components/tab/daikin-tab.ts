@@ -104,7 +104,7 @@ export class DaikinTab extends LitElement {
   @property({ type: Boolean, reflect: true })
   active = false;
 
-  private _handleClick(event: MouseEvent | PointerEvent) {
+  private _handleClick(event: MouseEvent | PointerEvent): void {
     if (this.disabled) {
       event.stopImmediatePropagation();
     }
