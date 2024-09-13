@@ -12,6 +12,7 @@ import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-au
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinDropdownItem } from "../dropdown-item";
 import "../icon/daikin-icon";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaButton = cva(
   [
@@ -320,6 +321,10 @@ export class DaikinDropdown extends LitElement {
     if (changedProperties.has("value")) {
       this._reflectItemsAndLabel();
     }
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    this.label = inputGroup.label;
   }
 }
 

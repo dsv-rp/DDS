@@ -4,6 +4,7 @@ import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaTextarea = cva(
   [
@@ -200,6 +201,10 @@ export class DaikinTextarea extends LitElement {
     }
 
     this._updateValueAndCounter(this.value);
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    this.counter = inputGroup.textareaCounter;
   }
 }
 

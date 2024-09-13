@@ -138,18 +138,9 @@ export class DaikinInputGroup extends LitElement {
   private _reflectSlotProperties(): void {
     const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
-      control.disabled = !!this.disabled;
+      control.disabled = this.disabled;
       control.error = isError;
-
-      switch (control.tagName) {
-        case "DAIKIN-DROPDOWN":
-          (control as DaikinDropdown).label = this.label;
-          break;
-
-        case "DAIKIN-TEXTAREA":
-          (control as DaikinTextarea).counter = this.textareaCounter;
-          break;
-      }
+      control.reflectInputGroup(this);
     }
   }
 
