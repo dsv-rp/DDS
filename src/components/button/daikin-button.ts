@@ -1,10 +1,3 @@
-import {
-  buttonColorBackgroundPrimaryActive,
-  buttonColorBackgroundPrimaryDisabled,
-  buttonColorBackgroundPrimaryFocus,
-  buttonColorBackgroundPrimaryHover,
-  buttonColorBackgroundPrimaryPress,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
@@ -139,13 +132,13 @@ export class DaikinButton extends LitElement {
   /**
    * Set a icon in the right of button label
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true, attribute: "right-icon" })
   rightIcon: IconType | null = null;
 
   /**
    * Set a icon in the left of button label
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
   /**
