@@ -93,6 +93,10 @@ module.exports = defineConfig({
         '&:enabled:not([aria-readonly="true"])',
       ]);
 
+      // Variants for link buttons
+      addVariant("link-enabled", ["&:enabled", "&:is(a)"]);
+      addVariant("link-disabled", ["&:disabled", "&:not(a)"]);
+
       matchVariant("part", (value) => `&::part(${value})`);
 
       matchVariant(

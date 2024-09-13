@@ -14,124 +14,67 @@ import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
-const cvaButtonBase = [
-  "inline-flex",
-  "justify-center",
-  "items-center",
-  "gap-1",
-  "w-full",
-  "h-full",
-  "py-2.5",
-  "font-daikinSerif",
-  "font-bold",
-  "rounded",
-  "tracking-wide",
-  "text-nowrap",
+const cvaButton = cva(
+  [
+    "inline-flex",
+    "justify-center",
+    "items-center",
+    "gap-1",
+    "w-full",
+    "h-full",
+    "py-2.5",
+    "font-daikinSerif",
+    "font-bold",
+    "rounded",
+    "tracking-wide",
+    "text-nowrap",
 
-  "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
-];
-
-const cvaButtonVariant = {
-  size: {
-    small: ["min-w-12", "py-2", "text-xs"],
-    medium: ["min-w-[60px]", "py-3", "text-sm"],
-  },
-  color: {
-    default: [
-      "var-color-daikinBlue-500/color-base",
-      "var-color-daikinBlue-300/color-hover",
-      "var-color-daikinBlue-600/color-active",
-    ],
-    danger: [
-      "var-color-daikinRed-500/color-base",
-      "var-color-daikinRed-400/color-hover",
-      "var-color-daikinRed-600/color-active",
-    ],
-  },
-  leftIcon: {
-    false: ["pl-4"],
-    true: ["pl-3"],
-  },
-  rightIcon: {
-    false: ["pr-4"],
-    true: ["pr-3"],
-  },
-};
-
-const cvaButton = cva(cvaButtonBase, {
-  variants: {
-    variant: {
-      fill: [
-        "text-white",
-        "bg-[--color-base]",
-        "enabled:hover:bg-[--color-hover]",
-        "enabled:active:bg-[--color-active]",
-        "disabled:bg-daikinNeutral-200",
-      ],
-      outline: [
-        "border",
-        "bg-white",
-        "text-[--color-base]",
-        "border-[--color-base]",
-        "enabled:hover:text-[--color-hover]",
-        "enabled:hover:border-[--color-hover]",
-        "enabled:active:text-[--color-active]",
-        "enabled:active:border-[--color-active]",
-        "disabled:text-daikinNeutral-200",
-        "disabled:border-daikinNeutral-200",
-      ],
-      ghost: [
-        "bg-white",
-        "text-[--color-base]",
-        "enabled:hover:text-[--color-hover]",
-        "enabled:active:text-[--color-active]",
-        "disabled:text-daikinNeutral-200",
-      ],
+    "focus-visible:outline",
+    "focus-visible:outline-1",
+    "focus-visible:outline-offset-1",
+    "focus-visible:outline-daikinBlue-700",
+  ],
+  {
+    variants: {
+      size: {
+        small: ["min-w-12", "py-2", "text-xs"],
+        medium: ["min-w-[60px]", "py-3", "text-sm"],
+      },
+      color: {
+        default: [
+          "link-enabled:var-color-daikinBlue-500/color-primary",
+          "link-enabled:hover:var-color-daikinBlue-300/color-primary",
+          "link-enabled:active:var-color-daikinBlue-600/color-primary",
+          "link-disabled:var-color-daikinNeutral-200/color-primary",
+        ],
+        danger: [
+          "link-enabled:var-color-daikinRed-500/color-primary",
+          "link-enabled:hover:var-color-daikinRed-400/color-primary",
+          "link-enabled:active:var-color-daikinRed-600/color-primary",
+          "link-disabled:var-color-daikinNeutral-200/color-primary",
+        ],
+      },
+      leftIcon: {
+        false: ["pl-4"],
+        true: ["pl-3"],
+      },
+      rightIcon: {
+        false: ["pr-4"],
+        true: ["pr-3"],
+      },
+      variant: {
+        fill: ["text-white", "bg-[--color-primary]"],
+        outline: [
+          "border",
+          "bg-white",
+          "text-[--color-primary]",
+          "border-[--color-primary]",
+        ],
+        ghost: ["bg-white", "text-[--color-primary]"],
+      },
     },
-    ...cvaButtonVariant,
-  },
-});
-
-const cvaLink = cva(cvaButtonBase, {
-  variants: {
-    variant: {
-      fill: [
-        "text-white",
-        "bg-[--color-base]",
-        "hover:bg-[--color-hover]",
-        "active:bg-[--color-active]",
-      ],
-      outline: [
-        "border",
-        "bg-white",
-        "text-[--color-base]",
-        "border-[--color-base]",
-        "hover:text-[--color-hover]",
-        "hover:border-[--color-hover]",
-        "active:text-[--color-active]",
-        "active:border-[--color-active]",
-      ],
-      ghost: [
-        "bg-white",
-        "text-[--color-base]",
-        "hover:text-[--color-hover]",
-        "active:text-[--color-active]",
-      ],
-    },
-    ...cvaButtonVariant,
-    disabled: {
-      false: [],
-      true: [
-        "var-color-daikinNeutral-200/color-base",
-        "var-color-daikinNeutral-200/color-hover",
-        "var-color-daikinNeutral-200/color-active",
-      ],
-    },
-  },
-});
+  }
+);
 
 type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
 
@@ -157,24 +100,7 @@ export class DaikinButton extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --buttonColorBackgroundPrimaryActive: ${unsafeCSS(
-        buttonColorBackgroundPrimaryActive
-      )};
-      --buttonColorBackgroundPrimaryFocus: ${unsafeCSS(
-        buttonColorBackgroundPrimaryFocus
-      )};
-      --buttonColorBackgroundPrimaryHover: ${unsafeCSS(
-        buttonColorBackgroundPrimaryHover
-      )};
-      --buttonColorBackgroundPrimaryPress: ${unsafeCSS(
-        buttonColorBackgroundPrimaryPress
-      )};
-      --buttonColorBackgroundPrimaryDisabled: ${unsafeCSS(
-        buttonColorBackgroundPrimaryDisabled
-      )};
-
       display: inline-block;
-      width: fit-content;
     }
 
     :host([size="small"]) {
@@ -241,18 +167,13 @@ export class DaikinButton extends LitElement {
   buttonRole: ARIARole = "button";
 
   override render() {
-    const baseVariants = {
+    const className = cvaButton({
       variant: this.variant,
       size: this.size,
       color: this.color,
       leftIcon: !!this.leftIcon,
       rightIcon: !!this.rightIcon,
-    };
-
-    const variantsWithStatus = {
-      ...baseVariants,
-      disabled: this.disabled,
-    };
+    });
 
     const content = html`
       ${this.leftIcon
@@ -274,19 +195,15 @@ export class DaikinButton extends LitElement {
 
     if (this.href) {
       return this.disabled
-        ? html`<div class=${cvaLink(variantsWithStatus)}>${content}</div>`
-        : html`<a
-            href=${this.href}
-            class=${cvaLink(variantsWithStatus)}
-            role=${this.buttonRole}
-          >
+        ? html`<span class=${className}>${content}</span>`
+        : html`<a class=${className} href=${this.href} role=${this.buttonRole}>
             ${content}
           </a>`;
     }
 
     return html`
       <button
-        class=${cvaButton(baseVariants)}
+        class=${className}
         ?disabled=${this.disabled}
         type=${this.type}
         role=${this.buttonRole}
