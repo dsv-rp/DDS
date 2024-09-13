@@ -13,10 +13,6 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinDropdownItem } from "../dropdown-item";
 import "../icon/daikin-icon";
 
-type SelectEvent = Event & {
-  detail: { value: string };
-};
-
 const cvaButton = cva(
   [
     "flex",
@@ -202,7 +198,7 @@ export class DaikinDropdown extends LitElement {
     this.open = false;
   }
 
-  private _reflectItemsAndLabel() {
+  private _reflectItemsAndLabel(): void {
     const items = this._items;
 
     const selectedItem = items.find((item) => item.value === this.value);
@@ -214,7 +210,7 @@ export class DaikinDropdown extends LitElement {
     this._selectedItemLabel = selectedItem?.textContent ?? "";
   }
 
-  private _handleClick() {
+  private _handleClick(): void {
     this.open = !this.open;
   }
 
@@ -258,7 +254,7 @@ export class DaikinDropdown extends LitElement {
   /**
    * Handle `select` event from `daikin-dropdown-item`.
    */
-  private _handleSelect(event: SelectEvent) {
+  private _handleSelect(event: Event): void {
     const target = event.target as DaikinDropdownItem | null;
     if (!target || !this._items.includes(target)) {
       return;

@@ -45,14 +45,14 @@ const cvaOption = cva(
 );
 
 /**
- * The dropdown item component that can be used within `daikin-dropdown` component.
+ * The dropdown item (option) component that can be used within `daikin-dropdown` component.
  *
  * Hierarchy:
  * - `daikin-dropdown` > `daikin-dropdown-item`
  *
- * @fires select - This fires when a dropdown item is selected.
+ * @fires select - A custom event emitted when a user clicks the item. For internal use (`daikin-dropdown`).
  *
- * @slot - A slot for the button content.
+ * @slot - A slot for the item content.
  *
  * @example
  *
@@ -89,15 +89,16 @@ export class DaikinDropdownItem extends LitElement {
   @query("button")
   private _button: HTMLButtonElement | null | undefined;
 
-  private _handleClick() {
-    const event = new CustomEvent("select", {
-      bubbles: true,
-      detail: {
-        value: this.value,
-      },
-    });
+  private _handleClick(): void {
+    if (this.disabled) {
+      return;
+    }
 
-    this.dispatchEvent(event);
+    this.dispatchEvent(
+      new Event("select", {
+        bubbles: true,
+      })
+    );
   }
 
   override render() {
