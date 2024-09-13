@@ -13,25 +13,37 @@ import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 type ControlElement = DaikinTextInput | DaikinTextarea;
 
-const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
-  variants: {
-    required: {
-      false: [],
-      true: [
-        "after:i-daikin-required",
-        "after:size-4",
-        "after:text-daikinRed-500",
-        "after:ml-1",
-      ],
+const cvaLabel = cva(
+  ["flex", "items-center", "font-bold", "leading-5", "mb-2"],
+  {
+    variants: {
+      required: {
+        false: [],
+        true: [
+          "after:i-daikin-required",
+          "after:size-4",
+          "after:text-daikinRed-500",
+          "after:ml-1",
+        ],
+      },
     },
-  },
-});
+  }
+);
 
-const cvaHelper = cva(["h-[22px]", "text-sm"], {
+const cvaHelper = cva(["block", "h-[22px]", "text-sm"], {
   variants: {
     disabled: {
       false: ["text-daikinNeutral-800"],
       true: ["text-daikinNeutral-200"],
+    },
+  },
+});
+
+const cvaHelperAndErrorContainer = cva(["h-max"], {
+  variants: {
+    visible: {
+      false: [],
+      true: ["mt-2"],
     },
   },
 });
@@ -138,10 +150,11 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
+    const isHelper = this.helper && !this.error;
     const isError = !this.disabled && !!this.error;
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-2 font-daikinSerif">
+      <label class="flex flex-col justify-center w-max font-daikinSerif">
         ${this.label
           ? html`<span
               class=${cvaLabel({
@@ -152,8 +165,12 @@ export class DaikinInputGroup extends LitElement {
             </span>`
           : nothing}
         <slot @slotchange=${this._handleSlotChange}></slot>
-        <div>
-          ${this.helper && !this.error
+        <div
+          class=${cvaHelperAndErrorContainer({
+            visible: isHelper || isError,
+          })}
+        >
+          ${isHelper
             ? html`<span
                 class=${cvaHelper({
                   disabled: this.disabled,
