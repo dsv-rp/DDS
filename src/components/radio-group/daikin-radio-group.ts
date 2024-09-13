@@ -86,15 +86,33 @@ export class DaikinRadioGroup extends LitElement {
   @property({ type: String, reflect: true })
   value = "";
 
+  private _updateRadioIndex(daikinRadio: DaikinRadio, index: string) {
+    const input = daikinRadio.shadowRoot?.querySelector("input");
+    input?.setAttribute("index", index);
+  }
+
   private _updateRadios(value: string, name: string) {
-    for (const daikinRadio of this._radios) {
+    const defaultValue = this._radios.find(
+      (radio) => radio.value === this.value
+    );
+    for (const [index, daikinRadio] of this._radios.entries()) {
       daikinRadio.name = name;
+      if (!defaultValue && index === 0) {
+        this._updateRadioIndex(daikinRadio, "0");
+        continue;
+      }
+      if (!defaultValue) {
+        this._updateRadioIndex(daikinRadio, "-1");
+        continue;
+      }
       if (daikinRadio.value === value) {
         this.value = value;
         daikinRadio.checked = true;
+        this._updateRadioIndex(daikinRadio, "0");
         daikinRadio.internals.setFormValue(daikinRadio.value);
       } else {
         daikinRadio.checked = false;
+        this._updateRadioIndex(daikinRadio, "-1");
         daikinRadio.internals.setFormValue(null);
       }
     }
