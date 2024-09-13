@@ -13,8 +13,6 @@ export const DAIKIN_RADIO_GROUP_ARG_TYPES = {
     control: { type: "select" },
     options: ["horizontal", "vertical"],
   },
-  disabled: { type: "boolean" },
-  defaultSelected: { type: "string" },
   label: {
     type: "string",
   },

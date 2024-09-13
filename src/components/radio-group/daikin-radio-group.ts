@@ -34,7 +34,7 @@ type RadioGroupProps = MergeVariantProps<typeof radioGroupCN>;
  * Hierarchies:
  * - `daikin-radio-group` > `daikin-radio`
  *
- * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<slot>` element.
+ * @fires change - A custom event emitted when current checked radio changed.
  *
  * @slot - A slot for radio buttons. Place `daikin-radio` elements here.
  *
@@ -74,18 +74,6 @@ export class DaikinRadioGroup extends LitElement {
   orientation: RadioGroupProps["orientation"] = "horizontal";
 
   /**
-   * The `value` attribute for the `<input>` for selection.
-   */
-  @property({ type: String, reflect: true })
-  defaultSelected!: string;
-
-  /**
-   * Specify whether the RadioGroup should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
    * The form name.
    */
   @property({ type: String, reflect: true })
@@ -98,8 +86,9 @@ export class DaikinRadioGroup extends LitElement {
   @property({ type: String, reflect: true })
   value = "";
 
-  private _updateRadios(value: string) {
+  private _updateRadios(value: string, name: string) {
     for (const daikinRadio of this._radios) {
+      daikinRadio.name = name;
       if (daikinRadio.value === value) {
         this.value = value;
         daikinRadio.checked = true;
@@ -112,11 +101,11 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   private _handleRadioChange = (event: CustomEvent<{ value: string }>) => {
-    this._updateRadios((event.target as HTMLInputElement).value);
+    this._updateRadios((event.target as HTMLInputElement).value, this.name);
   };
 
   private _handleSlotChange(): void {
-    this._updateRadios(this.defaultSelected);
+    this._updateRadios(this.value, this.name);
   }
 
   /**
@@ -190,10 +179,7 @@ export class DaikinRadioGroup extends LitElement {
   override render() {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
 
-    return html`<fieldset
-      ?disabled=${this.disabled}
-      @keydown=${this._handleKeyDown}
-    >
+    return html`<fieldset @keydown=${this._handleKeyDown}>
       ${this.label ? html`<span>${this.label}</span>` : nothing}
       <slot
         class=${radioGroupClassName}
@@ -205,18 +191,8 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("disabled")) {
-      for (const radio of this._radios) {
-        if (this.disabled) {
-          radio.disabled = true;
-        } else {
-          radio.disabled = false;
-        }
-      }
-    }
-
-    if (changedProperties.has("value")) {
-      this._updateRadios(this.value);
+    if (changedProperties.has("value") || changedProperties.has("name")) {
+      this._updateRadios(this.value, this.name);
     }
   }
 }

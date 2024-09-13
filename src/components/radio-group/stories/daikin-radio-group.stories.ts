@@ -22,10 +22,9 @@ function eventPayloadTransformer(event: Event) {
 export const Default: Story = {
   args: {
     orientation: "horizontal",
-    disabled: false,
     label: "Radio group",
-    defaultSelected: "value1",
     name: "name",
+    value: "value1",
     onChange: fn(eventPayloadTransformer),
     onClick: fn(eventPayloadTransformer),
   },
@@ -75,10 +74,9 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     orientation: "horizontal",
-    disabled: true,
     label: "Radio group",
-    defaultSelected: "value1",
     name: "name",
+    value: "value1",
     onChange: fn(eventPayloadTransformer),
     onClick: fn(eventPayloadTransformer),
   },
