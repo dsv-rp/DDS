@@ -14,18 +14,14 @@ import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
-const BUTTON_ICON_SIZE_MAP = {
-  medium: "m",
-  small: "s",
-} as const;
-
 const cvaButtonBase = [
   "inline-flex",
   "justify-center",
   "items-center",
-  "gap-2",
+  "gap-1",
   "w-full",
   "h-full",
+  "py-2.5",
   "font-daikinSerif",
   "font-bold",
   "rounded",
@@ -40,8 +36,8 @@ const cvaButtonBase = [
 
 const cvaButtonVariant = {
   size: {
-    small: ["min-w-12", "px-3", "text-xs"],
-    medium: ["min-w-[60px]", "px-4", "text-sm"],
+    small: ["min-w-12", "py-2", "text-xs"],
+    medium: ["min-w-[60px]", "py-3", "text-sm"],
   },
   color: {
     default: [
@@ -54,6 +50,14 @@ const cvaButtonVariant = {
       "var-color-daikinRed-400/color-hover",
       "var-color-daikinRed-600/color-active",
     ],
+  },
+  leftIcon: {
+    false: ["pl-4"],
+    true: ["pl-3"],
+  },
+  rightIcon: {
+    false: ["pr-4"],
+    true: ["pr-3"],
   },
 };
 
@@ -241,6 +245,8 @@ export class DaikinButton extends LitElement {
       variant: this.variant,
       size: this.size,
       color: this.color,
+      leftIcon: !!this.leftIcon,
+      rightIcon: !!this.rightIcon,
     };
 
     const variantsWithStatus = {
@@ -252,7 +258,7 @@ export class DaikinButton extends LitElement {
       ${this.leftIcon
         ? html`<daikin-icon
             icon=${this.leftIcon}
-            size=${BUTTON_ICON_SIZE_MAP[this.size]}
+            size="xl"
             color="current"
           ></daikin-icon>`
         : null}
@@ -260,7 +266,7 @@ export class DaikinButton extends LitElement {
       ${this.rightIcon
         ? html`<daikin-icon
             icon=${this.rightIcon}
-            size=${BUTTON_ICON_SIZE_MAP[this.size]}
+            size="xl"
             color="current"
           ></daikin-icon>`
         : null}
