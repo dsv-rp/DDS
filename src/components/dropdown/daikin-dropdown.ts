@@ -6,7 +6,6 @@ import {
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
-import { createRef, ref } from "lit/directives/ref.js";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -186,19 +185,11 @@ export class DaikinDropdown extends LitElement {
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private _items!: DaikinDropdownItem[];
 
-  private _buttonRef = createRef<HTMLElement>();
-
-  private _contentsRef = createRef<HTMLElement>();
-
   private _hasSelectedItem = false;
 
   private _selectedItemLabel = "";
 
-  private _autoUpdateController = new FloatingUIAutoUpdateController(
-    this,
-    this._buttonRef,
-    this._contentsRef
-  );
+  private _autoUpdateController = new FloatingUIAutoUpdateController(this);
 
   private _clickOutsideController = new ClickOutsideController(
     this,
@@ -298,7 +289,7 @@ export class DaikinDropdown extends LitElement {
         aria-autocomplete="list"
         aria-required=${this.required}
         @click=${this._handleClick}
-        ${ref(this._buttonRef)}
+        ${this._autoUpdateController.refReference()}
       >
         ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
       </button>
@@ -309,7 +300,7 @@ export class DaikinDropdown extends LitElement {
         })}
         aria-label=${this.label}
         role="listbox"
-        ${ref(this._contentsRef)}
+        ${this._autoUpdateController.refFloating()}
       >
         <slot @select=${this._handleSelect}></slot>
       </div>

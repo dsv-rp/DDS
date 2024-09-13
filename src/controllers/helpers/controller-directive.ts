@@ -1,4 +1,4 @@
-import { noChange } from "lit";
+import { nothing, type Part } from "lit";
 import { AsyncDirective, directive } from "lit/async-directive.js";
 
 function argsChanged(
@@ -23,7 +23,10 @@ function argsChanged(
  */
 export function createControllerDirective<T extends unknown[]>(
   start: (...args: T) => () => void,
-  shouldRenew: (newArgs: T, oldArgs: T) => boolean = argsChanged
+  shouldRenew: (
+    newArgs: NoInfer<T>,
+    oldArgs: NoInfer<T>
+  ) => boolean = argsChanged
 ) {
   class ControllerDirective extends AsyncDirective {
     /** The arguments passed to render. */
@@ -57,17 +60,22 @@ export function createControllerDirective<T extends unknown[]>(
       this._activate();
     }
 
-    override render(...args: T) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Required for type inference.
+    override render(..._args: NoInfer<T>) {
+      return nothing;
+    }
+
+    override update(_part: Part, args: T) {
       if (!this.isConnected) {
         // Not connected.
-        return noChange;
+        return nothing;
       }
 
       if (this._args) {
         // Already activated. If there is no need to re-register, do nothing.
         if (!shouldRenew(args, this._args)) {
           // No need to re-register.
-          return noChange;
+          return nothing;
         }
 
         this._deactivate();
@@ -76,7 +84,7 @@ export function createControllerDirective<T extends unknown[]>(
       this._args = args;
       this._activate();
 
-      return noChange;
+      return nothing;
     }
   }
 

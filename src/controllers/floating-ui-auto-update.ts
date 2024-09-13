@@ -4,16 +4,16 @@ import {
   type ComputePositionConfig,
 } from "@floating-ui/dom";
 import {
-  noChange,
+  nothing,
   type ReactiveController,
   type ReactiveControllerHost,
 } from "lit";
-import type { Ref } from "lit/directives/ref.js";
+import { ref } from "lit/directives/ref.js";
 import { createControllerDirective } from "./helpers/controller-directive";
 
 const floatingUIAutoUpdateDirective = createControllerDirective<
   [
-    HTMLElement,
+    Element,
     HTMLElement,
     Partial<ComputePositionConfig>,
     (
@@ -26,7 +26,7 @@ const floatingUIAutoUpdateDirective = createControllerDirective<
   ]
 >(
   (
-    referenceElement: HTMLElement,
+    referenceElement: Element,
     floatingElement: HTMLElement,
     options: Partial<ComputePositionConfig>
   ) => {
@@ -60,31 +60,61 @@ const floatingUIAutoUpdateDirective = createControllerDirective<
 /**
  * A reactive controller that provides a directive that calls `autoUpdate` and `computePosition` of Floating UI library.
  * This provides a declarative way to update floating position automatically.
- * Create an instance of `FloatingUIAutoUpdateController` in the constructor or in a class field, and call `instance.directive()` inside a html template.
+ *
+ * 1. Create an instance of `FloatingUIAutoUpdateController` in the constructor or in a class field.
+ * 2. Attach `instance.refFloating()` and `instance.refReference()` to appropriate elements.
+ * 3. Call `instance.directive()` inside a html template.
  */
 export class FloatingUIAutoUpdateController<
   T extends ReactiveControllerHost & HTMLElement,
 > {
+  private _floatingElement: HTMLElement | undefined;
+  private _referenceElement: Element | undefined;
+
   constructor(
-    host: T,
-    private readonly _referenceRef: Ref<HTMLElement>,
-    private readonly _floatingRef: Ref<HTMLElement>,
+    private readonly _host: T,
     private readonly _isOptionsUpdated?: (
       current: Partial<ComputePositionConfig>,
       previous: Partial<ComputePositionConfig>
     ) => boolean
   ) {
-    host.addController(this as ReactiveController);
+    _host.addController(this as ReactiveController);
+  }
+
+  private readonly _refCallbackFloating = (
+    element: Element | undefined
+  ): void => {
+    this._floatingElement = element as HTMLElement | undefined;
+    // Request re-render to trigger `directive()` call.
+    // As the `update` is performed immediately after the `update`, a warning log is displayed in the development mode lit, but there is no other way.
+    this._host.requestUpdate();
+  };
+
+  private readonly _refCallbackReference = (
+    element: Element | undefined
+  ): void => {
+    this._referenceElement = element;
+    // Request re-render to trigger `directive()` call.
+    // As the `update` is performed immediately after the `update`, a warning log is displayed in the development mode lit, but there is no other way.
+    this._host.requestUpdate();
+  };
+
+  refFloating() {
+    return ref(this._refCallbackFloating);
+  }
+
+  refReference() {
+    return ref(this._refCallbackReference);
   }
 
   directive(options: Partial<ComputePositionConfig>, enabled = true) {
-    if (!enabled || !this._referenceRef.value || !this._floatingRef.value) {
-      return noChange;
+    if (!enabled || !this._referenceElement || !this._floatingElement) {
+      return nothing;
     }
 
     return floatingUIAutoUpdateDirective(
-      this._referenceRef.value,
-      this._floatingRef.value,
+      this._referenceElement,
+      this._floatingElement,
       options,
       this._isOptionsUpdated
     );

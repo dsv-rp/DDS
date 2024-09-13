@@ -1,5 +1,5 @@
 import {
-  noChange,
+  nothing,
   type ReactiveController,
   type ReactiveControllerHost,
 } from "lit";
@@ -76,6 +76,6 @@ export class ClickOutsideController<
     // The reason why the argument passed to the `clickOutsideDirective` is received by the constructor and not by this function is to prevent unintended re-registration by making the value immutable.
     return enabled
       ? clickOutsideDirective(this._host, this._callback)
-      : noChange;
+      : nothing;
   }
 }
