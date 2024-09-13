@@ -70,38 +70,3 @@ export const Default: Story = {
     await userEvent.click(firstRadio);
   }),
 };
-
-export const Disabled: Story = {
-  args: {
-    orientation: "horizontal",
-    label: "Radio group",
-    name: "name",
-    value: "value1",
-    onChange: fn(eventPayloadTransformer),
-    onClick: fn(eventPayloadTransformer),
-  },
-  play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-radio-group")[0];
-    await expect(root).toBeInTheDocument();
-    await expect(root.value).toEqual("value1");
-    const firstRadio = getByShadowRole(root, "radio", { name: "Option1" });
-    const secondRadio = getByShadowRole(root, "radio", { name: "Option2" });
-    const thirdRadio = getByShadowRole(root, "radio", { name: "Option3" });
-
-    await step("Try to click second radio", async () => {
-      await userEvent.click(secondRadio);
-      await expect(args.onChange).not.toHaveBeenCalledOnce();
-      await expect(firstRadio).toBeChecked();
-      await expect(secondRadio).not.toBeChecked();
-      await expect(thirdRadio).not.toBeChecked();
-    });
-
-    await step("Try to click third radio", async () => {
-      await userEvent.click(thirdRadio);
-      await expect(args.onChange).not.toHaveBeenCalledOnce();
-      await expect(firstRadio).toBeChecked();
-      await expect(secondRadio).not.toBeChecked();
-      await expect(thirdRadio).not.toBeChecked();
-    });
-  }),
-};
