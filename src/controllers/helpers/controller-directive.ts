@@ -61,7 +61,7 @@ export function createControllerDirective<T extends unknown[]>(
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars -- Required for type inference.
-    override render(..._args: NoInfer<T>) {
+    override render(..._args: T) {
       return nothing;
     }
 

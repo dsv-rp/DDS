@@ -68,6 +68,8 @@ const floatingUIAutoUpdateDirective = createControllerDirective<
 export class FloatingUIAutoUpdateController<
   T extends ReactiveControllerHost & HTMLElement,
 > {
+  // We also considered a method of managing elements as `Ref<Element>` in the caller, but this could not be used because updating `Ref` does not trigger a re-render, and there is no way to detect `Ref` updates.
+  // Currently, we manage elements ourselves by providing directives equivalent to `ref()` in this class.
   private _floatingElement: HTMLElement | undefined;
   private _referenceElement: Element | undefined;
 
