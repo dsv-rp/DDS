@@ -179,7 +179,7 @@ export class DaikinDropdown extends LitElement {
   open = false;
 
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
-  private _items!: DaikinDropdownItem[];
+  private readonly _items!: readonly DaikinDropdownItem[];
 
   @state()
   private _hasSelectedItem = false;

@@ -126,16 +126,10 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: Boolean, reflect: true })
   textareaCounter = false;
 
-  @queryAssignedElements({ selector: "daikin-textarea" })
-  _textareas!: DaikinTextarea[];
-
-  @queryAssignedElements({ selector: "daikin-dropdown" })
-  _dropdowns!: DaikinDropdown[];
-
   @queryAssignedElements({
-    selector: "daikin-text-input,daikin-textarea,daikin-dropdown",
+    selector: "daikin-dropdown, daikin-textarea, daikin-text-input",
   })
-  _controls!: ControlElement[];
+  private readonly _controls!: readonly ControlElement[];
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -146,14 +140,16 @@ export class DaikinInputGroup extends LitElement {
     for (const control of this._controls) {
       control.disabled = !!this.disabled;
       control.error = isError;
-    }
 
-    for (const item of this._textareas) {
-      item.counter = this.textareaCounter;
-    }
+      switch (control.tagName) {
+        case "DAIKIN-DROPDOWN":
+          (control as DaikinDropdown).label = this.label;
+          break;
 
-    for (const item of this._dropdowns) {
-      item.label = this.label;
+        case "DAIKIN-TEXTAREA":
+          (control as DaikinTextarea).counter = this.textareaCounter;
+          break;
+      }
     }
   }
 
