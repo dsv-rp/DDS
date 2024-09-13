@@ -10,7 +10,7 @@ const RADIO_CLASS_NAME = cva([
   "items-center",
   "size-4",
   "bg-white",
-  "border-[1.5px]",
+  "border-2",
   "border-daikinNeutral-600",
   "rounded-full",
   "relative",
