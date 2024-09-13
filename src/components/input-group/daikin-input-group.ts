@@ -138,6 +138,8 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
+    const isError = !this.disabled && !!this.error;
+
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center w-max gap-2 font-daikinSerif">
         ${this.label
@@ -150,27 +152,28 @@ export class DaikinInputGroup extends LitElement {
             </span>`
           : nothing}
         <slot @slotchange=${this._handleSlotChange}></slot>
-        ${this.helper && !this.error
-          ? html`<span
-              class=${cvaHelper({
-                disabled: this.disabled,
-              })}
+        <div>
+          ${this.helper && !this.error
+            ? html`<span
+                class=${cvaHelper({
+                  disabled: this.disabled,
+                })}
+              >
+                ${this.helper}
+              </span>`
+            : nothing}
+          <div class="flex items-center gap-1 h-max">
+            ${isError
+              ? html`<daikin-icon icon="error"></daikin-icon>`
+              : nothing}
+            <span
+              class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
+              aria-live="polite"
             >
-              ${this.helper}
-            </span>`
-          : nothing}
-        ${!this.disabled && !!this.error
-          ? html`
-              <div class="flex items-center gap-1">
-                <daikin-icon icon="error"></daikin-icon>
-                <span
-                  class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
-                >
-                  ${this.error}
-                </span>
-              </div>
-            `
-          : nothing}
+              ${isError ? this.error : ""}
+            </span>
+          </div>
+        </div>
       </label>
     </fieldset>`;
   }
