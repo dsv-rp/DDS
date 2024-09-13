@@ -50,7 +50,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
               </daikin-dropdown-item>
             `
           : null}
-        ${option === "multiple"
+        ${option === "many"
           ? html`
               <daikin-dropdown-item value="value1">
                 Dropdown item 1

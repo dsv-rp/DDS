@@ -43,7 +43,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
             Dropdown item 1
           </ReactDaikinDropdownItem>
         )}
-        {props.option === "multiple" && (
+        {props.option === "many" && (
           <>
             <ReactDaikinDropdownItem value="value1">
               Dropdown item 1

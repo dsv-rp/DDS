@@ -42,7 +42,7 @@ describeEach(["open", "close"] as const, (state) => {
   });
 });
 
-describeEach(["default", "multiple"] as const, (option) => {
+describeEach(["default", "many"] as const, (option) => {
   const baseURL = getPageURL({
     open: true,
     option,

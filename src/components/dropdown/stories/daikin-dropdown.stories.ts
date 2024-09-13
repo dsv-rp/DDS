@@ -128,9 +128,9 @@ export const SingleItem: Story = {
   },
 };
 
-export const MultipleItem: Story = {
+export const ManyItems: Story = {
   args: {
     ...Default.args,
-    option: "multiple",
+    option: "many",
   },
 };
