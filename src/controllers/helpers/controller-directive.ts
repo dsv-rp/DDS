@@ -12,10 +12,14 @@ function argsChanged(
 }
 
 /**
- * Creates a factory function for an asynchronous directive that calls the user-specified startup and cleanup functions in accordance with the lifecycle.
- * See click-outside.ts for an example of actual use.
+ * Creates an asynchronous directive that calls the user-specified startup and cleanup functions in accordance with the lifecycle and render argument changes.
+ * Typically, there is no need to expose this directive directly to users. Instead, please provide a method that wraps the directive in a [Reactive Controller](https://lit.dev/docs/composition/controllers/).
+ * See [click-outside.ts](../click-outside.ts) for an example of actual use.
  * @param start A startup function that is called when the directive is rendered. It must return a cleanup function.
- * @returns A factory function for an async directive.
+ * @param shouldRenew A function that determines whether it is necessary to restart.
+ *                    The arguments of the current directive call and the directive call when it was last started are passed.
+ *                    If omitted, a function that compares each element of the array using `Object.is` is used.
+ * @returns An async directive.
  */
 export function createControllerDirective<T extends unknown[]>(
   start: (...args: T) => () => void,
@@ -29,7 +33,7 @@ export function createControllerDirective<T extends unknown[]>(
     private _cleanup: (() => void) | undefined;
 
     private _activate(): void {
-      if (!this.isConnected || !this._args) {
+      if (!this.isConnected || !this._args || this._cleanup) {
         return;
       }
 
@@ -45,10 +49,25 @@ export function createControllerDirective<T extends unknown[]>(
       this._cleanup = undefined;
     }
 
+    protected override disconnected(): void {
+      this._deactivate();
+    }
+
+    protected override reconnected(): void {
+      this._activate();
+    }
+
     override render(...args: T) {
+      if (!this.isConnected) {
+        // Not connected.
+        return noChange;
+      }
+
       if (this._args) {
+        // Already activated. If there is no need to re-register, do nothing.
         if (!shouldRenew(args, this._args)) {
-          return;
+          // No need to re-register.
+          return noChange;
         }
 
         this._deactivate();
@@ -58,14 +77,6 @@ export function createControllerDirective<T extends unknown[]>(
       this._activate();
 
       return noChange;
-    }
-
-    protected override disconnected(): void {
-      this._deactivate();
-    }
-
-    protected override reconnected(): void {
-      this._activate();
     }
   }
 

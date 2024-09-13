@@ -316,14 +316,14 @@ export class DaikinDropdown extends LitElement {
       ${
         // Activate auto update only when the dropdown is open.
         // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
-        this._autoUpdateController.observe(
+        this._autoUpdateController.directive(
           DaikinDropdown._floatingPositionOptions,
           this.open && !this.disabled
         )
       }
       ${
         // Listen to click outside only when the dropdown is open.
-        this._clickOutsideController.observe(this.open && !this.disabled)
+        this._clickOutsideController.directive(this.open && !this.disabled)
       }
     </div>`;
   }

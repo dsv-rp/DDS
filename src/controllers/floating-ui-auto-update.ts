@@ -9,7 +9,7 @@ import {
   type ReactiveControllerHost,
 } from "lit";
 import type { Ref } from "lit/directives/ref.js";
-import { createControllerDirective } from "./helpers/controller-directive-factory";
+import { createControllerDirective } from "./helpers/controller-directive";
 
 const floatingUIAutoUpdateDirective = createControllerDirective<
   [
@@ -57,13 +57,18 @@ const floatingUIAutoUpdateDirective = createControllerDirective<
     (current[3]?.(current[2], previous[2]) ?? current[2] !== previous[2])
 );
 
+/**
+ * A reactive controller that provides a directive that calls `autoUpdate` and `computePosition` of Floating UI library.
+ * This provides a declarative way to update floating position automatically.
+ * Create an instance of `FloatingUIAutoUpdateController` in the constructor or in a class field, and call `instance.directive()` inside a html template.
+ */
 export class FloatingUIAutoUpdateController<
   T extends ReactiveControllerHost & HTMLElement,
 > {
   constructor(
     host: T,
-    private readonly referenceRef: Ref<HTMLElement>,
-    private readonly floatingRef: Ref<HTMLElement>,
+    private readonly _referenceRef: Ref<HTMLElement>,
+    private readonly _floatingRef: Ref<HTMLElement>,
     private readonly _isOptionsUpdated?: (
       current: Partial<ComputePositionConfig>,
       previous: Partial<ComputePositionConfig>
@@ -72,14 +77,14 @@ export class FloatingUIAutoUpdateController<
     host.addController(this as ReactiveController);
   }
 
-  observe(options: Partial<ComputePositionConfig>, enabled = true) {
-    if (!enabled || !this.referenceRef.value || !this.floatingRef.value) {
+  directive(options: Partial<ComputePositionConfig>, enabled = true) {
+    if (!enabled || !this._referenceRef.value || !this._floatingRef.value) {
       return noChange;
     }
 
     return floatingUIAutoUpdateDirective(
-      this.referenceRef.value,
-      this.floatingRef.value,
+      this._referenceRef.value,
+      this._floatingRef.value,
       options,
       this._isOptionsUpdated
     );
