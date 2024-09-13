@@ -238,7 +238,7 @@ export class DaikinTextInput extends LitElement {
         }
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
-        aria-required=${this.required}
+        ?required=${this.required}
         @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
         @input=${this._handleInput}
       />
