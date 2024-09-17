@@ -22,7 +22,6 @@ function eventPayloadTransformer(event: Event) {
 export const Default: Story = {
   args: {
     orientation: "horizontal",
-    label: "Radio group",
     name: "name",
     value: "value1",
     onChange: fn(eventPayloadTransformer),

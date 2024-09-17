@@ -1,11 +1,4 @@
-import {
-  LitElement,
-  css,
-  html,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
@@ -17,7 +10,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-const radioGroupCN = cva(["flex"], {
+const radioGroupCN = cva(["flex", "gap-2"], {
   variants: {
     orientation: {
       horizontal: ["flex-col"],
@@ -60,12 +53,6 @@ export class DaikinRadioGroup extends LitElement {
 
   @queryAssignedElements({ selector: "daikin-radio" })
   private _radios!: Array<DaikinRadio>;
-
-  /**
-   * Specify the label text for radio group
-   */
-  @property({ type: String, reflect: true })
-  label = "";
 
   /**
    * Specify the radio group orientation
@@ -198,7 +185,6 @@ export class DaikinRadioGroup extends LitElement {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
 
     return html`<fieldset @keydown=${this._handleKeyDown}>
-      ${this.label ? html`<span>${this.label}</span>` : nothing}
       <slot
         class=${radioGroupClassName}
         @slotchange=${this._handleSlotChange}
