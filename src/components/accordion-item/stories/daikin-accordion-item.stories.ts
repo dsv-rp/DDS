@@ -13,7 +13,7 @@ export default {
 
 export const Default: Story = {
   args: {
-    title: "Accordion-title",
+    title: "Accordion heading",
     open: false,
     disabled: false,
   },
@@ -24,7 +24,7 @@ export const Default: Story = {
     await expect(root).not.toHaveAttribute("open");
 
     const innerDetails = getByShadowRole(root, "group");
-    const innerSummary = getByShadowText(root, "Accordion-title");
+    const innerSummary = getByShadowText(root, "Accordion heading");
 
     await expect(innerSummary).toBeInTheDocument();
 
@@ -35,7 +35,7 @@ export const Default: Story = {
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
       await expect(innerDetails).toHaveAttribute("open");
-      await expect(getByShadowText(root, "Accordion-content")).toBeVisible();
+      await expect(getByShadowText(root, "Accordion content")).toBeVisible();
     });
 
     await step("Try to keyboard navigation", async () => {
@@ -64,7 +64,7 @@ export const Disabled: Story = {
     await expect(root).toBeInTheDocument();
 
     const innerDetails = getByShadowRole(root, "group");
-    const innerSummary = getByShadowText(root, "Accordion-title");
+    const innerSummary = getByShadowText(root, "Accordion heading");
 
     await expect(innerSummary).toBeInTheDocument();
     await expect(innerDetails).not.toHaveAttribute("open");

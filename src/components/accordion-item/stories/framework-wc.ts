@@ -11,7 +11,7 @@ export const metadata: Meta<DaikinAccordionItemStoryArgs> = {
       ?open=${open}
       ?disabled=${disabled}
     >
-      <div>Accordion-content</div>
+      Accordion content
     </daikin-accordion-item>
   `,
 };

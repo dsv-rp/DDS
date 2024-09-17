@@ -3,14 +3,15 @@ import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon/daikin-icon";
 
 const cvaDetails = cva(
   ["flex", "w-full", "h-max", "bg-white", "font-daikinSerif", "overflow-clip"],
   {
     variants: {
-      status: {
-        enabled: [],
-        disabled: ["text-[#DCDCDC]"],
+      disabled: {
+        false: [],
+        true: [],
       },
     },
   }
@@ -19,47 +20,46 @@ const cvaDetails = cva(
 const cvaSummary = cva(
   [
     "flex",
+    "justify-between",
     "items-center",
+    "gap-2",
     "w-full",
-    "h-12",
-    "px-5",
-    "outline-none",
+    "min-h-12",
+    "py-3",
+    "pr-3",
+    "pl-4",
     "relative",
-
-    "after:block",
-    "after:w-5",
-    "after:h-5",
-    "after:m-auto",
-    "after:top-0",
-    "after:right-4",
-    "after:bottom-0",
-    "after:absolute",
-    "after:i-daikin-accordion-chevron-up",
-    "after:transition-all",
+    "focus-visible:outline",
+    "focus-visible:outline-2",
+    "focus-visible:-outline-offset-2",
+    "focus-visible:outline-daikinBlue-700",
   ],
   {
     variants: {
-      visible: {
-        open: ["after:rotate-0"],
-        close: ["after:-rotate-180"],
-      },
-      status: {
-        enabled: [
-          "hover:bg-[#DCDCDC]",
-          "hover:bg-[#DCDCDC]",
+      disabled: {
+        false: [
+          "hover:bg-daikinNeutral-100",
           "hover:cursor-pointer",
-          "focus-visible:outline",
-          "focus-visible:outline-[2px]",
-          "focus-visible:outline-[#0097E0]",
-          "focus-visible:outline-offset-[-2px]",
-
-          "after:text-[#828282]",
+          "active:bg-daikinNeutral-200",
         ],
-        disabled: ["text-[#DCDCDC]", "after:text-[#DCDCDC]"],
+        true: ["text-daikinNeutral-200", "[&>*]:text-daikinNeutral-200"],
       },
     },
   }
 );
+
+const cvaSummaryIcon = cva(["transition-all"], {
+  variants: {
+    open: {
+      false: ["rotate-0"],
+      true: ["rotate-180"],
+    },
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
+    },
+  },
+});
 
 const animationOption = {
   duration: 250,
@@ -86,8 +86,8 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * @example
  *
  * ```html
- * <daikin-accordion-item title="The first accordion item">
- *   Accordion 1 content.
+ * <daikin-accordion-item title="Accordion heading">
+ *   Accordion content
  * </daikin-accordion-item>
  * ```
  */
@@ -98,7 +98,6 @@ export class DaikinAccordionItem extends LitElement {
 
     :host {
       display: block;
-      width: 100%;
     }
   `;
 
@@ -170,30 +169,34 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override render() {
-    const accordionDetailsClassName = cvaDetails({
-      status: this.disabled ? "disabled" : "enabled",
-    });
-
-    const accordionSummaryClassName = cvaSummary({
-      status: this.disabled ? "disabled" : "enabled",
-      visible: this.open ? "open" : "close",
-    });
-
     return html`<details
-      class=${accordionDetailsClassName}
+      class=${cvaDetails({
+        disabled: this.disabled,
+      })}
       ?open=${this._detailsOpen}
       ?data-open=${this.open}
       aria-disabled=${this.disabled}
     >
       <summary
-        class=${accordionSummaryClassName}
+        class=${cvaSummary({
+          disabled: this.disabled,
+        })}
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
       >
-        ${this.title}
+        <span>${this.title}</span>
+        <span
+          class=${cvaSummaryIcon({ open: this.open, disabled: this.disabled })}
+        >
+          <daikin-icon
+            icon="chevron-down"
+            size="l"
+            color="current"
+          ></daikin-icon>
+        </span>
       </summary>
       <div ${ref(this._contentRef)}>
-        <div class="pt-2 pb-6 px-5 text-sm">
+        <div class="pt-2 pr-3 pb-3 pl-4 text-sm">
           <slot></slot>
         </div>
       </div>

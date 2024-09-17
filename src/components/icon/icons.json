@@ -23,6 +23,14 @@
     "warning": {
       "class": "i-daikin-notification-status-warning",
       "color": null
+    },
+    "chevron-up": {
+      "class": "i-daikin-chevron-up",
+      "color": null
+    },
+    "chevron-down": {
+      "class": "i-daikin-chevron-down",
+      "color": null
     }
   }
 }

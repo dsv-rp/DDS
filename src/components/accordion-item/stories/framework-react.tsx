@@ -13,7 +13,7 @@ export const ReactDaikinAccordionItem = createComponent({
 export const metadata: Meta<DaikinAccordionItemStoryArgs> = {
   component: ({ ...props }: DaikinAccordionItemStoryArgs) => (
     <ReactDaikinAccordionItem {...props}>
-      <div>Accordion-content</div>
+      Accordion content
     </ReactDaikinAccordionItem>
   ),
 };

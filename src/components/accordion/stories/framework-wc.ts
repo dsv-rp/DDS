@@ -6,19 +6,21 @@ import type { DaikinAccordionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionStoryArgs> = {
   render: () => html`
-    <daikin-accordion>
-      <daikin-accordion-item title="Accordion-1-title">
-        Accordion-1-content
-      </daikin-accordion-item>
-      <daikin-accordion-item title="Accordion-2-title" open>
-        Accordion-2-content
-      </daikin-accordion-item>
-      <daikin-accordion-item title="Accordion-3-title" disabled>
-        Accordion-3-content
-      </daikin-accordion-item>
-      <daikin-accordion-item title="Accordion-4-title" open disabled>
-        Accordion-4-content
-      </daikin-accordion-item>
-    </daikin-accordion>
+    <div style="width:256px;">
+      <daikin-accordion>
+        <daikin-accordion-item title="Accordion heading 1">
+          Accordion content 1
+        </daikin-accordion-item>
+        <daikin-accordion-item title="Accordion heading 2" open>
+          Accordion content 2
+        </daikin-accordion-item>
+        <daikin-accordion-item title="Accordion heading 3" disabled>
+          Accordion content 3
+        </daikin-accordion-item>
+        <daikin-accordion-item title="Accordion heading 4" open disabled>
+          Accordion content 4
+        </daikin-accordion-item>
+      </daikin-accordion>
+    </div>
   `,
 };
