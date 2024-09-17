@@ -29,8 +29,8 @@ const cvaButton = cva(
   {
     variants: {
       size: {
-        small: ["min-w-12", "py-2", "text-xs"],
-        medium: ["min-w-[60px]", "py-3", "text-sm"],
+        small: ["py-2", "text-xs"],
+        medium: ["py-3", "text-sm"],
       },
       color: {
         default: [
@@ -96,10 +96,12 @@ export class DaikinButton extends LitElement {
     }
 
     :host([size="small"]) {
+      min-width: 48px;
       height: 32px;
     }
 
     :host([size="medium"]) {
+      min-width: 60px;
       height: 44px;
     }
   `;
