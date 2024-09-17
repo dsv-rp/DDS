@@ -5,18 +5,6 @@ import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 
-const cvaDetails = cva(
-  ["flex", "w-full", "h-max", "bg-white", "font-daikinSerif", "overflow-clip"],
-  {
-    variants: {
-      disabled: {
-        false: [],
-        true: [],
-      },
-    },
-  }
-);
-
 const cvaSummary = cva(
   [
     "flex",
@@ -170,9 +158,7 @@ export class DaikinAccordionItem extends LitElement {
 
   override render() {
     return html`<details
-      class=${cvaDetails({
-        disabled: this.disabled,
-      })}
+      class="flex w-full h-max bg-white font-daikinSerif overflow-clip"
       ?open=${this._detailsOpen}
       ?data-open=${this.open}
       aria-disabled=${this.disabled}
