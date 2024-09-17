@@ -6,6 +6,8 @@ export * from "./button";
 export * from "./checkbox";
 export * from "./icon";
 export * from "./input-group";
+export * from "./list";
+export * from "./list-item";
 export * from "./notification";
 export * from "./panel-switcher";
 export * from "./progress-bar";
