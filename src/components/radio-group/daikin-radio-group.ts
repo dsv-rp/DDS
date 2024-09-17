@@ -168,9 +168,9 @@ export class DaikinRadioGroup extends LitElement {
         continue;
       }
       const nextRadioInput = nextRadio.shadowRoot?.querySelector("input");
-      // const target = nextRadio.shadowRoot?.querySelector("input");
       nextRadioInput?.focus();
       nextRadio.checked = true;
+      this.value = nextRadio.value;
 
       const beforeRadio = radios[focusedRadioIndex];
       beforeRadio.checked = false;
