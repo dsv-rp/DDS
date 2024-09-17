@@ -15,7 +15,6 @@ const cvaButton = cva(
     "gap-1",
     "w-full",
     "h-full",
-    "py-2.5",
     "font-daikinSerif",
     "font-bold",
     "rounded",
