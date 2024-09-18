@@ -41,7 +41,7 @@ export class DaikinAccordion extends LitElement {
   `;
 
   override render() {
-    return html`<div class="w-full border-y-[1px] border-y-daikinNeutral-600">
+    return html`<div class="w-full border-y border-y-daikinNeutral-600">
       <slot></slot>
     </div>`;
   }
