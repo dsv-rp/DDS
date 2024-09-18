@@ -22,8 +22,8 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * - `daikin-tabs` > `daikin-tab`
  * - `daikin-tabs` > `daikin-tab-panels` ("panels" slot)
  *
- * @fires beforechange - _Cancellable._ A custom event emitted when the current tab is about to be changed by user interaction.
- * @fires change - A custom event emitted when the current tab is changed.
+ * @fires beforechange - _Cancellable._ A custom event emitted when the current tab is about to be changed by user interaction. The current value can be obtained with `event.target.value` and the new value with `event.detail.newTab.value`.
+ * @fires change - A custom event emitted when the current tab is changed. The new value can be obtained with `event.target.value`.
  *
  * @slot - A slot for tab buttons. Place `daikin-tab` elements here.
  * @slot panels - A slot for tab panels component. Place a `daikin-tab-panels` element here.
@@ -73,24 +73,23 @@ export class DaikinTabs extends LitElement {
   /**
    * Emits `beforechange` event if necessary and returns whether we should proceed.
    *
-   * 1. Check if `newValue` is different from `value`.
+   * 1. Check if `newTab.value` is different from `value`.
    * 2. Emit "beforechange" event.
-   * 3. Check if the event is canceled.
+   * 3. Check and return whether the event is canceled.
    *
-   * @param newValue The `value` of the newly active tab.
+   * @param newTab The newly active tab element.
    * @returns `true` if we should proceed (event is emitted and not canceled). `false` otherwise.
    */
-  private _emitBeforeChange(newValue: string, event: Event): boolean {
-    if (this.value === newValue) {
+  private _emitBeforeChange(newTab: DaikinTab): boolean {
+    if (this.value === newTab.value) {
       return false;
     }
 
     if (
       !this.dispatchEvent(
         new CustomEvent("beforechange", {
-          detail: { newValue, newTab: event.target },
+          detail: { newTab },
           bubbles: true,
-          composed: true,
           cancelable: true,
         })
       )
@@ -104,16 +103,14 @@ export class DaikinTabs extends LitElement {
   /**
    * Updates `this.value` and emit "change" event.
    *
-   * @param newValue The `value` of the newly active tab.
+   * @param newTab The newly active tab element.
    */
-  private _updateValue(newValue: string, event?: Event): void {
+  private _updateValue(newTab: DaikinTab): void {
     // DDS-1317 To ensure `event.target.value` has the correct value, we have to update `this.value` before emitting the "change" event.
-    this.value = newValue;
+    this.value = newTab.value;
     this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { newValue, newTab: event?.target },
+      new Event("change", {
         bubbles: true,
-        composed: true,
         cancelable: false,
       })
     );
@@ -145,7 +142,7 @@ export class DaikinTabs extends LitElement {
       selectedTab = tabs.find((tab) => !tab.disabled);
       if (selectedTab) {
         selectedTab.active = true;
-        this._updateValue(selectedTab.value);
+        this._updateValue(selectedTab);
       }
     }
 
@@ -202,7 +199,7 @@ export class DaikinTabs extends LitElement {
       return;
     }
 
-    if (!this._emitBeforeChange(tab.value, event)) {
+    if (!this._emitBeforeChange(tab)) {
       // Canceled.
       return;
     }
@@ -210,7 +207,7 @@ export class DaikinTabs extends LitElement {
     for (const element of tabs) {
       element.active = element === tab;
     }
-    this._updateValue(tab.value, event);
+    this._updateValue(tab);
   }
 
   /**

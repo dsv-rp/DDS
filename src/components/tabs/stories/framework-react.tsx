@@ -1,5 +1,6 @@
+import type { DaikinTab } from "#package/components/tab/daikin-tab";
 import { DaikinTabs } from "#package/components/tabs/daikin-tabs";
-import { createComponent } from "@lit/react";
+import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import "../../../storybook-tailwind.css";
@@ -12,7 +13,9 @@ export const ReactDaikinTabs = createComponent({
   elementClass: DaikinTabs,
   react: React,
   events: {
-    onBeforeChange: "beforechange",
+    onBeforeChange: "beforechange" as EventName<
+      CustomEvent<{ newTab: DaikinTab }>
+    >,
     onChange: "change",
   },
 });

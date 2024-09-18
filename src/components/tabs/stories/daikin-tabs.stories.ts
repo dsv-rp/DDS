@@ -1,3 +1,4 @@
+import type { DaikinTab } from "#package/components/tab/daikin-tab";
 import type { DaikinTabs } from "#package/components/tabs/daikin-tabs";
 import { definePlay, isVisible } from "#storybook";
 import { metadata } from "#storybook-framework";
@@ -12,7 +13,17 @@ export default {
   ...metadata,
 };
 
-function eventPayloadTransformer(event: Event) {
+function eventPayloadTransformerBeforeChange(
+  event: CustomEvent<{ newTab: DaikinTab }>
+) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    value: (event.target as DaikinTabs).value,
+    newValue: event.detail.newTab.value,
+  };
+}
+
+function eventPayloadTransformerChange(event: Event) {
   // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
   return {
     value: (event.target as DaikinTabs).value,
@@ -23,8 +34,8 @@ export const Default: Story = {
   args: {
     tabs: ["Foo", "!Bar", "Baz"],
     value: "foo",
-    onBeforeChange: fn(eventPayloadTransformer),
-    onChange: fn(eventPayloadTransformer),
+    onBeforeChange: fn(eventPayloadTransformerBeforeChange),
+    onChange: fn(eventPayloadTransformerChange),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tabs")[0];
@@ -48,14 +59,15 @@ export const Default: Story = {
     await step("Try to click baz tab", async () => {
       clearAllMocks();
       await userEvent.click(bazTab);
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onBeforeChange).toHaveLastReturnedWith({
         value: "foo",
+        newValue: "baz",
       });
-      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({
         value: "baz",
       });
-      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
 
       await expect(
@@ -89,14 +101,15 @@ export const Default: Story = {
     await step("Try to click foo tab", async () => {
       clearAllMocks();
       await userEvent.click(fooTab);
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onBeforeChange).toHaveLastReturnedWith({
         value: "baz",
+        newValue: "foo",
       });
-      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({
         value: "foo",
       });
-      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
 
       await expect(
@@ -117,10 +130,12 @@ export const Default: Story = {
       ).toBe(bazTab);
 
       await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onBeforeChange).toHaveLastReturnedWith({
         value: "foo",
+        newValue: "baz",
       });
-      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({
         value: "baz",
       });
@@ -145,14 +160,15 @@ export const Default: Story = {
       ).toBe(fooTab);
 
       await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onBeforeChange).toHaveLastReturnedWith({
         value: "baz",
+        newValue: "foo",
       });
-      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({
         value: "foo",
       });
-      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("foo");
 
       await expect(
@@ -173,14 +189,15 @@ export const Default: Story = {
       ).toBe(bazTab);
 
       await userEvent.keyboard("[Space]");
+      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
       await expect(args.onBeforeChange).toHaveLastReturnedWith({
         value: "foo",
+        newValue: "baz",
       });
-      await expect(args.onBeforeChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({
         value: "baz",
       });
-      await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(root.value).toBe("baz");
 
       await expect(

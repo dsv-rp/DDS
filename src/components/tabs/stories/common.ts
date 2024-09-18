@@ -1,11 +1,12 @@
+import type { DaikinTab } from "#package/components/tab/daikin-tab";
+import type { DaikinTabs } from "#package/components/tabs/daikin-tabs";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinTabs } from "../daikin-tabs";
 
 export interface DaikinTabsStoryArgs
   extends Required<ElementProps<DaikinTabs>> {
   tabs: string[];
-  onBeforeChange: (event: Event) => void;
+  onBeforeChange: (event: CustomEvent<{ newTab: DaikinTab }>) => void;
   onChange: (event: Event) => void;
 }
 
