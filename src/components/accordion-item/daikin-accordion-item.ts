@@ -3,7 +3,6 @@ import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
 
 const cvaSummary = cva(
   [
@@ -16,38 +15,33 @@ const cvaSummary = cva(
     "py-3",
     "pr-3",
     "pl-4",
-    "relative",
+
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
     "focus-visible:outline-daikinBlue-700",
+
+    "after:size-6",
+    "after:transition-all",
+    "after:i-daikin-chevron-down",
   ],
   {
     variants: {
+      open: {
+        false: ["after:rotate-0"],
+        true: ["after:rotate-180"],
+      },
       disabled: {
         false: [
           "hover:bg-daikinNeutral-100",
-          "hover:cursor-pointer",
+          "cursor-pointer",
           "active:bg-daikinNeutral-200",
         ],
-        true: ["text-daikinNeutral-200", "[&>*]:text-daikinNeutral-200"],
+        true: ["text-daikinNeutral-200", "after:text-daikinNeutral-200"],
       },
     },
   }
 );
-
-const cvaSummaryIcon = cva(["transition-all"], {
-  variants: {
-    open: {
-      false: ["rotate-0"],
-      true: ["rotate-180"],
-    },
-    disabled: {
-      false: [],
-      true: ["text-daikinNeutral-200"],
-    },
-  },
-});
 
 const animationOption = {
   duration: 250,
@@ -165,21 +159,13 @@ export class DaikinAccordionItem extends LitElement {
     >
       <summary
         class=${cvaSummary({
+          open: this.open,
           disabled: this.disabled,
         })}
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
       >
-        <span>${this.title}</span>
-        <span
-          class=${cvaSummaryIcon({ open: this.open, disabled: this.disabled })}
-        >
-          <daikin-icon
-            icon="chevron-down"
-            size="l"
-            color="current"
-          ></daikin-icon>
-        </span>
+        ${this.title}
       </summary>
       <div ${ref(this._contentRef)}>
         <div class="pt-2 pr-3 pb-3 pl-4 text-sm">
