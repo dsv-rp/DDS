@@ -112,7 +112,7 @@ export class DaikinListItem extends LitElement {
       linkDisabled: html`<span class=${listCN}>${content}</span>`,
     }[wrapperType];
 
-    return list;
+    return html`<div role="listitem">${list}</div>`;
   }
 }
 

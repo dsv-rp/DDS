@@ -22,7 +22,7 @@ import { customElement } from "lit/decorators.js";
 @customElement("daikin-list")
 export class DaikinList extends LitElement {
   override render() {
-    return html`<div><slot></slot></div>`;
+    return html`<div role="list"><slot></slot></div>`;
   }
 }
 
