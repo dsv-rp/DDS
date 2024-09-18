@@ -6,6 +6,7 @@
     "group:allNonMajor"
   ],
   "rangeStrategy": "bump",
+  "labels": ["dependencies"],
   "customManagers": [
     {
       "customType": "regex",
