@@ -14,7 +14,7 @@ export const metadata: Meta<DaikinListStoryArgs> = {
         <daikin-list-item type="link" href="#">
           List item label 2
         </daikin-list-item>
-        <daikin-list-item ?disabled=${true}>List item label 3</daikin-list-item>
+        <daikin-list-item disabled>List item label 3</daikin-list-item>
       </daikin-list>
     </div>
   `,

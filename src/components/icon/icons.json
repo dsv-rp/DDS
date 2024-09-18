@@ -31,10 +31,6 @@
     "chevron-right": {
       "class": "i-daikin-chevron-right",
       "color": null
-    },
-    "menu-thin": {
-      "class": "i-daikin-menu-thin",
-      "color": null
     }
   }
 }
