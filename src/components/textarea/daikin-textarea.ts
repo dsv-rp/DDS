@@ -14,7 +14,7 @@ const cvaTextarea = cva(
     "border-solid",
     "p-3",
     "font-daikinSerif",
-    "rounded-[6px]",
+    "rounded-md",
     "placeholder:text-daikinNeutral-700",
 
     "enabled:hover:outline",

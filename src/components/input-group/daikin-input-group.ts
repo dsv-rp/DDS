@@ -151,7 +151,7 @@ export class DaikinInputGroup extends LitElement {
   /**
    * Maximum value to display on the counter. When `null`, the counter will be hidden.
    */
-  @property({ type: Number, reflect: true })
+  @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
   textareaMaxCount: number | null = null;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
@@ -161,10 +161,10 @@ export class DaikinInputGroup extends LitElement {
   _controls!: ControlElement[];
 
   @state()
-  _hasTextarea: boolean = false;
+  _hasTextarea = false;
 
   @state()
-  _textareaValueLength: number = 0;
+  _textareaValueLength = 0;
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -179,7 +179,7 @@ export class DaikinInputGroup extends LitElement {
     }
   }
 
-  private _handleChangeCount(e: Event & { detail: { count: number } }): void {
+  private _handleChangeCount(e: CustomEvent<{ count: number }>): void {
     this._textareaValueLength = e.detail.count;
   }
 
