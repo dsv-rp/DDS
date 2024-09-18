@@ -2,7 +2,6 @@ import { cva } from "class-variance-authority";
 import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
 const RADIO_CLASS_NAME = cva([
   "flex",
@@ -32,19 +31,6 @@ const RADIO_CLASS_NAME = cva([
   "disabled:border-daikinNeutral-200",
 ])();
 
-const cvaContainer = cva(
-  ["group", "flex", "gap-2", "items-center", "font-daikinSerif"],
-  {
-    variants: {
-      labelPosition: {
-        left: ["flex-row-reverse"],
-        right: [],
-        hidden: [],
-      },
-    },
-  }
-);
-
 const cvaLabel = cva([], {
   variants: {
     disabled: {
@@ -53,8 +39,6 @@ const cvaLabel = cva([], {
     },
   },
 });
-
-type RadioVariantProps = MergeVariantProps<typeof cvaContainer>;
 
 /**
  * The radio button component is a UI element that allows users to select one options from a set of choices.
@@ -100,11 +84,10 @@ export class DaikinRadio extends LitElement {
   /**
    * Specify the label position.
    * - `right` (default): The label will be placed to the right of the radio button.
-   * - `left`: The label will be placed to the left of the radio button.
    * - `hidden`: The label will not be shown.
    */
   @property({ type: String, attribute: "label-position" })
-  labelPosition: RadioVariantProps["labelPosition"] = "right";
+  labelPosition: "right" | "hidden" = "right";
 
   /**
    * Specify whether the radio is be checked
@@ -140,20 +123,20 @@ export class DaikinRadio extends LitElement {
   }
 
   override render() {
-    return html`<label
-      class=${cvaContainer({ labelPosition: this.labelPosition })}
-    >
-      <input
-        class=${RADIO_CLASS_NAME}
-        type="radio"
-        name=${this.name}
-        value=${this.value}
-        aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
-        ?disabled=${this.disabled}
-        .checked=${this.checked}
-        @click=${this._handleClick}
-        @change=${this._handleChange}
-      />
+    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+      <div class="p-2">
+        <input
+          class=${RADIO_CLASS_NAME}
+          type="radio"
+          name=${this.name}
+          value=${this.value}
+          aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          ?disabled=${this.disabled}
+          .checked=${this.checked}
+          @click=${this._handleClick}
+          @change=${this._handleChange}
+        />
+      </div>
       <span
         class=${cvaLabel({
           disabled: this.disabled,
