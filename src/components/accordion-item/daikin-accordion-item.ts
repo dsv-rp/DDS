@@ -152,7 +152,7 @@ export class DaikinAccordionItem extends LitElement {
 
   override render() {
     return html`<details
-      class="flex w-full h-max bg-white font-daikinSerif overflow-clip"
+      class="flex w-full bg-white font-daikinSerif overflow-clip"
       ?open=${this._detailsOpen}
       ?data-open=${this.open}
       aria-disabled=${this.disabled}
