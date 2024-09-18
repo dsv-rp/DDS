@@ -75,12 +75,11 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          version: GITHUB_TOKEN=$GITHUB_ACTIONS_TOKEN npm run changeset-version
-          publish: GITHUB_TOKEN=$GITHUB_ACTIONS_TOKEN npm run changeset-publish
+          version: npm run changeset-version
+          publish: npm run changeset-publish
           setupGitUser: false
         env:
           HUSKY: 0
-          GITHUB_ACTIONS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
