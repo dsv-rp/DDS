@@ -141,8 +141,8 @@ export class DaikinAccordionItem extends LitElement {
     }
   }
 
-  private _handleSummaryClick(e: PointerEvent) {
-    e.preventDefault();
+  private _handleSummaryClick(event: PointerEvent) {
+    event.preventDefault();
     if (this.disabled) {
       return;
     }
@@ -150,10 +150,12 @@ export class DaikinAccordionItem extends LitElement {
     this.open = !this.open;
   }
 
+  // When using the in-page search, the `<details>` element may open without clicking on the `<summary>`.
+  // In order to handle such cases, it is necessary to respond to the "toggle" event.
   private _handleToggle(event: ToggleEvent) {
-    if (this.open !== (event.newState === "open")) {
-      this.open = !this.open;
-    }
+    event.preventDefault();
+
+    this.open = event.newState === "open";
   }
 
   override render() {
