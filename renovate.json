@@ -10,9 +10,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^compose.*\\.ya?ml"],
+      "fileMatch": ["^compose.*\\.ya?ml$"],
       "matchStrings": [
-        "npm (?:i|install) (?:.* )?(?<depName>\\S+)@(?<currentValue>\\S+)"
+        "\\bnpm (?:i|install) (?:.* )?(?<depName>\\S+)@(?<currentValue>\\S+)"
       ],
       "datasourceTemplate": "npm"
     }
