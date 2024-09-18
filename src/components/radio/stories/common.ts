@@ -13,13 +13,13 @@ export const DAIKIN_RADIO_ARG_TYPES = {
     control: { type: "select" },
     options: ["small", "large"],
   },
-  checked: { type: "boolean" },
   disabled: { type: "boolean" },
   labelPosition: { type: "string" },
   readonly: { type: "boolean" },
   label: {
     type: "string",
   },
+  checked: { type: "boolean" },
   name: { type: "string" },
   value: { type: "string" },
 } satisfies Meta<DaikinRadioStoryArgs>["argTypes"];

@@ -56,6 +56,9 @@ type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
  * It functions similarly to the HTML `<input type="radio">` tag. \
  * Please note that **a radio group component is not yet available**, so you'll need to manually group radio buttons when using multiple instances.
  *
+ * Hierarchies:
+ * - `daikin-radio-group` > `daikin-radio`
+ *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="radio">` element.
  *
  * @example
@@ -83,10 +86,10 @@ export class DaikinRadio extends LitElement {
   static readonly formAssociated = true;
 
   // define internals to let radio can be used in form
-  private _internals = this.attachInternals();
+  public internals = this.attachInternals();
 
   private _updateFormValue() {
-    this._internals.setFormValue(this.checked ? this.value : null);
+    this.internals.setFormValue(this.checked ? this.value : null);
   }
 
   override updated(changedProperties: Map<string, unknown>) {
@@ -98,7 +101,11 @@ export class DaikinRadio extends LitElement {
   private _handleChange(event: Event) {
     this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
-    const newEvent = new Event("change", event);
+    const newEvent = new Event("change", {
+      bubbles: true,
+      composed: true,
+      cancelable: true,
+    });
     this.dispatchEvent(newEvent);
   }
 
@@ -175,6 +182,7 @@ export class DaikinRadio extends LitElement {
       .checked=${this.checked}
       @click=${this._handleClick}
       @change=${this._handleChange}
+      aria-checked=${this.checked}
     />`;
 
     const inputArea =

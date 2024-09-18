@@ -4,7 +4,7 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 import type { DaikinRadioStoryArgs } from "./common";
 
-const ReactDaikinRadio = createComponent({
+export const ReactDaikinRadio = createComponent({
   tagName: "daikin-radio",
   elementClass: DaikinRadio,
   react: React,
