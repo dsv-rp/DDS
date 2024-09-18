@@ -150,12 +150,19 @@ export class DaikinAccordionItem extends LitElement {
     this.open = !this.open;
   }
 
+  private _handleToggle(event: ToggleEvent) {
+    if (this.open !== (event.newState === "open")) {
+      this.open = !this.open;
+    }
+  }
+
   override render() {
     return html`<details
       class="flex w-full bg-white font-daikinSerif overflow-clip"
       ?open=${this._detailsOpen}
       ?data-open=${this.open}
       aria-disabled=${this.disabled}
+      @toggle=${this._handleToggle}
     >
       <summary
         class=${cvaSummary({
