@@ -33,6 +33,13 @@ export const Button: Story = {
   }),
 };
 
+export const WithIcon: Story = {
+  args: {
+    ...Button.args,
+    leftIcon: "positive",
+  },
+};
+
 export const Link: Story = {
   args: {
     ...Button.args,
@@ -48,14 +55,7 @@ export const Link: Story = {
   }),
 };
 
-export const WithIcon: Story = {
-  args: {
-    ...Button.args,
-    leftIcon: "positive",
-  },
-};
-
-export const Disabled: Story = {
+export const ButtonDisabled: Story = {
   args: {
     ...Button.args,
     disabled: true,
@@ -72,5 +72,21 @@ export const Disabled: Story = {
       await userEvent.click(innerInput);
       await expect(args.onClick).toHaveBeenCalledTimes(0);
     });
+  }),
+};
+
+export const LinkDisabled: Story = {
+  args: {
+    ...Button.args,
+    type: "link",
+    href: "#",
+    disabled: true,
+  },
+  play: definePlay(async ({ canvasElement }) => {
+    const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
+    await expect(root).toBeInTheDocument();
+
+    await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
+    await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
   }),
 };
