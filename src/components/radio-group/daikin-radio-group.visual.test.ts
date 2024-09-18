@@ -14,7 +14,6 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["horizontal", "vertical"], (orientation) => {
   const baseURL = getPageURL({
-    label: "Radio group",
     orientation: orientation,
     value: "value1",
   });

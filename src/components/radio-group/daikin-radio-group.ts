@@ -10,7 +10,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-const radioGroupCN = cva(["flex", "gap-2"], {
+const radioGroupCN = cva(["flex", "gap-2", "py-2", "pr-2"], {
   variants: {
     orientation: {
       horizontal: ["flex-col"],
