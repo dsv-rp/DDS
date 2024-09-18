@@ -2,7 +2,7 @@
 
 services:
   playwright:
-    image: mcr.microsoft.com/playwright:v1.46.1-jammy
+    image: mcr.microsoft.com/playwright:v1.46.1
     ipc: host
     extra_hosts:
       - host.containers.internal:host-gateway
