@@ -21,25 +21,23 @@ const cvaInput = cva(
     "text-daikinNeutral-900",
     "border",
     "border-solid",
-    "rounded-[6px]",
+    "rounded-md",
     "font-daikinSerif",
+    "font-daikinSerif",
+    "outline",
+    "outline-0",
+    "-outline-offset-2",
     "relative",
     "placeholder:text-daikinNeutral-700",
 
-    "enabled:hover:outline",
-    "enabled:hover:-outline-offset-2",
-    "enabled:hover:outline-daikinNeutral-300",
     "enabled:hover:outline-2",
+    "enabled:hover:outline-daikinNeutral-300",
 
-    "enabled:active:outline",
-    "enabled:active:-outline-offset-2",
-    "enabled:active:outline-daikinNeutral-300",
     "enabled:active:outline-2",
+    "enabled:active:outline-daikinNeutral-300",
 
-    "enabled:focus-visible:outline",
-    "enabled:focus-visible:-outline-offset-2",
-    "enabled:focus-visible:outline-daikinBlue-700",
-    "enabled:focus-visible:outline-2",
+    "focus-visible:outline-2",
+    "focus-visible:outline-daikinBlue-700",
 
     "disabled:text-[--text-input-outline-color-disabled]",
     "disabled:bg-[--text-input-background-color]",
@@ -146,7 +144,7 @@ export class DaikinTextInput extends LitElement {
    * Name of the input field control used in the form
    */
   @property({ type: String, reflect: true })
-  name?: string;
+  name = "";
 
   /**
    * Placeholder text
@@ -193,13 +191,13 @@ export class DaikinTextInput extends LitElement {
   /**
    * Set a icon in the left of label
    */
-  @property({ type: String })
+  @property({ type: String, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
   /**
    * Set a icon in the right of label
    */
-  @property({ type: String })
+  @property({ type: String, attribute: "right-icon" })
   rightIcon: IconType | null = null;
 
   private _handleInput(e: InputEvent): void {
