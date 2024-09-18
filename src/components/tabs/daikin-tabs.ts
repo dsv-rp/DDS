@@ -80,7 +80,7 @@ export class DaikinTabs extends LitElement {
    * @param newValue The `value` of the newly active tab.
    * @returns `true` if we should proceed (event is emitted and not canceled). `false` otherwise.
    */
-  private _emitBeforeChange(newValue: string): boolean {
+  private _emitBeforeChange(newValue: string, event: Event): boolean {
     if (this.value === newValue) {
       return false;
     }
@@ -88,7 +88,7 @@ export class DaikinTabs extends LitElement {
     if (
       !this.dispatchEvent(
         new CustomEvent("beforechange", {
-          detail: { oldValue: this.value, newValue },
+          detail: { newValue, newTab: event.target },
           bubbles: true,
           composed: true,
           cancelable: true,
@@ -106,13 +106,12 @@ export class DaikinTabs extends LitElement {
    *
    * @param newValue The `value` of the newly active tab.
    */
-  private _updateValue(newValue: string): void {
+  private _updateValue(newValue: string, event?: Event): void {
     // DDS-1317 To ensure `event.target.value` has the correct value, we have to update `this.value` before emitting the "change" event.
-    const oldValue = this.value;
     this.value = newValue;
     this.dispatchEvent(
       new CustomEvent("change", {
-        detail: { oldValue, newValue },
+        detail: { newValue, newTab: event?.target },
         bubbles: true,
         composed: true,
         cancelable: false,
@@ -203,7 +202,7 @@ export class DaikinTabs extends LitElement {
       return;
     }
 
-    if (!this._emitBeforeChange(tab.value)) {
+    if (!this._emitBeforeChange(tab.value, event)) {
       // Canceled.
       return;
     }
@@ -211,7 +210,7 @@ export class DaikinTabs extends LitElement {
     for (const element of tabs) {
       element.active = element === tab;
     }
-    this._updateValue(tab.value);
+    this._updateValue(tab.value, event);
   }
 
   /**
