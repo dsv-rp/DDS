@@ -14,16 +14,20 @@ const cvaList = cva(
     "w-full",
     "min-h-12",
     "p-3",
+
     "focus-visible:outline",
     "focus-visible:outline-1",
     "focus-visible:-outline-offset-1",
     "focus-visible:outline-daikinBlue-700",
+
+    "after:size-6",
+    "after:i-daikin-chevron-right",
   ],
   {
     variants: {
       disabled: {
         false: ["hover:bg-daikinNeutral-100", "active:bg-daikinNeutral-200"],
-        true: ["text-daikinNeutral-200", "[&>*]:text-daikinNeutral-200"],
+        true: ["text-daikinNeutral-200"],
       },
     },
   }
@@ -56,62 +60,57 @@ export class DaikinListItem extends LitElement {
   /**
    * Type of List
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   type: "button" | "link" = "button";
 
   /**
    * Destination when the link is clicked
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   href: string | null = null;
 
   /**
    * Whether the list is disabled
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
   /**
    * Set a icon in the left of label
    */
-  @property({ type: String, attribute: "left-icon" })
+  @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
   override render() {
     const isLink = this.type === "link" && !!this.href;
-    const variant =
+    const wrapperType =
       isLink && this.disabled ? "linkDisabled" : isLink ? "link" : "button";
-    const LIST_CLASS_NAME = cvaList({ disabled: this.disabled });
+    const listCN = cvaList({ disabled: this.disabled });
 
-    const content = html`<div class="flex items-center gap-2">
-        ${this.leftIcon
-          ? html`<daikin-icon
-              icon=${this.leftIcon}
-              size="xl"
-              color="current"
-            ></daikin-icon>`
-          : nothing}
-        <slot></slot>
-      </div>
-      <daikin-icon
-        icon="chevron-right"
-        size="l"
-        color="current"
-      ></daikin-icon>`;
+    const content = html`<span class="flex items-center gap-2">
+      ${this.leftIcon
+        ? html`<daikin-icon
+            icon=${this.leftIcon}
+            size="xl"
+            color="current"
+          ></daikin-icon>`
+        : nothing}
+      <slot></slot>
+    </span>`;
 
     const list = {
       button: html`<button
         type="button"
-        class=${LIST_CLASS_NAME}
+        class=${listCN}
         ?disabled=${this.disabled}
       >
         ${content}
       </button>`,
-      link: html`<a href=${this.href as string} class=${LIST_CLASS_NAME}>
+      link: html`<a href=${this.href as string} class=${listCN}>
         ${content}
       </a>`,
-      linkDisabled: html`<div class=${LIST_CLASS_NAME}>${content}</div>`,
-    }[variant];
+      linkDisabled: html`<span class=${listCN}>${content}</span>`,
+    }[wrapperType];
 
     return list;
   }

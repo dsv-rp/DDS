@@ -1,7 +1,7 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
 import { DAIKIN_LIST_ITEM_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -22,11 +22,12 @@ export const Button: Story = {
     await expect(root).toBeInTheDocument();
 
     const innerInput = getByShadowRole(root, "button");
+    await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
     await expect(args.onClick).toHaveBeenCalledTimes(0);
 
     // should react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.type(innerInput, "Example");
+      await userEvent.click(innerInput);
       await expect(args.onClick).toHaveBeenCalledTimes(1);
     });
   }),
@@ -38,6 +39,13 @@ export const Link: Story = {
     type: "link",
     href: "#",
   },
+  play: definePlay(async ({ canvasElement }) => {
+    const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
+    await expect(root).toBeInTheDocument();
+
+    await expect(getByShadowRole(root, "link")).toBeInTheDocument();
+    await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
+  }),
 };
 
 export const WithIcon: Story = {
@@ -59,9 +67,9 @@ export const Disabled: Story = {
     const innerInput = getByShadowRole(root, "button");
     await expect(args.onClick).toHaveBeenCalledTimes(0);
 
-    // should react if inner button clicked
+    // should not react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.type(innerInput, "Example");
+      await userEvent.click(innerInput);
       await expect(args.onClick).toHaveBeenCalledTimes(0);
     });
   }),
