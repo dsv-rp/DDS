@@ -141,8 +141,12 @@ export class DaikinCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  get checked() {
+  get checked(): boolean {
     return this.checkState === "checked";
+  }
+
+  set checked(value: boolean) {
+    this.checkState = value ? "checked" : "unchecked";
   }
 
   static readonly formAssociated = true;
