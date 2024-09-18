@@ -5,8 +5,13 @@ on:
     branches:
       - "renovate-sh/**"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
-  contents: write
+  # We don't need write permission as commit/push will be performed using GitHub App token.
+  contents: read
 
 jobs:
   post-renovate:
