@@ -1,6 +1,6 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS } from "lit";
 import {
   customElement,
   property,
@@ -27,23 +27,24 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   },
 });
 
-const cvaHelper = cva(["block", "h-[22px]", "text-sm"], {
-  variants: {
-    disabled: {
-      false: ["text-daikinNeutral-800"],
-      true: ["text-daikinNeutral-200"],
+const cvaHelper = cva(
+  ["flex", "gap-1", "items-center", "leading-5", "text-sm"],
+  {
+    variants: {
+      type: {
+        helper: ["text-daikinNeutral-800"],
+        helperDisabled: ["text-daikinNeutral-200"],
+        error: [
+          "text-daikinRed-500",
+          "font-bold",
+          "before:size-4",
+          "before:i-daikin-status-error",
+        ],
+        none: ["hidden"],
+      },
     },
-  },
-});
-
-const cvaHelperAndErrorContainer = cva(["h-max"], {
-  variants: {
-    visible: {
-      false: ["hidden"],
-      true: [],
-    },
-  },
-});
+  }
+);
 
 /**
  * The input group component serves as a wrapper for a `daikin-text-input` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
@@ -147,10 +148,21 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
-    const isHelper = !!this.helper.length && !this.error.length;
-    const isError = !this.disabled && !!this.error.length;
+    const helperType =
+      !this.disabled && !!this.error.length
+        ? "error"
+        : !!this.helper.length && !this.error.length
+          ? this.disabled
+            ? "helperDisabled"
+            : "helper"
+          : "none";
 
-    console.log(isHelper, isError);
+    const helperText: Record<typeof helperType, string> = {
+      helper: this.helper,
+      helperDisabled: this.helper,
+      error: this.error,
+      none: "",
+    };
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center gap-2 w-max font-daikinSerif">
@@ -163,30 +175,10 @@ export class DaikinInputGroup extends LitElement {
         </span>
         <slot @slotchange=${this._handleSlotChange}></slot>
         <div
-          class=${cvaHelperAndErrorContainer({
-            visible: isHelper || isError,
-          })}
+          class=${cvaHelper({ type: helperType })}
+          aria-live=${helperType === "error" ? "polite" : "off"}
         >
-          ${isHelper
-            ? html`<span
-                class=${cvaHelper({
-                  disabled: this.disabled,
-                })}
-              >
-                ${this.helper}
-              </span>`
-            : nothing}
-          <div class="flex items-center gap-1 h-max">
-            ${isError
-              ? html`<daikin-icon icon="error"></daikin-icon>`
-              : nothing}
-            <span
-              class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
-              aria-live="polite"
-            >
-              ${isError ? this.error : ""}
-            </span>
-          </div>
+          ${helperText[helperType]}
         </div>
       </label>
     </fieldset>`;
