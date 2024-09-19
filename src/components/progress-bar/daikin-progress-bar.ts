@@ -1,17 +1,9 @@
 import { cva } from "class-variance-authority";
-import {
-  LitElement,
-  css,
-  html,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
-import type { IconType } from "../icon/daikin-icon";
 
 const cvaBar = cva(
   [
@@ -44,16 +36,27 @@ const cvaBar = cva(
   }
 );
 
-const cvaIcon = cva([], {
-  variants: {
-    variant: {
-      inprogress: [],
-      completed: ["text-daikinGreen-500"],
-      indeterminate: [],
-      error: ["text-daikinRed-500"],
+const cvaBarContainer = cva(
+  ["flex", "justify-between", "items-center", "leading-5", "font-bold"],
+  {
+    variants: {
+      variant: {
+        inprogress: [],
+        completed: [
+          "after:size-4",
+          "after:text-daikinGreen-500",
+          "after:i-daikin-notification-status-positive",
+        ],
+        indeterminate: [],
+        error: [
+          "after:size-4",
+          "after:text-daikinRed-500",
+          "after:i-daikin-status-error",
+        ],
+      },
     },
-  },
-});
+  }
+);
 
 const cvaHelper = cva(["text-sm"], {
   variants: {
@@ -63,19 +66,16 @@ const cvaHelper = cva(["text-sm"], {
       indeterminate: [],
       error: ["text-daikinRed-500", "font-bold"],
     },
+    visible: {
+      false: ["hidden"],
+      true: [],
+    },
   },
 });
 
 type ProgressBarVariantProps = MergeVariantProps<
-  typeof cvaBar | typeof cvaIcon | typeof cvaHelper
+  typeof cvaBar | typeof cvaHelper
 >;
-
-const ICON_MAP: Record<ProgressBarVariantProps["variant"], IconType | null> = {
-  inprogress: null,
-  completed: "positive",
-  indeterminate: null,
-  error: "error",
-} as const;
 
 /**
  * The progress bar component is used to visually convey the progress to the user.
@@ -168,16 +168,10 @@ export class DaikinProgressBar extends LitElement {
 
   override render() {
     const progressRatio = Math.min(Math.max(this.value / this.max, 0), 1);
-    const icon = ICON_MAP[this.variant];
 
     return html`<div class="flex flex-col gap-2 w-full font-daikinSerif">
-      <div class="flex justify-between items-center">
-        <span class="leading-5 font-bold"><slot></slot></span>
-        ${icon
-          ? html`<span class=${cvaIcon({ variant: this.variant })}>
-              <daikin-icon icon=${icon} color="current"></daikin-icon>
-            </span>`
-          : nothing}
+      <div class=${cvaBarContainer({ variant: this.variant })}>
+        <slot></slot>
       </div>
       <div
         class=${cvaBar({ variant: this.variant, size: this.size })}
@@ -188,11 +182,15 @@ export class DaikinProgressBar extends LitElement {
         aria-valuemax=${this.max}
         style=${`--bar-width:${progressRatio * 100}%`}
       ></div>
-      ${this.helper
-        ? html`<span class=${cvaHelper({ variant: this.variant })}>
-            ${this.helper}
-          </span>`
-        : nothing}
+      <span
+        class=${cvaHelper({
+          variant: this.variant,
+          visible: !!this.helper.length,
+        })}
+        aria-live="polite"
+      >
+        ${this.helper}
+      </span>
     </div>`;
   }
 
