@@ -3,7 +3,6 @@ import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import "../icon/daikin-icon";
 
 const cvaBar = cva(
   [
