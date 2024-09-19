@@ -9,11 +9,10 @@ import {
 } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
 const CHECKBOX_CLASS_NAME = cva([
-  "inline-block",
-  "size-[18px]",
+  "block",
+  "size-4",
   "relative",
   "border-daikinNeutral-600",
   "border-2",
@@ -55,19 +54,6 @@ const CHECKBOX_CLASS_NAME = cva([
   "disabled:indeterminate:bg-daikinNeutral-200",
 ])();
 
-const cvaContainer = cva(
-  ["group", "flex", "gap-2.5", "items-center", "font-daikinSerif"],
-  {
-    variants: {
-      labelPosition: {
-        left: ["flex-row-reverse"],
-        right: [],
-        hidden: [],
-      },
-    },
-  }
-);
-
 const cvaLabel = cva([], {
   variants: {
     disabled: {
@@ -76,8 +62,6 @@ const cvaLabel = cva([], {
     },
   },
 });
-
-type CheckboxVariantProps = MergeVariantProps<typeof cvaContainer>;
 
 /**
  * The checkbox component is a UI element that allows users to select one or more options from a list of choices.
@@ -103,13 +87,13 @@ export class DaikinCheckbox extends LitElement {
   `;
 
   /**
-   * The form name
+   * Name of checkbox
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * The value
+   * Value of checkbox
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -123,11 +107,10 @@ export class DaikinCheckbox extends LitElement {
   /**
    * Specify the label position.
    * - `right` (default): The label will be placed to the right of the checkbox.
-   * - `left`: The label will be placed to the left of the checkbox.
    * - `hidden`: The label will not be shown.
    */
   @property({ type: String, attribute: "label-position" })
-  labelPosition: CheckboxVariantProps["labelPosition"] = "right";
+  labelPosition: "right" | "hidden" = "right";
 
   /**
    * Specify whether the checkbox is be checked
@@ -173,21 +156,21 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
-    return html`<label
-      class=${cvaContainer({ labelPosition: this.labelPosition })}
-    >
-      <input
-        class=${CHECKBOX_CLASS_NAME}
-        type="checkbox"
-        name=${this.name}
-        value=${this.value}
-        aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
-        .indeterminate=${this.checkState === "indeterminate"}
-        .checked=${this.checked}
-        ?disabled=${this.disabled}
-        @change=${this._handleChange}
-        @click=${this._handleClick}
-      />
+    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+      <div class="p-2">
+        <input
+          class=${CHECKBOX_CLASS_NAME}
+          type="checkbox"
+          name=${this.name}
+          value=${this.value}
+          aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          .indeterminate=${this.checkState === "indeterminate"}
+          .checked=${this.checked}
+          ?disabled=${this.disabled}
+          @change=${this._handleChange}
+          @click=${this._handleClick}
+        />
+      </div>
       <span
         class=${cvaLabel({
           disabled: this.disabled,

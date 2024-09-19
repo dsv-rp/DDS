@@ -19,13 +19,11 @@ export const DAIKIN_CHECKBOX_ARG_TYPES = {
     type: "string",
   },
   labelPosition: {
-    control: {
-      type: "radio",
-    },
-    options: ["left", "right", "hidden"],
+    control: "radio",
+    options: ["right", "hidden"],
   },
   checkState: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["unchecked", "indeterminate", "checked"],
   },
   disabled: {
