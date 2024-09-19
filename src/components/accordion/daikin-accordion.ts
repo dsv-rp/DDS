@@ -35,13 +35,17 @@ export class DaikinAccordion extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
-    ::slotted(daikin-accordion-item:not(:last-child)) {
-      border-bottom: 1px solid #828282;
+    ::slotted(daikin-accordion-item)::before {
+      display: block;
+    }
+
+    ::slotted(daikin-accordion-item:last-child)::after {
+      display: block;
     }
   `;
 
   override render() {
-    return html`<div class="w-full border-y border-y-daikinNeutral-600">
+    return html`<div class="w-full">
       <slot></slot>
     </div>`;
   }
