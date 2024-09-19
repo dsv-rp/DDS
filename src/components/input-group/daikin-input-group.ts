@@ -13,22 +13,19 @@ import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 type ControlElement = DaikinTextInput | DaikinTextarea;
 
-const cvaLabel = cva(
-  ["flex", "items-center", "font-bold", "leading-5", "mb-2"],
-  {
-    variants: {
-      required: {
-        false: [],
-        true: [
-          "after:i-daikin-required",
-          "after:size-4",
-          "after:text-daikinRed-500",
-          "after:ml-1",
-        ],
-      },
+const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
+  variants: {
+    required: {
+      false: [],
+      true: [
+        "after:i-daikin-required",
+        "after:size-4",
+        "after:text-daikinRed-500",
+        "after:ml-1",
+      ],
     },
-  }
-);
+  },
+});
 
 const cvaHelper = cva(["block", "h-[22px]", "text-sm"], {
   variants: {
@@ -42,8 +39,8 @@ const cvaHelper = cva(["block", "h-[22px]", "text-sm"], {
 const cvaHelperAndErrorContainer = cva(["h-max"], {
   variants: {
     visible: {
-      false: [],
-      true: ["mt-2"],
+      false: ["hidden"],
+      true: [],
     },
   },
 });
@@ -100,7 +97,7 @@ export class DaikinInputGroup extends LitElement {
    * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
    */
   @property({ type: String })
-  helper?: string;
+  helper = "";
 
   /**
    * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
@@ -150,11 +147,13 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
-    const isHelper = this.helper && !this.error;
-    const isError = !this.disabled && !!this.error;
+    const isHelper = !!this.helper.length && !this.error.length;
+    const isError = !this.disabled && !!this.error.length;
+
+    console.log(isHelper, isError);
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max font-daikinSerif">
+      <label class="flex flex-col justify-center gap-2 w-max font-daikinSerif">
         <span
           class=${cvaLabel({
             required: this.required,
