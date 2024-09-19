@@ -121,7 +121,7 @@ export class DaikinProgressBar extends LitElement {
   /**
    * Size of the progress bar
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   size: ProgressBarVariantProps["size"] = "medium";
 
   /**

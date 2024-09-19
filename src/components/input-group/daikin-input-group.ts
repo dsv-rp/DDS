@@ -155,7 +155,7 @@ export class DaikinInputGroup extends LitElement {
           : null}
         ${!this.disabled && !!this.error
           ? html`<span
-              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-status-negative before:block before:w-[16px] before:h-[22px]"
+              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-status-error before:block before:w-[16px] before:h-[22px]"
               >${this.error}</span
             >`
           : null}
