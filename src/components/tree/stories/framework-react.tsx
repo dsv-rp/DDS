@@ -1,9 +1,9 @@
-import { ReactDaikinTreeItem } from "#package/components/tree-item/stories/framework-react";
-import { ReactDaikinTreeSection } from "#package/components/tree-section/stories/framework-react";
 import { DaikinTree } from "#package/components/tree/daikin-tree";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinTreeItem } from "../../tree-item/stories/framework-react";
+import { ReactDaikinTreeSection } from "../../tree-section/stories/framework-react";
 import type { DaikinTreeStoryArgs } from "./common";
 
 const ReactDaikinTree = createComponent({
