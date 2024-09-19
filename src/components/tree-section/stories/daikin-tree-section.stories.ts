@@ -45,13 +45,6 @@ export const Default: Story = {
   }),
 };
 
-export const Close: Story = {
-  args: {
-    ...Default.args,
-    open: false,
-  },
-};
-
 export const Selected: Story = {
   args: {
     ...Default.args,
