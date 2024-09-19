@@ -14,18 +14,6 @@ import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
 type ControlElement = DaikinTextInput | DaikinTextarea;
 
-const cvaLabelContainer = cva(
-  ["flex", "justify-between", "items-center", "gap-2"],
-  {
-    variants: {
-      visible: {
-        false: [],
-        true: ["mb-2"],
-      },
-    },
-  }
-);
-
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
     required: {
@@ -39,6 +27,25 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
     },
   },
 });
+
+const cvaHelper = cva(
+  ["flex", "gap-1", "items-center", "leading-5", "text-sm"],
+  {
+    variants: {
+      type: {
+        helper: ["text-daikinNeutral-800"],
+        helperDisabled: ["text-daikinNeutral-200"],
+        error: [
+          "text-daikinRed-500",
+          "font-bold",
+          "before:size-4",
+          "before:i-daikin-status-error",
+        ],
+        none: ["hidden"],
+      },
+    },
+  }
+);
 
 const cvaCounter = cva(["text-xs"], {
   variants: {
@@ -54,24 +61,6 @@ const cvaCounterValueLength = cva([], {
     error: {
       false: [],
       true: ["text-daikinRed-500"],
-    },
-  },
-});
-
-const cvaHelper = cva(["block", "h-[22px]", "text-sm"], {
-  variants: {
-    disabled: {
-      false: ["text-daikinNeutral-800"],
-      true: ["text-daikinNeutral-200"],
-    },
-  },
-});
-
-const cvaHelperAndErrorContainer = cva(["h-max"], {
-  variants: {
-    visible: {
-      false: [],
-      true: ["mt-2"],
     },
   },
 });
@@ -128,7 +117,7 @@ export class DaikinInputGroup extends LitElement {
    * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
    */
   @property({ type: String })
-  helper?: string;
+  helper = "";
 
   /**
    * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
@@ -193,12 +182,25 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
-    const isHelper = this.helper && !this.error;
-    const isError = !this.disabled && !!this.error;
+    const helperType =
+      !this.disabled && !!this.error.length
+        ? "error"
+        : !!this.helper.length && !this.error.length
+          ? this.disabled
+            ? "helperDisabled"
+            : "helper"
+          : "none";
+
+    const helperText: Record<typeof helperType, string> = {
+      helper: this.helper,
+      helperDisabled: this.helper,
+      error: this.error,
+      none: "",
+    };
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max font-daikinSerif">
-        <div class=${cvaLabelContainer({ visible: !!this.label })}>
+      <label class="flex flex-col justify-center gap-2 w-max font-daikinSerif">
+        <div class="flex justify-between items-center gap-2">
           <span
             class=${cvaLabel({
               required: this.required,
@@ -228,30 +230,10 @@ export class DaikinInputGroup extends LitElement {
           @change-count=${this._handleChangeCount}
         ></slot>
         <div
-          class=${cvaHelperAndErrorContainer({
-            visible: isHelper || isError,
-          })}
+          class=${cvaHelper({ type: helperType })}
+          aria-live=${helperType === "error" ? "polite" : "off"}
         >
-          ${isHelper
-            ? html`<span
-                class=${cvaHelper({
-                  disabled: this.disabled,
-                })}
-              >
-                ${this.helper}
-              </span>`
-            : nothing}
-          <div class="flex items-center gap-1 h-max">
-            ${isError
-              ? html`<daikin-icon icon="error"></daikin-icon>`
-              : nothing}
-            <span
-              class="text-[--input-group-border-color-error] text-sm font-bold leading-5"
-              aria-live="polite"
-            >
-              ${isError ? this.error : ""}
-            </span>
-          </div>
+          ${helperText[helperType]}
         </div>
       </label>
     </fieldset>`;
