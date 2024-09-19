@@ -11,6 +11,7 @@ type ElementType = DaikinTreeSection | DaikinTreeItem | null;
  *
  * Hierarchy:
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
+ * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  * - `daikin-tree` > `daikin-tree-item`
  *
  * @slot - Tree section and tree item list slot. Place `daikin-tree-section` or `daikin-tree-item` elements here.
@@ -39,10 +40,10 @@ export class DaikinTree extends LitElement {
   `;
 
   @state()
-  previousElement: ElementType = null;
+  private previousElement: ElementType = null;
 
   @state()
-  nextElement: ElementType = null;
+  private nextElement: ElementType = null;
 
   private _handleKeyDown(event: KeyboardEvent): void {
     const moveOffset =
