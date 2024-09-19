@@ -96,9 +96,6 @@ export class DaikinTreeItem extends LitElement {
   @property({ type: Number })
   hierarchy: number = 0;
 
-  @property({ type: Number })
-  itemTabIndex: number = -1;
-
   override render() {
     const itemCN = cvaTreeChildren({
       disabled: this.disabled,
@@ -120,14 +117,10 @@ export class DaikinTreeItem extends LitElement {
       >
         <slot></slot>
       </button>`,
-      link: html`<a
-        href=${this.href as string}
-        class=${itemCN}
-        tabindex=${this.itemTabIndex}
-      >
+      link: html`<a href=${this.href as string} class=${itemCN}>
         <slot></slot>
       </a>`,
-      linkDisabled: html`<span class=${itemCN} tabindex=${this.itemTabIndex}>
+      linkDisabled: html`<span class=${itemCN}>
         <slot></slot>
       </span>`,
     }[variant];
