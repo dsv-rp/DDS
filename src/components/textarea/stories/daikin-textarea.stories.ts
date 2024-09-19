@@ -19,9 +19,7 @@ function eventPayloadTransformer(event: Event) {
   };
 }
 
-function eventPayloadTransformerDetail(
-  event: Event & { detail: { count: number } }
-) {
+function eventPayloadTransformerDetail(event: CustomEvent<{ count: number }>) {
   return event.detail;
 }
 
