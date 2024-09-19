@@ -7,10 +7,11 @@ import type { DaikinTreeSection } from "../tree-section";
 type ElementType = DaikinTreeSection | DaikinTreeItem | null;
 
 /**
- * A tree list component.
+ * The tree component is a component that creates a hierarchical list. You can create a hierarchical structure by placing tree section components and tree item components under the parent tree component.
  *
  * Hierarchy:
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
+ * - `daikin-tree` > `daikin-tree-item`
  *
  * @slot - Tree section and tree item list slot. Place `daikin-tree-section` or `daikin-tree-item` elements here.
  *

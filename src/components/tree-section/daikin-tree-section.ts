@@ -19,8 +19,11 @@ const cvaIconContainer = cva(
 /**
  * The tree section component that can be used within `daikin-tree` component.
  *
+ * The tree section accepts either a tree item or a tree section. By stacking tree sections, you can create a multi-level structure.
+ *
  * Hierarchy:
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
+ * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  *
  * @fires click - When an item in the tree section is clicked, it returns the open/closed status of the section.
  *
@@ -70,6 +73,9 @@ export class DaikinTreeSection extends LitElement {
   @property({ type: Boolean, reflect: true })
   open: boolean = false;
 
+  /**
+   * This receives the number of levels in the tree section. This is not specified by the user.
+   */
   @property({ type: Number })
   hierarchy: number = 0;
 

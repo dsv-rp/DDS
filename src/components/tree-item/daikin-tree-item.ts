@@ -50,8 +50,11 @@ export const cvaTreeChildren = cva(
 /**
  * The tree item component that can be used within `daikin-tree` and `daikin-tree-section` component.
  *
+ * This can be placed either under the tree section or directly under the tree. Elements cannot be placed any deeper than tree item.
+ *
  * Hierarchy:
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
+ * - `daikin-tree` > `daikin-tree-item`
  *
  * @example
  *
@@ -93,6 +96,9 @@ export class DaikinTreeItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
+  /**
+   * This receives the number of levels in the tree item. This is not specified by the user.
+   */
   @property({ type: Number })
   hierarchy: number = 0;
 
