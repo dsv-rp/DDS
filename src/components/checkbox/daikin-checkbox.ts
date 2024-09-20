@@ -87,13 +87,13 @@ export class DaikinCheckbox extends LitElement {
   `;
 
   /**
-   * Form name of the checkbox
+   * Form name of the checkbox.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Form value of the checkbox
+   * Form value of the checkbox.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -139,7 +139,7 @@ export class DaikinCheckbox extends LitElement {
 
   static readonly formAssociated = true;
 
-  // define _internals to let checkbox can be used in form
+  // define _internals to let the checkbox can be used in a form
   private _internals = this.attachInternals();
 
   private _updateFormValue() {
