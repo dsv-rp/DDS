@@ -4,7 +4,7 @@ import type { DaikinTreeItem } from "../daikin-tree-item";
 
 export interface DaikinTreeItemStoryArgs
   extends Required<ElementProps<DaikinTreeItem>> {
-  onChange: () => void;
+  onClick: () => void;
 }
 
 export const DAIKIN_TREE_ITEM_ARG_TYPES = {

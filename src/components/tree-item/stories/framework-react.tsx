@@ -8,6 +8,9 @@ export const ReactDaikinTreeItem = createComponent({
   tagName: "daikin-tree-item",
   elementClass: DaikinTreeItem,
   react: React,
+  events: {
+    onClick: "click",
+  },
 });
 
 export const metadata: Meta<DaikinTreeItemStoryArgs> = {
