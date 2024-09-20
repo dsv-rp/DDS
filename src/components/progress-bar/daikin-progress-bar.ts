@@ -81,10 +81,12 @@ type ProgressBarVariantProps = MergeVariantProps<
  *
  * There are four variants of the progress bar:
  *
- * - "inprogress": The default variant. Use this when you know the exact progress. The length of the bar is the ratio of `value` to `max`.
- * - "indeterminate": Use this variant when you don't know the exact progress. In this variant, the `value` is ignored and the bar always animates from left to right with a constant length.
- * - "completed": In addition to "inprogress", a completed icon is added. In this variant, the `value` is ignored and the bar always expands to the full width.
- * - "error": In addition to "inprogress", an error icon is added and the color becomes red. In this variant, the `value` is ignored and the bar always expands to the full width.
+ * - `"inprogress"`: The default variant. Use this when you know the exact progress. The length of the bar is the ratio of `value` to `max`.
+ * - `"indeterminate"`: Use this variant when you don't know the exact progress. In this variant, the `value` is ignored and the bar always animates from left to right with a constant length.
+ * - `"completed"`: In addition to `"inprogress"`, a completed icon is added. In this variant, the `value` is ignored and the bar always expands to the full width.
+ * - `"error"`: In addition to `"inprogress"`, an error icon is added and the color becomes red. In this variant, the `value` is ignored and the bar always expands to the full width.
+ *
+ * @slot - A slot for label text displayed at the top of the progress bar.
  *
  * @example
  *
@@ -106,13 +108,7 @@ export class DaikinProgressBar extends LitElement {
   `;
 
   /**
-   * Value of the progress bar
-   */
-  @property({ type: Number })
-  value: number = 0;
-
-  /**
-   * Variant of the progress bar
+   * Variant of the progress bar.
    */
   @property({ type: String })
   variant: ProgressBarVariantProps["variant"] = "inprogress";
@@ -124,13 +120,21 @@ export class DaikinProgressBar extends LitElement {
   size: ProgressBarVariantProps["size"] = "medium";
 
   /**
-   * The max value of the progress bar
+   * Value of the progress bar.
+   * Only used for `"inprogress"` variant.
+   */
+  @property({ type: Number })
+  value: number = 0;
+
+  /**
+   * Max value of the progress bar.
+   * Only used for `"inprogress"` variant.
    */
   @property({ type: Number })
   max: number = 100;
 
   /**
-   * Helper text
+   * Helper text displayed at the bottom of the progress bar.
    */
   @property({ type: String })
   helper = "";
