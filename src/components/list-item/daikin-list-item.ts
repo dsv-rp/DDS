@@ -118,18 +118,16 @@ export class DaikinListItem extends LitElement {
     </span>`;
 
     const list = {
-      button: html`<button
-        type="button"
-        class=${listCN}
-        ?disabled=${this.disabled}
-      >
-        ${content}
-      </button>`,
-      link: html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
-        ${content}
-      </a>`,
-      linkDisabled: html`<span class=${listCN}>${content}</span>`,
-    }[wrapperType];
+      button: () =>
+        html`<button type="button" class=${listCN} ?disabled=${this.disabled}>
+          ${content}
+        </button>`,
+      link: () =>
+        html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
+          ${content}
+        </a>`,
+      linkDisabled: () => html`<span class=${listCN}>${content}</span>`,
+    }[wrapperType]();
 
     return html`<div role="listitem">${list}</div>`;
   }
