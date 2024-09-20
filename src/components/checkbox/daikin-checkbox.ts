@@ -87,25 +87,25 @@ export class DaikinCheckbox extends LitElement {
   `;
 
   /**
-   * Name of checkbox
+   * Form name of the checkbox
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Value of checkbox
+   * Form value of the checkbox
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Specify the label text for check box
+   * Label text for the checkbox.
    */
   @property({ type: String })
   label = "";
 
   /**
-   * Specify the label position.
+   * Label position.
    * - `right` (default): The label will be placed to the right of the checkbox.
    * - `hidden`: The label will not be shown.
    */
@@ -113,13 +113,13 @@ export class DaikinCheckbox extends LitElement {
   labelPosition: "right" | "hidden" = "right";
 
   /**
-   * Specify whether the checkbox is be checked
+   * Checked state of the checkbox.
    */
   @property({ type: String, reflect: true, attribute: "check-state" })
   checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
 
   /**
-   * Specify whether the Checkbox should be disabled
+   * Whether the checkbox is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -128,6 +128,11 @@ export class DaikinCheckbox extends LitElement {
     return this.checkState === "checked";
   }
 
+  /**
+   * A property-only accessor for `checkState` provided for convenience.
+   * _Getter_: Returns `true` when `checkState` is `"checked"`, and `false` otherwise.
+   * _Setter_: If `true` is set, it updates `checkState` to `"checked"`, and if `false` is set, it updates `checkState` to `"unchecked"`.
+   */
   set checked(value: boolean) {
     this.checkState = value ? "checked" : "unchecked";
   }
