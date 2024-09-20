@@ -30,7 +30,7 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
   },
   type: {
     control: "select",
-    options: ["button", "submit", "reset"],
+    options: ["button", "submit", "reset", "link"],
   },
   role: {
     type: "string",

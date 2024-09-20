@@ -113,7 +113,7 @@ describeEach(["fill", "outline", "ghost"] as const, (variant) => {
 
 describeEach(["button", "link"] as const, (type) => {
   const baseArgs = {
-    ...(type === "link" && { href: "#" }),
+    ...(type === "link" && ({ type: "link", href: "#" } as const)),
   };
 
   test("base", async ({ page }) => {

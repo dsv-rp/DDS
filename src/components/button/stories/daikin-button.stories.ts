@@ -2,7 +2,7 @@ import { definePlay } from "#storybook";
 // This will import either "./framework-wc" or "./framework-react". See `build/vite/storybook-framework-loader.ts`.
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
 import { DAIKIN_BUTTON_ARG_TYPES, type Story } from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
@@ -22,7 +22,9 @@ export const Fill: Story = {
     label: "button",
     size: "medium",
     type: "button",
-    onClick: fn(),
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
@@ -49,7 +51,9 @@ export const Outline: Story = {
   args: {
     ...Fill.args,
     variant: "outline",
-    onClick: fn(),
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
 };
 
@@ -57,7 +61,9 @@ export const Ghost: Story = {
   args: {
     ...Fill.args,
     variant: "ghost",
-    onClick: fn(),
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
 };
 
@@ -65,7 +71,9 @@ export const Danger: Story = {
   args: {
     ...Fill.args,
     color: "danger",
-    onClick: fn(),
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
 };
 
@@ -73,7 +81,9 @@ export const Disabled: Story = {
   args: {
     ...Fill.args,
     disabled: true,
-    onClick: fn(),
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
@@ -96,5 +106,56 @@ export const Disabled: Story = {
       await expect(args.onClick).not.toHaveBeenCalled();
     });
     */
+  }),
+};
+
+export const Link: Story = {
+  args: {
+    ...Fill.args,
+    type: "link",
+    href: "#",
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    // No buttons
+    await expect(queryByShadowRole(root, "button")).toBe(null);
+
+    const innerLink = getByShadowRole(root, "link", { name: "button" });
+    await expect(innerLink).toBeInTheDocument();
+
+    // should react if inner link clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
+      await expect(args.onClick).toHaveBeenCalled();
+    });
+  }),
+};
+
+export const LinkDisabled: Story = {
+  args: {
+    ...Link.args,
+    disabled: true,
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    // No links or buttons
+    await expect(queryByShadowRole(root, "link")).toBe(null);
+    await expect(queryByShadowRole(root, "button")).toBe(null);
+
+    // should not react if the button clicked
+    await step("Try to click button", async () => {
+      await userEvent.click(root);
+      await expect(args.onClick).toHaveBeenCalled();
+    });
   }),
 };
