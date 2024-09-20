@@ -1,5 +1,5 @@
 import { DaikinListItem } from "#package/components/list-item/daikin-list-item";
-import { createComponent } from "@lit/react";
+import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import type { DaikinListItemStoryArgs } from "./common";
@@ -9,7 +9,7 @@ export const ReactDaikinListItem = createComponent({
   elementClass: DaikinListItem,
   react: React,
   events: {
-    onClick: "click",
+    onClick: "click" as EventName<MouseEvent>,
   },
 });
 
