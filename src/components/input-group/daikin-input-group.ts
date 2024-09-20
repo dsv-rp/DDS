@@ -89,31 +89,37 @@ export class DaikinInputGroup extends LitElement {
   `;
 
   /**
-   * Label text to place at the top of the field
+   * Label text displayed at the top of the field.
    */
   @property({ type: String })
   label = "";
 
   /**
-   * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
+   * Helper text displayed at the top of the field.
+   * If `error` is specified and `disabled` is `false`, that takes precedence and helper text is not displayed.
    */
   @property({ type: String })
   helper = "";
 
   /**
-   * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
+   * Whether the field is disabled.
+   * Reflected in `disabled` attribute of the input control in the slot.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the field is required. An additional star mark will be added if `true`.
+   * Whether the field is required.
+   * If `true`, an additional star mark will be displayed at the right of the label text.
+   * Reflected in `required` attribute of the input control in the slot.
    */
   @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
-   * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
+   * Error text displayed at the bottom of the field.
+   * Ignored if `disabled` is `true`.
+   * Reflected in presence of `error` attribute of the input control in the slot.
    */
   @property({ type: String, reflect: true })
   error = "";

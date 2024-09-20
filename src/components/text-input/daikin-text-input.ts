@@ -129,73 +129,77 @@ export class DaikinTextInput extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Type of field
+   * Type of the text input.
    */
   @property({ type: String })
   type: "text" | "email" | "tel" | "search" = "text";
 
   /**
-   * Field value
+   * Value of the text input.
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Name of the input field control used in the form
+   * Form name of the text input.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Placeholder text
+   * Placeholder text.
    */
   @property({ type: String })
   placeholder = "";
 
   /**
-   * Whether the field is disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Whether the field is readonly
+   * Whether the text input is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Whether the field is required
+   * Whether the text input is disabled.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
+   * Whether the text input is required.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
    */
   @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
-   * Error state. Ignored if the `disabled` is `true`.
+   * Whether or not to display error states.
+   * Ignored if the `disabled` is `true`.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
    */
   @property({ type: Boolean, reflect: true })
   error = false;
 
   /**
-   * Maximum length in field values
+   * Maximum length of value.
    */
   @property({ type: Number })
   maxlength?: number;
 
   /**
-   * Specify auto-completion values
+   * Value of `autocomplete` attribute of the internal `<input>`.
    */
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
 
   /**
-   * Set a icon in the left of label
+   * An icon displayed at the left of the input text.
    */
   @property({ type: String, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
   /**
-   * Set a icon in the right of label
+   * An icon displayed at the right of the input text.
    */
   @property({ type: String, attribute: "right-icon" })
   rightIcon: IconType | null = null;
