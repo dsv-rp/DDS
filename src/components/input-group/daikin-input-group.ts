@@ -1,6 +1,6 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import {
   customElement,
   property,
@@ -148,8 +148,10 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
+    // Priority: Error -> Helper -> None
+    // The error text is not displayed when disabled.
     const helperType =
-      !this.disabled && !!this.error.length
+      this.error.length && !this.disabled
         ? "error"
         : this.helper.length
           ? this.disabled
@@ -157,12 +159,12 @@ export class DaikinInputGroup extends LitElement {
             : "helper"
           : "none";
 
-    const helperText: Record<typeof helperType, string> = {
+    const helperText = {
+      error: this.error,
       helper: this.helper,
       helperDisabled: this.helper,
-      error: this.error,
       none: "",
-    };
+    }[helperType];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center gap-2 w-max font-daikinSerif">
@@ -173,13 +175,14 @@ export class DaikinInputGroup extends LitElement {
         >
           ${this.label}
         </span>
+        ${this.required ? html`<span class="sr-only">required</span>` : nothing}
         <slot @slotchange=${this._handleSlotChange}></slot>
-        <div
+        <span
           class=${cvaHelper({ type: helperType })}
           aria-live=${helperType === "error" ? "polite" : "off"}
         >
-          ${helperText[helperType]}
-        </div>
+          ${helperText}
+        </span>
       </label>
     </fieldset>`;
   }
