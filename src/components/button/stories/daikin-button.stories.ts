@@ -155,7 +155,7 @@ export const LinkDisabled: Story = {
     // should not react if the button clicked
     await step("Try to click button", async () => {
       await userEvent.click(root);
-      await expect(args.onClick).toHaveBeenCalled();
+      await expect(args.onClick).not.toHaveBeenCalled();
     });
   }),
 };
