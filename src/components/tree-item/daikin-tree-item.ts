@@ -18,6 +18,9 @@ export const cvaTreeChildren = cva(
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
     "focus-visible:outline-daikinBlue-700",
+
+    "before:size-6",
+    "before:transition-all",
   ],
   {
     variants: {
@@ -31,10 +34,6 @@ export const cvaTreeChildren = cva(
         ],
         true: [
           "bg-daikinBlue-50",
-          "after:i-daikin-dropdown-check",
-          "after:size-5",
-          "enabled:after:text-daikinNeutral-900",
-          "disabled:after:text-daikinNeutral-200",
           "var-color-daikinBlue-50/color-hover",
           "var-color-daikinBlue-100/color-active",
         ],
@@ -42,6 +41,14 @@ export const cvaTreeChildren = cva(
       disabled: {
         false: ["hover:bg-[--color-hover]", "active:bg-[--color-active]"],
         true: ["text-daikinNeutral-200"],
+      },
+      icon: {
+        false: [],
+        true: ["before:i-daikin-chevron-right"],
+      },
+      open: {
+        false: [],
+        true: ["before:rotate-90"],
       },
     },
   }
@@ -106,6 +113,8 @@ export class DaikinTreeItem extends LitElement {
     const itemCN = cvaTreeChildren({
       disabled: this.disabled,
       selected: this.selected,
+      icon: false,
+      open: false,
     });
 
     const variant =
@@ -134,8 +143,8 @@ export class DaikinTreeItem extends LitElement {
     return html`<div
       role="treeitem"
       aria-selected="false"
-      aria-labelledby=${this.textContent ?? ""}
-      style=${`--padding-left:${12 + (this.hierarchy + 1) * 36}px`}
+      aria-label=${this.textContent ?? ""}
+      style=${`--padding-left:${12 + this.hierarchy * 36}px`}
     >
       ${item}
     </div>`;

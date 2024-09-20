@@ -1,4 +1,3 @@
-import { cva } from "class-variance-authority";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import {
   customElement,
@@ -6,15 +5,7 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
-
-const cvaIconContainer = cva(
-  ["size-6", "i-daikin-chevron-right", "transition-all"],
-  {
-    variants: { open: { false: [], true: ["rotate-90"] } },
-  }
-);
 
 /**
  * The tree section component that can be used within `daikin-tree` component.
@@ -89,7 +80,7 @@ export class DaikinTreeSection extends LitElement {
   override render() {
     return html`<div
       role="treeitem"
-      aria-labelledby=${this.label}
+      aria-label=${this.label}
       aria-selected=${this.open}
     >
       <button
@@ -99,11 +90,12 @@ export class DaikinTreeSection extends LitElement {
         class=${cvaTreeChildren({
           disabled: this.disabled,
           selected: this.selected,
+          icon: true,
+          open: this.open,
         })}
         style=${`--padding-left:${12 + this.hierarchy * 36}px`}
       >
-        <span class=${cvaIconContainer({ open: this.open })}></span>
-        <span>${this.label}</span>
+        ${this.label}
       </button>
       <div role="group">${this.open ? html`<slot></slot>` : nothing}</div>
     </div>`;
