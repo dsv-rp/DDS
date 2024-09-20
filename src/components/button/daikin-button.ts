@@ -148,7 +148,7 @@ export class DaikinButton extends LitElement {
    * Only used if the `type` is `"link"`.
    */
   @property({ type: String, reflect: true })
-  href = "";
+  href: string | null = null;
 
   /**
    * Type of the button.
@@ -205,7 +205,7 @@ export class DaikinButton extends LitElement {
         ? html`<span class=${className}>${content}</span>`
         : html`<a
             class=${className}
-            href=${this.href}
+            href=${this.href ?? ""}
             role=${ifDefined(this.buttonRole ?? undefined)}
           >
             ${content}
