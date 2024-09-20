@@ -151,7 +151,7 @@ export class DaikinInputGroup extends LitElement {
     const helperType =
       !this.disabled && !!this.error.length
         ? "error"
-        : !!this.helper.length && !this.error.length
+        : this.helper.length
           ? this.disabled
             ? "helperDisabled"
             : "helper"
