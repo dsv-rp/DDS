@@ -5,7 +5,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export interface DaikinButtonStoryArgs
   extends Required<ElementProps<DaikinButton>> {
   label: string;
-  onClick: (event: Event) => void;
+  onClick: (event: MouseEvent) => void;
 }
 
 export const DAIKIN_BUTTON_ARG_TYPES = {

@@ -1,5 +1,5 @@
 import { DaikinButton } from "#package/components/button/daikin-button";
-import { createComponent } from "@lit/react";
+import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import type { DaikinButtonStoryArgs } from "./common";
@@ -9,7 +9,7 @@ const ReactDaikinButton = createComponent({
   tagName: "daikin-button",
   elementClass: DaikinButton,
   events: {
-    onClick: "click",
+    onClick: "click" as EventName<MouseEvent>,
   },
 });
 
