@@ -19,7 +19,6 @@ const cvaTextarea = cva(
     "outline",
     "-outline-offset-2",
     "outline-0",
-    "outline-transparent",
 
     "enabled:hover:outline-2",
     "enabled:hover:outline-daikinNeutral-300",
