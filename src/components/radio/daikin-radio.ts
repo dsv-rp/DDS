@@ -64,25 +64,25 @@ export class DaikinRadio extends LitElement {
   `;
 
   /**
-   * The form name
+   * Form name of the radio button.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * The form value
+   * Form value of the radio button.
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Specify the label text for the radio
+   * Label text for the radio button.
    */
   @property({ type: String })
   label = "";
 
   /**
-   * Specify the label position.
+   * Label position.
    * - `right` (default): The label will be placed to the right of the radio button.
    * - `hidden`: The label will not be shown.
    */
@@ -90,20 +90,20 @@ export class DaikinRadio extends LitElement {
   labelPosition: "right" | "hidden" = "right";
 
   /**
-   * Specify whether the radio is be checked
+   * Whether the radio button is checked.
    */
   @property({ type: Boolean, reflect: true })
   checked = false;
 
   /**
-   * Specify whether the Radio should be disabled
+   * Whether the radio button is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   static readonly formAssociated = true;
 
-  // define internals to let radio can be used in form
+  // Define internals to let the radio button can be used in a form.
   private _internals = this.attachInternals();
 
   private _updateFormValue() {
