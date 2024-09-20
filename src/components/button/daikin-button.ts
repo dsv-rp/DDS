@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -163,6 +163,9 @@ export class DaikinButton extends LitElement {
   @property({ type: String, reflect: true, attribute: "button-role" })
   buttonRole: ARIARole | null = null;
 
+  @query("button")
+  private _button!: HTMLButtonElement | null;
+
   constructor() {
     super();
 
@@ -228,8 +231,8 @@ export class DaikinButton extends LitElement {
    * Focuses on the inner button.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
+  override focus(options?: FocusOptions): void {
+    this._button?.focus(options);
   }
 }
 
