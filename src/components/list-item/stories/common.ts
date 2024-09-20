@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinListItemStoryArgs
   extends Required<ElementProps<DaikinListItem>> {
-  onClick: () => void;
+  onClick: (event: MouseEvent) => void;
 }
 
 export const DAIKIN_LIST_ITEM_ARG_TYPES = {

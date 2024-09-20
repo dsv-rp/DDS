@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
@@ -58,33 +59,38 @@ export class DaikinListItem extends LitElement {
   `;
 
   /**
-   * Type of List
+   * Type of the list item.
+   * If `"link"` is specified, the list item will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
    */
   @property({ type: String, reflect: true })
   type: "button" | "link" = "button";
 
   /**
-   * Destination when the link is clicked
+   * Link `href`.
+   * Only used if the `type` is `"link"`.
    */
   @property({ type: String, reflect: true })
   href: string | null = null;
 
   /**
-   * Whether the list is disabled
+   * Whether the list item is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
   /**
-   * Set a icon in the left of label
+   * An icon displayed at the left of the label.
    */
   @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
   override render() {
-    const isLink = this.type === "link" && !!this.href;
     const wrapperType =
-      isLink && this.disabled ? "linkDisabled" : isLink ? "link" : "button";
+      this.type === "link"
+        ? this.disabled
+          ? "linkDisabled"
+          : "link"
+        : "button";
     const listCN = cvaList({ disabled: this.disabled });
 
     const content = html`<span class="flex items-center gap-2">
@@ -106,7 +112,7 @@ export class DaikinListItem extends LitElement {
       >
         ${content}
       </button>`,
-      link: html`<a href=${this.href as string} class=${listCN}>
+      link: html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
         ${content}
       </a>`,
       linkDisabled: html`<span class=${listCN}>${content}</span>`,

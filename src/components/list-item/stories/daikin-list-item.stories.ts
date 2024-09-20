@@ -15,7 +15,9 @@ export const Button: Story = {
   args: {
     type: "button",
     disabled: false,
-    onClick: fn(),
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
@@ -37,6 +39,9 @@ export const WithIcon: Story = {
   args: {
     ...Button.args,
     leftIcon: "positive",
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
 };
 
@@ -45,6 +50,9 @@ export const Link: Story = {
     ...Button.args,
     type: "link",
     href: "#",
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
   play: definePlay(async ({ canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
@@ -59,6 +67,9 @@ export const ButtonDisabled: Story = {
   args: {
     ...Button.args,
     disabled: true,
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
@@ -77,10 +88,11 @@ export const ButtonDisabled: Story = {
 
 export const LinkDisabled: Story = {
   args: {
-    ...Button.args,
-    type: "link",
-    href: "#",
+    ...Link.args,
     disabled: true,
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
   },
   play: definePlay(async ({ canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
