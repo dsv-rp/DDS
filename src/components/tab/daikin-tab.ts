@@ -107,16 +107,14 @@ export class DaikinTab extends LitElement {
   @query("button")
   private _button!: HTMLButtonElement | null;
 
-  private _handleClick(event: MouseEvent | PointerEvent): void {
-    if (this.disabled) {
-      event.stopImmediatePropagation();
-    }
-  }
-
   constructor() {
     super();
 
-    this.addEventListener("click", this._handleClick);
+    this.addEventListener("click", (event: MouseEvent): void => {
+      if (this.disabled) {
+        event.stopImmediatePropagation();
+      }
+    });
   }
 
   /**
