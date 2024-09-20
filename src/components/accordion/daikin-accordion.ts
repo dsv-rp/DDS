@@ -35,12 +35,13 @@ export class DaikinAccordion extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
-    ::slotted(daikin-accordion-item)::before {
-      display: block;
+    ::slotted(daikin-accordion-item) {
+      --divider-top-display: block;
+      --divider-bottom-display: none;
     }
 
-    ::slotted(daikin-accordion-item:last-child)::after {
-      display: block;
+    ::slotted(daikin-accordion-item:last-child) {
+      --divider-bottom-display: block;
     }
   `;
 

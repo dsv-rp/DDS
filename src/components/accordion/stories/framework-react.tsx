@@ -19,16 +19,16 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
       }}
     >
       <ReactDaikinAccordion {...props}>
-        <ReactDaikinAccordionItem title="Accordion heading 1">
+        <ReactDaikinAccordionItem heading="Accordion heading 1">
           Accordion content 1
         </ReactDaikinAccordionItem>
-        <ReactDaikinAccordionItem title="Accordion heading 2" open>
+        <ReactDaikinAccordionItem heading="Accordion heading 2" open>
           Accordion content 2
         </ReactDaikinAccordionItem>
-        <ReactDaikinAccordionItem title="Accordion heading 3" disabled>
+        <ReactDaikinAccordionItem heading="Accordion heading 3" disabled>
           Accordion content 3
         </ReactDaikinAccordionItem>
-        <ReactDaikinAccordionItem title="Accordion heading 4" open disabled>
+        <ReactDaikinAccordionItem heading="Accordion heading 4" open disabled>
           Accordion content 4
         </ReactDaikinAccordionItem>
       </ReactDaikinAccordion>

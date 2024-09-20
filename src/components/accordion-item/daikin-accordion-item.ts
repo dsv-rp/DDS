@@ -85,7 +85,7 @@ export class DaikinAccordionItem extends LitElement {
 
     :host::before {
       content: "";
-      display: none;
+      display: var(--divider-top-display, none);
       width: 100%;
       height: 1px;
       background: #828282;
@@ -95,7 +95,7 @@ export class DaikinAccordionItem extends LitElement {
 
     :host::after {
       content: "";
-      display: none;
+      display: var(--divider-bottom-display, none);
       width: 100%;
       height: 1px;
       background: #828282;
@@ -110,7 +110,7 @@ export class DaikinAccordionItem extends LitElement {
    * Heading of accordion
    */
   @property({ type: String })
-  override title = "";
+  heading = "";
 
   /**
    * Whether the accordion is open
@@ -195,7 +195,7 @@ export class DaikinAccordionItem extends LitElement {
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
       >
-        ${this.title}
+        ${this.heading}
       </summary>
       <div ${ref(this._contentRef)}>
         <div class="pt-2 pr-3 pb-3 pl-4 text-sm">
