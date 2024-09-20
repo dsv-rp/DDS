@@ -62,32 +62,32 @@ export class DaikinToggle extends LitElement {
   `;
 
   /**
-   * The form name
+   * Form name of the toggle switch.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * The value
+   * Form value of the toggle switch.
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Specify whether the control is checked
+   * Whether the toggle switch is turned on.
    */
   @property({ type: Boolean, reflect: true })
   checked = false;
 
   /**
-   * Specify whether the Toggle should be disabled
+   * Whether the toggle switch is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   static readonly formAssociated = true;
 
-  // define _internals to let toggle can be used in form
+  // Define _internals to let the toggle switch can be used in a form.
   private _internals = this.attachInternals();
 
   private _updateFormValue() {
