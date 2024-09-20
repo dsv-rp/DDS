@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
@@ -84,6 +84,9 @@ export class DaikinListItem extends LitElement {
   @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
 
+  @query("a,button")
+  private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
+
   override render() {
     const wrapperType =
       this.type === "link"
@@ -122,12 +125,11 @@ export class DaikinListItem extends LitElement {
   }
 
   /**
-   * Focuses on the inner button.
+   * Focuses on the inner button or link.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
-    this.shadowRoot?.querySelector("a")?.focus(options);
+  override focus(options?: FocusOptions): void {
+    this._focusableElement?.focus(options);
   }
 }
 
