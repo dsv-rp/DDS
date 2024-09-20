@@ -228,7 +228,7 @@ export class DaikinButton extends LitElement {
   }
 
   /**
-   * Focuses on the inner button.
+   * Focuses on the inner button or link.
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
