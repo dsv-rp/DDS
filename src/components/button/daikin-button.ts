@@ -163,11 +163,11 @@ export class DaikinButton extends LitElement {
   @property({ type: String, reflect: true, attribute: "button-role" })
   buttonRole: ARIARole | null = null;
 
-  private _handleClick(event: MouseEvent) {
+  private readonly _handleClick = (event: MouseEvent) => {
     if (this.disabled) {
       event.stopImmediatePropagation();
     }
-  }
+  };
 
   constructor() {
     super();
