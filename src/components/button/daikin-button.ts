@@ -132,16 +132,16 @@ export class DaikinButton extends LitElement {
   disabled = false;
 
   /**
-   * An icon displayed at the right of the button label.
-   */
-  @property({ type: String, reflect: true, attribute: "right-icon" })
-  rightIcon: IconType | null = null;
-
-  /**
    * An icon displayed at the left of the button label.
    */
   @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
+
+  /**
+   * An icon displayed at the right of the button label.
+   */
+  @property({ type: String, reflect: true, attribute: "right-icon" })
+  rightIcon: IconType | null = null;
 
   /**
    * Link `href`.
@@ -162,6 +162,18 @@ export class DaikinButton extends LitElement {
    */
   @property({ type: String, reflect: true, attribute: "button-role" })
   buttonRole: ARIARole | null = null;
+
+  private _handleClick(event: MouseEvent) {
+    if (this.disabled) {
+      event.stopImmediatePropagation();
+    }
+  }
+
+  constructor() {
+    super();
+
+    this.addEventListener("click", this._handleClick);
+  }
 
   override render() {
     const className = cvaButton({
