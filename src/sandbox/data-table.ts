@@ -1,10 +1,10 @@
-// Run `npx vite` and visit http://localhost:5173/example
+// Run `npx vite` and visit http://localhost:5173/sandbox-data-table
 
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { guard } from "lit/directives/guard.js";
 import { repeat } from "lit/directives/repeat.js";
-import tailwindStyles from "./tailwind.css?inline";
+import tailwindStyles from "../tailwind.css?inline";
 
 @customElement("example-data-table")
 export class ExampleDataTable<
@@ -78,6 +78,7 @@ export class ExampleDataTable<
     return html`<label>
         Page:
         <input
+          class="border"
           type="number"
           .value=${String(this.currentPage)}
           min="0"
@@ -90,6 +91,7 @@ export class ExampleDataTable<
       <label>
         ItemsPerPage:
         <input
+          class="border"
           type="number"
           .value=${String(this.itemsPerPage)}
           min="1"
@@ -147,6 +149,13 @@ export class ExampleDataTableRenderer extends LitElement {
   @state()
   activeItems: readonly Item[] = [];
 
+  @state()
+  lastClicked = "";
+
+  handleButtonClick(event: Event): void {
+    this.lastClicked = (event.target as HTMLElement).slot;
+  }
+
   override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("numItems")) {
       this.items = new Array(this.numItems).fill(0).map((_, index) => ({
@@ -164,6 +173,7 @@ export class ExampleDataTableRenderer extends LitElement {
       <label>
         Items:
         <input
+          class="border"
           type="number"
           .value=${String(this.numItems)}
           min="0"
@@ -171,6 +181,7 @@ export class ExampleDataTableRenderer extends LitElement {
             (this.numItems = Number((e.target as HTMLInputElement).value))}
         />
       </label>
+      <div>Last Clicked: <code>${this.lastClicked || "none"}</code></div>
       <div>
         <example-data-table
           .rows=${this.rows}
@@ -184,7 +195,13 @@ export class ExampleDataTableRenderer extends LitElement {
               this.activeItems,
               ({ id }) => id,
               ({ id, col2 }) =>
-                html`<button slot=${`cell:${id}:col2`}>${col2}</button>`
+                html`<button
+                  class="border px-2 bg-blue-100"
+                  slot=${`cell:${id}:col2`}
+                  @click=${this.handleButtonClick}
+                >
+                  ${col2}
+                </button>`
             )
           )}
         </example-data-table>
