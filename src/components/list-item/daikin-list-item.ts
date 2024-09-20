@@ -114,6 +114,15 @@ export class DaikinListItem extends LitElement {
 
     return html`<div role="listitem">${list}</div>`;
   }
+
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("button")?.focus(options);
+    this.shadowRoot?.querySelector("a")?.focus(options);
+  }
 }
 
 declare global {

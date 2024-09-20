@@ -21,8 +21,40 @@ import { customElement } from "lit/decorators.js";
  */
 @customElement("daikin-list")
 export class DaikinList extends LitElement {
+  private _handleKeyDown(event: KeyboardEvent): void {
+    const moveOffset =
+      (
+        {
+          ArrowDown: "down",
+          ArrowUp: "up",
+        } as const
+      )[event.key] ?? "";
+
+    const focused = document.activeElement;
+
+    switch (moveOffset) {
+      case "down": {
+        (focused?.nextElementSibling as HTMLElement | null)?.focus();
+
+        break;
+      }
+
+      case "up": {
+        (focused?.previousElementSibling as HTMLElement | null)?.focus();
+
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+  }
+
   override render() {
-    return html`<div role="list"><slot></slot></div>`;
+    return html`<div role="list" @keydown=${this._handleKeyDown}>
+      <slot></slot>
+    </div>`;
   }
 }
 
