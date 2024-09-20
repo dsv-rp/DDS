@@ -44,7 +44,7 @@ const cvaList = cva(
  *
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event). Suppressed if `disabled` is true.
  *
- * @slot - A slot for the list items. Place `daikin-list-item` elements here.
+ * @slot - A slot for the list item content.
  *
  * @example
  *
