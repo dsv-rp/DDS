@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTab = cva(
@@ -91,7 +91,7 @@ export class DaikinTab extends LitElement {
   value = "";
 
   /**
-   * Whether to show the disabled state.
+   * Whether the tab is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -103,6 +103,9 @@ export class DaikinTab extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   active = false;
+
+  @query("button")
+  private _button!: HTMLButtonElement | null;
 
   private _handleClick(event: MouseEvent | PointerEvent): void {
     if (this.disabled) {
@@ -120,8 +123,8 @@ export class DaikinTab extends LitElement {
    * Focuses on the inner button.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
+  override focus(options?: FocusOptions): void {
+    this._button?.focus(options);
   }
 
   override render() {

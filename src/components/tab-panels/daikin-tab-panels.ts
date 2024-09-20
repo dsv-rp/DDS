@@ -19,9 +19,9 @@ import tailwindStyles from "../../tailwind.css?inline";
  * <!-- Note that `panels` must be set via property. -->
  * <daikin-tab-panels
  *   class="block w-full h-full"
- *   .panels="${['foo', 'bar', 'baz']}"
+ *   panel-role="tabpanel"
  *   value="foo"
- *   panelRole="tabpanel"
+ *   .panels="${['foo', 'bar', 'baz']}"
  * >
  *   <div slot="panel:foo">Foo Panel (visible)</div>
  *   <div slot="panel:bar">Bar Panel (hidden)</div>
@@ -43,6 +43,8 @@ export class DaikinTabPanels extends LitElement {
   value: string = "";
 
   /**
+   * A list of panel names.
+   * This is used as the slot name for panels (`panel:<name>`).
    * Set automatically by `daikin-tabs` if used within it.
    */
   @property({
