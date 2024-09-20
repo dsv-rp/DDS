@@ -36,7 +36,6 @@ export const Default: Story = {
       async () => {
         firstTarget.focus();
         await userEvent.keyboard("[ArrowDown]");
-        console.log(document.activeElement);
 
         await expect(
           getByShadowRole(

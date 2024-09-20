@@ -21,7 +21,6 @@ tabpanel
 textbox
 progressbar
 treeitem
-labelledby
 
 # Custom Events
 beforechange
