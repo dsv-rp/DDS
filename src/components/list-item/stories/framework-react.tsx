@@ -8,6 +8,9 @@ export const ReactDaikinListItem = createComponent({
   tagName: "daikin-list-item",
   elementClass: DaikinListItem,
   react: React,
+  events: {
+    onClick: "click",
+  },
 });
 
 export const metadata: Meta<DaikinListItemStoryArgs> = {
