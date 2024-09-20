@@ -182,21 +182,23 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
+    // Priority: Error -> Helper -> None
+    // The error text is not displayed when disabled.
     const helperType =
-      !this.disabled && !!this.error.length
+      this.error.length && !this.disabled
         ? "error"
-        : !!this.helper.length && !this.error.length
+        : this.helper.length
           ? this.disabled
             ? "helperDisabled"
             : "helper"
           : "none";
 
-    const helperText: Record<typeof helperType, string> = {
+    const helperText = {
+      error: this.error,
       helper: this.helper,
       helperDisabled: this.helper,
-      error: this.error,
       none: "",
-    };
+    }[helperType];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center gap-2 w-max font-daikinSerif">
@@ -225,16 +227,17 @@ export class DaikinInputGroup extends LitElement {
               `
             : nothing}
         </div>
+        ${this.required ? html`<span class="sr-only">required</span>` : nothing}
         <slot
           @slotchange=${this._handleSlotChange}
           @change-count=${this._handleChangeCount}
         ></slot>
-        <div
+        <span
           class=${cvaHelper({ type: helperType })}
           aria-live=${helperType === "error" ? "polite" : "off"}
         >
-          ${helperText[helperType]}
-        </div>
+          ${helperText}
+        </span>
       </label>
     </fieldset>`;
   }

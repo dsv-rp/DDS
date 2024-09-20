@@ -18,11 +18,14 @@ const cvaTextarea = cva(
     "placeholder:text-daikinNeutral-700",
     "outline",
     "-outline-offset-2",
-    "outline-2",
+    "outline-0",
     "outline-transparent",
 
+    "enabled:hover:outline-2",
     "enabled:hover:outline-daikinNeutral-300",
+    "enabled:active:outline-2",
     "enabled:active:outline-daikinNeutral-300",
+    "focus-visible:outline-2",
     "focus-visible:outline-daikinBlue-700",
 
     "disabled:text-[--text-input-outline-color-disabled]",
