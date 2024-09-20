@@ -65,6 +65,9 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  *
  * @slot - A slot for the accordion item content.
  *
+ * @cssprop [--divider-top-display=none] - The `display` property of the top divider. Must be either `block` or `none`. Set automatically by `daikin-accordion` component.
+ * @cssprop [--divider-bottom-display=none] - The `display` property of the bottom divider. Must be either `block` or `none`. Set automatically by `daikin-accordion` component.
+ *
  * @example
  *
  * ```html
@@ -79,6 +82,9 @@ export class DaikinAccordionItem extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
+      --divider-top-display: none;
+      --divider-bottom-display: none;
+
       display: block;
       position: relative;
     }
@@ -107,30 +113,29 @@ export class DaikinAccordionItem extends LitElement {
   private _contentRef = createRef<HTMLElement>();
 
   /**
-   * Heading of accordion
+   * Heading of the accordion item.
    */
   @property({ type: String })
   heading = "";
 
   /**
-   * Whether the accordion is open
+   * Whether the accordion item is open.
    */
   @property({ type: Boolean, reflect: true })
   open = false;
 
   /**
-   * Whether the accordion is disabled
+   * Whether the accordion item is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Open attribute of the actual details element
+   * Actual presence of `open` attribute of the `<details>` element.
    *
-   * The default `open` attribute of the default details element does not allow the display of content to have transitions.
-   * To solve this, the `open` property that `daikin-accordion-item` receives manages the opening and closing of items independently of the open attribute.
-   *
-   * The `open` attribute, which should be present, is taken over by `_detailsOpen`.
+   * The `<details>` element does not support animation on changing the `open` attribute.
+   * In other words, the content is hidden immediately when the `open` attribute is removed.
+   * To enable animation for an accordion, we need to run the animation while maintaining the `open` attribute, and then remove the `open` attribute at the end of the animation.
    */
   @state()
   private _detailsOpen = false;
