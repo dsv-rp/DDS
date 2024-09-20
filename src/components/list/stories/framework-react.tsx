@@ -22,6 +22,7 @@ export const metadata: Meta<DaikinListStoryArgs> = {
           List item label 2
         </ReactDaikinListItem>
         <ReactDaikinListItem disabled>List item label 3</ReactDaikinListItem>
+        <ReactDaikinListItem>List item label 4</ReactDaikinListItem>
       </ReactDaikinList>
     </div>
   ),

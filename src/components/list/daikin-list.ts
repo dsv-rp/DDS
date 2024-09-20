@@ -1,5 +1,23 @@
 import { LitElement, html } from "lit";
 import { customElement } from "lit/decorators.js";
+import type { DaikinListItem } from "../list-item";
+
+type DirectionType = "ArrowDown" | "ArrowUp";
+
+const focusTargetElement = (
+  element: Element | null,
+  direction: DirectionType
+) => {
+  const target = ((direction === "ArrowDown"
+    ? element?.nextElementSibling
+    : element?.previousElementSibling) ?? null) as DaikinListItem | null;
+
+  if (target?.disabled) {
+    focusTargetElement(target, direction);
+  } else {
+    target?.focus();
+  }
+};
 
 /**
  * The list component is used to list items using the list item component.
@@ -22,32 +40,12 @@ import { customElement } from "lit/decorators.js";
 @customElement("daikin-list")
 export class DaikinList extends LitElement {
   private _handleKeyDown(event: KeyboardEvent): void {
-    const moveOffset =
-      (
-        {
-          ArrowDown: "down",
-          ArrowUp: "up",
-        } as const
-      )[event.key] ?? "";
+    const moveOffset = ["ArrowDown", "ArrowUp"].includes(event.key)
+      ? (event.key as DirectionType)
+      : null;
 
-    const focused = document.activeElement;
-
-    switch (moveOffset) {
-      case "down": {
-        (focused?.nextElementSibling as HTMLElement | null)?.focus();
-
-        break;
-      }
-
-      case "up": {
-        (focused?.previousElementSibling as HTMLElement | null)?.focus();
-
-        break;
-      }
-
-      default: {
-        break;
-      }
+    if (moveOffset) {
+      focusTargetElement(document.activeElement, moveOffset);
     }
   }
 

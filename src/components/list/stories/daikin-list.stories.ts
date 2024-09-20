@@ -30,12 +30,19 @@ export const Default: Story = {
         await expect(
           getByShadowRole(root, "link", { name: "List item label 2" })
         ).toBeInTheDocument();
+
+        await userEvent.keyboard("[ArrowDown]");
+
+        await expect(
+          getByShadowRole(root, "button", { name: "List item label 4" })
+        ).toBeInTheDocument();
       }
     );
 
     await step(
       "Pressing the Arrow Up button will move to the previous focusable content",
       async () => {
+        await userEvent.keyboard("[ArrowUp]");
         await userEvent.keyboard("[ArrowUp]");
 
         await expect(
