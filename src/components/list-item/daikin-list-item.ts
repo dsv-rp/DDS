@@ -87,6 +87,16 @@ export class DaikinListItem extends LitElement {
   @query("a,button")
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
 
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event: MouseEvent): void => {
+      if (this.disabled) {
+        event.stopImmediatePropagation();
+      }
+    });
+  }
+
   override render() {
     const wrapperType =
       this.type === "link"
