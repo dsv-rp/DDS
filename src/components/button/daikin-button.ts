@@ -163,8 +163,8 @@ export class DaikinButton extends LitElement {
   @property({ type: String, reflect: true, attribute: "button-role" })
   buttonRole: ARIARole | null = null;
 
-  @query("button")
-  private _button!: HTMLButtonElement | null;
+  @query("a,button")
+  private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
 
   constructor() {
     super();
@@ -232,7 +232,7 @@ export class DaikinButton extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._button?.focus(options);
+    this._focusableElement?.focus(options);
   }
 }
 
