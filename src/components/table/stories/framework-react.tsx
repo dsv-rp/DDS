@@ -22,7 +22,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     <ReactDaikinTable {...props}>
       {props.hasSlot &&
         props.rows.map(({ id, price }) => (
-          <ReactDaikinButton key={id} slot={`cell:${id}:price`}>
+          <ReactDaikinButton key={id} slot={`cell:price:${id}`}>
             {price}
           </ReactDaikinButton>
         ))}

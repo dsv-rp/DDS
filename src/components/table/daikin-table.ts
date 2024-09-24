@@ -87,6 +87,8 @@ const cvaRow = cva(
  *
  * It is modeled on the HTML `<table>` element. However, unlike a normal `<table>` element, this component does not require its child elements to have cells. Instead, it can be made to function as a table by giving the properties `headers` and `rows` appropriate arrays.
  *
+ * If the contents of the table are plain text only, give them to the `rows` property. However, if you want to give contents other than text, such as buttons or images, you will need to prepare a element with the corresponding `slot` attribute. The value of this attribute must be structured as follows: ``slot=${`cell:${headers[i].key}:${rows[i].id}`}``
+ *
  * The table provides four functions: checkboxes, search, sorting, and pagination, and you can select the functions you need. You can also add any components to the slot to further expand the functions.
  *
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
@@ -109,7 +111,12 @@ const cvaRow = cva(
  *     { id: '3', name: 'Orange', season: 'Winter', price: '$1' },
  *     { id: '4', name: 'Strawberry', season: 'Spring', price: '$4' },
  *   ]"
- * ></daikin-table>
+ * >
+ *   <button slot="cell:price:1"></button>
+ *   <button slot="cell:price:2"></button>
+ *   <button slot="cell:price:3"></button>
+ *   <button slot="cell:price:4"></button>
+ * </daikin-table>
  * ```
  */
 @customElement("daikin-table")
@@ -509,7 +516,7 @@ export class DaikinTable extends LitElement {
         ({ key, align }) =>
           html`<td class="p-0">
             <span class=${cvaCell({ align })}>
-              <slot name=${`cell:${item.id}:${key}`}>${item[key]}</slot>
+              <slot name=${`cell:${key}:${item.id}`}>${item[key]}</slot>
             </span>
           </td>`
       );

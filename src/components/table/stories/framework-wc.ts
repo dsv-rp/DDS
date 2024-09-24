@@ -64,7 +64,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       ${hasSlot
         ? rows.map(
             ({ id, price }) =>
-              html`<daikin-button slot=${`cell:${id}:price`}>
+              html`<daikin-button slot=${`cell:price:${id}`}>
                 ${price}
               </daikin-button>`
           )
