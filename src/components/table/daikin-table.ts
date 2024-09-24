@@ -112,10 +112,10 @@ const cvaRow = cva(
  *     { id: '4', name: 'Strawberry', season: 'Spring', price: '$4' },
  *   ]"
  * >
- *   <button slot="cell:price:1"></button>
- *   <button slot="cell:price:2"></button>
- *   <button slot="cell:price:3"></button>
- *   <button slot="cell:price:4"></button>
+ *   <button slot="cell:price:1">$2</button>
+ *   <button slot="cell:price:2">$4</button>
+ *   <button slot="cell:price:3">$1</button>
+ *   <button slot="cell:price:4">$4</button>
  * </daikin-table>
  * ```
  */
