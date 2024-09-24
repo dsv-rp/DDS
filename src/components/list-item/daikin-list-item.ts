@@ -6,33 +6,28 @@ import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
-const cvaList = cva(
-  [
-    "flex",
-    "justify-between",
-    "items-center",
-    "gap-2",
-    "w-full",
-    "min-h-12",
-    "p-3",
+const listCN = cva([
+  "flex",
+  "justify-between",
+  "items-center",
+  "gap-2",
+  "w-full",
+  "min-h-12",
+  "p-3",
 
-    "focus-visible:outline",
-    "focus-visible:outline-1",
-    "focus-visible:-outline-offset-1",
-    "focus-visible:outline-daikinBlue-700",
+  "link-disabled:text-daikinNeutral-200",
 
-    "after:size-6",
-    "after:i-daikin-chevron-right",
-  ],
-  {
-    variants: {
-      disabled: {
-        false: ["hover:bg-daikinNeutral-100", "active:bg-daikinNeutral-200"],
-        true: ["text-daikinNeutral-200"],
-      },
-    },
-  }
-);
+  "link-enabled:hover:bg-daikinNeutral-100",
+  "link-enabled:active:bg-daikinNeutral-200",
+
+  "focus-visible:outline",
+  "focus-visible:outline-1",
+  "focus-visible:-outline-offset-1",
+  "focus-visible:outline-daikinBlue-700",
+
+  "after:size-6",
+  "after:i-daikin-chevron-right",
+])();
 
 /**
  * The list item component functions as a child element of the list component, and is used to actually list items.
@@ -98,14 +93,6 @@ export class DaikinListItem extends LitElement {
   }
 
   override render() {
-    const wrapperType =
-      this.type === "link"
-        ? this.disabled
-          ? "linkDisabled"
-          : "link"
-        : "button";
-    const listCN = cvaList({ disabled: this.disabled });
-
     const content = html`<span class="flex items-center gap-2">
       ${this.leftIcon
         ? html`<daikin-icon
@@ -116,6 +103,13 @@ export class DaikinListItem extends LitElement {
         : nothing}
       <slot></slot>
     </span>`;
+
+    const wrapperType =
+      this.type === "link"
+        ? this.disabled
+          ? "linkDisabled"
+          : "link"
+        : "button";
 
     const list = {
       button: () =>
