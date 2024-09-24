@@ -407,7 +407,7 @@ export const AllFunctions: Story = {
   }),
 };
 
-export const Slot: Story = {
+export const UseSlot: Story = {
   args: {
     ...Default.args,
     hasSlot: true,
