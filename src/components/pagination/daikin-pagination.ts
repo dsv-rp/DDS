@@ -5,7 +5,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 import { calculatePagination } from "./pagination-utils";
 
-const cvaButton = cva(
+const cvaPageButton = cva(
   [
     "slotted:text-inherit",
     "slotted:border-0",
@@ -20,27 +20,72 @@ const cvaButton = cva(
     "slotted:not-italic",
     "slotted:font-normal",
     "slotted:leading-6",
-    "slotted:!border-daikinBlue-600",
-    "slotted:hover:!border-b",
-    "slotted:hover:!border-solid",
-    "slotted-[*:focus-visible]:outline-none",
-    "slotted-[*:focus-visible]:!border-b-2",
-    "slotted-[*:focus-visible]:border-solid",
-    "slotted-[*:focus-visible]:border-daikinBlue-600",
+    "slotted:after:bg-daikinBlue-500",
+    "slotted:hover:after:content-['']",
+    "slotted:hover:after:w-[50px]",
+    "slotted:hover:after:h-1",
+    "slotted:hover:after:absolute",
+    "slotted:hover:after:top-[65px]",
+    "slotted-[*:focus-visible]:outline",
+    "slotted-[*:focus-visible]:outline-1",
+    "slotted-[*:focus-visible]:outline-daikinBlue-700",
+    "slotted-[*:focus-visible]:text-daikinBlue-600",
   ],
   {
     variants: {
       active: {
         true: [
-          "slotted:!text-daikinBlue-600",
-          "slotted:!border-b-2",
-          "slotted:border-solid",
+          "slotted:!text-daikinBlue-500",
+          "slotted:after:content-['']",
+          "slotted:after:w-[50px]",
+          "slotted:after:h-1",
+          "slotted:after:absolute",
+          "slotted:after:top-[65px]",
+          "slotted:hover:text-daikinBlue-300",
         ],
-        false: ["slotted:hover:!border-b"],
+        false: [],
       },
     },
   }
 );
+
+const cvaEllipsis = cva([
+  "text-inherit",
+  "border-0",
+  "no-underline",
+  "flex",
+  "items-center",
+  "justify-center",
+  "w-12",
+  "h-12",
+  "font-daikinSerif",
+  "text-base",
+  "not-italic",
+  "font-normal",
+  "leading-6",
+]);
+
+const cvaChevronButton = cva([
+  "slotted:text-inherit",
+  "slotted:border-0",
+  "slotted:no-underline",
+  "slotted:flex",
+  "slotted:items-center",
+  "slotted:justify-center",
+  "slotted:w-12",
+  "slotted:h-12",
+  "slotted:font-daikinSerif",
+  "slotted:text-base",
+  "slotted:not-italic",
+  "slotted:font-normal",
+  "slotted:leading-6",
+  "slotted:hover:text-daikinNeutral-500",
+  "slotted:active:text-daikinNeutral-700",
+  "slotted-[*:disabled]:!text-daikinNeutral-200",
+  "slotted-[*:focus-visible]:outline",
+  "slotted-[*:focus-visible]:outline-1",
+  "slotted-[*:focus-visible]:outline-daikinBlue-700",
+]);
 
 const cvaDropDown = cva(
   [
@@ -247,32 +292,29 @@ export class DaikinPagination extends LitElement {
   };
 
   override render() {
-    const cvaChevron = cvaButton({
-      active: false,
-    });
+    const cvaChevron = cvaChevronButton();
     return html`
       <div class="inline-flex">
         <div class=${cvaChevron}>
           <button
             aria-label="leftChevron"
+            .disabled=${this.currentPage === 1}
             @click=${() => this._handleClickChevron("left")}
           >
             <div class="flex items-center justify-center">
-              <daikin-icon icon="chevronLeft"></daikin-icon>
+              <daikin-icon icon="chevronLeft" color="current"></daikin-icon>
             </div>
           </button>
         </div>
 
         ${Object.entries(this._pageArray).map(([key, i]) => {
-          const button1ClassName = cvaButton({
+          const button1ClassName = cvaPageButton({
             active: this.currentPage === 1,
           });
-          const buttonLastClassName = cvaButton({
+          const buttonLastClassName = cvaPageButton({
             active: this.currentPage === this.lastPage,
           });
-          const ellipsisClassName = cvaButton({
-            active: false,
-          });
+          const ellipsisClassName = cvaEllipsis();
           const dropDownItemClassName = cvaDropDownItem();
           if (key === "leftMost") {
             return html`<slot
@@ -295,6 +337,8 @@ export class DaikinPagination extends LitElement {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
                   <button
+                    .disabled=${true}
+                    aria-disabled=${true}
                     aria-label="pageDetailLeft"
                     @click=${this._handleLeftEllipsisClick}
                   >
@@ -318,7 +362,7 @@ export class DaikinPagination extends LitElement {
           } else if (key === "middle") {
             const showPages = i as Array<number>;
             return html`${showPages.map((page) => {
-              const buttonClassName = cvaButton({
+              const buttonClassName = cvaPageButton({
                 active: this.currentPage === page,
               });
               return html`<slot
@@ -342,6 +386,8 @@ export class DaikinPagination extends LitElement {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
                   <button
+                    .disabled=${true}
+                    aria-disabled=${true}
                     aria-label="pageDetailRight"
                     @click=${this._handleRightEllipsisClick}
                   >
@@ -380,10 +426,11 @@ export class DaikinPagination extends LitElement {
         <div class=${cvaChevron}>
           <button
             aria-label="rightChevron"
+            .disabled=${this.currentPage === this.lastPage}
             @click=${() => this._handleClickChevron("right")}
           >
             <div class="flex items-center justify-center">
-              <daikin-icon icon="chevronRight"></daikin-icon>
+              <daikin-icon icon="chevronRight" color="current"></daikin-icon>
             </div>
           </button>
         </div>
