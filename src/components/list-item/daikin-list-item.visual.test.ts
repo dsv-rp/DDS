@@ -16,7 +16,9 @@ describeEach(["button", "link"] as const, (type) => {
   describeEach(["exist", "nothing"] as const, (leftIcon) => {
     const baseArgs = {
       type,
-      ...(type === "link" && { href: "#" }),
+      // Due to Storybook's limitation, we cannot use special characters in `href`.
+      // Since an `<a>` element without `href` attribute cannot be focused using the tab key, it is necessary to set some kind of value.
+      ...(type === "link" && { href: "example" }),
       ...(leftIcon === "exist" && { leftIcon: "positive" }),
     };
 
@@ -74,9 +76,9 @@ describeEach(["button", "link"] as const, (type) => {
         state: "visible",
       });
 
-      await page.evaluate((container) => {
-        container.focus();
-      }, element);
+      // we have to use keyboard to focus on element to make `:focus-visible` work.
+      await element.focus();
+      await page.keyboard.press("Tab");
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
