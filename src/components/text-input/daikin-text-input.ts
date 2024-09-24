@@ -24,12 +24,9 @@ const cvaInput = cva(
     "text-daikinNeutral-900",
     "placeholder:text-daikinNeutral-700",
 
-    // Define `--color-border` as a CSS variable that references `--color-state-error`, `--color-state-focus`, and `--color-base` in that order.
-    // `--color-base` indicates the color of the border when the element is normal, hovered, pressed, or disabled.
-    // By giving `--color-state-error` priority over the others, it is guaranteed that the color will always be red when there is an error, regardless of the state of the input control (focus, hover or press).
-    // `--color-state-focus` has priority after `--color-state-error`, which means that when there is no error and the element is focused, the color will always be the focus color, regardless of hover or press.
-    "define-[--color-state-error,--color-state-focus,--color-base]/color-border",
-    "var-color-daikinNeutral-600/color-base",
+    // Define `--color-border` as a CSS variable that references `--color-state-active`, `--color-state-focus` and `--color-base` in that order.
+    // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
+    "define-[--color-state-active,--color-state-focus,--color-base]/color-border",
     "border",
     "border-[--color-border]",
     "outline",
@@ -37,17 +34,18 @@ const cvaInput = cva(
     "outline-0",
     "-outline-offset-2",
 
-    // Display the outline when hovering, pressing, or focusing.
+    // Display the outline when hovered, pressed, or focused.
     "enabled:hover:outline-2",
     "enabled:active:outline-2",
     "focus-visible:outline-2",
 
-    // Update `--color-base` depending on the state.
-    "enabled:hover:var-color-daikinNeutral-400/color-base",
-    "enabled:active:var-color-daikinNeutral-700/color-base",
-    "disabled:var-color-[--text-input-outline-color-disabled]/color-base",
+    // Set `--color-state-active` when pressed.
+    "enabled:active:var-color-daikinNeutral-700/color-state-active",
 
-    "focus-visible:var-color-daikinBlue-700/color-state-focus",
+    // Update `--color-base` depending on the state.
+    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
+    "enabled:hover:var-color-daikinNeutral-400/color-base",
+    "disabled:var-color-[--text-input-outline-color-disabled]/color-base",
 
     "disabled:bg-[--text-input-background-color]",
     "disabled:text-[--text-input-outline-color-disabled]",
@@ -56,11 +54,15 @@ const cvaInput = cva(
   {
     variants: {
       error: {
-        false: [],
-        // When in an error state and not disabled, set `--color-state-error`.
-        // This is the highest priority variable, and it is guaranteed that `--color-border` will be this color in any state.
+        false: [
+          "var-color-daikinNeutral-600/color-base",
+          "focus-visible:var-color-daikinBlue-700/color-state-focus",
+        ],
         true: [
-          "enabled:var-color-[--text-input-border-color-error]/color-state-error",
+          // When the input is not focused and not hovered or pressed, the border color will always be the error color.
+          "var-color-[--text-input-border-color-error]/color-base",
+          // When the input is focused and not pressed, the border color will always be the error color.
+          "focus-visible:var-color-[--text-input-border-color-error]/color-state-focus",
         ],
       },
       leftIcon: {
