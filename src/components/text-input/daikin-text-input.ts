@@ -31,10 +31,10 @@ const cvaInput = cva(
     "placeholder:text-daikinNeutral-700",
 
     "enabled:hover:outline-2",
-    "enabled:hover:outline-daikinNeutral-300",
+    "enabled:hover:[&:not(:focus-visible)]:outline-daikinNeutral-400",
 
     "enabled:active:outline-2",
-    "enabled:active:outline-daikinNeutral-300",
+    "enabled:active:outline-daikinNeutral-700",
 
     "focus-visible:outline-2",
     "focus-visible:outline-daikinBlue-700",
@@ -47,8 +47,14 @@ const cvaInput = cva(
   {
     variants: {
       error: {
-        false: ["border-daikinNeutral-600"],
-        true: ["border-[--text-input-border-color-error]"],
+        false: [
+          "border-daikinNeutral-600",
+          "focus-visible:outline-daikinBlue-700",
+        ],
+        true: [
+          "border-[--text-input-border-color-error]",
+          "focus-visible:outline-daikinRed-500",
+        ],
       },
       leftIcon: {
         false: ["pl-3"],
