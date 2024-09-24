@@ -15,15 +15,16 @@ const cvaTextarea = cva(
     "p-3",
     "font-daikinSerif",
     "rounded-md",
-    "placeholder:text-daikinNeutral-700",
     "outline",
     "-outline-offset-2",
     "outline-0",
+    "placeholder:text-daikinNeutral-700",
 
     "enabled:hover:outline-2",
-    "enabled:hover:outline-daikinNeutral-300",
-    "enabled:active:outline-2",
-    "enabled:active:outline-daikinNeutral-300",
+    "enabled:hover:[&:not(:focus-visible)]:outline-daikinNeutral-400",
+
+    "enabled:active:outline-daikinNeutral-700",
+
     "focus-visible:outline-2",
     "focus-visible:outline-daikinBlue-700",
 
@@ -34,9 +35,15 @@ const cvaTextarea = cva(
   ],
   {
     variants: {
-      status: {
-        default: ["border-daikinNeutral-600"],
-        error: ["border-[--text-input-border-color-error]"],
+      error: {
+        false: [
+          "border-daikinNeutral-600",
+          "focus-visible:outline-daikinBlue-700",
+        ],
+        true: [
+          "border-[--text-input-border-color-error]",
+          "focus-visible:outline-daikinRed-500",
+        ],
       },
       resize: {
         false: ["resize-none"],
@@ -158,7 +165,7 @@ export class DaikinTextarea extends LitElement {
   override render() {
     return html`<textarea
       class=${cvaTextarea({
-        status: !this.disabled && this.error ? "error" : "default",
+        error: !this.disabled && this.error,
         resize: this.resizable,
       })}
       .value=${this.value}
