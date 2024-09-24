@@ -1,7 +1,8 @@
 import "#package/components/table/daikin-table";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
+import "../../button/daikin-button";
 import type { DaikinTableStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
@@ -18,8 +19,10 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     currentPage,
     sort,
     sortedKey,
-    selectedRange,
     ranges,
+    selectedRange,
+    selectedRowId,
+    hasSlot,
     onChangeCheck,
     onChangePage,
     onChangeSort,
@@ -48,6 +51,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       .sortedKey=${sortedKey}
       .ranges=${fallbackRanges}
       selected-range=${fallbackSelectedRange}
+      selected-row-id=${selectedRowId}
       ?hasCheckbox=${hasCheckbox}
       ?hasSearch=${hasSearch}
       ?hasPagination=${hasPagination}
@@ -56,6 +60,15 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       @change-page=${onChangePage}
       @change-sort=${onChangeSort}
       @search=${onSearch}
-    ></daikin-table>`;
+    >
+      ${hasSlot
+        ? rows.map(
+            ({ id, price }) =>
+              html`<daikin-button slot=${`cell:${id}:price`}>
+                ${price}
+              </daikin-button>`
+          )
+        : nothing}
+    </daikin-table>`;
   },
 };

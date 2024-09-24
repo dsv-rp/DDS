@@ -20,23 +20,68 @@ import "../icon/daikin-icon";
 import "../pagination/daikin-pagination";
 import "../text-input/daikin-text-input";
 
-const cvaCellContainer = cva(["flex", "items-center", "w-full", "gap-2"], {
+const FOCUSED_CLASS_NAME = [
+  "focus-visible:outline",
+  "focus-visible:outline-2",
+  "focus-visible:-outline-offset-2",
+  "focus-visible:outline-daikinBlue-700",
+];
+
+const cvaCell = cva(["block", "w-full", "p-4"], {
   variants: {
     align: {
-      left: [],
-      right: ["justify-end"],
+      left: ["text-left"],
+      right: ["text-right"],
+    },
+    sort: {
+      false: [],
+      true: [
+        "flex",
+        "items-center",
+        "w-full",
+        "gap-2",
+        ...FOCUSED_CLASS_NAME,
+
+        "after:size-6",
+        "after:text-daikinNeutral-800",
+        "after:i-daikin-sort-chevron-up-and-down",
+      ],
+    },
+    selected: {
+      false: [
+        "bg-white",
+        "hover:bg-daikinNeutral-100",
+        "active:bg-daikinNeutral-200",
+      ],
+      true: [
+        "bg-daikinBlue-50",
+        "hover:bg-daikinBlue-50",
+        "active:bg-daikinBlue-100",
+      ],
+      null: [],
     },
   },
 });
 
-const cvaCell = cva(["py-4", "min-w-24", "max-w-60"], {
-  variants: {
-    align: {
-      left: ["pl-6", "pr-8", "text-left"],
-      right: ["pl-6", "pr-6", "text-right"],
+const cvaRow = cva(
+  ["border-b", "border-b-daikinNeutral-300", ...FOCUSED_CLASS_NAME],
+  {
+    variants: {
+      selected: {
+        false: [
+          "bg-white",
+          "hover:bg-daikinNeutral-100",
+          "active:bg-daikinNeutral-200",
+        ],
+        true: [
+          "bg-daikinBlue-50",
+          "hover:bg-daikinBlue-50",
+          "active:bg-daikinBlue-100",
+        ],
+      },
     },
-  },
-});
+  }
+);
 
 /**
  * The table component is a component that can display multiple data objects in a tabular format.
@@ -185,6 +230,12 @@ export class DaikinTable extends LitElement {
    */
   @property({ type: String, attribute: "selected-range" })
   selectedRange: (typeof this.ranges)[number] | "All" = "All";
+
+  /**
+   * Specify whether the table row is selected
+   */
+  @property({ type: String, attribute: "selected-row-id" })
+  selectedRowId = "";
 
   @state()
   private _allItemCheckState: "unchecked" | "indeterminate" | "checked" =
@@ -450,6 +501,20 @@ export class DaikinTable extends LitElement {
       }
     }
 
+    const createRow = (
+      item: { id: string } & {
+        [key in (typeof this.headers)[number]["key"]]: string;
+      }
+    ) =>
+      this.headers.map(
+        ({ key, align }) =>
+          html`<td class="p-0">
+            <span class=${cvaCell({ align })}>
+              <slot name=${`cell:${item.id}:${key}`}>${item[key]}</slot>
+            </span>
+          </td>`
+      );
+
     const search = html`<div class="w-max relative">
       <daikin-text-input
         placeholder="Search"
@@ -465,84 +530,6 @@ export class DaikinTable extends LitElement {
         <daikin-icon icon="search" size="l" color="black"></daikin-icon>
       </button>
     </div>`;
-
-    const table = html`<table
-      class="w-full bg-[--table-color-background] table-fixed text-[15px] leading-[22px]"
-    >
-      <thead class="text-[#212121] border-b border-b-black font-medium">
-        <tr>
-          ${this.hasCheckbox
-            ? html`<th class="w-12 py-4 pl-6 text-left">
-                <span class="flex">
-                  <daikin-checkbox
-                    name="allItem"
-                    .checkState=${this._allItemCheckState}
-                    label="Select all"
-                    label-position="hidden"
-                    @change=${this._handleCheckboxRowHeaderChange}
-                  ></daikin-checkbox
-                ></span>
-              </th>`
-            : nothing}
-          ${this.headers.map(
-            ({ key, label, align }) =>
-              html`<th class=${this.hasSort ? "" : cvaCell({ align })}>
-                ${this.hasSort
-                  ? html`
-                      <button
-                        type="button"
-                        aria-label=${`Sort of ${label}`}
-                        class=${cvaCell({ align }) +
-                        " " +
-                        cvaCellContainer({ align })}
-                        @click=${() => this._handleClickSort(key)}
-                      >
-                        <span>${label}</span>
-                        <daikin-icon
-                          icon=${this.sortedKey === key
-                            ? this.orderBy === "asc"
-                              ? "sort-chevron-up"
-                              : this.orderBy === "desc"
-                                ? "sort-chevron-down"
-                                : "sort-chevron-up-and-down"
-                            : "sort-chevron-up-and-down"}
-                          size="s"
-                          color="black"
-                        ></daikin-icon>
-                      </button>
-                    `
-                  : html`<span>${label}</span>`}
-              </th>`
-          )}
-        </tr>
-      </thead>
-      <tbody class="text-[--table-color-text]">
-        ${this._showRows.map(
-          ({ id, ...row }) =>
-            html`<tr class="border-b border-b-[#EBEBEB]">
-              ${this.hasCheckbox
-                ? html`<td class="py-4 pl-6 align-middle">
-                    <span class="flex">
-                      <daikin-checkbox
-                        name=${id}
-                        .checkState=${this.checkedIds.includes(id)
-                          ? "checked"
-                          : "unchecked"}
-                        label="Select row"
-                        label-position="hidden"
-                        @change=${() => this._handleCheckboxRowItemChange(id)}
-                      ></daikin-checkbox>
-                    </span>
-                  </td>`
-                : null}
-              ${this.headers.map(
-                ({ key, align }) =>
-                  html`<td class=${cvaCell({ align })}>${row[key]}</td>`
-              )}
-            </tr>`
-        )}
-      </tbody>
-    </table>`;
 
     const pagination = () => {
       const topIndex =
@@ -590,6 +577,87 @@ export class DaikinTable extends LitElement {
         ></daikin-pagination>
       </div>`;
     };
+
+    const table = html`<table
+      class="w-full bg-[--table-color-background] table-fixed leading-[22px]"
+    >
+      <thead
+        class="text-daikinNeutral-900 border-b border-b-daikinNeutral-800 font-bold"
+      >
+        <tr>
+          ${this.hasCheckbox
+            ? html`<td class="w-12 h-14 p-0">
+                <span class="flex items-center justify-center w-full h-full">
+                  <daikin-checkbox
+                    name="allItem"
+                    .checkState=${this._allItemCheckState}
+                    label="Select all"
+                    label-position="hidden"
+                    @change=${this._handleCheckboxRowHeaderChange}
+                  ></daikin-checkbox>
+                </span>
+              </td>`
+            : nothing}
+          ${this.headers.map(
+            ({ key, label, align }) =>
+              html`<th class="p-0">
+                ${this.hasSort
+                  ? html`
+                      <button
+                        type="button"
+                        aria-label=${`Sort of ${label}`}
+                        class=${cvaCell({
+                          align,
+                          sort: true,
+                          selected: false,
+                        })}
+                        @click=${() => this._handleClickSort(key)}
+                      >
+                        ${label}
+                      </button>
+                    `
+                  : html`<span
+                      class=${cvaCell({
+                        align,
+                        sort: false,
+                        selected: null,
+                      })}
+                    >
+                      ${label}
+                    </span>`}
+              </th>`
+          )}
+        </tr>
+      </thead>
+      <tbody class="text-[--table-color-text]">
+        ${this._showRows.map(
+          (row) =>
+            html`<tr
+              class=${cvaRow({ selected: this.selectedRowId === row.id })}
+            >
+              ${this.hasCheckbox
+                ? html`<td class="w-12 h-14 p-0">
+                    <span
+                      class="flex items-center justify-center w-full h-full"
+                    >
+                      <daikin-checkbox
+                        name=${row.id}
+                        .checkState=${this.checkedIds.includes(row.id)
+                          ? "checked"
+                          : "unchecked"}
+                        label="Select row"
+                        label-position="hidden"
+                        @change=${() =>
+                          this._handleCheckboxRowItemChange(row.id)}
+                      ></daikin-checkbox>
+                    </span>
+                  </td>`
+                : nothing}
+              ${createRow(row)}
+            </tr>`
+        )}
+      </tbody>
+    </table>`;
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
       ${this.hasSearch

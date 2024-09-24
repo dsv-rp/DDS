@@ -4,7 +4,7 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 import type { DaikinButtonStoryArgs } from "./common";
 
-const ReactDaikinButton = createComponent({
+export const ReactDaikinButton = createComponent({
   react: React,
   tagName: "daikin-button",
   elementClass: DaikinButton,

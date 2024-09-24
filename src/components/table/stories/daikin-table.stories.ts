@@ -125,10 +125,12 @@ export const Default: Story = {
         price: "$1",
       },
     ],
+    selectedRowId: "1",
     hasCheckbox: false,
     hasSearch: false,
     hasPagination: false,
     hasSort: false,
+    hasSlot: false,
   },
 };
 
@@ -403,4 +405,11 @@ export const AllFunctions: Story = {
     await userEvent.click(allItemCheckbox);
     await userEvent.click(nameSortButton);
   }),
+};
+
+export const Slot: Story = {
+  args: {
+    ...Default.args,
+    hasSlot: true,
+  },
 };
