@@ -16,44 +16,51 @@ import type { IconType } from "../icon/daikin-icon";
 
 const cvaInput = cva(
   [
+    "relative",
     "w-full",
     "h-full",
-    "text-daikinNeutral-900",
-    "border",
-    "border-solid",
     "rounded-md",
     "font-daikinSerif",
-    "font-daikinSerif",
-    "outline",
-    "outline-0",
-    "-outline-offset-2",
-    "relative",
+    "text-daikinNeutral-900",
     "placeholder:text-daikinNeutral-700",
 
+    // Define `--color-border` as a CSS variable that references `--color-state-error`, `--color-state-focus`, and `--color-base` in that order.
+    // `--color-base` indicates the color of the border when the element is normal, hovered, pressed, or disabled.
+    // By giving `--color-state-error` priority over the others, it is guaranteed that the color will always be red when there is an error, regardless of the state of the input control (focus, hover or press).
+    // `--color-state-focus` has priority after `--color-state-error`, which means that when there is no error and the element is focused, the color will always be the focus color, regardless of hover or press.
+    "define-[--color-state-error,--color-state-focus,--color-base]/color-border",
+    "var-color-daikinNeutral-600/color-base",
+    "border",
+    "border-[--color-border]",
+    "outline",
+    "outline-[--color-border]",
+    "outline-0",
+    "-outline-offset-2",
+
+    // Display the outline when hovering, pressing, or focusing.
     "enabled:hover:outline-2",
-    "enabled:hover:[&:not(:focus-visible)]:outline-daikinNeutral-400",
-
     "enabled:active:outline-2",
-    "enabled:active:outline-daikinNeutral-700",
-
     "focus-visible:outline-2",
-    "focus-visible:outline-daikinBlue-700",
 
-    "disabled:text-[--text-input-outline-color-disabled]",
+    // Update `--color-base` depending on the state.
+    "enabled:hover:var-color-daikinNeutral-400/color-base",
+    "enabled:active:var-color-daikinNeutral-700/color-base",
+    "disabled:var-color-[--text-input-outline-color-disabled]/color-base",
+
+    "focus-visible:var-color-daikinBlue-700/color-state-focus",
+
     "disabled:bg-[--text-input-background-color]",
-    "disabled:border-[--text-input-outline-color-disabled]",
+    "disabled:text-[--text-input-outline-color-disabled]",
     "disabled:placeholder:text-[--text-input-outline-color-disabled]",
   ],
   {
     variants: {
       error: {
-        false: [
-          "border-daikinNeutral-600",
-          "focus-visible:outline-daikinBlue-700",
-        ],
+        false: [],
+        // When in an error state and not disabled, set `--color-state-error`.
+        // This is the highest priority variable, and it is guaranteed that `--color-border` will be this color in any state.
         true: [
-          "border-[--text-input-border-color-error]",
-          "focus-visible:outline-daikinRed-500",
+          "enabled:var-color-[--text-input-border-color-error]/color-state-error",
         ],
       },
       leftIcon: {
