@@ -522,12 +522,10 @@ export class DaikinTable extends LitElement {
         @input=${this._handleSearchKeywordInput}
       ></daikin-text-input>
       <button
-        class="flex justify-center items-center w-6 h-6 absolute top-0 right-2 bottom-0 m-auto"
+        class="flex justify-center items-center size-5 absolute top-0 right-2 bottom-0 m-auto i-daikin-search"
         aria-label="Search"
         @click=${this._handleSearchClick}
-      >
-        <daikin-icon icon="search" size="l" color="black"></daikin-icon>
-      </button>
+      ></button>
     </div>`;
 
     const pagination = () => {
