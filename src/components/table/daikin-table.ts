@@ -16,7 +16,6 @@ import tailwindStyles from "../../tailwind.css?inline";
 import "../checkbox/daikin-checkbox";
 import "../dropdown-item/daikin-dropdown-item";
 import "../dropdown/daikin-dropdown";
-import "../icon/daikin-icon";
 import "../pagination/daikin-pagination";
 import "../text-input/daikin-text-input";
 
@@ -27,11 +26,11 @@ const FOCUSED_CLASS_NAME = [
   "focus-visible:outline-daikinBlue-700",
 ];
 
-const cvaCell = cva(["block", "w-full", "p-4"], {
+const cvaCell = cva(["flex", "w-full", "p-4"], {
   variants: {
     align: {
-      left: ["text-left"],
-      right: ["text-right"],
+      left: [],
+      right: ["justify-end"],
     },
     sort: {
       false: [],
