@@ -152,25 +152,25 @@ export class DaikinTable extends LitElement {
   /**
    * Whether or not to give the table the function of checkbox
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, reflect: true, attribute: "has-checkbox" })
   hasCheckbox: boolean = false;
 
   /**
    * Whether or not to give the table the function of search
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, reflect: true, attribute: "has-search" })
   hasSearch: boolean = false;
 
   /**
    * Whether or not to give the table the function of pagination
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, reflect: true, attribute: "has-pagination" })
   hasPagination: boolean = false;
 
   /**
    * Whether or not to give the table the function of sort
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, reflect: true, attribute: "has-sort" })
   hasSort: boolean = false;
 
   /**
@@ -194,7 +194,7 @@ export class DaikinTable extends LitElement {
   /**
    * Specify which page you are viewing using the table pagination
    */
-  @property({ type: Number, reflect: true })
+  @property({ type: Number, reflect: true, attribute: "current-page" })
   currentPage: number = 1;
 
   /**
@@ -234,7 +234,7 @@ export class DaikinTable extends LitElement {
    * Specify whether the table row is selected
    */
   @property({ type: String, attribute: "selected-row-id" })
-  selectedRowId = "";
+  selectedRowId: string | null = null;
 
   @state()
   private _allItemCheckState: "unchecked" | "indeterminate" | "checked" =

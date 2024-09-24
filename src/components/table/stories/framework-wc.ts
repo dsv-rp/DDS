@@ -1,8 +1,8 @@
+import "#package/components/button/daikin-button";
 import "#package/components/table/daikin-table";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../button/daikin-button";
 import type { DaikinTableStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
@@ -47,15 +47,15 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       .orderBy=${orderBy}
       .checkedIds=${fallbackCheckedIds}
       .keyword=${keyword}
-      currentPage=${ifDefined(currentPage)}
+      current-page=${ifDefined(currentPage)}
       .sortedKey=${sortedKey}
       .ranges=${fallbackRanges}
       selected-range=${fallbackSelectedRange}
-      selected-row-id=${selectedRowId}
-      ?hasCheckbox=${hasCheckbox}
-      ?hasSearch=${hasSearch}
-      ?hasPagination=${hasPagination}
-      ?hasSort=${hasSort}
+      selected-row-id=${ifDefined(selectedRowId)}
+      ?has-checkbox=${hasCheckbox}
+      ?has-search=${hasSearch}
+      ?has-pagination=${hasPagination}
+      ?has-sort=${hasSort}
       @change-check=${onChangeCheck}
       @change-page=${onChangePage}
       @change-sort=${onChangeSort}
