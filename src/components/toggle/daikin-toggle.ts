@@ -4,8 +4,8 @@ import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const TOGGLE_CLASS_NAME = cva([
-  "w-16",
-  "h-8",
+  "w-12",
+  "h-6",
   "relative",
   "bg-daikinNeutral-600",
   "rounded-full",
@@ -13,19 +13,20 @@ const TOGGLE_CLASS_NAME = cva([
   "transition-colors",
   "duration-300",
   "appearance-none",
-  "enabled:hover:bg-daikinNeutral-500",
-  "enabled:active:bg-daikinNeutral-800",
+  "enabled:hover:bg-daikinNeutral-400",
+  "enabled:active:bg-daikinNeutral-700",
+  "focus-visible:outline",
   "focus-visible:outline-1",
-  "focus-visible:outline-offset-4",
+  "focus-visible:outline-offset-1",
   "focus-visible:outline-daikinBlue-700",
+
   "enabled:checked:bg-daikinBlue-500",
   "enabled:checked:hover:bg-daikinBlue-300",
   "enabled:checked:active:bg-daikinBlue-600",
   "disabled:bg-daikinNeutral-200",
   "disabled:cursor-default",
 
-  "before:size-6",
-  "before:bg-white",
+  "before:size-4",
   "before:m-auto",
   "before:rounded-full",
   "before:absolute",
@@ -34,7 +35,9 @@ const TOGGLE_CLASS_NAME = cva([
   "before:left-1",
   "before:transition",
   "before:duration-300",
-  "before:checked:translate-x-8",
+  "before:checked:translate-x-6",
+  "enabled:before:bg-white",
+  "disabled:before:bg-daikinNeutral-100",
 ])();
 
 /**
