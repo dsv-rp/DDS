@@ -16,7 +16,7 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
-        describeEach(["exist", "hidden"] as const, (counter) => {
+        describeEach(["visible", "hidden"] as const, (counter) => {
           const baseURL = getPageURL({
             content,
             disabled: state === "disabled",
@@ -24,7 +24,7 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
             ...(error === "error" && {
               error: "Error Text",
             }),
-            ...(counter === "exist" && {
+            ...(counter === "visible" && {
               textareaMaxCount: 100,
             }),
           });
