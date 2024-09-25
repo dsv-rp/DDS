@@ -2,7 +2,7 @@ import { clipFor, describeEach, getStorybookIframeURL } from "#tests/visual";
 import { expect, test } from "@playwright/test";
 
 describeEach(
-  ["default", "checkbox", "search", "sort", "pagination", "all", "slot"],
+  ["default", "checkbox", "search", "sort", "pagination", "all", "use-slot"],
   (option) => {
     test("base", async ({ page }) => {
       const baseURL = getStorybookIframeURL(`components-table--${option}`, {});
