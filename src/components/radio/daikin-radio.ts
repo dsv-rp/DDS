@@ -8,6 +8,7 @@ const RADIO_CLASS_NAME = cva([
   "justify-center",
   "items-center",
   "size-4",
+  "bg-white",
   "rounded-full",
   "relative",
   "appearance-none",
