@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { ARIARole } from "../../lit-analyzer-types";
@@ -13,9 +13,10 @@ const cvaButton = cva(
     "inline-flex",
     "justify-center",
     "items-center",
-    "gap-1",
+    "gap-2",
     "w-full",
     "h-full",
+    "text-sm",
     "font-daikinSerif",
     "font-bold",
     "rounded",
@@ -29,10 +30,6 @@ const cvaButton = cva(
   ],
   {
     variants: {
-      size: {
-        small: ["py-2", "text-xs"],
-        medium: ["py-3", "text-sm"],
-      },
       color: {
         default: [
           "link-enabled:var-color-daikinBlue-500/color-primary",
@@ -59,11 +56,10 @@ const cvaButton = cva(
         fill: ["text-white", "bg-[--color-primary]"],
         outline: [
           "border",
-          "bg-white",
           "text-[--color-primary]",
           "border-[--color-primary]",
         ],
-        ghost: ["bg-white", "text-[--color-primary]"],
+        ghost: ["text-[--color-primary]"],
       },
     },
   }
@@ -94,15 +90,6 @@ export class DaikinButton extends LitElement {
 
     :host {
       display: inline-block;
-    }
-
-    :host([size="small"]) {
-      min-width: 48px;
-      height: 32px;
-    }
-
-    :host([size="medium"]) {
-      min-width: 60px;
       height: 44px;
     }
   `;
@@ -118,12 +105,6 @@ export class DaikinButton extends LitElement {
    */
   @property({ type: String, reflect: true })
   color: ButtonVariantProps["color"] = "default";
-
-  /**
-   * Size of the button.
-   */
-  @property({ type: String, reflect: true })
-  size: ButtonVariantProps["size"] = "medium";
 
   /**
    * Whether the button is disabled.
@@ -179,7 +160,6 @@ export class DaikinButton extends LitElement {
   override render() {
     const className = cvaButton({
       variant: this.variant,
-      size: this.size,
       color: this.color,
       leftIcon: !!this.leftIcon,
       rightIcon: !!this.rightIcon,
@@ -192,7 +172,7 @@ export class DaikinButton extends LitElement {
             size="xl"
             color="current"
           ></daikin-icon>`
-        : null}
+        : nothing}
       <slot></slot>
       ${this.rightIcon
         ? html`<daikin-icon
@@ -200,7 +180,7 @@ export class DaikinButton extends LitElement {
             size="xl"
             color="current"
           ></daikin-icon>`
-        : null}
+        : nothing}
     `;
 
     if (this.type === "link") {

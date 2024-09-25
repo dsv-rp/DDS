@@ -8,7 +8,6 @@ export const metadata: Meta<DaikinButtonStoryArgs> = {
   render: ({
     variant,
     color,
-    size,
     label,
     disabled,
     href,
@@ -20,7 +19,6 @@ export const metadata: Meta<DaikinButtonStoryArgs> = {
     <daikin-button
       variant=${variant}
       color=${color}
-      size=${size}
       href=${href}
       type=${type}
       left-icon=${ifDefined(leftIcon ?? undefined)}

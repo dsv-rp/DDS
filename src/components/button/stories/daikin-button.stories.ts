@@ -19,8 +19,7 @@ export const Fill: Story = {
     variant: "fill",
     color: "default",
     disabled: false,
-    label: "button",
-    size: "medium",
+    label: "Button label",
     type: "button",
     onClick: fn((event: Event) => {
       event.preventDefault();
@@ -30,7 +29,9 @@ export const Fill: Story = {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerButton = getByShadowRole(root, "button", { name: "button" });
+    const innerButton = getByShadowRole(root, "button", {
+      name: "Button label",
+    });
     await expect(innerButton).toBeInTheDocument();
 
     // should react if inner button clicked
@@ -89,7 +90,9 @@ export const Disabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerButton = getByShadowRole(root, "button", { name: "button" });
+    const innerButton = getByShadowRole(root, "button", {
+      name: "Button label",
+    });
     await expect(innerButton).toBeInTheDocument();
 
     // should not react if inner button clicked
@@ -125,7 +128,7 @@ export const Link: Story = {
     // No buttons
     await expect(queryByShadowRole(root, "button")).toBe(null);
 
-    const innerLink = getByShadowRole(root, "link", { name: "button" });
+    const innerLink = getByShadowRole(root, "link", { name: "Button label" });
     await expect(innerLink).toBeInTheDocument();
 
     // should react if inner link clicked

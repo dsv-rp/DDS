@@ -17,10 +17,6 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
     control: "radio",
     options: ["default", "danger"],
   },
-  size: {
-    control: "radio",
-    options: ["small", "medium"],
-  },
   label: {
     type: "string",
   },
