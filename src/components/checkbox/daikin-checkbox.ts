@@ -18,10 +18,14 @@ const CHECKBOX_CLASS_NAME = cva([
   "border-2",
   "rounded-sm",
   "appearance-none",
-  "before:absolute",
+
   "before:text-white",
+  "before:absolute",
+  "before:m-auto",
+  "before:inset-0",
   "checked:before:i-daikin-checkbox-checked",
   "indeterminate:before:i-daikin-checkbox-indeterminate",
+  "indeterminate:before:size-2.5",
 
   "focus-visible:outline",
   "focus-visible:outline-1",
