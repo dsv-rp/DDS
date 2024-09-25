@@ -4,7 +4,7 @@ import {
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
-import { expect, test } from "@playwright/test";
+import { expect, test, type ElementHandle, type Page } from "@playwright/test";
 import type { DAIKIN_INPUT_GROUP_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
@@ -21,9 +21,30 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
             content,
             disabled: state === "disabled",
             required: required === "required",
-            error: error === "error" ? "Error Text" : undefined,
+            ...(error === "error" && {
+              error: "Error Text",
+            }),
             textareaCounter: textareaCounter === "visible",
           });
+
+          const snapshotName =
+            content === "TextInput"
+              ? `${content}-${state}-${required}-${error}.png`
+              : null;
+
+          const testScreenshot = async (
+            page: Page,
+            element: ElementHandle<HTMLElement>
+          ): Promise<void> => {
+            if (snapshotName) {
+              await expect(page).toHaveScreenshot(
+                snapshotName,
+                await clipFor(element)
+              );
+            } else {
+              await expect(page).toHaveScreenshot(await clipFor(element));
+            }
+          };
 
           test("base", async ({ page }) => {
             await page.goto(baseURL);
@@ -34,7 +55,7 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
             });
 
             // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
+            await testScreenshot(page, element);
           });
         });
       });
