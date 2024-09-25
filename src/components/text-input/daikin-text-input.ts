@@ -66,11 +66,11 @@ const cvaInput = cva(
         ],
       },
       leftIcon: {
-        false: ["pl-3"],
+        false: ["pl-4"],
         true: ["pl-11"],
       },
       rightIcon: {
-        false: ["pr-3"],
+        false: ["pr-4"],
         true: ["pr-11"],
       },
     },
@@ -233,7 +233,7 @@ export class DaikinTextInput extends LitElement {
               position,
             })}
           >
-            <daikin-icon icon=${icon} size="m" color="current"></daikin-icon>
+            <daikin-icon icon=${icon} size="xl" color="current"></daikin-icon>
           </div>`
         : nothing;
 
