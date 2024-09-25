@@ -14,6 +14,7 @@ const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
   "relative",
+  "bg-white",
   "border-daikinNeutral-600",
   "border-2",
   "rounded-sm",
