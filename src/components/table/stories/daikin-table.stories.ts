@@ -293,9 +293,10 @@ export const Sort: Story = {
     await expect(root).toBeInTheDocument();
 
     const sortButton = getByShadowRole(root, "button", {
-      name: "Sort of Name",
+      name: "Name",
     });
     await expect(sortButton).toBeInTheDocument();
+    await expect(sortButton).not.toHaveAttribute("aria-sort");
 
     // should react if inner sort button clicked
     await step("Try to click sort button", async () => {
@@ -303,6 +304,10 @@ export const Sort: Story = {
 
       const rows = getAllByShadowRole(root, "row");
 
+      await expect(getAllByShadowRole(root, "columnheader")[0]).toHaveAttribute(
+        "aria-sort",
+        "ascending"
+      );
       await expect(args.onChangeSort).toHaveBeenCalledTimes(1);
       await expect(getByShadowText(rows[1], "Apple")).toBeInTheDocument();
       await expect(getByShadowText(rows[2], "Blueberry")).toBeInTheDocument();
@@ -313,7 +318,13 @@ export const Sort: Story = {
     // should react if inner sort button click again
     await step("Try to click again sort button", async () => {
       await userEvent.click(sortButton);
+
       const rows = getAllByShadowRole(root, "row");
+
+      await expect(getAllByShadowRole(root, "columnheader")[0]).toHaveAttribute(
+        "aria-sort",
+        "descending"
+      );
       await expect(args.onChangeSort).toHaveBeenCalledTimes(2);
       await expect(getByShadowText(rows[1], "Strawberry")).toBeInTheDocument();
       await expect(getByShadowText(rows[2], "Pomegranate")).toBeInTheDocument();
@@ -349,10 +360,10 @@ export const AllFunctions: Story = {
     const searchInput = getByShadowRole(root, "textbox");
     const allItemCheckbox = getAllByShadowRole(root, "checkbox")[0];
     const priceSortButton = getByShadowRole(root, "button", {
-      name: "Sort of Price",
+      name: "Price",
     });
     const nameSortButton = getByShadowRole(root, "button", {
-      name: "Sort of Name",
+      name: "Name",
     });
 
     // should react if inner input type and enter key typed

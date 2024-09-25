@@ -12,6 +12,7 @@ import {
   type PropertyValues,
 } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../checkbox/daikin-checkbox";
 import "../dropdown-item/daikin-dropdown-item";
@@ -604,12 +605,20 @@ export class DaikinTable extends LitElement {
             : nothing}
           ${this.headers.map(
             ({ key, label, align }) =>
-              html`<th class="p-0">
+              html`<th
+                class="p-0"
+                aria-sort=${ifDefined(
+                  this.hasSort && this.sortedKey === key
+                    ? this.orderBy === "asc"
+                      ? "ascending"
+                      : "descending"
+                    : undefined
+                )}
+              >
                 ${this.hasSort
                   ? html`
                       <button
                         type="button"
-                        aria-label=${`Sort of ${label}`}
                         class=${cvaCell({
                           align,
                           sort: true,
