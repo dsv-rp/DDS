@@ -1,8 +1,8 @@
-import { ReactDaikinCheckbox } from "#package/components/checkbox/stories/framework-react";
 import { DaikinList } from "#package/components/list/daikin-list";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinCheckbox } from "../../checkbox/stories/framework-react";
 import { ReactDaikinListItem } from "../../list-item/stories/framework-react";
 import type { DaikinListStoryArgs } from "./common";
 

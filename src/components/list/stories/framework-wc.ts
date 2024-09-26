@@ -1,8 +1,8 @@
+import "#package/components/checkbox/daikin-checkbox";
 import "#package/components/list-item/daikin-list-item";
 import "#package/components/list/daikin-list";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import "../../checkbox/daikin-checkbox";
 import type { DaikinListStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinListStoryArgs> = {
