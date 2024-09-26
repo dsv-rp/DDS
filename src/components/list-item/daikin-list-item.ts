@@ -6,26 +6,42 @@ import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
-const listCN = cva([
-  "flex",
-  "justify-between",
-  "items-center",
-  "gap-2",
-  "w-full",
-  "min-w-max",
-  "min-h-12",
-  "p-3",
+const cvaListItem = cva(
+  [
+    "flex",
+    "justify-between",
+    "items-center",
+    "gap-2",
+    "w-full",
+    "min-w-max",
+    "min-h-12",
+    "py-3",
+    "pl-4",
+    "pr-3",
 
-  "link-disabled:text-daikinNeutral-200",
+    "link-disabled:text-daikinNeutral-200",
 
-  "link-enabled:hover:bg-daikinNeutral-100",
-  "link-enabled:active:bg-daikinNeutral-200",
+    "link-enabled:hover:bg-daikinNeutral-100",
+    "link-enabled:active:bg-daikinNeutral-200",
 
-  "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:-outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
-])();
+    "focus-visible:outline",
+    "focus-visible:outline-1",
+    "focus-visible:-outline-offset-1",
+    "focus-visible:outline-daikinBlue-700",
+  ],
+  {
+    variants: {
+      leftIcon: {
+        false: ["pl-4"],
+        true: ["pl-3"],
+      },
+      rightIcon: {
+        false: ["pr-4"],
+        true: ["pr-3"],
+      },
+    },
+  }
+);
 
 /**
  * The list item component functions as a child element of the list component, and is used to actually list items.
@@ -81,8 +97,8 @@ export class DaikinListItem extends LitElement {
    * Whether the right arrow icon is visible.
    * If there is content in the slot, it will always be false.
    */
-  @property({ type: Boolean, reflect: true, attribute: "right-arrow" })
-  rightArrow: boolean = false;
+  @property({ type: Boolean, reflect: true, attribute: "right-arrow-icon" })
+  rightArrowIcon: boolean = false;
 
   /**
    * Whether the list item is disabled.
@@ -104,6 +120,11 @@ export class DaikinListItem extends LitElement {
   }
 
   override render() {
+    const listCN = cvaListItem({
+      leftIcon: !!this.leftIcon,
+      rightIcon: this.rightArrowIcon,
+    });
+
     const leftContent = html`<span class="flex items-center flex-none gap-2">
       ${this.leftIcon
         ? html`<daikin-icon
@@ -116,7 +137,7 @@ export class DaikinListItem extends LitElement {
     </span>`;
 
     const rightContent = html`<slot>
-      ${this.rightArrow
+      ${this.rightArrowIcon
         ? html`<span class="flex-none size-6 i-daikin-chevron-right"></span>`
         : nothing}
     </slot>`;

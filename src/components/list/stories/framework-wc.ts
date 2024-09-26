@@ -12,20 +12,20 @@ export const metadata: Meta<DaikinListStoryArgs> = {
         <daikin-list-item
           label="List item label 1"
           left-icon="positive"
-          right-arrow
+          right-arrow-icon
         ></daikin-list-item>
         <daikin-list-item
           label="List item label 2"
           type="link"
           href="#"
-          right-arrow
+          right-arrow-icon
         ></daikin-list-item>
         <daikin-list-item
           label="List item label 3"
           disabled
-          right-arrow
+          right-arrow-icon
         ></daikin-list-item>
-        <daikin-list-item label=" List item label 4" right-arrow>
+        <daikin-list-item label=" List item label 4" right-arrow-icon>
           <daikin-checkbox
             label="Label"
             label-position="hidden"

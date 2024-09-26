@@ -19,20 +19,20 @@ export const metadata: Meta<DaikinListStoryArgs> = {
         <ReactDaikinListItem
           label="List item label 1"
           left-icon="positive"
-          right-arrow
+          rightArrowIcon
         ></ReactDaikinListItem>
         <ReactDaikinListItem
           label="List item label 2"
           type="link"
           href="#"
-          right-arrow
+          rightArrowIcon
         ></ReactDaikinListItem>
         <ReactDaikinListItem
           label="List item label 3"
-          right-arrow
+          rightArrowIcon
           disabled
         ></ReactDaikinListItem>
-        <ReactDaikinListItem label="List item label 4" right-arrow>
+        <ReactDaikinListItem label="List item label 4" rightArrowIcon>
           <ReactDaikinCheckbox
             label="Label"
             labelPosition="hidden"

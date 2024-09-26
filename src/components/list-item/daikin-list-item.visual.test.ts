@@ -14,7 +14,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["button", "link"] as const, (type) => {
   describeEach(["exist", "none"] as const, (leftIcon) => {
-    describeEach(["exist", "none"] as const, (rightArrow) => {
+    describeEach(["exist", "none"] as const, (rightArrowIcon) => {
       describeEach(["checkbox", "none"] as const, (slot) => {
         const baseArgs = {
           type,
@@ -22,7 +22,7 @@ describeEach(["button", "link"] as const, (type) => {
           // Since an `<a>` element without `href` attribute cannot be focused using the tab key, it is necessary to set some kind of value.
           ...(type === "link" && { href: "example" }),
           ...(leftIcon === "exist" && { leftIcon: "positive" }),
-          rightArrow: rightArrow === "exist",
+          rightArrowIcon: rightArrowIcon === "exist",
           hasSlot: slot === "checkbox",
         };
 

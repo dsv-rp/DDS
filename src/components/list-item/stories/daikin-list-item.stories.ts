@@ -16,7 +16,7 @@ export const Button: Story = {
     label: "List item label",
     type: "button",
     disabled: false,
-    rightArrow: true,
+    rightArrowIcon: true,
     onClick: fn((event: Event) => {
       event.preventDefault();
     }),
