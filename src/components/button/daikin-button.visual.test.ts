@@ -110,7 +110,8 @@ describeEach(["fill", "outline", "ghost"] as const, (variant) => {
 
 describeEach(["button", "link"] as const, (type) => {
   const baseArgs = {
-    ...(type === "link" && ({ type: "link", href: "#" } as const)),
+    // Due to Storybook's limitation, we cannot use special characters in `href`.
+    ...(type === "link" && ({ type: "link", href: "example" } as const)),
   };
 
   test("base", async ({ page }) => {
