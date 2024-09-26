@@ -7,29 +7,31 @@ import type { DaikinListItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinListItemStoryArgs> = {
   render: ({
-    label,
     type,
     href,
     leftIcon,
-    rightArrowIcon,
+    chevron,
     disabled,
     hasSlot,
     onClick,
   }) => html`
     <daikin-list-item
-      label=${label}
       type=${type}
       href=${ifDefined(href)}
       left-icon=${ifDefined(leftIcon)}
-      ?right-arrow-icon=${rightArrowIcon}
+      ?chevron=${chevron}
       ?disabled=${disabled}
       @click=${onClick}
-      >${hasSlot
-        ? html`<daikin-checkbox
-            label="Label"
-            label-position="hidden"
-          ></daikin-checkbox>`
-        : nothing}</daikin-list-item
     >
+      List item label
+      ${hasSlot
+        ? html`<span slot="action">
+            <daikin-checkbox
+              label="Label"
+              label-position="hidden"
+            ></daikin-checkbox>
+          </span>`
+        : nothing}
+    </daikin-list-item>
   `,
 };

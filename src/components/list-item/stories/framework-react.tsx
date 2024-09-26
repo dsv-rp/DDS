@@ -17,7 +17,12 @@ export const ReactDaikinListItem = createComponent({
 export const metadata: Meta<DaikinListItemStoryArgs> = {
   component: ({ ...props }: DaikinListItemStoryArgs) => (
     <ReactDaikinListItem {...props}>
-      {props.hasSlot && <ReactDaikinCheckbox>Checkbox</ReactDaikinCheckbox>}
+      List item label
+      {props.hasSlot && (
+        <span slot="action">
+          <ReactDaikinCheckbox>Checkbox</ReactDaikinCheckbox>
+        </span>
+      )}
     </ReactDaikinListItem>
   ),
 };

@@ -16,27 +16,23 @@ export const metadata: Meta<DaikinListStoryArgs> = {
   component: ({ ...props }: DaikinListStoryArgs) => (
     <div style={{ width: "256px" }}>
       <ReactDaikinList {...props}>
-        <ReactDaikinListItem
-          label="List item label 1"
-          left-icon="positive"
-          rightArrowIcon
-        ></ReactDaikinListItem>
-        <ReactDaikinListItem
-          label="List item label 2"
-          type="link"
-          href="#"
-          rightArrowIcon
-        ></ReactDaikinListItem>
-        <ReactDaikinListItem
-          label="List item label 3"
-          rightArrowIcon
-          disabled
-        ></ReactDaikinListItem>
-        <ReactDaikinListItem label="List item label 4" rightArrowIcon>
-          <ReactDaikinCheckbox
-            label="Label"
-            labelPosition="hidden"
-          ></ReactDaikinCheckbox>
+        <ReactDaikinListItem left-icon="positive" chevron>
+          List item label 1
+        </ReactDaikinListItem>
+        <ReactDaikinListItem type="link" href="#" chevron>
+          List item label 2
+        </ReactDaikinListItem>
+        <ReactDaikinListItem chevron disabled>
+          List item label 3
+        </ReactDaikinListItem>
+        <ReactDaikinListItem chevron>
+          List item label 4
+          <span slot="action">
+            <ReactDaikinCheckbox
+              label="Label"
+              labelPosition="hidden"
+            ></ReactDaikinCheckbox>
+          </span>
         </ReactDaikinListItem>
       </ReactDaikinList>
     </div>

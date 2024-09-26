@@ -13,10 +13,9 @@ export default {
 
 export const Button: Story = {
   args: {
-    label: "List item label",
     type: "button",
     disabled: false,
-    rightArrowIcon: true,
+    chevron: true,
     onClick: fn((event: Event) => {
       event.preventDefault();
     }),

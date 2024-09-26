@@ -53,12 +53,13 @@ const cvaListItem = cva(
  *
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event). Suppressed if `disabled` is true.
  *
- * @slot - An optional element that is displayed on the right of a list item. e.g. `daikin-checkbox`, `daikin-toggle`
+ * @slot - A slot for the list item label content.
+ * @slot action - An optional element that is displayed on the right of a list item. e.g. `daikin-checkbox`, `daikin-toggle`
  *
  * @example
  *
  * ```html
- * <daikin-list-item label="List item label"></daikin-list-item>
+ * <daikin-list-item>List item label</daikin-list-item>
  * ```
  */
 @customElement("daikin-list-item")
@@ -66,12 +67,6 @@ export class DaikinListItem extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
   `;
-
-  /**
-   * Label text for the list item.
-   */
-  @property({ type: String, reflect: true })
-  label = "";
 
   /**
    * Type of the list item.
@@ -97,8 +92,8 @@ export class DaikinListItem extends LitElement {
    * Whether the right arrow icon is visible.
    * If there is content in the slot, it will always be false.
    */
-  @property({ type: Boolean, reflect: true, attribute: "right-arrow-icon" })
-  rightArrowIcon: boolean = false;
+  @property({ type: Boolean, reflect: true })
+  chevron: boolean = false;
 
   /**
    * Whether the list item is disabled.
@@ -122,7 +117,7 @@ export class DaikinListItem extends LitElement {
   override render() {
     const listCN = cvaListItem({
       leftIcon: !!this.leftIcon,
-      rightIcon: this.rightArrowIcon,
+      rightIcon: this.chevron,
     });
 
     const leftContent = html`<span class="flex items-center flex-none gap-2">
@@ -133,11 +128,11 @@ export class DaikinListItem extends LitElement {
             color="current"
           ></daikin-icon>`
         : nothing}
-      ${this.label}
+      <slot></slot>
     </span>`;
 
-    const rightContent = html`<slot>
-      ${this.rightArrowIcon
+    const rightContent = html`<slot name="action">
+      ${this.chevron
         ? html`<span class="flex-none size-6 i-daikin-chevron-right"></span>`
         : nothing}
     </slot>`;

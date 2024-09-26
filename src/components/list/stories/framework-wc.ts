@@ -9,27 +9,23 @@ export const metadata: Meta<DaikinListStoryArgs> = {
   render: () => html`
     <div style="width:256px;">
       <daikin-list>
-        <daikin-list-item
-          label="List item label 1"
-          left-icon="positive"
-          right-arrow-icon
-        ></daikin-list-item>
-        <daikin-list-item
-          label="List item label 2"
-          type="link"
-          href="#"
-          right-arrow-icon
-        ></daikin-list-item>
-        <daikin-list-item
-          label="List item label 3"
-          disabled
-          right-arrow-icon
-        ></daikin-list-item>
-        <daikin-list-item label=" List item label 4" right-arrow-icon>
-          <daikin-checkbox
-            label="Label"
-            label-position="hidden"
-          ></daikin-checkbox>
+        <daikin-list-item left-icon="positive" chevron>
+          List item label 1
+        </daikin-list-item>
+        <daikin-list-item type="link" href="#" chevron>
+          List item label 2
+        </daikin-list-item>
+        <daikin-list-item chevron disabled>
+          List item label 3
+        </daikin-list-item>
+        <daikin-list-item chevron>
+          List item label 4
+          <span slot="action">
+            <daikin-checkbox
+              label="Label"
+              label-position="hidden"
+            ></daikin-checkbox>
+          </span>
         </daikin-list-item>
       </daikin-list>
     </div>
