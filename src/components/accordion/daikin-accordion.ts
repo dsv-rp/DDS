@@ -46,7 +46,7 @@ export class DaikinAccordion extends LitElement {
   `;
 
   override render() {
-    return html`<div class="w-full">
+    return html`<div class="w-full min-w-40">
       <slot></slot>
     </div>`;
   }
