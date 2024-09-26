@@ -118,6 +118,7 @@ export class DaikinListItem extends LitElement {
   /**
    * Link `href`.
    * Only used if the `type` is `"link"`.
+   * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
    */
   @property({ type: String, reflect: true })
   href: string | null = null;
@@ -163,7 +164,7 @@ export class DaikinListItem extends LitElement {
   override render() {
     const listCN = cvaListItem({ type: this.type, disabled: this.disabled });
 
-    const icon = (icon: IconType | null) =>
+    const createIcon = (icon: IconType | null) =>
       icon
         ? html`<span class=${cvaIcon({ disabled: this.disabled })}>
             <daikin-icon icon=${icon} size="xl" color="current"></daikin-icon>
@@ -173,30 +174,29 @@ export class DaikinListItem extends LitElement {
     const content = html`<span
       class="flex items-center w-full gap-2 relative z-0"
     >
-      ${icon(this.leftIcon)}
+      ${createIcon(this.leftIcon)}
       <slot></slot>
     </span>`;
 
-    const wrapperType =
-      this.type === "text"
-        ? "text"
-        : this.type === "link"
-          ? this.disabled
-            ? "text"
-            : "link"
-          : "button";
-
+    const linkDisabled = this.disabled || this.href == null;
     const list = {
       button: () =>
         html`<button type="button" class=${listCN} ?disabled=${this.disabled}>
           ${content}
         </button>`,
       link: () =>
-        html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
+        html`<a
+          class=${listCN}
+          href=${ifDefined(
+            !linkDisabled ? (this.href ?? undefined) : undefined
+          )}
+          role=${ifDefined(linkDisabled ? "link" : undefined)}
+          aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
+        >
           ${content}
         </a>`,
       text: () => html`<span class=${listCN}>${content}</span>`,
-    }[wrapperType]();
+    }[this.type]();
 
     return html`<div
       class=${cvaListItemContainer({
@@ -207,7 +207,7 @@ export class DaikinListItem extends LitElement {
     >
       ${list}
       <slot name="action" class="flex items-center gap-3">
-        ${icon(this.rightIcon)}
+        ${createIcon(this.rightIcon)}
       </slot>
     </div>`;
   }

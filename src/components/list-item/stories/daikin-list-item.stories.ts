@@ -23,13 +23,14 @@ export const Button: Story = {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerInput = getByShadowRole(root, "button");
     await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
+
+    const innerButton = getByShadowRole(root, "button");
     await expect(args.onClick).toHaveBeenCalledTimes(0);
 
     // should react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.click(innerInput);
+      await userEvent.click(innerButton);
       await expect(args.onClick).toHaveBeenCalledTimes(1);
     });
   }),
@@ -55,12 +56,20 @@ export const Link: Story = {
       event.preventDefault();
     }),
   },
-  play: definePlay(async ({ canvasElement }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
     await expect(root).toBeInTheDocument();
 
-    await expect(getByShadowRole(root, "link")).toBeInTheDocument();
     await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
+
+    const innerLink = getByShadowRole(root, "link");
+    await expect(args.onClick).toHaveBeenCalledTimes(0);
+
+    // should react if inner link clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
+    });
   }),
 };
 
@@ -76,12 +85,14 @@ export const ButtonDisabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerInput = getByShadowRole(root, "button");
+    await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
+
+    const innerButton = getByShadowRole(root, "button");
     await expect(args.onClick).toHaveBeenCalledTimes(0);
 
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.click(innerInput);
+      await userEvent.click(innerButton);
       await expect(args.onClick).toHaveBeenCalledTimes(0);
     });
   }),
@@ -95,12 +106,20 @@ export const LinkDisabled: Story = {
       event.preventDefault();
     }),
   },
-  play: definePlay(async ({ canvasElement }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-list-item")[0];
     await expect(root).toBeInTheDocument();
 
-    await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
     await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
+
+    const innerLink = getByShadowRole(root, "link");
+    await expect(args.onClick).toHaveBeenCalledTimes(0);
+
+    // should not react if inner button clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
+      await expect(args.onClick).toHaveBeenCalledTimes(0);
+    });
   }),
 };
 
