@@ -19,6 +19,7 @@ const cvaButton = cva(
     "items-center",
     "gap-2",
     "w-full",
+    "h-full",
     "min-h-12",
     "bg-white",
     "px-3",
@@ -29,19 +30,15 @@ const cvaButton = cva(
     "text-left",
     "leading-5",
     "relative",
+    "outline",
+    "outline-0",
+    "-outline-offset-2",
 
-    "enabled:hover:outline",
-    "enabled:hover:-outline-offset-2",
-    "enabled:hover:outline-daikinNeutral-300",
     "enabled:hover:outline-2",
-    "enabled:active:outline",
-    "enabled:active:-outline-offset-2",
-    "enabled:active:outline-daikinNeutral-300",
+    "enabled:hover:outline-daikinNeutral-400",
     "enabled:active:outline-2",
-    "enabled:focus-visible:outline",
-    "enabled:focus-visible:-outline-offset-2",
-    "enabled:focus-visible:outline-daikinBlue-700",
-    "enabled:focus-visible:outline-2",
+    "enabled:active:outline-daikinNeutral-700",
+    "focus-visible:outline-2",
 
     "disabled:text-daikinNeutral-200",
     "disabled:border-daikinNeutral-200",
@@ -58,8 +55,11 @@ const cvaButton = cva(
   {
     variants: {
       error: {
-        false: ["border-daikinNeutral-600"],
-        true: ["border-daikinRed-500"],
+        false: [
+          "border-daikinNeutral-600",
+          "focus-visible:outline-daikinBlue-700",
+        ],
+        true: ["border-daikinRed-500", "focus-visible:outline-daikinRed-500"],
       },
       placeholder: {
         false: ["text-daikinNeutral-900"],

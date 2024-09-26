@@ -20,6 +20,7 @@ tablist
 tabpanel
 textbox
 progressbar
+combobox
 
 # Custom Events
 beforechange
