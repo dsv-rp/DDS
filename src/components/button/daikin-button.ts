@@ -189,7 +189,9 @@ export class DaikinButton extends LitElement {
       return html`<a
         class=${className}
         href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}
-        role=${this.buttonRole ?? "link"}
+        role=${ifDefined(
+          this.buttonRole ?? (linkDisabled ? "link" : undefined)
+        )}
         aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
       >
         ${content}
