@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinListItemStoryArgs
   extends Required<ElementProps<DaikinListItem>> {
+  hasSlot: boolean;
   onClick: (event: MouseEvent) => void;
 }
 
@@ -18,7 +19,13 @@ export const DAIKIN_LIST_ITEM_ARG_TYPES = {
   leftIcon: {
     type: "string",
   },
+  rightArrow: {
+    type: "boolean",
+  },
   disabled: {
+    type: "boolean",
+  },
+  hasSlot: {
     type: "boolean",
   },
 } satisfies Meta<DaikinListItemStoryArgs>["argTypes"];

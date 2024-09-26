@@ -12,6 +12,7 @@ const listCN = cva([
   "items-center",
   "gap-2",
   "w-full",
+  "min-w-max",
   "min-h-12",
   "p-3",
 
@@ -24,9 +25,6 @@ const listCN = cva([
   "focus-visible:outline-1",
   "focus-visible:-outline-offset-1",
   "focus-visible:outline-daikinBlue-700",
-
-  "after:size-6",
-  "after:i-daikin-chevron-right",
 ])();
 
 /**
@@ -39,12 +37,12 @@ const listCN = cva([
  *
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event). Suppressed if `disabled` is true.
  *
- * @slot - A slot for the list item content.
+ * @slot - An optional element that is displayed on the right of a list item. e.g. `daikin-checkbox`, `daikin-toggle`
  *
  * @example
  *
  * ```html
- * <daikin-list-item>List item label</daikin-list-item>
+ * <daikin-list-item label="List item label"></daikin-list-item>
  * ```
  */
 @customElement("daikin-list-item")
@@ -52,6 +50,12 @@ export class DaikinListItem extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
   `;
+
+  /**
+   * Label text for the list item.
+   */
+  @property({ type: String, reflect: true })
+  label = "";
 
   /**
    * Type of the list item.
@@ -68,16 +72,23 @@ export class DaikinListItem extends LitElement {
   href: string | null = null;
 
   /**
-   * Whether the list item is disabled.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled: boolean = false;
-
-  /**
    * An icon displayed at the left of the label.
    */
   @property({ type: String, reflect: true, attribute: "left-icon" })
   leftIcon: IconType | null = null;
+
+  /**
+   * Whether the right arrow icon is visible.
+   * If there is content in the slot, it will always be false.
+   */
+  @property({ type: Boolean, reflect: true, attribute: "right-arrow" })
+  rightArrow: boolean = false;
+
+  /**
+   * Whether the list item is disabled.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled: boolean = false;
 
   @query("a,button")
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
@@ -93,7 +104,7 @@ export class DaikinListItem extends LitElement {
   }
 
   override render() {
-    const content = html`<span class="flex items-center gap-2">
+    const leftContent = html`<span class="flex items-center flex-none gap-2">
       ${this.leftIcon
         ? html`<daikin-icon
             icon=${this.leftIcon}
@@ -101,8 +112,14 @@ export class DaikinListItem extends LitElement {
             color="current"
           ></daikin-icon>`
         : nothing}
-      <slot></slot>
+      ${this.label}
     </span>`;
+
+    const rightContent = html`<slot>
+      ${this.rightArrow
+        ? html`<span class="flex-none size-6 i-daikin-chevron-right"></span>`
+        : nothing}
+    </slot>`;
 
     const wrapperType =
       this.type === "link"
@@ -114,13 +131,14 @@ export class DaikinListItem extends LitElement {
     const list = {
       button: () =>
         html`<button type="button" class=${listCN} ?disabled=${this.disabled}>
-          ${content}
+          ${leftContent}${rightContent}
         </button>`,
       link: () =>
         html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
-          ${content}
+          ${leftContent}${rightContent}
         </a>`,
-      linkDisabled: () => html`<span class=${listCN}>${content}</span>`,
+      linkDisabled: () =>
+        html`<span class=${listCN}>${leftContent}${rightContent}</span>`,
     }[wrapperType]();
 
     return html`<div role="listitem">${list}</div>`;

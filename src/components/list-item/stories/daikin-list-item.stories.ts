@@ -13,8 +13,10 @@ export default {
 
 export const Button: Story = {
   args: {
+    label: "List item label",
     type: "button",
     disabled: false,
+    rightArrow: true,
     onClick: fn((event: Event) => {
       event.preventDefault();
     }),
@@ -101,4 +103,14 @@ export const LinkDisabled: Story = {
     await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
     await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
   }),
+};
+
+export const UseSlot: Story = {
+  args: {
+    ...Button.args,
+    hasSlot: true,
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
+  },
 };

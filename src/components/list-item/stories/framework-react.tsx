@@ -1,3 +1,4 @@
+import { ReactDaikinCheckbox } from "#package/components/checkbox/stories/framework-react";
 import { DaikinListItem } from "#package/components/list-item/daikin-list-item";
 import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
@@ -15,6 +16,8 @@ export const ReactDaikinListItem = createComponent({
 
 export const metadata: Meta<DaikinListItemStoryArgs> = {
   component: ({ ...props }: DaikinListItemStoryArgs) => (
-    <ReactDaikinListItem {...props}>List item label</ReactDaikinListItem>
+    <ReactDaikinListItem {...props}>
+      {props.hasSlot && <ReactDaikinCheckbox>Checkbox</ReactDaikinCheckbox>}
+    </ReactDaikinListItem>
   ),
 };

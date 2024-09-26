@@ -155,7 +155,7 @@ export class DaikinCheckbox extends LitElement {
    * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
    */
   @property({ type: String, attribute: "label-position" })
-  labelPosition: "left" | "right" = "right";
+  labelPosition: "left" | "right" | "hidden" = "right";
 
   /**
    * Specify whether the Checkbox should be disabled
@@ -201,7 +201,11 @@ export class DaikinCheckbox extends LitElement {
     const isIndeterminate = this.checkState === "indeterminate";
 
     const labelText = this.label
-      ? html`<span class=${labelClassName}>${this.label}</span>`
+      ? html`<span
+          class=${labelClassName}
+          ?hidden=${this.labelPosition === "hidden"}
+          >${this.label}</span
+        >`
       : html``;
     const inputTag = html`<input
       class=${checkboxClassName}
