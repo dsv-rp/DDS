@@ -127,6 +127,7 @@ export class DaikinButton extends LitElement {
   /**
    * Link `href`.
    * Only used if the `type` is `"link"`.
+   * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
    */
   @property({ type: String, reflect: true })
   href: string | null = null;
@@ -184,15 +185,15 @@ export class DaikinButton extends LitElement {
     `;
 
     if (this.type === "link") {
-      return this.disabled
-        ? html`<span class=${className}>${content}</span>`
-        : html`<a
-            class=${className}
-            href=${this.href ?? ""}
-            role=${ifDefined(this.buttonRole ?? undefined)}
-          >
-            ${content}
-          </a>`;
+      const linkDisabled = this.disabled || this.href == null;
+      return html`<a
+        class=${className}
+        href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}
+        role=${this.buttonRole ?? "link"}
+        aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
+      >
+        ${content}
+      </a>`;
     }
 
     return html`

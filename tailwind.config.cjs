@@ -94,8 +94,8 @@ module.exports = defineConfig({
       ]);
 
       // Variants for link buttons
-      addVariant("link-enabled", ["&:is(a, :enabled)"]);
-      addVariant("link-disabled", ["&:is(span, :disabled)"]);
+      addVariant("link-enabled", ["&:is(:any-link, :enabled)"]); // Matches to <a> with href and <button>
+      addVariant("link-disabled", ["&:not(:any-link, :enabled)"]); // Matches to <a> without href, <span>, and <button disabled>
 
       matchVariant("part", (value) => `&::part(${value})`);
 

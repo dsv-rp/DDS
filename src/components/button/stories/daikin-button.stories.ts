@@ -151,13 +151,15 @@ export const LinkDisabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-button")[0];
     await expect(root).toBeInTheDocument();
 
-    // No links or buttons
-    await expect(queryByShadowRole(root, "link")).toBe(null);
+    // No buttons
     await expect(queryByShadowRole(root, "button")).toBe(null);
 
-    // should not react if the button clicked
-    await step("Try to click button", async () => {
-      await userEvent.click(root);
+    const innerLink = getByShadowRole(root, "link", { name: "Button label" });
+    await expect(innerLink).toBeInTheDocument();
+
+    // should not react if inner link clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
       await expect(args.onClick).not.toHaveBeenCalled();
     });
   }),
