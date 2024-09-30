@@ -1,10 +1,10 @@
-import { ReactDaikinButton } from "#package/components/button/stories/framework-react";
 import { DaikinTooltip } from "#package/components/tooltip/daikin-tooltip";
-import { TOOLTIP_SLOT_TEXT } from "#package/components/tooltip/stories/framework-wc";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinButton } from "../../button/stories/framework-react";
 import type { DaikinTooltipStoryArgs } from "./common";
+import { TOOLTIP_SLOT_TEXT } from "./framework-wc";
 
 const ReactDaikinTooltip = createComponent({
   react: React,

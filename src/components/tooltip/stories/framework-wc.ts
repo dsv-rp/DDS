@@ -1,7 +1,7 @@
+import "#package/components/button/daikin-button";
 import "#package/components/tooltip/daikin-tooltip";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
-import "../../button/daikin-button";
 import type { DaikinTooltipStoryArgs } from "./common";
 
 export const TOOLTIP_SLOT_TEXT =
