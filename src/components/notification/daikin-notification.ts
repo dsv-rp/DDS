@@ -153,7 +153,7 @@ export class DaikinNotification extends LitElement {
   /**
    * Whether to display the close button
    */
-  @property({ type: Boolean })
+  @property({ type: Boolean, attribute: "close-button" })
   closeButton = false;
 
   /**

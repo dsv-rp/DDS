@@ -13,7 +13,7 @@ export default {
 
 export const Default: Story = {
   args: {
-    title: "Accordion-title",
+    heading: "Accordion-title",
     open: false,
     disabled: false,
   },

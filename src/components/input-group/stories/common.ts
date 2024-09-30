@@ -1,6 +1,6 @@
+import type { DaikinInputGroup } from "#package/components/input-group/daikin-input-group";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinInputGroup } from "../daikin-input-group";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {

@@ -14,16 +14,16 @@ const ReactDaikinAccordion = createComponent({
 export const metadata: Meta<DaikinAccordionStoryArgs> = {
   component: ({ ...props }: DaikinAccordionStoryArgs) => (
     <ReactDaikinAccordion {...props}>
-      <ReactDaikinAccordionItem title="Accordion-1-title">
+      <ReactDaikinAccordionItem heading="Accordion-1-title">
         Accordion-1-content
       </ReactDaikinAccordionItem>
-      <ReactDaikinAccordionItem title="Accordion-2-title" open>
+      <ReactDaikinAccordionItem heading="Accordion-2-title" open>
         Accordion-2-content
       </ReactDaikinAccordionItem>
-      <ReactDaikinAccordionItem title="Accordion-3-title" disabled>
+      <ReactDaikinAccordionItem heading="Accordion-3-title" disabled>
         Accordion-3-content
       </ReactDaikinAccordionItem>
-      <ReactDaikinAccordionItem title="Accordion-4-title" open disabled>
+      <ReactDaikinAccordionItem heading="Accordion-4-title" open disabled>
         Accordion-4-content
       </ReactDaikinAccordionItem>
     </ReactDaikinAccordion>
