@@ -1,5 +1,6 @@
 # Proper nouns
 daikin
+defu
 dotfiles
 fontsource
 lightningcss

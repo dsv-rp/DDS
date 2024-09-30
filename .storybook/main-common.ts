@@ -60,6 +60,7 @@ export function viteFinal(config: InlineConfig): InlineConfig {
         "@daikin-oss/dds-tokens/js/daikin/Light/variables.js",
         "@floating-ui/dom",
         "class-variance-authority",
+        "defu",
         "lit",
         "lit/**/*.js",
         "@lit/react",
