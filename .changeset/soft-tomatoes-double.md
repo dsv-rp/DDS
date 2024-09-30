@@ -12,7 +12,6 @@ The following attributes (not properties) have been renamed to kebab case:
 
 - `<daikin-button>`: ~~`leftIcon`~~ -> `left-icon`
 - `<daikin-button>`: ~~`rightIcon`~~ -> `right-icon`
-- `<daikin-checkbox>`: ~~`rightIcon`~~ -> `right-icon`
 - `<daikin-input-group>`: ~~`textareaCounter`~~ -> `textarea-counter`
 - `<daikin-notification>`: ~~`closeButton`~~ -> `close-button`
 - `<daikin-tooltip>`: ~~`closeOnClick`~~ -> `close-on-click`
