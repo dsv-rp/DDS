@@ -9,41 +9,52 @@ const cvaTextarea = cva(
   [
     "w-full",
     "h-full",
-    "text-daikinNeutral-900",
-    "border",
-    "border-solid",
-    "py-3",
     "px-4",
-    "font-daikinSerif",
+    "py-3",
     "rounded-md",
-    "outline",
-    "-outline-offset-2",
-    "outline-0",
+    "font-daikinSerif",
+    "text-daikinNeutral-900",
     "placeholder:text-daikinNeutral-700",
 
+    // Define `--color-border` as a CSS variable that references `--color-state-active`, `--color-state-focus` and `--color-base` in that order.
+    // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
+    "define-[--color-state-active,--color-state-focus,--color-base]/color-border",
+    "border",
+    "border-[--color-border]",
+    "outline",
+    "outline-[--color-border]",
+    "outline-0",
+    "-outline-offset-2",
+
+    // Display the outline when hovered, pressed, or focused.
     "enabled:hover:outline-2",
-    "enabled:hover:[&:not(:focus-visible)]:outline-daikinNeutral-400",
-
-    "enabled:active:outline-daikinNeutral-700",
-
+    "enabled:active:outline-2",
     "focus-visible:outline-2",
-    "focus-visible:outline-daikinBlue-700",
 
-    "disabled:text-[--text-input-outline-color-disabled]",
+    // Set `--color-state-active` when pressed.
+    "enabled:active:var-color-daikinNeutral-700/color-state-active",
+
+    // Update `--color-base` depending on the state.
+    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
+    "enabled:hover:var-color-daikinNeutral-400/color-base",
+    "disabled:var-color-[--text-input-outline-color-disabled]/color-base",
+
     "disabled:bg-[--text-input-background-color]",
-    "disabled:border-[--text-input-outline-color-disabled]",
+    "disabled:text-[--text-input-outline-color-disabled]",
     "disabled:placeholder:text-[--text-input-outline-color-disabled]",
   ],
   {
     variants: {
       error: {
         false: [
-          "border-daikinNeutral-600",
-          "focus-visible:outline-daikinBlue-700",
+          "var-color-daikinNeutral-600/color-base",
+          "focus-visible:var-color-daikinBlue-700/color-state-focus",
         ],
         true: [
-          "border-[--text-input-border-color-error]",
-          "focus-visible:outline-daikinRed-500",
+          // When the input is not focused and not hovered or pressed, the border color will always be the error color.
+          "var-color-[--text-input-border-color-error]/color-base",
+          // When the input is focused and not pressed, the border color will always be the error color.
+          "focus-visible:var-color-[--text-input-border-color-error]/color-state-focus",
         ],
       },
       resize: {
