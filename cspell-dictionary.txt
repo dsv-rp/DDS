@@ -51,4 +51,5 @@ FOUC
 linkify
 quasis
 retargeted
+rgba
 textareas
