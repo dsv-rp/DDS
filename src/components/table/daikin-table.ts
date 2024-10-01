@@ -20,45 +20,42 @@ import "../dropdown/daikin-dropdown";
 import "../pagination/daikin-pagination";
 import "../text-input/daikin-text-input";
 
-const cvaCell = cva(
-  ["flex", "items-center", "w-full", "min-h-[calc(3.5rem_-_1px)]", "p-4"],
-  {
-    variants: {
-      align: {
-        left: [],
-        right: ["justify-end"],
-      },
-      sort: {
-        false: [],
-        true: [
-          "items-center",
-          "gap-2",
-          "focus-visible:outline",
-          "focus-visible:outline-2",
-          "focus-visible:-outline-offset-2",
-          "focus-visible:outline-daikinBlue-700",
-
-          "after:size-6",
-          "after:text-daikinNeutral-800",
-          "after:i-daikin-sort-chevron-up-and-down",
-        ],
-      },
-      selected: {
-        false: [
-          "bg-white",
-          "hover:bg-daikinNeutral-100",
-          "active:bg-daikinNeutral-200",
-        ],
-        true: [
-          "bg-daikinBlue-50",
-          "hover:bg-daikinBlue-50",
-          "active:bg-daikinBlue-100",
-        ],
-        null: [],
-      },
+const cvaCell = cva(["flex", "items-center", "w-full", "min-h-14", "p-4"], {
+  variants: {
+    align: {
+      left: [],
+      right: ["justify-end"],
     },
-  }
-);
+    sort: {
+      false: [],
+      true: [
+        "items-center",
+        "gap-2",
+        "focus-visible:outline",
+        "focus-visible:outline-2",
+        "focus-visible:-outline-offset-2",
+        "focus-visible:outline-daikinBlue-700",
+
+        "after:size-6",
+        "after:text-daikinNeutral-800",
+        "after:i-daikin-sort-chevron-up-and-down",
+      ],
+    },
+    selected: {
+      false: [
+        "bg-white",
+        "hover:bg-daikinNeutral-100",
+        "active:bg-daikinNeutral-200",
+      ],
+      true: [
+        "bg-daikinBlue-50",
+        "hover:bg-daikinBlue-50",
+        "active:bg-daikinBlue-100",
+      ],
+      null: [],
+    },
+  },
+});
 
 const cvaRow = cva(
   [
@@ -590,15 +587,13 @@ export class DaikinTable extends LitElement {
     const table = html`<table
       class="w-full bg-[--table-color-background] table-fixed leading-[22px]"
     >
-      <thead
-        class="text-daikinNeutral-900 border-b border-b-daikinNeutral-800 font-bold"
-      >
-        <tr>
+      <thead>
+        <tr
+          class="text-daikinNeutral-900 border-b border-b-daikinNeutral-800 font-bold"
+        >
           ${this.hasCheckbox
             ? html`<td class="w-12 h-full p-0">
-                <span
-                  class="flex items-center justify-center w-full min-h-[calc(3.5rem_-_1px)]"
-                >
+                <span class="flex items-center justify-center w-full min-h-14">
                   <daikin-checkbox
                     name="allItem"
                     .checkState=${this._allItemCheckState}
