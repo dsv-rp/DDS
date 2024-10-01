@@ -107,6 +107,7 @@ export class DaikinBreadcrumb extends LitElement {
         // last item
         item.trailingSlash = this.trailingSlash;
         item.disabled = true;
+        item.setAttribute("aria-current", "page");
         linkElement?.setAttribute("tabindex", "-1");
         continue;
       }
