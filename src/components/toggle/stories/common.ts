@@ -9,14 +9,10 @@ export interface DaikinToggleStoryArgs
 }
 
 export const DAIKIN_TOGGLE_ARG_TYPES = {
-  size: {
-    control: { type: "select" },
-    options: ["default", "small"],
-  },
-  disabled: { type: "boolean" },
-  checked: { type: "boolean" },
   name: { type: "string" },
   value: { type: "string" },
+  checked: { type: "boolean" },
+  disabled: { type: "boolean" },
 } as const satisfies Meta<DaikinToggleStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinToggleStoryArgs>;
