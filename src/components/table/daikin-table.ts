@@ -20,51 +20,55 @@ import "../dropdown/daikin-dropdown";
 import "../pagination/daikin-pagination";
 import "../text-input/daikin-text-input";
 
-const FOCUSED_CLASS_NAME = [
-  "focus-visible:outline",
-  "focus-visible:outline-2",
-  "focus-visible:-outline-offset-2",
-  "focus-visible:outline-daikinBlue-700",
-];
+const cvaCell = cva(
+  ["flex", "items-center", "w-full", "min-h-[calc(3.5rem_-_1px)]", "p-4"],
+  {
+    variants: {
+      align: {
+        left: [],
+        right: ["justify-end"],
+      },
+      sort: {
+        false: [],
+        true: [
+          "items-center",
+          "gap-2",
+          "focus-visible:outline",
+          "focus-visible:outline-2",
+          "focus-visible:-outline-offset-2",
+          "focus-visible:outline-daikinBlue-700",
 
-const cvaCell = cva(["flex", "w-full", "p-4"], {
-  variants: {
-    align: {
-      left: [],
-      right: ["justify-end"],
+          "after:size-6",
+          "after:text-daikinNeutral-800",
+          "after:i-daikin-sort-chevron-up-and-down",
+        ],
+      },
+      selected: {
+        false: [
+          "bg-white",
+          "hover:bg-daikinNeutral-100",
+          "active:bg-daikinNeutral-200",
+        ],
+        true: [
+          "bg-daikinBlue-50",
+          "hover:bg-daikinBlue-50",
+          "active:bg-daikinBlue-100",
+        ],
+        null: [],
+      },
     },
-    sort: {
-      false: [],
-      true: [
-        "flex",
-        "items-center",
-        "w-full",
-        "gap-2",
-        ...FOCUSED_CLASS_NAME,
-
-        "after:size-6",
-        "after:text-daikinNeutral-800",
-        "after:i-daikin-sort-chevron-up-and-down",
-      ],
-    },
-    selected: {
-      false: [
-        "bg-white",
-        "hover:bg-daikinNeutral-100",
-        "active:bg-daikinNeutral-200",
-      ],
-      true: [
-        "bg-daikinBlue-50",
-        "hover:bg-daikinBlue-50",
-        "active:bg-daikinBlue-100",
-      ],
-      null: [],
-    },
-  },
-});
+  }
+);
 
 const cvaRow = cva(
-  ["border-b", "border-b-daikinNeutral-300", ...FOCUSED_CLASS_NAME],
+  [
+    "border-b",
+    "border-b-daikinNeutral-300",
+    "focus-visible:outline",
+    "focus-visible:outline-2",
+    "focus-visible:-outline-offset-2",
+    "focus-visible:outline-daikinBlue-700",
+  ],
   {
     variants: {
       selected: {
@@ -591,8 +595,10 @@ export class DaikinTable extends LitElement {
       >
         <tr>
           ${this.hasCheckbox
-            ? html`<td class="w-12 h-14 p-0">
-                <span class="flex items-center justify-center w-full h-full">
+            ? html`<td class="w-12 h-full p-0">
+                <span
+                  class="flex items-center justify-center w-full min-h-[calc(3.5rem_-_1px)]"
+                >
                   <daikin-checkbox
                     name="allItem"
                     .checkState=${this._allItemCheckState}
@@ -606,7 +612,7 @@ export class DaikinTable extends LitElement {
           ${this.headers.map(
             ({ key, label, align }) =>
               html`<th
-                class="p-0"
+                class="h-full p-0"
                 aria-sort=${ifDefined(
                   this.hasSort && this.sortedKey === key
                     ? this.orderBy === "asc"
@@ -649,9 +655,9 @@ export class DaikinTable extends LitElement {
               class=${cvaRow({ selected: this.selectedRowId === row.id })}
             >
               ${this.hasCheckbox
-                ? html`<td class="w-12 h-14 p-0">
+                ? html`<td class="w-12 p-0">
                     <span
-                      class="flex items-center justify-center w-full h-full"
+                      class="flex justify-center items-center w-full min-h-14"
                     >
                       <daikin-checkbox
                         name=${row.id}
