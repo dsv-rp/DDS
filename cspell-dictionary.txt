@@ -3,6 +3,7 @@ daikin
 defu
 dotfiles
 fontsource
+jiti
 lightningcss
 picocolors
 roboto
