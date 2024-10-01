@@ -6,8 +6,6 @@ import type { DaikinCheckboxStoryArgs } from "./common";
 export const metadata: Meta<DaikinCheckboxStoryArgs> = {
   render: ({
     disabled,
-    readonly,
-    size,
     checkState,
     label,
     labelPosition,
@@ -16,8 +14,6 @@ export const metadata: Meta<DaikinCheckboxStoryArgs> = {
   }) => html`
     <daikin-checkbox
       ?disabled=${disabled}
-      ?readonly=${readonly}
-      size=${size}
       check-state=${checkState}
       label=${label}
       label-position=${labelPosition}

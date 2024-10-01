@@ -42,6 +42,6 @@ export default defineConfig({
   plugins: [
     react(),
     // "#storybook-framework" loader
-    storybookFrameworkLoader(frameworkPath),
+    storybookFrameworkLoader(STORYBOOK_FW, frameworkPath),
   ],
 });
