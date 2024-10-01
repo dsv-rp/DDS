@@ -49,5 +49,6 @@ cssprop
 # Misc.
 FOUC
 linkify
+quasis
 retargeted
 textareas

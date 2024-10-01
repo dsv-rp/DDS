@@ -7,6 +7,7 @@ import {
 } from "eslint-plugin-lit-a11y";
 import { configs as wcConfig } from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
+import ddsRulesPlugin from "./rules";
 
 // convert eslint-plugin-lit-a11y's recommended config into a flat one
 const litA11yConfigFlatRecommended = {
@@ -25,6 +26,12 @@ export default tseslint.config(
   litConfig["flat/recommended"],
   litA11yConfigFlatRecommended,
   prettierConfig,
+  {
+    plugins: { dds: ddsRulesPlugin },
+    rules: {
+      "dds/ban-missing-design-tokens": "error",
+    },
+  },
   {
     languageOptions: {
       parserOptions: {
