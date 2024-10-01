@@ -9,19 +9,25 @@ export interface DaikinRadioStoryArgs
 }
 
 export const DAIKIN_RADIO_ARG_TYPES = {
-  size: {
-    control: { type: "select" },
-    options: ["small", "large"],
+  name: {
+    type: "string",
   },
-  checked: { type: "boolean" },
-  disabled: { type: "boolean" },
-  labelPosition: { type: "string" },
-  readonly: { type: "boolean" },
+  value: {
+    type: "string",
+  },
   label: {
     type: "string",
   },
-  name: { type: "string" },
-  value: { type: "string" },
+  labelPosition: {
+    control: "radio",
+    options: ["right", "hidden"],
+  },
+  checked: {
+    type: "boolean",
+  },
+  disabled: {
+    type: "boolean",
+  },
 } satisfies Meta<DaikinRadioStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinRadioStoryArgs>;
