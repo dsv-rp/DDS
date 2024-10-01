@@ -117,7 +117,12 @@ export class DaikinBreadcrumbItem extends LitElement {
 
   override render() {
     const slash = this.trailingSlash
-      ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
+      ? html`<span
+          class="text-daikinNeutral-800 font-daikinSerif"
+          aria-hidden=${true}
+        >
+          /
+        </span>`
       : null;
     return html`
       ${this.variant === "normal"
