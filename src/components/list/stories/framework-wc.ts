@@ -20,12 +20,11 @@ export const metadata: Meta<DaikinListStoryArgs> = {
         </daikin-list-item>
         <daikin-list-item chevron>
           List item label 4
-          <span slot="action">
-            <daikin-checkbox
-              label="Label"
-              label-position="hidden"
-            ></daikin-checkbox>
-          </span>
+          <daikin-checkbox
+            label="Label"
+            label-position="hidden"
+            slot="action"
+          ></daikin-checkbox>
         </daikin-list-item>
       </daikin-list>
     </div>

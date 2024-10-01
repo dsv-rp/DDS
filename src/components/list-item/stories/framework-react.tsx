@@ -19,9 +19,11 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
     <ReactDaikinListItem {...props}>
       List item label
       {props.hasSlot && (
-        <span slot="action">
-          <ReactDaikinCheckbox>Checkbox</ReactDaikinCheckbox>
-        </span>
+        <ReactDaikinCheckbox
+          label="Checkbox"
+          labelPosition="hidden"
+          slot="action"
+        ></ReactDaikinCheckbox>
       )}
     </ReactDaikinListItem>
   ),

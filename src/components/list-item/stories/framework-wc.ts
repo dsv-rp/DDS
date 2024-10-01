@@ -25,12 +25,11 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
     >
       List item label
       ${hasSlot
-        ? html`<span slot="action">
-            <daikin-checkbox
-              label="Label"
-              label-position="hidden"
-            ></daikin-checkbox>
-          </span>`
+        ? html`<daikin-checkbox
+            label="Label"
+            label-position="hidden"
+            slot="action"
+          ></daikin-checkbox>`
         : nothing}
     </daikin-list-item>
   `,

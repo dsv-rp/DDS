@@ -1,88 +1,73 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import {
+  css,
+  html,
+  LitElement,
+  nothing,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
+import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
-const cvaCheckbox = cva(
-  [
-    "appearance-none",
+const CHECKBOX_CLASS_NAME = cva([
+  "block",
+  "size-4",
+  "relative",
+  "bg-white",
+  "border-daikinNeutral-600",
+  "border-2",
+  "rounded-sm",
+  "appearance-none",
 
-    "inline-block",
-    "relative",
-    "rounded-sm",
-    "border-solid",
-    "border-2",
+  "before:text-white",
+  "before:absolute",
+  "before:m-auto",
+  "before:inset-0",
+  "checked:before:i-daikin-checkbox-checked",
+  "indeterminate:before:i-daikin-checkbox-indeterminate",
+  "indeterminate:before:size-2.5",
 
-    "after:absolute",
-    "after:text-white",
+  "focus-visible:outline",
+  "focus-visible:outline-1",
+  "focus-visible:outline-offset-1",
+  "focus-visible:outline-daikinBlue-700",
 
-    "checked:after:i-daikin-checkbox-checked",
-    "indeterminate:after:i-daikin-checkbox-indeterminate",
+  "enabled:group-hover:border-daikinNeutral-400",
+  "enabled:group-active:border-daikinNeutral-700",
 
-    "focus-visible:outline-none",
+  "enabled:checked:border-daikinBlue-500",
+  "enabled:checked:bg-daikinBlue-500",
+  "enabled:checked:group-hover:bg-daikinBlue-300",
+  "enabled:checked:group-hover:border-daikinBlue-300",
+  "enabled:checked:group-hover:before:text-white",
+  "enabled:checked:group-active:bg-daikinBlue-600",
+  "enabled:checked:group-active:border-daikinBlue-600",
+  "enabled:checked:group-active:before:text-white",
 
-    "border-daikinNeutral-400",
+  "enabled:indeterminate:bg-daikinBlue-500",
+  "enabled:indeterminate:border-daikinBlue-500",
+  "enabled:indeterminate:group-hover:bg-daikinBlue-300",
+  "enabled:indeterminate:group-hover:border-daikinBlue-300",
+  "enabled:indeterminate:group-hover:before:text-white",
+  "enabled:indeterminate:group-active:bg-daikinBlue-600",
+  "enabled:indeterminate:group-active:border-daikinBlue-600",
+  "enabled:indeterminate:group-active:before:text-white",
 
-    "enabled:indeterminate:border-daikinBlue-600",
-    "enabled:indeterminate:bg-daikinBlue-600",
+  "disabled:border-daikinNeutral-200",
+  "disabled:bg-white",
+  "disabled:checked:bg-daikinNeutral-200",
+  "disabled:indeterminate:bg-daikinNeutral-200",
+])();
 
-    "enabled:checked:border-daikinBlue-600",
-    "enabled:checked:bg-daikinBlue-600",
-
-    "aria-controllable:focus-visible:border-daikinBlue-700",
-    "aria-controllable:hover:border-daikinBlue-300",
-    "aria-controllable:active:border-daikinBlue-600",
-
-    "aria-controllable:checked:focus-visible:border-daikinBlue-700",
-    "aria-controllable:checked:focus-visible:border-daikinBlue-700",
-    "aria-controllable:checked:focus-visible:bg-daikinBlue-700",
-    "aria-controllable:checked:focus-visible:bg-daikinBlue-700",
-    "aria-controllable:checked:hover:border-daikinBlue-300",
-    "aria-controllable:checked:hover:bg-daikinBlue-300",
-    "aria-controllable:checked:active:border-daikinBlue-600",
-    "aria-controllable:checked:active:bg-daikinBlue-600",
-
-    "aria-controllable:indeterminate:active:border-daikinBlue-600",
-    "aria-controllable:indeterminate:active:bg-daikinBlue-600",
-    "aria-controllable:indeterminate:hover:border-daikinBlue-300",
-    "aria-controllable:indeterminate:hover:bg-daikinBlue-300",
-    "aria-controllable:indeterminate:focus-visible:border-daikinBlue-700",
-    "aria-controllable:indeterminate:focus-visible:bg-daikinBlue-700",
-
-    "disabled:border-daikinNeutral-200",
-    "disabled:bg-white",
-    "disabled:indeterminate:bg-daikinNeutral-200",
-    "disabled:checked:bg-daikinNeutral-200",
-  ],
-  {
-    variants: {
-      size: {
-        small: ["w-[18px]", "h-[18px]"],
-        large: ["w-5", "h-5"],
-      },
+const cvaLabel = cva([], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
     },
-  }
-);
-
-const cvaLabel = cva(
-  ["leading-8", "not-italic", "font-normal", "align-middle"],
-  {
-    variants: {
-      size: {
-        small: ["text-sm"],
-        large: ["text-base"],
-      },
-    },
-    defaultVariants: {
-      size: "small",
-    },
-  }
-);
-
-type CheckboxVariantProps = MergeVariantProps<
-  typeof cvaCheckbox | typeof cvaLabel
->;
+  },
+});
 
 /**
  * The checkbox component is a UI element that allows users to select one or more options from a list of choices.
@@ -103,131 +88,109 @@ export class DaikinCheckbox extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: inline-flex;
     }
   `;
 
-  private _handleClick(event: PointerEvent) {
-    if (this.readonly || this.disabled) {
-      event.preventDefault();
-    }
+  /**
+   * Form name of the checkbox.
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * Form value of the checkbox.
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Label text for the checkbox.
+   */
+  @property({ type: String })
+  label = "";
+
+  /**
+   * Label position.
+   * - `right` (default): The label will be placed to the right of the checkbox.
+   * - `hidden`: The label will not be shown.
+   */
+  @property({ type: String, attribute: "label-position" })
+  labelPosition: "right" | "hidden" = "right";
+
+  /**
+   * Checked state of the checkbox.
+   */
+  @property({ type: String, reflect: true, attribute: "check-state" })
+  checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
+
+  /**
+   * Whether the checkbox is disabled.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  get checked(): boolean {
+    return this.checkState === "checked";
+  }
+
+  /**
+   * A property-only accessor for `checkState` provided for convenience.
+   * _Getter_: Returns `true` when `checkState` is `"checked"`, and `false` otherwise.
+   * _Setter_: If `true` is set, it updates `checkState` to `"checked"`, and if `false` is set, it updates `checkState` to `"unchecked"`.
+   */
+  set checked(value: boolean) {
+    this.checkState = value ? "checked" : "unchecked";
   }
 
   static readonly formAssociated = true;
 
-  // define _internals to let checkbox can be used in form
+  // define _internals to let the checkbox can be used in a form
   private _internals = this.attachInternals();
 
   private _updateFormValue() {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  @query("input")
-  private _input: HTMLInputElement | null | undefined;
-
-  get checked() {
-    return this.checkState === "checked";
+  private _handleClick(event: PointerEvent) {
+    if (this.disabled) {
+      event.preventDefault();
+    }
   }
 
   private _handleChange(event: Event) {
-    if (!this._input) {
-      return;
-    }
-    this.checkState = this._input.checked ? "checked" : "unchecked";
+    this.checkState = (event.target as HTMLInputElement).checked
+      ? "checked"
+      : "unchecked";
     this._updateFormValue();
     this.dispatchEvent(new Event("change", event));
   }
 
-  /**
-   * Specify the label text for check box
-   */
-  @property({ type: String })
-  label = "";
-
-  /**
-   * Specify the component size
-   */
-  @property({ type: String })
-  size: CheckboxVariantProps["size"] = "small";
-
-  /**
-   * Specify the label position
-   * when `left` the label will be in left of checkbox, when `right` label will be in right of checkbox
-   */
-  @property({ type: String, attribute: "label-position" })
-  labelPosition: "left" | "right" | "hidden" = "right";
-
-  /**
-   * Specify whether the Checkbox should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify whether the checkbox is read only
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly = false;
-
-  /**
-   * Specify whether the checkbox is be checked
-   */
-  @property({ type: String, reflect: true, attribute: "check-state" })
-  checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
-
-  /**
-   * The form name.
-   */
-  @property({ type: String, reflect: true })
-  name = "";
-
-  /**
-   * The value.
-   */
-  @property({ type: String, reflect: true })
-  value = "";
-
-  /**
-   * Specify whether the Checkbox is in a error state
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
-
   override render() {
-    // Specify the component size
-    const checkboxClassName = cvaCheckbox({ size: this.size });
-    const labelClassName = cvaLabel({ size: this.size });
-
-    const isIndeterminate = this.checkState === "indeterminate";
-
-    const labelText = this.label
-      ? html`<span
-          class=${labelClassName}
-          ?hidden=${this.labelPosition === "hidden"}
-          >${this.label}</span
-        >`
-      : html``;
-    const inputTag = html`<input
-      class=${checkboxClassName}
-      type="checkbox"
-      name=${this.name}
-      value=${this.value}
-      aria-readonly=${this.readonly}
-      .indeterminate=${isIndeterminate}
-      .checked=${this.checked}
-      ?readonly=${this.readonly}
-      ?disabled=${this.disabled}
-      @change=${this._handleChange}
-      @click=${this._handleClick}
-    />`;
-    const content =
-      this.labelPosition === "left"
-        ? html`${labelText}${inputTag}`
-        : html`${inputTag}${labelText}`;
-    return html`<label
-      class="inline-flex gap-[10px] items-center font-daikinSerif"
-      >${content}</label
-    >`;
+    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+      <div class="p-2">
+        <input
+          class=${CHECKBOX_CLASS_NAME}
+          type="checkbox"
+          name=${this.name}
+          value=${this.value}
+          aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          .indeterminate=${this.checkState === "indeterminate"}
+          .checked=${this.checked}
+          ?disabled=${this.disabled}
+          @change=${this._handleChange}
+          @click=${this._handleClick}
+        />
+      </div>
+      <span
+        class=${cvaLabel({
+          disabled: this.disabled,
+        })}
+        ?hidden=${this.labelPosition === "hidden"}
+      >
+        ${this.label}
+      </span>
+    </label>`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {

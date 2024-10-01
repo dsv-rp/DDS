@@ -96,6 +96,7 @@ module.exports = defineConfig({
       // Variants for link buttons
       addVariant("link-enabled", ["&:is(a, :enabled)"]);
       addVariant("link-disabled", ["&:is(span, :disabled)"]);
+      addVariant("unchecked", ["&:not(:checked)"]);
 
       matchVariant("part", (value) => `&::part(${value})`);
 

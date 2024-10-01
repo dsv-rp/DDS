@@ -12,100 +12,133 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_LIST_ITEM_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-list-item--button", args);
 
-describeEach(["button", "link"] as const, (type) => {
-  describeEach(["exist", "none"] as const, (leftIcon) => {
-    describeEach(["exist", "none"] as const, (chevron) => {
-      describeEach(["checkbox", "none"] as const, (slot) => {
-        const baseArgs = {
-          type,
-          // Due to Storybook's limitation, we cannot use special characters in `href`.
-          // Since an `<a>` element without `href` attribute cannot be focused using the tab key, it is necessary to set some kind of value.
-          ...(type === "link" && { href: "example" }),
-          ...(leftIcon === "exist" && { leftIcon: "positive" }),
-          chevron: chevron === "exist",
-          hasSlot: slot === "checkbox",
-        };
+describeEach(["exist", "none"] as const, (leftIcon) => {
+  describeEach(["exist", "none"] as const, (chevron) => {
+    describeEach(["checkbox", "none"] as const, (slot) => {
+      const baseArgs = {
+        ...(leftIcon === "exist" && { leftIcon: "positive" }),
+        chevron: chevron === "exist",
+        hasSlot: slot === "checkbox",
+      };
 
-        const baseURL = getPageURL(baseArgs);
+      const baseURL = getPageURL(baseArgs);
 
-        test("base", async ({ page }) => {
-          await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-list-item", {
-            state: "visible",
-          });
-
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-list-item", {
+          state: "visible",
         });
 
-        test("hover", async ({ page }) => {
-          await page.goto(baseURL);
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-list-item", {
-            state: "visible",
-          });
+      test("hover", async ({ page }) => {
+        await page.goto(baseURL);
 
-          // hover cursor on the element
-          await element.hover();
-
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-list-item", {
+          state: "visible",
         });
 
-        test("press", async ({ page }) => {
-          await page.goto(baseURL);
+        // hover cursor on the element
+        await element.hover();
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-list-item", {
-            state: "visible",
-          });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
 
-          // hover cursor on the element and hold down mouse button on the element
-          await element.hover();
-          await page.mouse.down();
+      test("press", async ({ page }) => {
+        await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
-          await page.mouse.up();
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-list-item", {
+          state: "visible",
         });
 
-        test("focus", async ({ page }) => {
-          await page.goto(baseURL);
+        // hover cursor on the element and hold down mouse button on the element
+        await element.hover();
+        await page.mouse.down();
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-list-item", {
-            state: "visible",
-          });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+        await page.mouse.up();
+      });
 
-          // we have to use keyboard to focus on element to make `:focus-visible` work.
-          await element.focus();
-          await page.keyboard.press("Tab");
+      test("focus", async ({ page }) => {
+        await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-list-item", {
+          state: "visible",
         });
 
-        test("disabled", async ({ page }) => {
-          // load page with disabled=true
-          await page.goto(
-            getPageURL({
-              ...baseArgs,
-              disabled: true,
-            })
-          );
+        // we have to use keyboard to focus on element to make `:focus-visible` work.
+        await element.focus();
+        await page.keyboard.press("Tab");
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-list-item", {
-            state: "visible",
-          });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
+      test("disabled", async ({ page }) => {
+        // load page with disabled=true
+        await page.goto(
+          getPageURL({
+            ...baseArgs,
+            disabled: true,
+          })
+        );
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-list-item", {
+          state: "visible",
         });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
     });
+  });
+});
+
+describeEach(["button", "link"] as const, (type) => {
+  const baseArgs = {
+    type,
+    // Due to Storybook's limitation, we cannot use special characters in `href`.
+    // Since an `<a>` element without `href` attribute cannot be focused using the tab key, it is necessary to set some kind of value.
+    ...(type === "link" && { href: "example" }),
+  };
+
+  test("base", async ({ page }) => {
+    await page.goto(getPageURL(baseArgs));
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-list-item", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
+  test("disabled", async ({ page }) => {
+    // load page with disabled=true
+    await page.goto(
+      getPageURL({
+        ...baseArgs,
+        disabled: true,
+      })
+    );
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-list-item", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });
