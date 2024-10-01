@@ -4,6 +4,7 @@ import { env } from "node:process";
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
 import { loadIcons } from "./icons";
+import { tokensPlugin } from "./tokens";
 import { flattenColorPalette, toColorValue } from "./utils";
 
 export default {
@@ -38,6 +39,10 @@ export default {
   },
   plugins: [
     daikinPlugin(),
+    tokensPlugin({
+      prefix: "ddt-",
+      cssVarPrefix: "--dds-",
+    }),
     iconsPlugin({
       collections: {
         daikin: {

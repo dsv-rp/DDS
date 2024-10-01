@@ -1,5 +1,5 @@
 import type { AST, Rule } from "eslint";
-import tokenTypes from "../../token-types.json" with { type: "json" };
+import designTokens from "../../design-tokens.json" with { type: "json" };
 
 export const banMissingDesignTokensRule: Rule.RuleModule = {
   meta: {
@@ -14,7 +14,7 @@ export const banMissingDesignTokensRule: Rule.RuleModule = {
     },
   },
   create(context) {
-    const allowedTokenSet = new Set(Object.keys(tokenTypes));
+    const allowedTokenSet = new Set(Object.keys(designTokens));
 
     const checkAndReport = (
       node: Rule.Node,
