@@ -14,8 +14,6 @@ const getPageURL = (args: StoryArgs = {}) =>
 test("base", async ({ page }) => {
   await page.goto(getPageURL());
 
-  console.log(getPageURL());
-
   // wait for element to be visible
   const element = await page.waitForSelector("daikin-list", {
     state: "visible",

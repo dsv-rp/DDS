@@ -19,8 +19,8 @@ export const DAIKIN_LIST_ITEM_ARG_TYPES = {
   leftIcon: {
     type: "string",
   },
-  chevron: {
-    type: "boolean",
+  rightIcon: {
+    type: "string",
   },
   disabled: {
     type: "boolean",

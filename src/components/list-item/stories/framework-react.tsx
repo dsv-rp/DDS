@@ -23,7 +23,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
           label="Checkbox"
           labelPosition="hidden"
           slot="action"
-        ></ReactDaikinCheckbox>
+        />
       )}
     </ReactDaikinListItem>
   ),

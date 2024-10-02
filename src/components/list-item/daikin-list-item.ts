@@ -1,6 +1,12 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  query,
+  queryAssignedElements,
+  state,
+} from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
@@ -13,11 +19,9 @@ const cvaListItem = cva(
     "items-center",
     "gap-2",
     "w-full",
-    "min-w-max",
     "min-h-12",
     "py-3",
-    "pl-4",
-    "pr-3",
+    "text-left",
 
     "link-disabled:text-daikinNeutral-200",
 
@@ -89,11 +93,11 @@ export class DaikinListItem extends LitElement {
   leftIcon: IconType | null = null;
 
   /**
-   * Whether the right arrow icon is visible.
+   * An icon displayed at the right of the label.
    * If there is content in the slot, it will always be false.
    */
-  @property({ type: Boolean, reflect: true })
-  chevron: boolean = false;
+  @property({ type: String, reflect: true, attribute: "right-icon" })
+  rightIcon: IconType | null = null;
 
   /**
    * Whether the list item is disabled.
@@ -101,8 +105,14 @@ export class DaikinListItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
+  @queryAssignedElements({ slot: "action" })
+  private _actions!: HTMLElement[];
+
   @query("a,button")
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
+
+  @state()
+  private _hasAction = false;
 
   constructor() {
     super();
@@ -117,25 +127,23 @@ export class DaikinListItem extends LitElement {
   override render() {
     const listCN = cvaListItem({
       leftIcon: !!this.leftIcon,
-      rightIcon: this.chevron,
+      rightIcon: !!this.rightIcon || this._hasAction,
     });
 
-    const leftContent = html`<span class="flex items-center flex-none gap-2">
-      ${this.leftIcon
+    const icon = (icon: IconType | null) =>
+      icon
         ? html`<daikin-icon
-            icon=${this.leftIcon}
+            icon=${icon}
             size="xl"
             color="current"
           ></daikin-icon>`
-        : nothing}
-      <slot></slot>
-    </span>`;
+        : nothing;
 
-    const rightContent = html`<slot name="action">
-      ${this.chevron
-        ? html`<span class="flex-none size-6 i-daikin-chevron-right"></span>`
-        : nothing}
-    </slot>`;
+    const content = html`<span class="flex items-center w-full gap-2">
+        ${icon(this.leftIcon)}
+        <slot></slot>
+      </span>
+      <slot name="action">${icon(this.rightIcon)}</slot>`;
 
     const wrapperType =
       this.type === "link"
@@ -147,17 +155,20 @@ export class DaikinListItem extends LitElement {
     const list = {
       button: () =>
         html`<button type="button" class=${listCN} ?disabled=${this.disabled}>
-          ${leftContent}${rightContent}
+          ${content}
         </button>`,
       link: () =>
         html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
-          ${leftContent}${rightContent}
+          ${content}
         </a>`,
-      linkDisabled: () =>
-        html`<span class=${listCN}>${leftContent}${rightContent}</span>`,
+      linkDisabled: () => html`<span class=${listCN}>${content}</span>`,
     }[wrapperType]();
 
     return html`<div role="listitem">${list}</div>`;
+  }
+
+  protected override firstUpdated(): void {
+    this._hasAction = !!this._actions.length;
   }
 
   /**

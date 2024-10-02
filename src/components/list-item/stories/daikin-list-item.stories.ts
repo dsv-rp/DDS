@@ -15,7 +15,6 @@ export const Button: Story = {
   args: {
     type: "button",
     disabled: false,
-    chevron: true,
     onClick: fn((event: Event) => {
       event.preventDefault();
     }),
@@ -40,6 +39,7 @@ export const WithIcon: Story = {
   args: {
     ...Button.args,
     leftIcon: "positive",
+    rightIcon: "chevron-right",
     onClick: fn((event: Event) => {
       event.preventDefault();
     }),

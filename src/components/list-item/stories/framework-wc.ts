@@ -10,7 +10,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
     type,
     href,
     leftIcon,
-    chevron,
+    rightIcon,
     disabled,
     hasSlot,
     onClick,
@@ -19,7 +19,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
       type=${type}
       href=${ifDefined(href)}
       left-icon=${ifDefined(leftIcon)}
-      ?chevron=${chevron}
+      right-icon=${ifDefined(rightIcon)}
       ?disabled=${disabled}
       @click=${onClick}
     >

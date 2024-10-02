@@ -13,11 +13,11 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-list-item--button", args);
 
 describeEach(["exist", "none"] as const, (leftIcon) => {
-  describeEach(["exist", "none"] as const, (chevron) => {
+  describeEach(["exist", "none"] as const, (rightIcon) => {
     describeEach(["checkbox", "none"] as const, (slot) => {
       const baseArgs = {
         ...(leftIcon === "exist" && { leftIcon: "positive" }),
-        chevron: chevron === "exist",
+        ...(rightIcon === "exist" && { rightIcon: "chevron-right" }),
         hasSlot: slot === "checkbox",
       };
 
