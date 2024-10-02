@@ -17,13 +17,9 @@ export const ReactDaikinTextarea = createComponent({
 });
 
 export const metadata: Meta<DaikinTextareaStoryArgs> = {
-  component: ({ ...props }: DaikinTextareaStoryArgs) => {
-    const additionalClassNames = {
-      "": "",
-      resizeLarge: "w-[800px] h-[320px]",
-      resizeSmall: "w-[160px] h-[40px]",
-    }[props.__vrtArgs__];
-
-    return <ReactDaikinTextarea {...props} className={additionalClassNames} />;
-  },
+  component: ({ ...props }: DaikinTextareaStoryArgs) => (
+    <div style={{ width: "360px" }}>
+      <ReactDaikinTextarea {...props} />
+    </div>
+  ),
 };

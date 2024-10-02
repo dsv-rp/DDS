@@ -30,7 +30,6 @@ export const Default: Story = {
     readonly: false,
     error: false,
     resizable: true,
-    __vrtArgs__: "",
     onChange: fn(eventPayloadTransformer),
     onInput: fn(eventPayloadTransformer),
     onChangeCount: fn(eventPayloadTransformerDetail),

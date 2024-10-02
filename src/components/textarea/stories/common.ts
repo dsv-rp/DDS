@@ -4,7 +4,6 @@ import type { DaikinTextarea } from "../daikin-textarea";
 
 export interface DaikinTextareaStoryArgs
   extends Required<ElementProps<DaikinTextarea>> {
-  __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
   onChangeCount: (event: CustomEvent<{ count: number }>) => void;
@@ -31,10 +30,6 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
   },
   resizable: {
     type: "boolean",
-  },
-  __vrtArgs__: {
-    type: "string",
-    control: false,
   },
 } satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
 

@@ -96,7 +96,6 @@ export class DaikinTextarea extends LitElement {
       --text-input-background-color: #ffffff;
 
       display: block;
-      width: 360px;
       height: 87px;
       position: relative;
     }

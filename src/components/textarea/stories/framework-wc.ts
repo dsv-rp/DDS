@@ -14,20 +14,12 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     required,
     error,
     resizable,
-    __vrtArgs__,
     onChange,
     onInput,
     onChangeCount,
-  }) => {
-    const additionalClassNames = {
-      "": "",
-      resizeLarge: "w-[800px] h-[320px]",
-      resizeSmall: "w-[160px] h-[40px]",
-    }[__vrtArgs__];
-
-    return html`
+  }) => html`
+    <div style="width:360px;">
       <daikin-textarea
-        class=${additionalClassNames}
         placeholder=${placeholder}
         autocomplete=${ifDefined(autocomplete)}
         ?disabled=${disabled}
@@ -39,6 +31,6 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
         @input=${onInput}
         @change-count=${onChangeCount}
       ></daikin-textarea>
-    `;
-  },
+    </div>
+  `,
 };
