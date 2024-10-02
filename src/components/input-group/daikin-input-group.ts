@@ -86,7 +86,7 @@ export class DaikinInputGroup extends LitElement {
       --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
 
       display: block;
-      width: max-content;
+      width: 100%;
     }
   `;
 
@@ -155,7 +155,7 @@ export class DaikinInputGroup extends LitElement {
     });
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
+      <label class="flex flex-col justify-center w-full gap-1 font-daikinSerif">
         ${this.label
           ? html`<span class=${inputGroupLabelClassName}>${this.label}</span>`
           : null}

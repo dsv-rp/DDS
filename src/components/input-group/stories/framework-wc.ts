@@ -18,36 +18,38 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     required,
     textareaCounter,
   }) => html`
-    <daikin-input-group
-      label=${ifDefined(label)}
-      helper=${ifDefined(helper)}
-      error=${ifDefined(error)}
-      ?disabled=${disabled}
-      ?required=${required}
-      ?textareaCounter=${textareaCounter}
-    >
-      ${content === "TextInput"
-        ? html`<daikin-text-input value="Value"></daikin-text-input>`
-        : null}
-      ${content === "Textarea"
-        ? html`<daikin-textarea
-            value="Value"
-            placeholder="Placeholder text"
-          ></daikin-textarea>`
-        : null}
-      ${content === "Dropdown"
-        ? html`<daikin-dropdown placeholder="Choose an Option">
-            <daikin-dropdown-item value="value1">
-              Dropdown item 1
-            </daikin-dropdown-item>
-            <daikin-dropdown-item value="value2">
-              Dropdown item 2
-            </daikin-dropdown-item>
-            <daikin-dropdown-item value="value3">
-              Dropdown item 3
-            </daikin-dropdown-item>
-          </daikin-dropdown>`
-        : nothing}
-    </daikin-input-group>
+    <div style="width:340px;">
+      <daikin-input-group
+        label=${ifDefined(label)}
+        helper=${ifDefined(helper)}
+        error=${ifDefined(error)}
+        ?disabled=${disabled}
+        ?required=${required}
+        ?textareaCounter=${textareaCounter}
+      >
+        ${content === "TextInput"
+          ? html`<daikin-text-input value="Value"></daikin-text-input>`
+          : nothing}
+        ${content === "Textarea"
+          ? html`<daikin-textarea
+              value="Value"
+              placeholder="Placeholder text"
+            ></daikin-textarea>`
+          : nothing}
+        ${content === "Dropdown"
+          ? html`<daikin-dropdown placeholder="Choose an Option">
+              <daikin-dropdown-item value="value1">
+                Dropdown item 1
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value2">
+                Dropdown item 2
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value3">
+                Dropdown item 3
+              </daikin-dropdown-item>
+            </daikin-dropdown>`
+          : nothing}
+      </daikin-input-group>
+    </div>
   `,
 };

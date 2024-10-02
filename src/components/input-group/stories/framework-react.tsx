@@ -16,24 +16,26 @@ export const ReactDaikinInputGroup = createComponent({
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
   component: ({ content, ...props }: DaikinInputGroupStoryArgs) => (
-    <ReactDaikinInputGroup {...props}>
-      {content === "TextInput" && <ReactDaikinTextInput value="Value" />}
-      {content === "Textarea" && (
-        <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
-      )}
-      {content === "Dropdown" && (
-        <ReactDaikinDropdown placeholder="Choose an Option">
-          <ReactDaikinDropdownItem value="value1">
-            Dropdown item 1
-          </ReactDaikinDropdownItem>
-          <ReactDaikinDropdownItem value="value2">
-            Dropdown item 2
-          </ReactDaikinDropdownItem>
-          <ReactDaikinDropdownItem value="value3">
-            Dropdown item 3
-          </ReactDaikinDropdownItem>
-        </ReactDaikinDropdown>
-      )}
-    </ReactDaikinInputGroup>
+    <div style={{ width: "340px" }}>
+      <ReactDaikinInputGroup {...props}>
+        {content === "TextInput" && <ReactDaikinTextInput value="Value" />}
+        {content === "Textarea" && (
+          <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
+        )}
+        {content === "Dropdown" && (
+          <ReactDaikinDropdown placeholder="Choose an Option">
+            <ReactDaikinDropdownItem value="value1">
+              Dropdown item 1
+            </ReactDaikinDropdownItem>
+            <ReactDaikinDropdownItem value="value2">
+              Dropdown item 2
+            </ReactDaikinDropdownItem>
+            <ReactDaikinDropdownItem value="value3">
+              Dropdown item 3
+            </ReactDaikinDropdownItem>
+          </ReactDaikinDropdown>
+        )}
+      </ReactDaikinInputGroup>
+    </div>
   ),
 };

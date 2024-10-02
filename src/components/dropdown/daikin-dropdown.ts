@@ -140,6 +140,7 @@ export class DaikinDropdown extends LitElement {
 
     :host {
       display: block;
+      width: 100%;
     }
 
     ::slotted {
