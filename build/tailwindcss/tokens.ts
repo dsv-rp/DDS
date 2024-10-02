@@ -33,22 +33,49 @@ export const tokensPlugin = plugin.withOptions<{
     ({ addUtilities }) => {
       const perTypeTokenMap = createPerTypeTokenMap(prefix, cssVarPrefix);
 
-      // Add `border-ddt-*`.
+      // Add `b-ddt-*` and `o-ddt-*`.
       addUtilities(
-        Object.entries(perTypeTokenMap.border).map(([key, value]) => ({
-          [`.border-${key}`]: {
-            border: value,
-          },
-        }))
+        Object.entries(perTypeTokenMap.border).map(
+          ([key, value]): Record<string, Record<string, string>> => ({
+            [`.b-${key}`]: {
+              border: value,
+            },
+            [`.bl-${key}`]: {
+              "border-left": value,
+            },
+            [`.br-${key}`]: {
+              "border-right": value,
+            },
+            [`.bt-${key}`]: {
+              "border-top": value,
+            },
+            [`.bb-${key}`]: {
+              "border-bottom": value,
+            },
+            [`.bx-${key}`]: {
+              "border-left": value,
+              "border-right": value,
+            },
+            [`.by-${key}`]: {
+              "border-top": value,
+              "border-bottom": value,
+            },
+            [`.o-${key}`]: {
+              outline: value,
+            },
+          })
+        )
       );
 
-      // Add `font-ddt-*`.
+      // Add `type-ddt-*`.
       addUtilities(
-        Object.entries(perTypeTokenMap.typography).map(([key, value]) => ({
-          [`.type-${key}`]: {
-            font: value,
-          },
-        }))
+        Object.entries(perTypeTokenMap.typography).map(
+          ([key, value]): Record<string, Record<string, string>> => ({
+            [`.type-${key}`]: {
+              font: value,
+            },
+          })
+        )
       );
     },
   ({ prefix, cssVarPrefix }) => {
