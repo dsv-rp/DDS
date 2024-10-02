@@ -46,13 +46,14 @@ export const Default: Story = {
     });
 
     await step("Selecting a dropdown will reflect the value", async () => {
-      await userEvent.click(
-        getByShadowRole(root, "option", { name: "Dropdown item 2" })
-      );
+      await userEvent.keyboard("[ArrowDown]");
+      await userEvent.keyboard("[ArrowDown]");
+      await userEvent.keyboard("[ArrowDown]");
+      await userEvent.keyboard("[Space]");
 
       await expect(args.onChange).toHaveBeenCalledTimes(1);
       await expect(args.onChange).toHaveLastReturnedWith({
-        value: "value2",
+        value: "value1",
       });
       await expect(root).not.toHaveAttribute("open");
     });
@@ -75,22 +76,11 @@ export const Default: Story = {
       getByShadowRole(root, "combobox").focus();
 
       await userEvent.keyboard("[Space]");
-      await userEvent.keyboard("[ArrowDown]");
       await userEvent.keyboard("[Space]");
-
-      await expect(getByShadowRole(root, "combobox")).toBeInTheDocument();
-      await expect(args.onChange).toHaveBeenCalledTimes(2);
-      await expect(args.onChange).toHaveLastReturnedWith({
-        value: "value1",
-      });
+      await userEvent.keyboard("[Escape]");
+      await expect(root).not.toHaveAttribute("open");
     });
   }),
-};
-
-export const Unselected: Story = {
-  args: {
-    ...Default.args,
-  },
 };
 
 export const Disabled: Story = {
