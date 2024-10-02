@@ -19,20 +19,12 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     readonly,
     required,
     error,
-    __vrtArgs__,
     onChange,
     onInput,
     onKeyDown,
-  }) => {
-    const additionalClassNames = {
-      "": "",
-      resizeLarge: "w-[800px] h-[320px]",
-      resizeSmall: "w-[160px] h-[40px]",
-    }[__vrtArgs__];
-
-    return html`
+  }) => html`
+    <div style="width:340px;">
       <daikin-text-input
-        class=${additionalClassNames}
         type=${type}
         value=${value}
         name=${ifDefined(name)}
@@ -49,6 +41,6 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
         @input=${onInput}
         @keydown=${onKeyDown}
       ></daikin-text-input>
-    `;
-  },
+    </div>
+  `,
 };
