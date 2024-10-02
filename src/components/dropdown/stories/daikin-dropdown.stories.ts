@@ -37,18 +37,25 @@ export const Default: Story = {
     await expect(root).toBeInTheDocument();
     await expect(root).not.toHaveAttribute("open");
 
+    const dropdown = getByShadowRole(root, "combobox");
+
     // should not react if inner button clicked
     await step("Try to click inner button", async () => {
-      await userEvent.click(getByShadowRole(root, "combobox"));
+      await userEvent.click(dropdown);
 
       await expect(args.onClick).toHaveBeenCalledTimes(1);
       await expect(root).toHaveAttribute("open");
     });
 
     await step("Selecting a dropdown will reflect the value", async () => {
+      await expect(root).not.toHaveAttribute("value");
+
       await userEvent.keyboard("[ArrowDown]");
+      await expect(document.activeElement?.textContent).toBe("Dropdown item 1");
       await userEvent.keyboard("[ArrowDown]");
+      await expect(document.activeElement?.textContent).toBe("Dropdown item 2");
       await userEvent.keyboard("[ArrowDown]");
+      await expect(document.activeElement?.textContent).toBe("Dropdown item 1");
       await userEvent.keyboard("[Space]");
 
       await expect(args.onChange).toHaveBeenCalledTimes(1);
@@ -59,7 +66,7 @@ export const Default: Story = {
     });
 
     await step("Try to select the disabled option", async () => {
-      await userEvent.click(getByShadowRole(root, "combobox"));
+      await userEvent.click(dropdown);
       await userEvent.click(
         getByShadowRole(root, "option", {
           name: "Dropdown item 3",
@@ -73,13 +80,23 @@ export const Default: Story = {
     });
 
     await step("Try to keyboard navigation", async () => {
-      getByShadowRole(root, "combobox").focus();
+      dropdown.focus();
 
       await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[Escape]");
       await expect(root).not.toHaveAttribute("open");
     });
+
+    await step("Try to keyboard navigation", async () => {
+      dropdown.focus();
+      await expect(root).toHaveAttribute("value", "value1");
+
+      await userEvent.keyboard("[Escape]");
+      await expect(root).not.toHaveAttribute("value");
+    });
+
+    dropdown.blur();
   }),
 };
 

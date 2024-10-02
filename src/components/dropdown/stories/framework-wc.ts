@@ -21,7 +21,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     <div data-testid="vrt-container" style="width:360px; height:256px;">
       <daikin-dropdown
         label=${ifDefined(label)}
-        value=${value}
+        value=${ifDefined(value)}
         placeholder=${placeholder}
         ?open=${open}
         ?disabled=${disabled}
@@ -32,15 +32,15 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
       >
         ${option === "default"
           ? html`
-              <daikin-dropdown-item value="value1">
-                Dropdown item 1
-              </daikin-dropdown-item>
-              <daikin-dropdown-item value="value2">
-                Dropdown item 2
-              </daikin-dropdown-item>
-              <daikin-dropdown-item value="value3" disabled>
-                Dropdown item 3
-              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value1"
+                >Dropdown item 1</daikin-dropdown-item
+              >
+              <daikin-dropdown-item value="value2"
+                >Dropdown item 2</daikin-dropdown-item
+              >
+              <daikin-dropdown-item value="value3" disabled
+                >Dropdown item 3</daikin-dropdown-item
+              >
             `
           : null}
         ${option === "single"

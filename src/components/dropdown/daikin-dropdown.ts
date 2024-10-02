@@ -151,19 +151,19 @@ export class DaikinDropdown extends LitElement {
   /**
    * Label text
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   label = "";
 
   /**
    * Dropdown value
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   value: string | undefined = undefined;
 
   /**
    * Placeholder text
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   placeholder = "";
 
   /**
@@ -235,7 +235,6 @@ export class DaikinDropdown extends LitElement {
       } as const
     )[event.key];
 
-    console.log(event.key);
     if (!moveOffset) {
       return;
     }
