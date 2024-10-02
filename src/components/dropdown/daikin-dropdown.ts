@@ -24,6 +24,7 @@ const cvaButton = cva(
     "bg-white",
     "px-3",
     "border",
+    "border-[--color-base]",
     "rounded-md",
     "overflow-hidden",
     "font-daikinSerif",
@@ -34,11 +35,8 @@ const cvaButton = cva(
     "outline-0",
     "-outline-offset-2",
 
-    "enabled:hover:outline-2",
-    "enabled:hover:outline-daikinNeutral-400",
-    "enabled:active:outline-2",
-    "enabled:active:outline-daikinNeutral-700",
     "focus-visible:outline-2",
+    "focus-visible:outline-[--color-focus]",
 
     "disabled:text-daikinNeutral-200",
     "disabled:border-daikinNeutral-200",
@@ -54,12 +52,26 @@ const cvaButton = cva(
   ],
   {
     variants: {
+      open: {
+        false: [
+          "enabled:hover:outline-2",
+          "enabled:hover:outline-daikinNeutral-400",
+          "enabled:active:outline-2",
+          "enabled:active:outline-daikinNeutral-700",
+        ],
+        true: ["enabled:outline-2", "enabled:outline-[--color-opened]"],
+      },
       error: {
         false: [
-          "border-daikinNeutral-600",
-          "focus-visible:outline-daikinBlue-700",
+          "var-color-daikinNeutral-600/color-base",
+          "var-color-daikinBlue-700/color-focus",
+          "var-color-daikinNeutral-700/color-opened",
         ],
-        true: ["border-daikinRed-500", "focus-visible:outline-daikinRed-500"],
+        true: [
+          "var-color-daikinRed-500/color-base",
+          "var-color-daikinRed-500/color-focus",
+          "var-color-daikinRed-500/color-opened",
+        ],
       },
       placeholder: {
         false: ["text-daikinNeutral-900"],
@@ -96,7 +108,7 @@ const floatingPositionOptions: Partial<ComputePositionConfig> = {
   placement: "bottom",
   middleware: [
     flip({ fallbackStrategy: "initialPlacement" }),
-    offset({ mainAxis: -1 }),
+    offset({ mainAxis: 0 }),
   ],
 };
 
@@ -128,7 +140,6 @@ export class DaikinDropdown extends LitElement {
 
     :host {
       display: block;
-      width: 360px;
     }
 
     ::slotted {
@@ -274,6 +285,7 @@ export class DaikinDropdown extends LitElement {
       <button
         type="button"
         class=${cvaButton({
+          open: this.open,
           error: this.error,
           placeholder: !this._hasSelectedItem,
         })}

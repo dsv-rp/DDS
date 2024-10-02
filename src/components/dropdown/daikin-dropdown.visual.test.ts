@@ -4,7 +4,7 @@ import {
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import type { DAIKIN_DROPDOWN_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ARG_TYPES>;
@@ -12,43 +12,33 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-dropdown--default", args);
 
-const base = (baseURL: string) =>
-  test("base", async ({ page }) => {
-    await page.goto(baseURL);
+const base = async (page: Page, baseURL: string) => {
+  await page.goto(baseURL);
 
-    // wait for element to be visible
-    const element = await page.waitForSelector(
-      `div[data-testid="vrt-container"]`,
-      {
-        state: "visible",
-      }
-    );
+  // wait for element to be visible
+  const element = await page.waitForSelector(
+    `div[data-testid="vrt-container"]`,
+    {
+      state: "visible",
+    }
+  );
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+  // take screenshot and check for diffs
+  await expect(page).toHaveScreenshot(await clipFor(element));
+};
 
-describeEach(["normal", "error"] as const, (error) => {
-  describeEach(["selected", "unselected"] as const, (value) => {
-    const baseURL = getPageURL({
-      open: true,
-      value: value === "selected" ? "value1" : undefined,
+describeEach(["open", "close"] as const, (state) => {
+  describeEach(["normal", "error"] as const, (error) => {
+    const baseArgs = {
+      open: state === "open",
       error: error === "error",
-    });
+      value: "value1",
+    };
+
+    const baseURL = getPageURL(baseArgs);
 
     test("base", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector(
-        `div[data-testid="vrt-container"]`,
-        {
-          state: "visible",
-        }
-      );
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+      await base(page, baseURL);
     });
 
     test("hover", async ({ page }) => {
@@ -117,32 +107,13 @@ describeEach(["normal", "error"] as const, (error) => {
     });
 
     test("disabled", async ({ page }) => {
-      await page.goto(
-        getPageURL({
-          disabled: true,
-        })
-      );
+      await base(page, getPageURL({ ...baseArgs, disabled: true }));
+    });
 
-      // wait for element to be visible
-      const element = await page.waitForSelector(
-        `div[data-testid="vrt-container"]`,
-        {
-          state: "visible",
-        }
-      );
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+    test("unselected", async ({ page }) => {
+      await base(page, getPageURL({ ...baseArgs, value: undefined }));
     });
   });
-});
-
-describeEach(["open", "close"] as const, (state) => {
-  const baseURL = getPageURL({
-    open: state === "open",
-  });
-
-  base(baseURL);
 });
 
 describeEach(["default", "many"] as const, (option) => {
@@ -151,5 +122,7 @@ describeEach(["default", "many"] as const, (option) => {
     option,
   });
 
-  base(baseURL);
+  test("base", async ({ page }) => {
+    await base(page, baseURL);
+  });
 });

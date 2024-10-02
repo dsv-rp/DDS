@@ -20,8 +20,8 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     <div
       data-testid="vrt-container"
       style={{
-        width: "max-content",
-        height: "240px",
+        width: "360px",
+        height: "256px",
       }}
     >
       <ReactDaikinDropdown {...props}>

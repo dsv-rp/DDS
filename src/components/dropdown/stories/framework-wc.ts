@@ -18,7 +18,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     onChange,
     onClick,
   }) => html`
-    <div data-testid="vrt-container" style="width:max-content; height:240px;">
+    <div data-testid="vrt-container" style="width:360px; height:256px;">
       <daikin-dropdown
         label=${ifDefined(label)}
         value=${value}
