@@ -1,7 +1,7 @@
 import "#package/components/dropdown-item/daikin-dropdown-item";
 import "#package/components/dropdown/daikin-dropdown";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinDropdownStoryArgs } from "./common";
 
@@ -42,14 +42,14 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
                 >Dropdown item 3</daikin-dropdown-item
               >
             `
-          : null}
+          : nothing}
         ${option === "single"
           ? html`
               <daikin-dropdown-item value="value1">
                 Dropdown item 1
               </daikin-dropdown-item>
             `
-          : null}
+          : nothing}
         ${option === "many"
           ? html`
               <daikin-dropdown-item value="value1">
@@ -113,7 +113,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
                 Dropdown item 20
               </daikin-dropdown-item>
             `
-          : null}
+          : nothing}
       </daikin-dropdown>
     </div>
   `,
