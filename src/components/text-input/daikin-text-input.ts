@@ -134,7 +134,6 @@ export class DaikinTextInput extends LitElement {
       --text-input-outline-color-hover: #54c3f1;
 
       display: block;
-      width: 340px;
       height: 48px;
     }
   `;

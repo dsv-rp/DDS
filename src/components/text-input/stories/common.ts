@@ -4,7 +4,6 @@ import type { DaikinTextInput } from "../daikin-text-input";
 
 export interface DaikinTextInputStoryArgs
   extends Required<ElementProps<DaikinTextInput>> {
-  __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
   onKeyDown: (event: Event) => void;
@@ -47,10 +46,6 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   },
   rightIcon: {
     type: "string",
-  },
-  __vrtArgs__: {
-    type: "string",
-    control: false,
   },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 

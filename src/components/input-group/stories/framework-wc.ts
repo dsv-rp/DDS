@@ -28,16 +28,18 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     }[content];
 
     return html`
-      <daikin-input-group
-        label=${ifDefined(label)}
-        helper=${ifDefined(helper)}
-        ?disabled=${disabled}
-        ?required=${required}
-        error=${ifDefined(error)}
-        textarea-max-count=${ifDefined(textareaMaxCount)}
-      >
-        ${inputContent}
-      </daikin-input-group>
+      <div style="width:340px;">
+        <daikin-input-group
+          label=${ifDefined(label)}
+          helper=${ifDefined(helper)}
+          ?disabled=${disabled}
+          ?required=${required}
+          error=${ifDefined(error)}
+          textarea-max-count=${ifDefined(textareaMaxCount)}
+        >
+          ${inputContent}
+        </daikin-input-group>
+      </div>
     `;
   },
 };
