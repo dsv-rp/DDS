@@ -65,6 +65,13 @@ export const Default: Story = {
       await expect(root).not.toHaveAttribute("open");
     });
 
+    await step("Try to keyboard navigation", async () => {
+      dropdown.focus();
+
+      await userEvent.keyboard("[ArrowDown]");
+      await expect(document.activeElement?.textContent).toBe("Dropdown item 1");
+    });
+
     await step("Try to select the disabled option", async () => {
       await userEvent.click(dropdown);
       await userEvent.click(
@@ -82,7 +89,6 @@ export const Default: Story = {
     await step("Try to keyboard navigation", async () => {
       dropdown.focus();
 
-      await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[Space]");
       await userEvent.keyboard("[Escape]");
       await expect(root).not.toHaveAttribute("open");

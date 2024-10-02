@@ -255,29 +255,40 @@ export class DaikinDropdown extends LitElement {
 
     const focusedItemIndex = activeElement
       ? items.findIndex((item) => item.contains(activeElement))
-      : undefined;
+      : -1;
 
     const checkIsDisabledElementAndFocus = (
-      moveOffset: number,
-      index?: number
+      index: number,
+      moveOffset: number
     ) => {
       const nextFocusItemIndex =
-        index === undefined
-          ? 0
-          : moveOffset === 1 && index === items.length - 1
-            ? 0
-            : moveOffset === -1 && index <= 0
+        !this.open && this.value
+          ? items.findIndex(({ value }) => value === this.value)
+          : moveOffset === 1
+            ? index === -1 || index === items.length - 1
+              ? 0
+              : index + moveOffset
+            : index <= 0
               ? items.length - 1
               : index + moveOffset;
 
-      if (items[nextFocusItemIndex].disabled) {
-        checkIsDisabledElementAndFocus(moveOffset, nextFocusItemIndex);
-      } else {
-        items[nextFocusItemIndex].focus();
+      if (!this.open) {
+        this.open = true;
       }
+
+      this.updateComplete
+        .then(() => {
+          if (items[nextFocusItemIndex].disabled) {
+            checkIsDisabledElementAndFocus(nextFocusItemIndex, moveOffset);
+          } else {
+            items[nextFocusItemIndex].focus();
+          }
+        })
+        .catch((error: unknown) => console.error(error));
     };
 
-    checkIsDisabledElementAndFocus(moveOffset, focusedItemIndex);
+    checkIsDisabledElementAndFocus(focusedItemIndex, moveOffset);
+
     event.preventDefault();
     return;
   }
