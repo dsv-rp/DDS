@@ -28,7 +28,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     }[content];
 
     return html`
-      <div style="width:340px;">
+      <div style="width:360px;">
         <daikin-input-group
           label=${ifDefined(label)}
           helper=${ifDefined(helper)}

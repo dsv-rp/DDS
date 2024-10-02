@@ -22,7 +22,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     }[content];
 
     return (
-      <div style={{ width: "340px" }}>
+      <div style={{ width: "360px" }}>
         <ReactDaikinInputGroup {...props}>{inputContent}</ReactDaikinInputGroup>
       </div>
     );
