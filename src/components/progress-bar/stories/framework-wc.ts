@@ -11,8 +11,7 @@ export const metadata: Meta<DaikinProgressBarStoryArgs> = {
       size=${size}
       max=${max}
       helper=${helper}
+      >Progress bar label</daikin-progress-bar
     >
-      Progress bar label
-    </daikin-progress-bar>
   `,
 };
