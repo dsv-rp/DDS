@@ -32,6 +32,12 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/tab/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tab/index.js";
+ * import "@daikin-oss/design-system-web-components/components/panel-switcher/index.js";
+ * ```
+ *
  * ```html
  * <!-- See storybook for styling tab group. You'll need `::part(tablist)` to style the tab container. -->
  * <daikin-tab-group value="foo">
