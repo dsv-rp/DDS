@@ -34,7 +34,7 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/tab/index.js";
- * import "@daikin-oss/design-system-web-components/components/tab/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tab-group/index.js";
  * import "@daikin-oss/design-system-web-components/components/panel-switcher/index.js";
  * ```
  *
