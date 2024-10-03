@@ -20,9 +20,13 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
           <span slot="summary">Accordion summary 3</span>
           <span>Accordion content 3</span>
         </daikin-accordion-item>
-        <daikin-accordion-item open disabled>
+        <daikin-accordion-item disabled>
           <span slot="summary">Accordion summary 4</span>
           <span>Accordion content 4</span>
+        </daikin-accordion-item>
+        <daikin-accordion-item>
+          <span slot="summary">Accordion summary 5</span>
+          <span>Accordion content 5</span>
         </daikin-accordion-item>
       </daikin-accordion>
     </div>

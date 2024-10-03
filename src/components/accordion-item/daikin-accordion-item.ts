@@ -215,6 +215,14 @@ export class DaikinAccordionItem extends LitElement {
       this._contentAnimate();
     }
   }
+
+  /**
+   * Focuses on the inner summary.
+   * @param options focus options
+   */
+  override focus(options?: FocusOptions | undefined): void {
+    this.shadowRoot?.querySelector("summary")?.focus(options);
+  }
 }
 
 declare global {
