@@ -1,3 +1,4 @@
+import { fixupConfigRules } from "@eslint/compat";
 import eslint from "@eslint/js";
 import prettierPkg from "eslint-config-prettier";
 import { configs as litConfig } from "eslint-plugin-lit";
@@ -22,8 +23,10 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.strictTypeChecked,
-  wcConfig["flat/recommended"],
-  wcConfig["flat/best-practice"],
+  ...fixupConfigRules([
+    wcConfig["flat/recommended"],
+    wcConfig["flat/best-practice"],
+  ]),
   litConfig["flat/recommended"],
   litA11yConfigFlatRecommended,
   { rules: prettierRules },
@@ -50,6 +53,7 @@ export default tseslint.config(
           allowNumber: true,
         },
       ],
+      "wc/guard-super-call": "off",
     },
   },
   {
