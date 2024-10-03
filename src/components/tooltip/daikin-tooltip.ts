@@ -226,9 +226,13 @@ export class DaikinTooltip extends LitElement {
   }
 
   override render() {
+    // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
     return html`<div class="relative inline-block">
       <div
         ${ref(this._triggerRef)}
+        id="trigger"
+        aria-labelledby="trigger"
+        aria-describedby="tooltip"
         @click=${this._handleClick}
         @keydown=${this._handleKeydown}
         @mouseenter=${this._handleMouseEnter}
@@ -241,11 +245,12 @@ export class DaikinTooltip extends LitElement {
       </div>
       <span
         ${ref(this._tooltipRef)}
+        id="tooltip"
+        role="tooltip"
+        aria-labelledby="tooltip"
         class=${cvaTooltip({
           variant: this.variant,
         })}
-        aria-label="description"
-        role="tooltip"
         popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
           this.dispatchEvent(new Event("beforetoggle", event))}
