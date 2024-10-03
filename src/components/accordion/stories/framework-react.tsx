@@ -31,9 +31,13 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
           <span slot="summary">Accordion summary 3</span>
           <span>Accordion content 3</span>
         </ReactDaikinAccordionItem>
-        <ReactDaikinAccordionItem open disabled>
+        <ReactDaikinAccordionItem disabled>
           <span slot="summary">Accordion summary 4</span>
           <span>Accordion content 4</span>
+        </ReactDaikinAccordionItem>
+        <ReactDaikinAccordionItem>
+          <span slot="summary">Accordion summary 5</span>
+          <span>Accordion content 5</span>
         </ReactDaikinAccordionItem>
       </ReactDaikinAccordion>
     </div>
