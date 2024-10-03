@@ -63,7 +63,7 @@ export const Disabled: Story = {
     await expect(root).toBeInTheDocument();
 
     const innerDetails = getByShadowRole(root, "group");
-    const innerSummary = getByShadowText(root, "Accordion heading");
+    const innerSummary = getByShadowText(root, "Accordion summary");
 
     await expect(innerSummary).toBeInTheDocument();
     await expect(innerDetails).not.toHaveAttribute("open");
