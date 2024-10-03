@@ -23,7 +23,7 @@ export const Default: Story = {
     await expect(root).not.toHaveAttribute("open");
 
     const innerDetails = getByShadowRole(root, "group");
-    const innerSummary = getByShadowText(root, "Accordion heading");
+    const innerSummary = getByShadowText(root, "Accordion summary");
 
     await expect(innerSummary).toBeInTheDocument();
 
