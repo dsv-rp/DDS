@@ -15,17 +15,21 @@ import tailwindStyles from "../../tailwind.css?inline";
  *
  * ```html
  * <daikin-accordion>
- *   <daikin-accordion-item title="The first accordion item">
- *     Accordion 1 content.
+ *   <daikin-accordion-item>
+ *     <span slot="Accordion summary 1">
+ *     Accordion content 1
  *   </daikin-accordion-item>
- *   <daikin-accordion-item title="The second accordion item" open>
- *     Accordion 2 content.
+ *   <daikin-accordion-item open>
+ *     <span slot="Accordion summary 2">
+ *     Accordion content 2
  *   </daikin-accordion-item>
- *   <daikin-accordion-item title="The third accordion item" disabled>
- *     Accordion 3 content.
+ *   <daikin-accordion-item disabled>
+ *     <span slot="Accordion summary 3">
+ *     Accordion content 3
  *   </daikin-accordion-item>
- *   <daikin-accordion-item title="The fourth accordion item" open disabled>
- *     Accordion 4 content.
+ *   <daikin-accordion-item open disabled>
+ *     <span slot="Accordion summary 4">
+ *     Accordion content 4
  *   </daikin-accordion-item>
  * </daikin-accordion>
  * ```
@@ -34,6 +38,10 @@ import tailwindStyles from "../../tailwind.css?inline";
 export class DaikinAccordion extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
+
+    :host {
+      min-width: 160px;
+    }
 
     ::slotted(daikin-accordion-item) {
       --divider-top-display: block;
@@ -46,7 +54,7 @@ export class DaikinAccordion extends LitElement {
   `;
 
   override render() {
-    return html`<div class="w-full min-w-40">
+    return html`<div class="w-full">
       <slot></slot>
     </div>`;
   }

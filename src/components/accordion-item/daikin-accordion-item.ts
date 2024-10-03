@@ -64,6 +64,7 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * - `daikin-accordion` > `daikin-accordion-item`
  *
  * @slot - A slot for the accordion item content.
+ * @slot summary - A slot for the accordion item summary content.
  *
  * @cssprop [--divider-top-display=none] - The `display` property of the top divider. Must be either `block` or `none`. Set automatically by `daikin-accordion` component.
  * @cssprop [--divider-bottom-display=none] - The `display` property of the bottom divider. Must be either `block` or `none`. Set automatically by `daikin-accordion` component.
@@ -71,7 +72,8 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * @example
  *
  * ```html
- * <daikin-accordion-item title="Accordion heading">
+ * <daikin-accordion-item>
+ *   <span slot="Accordion summary">
  *   Accordion content
  * </daikin-accordion-item>
  * ```
@@ -111,12 +113,6 @@ export class DaikinAccordionItem extends LitElement {
   `;
 
   private _contentRef = createRef<HTMLElement>();
-
-  /**
-   * Heading of the accordion item.
-   */
-  @property({ type: String })
-  heading = "";
 
   /**
    * Whether the accordion item is open.
@@ -200,7 +196,7 @@ export class DaikinAccordionItem extends LitElement {
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
       >
-        ${this.heading}
+        <slot name="summary"></slot>
       </summary>
       <div ${ref(this._contentRef)}>
         <div class="pt-2 pr-3 pb-3 pl-4 text-sm">

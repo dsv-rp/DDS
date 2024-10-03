@@ -7,9 +7,6 @@ export type DaikinAccordionItemStoryArgs = Required<
 >;
 
 export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
-  heading: {
-    type: "string",
-  },
   open: {
     type: "boolean",
   },

@@ -8,17 +8,21 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
   render: () => html`
     <div style="width:256px;">
       <daikin-accordion>
-        <daikin-accordion-item heading="Accordion heading 1">
-          Accordion content 1
+        <daikin-accordion-item>
+          <span slot="summary">Accordion summary 1</span>
+          <span>Accordion content 1</span>
         </daikin-accordion-item>
-        <daikin-accordion-item heading="Accordion heading 2" open>
-          Accordion content 2
+        <daikin-accordion-item open>
+          <span slot="summary">Accordion summary 2</span>
+          <span>Accordion content 2</span>
         </daikin-accordion-item>
-        <daikin-accordion-item heading="Accordion heading 3" disabled>
-          Accordion content 3
+        <daikin-accordion-item disabled>
+          <span slot="summary">Accordion summary 3</span>
+          <span>Accordion content 3</span>
         </daikin-accordion-item>
-        <daikin-accordion-item heading="Accordion heading 4" open disabled>
-          Accordion content 4
+        <daikin-accordion-item open disabled>
+          <span slot="summary">Accordion summary 4</span>
+          <span>Accordion content 4</span>
         </daikin-accordion-item>
       </daikin-accordion>
     </div>
