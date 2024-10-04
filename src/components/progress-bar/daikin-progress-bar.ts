@@ -183,7 +183,8 @@ export class DaikinProgressBar extends LitElement {
         aria-valuenow=${this.value}
         aria-valuemin="0"
         aria-valuemax=${this.max}
-        aria-busy=${progressRatio < 1}
+        aria-busy=${(progressRatio < 1 && this.variant === "inprogress") ||
+        this.variant === "indeterminate"}
         style=${`--bar-width:${progressRatio * 100}%`}
       ></div>
       <span
