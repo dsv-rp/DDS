@@ -17,15 +17,15 @@ import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-ite
  * ```html
  * <daikin-accordion>
  *   <daikin-accordion-item>
- *     <span slot="Accordion summary 1">
+ *     <span slot="summary">Accordion summary 1</span>
  *     Accordion content 1
  *   </daikin-accordion-item>
  *   <daikin-accordion-item open>
- *     <span slot="Accordion summary 2">
+ *     <span slot="summary">Accordion summary 2</span>
  *     Accordion content 2
  *   </daikin-accordion-item>
  *   <daikin-accordion-item disabled>
- *     <span slot="Accordion summary 3">
+ *     <span slot="summary">Accordion summary 3</span>
  *     Accordion content 3
  *   </daikin-accordion-item>
  * </daikin-accordion>
