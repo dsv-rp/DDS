@@ -47,6 +47,10 @@ const cvaLabel = cva([], {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/radio/index.js";
+ * ```
+ *
  * ```html
  *  <daikin-radio name="name" value="value" label="Radio button label"></daikin-radio>
  * ```

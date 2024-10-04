@@ -15,6 +15,10 @@ import tailwindStyles from "../../tailwind.css?inline";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/panel-switcher/index.js";
+ * ```
+ *
  * ```html
  * <!-- Note that `panels` must be set via property. -->
  * <daikin-panel-switcher
