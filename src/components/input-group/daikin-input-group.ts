@@ -150,28 +150,20 @@ export class DaikinInputGroup extends LitElement {
   textareaMaxCount: number | null = null;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
-  _textareas!: DaikinTextarea[];
+  private _textareas!: DaikinTextarea[];
 
   @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
-  _controls!: ControlElement[];
+  private _controls!: ControlElement[];
 
   @state()
-  _hasTextarea = false;
-
-  @state()
-  _textareaValueLength = 0;
+  private _textareaValueLength: number | null = null;
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
 
     const textarea = this._textareas[0] as DaikinTextarea | undefined;
 
-    if (textarea) {
-      this._hasTextarea = true;
-      this._textareaValueLength = textarea.value.length;
-    } else {
-      this._hasTextarea = false;
-    }
+    this._textareaValueLength = textarea?.value.length ?? null;
   }
 
   private _handleChangeCount(e: CustomEvent<{ count: number }>): void {
@@ -216,7 +208,7 @@ export class DaikinInputGroup extends LitElement {
           >
             ${this.label}
           </span>
-          ${!!this.textareaMaxCount && !!this._hasTextarea
+          ${this.textareaMaxCount != null && this._textareaValueLength != null
             ? html`
                 <span
                   class=${cvaCounter({
