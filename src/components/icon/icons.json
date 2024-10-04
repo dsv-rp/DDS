@@ -27,6 +27,10 @@
     "error": {
       "class": "i-daikin-status-error",
       "color": "#ff4949"
+    },
+    "chevron-right": {
+      "class": "i-daikin-chevron-right",
+      "color": null
     }
   }
 }
