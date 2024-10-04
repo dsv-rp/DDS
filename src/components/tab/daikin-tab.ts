@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTab = cva(
@@ -10,50 +10,57 @@ const cvaTab = cva(
     "h-full",
     "items-center",
     "justify-center",
-    "text-center",
-    "relative",
-    "font-daikinSerif",
+    "px-4",
+    "pt-2",
+    "pb-3",
     "text-base",
+    "font-bold",
+    "text-center",
+    "font-daikinSerif",
+    "relative",
     "tracking-wide",
     "whitespace-nowrap",
     "contain-paint",
-    "disabled:cursor-default",
-    "after:content-['']",
-    "after:z-1",
-    "after:absolute",
-    "after:bottom-0",
-    "after:left-0",
-    "after:right-0",
-    "after:w-full",
 
-    "text-daikinBlue-500",
-    "hover:text-daikinBlue-400",
-    "active:text-daikinBlue-600",
-    "focus-visible:text-daikinBlue-700",
-    "disabled:text-daikinNeutral-300",
-    "aria-selected:after:h-1",
-    "aria-selected:after:bg-daikinBlue-500",
-    "hover:aria-selected:after:bg-daikinBlue-400",
-    "active:aria-selected:after:bg-daikinBlue-600",
-    "focus-visible:aria-selected:after:bg-daikinBlue-700",
-    "disabled:after:bg-daikinNeutral-300",
+    "focus-visible:outline-none",
+    "focus-visible:before:w-full",
+    "focus-visible:before:h-[calc(100%_-_4px)]",
+    "focus-visible:before:border",
+    "focus-visible:before:border-daikinBlue-700",
+    "focus-visible:before:absolute",
+    "focus-visible:before:top-0",
+
+    "disabled:text-daikinNeutral-200",
   ],
   {
     variants: {
-      size: {
-        default: ["px-4"],
-        condensed: ["px-[10px]"],
+      active: {
+        false: [
+          "hover:text-daikinNeutral-500",
+          "active:text-daikinNeutral-700",
+        ],
+        true: [
+          "text-daikinBlue-500",
+          "hover:text-daikinBlue-300",
+          "active:text-daikinBlue-600",
+          "after:w-full",
+          "after:h-1",
+          "after:absolute",
+          "after:bottom-0",
+          "enabled:after:bg-daikinBlue-500",
+          "disabled:after:bg-daikinNeutral-200",
+        ],
       },
     },
   }
 );
 
 /**
- * The tab component is a child element within the `daikin-tab-group` component, representing a clickable button or label that users interact with to switch between different panels of content.
+ * The tab component is a child element within the `daikin-tabs` component, representing a clickable button or label that users interact with to switch between different panels of content.
  * Each tab corresponds to a specific panel and is typically labeled to indicate the content it reveals.
  *
  * Hierarchy:
- * - `daikin-tab-group` > `daikin-tab`
+ * - `daikin-tabs` > `daikin-tab`
  *
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
  *
@@ -66,7 +73,7 @@ const cvaTab = cva(
  * ```
  *
  * ```html
- * <!-- See `daikin-tab-group` component for complete example. -->
+ * <!-- See `daikin-tabs` component for complete example. -->
  * <daikin-tab value="foo">Foo tab</daikin-tab>
  * ```
  */
@@ -77,30 +84,18 @@ export class DaikinTab extends LitElement {
 
     :host {
       display: inline-block;
-      width: fit-content;
-      height: 48px;
-    }
-
-    :host([size="condensed"]) {
-      height: 40px;
     }
   `;
 
   /**
    * A unique string that identifies a tab.
-   * Must be unique within the `daikin-tab-group` component.
+   * Must be unique within the `daikin-tabs` component.
    */
   @property({ type: String, reflect: true })
-  value: string = "";
+  value = "";
 
   /**
-   * Size of tab
-   */
-  @property({ type: String, reflect: true })
-  size: "default" | "condensed" = "default";
-
-  /**
-   * Whether to show the disabled state.
+   * Whether the tab is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -108,39 +103,36 @@ export class DaikinTab extends LitElement {
   /**
    * Whether to show the active (selected) state.
    * Ignored if `disabled` is `true`.
-   * Set automatically by `daikin-tab-group` component.
+   * Set automatically by `daikin-tabs` component.
    */
   @property({ type: Boolean, reflect: true })
   active = false;
 
-  private _handleClick(event: MouseEvent | PointerEvent) {
-    if (this.disabled) {
-      event.stopImmediatePropagation();
-    }
-  }
+  @query("button")
+  private _button!: HTMLButtonElement | null;
 
   constructor() {
     super();
 
-    this.addEventListener("click", this._handleClick);
+    this.addEventListener("click", (event: MouseEvent): void => {
+      if (this.disabled) {
+        event.stopImmediatePropagation();
+      }
+    });
   }
 
   /**
    * Focuses on the inner button.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
+  override focus(options?: FocusOptions): void {
+    this._button?.focus(options);
   }
 
   override render() {
-    const cn = cvaTab({
-      size: this.size,
-    });
-
     return html`
       <button
-        class=${cn}
+        class=${cvaTab({ active: this.active })}
         ?disabled=${this.disabled}
         role="tab"
         aria-selected=${!this.disabled && this.active}
