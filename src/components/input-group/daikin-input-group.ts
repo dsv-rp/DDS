@@ -47,6 +47,12 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
+ * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * ```
+ *
  * With Text Input:
  *
  * ```html

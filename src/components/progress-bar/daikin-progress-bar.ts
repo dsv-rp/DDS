@@ -90,6 +90,10 @@ type ProgressBarVariantProps = MergeVariantProps<
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-bar/index.js";
+ * ```
+ *
  * ```html
  * <daikin-progress-bar value="40" helper="Progress bar helper">
  *   Progress bar label
