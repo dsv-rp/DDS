@@ -40,10 +40,10 @@ export class DaikinTree extends LitElement {
   `;
 
   @state()
-  private previousElement: ElementType = null;
+  private _previousElement: ElementType = null;
 
   @state()
-  private nextElement: ElementType = null;
+  private _nextElement: ElementType = null;
 
   private _handleKeyDown(event: KeyboardEvent): void {
     const moveOffset =
@@ -64,17 +64,17 @@ export class DaikinTree extends LitElement {
       const nextElement = element?.nextElementSibling;
 
       if (!isRetry && isSection && (element as DaikinTreeSection).open) {
-        this.nextElement = (element?.firstElementChild ?? null) as ElementType;
+        this._nextElement = (element?.firstElementChild ?? null) as ElementType;
         return;
       }
 
       if (nextElement) {
-        this.nextElement = nextElement as ElementType;
+        this._nextElement = nextElement as ElementType;
       } else {
         if (!(element?.parentElement?.nextElementSibling ?? null)) {
           getNextElement(element?.parentElement ?? null, true);
         } else {
-          this.nextElement = element?.parentElement
+          this._nextElement = element?.parentElement
             ?.nextElementSibling as ElementType;
         }
       }
@@ -87,7 +87,7 @@ export class DaikinTree extends LitElement {
       ) {
         getPreviousDeepElement(element.lastElementChild);
       } else {
-        this.previousElement = (element?.lastElementChild ??
+        this._previousElement = (element?.lastElementChild ??
           null) as ElementType;
       }
     };
@@ -107,7 +107,7 @@ export class DaikinTree extends LitElement {
         ) {
           getPreviousDeepElement(previousElement.lastElementChild);
         } else {
-          this.previousElement = (previousElement.lastElementChild ??
+          this._previousElement = (previousElement.lastElementChild ??
             null) as DaikinTreeSection | null;
         }
 
@@ -115,31 +115,31 @@ export class DaikinTree extends LitElement {
       }
 
       if (previousElement) {
-        this.previousElement = previousElement as ElementType;
+        this._previousElement = previousElement as ElementType;
       } else if (
         ["DAIKIN-TREE-SECTION", "DAIKIN-TREE-ITEM"].includes(
           parentElement?.tagName ?? ""
         )
       ) {
-        this.previousElement = parentElement as ElementType;
+        this._previousElement = parentElement as ElementType;
       }
     };
 
     const checkNextElement = () => {
-      if (this.nextElement?.disabled) {
-        getNextElement(this.nextElement);
+      if (this._nextElement?.disabled) {
+        getNextElement(this._nextElement);
         checkNextElement();
       } else {
-        this.nextElement?.focus();
+        this._nextElement?.focus();
       }
     };
 
     const checkPreviousElement = () => {
-      if (this.previousElement?.disabled) {
-        getPreviousElement(this.previousElement);
+      if (this._previousElement?.disabled) {
+        getPreviousElement(this._previousElement);
         checkPreviousElement();
       } else {
-        this.previousElement?.focus();
+        this._previousElement?.focus();
       }
     };
 
