@@ -21,9 +21,10 @@ function eventPayloadTransformer(event: Event) {
 
 export const Default: Story = {
   args: {
-    size: "default",
-    disabled: false,
+    name: "name",
+    value: "value",
     checked: false,
+    disabled: false,
     onChange: fn(eventPayloadTransformer),
     onClick: fn(eventPayloadTransformer),
   },
@@ -37,7 +38,7 @@ export const Default: Story = {
     await expect(toggle).not.toBeChecked();
 
     // should react if inner toggle clicked
-    await step("Try to click toggle first time", async () => {
+    await step("Try to toggle by mouse click", async () => {
       await userEvent.click(toggle);
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onClick).toHaveBeenCalledOnce();
@@ -46,8 +47,9 @@ export const Default: Story = {
       await expect(toggle).toBeChecked();
     });
 
-    await step("Try to click toggle second time", async () => {
-      await userEvent.click(toggle);
+    await step("Try to toggle by space key", async () => {
+      root.focus();
+      await userEvent.keyboard("[Space]");
       await expect(args.onChange).toHaveBeenCalledTimes(2);
       await expect(args.onClick).toHaveBeenCalledTimes(2);
       await expect(args.onChange).toHaveLastReturnedWith({ checked: false });
@@ -60,20 +62,10 @@ export const Default: Story = {
   }),
 };
 
-export const Small: Story = {
-  args: {
-    ...Default.args,
-    size: "small",
-    onChange: fn(),
-    onClick: fn(),
-  },
-};
-
 export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
-    size: "default",
     onChange: fn(),
     onClick: fn(),
   },

@@ -12,6 +12,7 @@ export const Default: Story = {
   args: {
     value: 40,
     variant: "inprogress",
+    size: "medium",
     max: 100,
     helper: "Progress bar helper",
   },
@@ -37,5 +38,12 @@ export const Error: Story = {
   args: {
     ...Default.args,
     variant: "error",
+  },
+};
+
+export const Large: Story = {
+  args: {
+    ...Default.args,
+    size: "large",
   },
 };
