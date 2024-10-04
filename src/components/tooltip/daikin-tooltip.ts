@@ -5,6 +5,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
+import { returnPreventDefault } from "../../utils/returnPreventDefault";
 
 const cvaTooltip = cva(
   [
@@ -113,15 +114,17 @@ export class DaikinTooltip extends LitElement {
 
   /**
    * Specify the value of the popover attribute in the Popover API.
+   * - `auto`: Clicking on a trigger element will open a tooltip, and clicking again will close it. You can also close it using the Esc button. You cannot open multiple tooltips at the same time.
+   * - `manual`: No click operation is specified for the trigger element. It will not close even if the Esc button is pressed. Multiple tooltips can be opened at once.
    */
   @property({ type: String, attribute: "popover-value" })
   popoverValue: "auto" | "manual" = "auto";
 
   /**
    * How the tooltip is controlled.
-   * - "hover": The tooltip is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering. (default)
-   * - "click": The tooltip is displayed when the mouse clicks on the trigger element, and hidden when you click on it again.
-   * - "manual": The tooltip does not respond to user interaction. Use this to control the tooltip programmatically.
+   * - `hover`: The tooltip is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering. (default)
+   * - `click`: The tooltip is displayed when the mouse clicks on the trigger element, and hidden when you click on it again.
+   * - `manual`: The tooltip does not respond to user interaction. Use this to control the tooltip programmatically.
    */
   @property({ type: String, reflect: true })
   trigger: "hover" | "click" | "manual" = "hover";
@@ -225,6 +228,7 @@ export class DaikinTooltip extends LitElement {
 
   override render() {
     // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
+    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div class="relative inline-block">
       <div
         ${ref(this._triggerRef)}
@@ -234,7 +238,6 @@ export class DaikinTooltip extends LitElement {
       >
         <slot
           @click=${this._handleClick}
-          @keydown=${() => console.log("keydown")}
           @mouseenter=${this._handleMouseEnter}
           @mouseleave=${this._handleMouseLeave}
           @focusin=${this._handleFocusIn}
@@ -251,15 +254,20 @@ export class DaikinTooltip extends LitElement {
         })}
         .popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
-          this.dispatchEvent(new ToggleEvent("beforetoggle", event))}
+          returnPreventDefault(
+            this,
+            event,
+            new ToggleEvent("beforetoggle", event)
+          )}
         @toggle=${(event: ToggleEvent) =>
-          this.dispatchEvent(new ToggleEvent("toggle", event))}
+          returnPreventDefault(this, event, new ToggleEvent("toggle", event))}
       >
         <slot name="description">
           <span class="whitespace-pre-line">${this.description}</span>
         </slot>
       </span>
     </div>`;
+    /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
