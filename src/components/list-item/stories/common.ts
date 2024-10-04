@@ -11,7 +11,7 @@ export interface DaikinListItemStoryArgs
 export const DAIKIN_LIST_ITEM_ARG_TYPES = {
   type: {
     control: "radio",
-    options: ["button", "link"],
+    options: ["button", "link", "text"],
   },
   href: {
     type: "string",

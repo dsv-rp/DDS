@@ -107,6 +107,7 @@ export const LinkDisabled: Story = {
 export const UseSlot: Story = {
   args: {
     ...Button.args,
+    type: "text",
     hasSlot: true,
     onClick: fn((event: Event) => {
       event.preventDefault();

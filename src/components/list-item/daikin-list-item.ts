@@ -9,10 +9,28 @@ import {
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
 
-const cvaListItem = cva(
+const ACTIONABLE_OVERLAY_CLASS_NAME = [
+  "focus-visible:outline-none",
+
+  "focus-visible:before:outline",
+  "focus-visible:before:outline-1",
+  "focus-visible:before:-outline-offset-1",
+  "focus-visible:before:outline-daikinBlue-700",
+
+  "link-enabled:before:absolute",
+  "link-enabled:before:w-full",
+  "link-enabled:before:h-full",
+  "link-enabled:before:inset-0",
+  "link-enabled:before:m-auto",
+  "link-enabled:before:hover:bg-daikinNeutral-100",
+  "link-enabled:before:active:bg-daikinNeutral-200",
+];
+
+const cvaListItemContainer = cva(
   [
     "flex",
     "justify-between",
@@ -22,16 +40,7 @@ const cvaListItem = cva(
     "min-h-12",
     "py-3",
     "text-left",
-
-    "link-disabled:text-daikinNeutral-200",
-
-    "link-enabled:hover:bg-daikinNeutral-100",
-    "link-enabled:active:bg-daikinNeutral-200",
-
-    "focus-visible:outline",
-    "focus-visible:outline-1",
-    "focus-visible:-outline-offset-1",
-    "focus-visible:outline-daikinBlue-700",
+    "relative",
   ],
   {
     variants: {
@@ -47,6 +56,31 @@ const cvaListItem = cva(
   }
 );
 
+const cvaListItem = cva(["text-left"], {
+  variants: {
+    type: {
+      button: ACTIONABLE_OVERLAY_CLASS_NAME,
+      link: ACTIONABLE_OVERLAY_CLASS_NAME,
+      text: ["before:hover:bg-daikinNeutral-100"],
+    },
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
+    },
+  },
+});
+
+const cvaIcon = cva([], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
+    },
+  },
+});
+
+type ListItemVariantProps = MergeVariantProps<typeof cvaListItem>;
+
 /**
  * The list item component functions as a child element of the list component, and is used to actually list items.
  *
@@ -58,7 +92,7 @@ const cvaListItem = cva(
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event). Suppressed if `disabled` is true.
  *
  * @slot - A slot for the list item label content.
- * @slot action - An optional element that is displayed on the right of a list item. e.g. `daikin-checkbox`, `daikin-toggle`
+ * @slot action - An optional element that is displayed on the right of a list item (e.g. `daikin-checkbox`, `daikin-toggle`). Please handle items in this slot by the user when list item is disabled.
  *
  * @example
  *
@@ -74,10 +108,12 @@ export class DaikinListItem extends LitElement {
 
   /**
    * Type of the list item.
-   * If `"link"` is specified, the list item will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
+   * - `button` (default): The list item will be rendered as a `<button>` element.
+   * - `link`: The list item will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
+   * - `text`: The list item will be rendered as a `<span>` element. If there is no event in the list item itself, specify this (e.g. if there is a slot with an `action` value).
    */
   @property({ type: String, reflect: true })
-  type: "button" | "link" = "button";
+  type: ListItemVariantProps["type"] = "button";
 
   /**
    * Link `href`.
@@ -112,7 +148,7 @@ export class DaikinListItem extends LitElement {
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
 
   @state()
-  private _hasAction = false;
+  private _hasActionSlot = false;
 
   constructor() {
     super();
@@ -125,32 +161,30 @@ export class DaikinListItem extends LitElement {
   }
 
   override render() {
-    const listCN = cvaListItem({
-      leftIcon: !!this.leftIcon,
-      rightIcon: !!this.rightIcon || this._hasAction,
-    });
+    const listCN = cvaListItem({ type: this.type, disabled: this.disabled });
 
     const icon = (icon: IconType | null) =>
       icon
-        ? html`<daikin-icon
-            icon=${icon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
+        ? html`<span class=${cvaIcon({ disabled: this.disabled })}>
+            <daikin-icon icon=${icon} size="xl" color="current"></daikin-icon>
+          </span>`
         : nothing;
 
-    const content = html`<span class="flex items-center w-full gap-2">
-        ${icon(this.leftIcon)}
-        <slot></slot>
-      </span>
-      <slot name="action">${icon(this.rightIcon)}</slot>`;
+    const content = html`<span
+      class="flex items-center w-full gap-2 relative z-0"
+    >
+      ${icon(this.leftIcon)}
+      <slot></slot>
+    </span>`;
 
     const wrapperType =
-      this.type === "link"
-        ? this.disabled
-          ? "linkDisabled"
-          : "link"
-        : "button";
+      this.type === "text"
+        ? "text"
+        : this.type === "link"
+          ? this.disabled
+            ? "text"
+            : "link"
+          : "button";
 
     const list = {
       button: () =>
@@ -161,14 +195,25 @@ export class DaikinListItem extends LitElement {
         html`<a href=${ifDefined(this.href ?? undefined)} class=${listCN}>
           ${content}
         </a>`,
-      linkDisabled: () => html`<span class=${listCN}>${content}</span>`,
+      text: () => html`<span class=${listCN}>${content}</span>`,
     }[wrapperType]();
 
-    return html`<div role="listitem">${list}</div>`;
+    return html`<div
+      class=${cvaListItemContainer({
+        leftIcon: !!this.leftIcon,
+        rightIcon: !!this.rightIcon || this._hasActionSlot,
+      })}
+      role="listitem"
+    >
+      ${list}
+      <slot name="action" class="flex items-center gap-3">
+        ${icon(this.rightIcon)}
+      </slot>
+    </div>`;
   }
 
   protected override firstUpdated(): void {
-    this._hasAction = !!this._actions.length;
+    this._hasActionSlot = !!this._actions.length;
   }
 
   /**
