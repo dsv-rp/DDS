@@ -68,6 +68,10 @@ const cvaTab = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/tab/index.js";
+ * ```
+ *
  * ```html
  * <!-- See `daikin-tabs` component for complete example. -->
  * <daikin-tab value="foo">Foo tab</daikin-tab>
