@@ -132,6 +132,9 @@ export class DaikinTooltip extends LitElement {
   @state()
   private _isFocused = false;
 
+  @state()
+  private _isHovered = false;
+
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
   private _triggerRef: Ref<HTMLElement> = createRef();
@@ -180,48 +183,43 @@ export class DaikinTooltip extends LitElement {
     this._autoUpdateCleanup = null;
   }
 
-  private _changeOpenState() {
-    this._popover.togglePopover(!this.open);
-
-    this.open = !this.open;
+  private _setOpenState(newState: boolean): void {
+    if (this.open === newState) {
+      return;
+    }
+    this._popover.togglePopover(newState);
+    this.open = newState;
   }
 
   private _handleClick() {
     if (this.trigger === "click") {
-      this._changeOpenState();
-    }
-  }
-
-  private _handleKeydown() {
-    if (this.trigger === "click" && !this.open) {
-      this._changeOpenState();
+      this._setOpenState(!this.open);
     }
   }
 
   private _handleMouseEnter() {
-    if (this.trigger === "hover" && !this.open) {
-      this._changeOpenState();
+    if (this.trigger === "hover") {
+      this._isHovered = true;
+      this._setOpenState(true);
     }
   }
 
   private _handleMouseLeave() {
-    if (this.trigger === "hover" && this.open && !this._isFocused) {
-      this._changeOpenState();
+    if (this.trigger === "hover" && !this._isFocused) {
+      this._isHovered = false;
+      this._setOpenState(false);
     }
   }
 
   private _handleFocusIn() {
     this._isFocused = true;
-
-    if (!this.open) {
-      this._changeOpenState();
-    }
+    this._setOpenState(true);
   }
 
   private _handleFocusOut() {
-    if (this.open) {
-      this._changeOpenState();
+    if (!this._isHovered) {
       this._isFocused = false;
+      this._setOpenState(false);
     }
   }
 
@@ -233,12 +231,12 @@ export class DaikinTooltip extends LitElement {
         id="trigger"
         aria-labelledby="trigger"
         aria-describedby="tooltip"
-        @click=${this._handleClick}
-        @keydown=${this._handleKeydown}
-        @mouseenter=${this._handleMouseEnter}
-        @mouseleave=${this._handleMouseLeave}
       >
         <slot
+          @click=${this._handleClick}
+          @keydown=${() => console.log("keydown")}
+          @mouseenter=${this._handleMouseEnter}
+          @mouseleave=${this._handleMouseLeave}
           @focusin=${this._handleFocusIn}
           @focusout=${this._handleFocusOut}
         ></slot>
@@ -251,11 +249,11 @@ export class DaikinTooltip extends LitElement {
         class=${cvaTooltip({
           variant: this.variant,
         })}
-        popover=${this.popoverValue}
+        .popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
-          this.dispatchEvent(new Event("beforetoggle", event))}
+          this.dispatchEvent(new ToggleEvent("beforetoggle", event))}
         @toggle=${(event: ToggleEvent) =>
-          this.dispatchEvent(new Event("toggle", event))}
+          this.dispatchEvent(new ToggleEvent("toggle", event))}
       >
         <slot name="description">
           <span class="whitespace-pre-line">${this.description}</span>
