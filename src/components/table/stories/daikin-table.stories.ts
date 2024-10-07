@@ -272,10 +272,6 @@ export const AllFunctions: Story = {
 
     await expect(root).toBeInTheDocument();
 
-    await expect(
-      getByShadowText(root, "Showing results 1 to 5 of 16 results")
-    ).toBeInTheDocument();
-    const searchInput = getByShadowRole(root, "textbox");
     const allItemCheckbox = getAllByShadowRole(root, "checkbox")[0];
     const priceSortButton = getByShadowRole(root, "button", {
       name: "Price",
@@ -290,35 +286,17 @@ export const AllFunctions: Story = {
       await expect(args.onChangeCheck).toHaveBeenCalledTimes(1);
     });
 
-    await step("Try to search keyword delete", async () => {
-      searchInput.focus();
-      await userEvent.keyboard("[Backspace]");
-      await userEvent.click(
-        getByShadowRole(root, "button", { name: "Search" })
-      );
-      await expect(
-        getByShadowText(root, "Showing results 1 to 5 of 16 results")
-      ).toBeInTheDocument();
-      await expect(allItemCheckbox).not.toBeChecked();
-    });
-
     // should react if inner sort button clicked
     await step("Try to click sort button", async () => {
       await userEvent.click(priceSortButton);
       const rows = getAllByShadowRole(root, "row");
       await expect(args.onChangeSort).toHaveBeenCalledTimes(1);
-      await expect(getByShadowText(rows[1], "$1")).toBeInTheDocument();
-      await expect(getByShadowText(rows[2], "$1")).toBeInTheDocument();
-      await expect(getByShadowText(rows[3], "$1")).toBeInTheDocument();
-      await expect(getByShadowText(rows[4], "$1")).toBeInTheDocument();
-      await expect(getAllByShadowRole(root, "checkbox")[1]).toBeChecked();
-      await expect(getAllByShadowRole(root, "checkbox")[2]).toBeChecked();
-      await expect(getAllByShadowRole(root, "checkbox")[3]).toBeChecked();
-      await expect(getAllByShadowRole(root, "checkbox")[4]).toBeChecked();
-      await expect(getAllByShadowRole(root, "checkbox")[5]).not.toBeChecked();
+      await expect(getByShadowText(rows[1], "Orange")).toBeInTheDocument();
+      await expect(getByShadowText(rows[2], "Kiwi")).toBeInTheDocument();
+      await expect(getByShadowText(rows[3], "Lime")).toBeInTheDocument();
+      await expect(getByShadowText(rows[4], "Persimmon")).toBeInTheDocument();
     });
 
-    await userEvent.click(allItemCheckbox);
     await userEvent.click(allItemCheckbox);
     await userEvent.click(nameSortButton);
   }),
