@@ -1,4 +1,5 @@
 import "#package/components/button/daikin-button";
+import "#package/components/table-cell/daikin-table-cell";
 import "#package/components/table/daikin-table";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
@@ -37,10 +38,17 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     >
       ${hasSlot
         ? rows.map(
-            ({ id, price }) =>
-              html`<daikin-button slot=${`cell:price:${id}`}>
-                ${price}
-              </daikin-button>`
+            ({ id, name, price }) =>
+              html`<daikin-table-cell
+                  slot=${`cell:name:${id}`}
+                  alignment="left"
+                >
+                  ${name}
+                  <span slot="subtitle">It's subtitle.</span>
+                </daikin-table-cell>
+                <daikin-table-cell slot=${`cell:price:${id}`} alignment="right">
+                  <daikin-button>${price}</daikin-button>
+                </daikin-table-cell>`
           )
         : nothing}
     </daikin-table>`;

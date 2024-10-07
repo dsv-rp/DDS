@@ -1,0 +1,92 @@
+import { cva } from "class-variance-authority";
+import { LitElement, css, html, unsafeCSS } from "lit";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+  state,
+} from "lit/decorators.js";
+import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
+import "../checkbox/daikin-checkbox";
+import "../dropdown-item/daikin-dropdown-item";
+import "../dropdown/daikin-dropdown";
+import "../pagination/daikin-pagination";
+import "../text-input/daikin-text-input";
+
+const cvaCell = cva(
+  ["flex", "flex-col", "gap-1", "justify-center", "w-full", "min-h-14", "px-4"],
+  {
+    variants: {
+      alignment: {
+        left: [],
+        right: ["items-end", "text-end"],
+        center: ["items-center", "text-center"],
+      },
+      hasSubtitle: {
+        false: ["pt-4", "pb-3"],
+        true: ["py-4"],
+      },
+    },
+  }
+);
+
+const cvaCellSubtitle = cva(["text-daikinNeutral-700", "text-xs"], {
+  variants: {
+    alignment: {
+      left: [],
+      right: [],
+      center: [],
+    },
+  },
+});
+
+type TableCellVariantProps = MergeVariantProps<typeof cvaCell>;
+
+@customElement("daikin-table-cell")
+export class DaikinTableCell extends LitElement {
+  static override readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
+
+    :host {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  `;
+
+  @property({ type: String })
+  alignment: TableCellVariantProps["alignment"] = "left";
+
+  @queryAssignedElements({ slot: "subtitle" })
+  private readonly _subtitles!: readonly HTMLElement[];
+
+  @state()
+  private _hasSubtitle = false;
+
+  override render() {
+    return html`<span
+      class=${cvaCell({
+        alignment: this.alignment,
+        hasSubtitle: this._hasSubtitle,
+      })}
+    >
+      <slot></slot>
+      <span class=${cvaCellSubtitle({ alignment: this.alignment })}>
+        <slot name="subtitle"></slot>
+      </span>
+    </span>`;
+  }
+
+  protected override firstUpdated(): void {
+    this._hasSubtitle = !!this._subtitles.length;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "daikin-table-cell": DaikinTableCell;
+  }
+}
+
+export default DaikinTableCell;

@@ -14,7 +14,6 @@ const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
   "relative",
-  "bg-white",
   "border-daikinNeutral-600",
   "border-2",
   "rounded-sm",
@@ -55,7 +54,6 @@ const CHECKBOX_CLASS_NAME = cva([
   "enabled:indeterminate:group-active:before:text-white",
 
   "disabled:border-daikinNeutral-200",
-  "disabled:bg-white",
   "disabled:checked:bg-daikinNeutral-200",
   "disabled:indeterminate:bg-daikinNeutral-200",
 ])();

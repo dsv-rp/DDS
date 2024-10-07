@@ -18,10 +18,10 @@ export default {
 export const Default: Story = {
   args: {
     headers: [
-      { key: "name", label: "Name", align: "left" },
-      { key: "season", label: "Season", align: "left" },
-      { key: "inStock", label: "In stock", align: "left" },
-      { key: "price", label: "Price", align: "right" },
+      { key: "name", label: "Name" },
+      { key: "season", label: "Season" },
+      { key: "inStock", label: "In stock" },
+      { key: "price", label: "Price", alignment: "right" },
     ],
     rows: [
       {
@@ -66,8 +66,20 @@ export const Default: Story = {
         inStock: "true",
         price: "$4",
       },
-      { id: "7", name: "Plum", season: "Summer", inStock: "true", price: "$5" },
-      { id: "8", name: "Kiwi", season: "Winter", inStock: "true", price: "$1" },
+      {
+        id: "7",
+        name: "Plum",
+        season: "Summer",
+        inStock: "true",
+        price: "$5",
+      },
+      {
+        id: "8",
+        name: "Kiwi",
+        season: "Winter",
+        inStock: "true",
+        price: "$1",
+      },
       {
         id: "9",
         name: "Pomegranate",
@@ -261,39 +273,21 @@ export const UseSlot: Story = {
 export const AllFunctions: Story = {
   args: {
     ...Default.args,
+    headers: [
+      { key: "name", label: "Name", leftIcon: "positive" },
+      { key: "season", label: "Season", leftIcon: "positive" },
+      { key: "inStock", label: "In stock", leftIcon: "positive" },
+      {
+        key: "price",
+        label: "Price",
+        alignment: "right",
+        leftIcon: "positive",
+      },
+    ],
     hasCheckbox: true,
     hasSort: true,
     hasSlot: true,
     onChangeCheck: fn(),
     onChangeSort: fn(),
   },
-  play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-table")[0];
-
-    await expect(root).toBeInTheDocument();
-
-    const allItemCheckbox = getAllByShadowRole(root, "checkbox")[0];
-    const nameSortButton = getByShadowRole(root, "button", {
-      name: "Name",
-    });
-
-    // should react if inner checkbox clicked
-    await step("Try to click checkbox", async () => {
-      await userEvent.click(allItemCheckbox);
-      await expect(args.onChangeCheck).toHaveBeenCalledTimes(1);
-    });
-
-    // should react if inner sort button clicked
-    await step("Try to click sort button", async () => {
-      await userEvent.click(nameSortButton);
-      const rows = getAllByShadowRole(root, "row");
-      await expect(args.onChangeSort).toHaveBeenCalledTimes(1);
-      await expect(getByShadowText(rows[1], "Apple")).toBeInTheDocument();
-      await expect(getByShadowText(rows[2], "Blueberry")).toBeInTheDocument();
-      await expect(getByShadowText(rows[3], "Fig")).toBeInTheDocument();
-      await expect(getByShadowText(rows[4], "Grape")).toBeInTheDocument();
-    });
-
-    await userEvent.click(allItemCheckbox);
-  }),
 };

@@ -7,23 +7,26 @@ import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 import "../checkbox/daikin-checkbox";
-import "../dropdown-item/daikin-dropdown-item";
-import "../dropdown/daikin-dropdown";
-import "../pagination/daikin-pagination";
-import "../text-input/daikin-text-input";
+import type { IconType } from "../icon";
+import "../table-cell/daikin-table-cell";
 
 const cvaCell = cva(["flex", "items-center", "w-full", "min-h-14", "p-4"], {
   variants: {
-    align: {
+    alignment: {
       left: [],
-      right: ["justify-end"],
+      right: ["text-end", "justify-end"],
+      center: ["text-center"],
     },
     sort: {
       false: [],
       true: [
         "items-center",
         "gap-2",
+
+        "hover:bg-daikinNeutral-100",
+        "active:bg-daikinNeutral-200",
         "focus-visible:outline",
         "focus-visible:outline-2",
         "focus-visible:-outline-offset-2",
@@ -49,20 +52,14 @@ const cvaRow = cva(
   {
     variants: {
       selected: {
-        false: [
-          "bg-white",
-          "hover:bg-daikinNeutral-100",
-          "active:bg-daikinNeutral-200",
-        ],
-        true: [
-          "bg-daikinBlue-50",
-          "hover:bg-daikinBlue-50",
-          "active:bg-daikinBlue-100",
-        ],
+        false: ["bg-white", "hover:bg-daikinNeutral-100"],
+        true: ["bg-daikinBlue-50", "hover:bg-daikinBlue-50"],
       },
     },
   }
 );
+
+type TableVariantProps = MergeVariantProps<typeof cvaCell>;
 
 /**
  * The table component is a component that can display multiple data objects in a tabular format.
@@ -76,14 +73,16 @@ const cvaRow = cva(
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
  *
+ * @slot cell:${headers.key}:${rows.id} - Use content other than text in the table.
+ *
  * @example
  *
  * ```html
  * <daikin-table
  *   .headers="[
- *     { key: 'name', label: 'Name', align: 'left' },
- *     { key: 'season', label: 'Season', align: 'left' },
- *     { key: 'price', label: 'Price', align: 'right' },
+ *     { key: 'name', label: 'Name' },
+ *     { key: 'season', label: 'Season' },
+ *     { key: 'price', label: 'Price', alignment: 'right' },
  *   ]"
  *   .rows="[
  *     { id: '1', name: 'Apple', season: 'Autumn', price: '$2' },
@@ -110,11 +109,6 @@ export class DaikinTable extends LitElement {
 
       display: block;
       width: 100%;
-
-      daikin-text-input {
-        width: 254px;
-        height: 42px;
-      }
     }
   `;
 
@@ -122,9 +116,15 @@ export class DaikinTable extends LitElement {
    * Headers of the table.
    * The value of `key` corresponds to the key, excluding the id of rows.
    * As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.
+   * The direction in which the characters are aligned can be omitted. If it is omitted, the characters will be aligned to the left.
    */
   @property({ type: Array, attribute: false })
-  headers: { key: string; label: string; align: "left" | "right" }[] = [];
+  headers: {
+    key: string;
+    label: string;
+    alignment?: TableVariantProps["alignment"];
+    leftIcon?: IconType;
+  }[] = [];
 
   /**
    * Rows of the table.
@@ -336,13 +336,18 @@ export class DaikinTable extends LitElement {
       }
     ) =>
       this.headers.map(
-        ({ key, align }) =>
-          html`<td class="p-0">
-            <span class=${cvaCell({ align })}>
-              <slot name=${`cell:${key}:${item.id}`}>${item[key]}</slot>
-            </span>
+        ({ key, alignment }) =>
+          html`<td class="h-full p-0">
+            <slot class="h-full" name=${`cell:${key}:${item.id}`}
+              ><daikin-table-cell alignment=${alignment ?? "left"}
+                >${item[key]}</daikin-table-cell
+              ></slot
+            >
           </td>`
       );
+
+    const createIcon = (icon: IconType | undefined) =>
+      icon ? html`<daikin-icon icon=${icon} size="xl"></daikin-icon>` : nothing;
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
       <table
@@ -368,7 +373,7 @@ export class DaikinTable extends LitElement {
                 </td>`
               : nothing}
             ${this.headers.map(
-              ({ key, label, align }) =>
+              ({ key, label, alignment, leftIcon }) =>
                 html`<th
                   class="h-full p-0"
                   aria-sort=${ifDefined(
@@ -384,21 +389,21 @@ export class DaikinTable extends LitElement {
                         <button
                           type="button"
                           class=${cvaCell({
-                            align,
+                            alignment: alignment ?? "left",
                             sort: true,
                           })}
                           @click=${() => this._handleClickSort(key)}
                         >
-                          ${label}
+                          ${createIcon(leftIcon)}${label}
                         </button>
                       `
                     : html`<span
                         class=${cvaCell({
-                          align,
+                          alignment: alignment ?? "left",
                           sort: false,
                         })}
                       >
-                        ${label}
+                        ${createIcon(leftIcon)}${label}
                       </span>`}
                 </th>`
             )}
