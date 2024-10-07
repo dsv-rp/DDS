@@ -28,13 +28,9 @@
       "class": "i-daikin-search",
       "color": null
     },
-    "sort-chevron-up": {
-      "class": "i-daikin-sort-chevron-up",
-      "color": null
-    },
-    "sort-chevron-down": {
-      "class": "i-daikin-sort-chevron-down",
-      "color": null
+    "error": {
+      "class": "i-daikin-status-error",
+      "color": "#ff4949"
     },
     "sort-chevron-up-and-down": {
       "class": "i-daikin-sort-chevron-up-and-down",
