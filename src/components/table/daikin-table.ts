@@ -71,7 +71,7 @@ const cvaRow = cva(
  *
  * If the contents of the table are plain text only, give them to the `rows` property. However, if you want to give contents other than text, such as buttons or images, you will need to prepare a element with the corresponding `slot` attribute. The value of this attribute must be structured as follows: ``slot=${`cell:${headers[i].key}:${rows[i].id}`}``
  *
- * The table provides tow functions: checkboxes and sorting, and you can select the functions you need. You can also add any components to the slot to further expand the functions.
+ * The table provides tow functions: checkboxes and sorting, and you can select the functions you need.
  *
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
