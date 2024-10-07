@@ -8,31 +8,29 @@ import type { DaikinTextareaStoryArgs } from "./common";
 export const metadata: Meta<DaikinTextareaStoryArgs> = {
   render: ({
     placeholder,
-    maxlength,
+    autocomplete,
     disabled,
     readonly,
+    required,
     error,
-    __vrtArgs__,
+    resizable,
     onChange,
     onInput,
-  }) => {
-    const additionalClassNames = {
-      "": "",
-      resizeLarge: "w-[800px] h-[320px]",
-      resizeSmall: "w-[160px] h-[40px]",
-    }[__vrtArgs__];
-
-    return html`
+    onChangeCount,
+  }) => html`
+    <div style="width:360px;">
       <daikin-textarea
-        class=${additionalClassNames}
+        placeholder=${placeholder}
+        autocomplete=${ifDefined(autocomplete)}
         ?disabled=${disabled}
         ?readonly=${readonly}
+        ?required=${required}
         ?error=${error}
-        placeholder=${placeholder}
-        maxlength=${ifDefined(maxlength)}
+        ?resizable=${resizable}
         @change=${onChange}
         @input=${onInput}
+        @change-count=${onChangeCount}
       ></daikin-textarea>
-    `;
-  },
+    </div>
+  `,
 };
