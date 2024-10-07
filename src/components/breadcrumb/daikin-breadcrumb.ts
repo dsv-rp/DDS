@@ -110,6 +110,7 @@ export class DaikinBreadcrumb extends LitElement {
         // last item
         item.trailingSlash = this.trailingSlash;
         item.disabled = true;
+        item.last = true;
         continue;
       }
       item.trailingSlash = true;
