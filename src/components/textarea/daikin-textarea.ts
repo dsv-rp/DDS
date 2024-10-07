@@ -78,6 +78,10 @@ const cvaTextarea = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * ```
+ *
  * ```html
  * <!-- See `daikin-input-group` component for complete example. -->
  * <daikin-textarea name="name"></daikin-textarea>

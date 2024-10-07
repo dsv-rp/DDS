@@ -8,7 +8,6 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
@@ -77,6 +76,12 @@ const cvaCounterValueLength = cva([], {
  * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` element here.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
+ * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * ```
  *
  * With Text Input:
  *
