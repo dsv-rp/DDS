@@ -273,9 +273,6 @@ export const AllFunctions: Story = {
     await expect(root).toBeInTheDocument();
 
     const allItemCheckbox = getAllByShadowRole(root, "checkbox")[0];
-    const priceSortButton = getByShadowRole(root, "button", {
-      name: "Price",
-    });
     const nameSortButton = getByShadowRole(root, "button", {
       name: "Name",
     });
@@ -288,16 +285,15 @@ export const AllFunctions: Story = {
 
     // should react if inner sort button clicked
     await step("Try to click sort button", async () => {
-      await userEvent.click(priceSortButton);
+      await userEvent.click(nameSortButton);
       const rows = getAllByShadowRole(root, "row");
       await expect(args.onChangeSort).toHaveBeenCalledTimes(1);
-      await expect(getByShadowText(rows[1], "Orange")).toBeInTheDocument();
-      await expect(getByShadowText(rows[2], "Kiwi")).toBeInTheDocument();
-      await expect(getByShadowText(rows[3], "Lime")).toBeInTheDocument();
-      await expect(getByShadowText(rows[4], "Persimmon")).toBeInTheDocument();
+      await expect(getByShadowText(rows[1], "Apple")).toBeInTheDocument();
+      await expect(getByShadowText(rows[2], "Blueberry")).toBeInTheDocument();
+      await expect(getByShadowText(rows[3], "Fig")).toBeInTheDocument();
+      await expect(getByShadowText(rows[4], "Grape")).toBeInTheDocument();
     });
 
     await userEvent.click(allItemCheckbox);
-    await userEvent.click(nameSortButton);
   }),
 };
