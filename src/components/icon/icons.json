@@ -24,6 +24,10 @@
       "class": "i-daikin-notification-status-warning",
       "color": null
     },
+    "error": {
+      "class": "i-daikin-status-error",
+      "color": "#ff4949"
+    },
     "chevron-left": {
       "class": "i-daikin-chevron-left",
       "color": null

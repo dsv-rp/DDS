@@ -15,24 +15,27 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(
   ["inprogress", "completed", "indeterminate", "error"] as const,
   (variant) => {
-    describeEach(["exist", "none"] as const, (helper) => {
-      test("base", async ({ page }) => {
-        const baseURL = getPageURL({
-          variant,
-          value: variant === "completed" ? 100 : 40,
-          ...(helper === "none" && {
-            helper: "",
-          }),
-        });
-        await page.goto(baseURL);
+    describeEach(["medium", "large"] as const, (size) => {
+      describeEach(["exist", "none"] as const, (helper) => {
+        test("base", async ({ page }) => {
+          const baseURL = getPageURL({
+            variant,
+            size,
+            value: variant === "completed" ? 100 : 40,
+            ...(helper === "none" && {
+              helper: "",
+            }),
+          });
+          await page.goto(baseURL);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-progress-bar", {
-          state: "visible",
-        });
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-progress-bar", {
+            state: "visible",
+          });
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
+        });
       });
     });
   }

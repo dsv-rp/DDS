@@ -50,6 +50,10 @@ export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/icon/index.js";
+ * ```
+ *
  * ```html
  * <daikin-icon icon="information" color="black" size="m"></daikin-icon>
  * ```
