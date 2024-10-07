@@ -102,17 +102,14 @@ export class DaikinBreadcrumb extends LitElement {
   private _updateBreadcrumbs() {
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
     for (const [index, item] of daikinBreadCrumbItems.entries()) {
-      const linkElement = item.shadowRoot?.querySelector("a");
       if (index === daikinBreadCrumbItems.length - 1) {
         // last item
         item.trailingSlash = this.trailingSlash;
         item.disabled = true;
-        item.setAttribute("aria-current", "page");
-        linkElement?.setAttribute("tabindex", "-1");
+        item.last = true;
         continue;
       }
       item.trailingSlash = true;
-      linkElement?.setAttribute("tabindex", "0");
     }
   }
 
