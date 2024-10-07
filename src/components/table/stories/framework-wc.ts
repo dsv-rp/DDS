@@ -10,35 +10,17 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     headers,
     rows,
     hasCheckbox,
-    hasSearch,
-    hasPagination,
     hasSort,
     checkedIds,
-    keyword,
     orderBy,
-    currentPage,
     sort,
     sortedKey,
-    ranges,
-    selectedRange,
     selectedRowId,
     hasSlot,
     onChangeCheck,
-    onChangePage,
     onChangeSort,
-    onSearch,
   }) => {
     const fallbackCheckedIds = (checkedIds as string[] | null) ?? [];
-    const fallbackRanges = (ranges as (number | "All")[] | null) ?? [
-      5,
-      10,
-      25,
-      50,
-      100,
-      "All",
-    ];
-    const fallbackSelectedRange =
-      (selectedRange as number | "All" | null) ?? "All";
 
     return html`<daikin-table
       .headers=${headers}
@@ -46,20 +28,12 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       .sort=${sort}
       .orderBy=${orderBy}
       .checkedIds=${fallbackCheckedIds}
-      .keyword=${keyword}
-      current-page=${ifDefined(currentPage)}
       .sortedKey=${sortedKey}
-      .ranges=${fallbackRanges}
-      selected-range=${fallbackSelectedRange}
       selected-row-id=${ifDefined(selectedRowId)}
       ?has-checkbox=${hasCheckbox}
-      ?has-search=${hasSearch}
-      ?has-pagination=${hasPagination}
       ?has-sort=${hasSort}
       @change-check=${onChangeCheck}
-      @change-page=${onChangePage}
       @change-sort=${onChangeSort}
-      @search=${onSearch}
     >
       ${hasSlot
         ? rows.map(

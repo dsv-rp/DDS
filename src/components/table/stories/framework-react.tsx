@@ -11,9 +11,7 @@ const ReactDaikinTable = createComponent({
   react: React,
   events: {
     onChangeCheck: "change-check",
-    onChangePage: "change-page",
     onChangeSort: "change-sort",
-    onSearch: "search",
   },
 });
 

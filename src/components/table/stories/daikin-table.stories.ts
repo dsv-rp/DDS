@@ -127,14 +127,12 @@ export const Default: Story = {
     ],
     selectedRowId: "1",
     hasCheckbox: false,
-    hasSearch: false,
-    hasPagination: false,
     hasSort: false,
     hasSlot: false,
   },
 };
 
-export const Checkbox: Story = {
+export const Checkable: Story = {
   args: {
     ...Default.args,
     hasCheckbox: true,
@@ -199,90 +197,7 @@ export const Checkbox: Story = {
   }),
 };
 
-export const Pagination: Story = {
-  args: {
-    ...Default.args,
-    hasPagination: true,
-    selectedRange: 5,
-    onChangePage: fn(),
-  },
-  play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-table")[0];
-    await expect(root).toBeInTheDocument();
-
-    const dropdown = getByShadowRole(root, "button", { name: "5" });
-    await expect(dropdown).toBeInTheDocument();
-    await expect(getAllByShadowRole(root, "row")).toHaveLength(6);
-
-    // should react if inner dropdown clicked
-    await step("Try to click dropdown", async () => {
-      await userEvent.click(dropdown);
-      await userEvent.click(getByShadowRole(root, "option", { name: "All" }));
-      await expect(getAllByShadowRole(root, "row")).toHaveLength(17);
-      await expect(args.onChangePage).toHaveBeenCalled();
-
-      await userEvent.click(getByShadowRole(root, "button", { name: "All" }));
-      await userEvent.click(getByShadowRole(root, "option", { name: "5" }));
-      await expect(args.onChangePage).toHaveBeenCalled();
-    });
-
-    // should react if inner page navigation clicked
-    await step("Try to click page navigation", async () => {
-      await userEvent.click(getByShadowRole(root, "button", { name: "page2" }));
-
-      const rows = getAllByShadowRole(root, "row");
-      await expect(rows).toHaveLength(6);
-      await expect(getByShadowText(rows[1], "Pineapple")).toBeInTheDocument();
-      await expect(getByShadowText(rows[2], "Plum")).toBeInTheDocument();
-      await expect(getByShadowText(rows[3], "Kiwi")).toBeInTheDocument();
-      await expect(getByShadowText(rows[4], "Pomegranate")).toBeInTheDocument();
-      await expect(getByShadowText(rows[5], "Fig")).toBeInTheDocument();
-      await expect(args.onChangePage).toHaveBeenCalled();
-
-      await userEvent.click(getByShadowRole(root, "button", { name: "page1" }));
-    });
-  }),
-};
-
-export const Search: Story = {
-  args: {
-    ...Default.args,
-    hasSearch: true,
-    onSearch: fn(),
-  },
-  play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-table")[0];
-    await expect(root).toBeInTheDocument();
-
-    const searchInput = getByShadowRole(root, "textbox");
-    await expect(searchInput).toBeInTheDocument();
-
-    // should react if inner input type and enter key typed
-    await step("Try to search keyword input", async () => {
-      await userEvent.type(searchInput, "ap");
-      await userEvent.keyboard("[Enter]");
-
-      await expect(args.onSearch).toHaveBeenCalledOnce();
-      const rows = getAllByShadowRole(root, "row");
-      await expect(rows).toHaveLength(5);
-      await expect(getByShadowText(rows[1], "Apple")).toBeInTheDocument();
-      await expect(getByShadowText(rows[2], "Pineapple")).toBeInTheDocument();
-      await expect(getByShadowText(rows[3], "Grape")).toBeInTheDocument();
-      await expect(getByShadowText(rows[4], "Grapefruit")).toBeInTheDocument();
-    });
-
-    await step("Try to search keyword delete", async () => {
-      searchInput.focus();
-      await userEvent.keyboard("[Backspace]");
-      await userEvent.keyboard("[Backspace]");
-      await userEvent.click(
-        getByShadowRole(root, "button", { name: "Search" })
-      );
-    });
-  }),
-};
-
-export const Sort: Story = {
+export const Sortable: Story = {
   args: {
     ...Default.args,
     hasSort: true,
@@ -336,18 +251,21 @@ export const Sort: Story = {
   }),
 };
 
+export const UseSlot: Story = {
+  args: {
+    ...Default.args,
+    hasSlot: true,
+  },
+};
+
 export const AllFunctions: Story = {
   args: {
     ...Default.args,
     hasCheckbox: true,
-    hasPagination: true,
-    hasSearch: true,
     hasSort: true,
-    selectedRange: 5,
+    hasSlot: true,
     onChangeCheck: fn(),
-    onChangePage: fn(),
     onChangeSort: fn(),
-    onSearch: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-table")[0];
@@ -364,18 +282,6 @@ export const AllFunctions: Story = {
     });
     const nameSortButton = getByShadowRole(root, "button", {
       name: "Name",
-    });
-
-    // should react if inner input type and enter key typed
-    await step("Try to search keyword input", async () => {
-      await userEvent.type(searchInput, "1");
-      await userEvent.keyboard("[Enter]");
-      await expect(args.onSearch).toHaveBeenCalledTimes(1);
-      await expect(
-        getByShadowText(root, "Showing results 1 to 4 of 4 results")
-      ).toBeInTheDocument();
-      const rows = getAllByShadowRole(root, "row");
-      await expect(rows).toHaveLength(5);
     });
 
     // should react if inner checkbox clicked
@@ -416,11 +322,4 @@ export const AllFunctions: Story = {
     await userEvent.click(allItemCheckbox);
     await userEvent.click(nameSortButton);
   }),
-};
-
-export const UseSlot: Story = {
-  args: {
-    ...Default.args,
-    hasSlot: true,
-  },
 };
