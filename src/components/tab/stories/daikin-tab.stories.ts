@@ -13,10 +13,9 @@ export default {
 
 export const Default: Story = {
   args: {
-    size: "default",
     active: false,
     disabled: false,
-    label: "Tab",
+    label: "Tab label",
     onClick: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -24,7 +23,7 @@ export const Default: Story = {
     await expect(root).toBeInTheDocument();
 
     const innerButton = getByShadowRole(root, "tab", {
-      name: "Tab",
+      name: "Tab label",
     });
     await expect(innerButton).toBeInTheDocument();
 
@@ -42,14 +41,6 @@ export const Default: Story = {
   }),
 };
 
-export const Condensed: Story = {
-  args: {
-    ...Default.args,
-    size: "condensed",
-    onClick: fn(),
-  },
-};
-
 export const Disabled: Story = {
   args: {
     ...Default.args,
@@ -61,7 +52,7 @@ export const Disabled: Story = {
     await expect(root).toBeInTheDocument();
 
     const innerButton = getByShadowRole(root, "tab", {
-      name: "Tab",
+      name: "Tab label",
     });
     await expect(innerButton).toBeInTheDocument();
 

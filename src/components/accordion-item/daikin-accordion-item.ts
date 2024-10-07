@@ -71,6 +71,10 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/accordion-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-accordion-item>
  *   <span slot="Accordion summary">

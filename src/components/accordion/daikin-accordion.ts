@@ -14,6 +14,10 @@ import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-ite
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/accordion/index.js";
+ * ```
+ *
  * ```html
  * <daikin-accordion>
  *   <daikin-accordion-item>

@@ -8,23 +8,20 @@ export type DaikinProgressBarStoryArgs = Required<
 
 export const DAIKIN_PROGRESS_BAR_ARG_TYPES = {
   value: {
-    description: "Value of the progress bar",
     type: "number",
   },
   variant: {
-    description: "Status of the progress bar",
-    defaultValue: "inprogress",
-    control: { type: "radio" },
+    control: "radio",
     options: ["inprogress", "completed", "indeterminate", "error"],
   },
+  size: {
+    control: "radio",
+    options: ["medium", "large"],
+  },
   max: {
-    description: "The max value of the progress bar",
-    defaultValue: 100,
     type: "number",
   },
   helper: {
-    description: "Helper text",
-    defaultValue: undefined,
     type: "string",
   },
 } satisfies Meta<DaikinProgressBarStoryArgs>["argTypes"];
