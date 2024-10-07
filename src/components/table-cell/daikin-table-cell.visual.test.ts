@@ -20,8 +20,6 @@ describeEach(["left", "right", "center"] as const, (alignment) => {
     });
 
     test("base", async ({ page }) => {
-      console.log(baseURL);
-
       await page.goto(baseURL);
 
       // wait for element to be visible

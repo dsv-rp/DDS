@@ -4,7 +4,7 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 import type { DaikinTableCellStoryArgs } from "./common";
 
-const ReactDaikinTableCell = createComponent({
+export const ReactDaikinTableCell = createComponent({
   tagName: "daikin-table-cell",
   elementClass: DaikinTableCell,
   react: React,

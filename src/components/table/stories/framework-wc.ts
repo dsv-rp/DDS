@@ -39,10 +39,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       ${hasSlot
         ? rows.map(
             ({ id, name, price }) =>
-              html`<daikin-table-cell
-                  slot=${`cell:name:${id}`}
-                  alignment="left"
-                >
+              html`<daikin-table-cell slot=${`cell:name:${id}`}>
                   ${name}
                   <span slot="subtitle">It's subtitle.</span>
                 </daikin-table-cell>
