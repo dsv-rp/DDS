@@ -114,6 +114,8 @@ export class DaikinToggle extends LitElement {
       type="checkbox"
       name=${this.name}
       value=${this.value}
+      role="switch"
+      aria-checked=${this.checked}
       .checked=${this.checked}
       ?disabled=${this.disabled}
       @change=${this._handleChange}
