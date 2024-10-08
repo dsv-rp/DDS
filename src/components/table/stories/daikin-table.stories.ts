@@ -21,7 +21,7 @@ export const Default: Story = {
       { key: "name", label: "Name" },
       { key: "season", label: "Season" },
       { key: "inStock", label: "In stock" },
-      { key: "price", label: "Price", alignment: "right" },
+      { key: "price", label: "Price", alignment: "right", sortable: false },
     ],
     rows: [
       {
@@ -290,6 +290,7 @@ export const AllFunctions: Story = {
         label: "Price",
         alignment: "right",
         leftIcon: "positive",
+        sortable: false,
       },
     ],
     hasCheckbox: true,

@@ -86,7 +86,7 @@ type TableVariantProps = MergeVariantProps<typeof cvaHeaderCell>;
  *   .headers="[
  *     { key: 'name', label: 'Name' },
  *     { key: 'season', label: 'Season' },
- *     { key: 'price', label: 'Price', alignment: 'right' },
+ *     { key: 'price', label: 'Price', alignment: 'right', sortable: false },
  *   ]"
  *   .rows="[
  *     { id: '1', name: 'Apple', season: 'Autumn', price: '$2' },
@@ -130,9 +130,11 @@ export class DaikinTable extends LitElement {
 
   /**
    * Headers of the table.
-   * The value of `key` corresponds to the key, excluding the id of rows.
-   * As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.
-   * The direction in which the characters are aligned can be omitted. If it is omitted, the characters will be aligned to the left.
+   * - key: The value of `key` corresponds to the key, excluding the id of rows. As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.
+   * - label: This is the text that is displayed in the header cells.
+   * - alignment: The direction in which the characters are aligned can be omitted. If it is omitted, the characters will be aligned to the left.
+   * - leftIcon: In the header cell, you can optionally display an icon to the left of the text.
+   * - sortable: If sortable (`hasSort = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
    */
   @property({ type: Array, attribute: false })
   headers: {
@@ -140,6 +142,7 @@ export class DaikinTable extends LitElement {
     label: string;
     alignment?: TableVariantProps["alignment"];
     leftIcon?: IconType;
+    sortable?: boolean;
   }[] = [];
 
   /**
@@ -403,7 +406,7 @@ export class DaikinTable extends LitElement {
                 </td>`
               : nothing}
             ${this.headers.map(
-              ({ key, label, alignment, leftIcon }) =>
+              ({ key, label, alignment, leftIcon, sortable }) =>
                 html`<th
                   class="h-full p-0"
                   aria-sort=${ifDefined(
@@ -414,7 +417,7 @@ export class DaikinTable extends LitElement {
                       : undefined
                   )}
                 >
-                  ${this.hasSort
+                  ${this.hasSort && (sortable || sortable === undefined)
                     ? html`
                         <button
                           type="button"
