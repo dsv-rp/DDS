@@ -35,9 +35,6 @@ export const DAIKIN_TABLE_ARG_TYPES = {
   sortedKey: {
     type: "string",
   },
-  selectedRowId: {
-    type: "string",
-  },
 } satisfies Meta<DaikinTableStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTableStoryArgs>;

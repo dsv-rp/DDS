@@ -3,7 +3,6 @@ import "#package/components/table-cell/daikin-table-cell";
 import "#package/components/table/daikin-table";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinTableStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
@@ -16,7 +15,6 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     orderBy,
     sort,
     sortedKey,
-    selectedRowId,
     hasSlot,
     onChangeCheck,
     onChangeSort,
@@ -30,7 +28,6 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       .orderBy=${orderBy}
       .checkedIds=${fallbackCheckedIds}
       .sortedKey=${sortedKey}
-      selected-row-id=${ifDefined(selectedRowId)}
       ?has-checkbox=${hasCheckbox}
       ?has-sort=${hasSort}
       @change-check=${onChangeCheck}

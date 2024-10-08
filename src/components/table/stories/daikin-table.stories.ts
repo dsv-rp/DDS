@@ -137,7 +137,6 @@ export const Default: Story = {
         price: "$1",
       },
     ],
-    selectedRowId: "1",
     hasCheckbox: false,
     hasSort: false,
     hasSlot: false,
@@ -148,6 +147,7 @@ export const Checkable: Story = {
   args: {
     ...Default.args,
     hasCheckbox: true,
+    checkedIds: ["1", "3"],
     onChangeCheck: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -286,6 +286,7 @@ export const AllFunctions: Story = {
     ],
     hasCheckbox: true,
     hasSort: true,
+    checkedIds: ["1", "3"],
     hasSlot: true,
     onChangeCheck: fn(),
     onChangeSort: fn(),

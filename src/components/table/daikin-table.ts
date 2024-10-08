@@ -196,12 +196,6 @@ export class DaikinTable extends LitElement {
   @property({ type: String, reflect: true, attribute: "sorted-key" })
   sortedKey: string | null = null;
 
-  /**
-   * Specify whether the table row is selected
-   */
-  @property({ type: String, reflect: true, attribute: "selected-row-id" })
-  selectedRowId: string | null = null;
-
   @state()
   private _allItemCheckState: "unchecked" | "indeterminate" | "checked" =
     "unchecked";
@@ -434,7 +428,9 @@ export class DaikinTable extends LitElement {
           ${this._showRows.map(
             (row) =>
               html`<tr
-                class=${cvaRow({ selected: this.selectedRowId === row.id })}
+                class=${cvaRow({
+                  selected: !!this.checkedIds.find((id) => id === row.id),
+                })}
               >
                 ${this.hasCheckbox
                   ? html`<td class="w-12 p-0">
