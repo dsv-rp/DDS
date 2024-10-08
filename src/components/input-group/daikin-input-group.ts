@@ -136,10 +136,10 @@ export class DaikinInputGroup extends LitElement {
   textareaCounter = false;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
-  _textareas!: DaikinTextarea[];
+  private readonly _textareas!: readonly DaikinTextarea[];
 
   @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
-  _controls!: ControlElement[];
+  private readonly _controls!: readonly ControlElement[];
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
