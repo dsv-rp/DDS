@@ -173,6 +173,10 @@ export class DaikinTextInput extends LitElement {
 
     this._internals.setFormValue(this.value);
   }
+
+  reflectInputGroup(): void {
+    // Nothing to do.
+  }
 }
 
 declare global {

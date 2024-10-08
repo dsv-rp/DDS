@@ -7,10 +7,11 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
-type ControlElement = DaikinTextInput | DaikinTextarea;
+type ControlElement = DaikinTextInput | DaikinTextarea | DaikinDropdown;
 
 const cvaLabel = cva(["text-base", "font-bold"], {
   variants: {
@@ -42,8 +43,9 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  * Hierarchies:
  * - `daikin-input-group` > `daikin-text-input`
  * - `daikin-input-group` > `daikin-textarea`
+ * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
  *
- * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` element here.
+ * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` or `daikin-dropdown` element here.
  *
  * @example
  *
@@ -57,7 +59,7 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-text-input value="Content of Text Input"></daikin-text-input>
+ *   <daikin-text-input value="Value of Text Input"></daikin-text-input>
  * </daikin-input-group>
  * ```
  *
@@ -65,7 +67,19 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-textarea value="Content of Textarea"></daikin-textarea>
+ *   <daikin-textarea value="Value of Textarea"></daikin-textarea>
+ * </daikin-input-group>
+ * ```
+ *
+ * With Dropdown:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-dropdown value="Value of Dropdown">
+ *     <daikin-dropdown-item value="Value of Dropdown Item">
+ *       Dropdown item 1
+ *     </daikin-dropdown-item>
+ *   </daikin-dropdown>
  * </daikin-input-group>
  * ```
  */
@@ -78,7 +92,7 @@ export class DaikinInputGroup extends LitElement {
       --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
 
       display: block;
-      width: max-content;
+      width: 100%;
     }
   `;
 
@@ -86,7 +100,7 @@ export class DaikinInputGroup extends LitElement {
    * Label text to place at the top of the field
    */
   @property({ type: String })
-  label?: string;
+  label = "";
 
   /**
    * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
@@ -118,11 +132,10 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: Boolean, reflect: true })
   textareaCounter = false;
 
-  @queryAssignedElements({ selector: "daikin-textarea" })
-  _textareas!: DaikinTextarea[];
-
-  @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
-  _controls!: ControlElement[];
+  @queryAssignedElements({
+    selector: "daikin-dropdown, daikin-textarea, daikin-text-input",
+  })
+  private readonly _controls!: readonly ControlElement[];
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -131,12 +144,9 @@ export class DaikinInputGroup extends LitElement {
   private _reflectSlotProperties(): void {
     const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
-      control.disabled = !!this.disabled;
+      control.disabled = this.disabled;
       control.error = isError;
-    }
-
-    for (const item of this._textareas) {
-      item.counter = this.textareaCounter;
+      control.reflectInputGroup(this);
     }
   }
 
@@ -151,7 +161,7 @@ export class DaikinInputGroup extends LitElement {
     });
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
+      <label class="flex flex-col justify-center w-full gap-1 font-daikinSerif">
         ${this.label
           ? html`<span class=${inputGroupLabelClassName}>${this.label}</span>`
           : null}
