@@ -70,10 +70,13 @@ type TableVariantProps = MergeVariantProps<typeof cvaCell>;
  *
  * The table provides tow functions: checkboxes and sorting, and you can select the functions you need.
  *
+ * Hierarchy:
+ * - `daikin-table` > `daikin-table-cell`
+ *
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
  *
- * @slot cell:${headers.key}:${rows.id} - Use content other than text in the table.
+ * @slot cell:${headers[i].key}:${rows[i].id} - Use content other than text in the table. Be sure to use daikin-table-cell for the wrapper.
  *
  * @example
  *
@@ -91,10 +94,22 @@ type TableVariantProps = MergeVariantProps<typeof cvaCell>;
  *     { id: '4', name: 'Strawberry', season: 'Spring', price: '$4' },
  *   ]"
  * >
- *   <button slot="cell:price:1">$2</button>
- *   <button slot="cell:price:2">$4</button>
- *   <button slot="cell:price:3">$1</button>
- *   <button slot="cell:price:4">$4</button>
+ *   <daikin-table-cell slot="cell:name:1">
+ *     Apple
+ *     <span slot="subtitle">This is a autumn fruit.</span>
+ *   </daikin-table-cell>
+ *   <daikin-table-cell slot="cell:name:2">
+ *     Peach
+ *     <span slot="subtitle">This is a summer fruit.</span>
+ *   </daikin-table-cell>
+ *   <daikin-table-cell slot="cell:name:3">
+ *     Orange
+ *     <span slot="subtitle">This is a winter fruit.</span>
+ *   </daikin-table-cell>
+ *   <daikin-table-cell slot="cell:name:4">
+ *     Strawberry
+ *     <span slot="subtitle">This is a spring fruit.</span>
+ *   </daikin-table-cell>
  * </daikin-table>
  * ```
  */

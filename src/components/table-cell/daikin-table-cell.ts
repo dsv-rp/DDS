@@ -43,6 +43,25 @@ const cvaCellSubtitle = cva(["text-daikinNeutral-700", "text-xs"], {
 
 type TableCellVariantProps = MergeVariantProps<typeof cvaCell>;
 
+/**
+ * This is a component that functions as an element to be placed on the daikin-table. When you want to insert a subtitle into a cell, or when you want to use something other than plain text (e.g. a button), you need to use this component.
+ *
+ * This is a component used as a slot in the daikin-table, but in order to do so, you need to specify the appropriate slot attribute. For more information, please check the daikin-table component.
+ *
+ * Hierarchy:
+ * - `daikin-table` > `daikin-table-cell`
+ *
+ * @slot subtitle - This is a subtitle element that is inserted into a cell.
+ *
+ * @example
+ *
+ * ```html
+ * <daikin-table-cell slot="cell:key:id">
+ *   Table cell label
+ *   <span slot="subtitle">Table cell subtitle</span>
+ * </daikin-table-cell>
+ * ```
+ */
 @customElement("daikin-table-cell")
 export class DaikinTableCell extends LitElement {
   static override readonly styles = css`
