@@ -12,33 +12,33 @@ import "../checkbox/daikin-checkbox";
 import type { IconType } from "../icon";
 import "../table-cell/daikin-table-cell";
 
-const cvaCell = cva(["flex", "items-center", "w-full", "min-h-14", "p-4"], {
-  variants: {
-    alignment: {
-      left: [],
-      right: ["text-end", "justify-end"],
-      center: ["text-center"],
-    },
-    sort: {
-      false: [],
-      true: [
-        "items-center",
-        "gap-2",
+const cvaHeaderCell = cva(
+  ["flex", "items-center", "gap-2", "w-full", "min-h-14", "p-4"],
+  {
+    variants: {
+      alignment: {
+        left: ["justify-start", "text-left"],
+        right: ["justify-end", "text-end"],
+        center: ["justify-center", "text-center"],
+      },
+      sort: {
+        false: [],
+        true: [
+          "hover:bg-daikinNeutral-100",
+          "active:bg-daikinNeutral-200",
+          "focus-visible:outline",
+          "focus-visible:outline-2",
+          "focus-visible:-outline-offset-2",
+          "focus-visible:outline-daikinBlue-700",
 
-        "hover:bg-daikinNeutral-100",
-        "active:bg-daikinNeutral-200",
-        "focus-visible:outline",
-        "focus-visible:outline-2",
-        "focus-visible:-outline-offset-2",
-        "focus-visible:outline-daikinBlue-700",
-
-        "after:size-6",
-        "after:text-daikinNeutral-800",
-        "after:i-daikin-sort-chevron-up-and-down",
-      ],
+          "after:size-6",
+          "after:text-daikinNeutral-800",
+          "after:i-daikin-sort-chevron-up-and-down",
+        ],
+      },
     },
-  },
-});
+  }
+);
 
 const cvaRow = cva(
   [
@@ -59,7 +59,7 @@ const cvaRow = cva(
   }
 );
 
-type TableVariantProps = MergeVariantProps<typeof cvaCell>;
+type TableVariantProps = MergeVariantProps<typeof cvaHeaderCell>;
 
 /**
  * The table component is a component that can display multiple data objects in a tabular format.
@@ -409,7 +409,7 @@ export class DaikinTable extends LitElement {
                     ? html`
                         <button
                           type="button"
-                          class=${cvaCell({
+                          class=${cvaHeaderCell({
                             alignment: alignment ?? "left",
                             sort: true,
                           })}
@@ -419,7 +419,7 @@ export class DaikinTable extends LitElement {
                         </button>
                       `
                     : html`<span
-                        class=${cvaCell({
+                        class=${cvaHeaderCell({
                           alignment: alignment ?? "left",
                           sort: false,
                         })}

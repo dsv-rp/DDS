@@ -14,7 +14,7 @@ const cvaCell = cva(
   {
     variants: {
       alignment: {
-        left: [],
+        left: ["items-start", "text-left"],
         right: ["items-end", "text-end"],
         center: ["items-center", "text-center"],
       },
@@ -25,16 +25,6 @@ const cvaCell = cva(
     },
   }
 );
-
-const cvaCellSubtitle = cva(["text-daikinNeutral-700", "text-xs"], {
-  variants: {
-    alignment: {
-      left: [],
-      right: [],
-      center: [],
-    },
-  },
-});
 
 type TableCellVariantProps = MergeVariantProps<typeof cvaCell>;
 
@@ -90,7 +80,7 @@ export class DaikinTableCell extends LitElement {
       })}
     >
       <slot></slot>
-      <span class=${cvaCellSubtitle({ alignment: this.alignment })}>
+      <span class="text-daikinNeutral-700 text-xs">
         <slot name="subtitle" @slotchange=${this._handleSlotChange}></slot>
       </span>
     </span>`;
