@@ -353,16 +353,22 @@ export class DaikinTable extends LitElement {
       this.headers.map(
         ({ key, alignment }) =>
           html`<td class="h-full p-0">
-            <slot class="h-full" name=${`cell:${key}:${item.id}`}
-              ><daikin-table-cell alignment=${alignment ?? "left"}
-                >${item[key]}</daikin-table-cell
-              ></slot
-            >
+            <slot class="h-full" name=${`cell:${key}:${item.id}`}>
+              <daikin-table-cell alignment=${alignment ?? "left"}>
+                ${item[key]}
+              </daikin-table-cell>
+            </slot>
           </td>`
       );
 
     const createIcon = (icon: IconType | undefined) =>
-      icon ? html`<daikin-icon icon=${icon} size="xl"></daikin-icon>` : nothing;
+      icon
+        ? html`<daikin-icon
+            icon=${icon}
+            size="xl"
+            color="current"
+          ></daikin-icon>`
+        : nothing;
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
       <table
