@@ -26,7 +26,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
               {name}
               <span slot="subtitle">It's subtitle.</span>
             </ReactDaikinTableCell>
-            <ReactDaikinTableCell slot={`cell:price:${id}`} alignment="right">
+            <ReactDaikinTableCell slot={`cell:price:${id}`}>
               <ReactDaikinButton>{price}</ReactDaikinButton>
             </ReactDaikinTableCell>
           </Fragment>

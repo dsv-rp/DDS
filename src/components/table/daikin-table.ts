@@ -11,6 +11,7 @@ import type { MergeVariantProps } from "../../type-utils";
 import "../checkbox/daikin-checkbox";
 import type { IconType } from "../icon";
 import "../table-cell/daikin-table-cell";
+import type DaikinTableCell from "../table-cell/daikin-table-cell";
 
 const cvaHeaderCell = cva(
   ["flex", "items-center", "gap-2", "w-full", "min-h-14", "p-4"],
@@ -197,6 +198,9 @@ export class DaikinTable extends LitElement {
   sortedKey: string | null = null;
 
   @state()
+  private _cells: DaikinTableCell[] = [];
+
+  @state()
   private _allItemCheckState: "unchecked" | "indeterminate" | "checked" =
     "unchecked";
 
@@ -257,6 +261,10 @@ export class DaikinTable extends LitElement {
 
     this._updateSort();
     this._updateCheck();
+  }
+
+  private _updateCells() {
+    this._cells = [...this.querySelectorAll("daikin-table-cell")];
   }
 
   private _handleCheckboxRowHeaderChange(): void {
@@ -344,16 +352,23 @@ export class DaikinTable extends LitElement {
         [key in (typeof this.headers)[number]["key"]]: string;
       }
     ) =>
-      this.headers.map(
-        ({ key, alignment }) =>
-          html`<td class="h-full p-0">
-            <slot class="h-full" name=${`cell:${key}:${item.id}`}>
-              <daikin-table-cell alignment=${alignment ?? "left"}>
-                ${item[key]}
-              </daikin-table-cell>
-            </slot>
-          </td>`
-      );
+      this.headers.map(({ key, alignment }) => {
+        const cell = this._cells.find(
+          (cell) => cell.slot === `cell:${key}:${item.id}`
+        );
+
+        if (cell) {
+          cell.alignment = alignment ?? "left";
+        }
+
+        return html`<td class="h-full p-0">
+          <slot name=${`cell:${key}:${item.id}`}>
+            <daikin-table-cell alignment=${alignment ?? "left"}>
+              ${item[key]}
+            </daikin-table-cell>
+          </slot>
+        </td>`;
+      });
 
     const createIcon = (icon: IconType | undefined) =>
       icon
@@ -460,6 +475,7 @@ export class DaikinTable extends LitElement {
 
   protected override firstUpdated(): void {
     this._updateTable();
+    this._updateCells();
   }
 }
 

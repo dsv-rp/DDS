@@ -40,7 +40,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
                   ${name}
                   <span slot="subtitle">It's subtitle.</span>
                 </daikin-table-cell>
-                <daikin-table-cell slot=${`cell:price:${id}`} alignment="right">
+                <daikin-table-cell slot=${`cell:price:${id}`}>
                   <daikin-button>${price}</daikin-button>
                 </daikin-table-cell>`
           )

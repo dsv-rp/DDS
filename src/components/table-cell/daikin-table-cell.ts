@@ -10,7 +10,16 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
 const cvaCell = cva(
-  ["flex", "flex-col", "gap-1", "justify-center", "w-full", "min-h-14", "px-4"],
+  [
+    "flex",
+    "flex-col",
+    "gap-1",
+    "justify-center",
+    "w-full",
+    "h-full",
+    "min-h-14",
+    "px-4",
+  ],
   {
     variants: {
       alignment: {
@@ -59,6 +68,10 @@ export class DaikinTableCell extends LitElement {
     }
   `;
 
+  /**
+   * Specify the direction of cell alignment.
+   * This is not normally something that users need to specify.
+   */
   @property({ type: String, reflect: true })
   alignment: TableCellVariantProps["alignment"] = "left";
 
