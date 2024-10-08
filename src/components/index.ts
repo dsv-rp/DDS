@@ -15,6 +15,7 @@ export * from "./radio";
 export * from "./tab";
 export * from "./tab-panels";
 export * from "./table";
+export * from "./table-cell";
 export * from "./tabs";
 export * from "./text-input";
 export * from "./textarea";

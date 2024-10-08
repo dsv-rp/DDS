@@ -83,6 +83,10 @@ export class DaikinTableCell extends LitElement {
   @state()
   private _hasSubtitle = false;
 
+  private _handleSlotChange() {
+    this._hasSubtitle = !!this._subtitles.length;
+  }
+
   override render() {
     return html`<span
       class=${cvaCell({
@@ -92,13 +96,9 @@ export class DaikinTableCell extends LitElement {
     >
       <slot></slot>
       <span class=${cvaCellSubtitle({ alignment: this.alignment })}>
-        <slot name="subtitle"></slot>
+        <slot name="subtitle" @slotchange=${this._handleSlotChange}></slot>
       </span>
     </span>`;
-  }
-
-  protected override firstUpdated(): void {
-    this._hasSubtitle = !!this._subtitles.length;
   }
 }
 
