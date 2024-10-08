@@ -172,7 +172,7 @@ export class DaikinTable extends LitElement {
   /**
    * Sort order of the table
    */
-  @property({ type: String, attribute: "order-by" })
+  @property({ type: String, reflect: true, attribute: "order-by" })
   orderBy: "asc" | "desc" | null = null;
 
   /**
@@ -193,13 +193,13 @@ export class DaikinTable extends LitElement {
   /**
    * The `key` of the currently sorted column
    */
-  @property({ type: String, attribute: "sorted-key" })
+  @property({ type: String, reflect: true, attribute: "sorted-key" })
   sortedKey: string | null = null;
 
   /**
    * Specify whether the table row is selected
    */
-  @property({ type: String, attribute: "selected-row-id" })
+  @property({ type: String, reflect: true, attribute: "selected-row-id" })
   selectedRowId: string | null = null;
 
   @state()

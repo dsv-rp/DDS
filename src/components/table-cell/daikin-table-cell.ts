@@ -74,7 +74,7 @@ export class DaikinTableCell extends LitElement {
     }
   `;
 
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   alignment: TableCellVariantProps["alignment"] = "left";
 
   @queryAssignedElements({ slot: "subtitle" })
