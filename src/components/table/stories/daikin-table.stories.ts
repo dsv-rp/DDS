@@ -160,6 +160,9 @@ export const Checkable: Story = {
     const checkbox3 = getAllByShadowRole(root, "checkbox")[3];
     const checkbox4 = getAllByShadowRole(root, "checkbox")[4];
 
+    await userEvent.click(checkbox1);
+    await userEvent.click(checkbox3);
+
     await expect(allItemCheckbox).not.toBeChecked();
     await expect(checkbox1).not.toBeChecked();
     await expect(checkbox2).not.toBeChecked();
@@ -169,7 +172,7 @@ export const Checkable: Story = {
     // should react if inner checkbox clicked
     await step("Try to click checkbox", async () => {
       await userEvent.click(allItemCheckbox);
-      await expect(args.onChangeCheck).toHaveBeenCalledTimes(1);
+      await expect(args.onChangeCheck).toHaveBeenCalledTimes(3);
       await expect(allItemCheckbox).toBeChecked();
       await expect(checkbox1).toBeChecked();
       await expect(checkbox2).toBeChecked();
@@ -181,7 +184,7 @@ export const Checkable: Story = {
     await step("Try to click checkbox", async () => {
       await userEvent.click(checkbox1);
       await userEvent.click(checkbox2);
-      await expect(args.onChangeCheck).toHaveBeenCalledTimes(3);
+      await expect(args.onChangeCheck).toHaveBeenCalledTimes(5);
       await expect(allItemCheckbox).not.toBeChecked();
       await expect(checkbox1).not.toBeChecked();
       await expect(checkbox2).not.toBeChecked();
@@ -190,7 +193,7 @@ export const Checkable: Story = {
     // should react if inner checkbox clicked
     await step("Try to click checkbox", async () => {
       await userEvent.click(allItemCheckbox);
-      await expect(args.onChangeCheck).toHaveBeenCalledTimes(4);
+      await expect(args.onChangeCheck).toHaveBeenCalledTimes(6);
       await expect(allItemCheckbox).toBeChecked();
       await expect(checkbox1).toBeChecked();
       await expect(checkbox2).toBeChecked();
@@ -199,13 +202,18 @@ export const Checkable: Story = {
     // should react if inner checkbox clicked
     await step("Try to click checkbox", async () => {
       await userEvent.click(allItemCheckbox);
-      await expect(args.onChangeCheck).toHaveBeenCalledTimes(5);
+      await expect(args.onChangeCheck).toHaveBeenCalledTimes(7);
       await expect(allItemCheckbox).not.toBeChecked();
       await expect(checkbox1).not.toBeChecked();
       await expect(checkbox2).not.toBeChecked();
       await expect(checkbox3).not.toBeChecked();
       await expect(checkbox4).not.toBeChecked();
     });
+
+    await userEvent.click(checkbox1);
+    await userEvent.click(checkbox3);
+
+    checkbox3.blur();
   }),
 };
 
