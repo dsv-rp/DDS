@@ -20,7 +20,6 @@ Mediumgrey
 tablist
 tabpanel
 textbox
-listbox
 progressbar
 
 # Custom Events
