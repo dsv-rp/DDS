@@ -1,0 +1,9 @@
+{
+  "branchPrefix": "renovate-sh/",
+  "onboarding": false,
+  "platform": "github",
+  "platformCommit": "enabled",
+  "forkProcessing": "enabled",
+  "allowScripts": true,
+  "allowedPostUpgradeCommands": [".*"]
+}

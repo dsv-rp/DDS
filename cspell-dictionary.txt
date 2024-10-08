@@ -9,6 +9,7 @@ roboto
 runem
 tailwindcss
 taze
+tsbuildinfo
 tseslint
 
 # Colors
@@ -44,6 +45,9 @@ testid
 # JSDoc extension
 csspart
 cssprop
+
+# Renovate
+datasource
 
 # Misc.
 FOUC

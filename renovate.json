@@ -1,0 +1,37 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    "mergeConfidence:all-badges",
+    "group:allNonMajor"
+  ],
+  "rangeStrategy": "bump",
+  "labels": ["dependencies"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["^compose.*\\.ya?ml$"],
+      "matchStrings": [
+        "\\bnpm (?:i|install) (?:.* )?(?<depName>\\S+)@(?<currentValue>\\S+)"
+      ],
+      "datasourceTemplate": "npm"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "playwright",
+        "@playwright/test",
+        "mcr.microsoft.com/playwright"
+      ],
+      "groupName": "Playwright",
+      "groupSlug": "playwright",
+      "rangeStrategy": "pin"
+    },
+    {
+      "matchPackageNames": ["@daikin-oss/dds-tokens"],
+      "groupName": "DDS tokens",
+      "groupSlug": "dds-tokens"
+    }
+  ]
+}
