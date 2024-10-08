@@ -8,11 +8,6 @@ import {
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import "../checkbox/daikin-checkbox";
-import "../dropdown-item/daikin-dropdown-item";
-import "../dropdown/daikin-dropdown";
-import "../pagination/daikin-pagination";
-import "../text-input/daikin-text-input";
 
 const cvaCell = cva(
   ["flex", "flex-col", "gap-1", "justify-center", "w-full", "min-h-14", "px-4"],
