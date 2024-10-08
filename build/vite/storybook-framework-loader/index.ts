@@ -14,6 +14,7 @@ import {
  * Loader plugin for `#storybook-framework`. \
  * Resolves a code that loads `metadata` from `frameworkPath` and export it with component description loaded from the component file.
  *
+ * @param framework Framework name. Can be `"web-components"` or `"react"`.
  * @param frameworkPath Actual path for framework-specific exports. (e.g. `./framework-wc`)
  * @returns A plugin
  */

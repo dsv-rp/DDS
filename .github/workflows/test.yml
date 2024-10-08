@@ -53,6 +53,9 @@ jobs:
           rm -rf node_modules/.cache/storybook
           STORYBOOK_ENV=production npm run test:interaction
 
+      - name: Check Package Type Declarations
+        run: npm run test:attw
+
   # VRT is separated since it's time consuming.
   visual-regression-test:
     runs-on: ubuntu-latest

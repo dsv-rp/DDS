@@ -1,8 +1,8 @@
 import fg from "fast-glob";
 import { env } from "node:process";
 import { defineConfig, type UserConfig } from "vite";
-import dts from "vite-plugin-dts";
 import { externalizeDeps } from "vite-plugin-externalize-deps";
+import { dtsWithFix } from "./build/vite/dts-with-fix";
 
 export default defineConfig(async ({ mode }): Promise<UserConfig> => {
   const isDev = mode === "development";
@@ -37,7 +37,7 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
     },
     plugins: [
       externalizeDeps(),
-      dts({
+      dtsWithFix({
         tsconfigPath: "tsconfig.lib.json",
         outDir: [`dist/es${suffix}`, `dist/cjs${suffix}`],
         exclude: ["**/node_modules"],
