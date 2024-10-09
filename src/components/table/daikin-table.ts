@@ -156,25 +156,25 @@ export class DaikinTable extends LitElement {
   })[] = [];
 
   /**
-   * Whether or not to give the table the function of checkbox
+   * Whether or not to give the table the function of checkbox.
    */
   @property({ type: Boolean, reflect: true, attribute: "has-checkbox" })
   hasCheckbox: boolean = false;
 
   /**
-   * Whether or not to give the table the function of sort
+   * Whether or not to give the table the function of sort.
    */
   @property({ type: Boolean, reflect: true, attribute: "has-sort" })
   hasSort: boolean = false;
 
   /**
-   * An array of `id`s for the `rows` that have been checked
+   * An array of `id`s for the `rows` that have been checked.
    */
   @property({ type: Array, attribute: false })
   checkedIds: string[] = [];
 
   /**
-   * Sort order of the table
+   * Sort order of the table.
    */
   @property({ type: String, reflect: true, attribute: "order-by" })
   orderBy: "asc" | "desc" | null = null;
@@ -195,7 +195,7 @@ export class DaikinTable extends LitElement {
     | null = null;
 
   /**
-   * The `key` of the currently sorted column
+   * The `key` of the currently sorted column.
    */
   @property({ type: String, reflect: true, attribute: "sorted-key" })
   sortedKey: string | null = null;
