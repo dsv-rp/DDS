@@ -7,8 +7,8 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaInput = cva(
   [
-    "w-[340px]",
-    "h-12",
+    "w-full",
+    "h-full",
     "text-daikinNeutral-900",
     "border",
     "border-solid",
@@ -53,6 +53,10 @@ const cvaInput = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
+ * ```
+ *
  * ```html
  * <!-- See `daikin-input-group` component for complete example. -->
  * <daikin-text-input name="name"></daikin-text-input>
@@ -71,7 +75,8 @@ export class DaikinTextInput extends LitElement {
       --text-input-outline-color-hover: #54c3f1;
 
       display: block;
-      width: max-content;
+      width: 340px;
+      height: 48px;
     }
   `;
 

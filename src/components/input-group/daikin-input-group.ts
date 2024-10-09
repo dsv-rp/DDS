@@ -48,6 +48,12 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
+ * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * ```
+ *
  * With Text Input:
  *
  * ```html
@@ -155,12 +161,10 @@ export class DaikinInputGroup extends LitElement {
           ? html`<span class=${inputGroupHelperClassName}>${this.helper}</span>`
           : null}
         ${!this.disabled && !!this.error
-          ? html`<div
-              class="flex items-center gap-2 text-[--input-group-border-color-error] leading-[22px]"
-            >
-              <daikin-icon icon="error"></daikin-icon>
-              <span> ${this.error}</span>
-            </div>`
+          ? html`<span
+              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-status-error before:block before:w-[16px] before:h-[22px]"
+              >${this.error}</span
+            >`
           : null}
       </label>
     </fieldset>`;

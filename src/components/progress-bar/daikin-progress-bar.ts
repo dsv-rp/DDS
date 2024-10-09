@@ -1,24 +1,12 @@
-import {
-  colorFeedbackNegative,
-  colorFeedbackPositive,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import {
-  LitElement,
-  css,
-  html,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
+import type { MergeVariantProps } from "../../type-utils";
 
 const cvaBar = cva(
   [
     "w-full",
-    "h-1",
     "bg-daikinNeutral-200",
     "overflow-hidden",
     "relative",
@@ -31,58 +19,80 @@ const cvaBar = cva(
     variants: {
       variant: {
         inprogress: ["after:w-[--bar-width]", "after:bg-daikinBlue-500"],
-        completed: ["after:w-full", "after:bg-[--colorFeedbackPositive]"],
+        completed: ["after:w-full", "after:bg-daikinGreen-500"],
         indeterminate: [
           "after:w-1/2",
           "after:bg-daikinBlue-500",
           "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
         ],
-        error: ["after:w-full", "after:bg-[--colorFeedbackNegative]"],
+        error: ["after:w-full", "after:bg-daikinRed-500"],
+      },
+      size: {
+        medium: ["h-1"],
+        large: ["h-2"],
       },
     },
   }
 );
 
-const cvaHelper = cva(["text-xs", "mt-2"], {
+const cvaBarContainer = cva(
+  ["flex", "justify-between", "items-center", "leading-5", "font-bold"],
+  {
+    variants: {
+      variant: {
+        inprogress: [],
+        completed: [
+          "after:size-4",
+          "after:text-daikinGreen-500",
+          "after:i-daikin-notification-status-positive",
+        ],
+        indeterminate: [],
+        error: [
+          "after:size-4",
+          "after:text-daikinRed-500",
+          "after:i-daikin-status-error",
+        ],
+      },
+    },
+  }
+);
+
+const cvaHelper = cva(["text-sm"], {
   variants: {
     variant: {
       inprogress: [],
       completed: [],
       indeterminate: [],
-      error: ["text-[--colorFeedbackNegative]"],
+      error: ["text-daikinRed-500", "font-bold"],
+    },
+    visible: {
+      false: ["hidden"],
+      true: [],
     },
   },
 });
 
-const cvaIcon = cva([], {
-  variants: {
-    variant: {
-      inprogress: [],
-      completed: ["text-[--colorFeedbackPositive]"],
-      indeterminate: [],
-      error: ["text-[--colorFeedbackNegative]"],
-    },
-  },
-});
-
-const ICON_MAP = {
-  inprogress: null,
-  completed: "success",
-  indeterminate: null,
-  error: "error",
-} as const;
+type ProgressBarVariantProps = MergeVariantProps<
+  typeof cvaBar | typeof cvaHelper
+>;
 
 /**
  * The progress bar component is used to visually convey the progress to the user.
  *
  * There are four variants of the progress bar:
  *
- * - "inprogress": The default variant. Use this when you know the exact progress. The length of the bar is the ratio of `value` to `max`.
- * - "indeterminate": Use this variant when you don't know the exact progress. In this variant, the `value` is ignored and the bar always animates from left to right with a constant length.
- * - "completed": In addition to "inprogress", a completed icon is added. In this variant, the `value` is ignored and the bar always expands to the full width.
- * - "error": In addition to "inprogress", an error icon is added and the color becomes red. In this variant, the `value` is ignored and the bar always expands to the full width.
+ * - `"inprogress"`: The default variant. Use this when you know the exact progress. The length of the bar is the ratio of `value` to `max`.
+ * - `"indeterminate"`: Use this variant when you don't know the exact progress. In this variant, the `value` is ignored and the bar always animates from left to right with a constant length.
+ * - `"completed"`: In addition to `"inprogress"`, a completed icon is added. In this variant, the `value` is ignored and the bar always expands to the full width.
+ * - `"error"`: In addition to `"inprogress"`, an error icon is added and the color becomes red. In this variant, the `value` is ignored and the bar always expands to the full width.
+ *
+ * @slot - A slot for label text displayed at the top of the progress bar.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-bar/index.js";
+ * ```
  *
  * ```html
  * <daikin-progress-bar value="40" helper="Progress bar helper">
@@ -96,35 +106,39 @@ export class DaikinProgressBar extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --colorFeedbackPositive: ${unsafeCSS(colorFeedbackPositive)};
-      --colorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
-
       display: block;
       width: 100%;
     }
   `;
 
   /**
-   * Value of the progress bar
+   * Variant of the progress bar.
+   */
+  @property({ type: String })
+  variant: ProgressBarVariantProps["variant"] = "inprogress";
+
+  /**
+   * Size of the progress bar
+   */
+  @property({ type: String, reflect: true })
+  size: ProgressBarVariantProps["size"] = "medium";
+
+  /**
+   * Value of the progress bar.
+   * Only used for `"inprogress"` variant.
    */
   @property({ type: Number })
   value: number = 0;
 
   /**
-   * Variant of the progress bar
-   */
-  @property({ type: String })
-  variant: "inprogress" | "completed" | "indeterminate" | "error" =
-    "inprogress";
-
-  /**
-   * The max value of the progress bar
+   * Max value of the progress bar.
+   * Only used for `"inprogress"` variant.
    */
   @property({ type: Number })
   max: number = 100;
 
   /**
-   * Helper text
+   * Helper text displayed at the bottom of the progress bar.
    */
   @property({ type: String })
   helper = "";
@@ -162,35 +176,30 @@ export class DaikinProgressBar extends LitElement {
   override render() {
     const progressRatio = Math.min(Math.max(this.value / this.max, 0), 1);
 
-    const progressBarIconClassName = cvaIcon({
-      variant: this.variant,
-    });
-
-    const icon = ICON_MAP[this.variant];
-
-    return html`<div class="flex flex-col w-full font-daikinSerif">
-      <div class="flex justify-between items-center mb-2.5">
-        <span class="text-sm leading-[22px] font-medium"><slot></slot></span>
-        ${icon
-          ? html`<div class=${progressBarIconClassName}>
-              <daikin-icon icon=${icon} color="current"></daikin-icon>
-            </div>`
-          : nothing}
+    return html`<div class="flex flex-col gap-2 w-full font-daikinSerif">
+      <div class=${cvaBarContainer({ variant: this.variant })}>
+        <slot></slot>
       </div>
       <div
-        class=${cvaBar({ variant: this.variant })}
+        class=${cvaBar({ variant: this.variant, size: this.size })}
         role="progressbar"
         aria-label=${this.textContent ?? ""}
         aria-valuenow=${this.value}
         aria-valuemin="0"
         aria-valuemax=${this.max}
+        aria-busy=${(progressRatio < 1 && this.variant === "inprogress") ||
+        this.variant === "indeterminate"}
         style=${`--bar-width:${progressRatio * 100}%`}
       ></div>
-      ${this.helper
-        ? html`<span class=${cvaHelper({ variant: this.variant })}
-            >${this.helper}</span
-          >`
-        : null}
+      <span
+        class=${cvaHelper({
+          variant: this.variant,
+          visible: !!this.helper.length,
+        })}
+        aria-live="polite"
+      >
+        ${this.helper}
+      </span>
     </div>`;
   }
 

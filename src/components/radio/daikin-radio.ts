@@ -1,55 +1,42 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 
-const cvaRadio = cva(
-  [
-    "appearance-none",
-    "relative",
+const RADIO_CLASS_NAME = cva([
+  "flex",
+  "justify-center",
+  "items-center",
+  "size-4",
+  "bg-white",
+  "rounded-full",
+  "relative",
+  "appearance-none",
 
-    "after:absolute",
-    "after:i-daikin-radio-unchecked",
-    "checked:after:i-daikin-radio-checked",
-    "enabled:after:text-[#8C8C8C]",
-    "enabled:checked:after:text-daikinBlue-500",
+  "focus-visible:outline",
+  "focus-visible:outline-1",
+  "focus-visible:outline-offset-1",
+  "focus-visible:outline-daikinBlue-700",
 
-    "aria-controllable:hover:after:i-daikin-radio-checked",
-    "aria-controllable:hover:after:text-daikinBlue-300",
-    "aria-controllable:active:after:i-daikin-radio-checked",
-    "aria-controllable:active:after:text-daikinBlue-500",
+  "unchecked:border-2",
+  "enabled:unchecked:border-daikinNeutral-600",
+  "enabled:unchecked:hover:border-daikinNeutral-400",
+  "enabled:unchecked:active:border-daikinNeutral-700",
+  "checked:border-[5px]",
+  "enabled:checked:border-daikinBlue-500",
+  "enabled:checked:group-hover:border-daikinBlue-300",
+  "enabled:checked:group-active:border-daikinBlue-600",
+  "disabled:border-daikinNeutral-200",
+])();
 
-    "focus-visible:outline-none",
-    "aria-controllable:focus-visible:after:i-daikin-radio-unchecked",
-    "aria-controllable:focus-visible:checked:after:i-daikin-radio-checked",
-    "aria-controllable:focus-visible:after:text-daikinBlue-700",
-
-    "disabled:after:text-daikinNeutral-200",
-  ],
-  {
-    variants: {
-      size: {
-        small: ["w-[14px]", "h-[14px]"],
-        large: ["w-4", "h-4"],
-      },
+const cvaLabel = cva([], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-daikinNeutral-200"],
     },
-  }
-);
-
-const cvaLabel = cva(
-  ["leading-8", "not-italic", "font-normal", "align-middle"],
-  {
-    variants: {
-      size: {
-        small: ["text-sm"],
-        large: ["text-base"],
-      },
-    },
-  }
-);
-
-type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
+  },
+});
 
 /**
  * The radio button component is a UI element that allows users to select one options from a set of choices.
@@ -59,6 +46,10 @@ type RadioVariantProps = MergeVariantProps<typeof cvaRadio | typeof cvaLabel>;
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="radio">` element.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/radio/index.js";
+ * ```
  *
  * ```html
  *  <daikin-radio name="name" value="value" label="Radio button label"></daikin-radio>
@@ -74,119 +65,95 @@ export class DaikinRadio extends LitElement {
     }
   `;
 
-  private _handleClick(event: MouseEvent) {
-    if (this.readonly || this.disabled) {
-      event.preventDefault();
-    }
-  }
+  /**
+   * Form name of the radio button.
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * Form value of the radio button.
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Label text for the radio button.
+   */
+  @property({ type: String })
+  label = "";
+
+  /**
+   * Label position.
+   * - `right` (default): The label will be placed to the right of the radio button.
+   * - `hidden`: The label will not be shown.
+   */
+  @property({ type: String, attribute: "label-position" })
+  labelPosition: "right" | "hidden" = "right";
+
+  /**
+   * Whether the radio button is checked.
+   */
+  @property({ type: Boolean, reflect: true })
+  checked = false;
+
+  /**
+   * Whether the radio button is disabled.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
 
   static readonly formAssociated = true;
 
-  // define internals to let radio can be used in form
+  // Define internals to let the radio button can be used in a form.
   private _internals = this.attachInternals();
 
   private _updateFormValue() {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  override updated(changedProperties: Map<string, unknown>) {
-    if (changedProperties.has("checked")) {
-      this._updateFormValue();
+  private _handleClick(event: MouseEvent) {
+    if (this.disabled) {
+      event.preventDefault();
     }
   }
 
   private _handleChange(event: Event) {
-    const input = this.shadowRoot?.querySelector("input") as HTMLInputElement;
-    this.checked = input.checked;
+    this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
-    const newEvent = new Event("change", event);
-    this.dispatchEvent(newEvent);
+    this.dispatchEvent(new Event("change", event));
   }
 
-  /**
-   * Specify the label text for the radio
-   */
-  @property({ type: String })
-  label = "";
-
-  /**
-   * Specify the component size
-   */
-  @property({ type: String })
-  size: RadioVariantProps["size"] = "small";
-
-  /**
-   * Specify the label position
-   * when `left` the label will be in left of radio, when `right` label will be in right of radio
-   */
-  @property({ type: String, attribute: "label-position" })
-  labelPosition: "left" | "right" = "right";
-
-  /**
-   * Specify whether the Radio should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify whether the radio is read only
-   */
-  @property({ type: Boolean, reflect: true })
-  readonly = false;
-
-  /**
-   * Specify whether the radio is be checked
-   */
-  @property({ type: Boolean, reflect: true })
-  checked = false;
-
-  /**
-   * The form name.
-   */
-  @property({ type: String, reflect: true })
-  name = "";
-
-  /**
-   * The form value.
-   */
-  @property({ type: String, reflect: true })
-  value = "";
-
-  /**
-   * Specify whether the Radio is in a error state
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
-
   override render() {
-    const labelClassName = cvaLabel({ size: this.size });
-    const radioClassName = cvaRadio({ size: this.size });
+    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+      <div class="p-2">
+        <input
+          class=${RADIO_CLASS_NAME}
+          type="radio"
+          name=${this.name}
+          value=${this.value}
+          aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          ?disabled=${this.disabled}
+          .checked=${this.checked}
+          @click=${this._handleClick}
+          @change=${this._handleChange}
+        />
+      </div>
+      <span
+        class=${cvaLabel({
+          disabled: this.disabled,
+        })}
+        ?hidden=${this.labelPosition === "hidden"}
+      >
+        ${this.label}
+      </span>
+    </label>`;
+  }
 
-    const labelText = this.label
-      ? html`<span class="${labelClassName}">${this.label}</span>`
-      : html``;
-
-    const inputTag = html`<input
-      class=${radioClassName}
-      type="radio"
-      name=${this.name}
-      value=${this.value}
-      aria-readonly=${this.readonly}
-      ?disabled=${this.disabled}
-      .checked=${this.checked}
-      @click=${this._handleClick}
-      @change=${this._handleChange}
-    />`;
-
-    const inputArea =
-      this.labelPosition === "left"
-        ? html`${labelText}${inputTag}`
-        : html`${inputTag}${labelText}`;
-
-    return html`<label
-      class="inline-flex w-full h-full gap-[8px] items-center font-daikinSerif"
-      >${inputArea}</label
-    >`;
+  override updated(changedProperties: Map<string, unknown>) {
+    if (changedProperties.has("checked")) {
+      this._updateFormValue();
+    }
   }
 }
 

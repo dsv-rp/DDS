@@ -1,3 +1,4 @@
+import type { DaikinRadio } from "#package/components/radio/daikin-radio";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
@@ -11,14 +12,21 @@ export default {
   ...metadata,
 };
 
-export const Small: Story = {
+function eventPayloadTransformer(event: Event) {
+  // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
+  return {
+    checked: (event.target as DaikinRadio).checked,
+  };
+}
+
+export const Default: Story = {
   args: {
-    size: "small",
-    disabled: false,
-    readonly: false,
     label: "Radio label",
-    onChange: fn(),
-    onClick: fn(),
+    labelPosition: "right",
+    checked: false,
+    disabled: false,
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-radio")[0];
@@ -38,6 +46,7 @@ export const Small: Story = {
     await step("Try to click inner radio", async () => {
       await userEvent.click(innerRadio);
       await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
       await expect(innerRadio).toBeChecked();
       root.checked = false;
     });
@@ -46,24 +55,16 @@ export const Small: Story = {
     await step("Try to click label", async () => {
       await userEvent.click(label);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
+      await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
       await expect(innerRadio).toBeChecked();
       root.checked = false;
     });
   }),
 };
 
-export const Large: Story = {
-  args: {
-    ...Small.args,
-    size: "large",
-    onChange: fn(),
-    onClick: fn(),
-  },
-};
-
 export const Disabled: Story = {
   args: {
-    ...Small.args,
+    ...Default.args,
     disabled: true,
     onChange: fn(),
     onClick: fn(),
@@ -96,15 +97,4 @@ export const Disabled: Story = {
       await expect(innerRadio).not.toBeChecked();
     });
   }),
-};
-
-export const Readonly: Story = {
-  args: {
-    ...Small.args,
-    readonly: true,
-    onChange: fn(),
-    onClick: fn(),
-  },
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
-  play: Disabled.play!,
 };

@@ -4,24 +4,30 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinRadioStoryArgs
   extends Required<ElementProps<DaikinRadio>> {
-  onChange: () => void;
-  onClick: () => void;
+  onChange: (event: Event) => void;
+  onClick: (event: Event) => void;
 }
 
 export const DAIKIN_RADIO_ARG_TYPES = {
-  size: {
-    control: { type: "select" },
-    options: ["small", "large"],
+  name: {
+    type: "string",
   },
-  checked: { type: "boolean" },
-  disabled: { type: "boolean" },
-  labelPosition: { type: "string" },
-  readonly: { type: "boolean" },
+  value: {
+    type: "string",
+  },
   label: {
     type: "string",
   },
-  name: { type: "string" },
-  value: { type: "string" },
+  labelPosition: {
+    control: "radio",
+    options: ["right", "hidden"],
+  },
+  checked: {
+    type: "boolean",
+  },
+  disabled: {
+    type: "boolean",
+  },
 } satisfies Meta<DaikinRadioStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinRadioStoryArgs>;
