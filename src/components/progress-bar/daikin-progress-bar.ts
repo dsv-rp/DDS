@@ -44,7 +44,7 @@ const cvaBarContainer = cva(
         completed: [
           "after:size-4",
           "after:text-daikinGreen-500",
-          "after:i-daikin-notification-status-positive",
+          "after:i-daikin-status-positive",
         ],
         indeterminate: [],
         error: [
