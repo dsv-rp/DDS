@@ -68,19 +68,8 @@ export class DaikinAccordion extends LitElement {
       } as const
     )[event.key];
 
-    const key = (
-      {
-        Tab: "Tab",
-        Shift: "Shift",
-      } as const
-    )[event.key];
-
-    if (!moveOffset && !key) {
+    if (!moveOffset) {
       return;
-    }
-
-    if (key) {
-      this._pressedKeys = Array.from(new Set([...this._pressedKeys, key]));
     }
 
     const items = this._items;
@@ -112,30 +101,9 @@ export class DaikinAccordion extends LitElement {
       }
     };
 
-    const checkIsDisabledElementForNotArrow = (index: number) => {
-      if (index === -1) {
-        return;
-      }
+    checkIsDisabledElementAndFocus(focusedItemIndex, moveOffset);
 
-      if (items[index].disabled) {
-        checkIsDisabledElementForNotArrow(index - 1);
-      } else {
-        items[index].focus();
-      }
-    };
-
-    if (this._pressedKeys.length === 2) {
-      checkIsDisabledElementForNotArrow(focusedItemIndex - 1);
-
-      event.preventDefault();
-    }
-
-    if (moveOffset) {
-      checkIsDisabledElementAndFocus(focusedItemIndex, moveOffset);
-
-      event.preventDefault();
-    }
-
+    event.preventDefault();
     return;
   }
 

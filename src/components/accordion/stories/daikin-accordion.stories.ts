@@ -50,18 +50,7 @@ export const Default: Story = {
         )
       ).toBeInTheDocument();
 
-      await userEvent.keyboard("[ArrowUp]");
-
-      await userEvent.keyboard("[Shift>]");
-      await userEvent.keyboard("[Tab]");
-      await expect(
-        getByShadowText(
-          document.activeElement as DaikinAccordionItem,
-          "Accordion summary 1"
-        )
-      ).toBeInTheDocument();
-
-      await userEvent.keyboard("[/Shift]");
+      (document.activeElement as DaikinAccordionItem).blur();
     });
   }),
 };
