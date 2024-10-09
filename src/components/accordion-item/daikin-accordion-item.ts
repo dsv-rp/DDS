@@ -193,6 +193,7 @@ export class DaikinAccordionItem extends LitElement {
       @toggle=${this._handleToggle}
     >
       <summary
+        id="summary"
         class=${cvaSummary({
           open: this.open,
           disabled: this.disabled,
@@ -202,7 +203,7 @@ export class DaikinAccordionItem extends LitElement {
       >
         <slot name="summary"></slot>
       </summary>
-      <div ${ref(this._contentRef)}>
+      <div ${ref(this._contentRef)} role="region" aria-labelledby="summary">
         <div class="pt-2 pr-3 pb-3 pl-4">
           <slot></slot>
         </div>
