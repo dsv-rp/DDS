@@ -109,13 +109,13 @@ export class DaikinToggle extends LitElement {
   }
 
   override render() {
+    // eslint-disable-next-line lit-a11y/role-has-required-aria-attrs
     return html`<input
       class=${TOGGLE_CLASS_NAME}
       type="checkbox"
       name=${this.name}
       value=${this.value}
       role="switch"
-      aria-checked=${this.checked}
       .checked=${this.checked}
       ?disabled=${this.disabled}
       @change=${this._handleChange}
