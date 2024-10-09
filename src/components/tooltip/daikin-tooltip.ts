@@ -1,4 +1,10 @@
-import { autoUpdate, computePosition, flip, offset } from "@floating-ui/dom";
+import {
+  autoUpdate,
+  computePosition,
+  flip,
+  offset,
+  shift,
+} from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
@@ -168,7 +174,7 @@ export class DaikinTooltip extends LitElement {
 
       computePosition(reference, float, {
         placement: this.placement,
-        middleware: [offset({ mainAxis: spacing }), flip()],
+        middleware: [offset({ mainAxis: spacing }), flip(), shift()],
       })
         .then(({ x, y }) =>
           Object.assign(float.style, {
