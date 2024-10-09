@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -130,6 +130,9 @@ export class DaikinAccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  @query("summary")
+  private _summary!: HTMLElement | null;
+
   /**
    * Actual presence of `open` attribute of the `<details>` element.
    *
@@ -226,7 +229,7 @@ export class DaikinAccordionItem extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("summary")?.focus(options);
+    this._summary?.focus(options);
   }
 }
 
