@@ -1,11 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -18,7 +13,7 @@ const cvaCell = cva(
     "w-full",
     "h-full",
     "min-h-14",
-    "px-4",
+    "p-4",
   ],
   {
     variants: {
@@ -26,10 +21,6 @@ const cvaCell = cva(
         left: ["items-start", "text-left"],
         right: ["items-end", "text-end"],
         center: ["items-center", "text-center"],
-      },
-      hasSubtitle: {
-        false: ["pt-4", "pb-3"],
-        true: ["py-4"],
       },
     },
   }
@@ -75,27 +66,14 @@ export class DaikinTableCell extends LitElement {
   @property({ type: String, reflect: true })
   alignment: TableCellVariantProps["alignment"] = "left";
 
-  @queryAssignedElements({ slot: "subtitle" })
-  private readonly _subtitles!: readonly HTMLElement[];
-
-  @state()
-  private _hasSubtitle = false;
-
-  private _handleSlotChange() {
-    this._hasSubtitle = !!this._subtitles.length;
-  }
-
   override render() {
     return html`<span
       class=${cvaCell({
         alignment: this.alignment,
-        hasSubtitle: this._hasSubtitle,
       })}
     >
       <slot></slot>
-      <span class="text-daikinNeutral-700 text-xs">
-        <slot name="subtitle" @slotchange=${this._handleSlotChange}></slot>
-      </span>
+      <slot name="subtitle" class="text-daikinNeutral-700 text-xs"></slot>
     </span>`;
   }
 }
