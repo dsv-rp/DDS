@@ -109,8 +109,8 @@ export class DaikinListItem extends LitElement {
   /**
    * Type of the list item.
    * - `button` (default): The list item will be rendered as a `<button>` element.
-   * - `link`: The list item will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
-   * - `text`: The list item will be rendered as a `<span>` element. If there is no event in the list item itself, specify this (e.g. if there is a slot with an `action` value).
+   * - `link`: The list item will be rendered as an `<a>` element.
+   * - `text`: The list item will be rendered as a `<span>` element. Use this if the list itself has no action.
    */
   @property({ type: String, reflect: true })
   type: ListItemVariantProps["type"] = "button";
@@ -131,7 +131,7 @@ export class DaikinListItem extends LitElement {
 
   /**
    * An icon displayed at the right of the label.
-   * If there is content in the slot, it will always be false.
+   * Ignored if the `action` slot is used.
    */
   @property({ type: String, reflect: true, attribute: "right-icon" })
   rightIcon: IconType | null = null;
