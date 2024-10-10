@@ -1,25 +1,24 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
-import type { IconType } from "../icon/daikin-icon";
 
 const cvaButton = cva(
   [
     "inline-flex",
     "justify-center",
     "items-center",
-    "gap-2",
     "w-full",
     "h-full",
     "text-sm",
     "font-daikinSerif",
     "font-bold",
     "rounded",
+    "px-3",
     "tracking-wide",
     "text-nowrap",
 
@@ -43,14 +42,6 @@ const cvaButton = cva(
           "link-enabled:active:var-color-daikinRed-600/color-primary",
           "link-disabled:var-color-daikinNeutral-200/color-primary",
         ],
-      },
-      leftIcon: {
-        false: ["pl-4"],
-        true: ["pl-3"],
-      },
-      rightIcon: {
-        false: ["pr-4"],
-        true: ["pr-3"],
       },
       variant: {
         fill: ["text-white", "bg-[--color-primary]"],
@@ -117,18 +108,6 @@ export class DaikinButton extends LitElement {
   disabled = false;
 
   /**
-   * An icon displayed at the left of the button label.
-   */
-  @property({ type: String, reflect: true, attribute: "left-icon" })
-  leftIcon: IconType | null = null;
-
-  /**
-   * An icon displayed at the right of the button label.
-   */
-  @property({ type: String, reflect: true, attribute: "right-icon" })
-  rightIcon: IconType | null = null;
-
-  /**
    * Link `href`.
    * Only used if the `type` is `"link"`.
    * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
@@ -166,27 +145,7 @@ export class DaikinButton extends LitElement {
     const className = cvaButton({
       variant: this.variant,
       color: this.color,
-      leftIcon: !!this.leftIcon,
-      rightIcon: !!this.rightIcon,
     });
-
-    const content = html`
-      ${this.leftIcon
-        ? html`<daikin-icon
-            icon=${this.leftIcon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
-        : nothing}
-      <slot></slot>
-      ${this.rightIcon
-        ? html`<daikin-icon
-            icon=${this.rightIcon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
-        : nothing}
-    `;
 
     if (this.type === "link") {
       const linkDisabled = this.disabled || this.href == null;
@@ -198,7 +157,9 @@ export class DaikinButton extends LitElement {
         )}
         aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
       >
-        ${content}
+        <slot name="left-icon"><span class="block -ml-1"></span></slot>
+        <span class="px-2"><slot></slot></span>
+        <slot name="right-icon"><span class="block -mr-1"></span></slot>
       </a>`;
     }
 
@@ -209,7 +170,9 @@ export class DaikinButton extends LitElement {
         type=${this.type}
         role=${ifDefined(this.buttonRole ?? undefined)}
       >
-        ${content}
+        <slot name="left-icon"><span class="block -ml-1"></span></slot>
+        <span class="px-2"><slot></slot></span>
+        <slot name="right-icon"><span class="block -mr-1"></span></slot>
       </button>
     `;
   }

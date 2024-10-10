@@ -2,6 +2,7 @@ import { DaikinButton } from "#package/components/button/daikin-button";
 import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinIcon } from "../../icon/stories/framework-react";
 import type { DaikinButtonStoryArgs } from "./common";
 
 const ReactDaikinButton = createComponent({
@@ -14,7 +15,30 @@ const ReactDaikinButton = createComponent({
 });
 
 export const metadata: Meta<DaikinButtonStoryArgs> = {
-  component: ({ label, ...props }: DaikinButtonStoryArgs) => (
-    <ReactDaikinButton {...props}>{label}</ReactDaikinButton>
+  component: ({
+    label,
+    leftIcon,
+    rightIcon,
+    ...props
+  }: DaikinButtonStoryArgs) => (
+    <ReactDaikinButton {...props}>
+      {leftIcon && (
+        <ReactDaikinIcon
+          slot="left-icon"
+          icon={leftIcon}
+          size="xl"
+          color="current"
+        />
+      )}
+      {label}
+      {rightIcon && (
+        <ReactDaikinIcon
+          slot="right-icon"
+          icon={rightIcon}
+          size="xl"
+          color="current"
+        />
+      )}
+    </ReactDaikinButton>
   ),
 };
