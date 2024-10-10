@@ -16,6 +16,9 @@ Coolgrey
 Darkgrey
 Mediumgrey
 
+# ARIA
+aria-labelledby
+
 # ARIA Roles
 tablist
 tabpanel
