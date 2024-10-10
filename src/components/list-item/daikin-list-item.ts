@@ -9,26 +9,8 @@ import {
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
 import type { IconType } from "../icon/daikin-icon";
-
-const ACTIONABLE_OVERLAY_CLASS_NAME = [
-  "focus-visible:outline-none",
-
-  "focus-visible:before:outline",
-  "focus-visible:before:outline-1",
-  "focus-visible:before:-outline-offset-1",
-  "focus-visible:before:outline-daikinBlue-700",
-
-  "link-enabled:before:absolute",
-  "link-enabled:before:w-full",
-  "link-enabled:before:h-full",
-  "link-enabled:before:inset-0",
-  "link-enabled:before:m-auto",
-  "link-enabled:before:hover:bg-daikinNeutral-100",
-  "link-enabled:before:active:bg-daikinNeutral-200",
-];
 
 const cvaListItemContainer = cva(
   [
@@ -56,19 +38,28 @@ const cvaListItemContainer = cva(
   }
 );
 
-const cvaListItem = cva(["text-left"], {
-  variants: {
-    type: {
-      button: ACTIONABLE_OVERLAY_CLASS_NAME,
-      link: ACTIONABLE_OVERLAY_CLASS_NAME,
-      text: ["before:hover:bg-daikinNeutral-100"],
-    },
-    disabled: {
-      false: [],
-      true: ["text-daikinNeutral-200"],
-    },
-  },
-});
+const LIST_CN = cva([
+  "text-left",
+
+  "before:absolute",
+  "before:w-full",
+  "before:h-full",
+  "before:inset-0",
+
+  // For buttons and links
+  "focus-visible:outline-none",
+  "focus-visible:before:outline",
+  "focus-visible:before:outline-1",
+  "focus-visible:before:-outline-offset-1",
+  "focus-visible:before:outline-daikinBlue-700",
+
+  "link-enabled:before:hover:bg-daikinNeutral-100",
+  "link-enabled:before:active:bg-daikinNeutral-200",
+  "[&:is(a,button)]:link-disabled:text-daikinNeutral-200",
+
+  // For text
+  "[&:not(a,button)]:before:hover:bg-daikinNeutral-100",
+])();
 
 const cvaIcon = cva([], {
   variants: {
@@ -79,12 +70,14 @@ const cvaIcon = cva([], {
   },
 });
 
-type ListItemVariantProps = MergeVariantProps<typeof cvaListItem>;
-
 /**
- * The list item component functions as a child element of the list component, and is used to actually list items.
+ * The list item component is used to represent a single item in a list. Please use it within the `daikin-list` component.
  *
- * You can choose between the `button` type, which uses the HTML button tag, and the `link` type, which uses the a tag, and use them according to your needs.
+ * The following types are available:
+ *
+ * - `button`: Uses `<button>` tag.
+ * - `link`: Uses `<a>` tag.
+ * - `text`: Uses `<span>` tag.
  *
  * Hierarchy:
  * - `daikin-list` > `daikin-list-item`
@@ -113,7 +106,7 @@ export class DaikinListItem extends LitElement {
    * - `text`: The list item will be rendered as a `<span>` element. Use this if the list itself has no action.
    */
   @property({ type: String, reflect: true })
-  type: ListItemVariantProps["type"] = "button";
+  type: "button" | "link" | "text" = "button";
 
   /**
    * Link `href`.
@@ -138,6 +131,7 @@ export class DaikinListItem extends LitElement {
 
   /**
    * Whether the list item is disabled.
+   * Ignored if the `type` is `"text"`.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
@@ -162,11 +156,15 @@ export class DaikinListItem extends LitElement {
   }
 
   override render() {
-    const listCN = cvaListItem({ type: this.type, disabled: this.disabled });
+    const disabled =
+      // False if `type` is "text".
+      this.type !== "text" &&
+      // True if `this.disabled`, or if `type` is "link" and `href` is missing.
+      (this.disabled || (this.type === "link" && this.href == null));
 
     const createIcon = (icon: IconType | null) =>
       icon
-        ? html`<span class=${cvaIcon({ disabled: this.disabled })}>
+        ? html`<span class=${cvaIcon({ disabled })}>
             <daikin-icon icon=${icon} size="xl" color="current"></daikin-icon>
           </span>`
         : nothing;
@@ -178,24 +176,21 @@ export class DaikinListItem extends LitElement {
       <slot></slot>
     </span>`;
 
-    const linkDisabled = this.disabled || this.href == null;
     const list = {
       button: () =>
-        html`<button type="button" class=${listCN} ?disabled=${this.disabled}>
+        html`<button type="button" class=${LIST_CN} ?disabled=${disabled}>
           ${content}
         </button>`,
       link: () =>
         html`<a
-          class=${listCN}
-          href=${ifDefined(
-            !linkDisabled ? (this.href ?? undefined) : undefined
-          )}
-          role=${ifDefined(linkDisabled ? "link" : undefined)}
-          aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
+          class=${LIST_CN}
+          href=${ifDefined(!disabled ? (this.href ?? undefined) : undefined)}
+          role=${ifDefined(disabled ? "link" : undefined)}
+          aria-disabled=${ifDefined(disabled ? "true" : undefined)}
         >
           ${content}
         </a>`,
-      text: () => html`<span class=${listCN}>${content}</span>`,
+      text: () => html`<span class=${LIST_CN}>${content}</span>`,
     }[this.type]();
 
     return html`<div
