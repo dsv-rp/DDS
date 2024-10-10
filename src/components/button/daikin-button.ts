@@ -77,6 +77,10 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/button/index.js";
+ * ```
+ *
  * ```html
  * <daikin-button>
  *   Button label
