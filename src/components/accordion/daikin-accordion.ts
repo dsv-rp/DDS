@@ -1,5 +1,5 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, queryAssignedElements, state } from "lit/decorators.js";
+import { customElement, queryAssignedElements } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-item";
 
@@ -57,9 +57,6 @@ export class DaikinAccordion extends LitElement {
   @queryAssignedElements({ selector: "daikin-accordion-item" })
   private readonly _items!: readonly DaikinAccordionItem[];
 
-  @state()
-  private _pressedKeys: ("Tab" | "Shift")[] = [];
-
   private _handleKeyDown(event: KeyboardEvent): void {
     const moveOffset = (
       {
@@ -107,16 +104,8 @@ export class DaikinAccordion extends LitElement {
     return;
   }
 
-  private _handleKeyUp(event: KeyboardEvent): void {
-    this._pressedKeys = this._pressedKeys.filter((key) => key !== event.key);
-  }
-
   override render() {
-    return html`<div
-      class="w-full"
-      @keydown=${this._handleKeyDown}
-      @keyup=${this._handleKeyUp}
-    >
+    return html`<div class="w-full" @keydown=${this._handleKeyDown}>
       <slot></slot>
     </div>`;
   }
