@@ -5,40 +5,82 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaInput = cva(
+const cvaInputContainer = cva(
   [
+    "flex",
+    "items-center",
     "w-full",
     "h-full",
-    "text-daikinNeutral-900",
-    "border",
-    "border-solid",
-    "px-[9px]",
-    "rounded-[6px]",
-    "font-daikinSerif",
-    "placeholder:text-daikinNeutral-200",
+    "px-3",
 
-    "enabled:hover:outline",
-    "enabled:hover:outline-2",
-    "enabled:hover:outline-[--text-input-outline-color-hover]",
-    "enabled:active:outline",
-    "enabled:active:outline-2",
-    "enabled:active:outline-[--text-input-outline-color-active]",
-    "focus-visible:outline",
-    "focus-visible:outline-2",
-    "focus-visible:outline-[--text-input-outline-color-active]",
-    "disabled:text-[--text-input-outline-color-disabled]",
-    "disabled:bg-[--text-input-background-color]",
-    "disabled:border-[--text-input-outline-color-disabled]",
+    // Define `--color-border` as a CSS variable that references `--color-state-active`, `--color-state-focus` and `--color-base` in that order.
+    // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
+    "define-[--color-state-active,--color-state-focus,--color-base]/color-border",
+    "border",
+    "border-[--color-border]",
+    "rounded-md",
+    "overflow-hidden",
+
+    "outline",
+    "outline-[--color-border]",
+    "outline-0",
+    "-outline-offset-2",
+
+    // Display the outline when hovered, pressed, or focused.
+    "has-[input:enabled:hover]:outline-2",
+    "has-[input:enabled:active]:outline-2",
+    "has-[input:focus-visible]:outline-2",
+
+    // Set `--color-state-active` when pressed.
+    "has-[input:enabled:active]:var-color-daikinNeutral-700/color-state-active",
+
+    // Update `--color-base` depending on the state.
+    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
+    "has-[input:enabled:hover]:var-color-daikinNeutral-400/color-base",
+    "has-[input:disabled]:var-color-[--text-input-outline-color-disabled]/color-base",
   ],
   {
     variants: {
-      variant: {
-        normal: ["border-daikinNeutral-600"],
-        error: ["bg-daikinRed-50", "border-[--text-input-border-color-error]"],
+      error: {
+        false: [
+          "var-color-daikinNeutral-600/color-base",
+          "has-[input:focus-visible]:var-color-daikinBlue-700/color-state-focus",
+        ],
+        true: [
+          // When the input is not focused and not hovered or pressed, the border color will always be the error color.
+          "var-color-[--text-input-border-color-error]/color-base",
+          // When the input is focused and not pressed, the border color will always be the error color.
+          "has-[input:focus-visible]:var-color-[--text-input-border-color-error]/color-state-focus",
+        ],
       },
     },
   }
 );
+
+const cvaInput = cva([
+  "flex-1",
+  "h-full",
+  "text-daikinNeutral-900",
+  "font-daikinSerif",
+  "px-2",
+  "bg-transparent",
+
+  "placeholder:text-daikinNeutral-700",
+  "focus-visible:outline-none",
+
+  "disabled:text-[--text-input-outline-color-disabled]",
+  "disabled:placeholder:text-[--text-input-outline-color-disabled]",
+]);
+
+const cvaIconContainer = cva([], {
+  // const cvaIconContainer = cva(["block", "flex-none"], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-[--text-input-outline-color-disabled]"],
+    },
+  },
+});
 
 /**
  * The text input component is a UI element that allows users to input single-line text data.
@@ -50,6 +92,9 @@ const cvaInput = cva(
  * - `daikin-input-group` > `daikin-text-input`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
+ *
+ * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
+ * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
  *
  * @example
  *
@@ -75,7 +120,6 @@ export class DaikinTextInput extends LitElement {
       --text-input-outline-color-hover: #54c3f1;
 
       display: block;
-      width: 340px;
       height: 48px;
     }
   `;
@@ -85,58 +129,68 @@ export class DaikinTextInput extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Field value
-   */
-  @property({ type: String, reflect: true })
-  value = "";
-
-  /**
-   * Type of field
+   * Type of the text input.
    */
   @property({ type: String })
   type: "text" | "email" | "tel" | "search" = "text";
 
   /**
-   * Placeholder text
+   * Value of the text input.
+   */
+  @property({ type: String, reflect: true })
+  value = "";
+
+  /**
+   * Form name of the text input.
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * Placeholder text.
    */
   @property({ type: String })
   placeholder = "";
 
   /**
-   * Whether the field is disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Whether the field is readonly
+   * Whether the text input is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Name of the input field control used in the form
+   * Whether the text input is disabled.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
    */
-  @property({ type: String, reflect: true })
-  name?: string;
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
 
   /**
-   * Maximum length in field values
+   * Whether the text input is required.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  /**
+   * Whether or not to display error states.
+   * Ignored if the `disabled` is `true`.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  error = false;
+
+  /**
+   * Maximum length of value.
    */
   @property({ type: Number })
   maxlength?: number;
 
   /**
-   * Specify auto-completion values
+   * Value of `autocomplete` attribute of the internal `<input>`.
    */
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
-
-  /**
-   * Error state. Ignored if the `disabled` is `true`.
-   */
-  @property({ type: Boolean, reflect: true })
-  error = false;
 
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
@@ -144,26 +198,43 @@ export class DaikinTextInput extends LitElement {
   }
 
   override render() {
-    const textInputInputClassName = cvaInput({
-      variant: !this.disabled && this.error ? "error" : "normal",
-    });
+    const isError = !this.disabled && this.error;
 
-    return html`<input
-      class=${textInputInputClassName}
-      type=${this.type}
-      value=${this.value}
-      placeholder=${this.placeholder}
-      name=${ifDefined(this.name)}
-      maxlength=${ifDefined(this.maxlength)}
-      autocomplete=${
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(this.autocomplete as any)
-      }
-      ?disabled=${this.disabled}
-      ?readonly=${this.readonly}
-      @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
-      @input=${this._handleInput}
-    />`;
+    return html`<div class=${cvaInputContainer({ error: isError })}>
+      <slot
+        class=${cvaIconContainer({
+          disabled: this.disabled,
+        })}
+        name="left-icon"
+      >
+        <span class="block -ml-1"></span>
+      </slot>
+      <input
+        class=${cvaInput()}
+        type=${this.type}
+        value=${this.value}
+        placeholder=${this.placeholder}
+        name=${ifDefined(this.name)}
+        maxlength=${ifDefined(this.maxlength)}
+        autocomplete=${
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+          ifDefined(this.autocomplete as any)
+        }
+        ?disabled=${this.disabled}
+        ?readonly=${this.readonly}
+        ?required=${this.required}
+        @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+        @input=${this._handleInput}
+      />
+      <slot
+        class=${cvaIconContainer({
+          disabled: this.disabled,
+        })}
+        name="right-icon"
+      >
+        <span class="block -mr-1"></span>
+      </slot>
+    </div>`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {
