@@ -65,6 +65,8 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
  *
  * @slot - A slot for the button content.
+ * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
+ * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
  *
  * @example
  *
