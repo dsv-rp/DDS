@@ -1,6 +1,7 @@
+import "#package/components/icon/daikin-icon";
 import "#package/components/text-input/daikin-text-input";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../storybook-tailwind.css";
 import type { DaikinTextInputStoryArgs } from "./common";
@@ -31,8 +32,6 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
         placeholder=${placeholder}
         maxlength=${ifDefined(maxlength)}
         autocomplete=${ifDefined(autocomplete)}
-        left-icon=${ifDefined(leftIcon)}
-        right-icon=${ifDefined(rightIcon)}
         ?disabled=${disabled}
         ?readonly=${readonly}
         ?required=${required}
@@ -40,7 +39,24 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
         @change=${onChange}
         @input=${onInput}
         @keydown=${onKeyDown}
-      ></daikin-text-input>
+      >
+        ${leftIcon
+          ? html`<daikin-icon
+              slot="left-icon"
+              icon=${leftIcon}
+              size="xl"
+              color="current"
+            ></daikin-icon>`
+          : nothing}
+        ${rightIcon
+          ? html`<daikin-icon
+              slot="right-icon"
+              icon=${rightIcon}
+              size="xl"
+              color="current"
+            ></daikin-icon>`
+          : nothing}
+      </daikin-text-input>
     </div>
   `,
 };

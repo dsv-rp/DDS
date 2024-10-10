@@ -1,107 +1,86 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import {
-  LitElement,
-  type PropertyValues,
-  css,
-  html,
-  nothing,
-  unsafeCSS,
-} from "lit";
+import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
-import type { IconType } from "../icon/daikin-icon";
 
-const cvaInput = cva(
+const cvaInputContainer = cva(
   [
-    "relative",
+    "flex",
+    "items-center",
     "w-full",
     "h-full",
-    "rounded-md",
-    "font-daikinSerif",
-    "text-daikinNeutral-900",
-    "placeholder:text-daikinNeutral-700",
+    "px-3",
 
     // Define `--color-border` as a CSS variable that references `--color-state-active`, `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
     "define-[--color-state-active,--color-state-focus,--color-base]/color-border",
     "border",
     "border-[--color-border]",
+    "rounded-md",
+    "overflow-hidden",
+
     "outline",
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
 
     // Display the outline when hovered, pressed, or focused.
-    "enabled:hover:outline-2",
-    "enabled:active:outline-2",
-    "focus-visible:outline-2",
+    "has-[input:enabled:hover]:outline-2",
+    "has-[input:enabled:active]:outline-2",
+    "has-[input:focus-visible]:outline-2",
 
     // Set `--color-state-active` when pressed.
-    "enabled:active:var-color-daikinNeutral-700/color-state-active",
+    "has-[input:enabled:active]:var-color-daikinNeutral-700/color-state-active",
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:hover:var-color-daikinNeutral-400/color-base",
-    "disabled:var-color-[--text-input-outline-color-disabled]/color-base",
-
-    "disabled:bg-[--text-input-background-color]",
-    "disabled:text-[--text-input-outline-color-disabled]",
-    "disabled:placeholder:text-[--text-input-outline-color-disabled]",
+    "has-[input:enabled:hover]:var-color-daikinNeutral-400/color-base",
+    "has-[input:disabled]:var-color-[--text-input-outline-color-disabled]/color-base",
   ],
   {
     variants: {
       error: {
         false: [
           "var-color-daikinNeutral-600/color-base",
-          "focus-visible:var-color-daikinBlue-700/color-state-focus",
+          "has-[input:focus-visible]:var-color-daikinBlue-700/color-state-focus",
         ],
         true: [
           // When the input is not focused and not hovered or pressed, the border color will always be the error color.
           "var-color-[--text-input-border-color-error]/color-base",
           // When the input is focused and not pressed, the border color will always be the error color.
-          "focus-visible:var-color-[--text-input-border-color-error]/color-state-focus",
+          "has-[input:focus-visible]:var-color-[--text-input-border-color-error]/color-state-focus",
         ],
-      },
-      leftIcon: {
-        false: ["pl-4"],
-        true: ["pl-11"],
-      },
-      rightIcon: {
-        false: ["pr-4"],
-        true: ["pr-11"],
       },
     },
   }
 );
 
-const cvaIconContainer = cva(
-  [
-    "flex",
-    "justify-center",
-    "items-center",
-    "w-6",
-    "h-6",
-    "absolute",
-    "top-0",
-    "bottom-0",
-    "m-auto",
-  ],
-  {
-    variants: {
-      disabled: {
-        false: [],
-        true: ["text-[--text-input-outline-color-disabled]"],
-      },
-      position: {
-        left: ["left-3"],
-        right: ["right-3"],
-      },
+const cvaInput = cva([
+  "flex-1",
+  "h-full",
+  "text-daikinNeutral-900",
+  "font-daikinSerif",
+  "px-2",
+  "bg-transparent",
+
+  "placeholder:text-daikinNeutral-700",
+  "focus-visible:outline-none",
+
+  "disabled:text-[--text-input-outline-color-disabled]",
+  "disabled:placeholder:text-[--text-input-outline-color-disabled]",
+]);
+
+const cvaIconContainer = cva([], {
+  // const cvaIconContainer = cva(["block", "flex-none"], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-[--text-input-outline-color-disabled]"],
     },
-  }
-);
+  },
+});
 
 /**
  * The text input component is a UI element that allows users to input single-line text data.
@@ -113,6 +92,9 @@ const cvaIconContainer = cva(
  * - `daikin-input-group` > `daikin-text-input`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
+ *
+ * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
+ * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
  *
  * @example
  *
@@ -210,43 +192,25 @@ export class DaikinTextInput extends LitElement {
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
 
-  /**
-   * An icon displayed at the left of the input text.
-   */
-  @property({ type: String, attribute: "left-icon" })
-  leftIcon: IconType | null = null;
-
-  /**
-   * An icon displayed at the right of the input text.
-   */
-  @property({ type: String, attribute: "right-icon" })
-  rightIcon: IconType | null = null;
-
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
     this._internals.setFormValue(this.value);
   }
 
   override render() {
-    const createIcon = (position: "left" | "right", icon: IconType | null) =>
-      icon
-        ? html`<div
-            class=${cvaIconContainer({
-              disabled: this.disabled,
-              position,
-            })}
-          >
-            <daikin-icon icon=${icon} size="xl" color="current"></daikin-icon>
-          </div>`
-        : nothing;
+    const isError = !this.disabled && this.error;
 
-    return html`<div class="w-full h-full relative">
-      <input
-        class=${cvaInput({
-          error: !this.disabled && this.error,
-          leftIcon: !!this.leftIcon,
-          rightIcon: !!this.rightIcon,
+    return html`<div class=${cvaInputContainer({ error: isError })}>
+      <slot
+        class=${cvaIconContainer({
+          disabled: this.disabled,
         })}
+        name="left-icon"
+      >
+        <span class="block -ml-1"></span>
+      </slot>
+      <input
+        class=${cvaInput()}
         type=${this.type}
         value=${this.value}
         placeholder=${this.placeholder}
@@ -262,8 +226,14 @@ export class DaikinTextInput extends LitElement {
         @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
         @input=${this._handleInput}
       />
-      ${createIcon("left", this.leftIcon)}
-      ${createIcon("right", this.rightIcon)}
+      <slot
+        class=${cvaIconContainer({
+          disabled: this.disabled,
+        })}
+        name="right-icon"
+      >
+        <span class="block -mr-1"></span>
+      </slot>
     </div>`;
   }
 
