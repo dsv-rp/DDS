@@ -1,9 +1,12 @@
+import type { IconType } from "#package/components/icon";
 import type { DaikinListItem } from "#package/components/list-item/daikin-list-item";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinListItemStoryArgs
   extends Required<ElementProps<DaikinListItem>> {
+  leftIcon: IconType | null;
+  rightIcon: IconType | null;
   hasSlot: boolean;
   onClick: (event: MouseEvent) => void;
 }

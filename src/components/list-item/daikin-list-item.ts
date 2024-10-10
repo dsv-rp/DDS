@@ -1,42 +1,9 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  query,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
-import type { IconType } from "../icon/daikin-icon";
-
-const cvaListItemContainer = cva(
-  [
-    "flex",
-    "justify-between",
-    "items-center",
-    "gap-2",
-    "w-full",
-    "min-h-12",
-    "py-3",
-    "text-left",
-    "relative",
-  ],
-  {
-    variants: {
-      leftIcon: {
-        false: ["pl-4"],
-        true: ["pl-3"],
-      },
-      rightIcon: {
-        false: ["pr-4"],
-        true: ["pr-3"],
-      },
-    },
-  }
-);
 
 const LIST_CN = cva([
   "text-left",
@@ -86,6 +53,8 @@ const cvaIcon = cva([], {
  *
  * @slot - A slot for the list item label content.
  * @slot action - An optional element that is displayed on the right of a list item (e.g. `daikin-checkbox`, `daikin-toggle`). Please handle items in this slot by the user when list item is disabled.
+ * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
+ * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
  *
  * @example
  *
@@ -117,33 +86,14 @@ export class DaikinListItem extends LitElement {
   href: string | null = null;
 
   /**
-   * An icon displayed at the left of the label.
-   */
-  @property({ type: String, reflect: true, attribute: "left-icon" })
-  leftIcon: IconType | null = null;
-
-  /**
-   * An icon displayed at the right of the label.
-   * Ignored if the `action` slot is used.
-   */
-  @property({ type: String, reflect: true, attribute: "right-icon" })
-  rightIcon: IconType | null = null;
-
-  /**
    * Whether the list item is disabled.
    * Ignored if the `type` is `"text"`.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
-  @queryAssignedElements({ slot: "action" })
-  private _actions!: HTMLElement[];
-
   @query("a,button")
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
-
-  @state()
-  private _hasActionSlot = false;
 
   constructor() {
     super();
@@ -162,18 +112,11 @@ export class DaikinListItem extends LitElement {
       // True if `this.disabled`, or if `type` is "link" and `href` is missing.
       (this.disabled || (this.type === "link" && this.href == null));
 
-    const createIcon = (icon: IconType | null) =>
-      icon
-        ? html`<span class=${cvaIcon({ disabled })}>
-            <daikin-icon icon=${icon} size="xl" color="current"></daikin-icon>
-          </span>`
-        : nothing;
-
-    const content = html`<span
-      class="flex items-center w-full gap-2 relative z-0"
-    >
-      ${createIcon(this.leftIcon)}
-      <slot></slot>
+    const content = html`<span class="flex items-center w-full  relative z-0">
+      <slot name="left-icon" class=${cvaIcon({ disabled })}>
+        <span class="block -ml-1"></span>
+      </slot>
+      <span class="px-2"><slot></slot></span>
     </span>`;
 
     const list = {
@@ -194,21 +137,16 @@ export class DaikinListItem extends LitElement {
     }[this.type]();
 
     return html`<div
-      class=${cvaListItemContainer({
-        leftIcon: !!this.leftIcon,
-        rightIcon: !!this.rightIcon || this._hasActionSlot,
-      })}
+      class="flex justify-between items-center w-full min-h-12 p-3 text-left relative"
       role="listitem"
     >
       ${list}
       <slot name="action" class="flex items-center gap-3">
-        ${createIcon(this.rightIcon)}
+        <slot name="right-icon" class=${cvaIcon({ disabled })}>
+          <span class="block -mr-1"></span>
+        </slot>
       </slot>
     </div>`;
-  }
-
-  protected override firstUpdated(): void {
-    this._hasActionSlot = !!this._actions.length;
   }
 
   /**

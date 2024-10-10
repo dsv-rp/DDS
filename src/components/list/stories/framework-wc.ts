@@ -9,8 +9,20 @@ export const metadata: Meta<DaikinListStoryArgs> = {
   render: () => html`
     <div style="width:256px;">
       <daikin-list>
-        <daikin-list-item left-icon="positive" right-icon="chevron-right">
+        <daikin-list-item right-icon="chevron-right">
           List item label 1
+          <daikin-icon
+            slot="left-icon"
+            icon="positive"
+            size="xl"
+            color="current"
+          ></daikin-icon>
+          <daikin-icon
+            slot="right-icon"
+            icon="chevron-right"
+            size="xl"
+            color="current"
+          ></daikin-icon>
         </daikin-list-item>
         <daikin-list-item type="link" href="#">
           List item label 2 (Link)
@@ -24,8 +36,14 @@ export const metadata: Meta<DaikinListStoryArgs> = {
             slot="action"
           ></daikin-checkbox>
         </daikin-list-item>
-        <daikin-list-item right-icon="chevron-right">
+        <daikin-list-item>
           Multiple lines of the list item label
+          <daikin-icon
+            slot="right-icon"
+            icon="chevron-right"
+            size="xl"
+            color="current"
+          ></daikin-icon>
         </daikin-list-item>
       </daikin-list>
     </div>

@@ -105,7 +105,7 @@ describeEach(["exist", "none"] as const, (leftIcon) => {
   });
 });
 
-describeEach(["button", "link"] as const, (type) => {
+describeEach(["button", "link", "text"] as const, (type) => {
   const baseArgs = {
     type,
     // Due to Storybook's limitation, we cannot use special characters in `href`.
