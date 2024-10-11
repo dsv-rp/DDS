@@ -276,6 +276,12 @@ export class DaikinTooltip extends LitElement {
     /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
+  protected override firstUpdated(): void {
+    if (this.open) {
+      this._popover.togglePopover(true);
+    }
+  }
+
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
       if (this.open) {
