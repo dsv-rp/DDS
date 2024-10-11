@@ -113,7 +113,7 @@ export class DaikinListItem extends LitElement {
   override render() {
     const disabled = this._disabled;
 
-    const content = html`<span class="flex items-center w-full  relative z-0">
+    const content = html`<span class="flex items-center w-full relative">
       <slot name="left-icon">
         <span class="block -ml-1"></span>
       </slot>
