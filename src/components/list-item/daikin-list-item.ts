@@ -132,7 +132,11 @@ export class DaikinListItem extends LitElement {
     }[this.type]();
 
     return html`<div
-      class=${"flex justify-between items-center w-full min-h-12 p-3 text-left relative [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"}
+      class=${
+        // We cannot directly write classes like `class="..."` as they include '&', which must be escaped. It can't be escaped either because TailwindCSS can't process it.
+        // Set the text color here to apply to the icons on both sides along with text.
+        "flex justify-between items-center w-full min-h-12 p-3 text-left relative [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"
+      }
       role="listitem"
     >
       ${list}
