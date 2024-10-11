@@ -135,7 +135,7 @@ export class DaikinListItem extends LitElement {
     >
       ${list}
       <slot name="action" class="flex items-center gap-3">
-        <slot name="right-icon">
+        <slot name="right-icon" class="pointer-events-none">
           <span class="block -mr-1"></span>
         </slot>
       </slot>
