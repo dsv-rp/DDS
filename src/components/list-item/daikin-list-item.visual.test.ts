@@ -18,7 +18,7 @@ describeEach(["exist", "none"] as const, (leftIcon) => {
       const baseArgs = {
         ...(leftIcon === "exist" && { leftIcon: "positive" }),
         ...(rightIcon === "exist" && { rightIcon: "chevron-right" }),
-        hasSlot: slot === "checkbox",
+        action: slot === "checkbox",
         type: slot === "checkbox" ? "text" : "button",
       };
 

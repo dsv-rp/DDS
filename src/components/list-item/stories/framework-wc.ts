@@ -13,7 +13,8 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
     leftIcon,
     rightIcon,
     disabled,
-    hasSlot,
+    label,
+    action,
     onClick,
   }) => html`
     <daikin-list-item
@@ -22,7 +23,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
       ?disabled=${disabled}
       @click=${onClick}
     >
-      List item label
+      ${label}
       ${leftIcon
         ? html`<daikin-icon
             slot="left-icon"
@@ -39,7 +40,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
             color="current"
           ></daikin-icon>`
         : nothing}
-      ${hasSlot
+      ${action
         ? html`<daikin-checkbox
             label="Label"
             label-position="hidden"

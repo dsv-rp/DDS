@@ -15,6 +15,8 @@ export const Button: Story = {
   args: {
     type: "button",
     disabled: false,
+    label: "List item label",
+    action: false,
     onClick: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -122,7 +124,7 @@ export const TextWithSlot: Story = {
   args: {
     ...Button.args,
     type: "text",
-    hasSlot: true,
+    action: true,
     onClick: fn(),
   },
 };

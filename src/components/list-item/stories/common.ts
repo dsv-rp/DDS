@@ -5,9 +5,10 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinListItemStoryArgs
   extends Required<ElementProps<DaikinListItem>> {
+  label: string;
   leftIcon: IconType | null;
   rightIcon: IconType | null;
-  hasSlot: boolean;
+  action: boolean;
   onClick: (event: MouseEvent) => void;
 }
 
@@ -19,16 +20,19 @@ export const DAIKIN_LIST_ITEM_ARG_TYPES = {
   href: {
     type: "string",
   },
+  disabled: {
+    type: "boolean",
+  },
+  label: {
+    type: "string",
+  },
   leftIcon: {
     type: "string",
   },
   rightIcon: {
     type: "string",
   },
-  disabled: {
-    type: "boolean",
-  },
-  hasSlot: {
+  action: {
     type: "boolean",
   },
 } satisfies Meta<DaikinListItemStoryArgs>["argTypes"];
