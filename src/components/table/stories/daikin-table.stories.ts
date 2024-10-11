@@ -139,7 +139,7 @@ export const Default: Story = {
     ],
     hasCheckbox: false,
     hasSort: false,
-    hasSlot: false,
+    hasCellSlot: false,
   },
 };
 
@@ -274,7 +274,7 @@ export const Sortable: Story = {
 export const UseSlot: Story = {
   args: {
     ...Default.args,
-    hasSlot: true,
+    hasCellSlot: true,
   },
 };
 
@@ -296,7 +296,8 @@ export const AllFunctions: Story = {
     hasCheckbox: true,
     hasSort: true,
     checkedIds: ["1", "3"],
-    hasSlot: true,
+    hasCellSlot: true,
+    hasHeaderCellSlot: true,
     onChangeCheck: fn(),
     onChangeSort: fn(),
   },

@@ -13,7 +13,7 @@ export const ReactDaikinTableCell = createComponent({
 export const metadata: Meta<DaikinTableCellStoryArgs> = {
   component: ({ ...props }: DaikinTableCellStoryArgs) => (
     <ReactDaikinTableCell {...props}>
-      {props.label}
+      Table cell label
       {props.subtitle && <span slot="subtitle">{props.subtitle}</span>}
     </ReactDaikinTableCell>
   ),

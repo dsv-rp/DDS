@@ -36,6 +36,7 @@ type TableCellVariantProps = MergeVariantProps<typeof cvaCell>;
  * Hierarchy:
  * - `daikin-table` > `daikin-table-cell`
  *
+ * @slot - A slot for the table cell.
  * @slot subtitle - This is a subtitle element that is inserted into a cell.
  *
  * @example

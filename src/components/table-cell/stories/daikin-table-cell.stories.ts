@@ -10,7 +10,6 @@ export default {
 
 export const Default: Story = {
   args: {
-    label: "Table cell label",
     alignment: "left",
   },
 };

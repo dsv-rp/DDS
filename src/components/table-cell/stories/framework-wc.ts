@@ -4,9 +4,9 @@ import { html, nothing } from "lit";
 import type { DaikinTableCellStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTableCellStoryArgs> = {
-  render: ({ alignment, label, subtitle }) => {
+  render: ({ alignment, subtitle }) => {
     return html`<daikin-table-cell alignment=${alignment}>
-      ${label}
+      Table cell label
       ${subtitle ? html`<span slot="subtitle">${subtitle}</span>` : nothing}
     </daikin-table-cell>`;
   },

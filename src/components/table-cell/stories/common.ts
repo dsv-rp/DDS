@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTableCellStoryArgs
   extends Required<ElementProps<DaikinTableCell>> {
-  label: string;
   subtitle: string;
 }
 
@@ -12,9 +11,6 @@ export const DAIKIN_TABLE_CELL_ARG_TYPES = {
   alignment: {
     control: "radio",
     options: ["left", "right", "center"],
-  },
-  label: {
-    type: "string",
   },
   subtitle: {
     type: "string",

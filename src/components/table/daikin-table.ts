@@ -7,39 +7,20 @@ import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 import "../checkbox/daikin-checkbox";
 import type { IconType } from "../icon";
 import "../table-cell/daikin-table-cell";
 import type DaikinTableCell from "../table-cell/daikin-table-cell";
+import "../table-header-cell/daikin-table-header-cell";
+import type DaikinTableHeaderCell from "../table-header-cell/daikin-table-header-cell";
 
-const cvaHeaderCell = cva(
-  ["flex", "items-center", "gap-2", "w-full", "min-h-14", "p-4"],
-  {
-    variants: {
-      alignment: {
-        left: ["justify-start", "text-left"],
-        right: ["justify-end", "text-end"],
-        center: ["justify-center", "text-center"],
-      },
-      sort: {
-        false: [],
-        true: [
-          "hover:bg-daikinNeutral-100",
-          "active:bg-daikinNeutral-200",
-          "focus-visible:outline",
-          "focus-visible:outline-2",
-          "focus-visible:-outline-offset-2",
-          "focus-visible:outline-daikinBlue-700",
-
-          "after:size-6",
-          "after:text-daikinNeutral-800",
-          "after:i-daikin-sort-chevron-up-and-down",
-        ],
-      },
-    },
-  }
-);
+type HeaderType = {
+  key: string;
+  label: string;
+  alignment?: "left" | "right" | "center";
+  leftIcon?: IconType;
+  sortable?: boolean;
+};
 
 const cvaRow = cva(
   [
@@ -60,8 +41,6 @@ const cvaRow = cva(
   }
 );
 
-type TableVariantProps = MergeVariantProps<typeof cvaHeaderCell>;
-
 /**
  * The table component is a component that can display multiple data objects in a tabular format.
  *
@@ -73,10 +52,12 @@ type TableVariantProps = MergeVariantProps<typeof cvaHeaderCell>;
  *
  * Hierarchy:
  * - `daikin-table` > `daikin-table-cell`
+ * - `daikin-table` > `daikin-table-header-cell`
  *
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
  *
+ * @slot header:${headers[i].key} - Use content other than text in the table header cell. Be sure to use daikin-table-header-cell for the wrapper.
  * @slot cell:${headers[i].key}:${rows[i].id} - Use content other than text in the table. Be sure to use daikin-table-cell for the wrapper.
  *
  * @example
@@ -137,13 +118,7 @@ export class DaikinTable extends LitElement {
    * - sortable: If sortable (`hasSort = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
    */
   @property({ type: Array, attribute: false })
-  headers: {
-    key: string;
-    label: string;
-    alignment?: TableVariantProps["alignment"];
-    leftIcon?: IconType;
-    sortable?: boolean;
-  }[] = [];
+  headers: HeaderType[] = [];
 
   /**
    * Rows of the table.
@@ -202,6 +177,9 @@ export class DaikinTable extends LitElement {
 
   @state()
   private _cells: DaikinTableCell[] = [];
+
+  @state()
+  private _headerCells: DaikinTableHeaderCell[] = [];
 
   @state()
   private _allItemCheckState: "unchecked" | "indeterminate" | "checked" =
@@ -268,6 +246,7 @@ export class DaikinTable extends LitElement {
 
   private _updateCells() {
     this._cells = [...this.querySelectorAll("daikin-table-cell")];
+    this._headerCells = [...this.querySelectorAll("daikin-table-header-cell")];
   }
 
   private _handleCheckboxRowHeaderChange(): void {
@@ -350,6 +329,40 @@ export class DaikinTable extends LitElement {
       }
     }
 
+    const createHeaderRow = () =>
+      this.headers.map(({ key, label, alignment, sortable }) => {
+        const headerCell = this._headerCells.find(
+          (cell) => cell.slot === `header:${key}`
+        );
+        const isSortable = this.hasSort && (sortable || sortable === undefined);
+
+        if (headerCell) {
+          headerCell.alignment = alignment ?? "left";
+          headerCell.sortable = isSortable;
+        }
+
+        return html`<th
+          class="h-full p-0"
+          aria-sort=${ifDefined(
+            this.hasSort && this.sortedKey === key
+              ? this.orderBy === "asc"
+                ? "ascending"
+                : "descending"
+              : undefined
+          )}
+        >
+          <slot name=${`header:${key}`}>
+            <daikin-table-header-cell
+              alignment=${alignment ?? "left"}
+              ?sortable=${isSortable}
+              @change-sort=${() => this._handleClickSort(key)}
+            >
+              ${label}
+            </daikin-table-header-cell>
+          </slot>
+        </th>`;
+      });
+
     const createRow = (
       item: { id: string } & {
         [key in (typeof this.headers)[number]["key"]]: string;
@@ -373,23 +386,12 @@ export class DaikinTable extends LitElement {
         </td>`;
       });
 
-    const createIcon = (icon: IconType | undefined) =>
-      icon
-        ? html`<daikin-icon
-            icon=${icon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
-        : nothing;
-
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
       <table
         class="w-full bg-[--table-color-background] table-fixed leading-[22px]"
       >
         <thead>
-          <tr
-            class="text-daikinNeutral-900 border-b border-b-daikinNeutral-800 font-bold"
-          >
+          <tr class="border-b border-b-daikinNeutral-800">
             ${this.hasCheckbox
               ? html`<td class="w-12 h-full p-0">
                   <span
@@ -405,41 +407,7 @@ export class DaikinTable extends LitElement {
                   </span>
                 </td>`
               : nothing}
-            ${this.headers.map(
-              ({ key, label, alignment, leftIcon, sortable }) =>
-                html`<th
-                  class="h-full p-0"
-                  aria-sort=${ifDefined(
-                    this.hasSort && this.sortedKey === key
-                      ? this.orderBy === "asc"
-                        ? "ascending"
-                        : "descending"
-                      : undefined
-                  )}
-                >
-                  ${this.hasSort && (sortable || sortable === undefined)
-                    ? html`
-                        <button
-                          type="button"
-                          class=${cvaHeaderCell({
-                            alignment: alignment ?? "left",
-                            sort: true,
-                          })}
-                          @click=${() => this._handleClickSort(key)}
-                        >
-                          ${createIcon(leftIcon)}${label}
-                        </button>
-                      `
-                    : html`<span
-                        class=${cvaHeaderCell({
-                          alignment: alignment ?? "left",
-                          sort: false,
-                        })}
-                      >
-                        ${createIcon(leftIcon)}${label}
-                      </span>`}
-                </th>`
-            )}
+            ${createHeaderRow()}
           </tr>
         </thead>
         <tbody class="text-[--table-color-text]">

@@ -4,7 +4,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTableStoryArgs
   extends Required<ElementProps<DaikinTable>> {
-  hasSlot: boolean;
+  hasCellSlot: boolean;
+  hasHeaderCellSlot: boolean;
   onChangeCheck: () => void;
   onChangeSort: () => void;
 }
