@@ -179,6 +179,30 @@ export class DaikinAccordionItem extends LitElement {
     this.open = !this.open;
   }
 
+  private _handleKeyDown(event: KeyboardEvent) {
+    const moveOffset = (
+      {
+        ArrowDown: 1,
+        ArrowUp: -1,
+      } as const
+    )[event.key];
+
+    if (!moveOffset) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.dispatchEvent(
+      new CustomEvent("summary-keydown", {
+        detail: {
+          key: moveOffset,
+        },
+        bubbles: true,
+      })
+    );
+  }
+
   // When using the in-page search, the `<details>` element may open without clicking on the `<summary>`.
   // In order to handle such cases, it is necessary to respond to the "toggle" event.
   private _handleToggle(event: ToggleEvent) {
@@ -203,6 +227,7 @@ export class DaikinAccordionItem extends LitElement {
         })}
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
+        @keydown=${this._handleKeyDown}
       >
         <slot name="summary"></slot>
       </summary>

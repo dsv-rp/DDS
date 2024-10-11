@@ -57,17 +57,8 @@ export class DaikinAccordion extends LitElement {
   @queryAssignedElements({ selector: "daikin-accordion-item" })
   private readonly _items!: readonly DaikinAccordionItem[];
 
-  private _handleKeyDown(event: KeyboardEvent): void {
-    const moveOffset = (
-      {
-        ArrowDown: 1,
-        ArrowUp: -1,
-      } as const
-    )[event.key];
-
-    if (!moveOffset) {
-      return;
-    }
+  private _handleKeyDown(event: CustomEvent<{ key: 1 | -1 }>): void {
+    const moveOffset = event.detail.key;
 
     const items = this._items;
 
@@ -99,14 +90,12 @@ export class DaikinAccordion extends LitElement {
     };
 
     checkIsDisabledElementAndFocus(focusedItemIndex, moveOffset);
-
-    event.preventDefault();
     return;
   }
 
   override render() {
-    return html`<div class="w-full" @keydown=${this._handleKeyDown}>
-      <slot></slot>
+    return html`<div class="w-full">
+      <slot @summary-keydown=${this._handleKeyDown}></slot>
     </div>`;
   }
 }
