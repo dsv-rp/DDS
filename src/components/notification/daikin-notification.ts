@@ -4,7 +4,7 @@ import {
   colorFeedbackWarning,
 } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { EVENT_CLOSE } from "../../constants/events";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -90,10 +90,20 @@ type NotificationVariantProps = MergeVariantProps<
  *
  * @fires close - A custom event emitted when a user clicks the close button.
  *
+ * @slot title - A slot for the notification title content.
+ * @slot description - A slot for the notification description content.
+ *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/notification/index.js";
+ * ```
+ *
  * ```html
- * </daikin-notification title="Notification title" description="Notification description."></daikin-notification>
+ * <daikin-notification>
+ *   <span slot="title">Notification title</span>
+ *   <span slot="description">Notification description</span>
+ * </daikin-notification>
  * ```
  */
 @customElement("daikin-notification")
@@ -119,18 +129,6 @@ export class DaikinNotification extends LitElement {
       width: 100%;
     }
   `;
-
-  /**
-   * Title text
-   */
-  @property({ type: String })
-  override title = "";
-
-  /**
-   * Description text
-   */
-  @property({ type: String })
-  description = "";
 
   /**
    * Type of notification
@@ -172,12 +170,20 @@ export class DaikinNotification extends LitElement {
   }
 
   override render() {
+    const role = (
+      {
+        inline: "status",
+        toast: "alert",
+      } as const
+    )[this.variant];
+
     return this.open
       ? html`<aside
           class=${cvaContainer({
             variant: this.variant,
             status: this.status,
           })}
+          role=${role}
         >
           <div
             class=${cvaIconContainer({
@@ -191,18 +197,19 @@ export class DaikinNotification extends LitElement {
             ></daikin-icon>
           </div>
           <div
-            class="flex justify-between items-center gap-5 p-5 flex-[1_0_auto]"
+            class="flex justify-between items-center gap-5 p-5 text-lg flex-auto flex-shrink-0"
           >
             <div
               class=${cvaContent({
                 line: this.line,
               })}
             >
-              ${this.title &&
-              html`<header class="text-[18px] font-bold flex-none">
-                ${this.title}
-              </header>`}
-              <p class="text-[18px] flex-none">${this.description}</p>
+              <div class="font-bold flex-none">
+                <slot name="title"></slot>
+              </div>
+              <div class="flex-none">
+                <slot name="description"></slot>
+              </div>
             </div>
             ${this.closeButton
               ? html`
@@ -220,10 +227,10 @@ export class DaikinNotification extends LitElement {
                     </button>
                   </div>
                 `
-              : null}
+              : nothing}
           </div>
         </aside>`
-      : null;
+      : nothing;
   }
 }
 

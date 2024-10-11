@@ -35,6 +35,10 @@
     "arrowUp": {
       "class": "i-daikin-arrow-up",
       "color": "#414141"
+    },
+    "error": {
+      "class": "i-daikin-status-error",
+      "color": "#ff4949"
     }
   }
 }

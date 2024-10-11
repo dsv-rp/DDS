@@ -103,3 +103,21 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
     });
   });
 });
+
+describeEach(["resizeSmall", "resizeLarge"] as const, (__vrtArgs__) => {
+  const baseURL = getPageURL({
+    __vrtArgs__,
+  });
+
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-text-input", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+});
