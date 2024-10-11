@@ -5,37 +5,25 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 
-const LIST_CN = cva([
-  "text-left",
-
+const INNER_CN = cva([
   "before:absolute",
+  "before:inset-0",
   "before:w-full",
   "before:h-full",
-  "before:inset-0",
 
-  // For buttons and links
   "focus-visible:outline-none",
   "focus-visible:before:outline",
   "focus-visible:before:outline-1",
   "focus-visible:before:-outline-offset-1",
   "focus-visible:before:outline-daikinBlue-700",
 
+  // For buttons and links
   "link-enabled:before:hover:bg-daikinNeutral-100",
   "link-enabled:before:active:bg-daikinNeutral-200",
-  "[&:is(a,button)]:link-disabled:text-daikinNeutral-200",
 
   // For text
   "[&:not(a,button)]:before:hover:bg-daikinNeutral-100",
 ])();
-
-const cvaIcon = cva([], {
-  variants: {
-    disabled: {
-      false: [],
-      true: ["text-daikinNeutral-200"],
-    },
-  },
-});
 
 /**
  * The list item component is used to represent a single item in a list. Please use it within the `daikin-list` component.
@@ -95,25 +83,30 @@ export class DaikinListItem extends LitElement {
   @query("a,button")
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
 
+  private get _disabled(): boolean {
+    return (
+      // False if `type` is "text".
+      this.type !== "text" &&
+      // True if `this.disabled`, or if `type` is "link" and `href` is missing.
+      (this.disabled || (this.type === "link" && this.href == null))
+    );
+  }
+
   constructor() {
     super();
 
     this.addEventListener("click", (event: MouseEvent): void => {
-      if (this.disabled) {
+      if (this._disabled) {
         event.stopImmediatePropagation();
       }
     });
   }
 
   override render() {
-    const disabled =
-      // False if `type` is "text".
-      this.type !== "text" &&
-      // True if `this.disabled`, or if `type` is "link" and `href` is missing.
-      (this.disabled || (this.type === "link" && this.href == null));
+    const disabled = this._disabled;
 
     const content = html`<span class="flex items-center w-full  relative z-0">
-      <slot name="left-icon" class=${cvaIcon({ disabled })}>
+      <slot name="left-icon">
         <span class="block -ml-1"></span>
       </slot>
       <span class="px-2"><slot></slot></span>
@@ -121,28 +114,28 @@ export class DaikinListItem extends LitElement {
 
     const list = {
       button: () =>
-        html`<button type="button" class=${LIST_CN} ?disabled=${disabled}>
+        html`<button type="button" class=${INNER_CN} ?disabled=${disabled}>
           ${content}
         </button>`,
       link: () =>
         html`<a
-          class=${LIST_CN}
+          class=${INNER_CN}
           href=${ifDefined(!disabled ? (this.href ?? undefined) : undefined)}
           role=${ifDefined(disabled ? "link" : undefined)}
           aria-disabled=${ifDefined(disabled ? "true" : undefined)}
         >
           ${content}
         </a>`,
-      text: () => html`<span class=${LIST_CN}>${content}</span>`,
+      text: () => html`<span class=${INNER_CN}>${content}</span>`,
     }[this.type]();
 
     return html`<div
-      class="flex justify-between items-center w-full min-h-12 p-3 text-left relative"
+      class="flex justify-between items-center w-full min-h-12 p-3 text-left relative [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"
       role="listitem"
     >
       ${list}
       <slot name="action" class="flex items-center gap-3">
-        <slot name="right-icon" class=${cvaIcon({ disabled })}>
+        <slot name="right-icon">
           <span class="block -mr-1"></span>
         </slot>
       </slot>
