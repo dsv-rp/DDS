@@ -6,6 +6,8 @@ import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 
 const INNER_CN = cva([
+  "text-left",
+
   "before:absolute",
   "before:inset-0",
   "before:w-full",
