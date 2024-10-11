@@ -94,6 +94,12 @@ export class DaikinListItem extends LitElement {
     );
   }
 
+  private _handleClickAction(event: MouseEvent): void {
+    // Stop propagation of click event when clicked action area.
+    // If the `right-icon` slot is used instead of the `action` slot, this handler will not be called due to `pointer-events: none`, therefore the click will be treated as the list item click.
+    event.stopPropagation();
+  }
+
   constructor() {
     super();
 
@@ -131,6 +137,7 @@ export class DaikinListItem extends LitElement {
       text: () => html`<span class=${INNER_CN}>${content}</span>`,
     }[this.type]();
 
+    /* eslint-disable lit-a11y/click-events-have-key-events -- Since it's only used to suppress `click` events, listening for keyboard events is not necessary. */
     return html`<div
       class=${
         // We cannot directly write classes like `class="..."` as they include '&', which must be escaped. It can't be escaped either because TailwindCSS can't process it.
@@ -140,12 +147,17 @@ export class DaikinListItem extends LitElement {
       role="listitem"
     >
       ${list}
-      <slot name="action" class="flex items-center gap-3">
+      <slot
+        name="action"
+        class="flex items-center gap-3"
+        @click=${this._handleClickAction}
+      >
         <slot name="right-icon" class="pointer-events-none">
           <span class="block -mr-1"></span>
         </slot>
       </slot>
     </div>`;
+    /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
   /**
