@@ -42,9 +42,9 @@ const INNER_CN = cva([
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event). Suppressed if `disabled` is true.
  *
  * @slot - A slot for the list item label content.
- * @slot action - An optional element that is displayed on the right of a list item (e.g. `daikin-checkbox`, `daikin-toggle`). Please handle items in this slot by the user when list item is disabled.
- * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
- * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
+ * @slot action - An optional slot for an interaction item to be placed to the right of the text. Place `daikin-checkbox`, `daikin-toggle`, or something similar.
+ * @slot left-icon - An optional slot for an icon to be placed to the left of the text. Place `daikin-icon` or something similar.
+ * @slot right-icon - An optional slot for an icon to be placed to the left of the text. Ignored if `action` slot is used. Place `daikin-icon` or something similar.
  *
  * @example
  *
@@ -111,7 +111,7 @@ export class DaikinListItem extends LitElement {
       <slot name="left-icon">
         <span class="block -ml-1"></span>
       </slot>
-      <span class="px-2"><slot></slot></span>
+      <slot class="block px-2"></slot>
     </span>`;
 
     const list = {
@@ -146,6 +146,7 @@ export class DaikinListItem extends LitElement {
 
   /**
    * Focuses on the inner button or link.
+   * It will have no effect if the `type` is "text" or `disabled` is `true`.
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
