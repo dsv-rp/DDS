@@ -9,7 +9,7 @@ export const metadata: Meta<DaikinListStoryArgs> = {
   render: () => html`
     <div style="width:256px;">
       <daikin-list>
-        <daikin-list-item right-icon="chevron-right">
+        <daikin-list-item>
           List item label 1
           <daikin-icon
             slot="left-icon"
