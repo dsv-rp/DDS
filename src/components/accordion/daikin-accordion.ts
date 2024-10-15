@@ -57,45 +57,47 @@ export class DaikinAccordion extends LitElement {
   @queryAssignedElements({ selector: "daikin-accordion-item" })
   private readonly _items!: readonly DaikinAccordionItem[];
 
-  private _handleKeyDown(event: CustomEvent<{ key: 1 | -1 }>): void {
-    const moveOffset = event.detail.key;
-
+  private _handleMoveFocus(
+    event: CustomEvent<{ direction: "up" | "down" }>
+  ): void {
+    const moveOffset = event.detail.direction === "up" ? -1 : 1;
     const items = this._items;
 
     // Get focused item if any
     const activeElement = document.activeElement;
-
     const focusedItemIndex = activeElement
-      ? items.findIndex((item) => item.contains(activeElement))
+      ? items.findIndex((item) => item === activeElement)
       : -1;
 
-    const checkIsDisabledElementAndFocus = (
-      index: number,
-      moveOffset: number
-    ) => {
-      const nextFocusItemIndex =
-        moveOffset === 1
-          ? index === -1 || index === items.length - 1
-            ? 0
-            : index + moveOffset
-          : index <= 0
-            ? items.length - 1
-            : index + moveOffset;
+    // If there is no accordion focused, do nothing.
+    if (focusedItemIndex < 0) {
+      return;
+    }
 
-      if (items[nextFocusItemIndex].disabled) {
-        checkIsDisabledElementAndFocus(nextFocusItemIndex, moveOffset);
-      } else {
-        items[nextFocusItemIndex].focus();
+    // Focus on the first accordion that is enabled.
+    for (
+      let index = focusedItemIndex + moveOffset, i = 0;
+      i < items.length;
+      index += moveOffset, i++
+    ) {
+      index =
+        Math.sign(index % items.length) === -1
+          ? items.length - 1
+          : index % items.length;
+      const item = items[index];
+
+      if (item.disabled) {
+        continue;
       }
-    };
 
-    checkIsDisabledElementAndFocus(focusedItemIndex, moveOffset);
-    return;
+      item.focus();
+      break;
+    }
   }
 
   override render() {
     return html`<div class="w-full">
-      <slot @summary-keydown=${this._handleKeyDown}></slot>
+      <slot @accordion-move-focus=${this._handleMoveFocus}></slot>
     </div>`;
   }
 }

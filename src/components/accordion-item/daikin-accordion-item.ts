@@ -180,23 +180,23 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
-    const moveOffset = (
+    const direction = (
       {
-        ArrowDown: 1,
-        ArrowUp: -1,
+        ArrowDown: "down",
+        ArrowUp: "up",
       } as const
     )[event.key];
 
-    if (!moveOffset) {
+    if (!direction) {
       return;
     }
 
     event.preventDefault();
 
     this.dispatchEvent(
-      new CustomEvent("summary-keydown", {
+      new CustomEvent("accordion-move-focus", {
         detail: {
-          key: moveOffset,
+          direction,
         },
         bubbles: true,
       })
