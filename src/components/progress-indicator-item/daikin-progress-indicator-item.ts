@@ -1,61 +1,48 @@
-import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
 
-const cvaContainer = cva(["flex", "flex-col", "h-[60px]", "font-daikinSerif"], {
-  variants: {
-    direction: {
-      horizontal: ["w-full", "border-solid", "py-2", "border-t-2"],
-      vertical: ["w-[154px]", "border-solid", "pt-0.5", "pl-3", "border-l-2"],
+const cvaContainer = cva(
+  [
+    "flex",
+    "flex-col",
+    "gap-1",
+    "w-full",
+    "border-solid",
+    "pt-1",
+    "border-t-4",
+    "font-daikinSerif",
+  ],
+  {
+    variants: {
+      status: {
+        unfinished: ["border-daikinNeutral-200"],
+        inprogress: ["border-daikinBlue-500"],
+        finished: ["border-daikinBlue-500"],
+      },
     },
-    status: {
-      unfinished: ["border-[#DCDCDC]"],
-      inprogress: [],
-      finished: ["border-daikinBlue-500"],
-      error: ["border-[#DCDCDC]"],
-      disabled: ["text-[#DCDCDC]", "border-[#DCDCDC]"],
-    },
-  },
-});
+  }
+);
 
-const cvaIcon = cva([], {
-  variants: {
-    status: {
-      unfinished: [],
-      inprogress: [],
-      finished: ["text-daikinBlue-500"],
-      error: ["text-[--progress-indicator-item-text-color-error]"],
-      disabled: [],
-    },
-  },
-});
-
-const cvaDescription = cva(["text-xs", "leading-5"], {
+const cvaLabel = cva(["flex", "items-center", "gap-2", "font-bold"], {
   variants: {
     status: {
       unfinished: [],
       inprogress: [],
-      finished: [],
-      error: ["text-[--progress-indicator-item-text-color-error]"],
-      disabled: [],
+      finished: [
+        "after:size-4",
+        "after:i-daikin-status-success",
+        "after:text-daikinBlue-500",
+      ],
     },
   },
 });
-
-const ICON_MAP = {
-  unfinished: null,
-  inprogress: null,
-  finished: "success",
-  error: "error",
-  disabled: null,
-} as const;
 
 type ProgressIndicatorItemVariantProps = MergeVariantProps<
-  typeof cvaContainer | typeof cvaIcon | typeof cvaDescription
+  typeof cvaContainer | typeof cvaLabel
 >;
 
 /**
@@ -66,15 +53,15 @@ type ProgressIndicatorItemVariantProps = MergeVariantProps<
  * Hierarchy:
  * - `daikin-progress-indicator` > `daikin-progress-indicator-item`
  *
- * @slot - A slot for title content.
+ * @slot - A slot for label content.
  * @slot description - A slot for description content.
  *
  * @example
  *
  * ```html
  * <daikin-progress-indicator-item state="unfinished">
- *   Title
- *   <span slot="description">Description</span>
+ *   Progress indicator label
+ *   <span slot="description">Progress indicator description</span>
  * </daikin-progress-indicator-item>
  * ```
  */
@@ -84,10 +71,6 @@ export class DaikinProgressIndicatorItem extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --progress-indicator-item-text-color-error: ${unsafeCSS(
-        colorFeedbackNegative
-      )};
-
       display: block;
       width: 100%;
       min-width: 142px;
@@ -100,36 +83,14 @@ export class DaikinProgressIndicatorItem extends LitElement {
   @property({ type: String, reflect: true })
   status: ProgressIndicatorItemVariantProps["status"] = "unfinished";
 
-  @property({ type: String, reflect: true })
-  direction: ProgressIndicatorItemVariantProps["direction"] = "horizontal";
-
   override render() {
-    const progressIndicatorItemContainerClassName = cvaContainer({
-      direction: this.direction,
-      status: this.status,
-    });
-    const progressIndicatorItemIconClassName = cvaIcon({
-      status: this.status,
-    });
-    const progressIndicatorItemDescriptionClassName = cvaDescription({
-      status: this.status,
-    });
-
-    const icon = ICON_MAP[this.status];
-
-    return html`<div class=${progressIndicatorItemContainerClassName}>
-      <span class="flex items-center gap-2 text-sm leading-[22px]">
-        <slot></slot>
-        ${icon
-          ? html`<div class=${progressIndicatorItemIconClassName}>
-              <daikin-icon icon=${icon} color="current"></daikin-icon>
-            </div>`
-          : nothing}
-      </span>
-      <slot
-        name="description"
-        class=${progressIndicatorItemDescriptionClassName}
-      ></slot>
+    return html`<div
+      class=${cvaContainer({
+        status: this.status,
+      })}
+    >
+      <slot class=${cvaLabel({ status: this.status })}></slot>
+      <slot name="description" class="text-sm"></slot>
     </div>`;
   }
 }

@@ -10,15 +10,7 @@ export default {
 
 export const Default: Story = {
   args: {
-    direction: "horizontal",
     status: "unfinished",
-  },
-};
-
-export const Vertical: Story = {
-  args: {
-    ...Default.args,
-    direction: "vertical",
   },
 };
 
@@ -33,19 +25,5 @@ export const Finished: Story = {
   args: {
     ...Default.args,
     status: "finished",
-  },
-};
-
-export const Error: Story = {
-  args: {
-    ...Default.args,
-    status: "error",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    ...Default.args,
-    status: "disabled",
   },
 };

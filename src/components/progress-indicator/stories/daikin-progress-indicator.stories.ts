@@ -8,15 +8,6 @@ export default {
   ...metadata,
 };
 
-export const Horizontal: Story = {
-  args: {
-    direction: "horizontal",
-  },
-};
-
-export const Vertical: Story = {
-  args: {
-    ...Horizontal.args,
-    direction: "vertical",
-  },
+export const Default: Story = {
+  args: {},
 };

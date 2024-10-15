@@ -14,25 +14,17 @@ const ReactDaikinProgressIndicator = createComponent({
 export const metadata: Meta<DaikinProgressIndicatorStoryArgs> = {
   component: ({ ...props }: DaikinProgressIndicatorStoryArgs) => (
     <ReactDaikinProgressIndicator {...props}>
-      <ReactDaikinProgressIndicatorItem status="unfinished">
-        <span>Title 1</span>
-        <span slot="description">Description 1</span>
+      <ReactDaikinProgressIndicatorItem status="finished">
+        Finished
+        <span slot="description">Finished description</span>
       </ReactDaikinProgressIndicatorItem>
       <ReactDaikinProgressIndicatorItem status="inprogress">
-        <span>Title 2</span>
-        <span slot="description">Description 2</span>
+        Inprogress
+        <span slot="description">Inprogress description</span>
       </ReactDaikinProgressIndicatorItem>
-      <ReactDaikinProgressIndicatorItem status="finished">
-        <span>Title 3</span>
-        <span slot="description">Description 3</span>
-      </ReactDaikinProgressIndicatorItem>
-      <ReactDaikinProgressIndicatorItem status="error">
-        <span>Title 4</span>
-        <span slot="description">Description 4</span>
-      </ReactDaikinProgressIndicatorItem>
-      <ReactDaikinProgressIndicatorItem status="disabled">
-        <span>Title 5</span>
-        <span slot="description">Description 5</span>
+      <ReactDaikinProgressIndicatorItem status="unfinished">
+        Unfinished
+        <span slot="description">Unfinished description</span>
       </ReactDaikinProgressIndicatorItem>
     </ReactDaikinProgressIndicator>
   ),
