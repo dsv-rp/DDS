@@ -42,6 +42,7 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  * Hierarchies:
  * - `daikin-input-group` > `daikin-text-input`
  * - `daikin-input-group` > `daikin-textarea`
+ * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  *
  * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` element here.
  *
