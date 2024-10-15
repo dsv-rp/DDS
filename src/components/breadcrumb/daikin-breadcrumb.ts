@@ -19,6 +19,10 @@ import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/breadcrumb/index.js";
+ * ```
+ *
  * ```html
  * <daikin-breadcrumb>
  *  <daikin-breadcrumb-item href="#">

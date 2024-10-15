@@ -78,6 +78,10 @@ const cvaLabel = cva([], {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/checkbox/index.js";
+ * ```
+ *
  * ```html
  * <daikin-checkbox label="Checkbox label" name="name" value="value"></daikin-checkbox>
  * ```

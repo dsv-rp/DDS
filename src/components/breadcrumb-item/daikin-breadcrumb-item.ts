@@ -55,6 +55,10 @@ type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/breadcrumb-item/index.js";
+ * ```
+ *
  * ```html
  * <!-- See `daikin-breadcrumb` component for complete example. -->
  * <daikin-breadcrumb-item href="#">
