@@ -194,7 +194,7 @@ export class DaikinTextInput extends LitElement {
         <span class="block -ml-1"></span>
       </slot>
       <input
-        class="flex-1 h-full text-daikinNeutral-900 font-daikinSerif px-2 bg-transparent placeholder:text-daikinNeutral-700 focus-visible:outline-none disabled:text-[--text-input-outline-color-disabled] disabled:placeholder:text-[--text-input-outline-color-disabled"
+        class="flex-1 h-full text-daikinNeutral-900 font-daikinSerif px-2 bg-transparent placeholder:text-daikinNeutral-700 focus-visible:outline-none disabled:text-[--text-input-outline-color-disabled] disabled:placeholder:text-[--text-input-outline-color-disabled]"
         type=${this.type}
         value=${this.value}
         placeholder=${this.placeholder}
