@@ -87,6 +87,13 @@ export class DaikinButton extends LitElement {
 
     :host {
       display: inline-block;
+    }
+
+    :host([size="small"]) {
+      height: 32px;
+    }
+
+    :host([size="medium"]) {
       height: 44px;
     }
   `;
@@ -96,6 +103,12 @@ export class DaikinButton extends LitElement {
    */
   @property({ type: String, reflect: true })
   variant: ButtonVariantProps["variant"] = "fill";
+
+  /**
+   * Size of the button.
+   */
+  @property({ type: String, reflect: true })
+  size: "small" | "medium" = "medium";
 
   /**
    * Color of the button.

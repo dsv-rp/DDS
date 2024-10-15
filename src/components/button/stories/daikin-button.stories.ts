@@ -17,6 +17,7 @@ export default {
 export const Fill: Story = {
   args: {
     variant: "fill",
+    size: "medium",
     color: "default",
     disabled: false,
     label: "Button label",

@@ -16,6 +16,10 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
     control: "radio",
     options: ["fill", "outline", "ghost"],
   },
+  size: {
+    control: "radio",
+    options: ["small", "medium"],
+  },
   color: {
     control: "radio",
     options: ["default", "danger"],

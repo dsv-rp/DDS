@@ -8,6 +8,7 @@ import type { DaikinButtonStoryArgs } from "./common";
 export const metadata: Meta<DaikinButtonStoryArgs> = {
   render: ({
     variant,
+    size,
     color,
     label,
     disabled,
@@ -19,6 +20,7 @@ export const metadata: Meta<DaikinButtonStoryArgs> = {
   }) => html`
     <daikin-button
       variant=${variant}
+      size=${size}
       color=${color}
       href=${ifDefined(href ?? undefined)}
       type=${type}
