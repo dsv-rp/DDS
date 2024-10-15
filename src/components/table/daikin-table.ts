@@ -14,8 +14,8 @@ import type DaikinTableCell from "../table-cell/daikin-table-cell";
 import "../table-header-cell/daikin-table-header-cell";
 import type DaikinTableHeaderCell from "../table-header-cell/daikin-table-header-cell";
 
-type HeaderType = {
-  key: string;
+type HeaderType<T extends string = string> = {
+  key: T;
   label: string;
   alignment?: "left" | "right" | "center";
   leftIcon?: IconType;
@@ -96,7 +96,10 @@ const cvaRow = cva(
  * ```
  */
 @customElement("daikin-table")
-export class DaikinTable extends LitElement {
+export class DaikinTable<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T extends { id: string } = any,
+> extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -118,7 +121,7 @@ export class DaikinTable extends LitElement {
    * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
    */
   @property({ type: Array, attribute: false })
-  headers: HeaderType[] = [];
+  headers: HeaderType<Extract<keyof T, string>>[] = [];
 
   /**
    * Rows of the table.
@@ -126,9 +129,7 @@ export class DaikinTable extends LitElement {
    * As a whole array, the value of `id` should be unique.
    */
   @property({ type: Array, attribute: false })
-  rows: ({ id: string } & {
-    [key in (typeof this.headers)[number]["key"]]: string;
-  })[] = [];
+  rows: T[] = [];
 
   /**
    * Whether or not to enable selection of rows.
@@ -163,11 +164,7 @@ export class DaikinTable extends LitElement {
   @property({ attribute: false })
   sort:
     | {
-        [key in (typeof this.headers)[number]["key"]]?: (
-          columnA: (typeof this.rows)[number],
-          columnB: (typeof this.rows)[number],
-          key: Exclude<keyof (typeof this.rows)[number], "id">
-        ) => 0 | 1 | -1;
+        [key in keyof T]?: (a: T, b: T, key: key) => number;
       }
     | null = null;
 
@@ -175,7 +172,7 @@ export class DaikinTable extends LitElement {
    * The `key` of the currently sorted column.
    */
   @property({ type: String, reflect: true, attribute: "sorted-key" })
-  sortedKey: string | null = null;
+  sortedKey: keyof T | null = null;
 
   @state()
   private _cells: DaikinTableCell[] = [];
@@ -192,9 +189,7 @@ export class DaikinTable extends LitElement {
    * It does not manage checks and pagination.
    */
   @state()
-  private _showRows: ({ id: string } & {
-    [key in (typeof this.headers)[number]["key"]]: string;
-  })[] = [];
+  private _showRows: T[] = [];
 
   private _updateSort() {
     this._showRows = this.rows.sort((a, b) => {
@@ -286,7 +281,7 @@ export class DaikinTable extends LitElement {
     this._emitChangeCheckEvent();
   }
 
-  private _handleClickSort(key: string): void {
+  private _handleClickSort(key: keyof T): void {
     if (this.sortedKey === key) {
       this.order = this.order === "asc" ? "desc" : "asc";
     } else {
@@ -332,7 +327,9 @@ export class DaikinTable extends LitElement {
     }
 
     const createHeaderRow = () =>
-      this.headers.map(({ key, label, alignment, sortable }) => {
+      this.headers.map(({ label, alignment, sortable, ...header }) => {
+        const key = String(header.key);
+
         const headerCell = this._headerCells.find(
           (cell) => cell.slot === `header:${key}`
         );
@@ -358,7 +355,7 @@ export class DaikinTable extends LitElement {
             <daikin-table-header-cell
               alignment=${alignment ?? "left"}
               ?sortable=${isSortable}
-              @change-sort=${() => this._handleClickSort(key)}
+              @change-sort=${() => this._handleClickSort(header.key)}
             >
               ${label}
             </daikin-table-header-cell>
@@ -366,14 +363,12 @@ export class DaikinTable extends LitElement {
         </th>`;
       });
 
-    const createRow = (
-      item: { id: string } & {
-        [key in (typeof this.headers)[number]["key"]]: string;
-      }
-    ) =>
-      this.headers.map(({ key, alignment }) => {
+    const createRow = (item: T) =>
+      this.headers.map(({ alignment, ...header }) => {
+        const key = String(header.key);
+
         const cell = this._cells.find(
-          (cell) => cell.slot === `cell:${key}:${item.id}`
+          (cell) => cell.slot === `cell:${String(key)}:${item.id}`
         );
 
         if (cell) {
@@ -381,9 +376,9 @@ export class DaikinTable extends LitElement {
         }
 
         return html`<td class="h-full p-0">
-          <slot name=${`cell:${key}:${item.id}`}>
+          <slot name=${`cell:${String(key)}:${item.id}`}>
             <daikin-table-cell alignment=${alignment ?? "left"}>
-              ${item[key]}
+              ${item[header.key]}
             </daikin-table-cell>
           </slot>
         </td>`;

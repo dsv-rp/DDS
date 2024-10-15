@@ -27,7 +27,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     <ReactDaikinTable {...props}>
       {hasCellSlot &&
         props.rows.map(({ id, name, price }) => (
-          <Fragment key={id}>
+          <Fragment key={String(id)}>
             <ReactDaikinTableCell slot={`cell:name:${id}`}>
               {name}
               <span slot="subtitle">It's subtitle.</span>
