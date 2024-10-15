@@ -7,45 +7,45 @@ import { calculatePagination } from "./pagination-utils";
 
 const cvaPageButton = cva(
   [
-    "slotted:text-inherit",
-    "slotted:border-0",
-    "slotted:no-underline",
-    "slotted:flex",
-    "slotted:items-center",
-    "slotted:justify-center",
-    "slotted:w-12",
-    "slotted:h-12",
-    "slotted:font-daikinSerif",
-    "slotted:text-base",
-    "slotted:text-daikinNeutral-800",
-    "slotted:not-italic",
-    "slotted:font-normal",
-    "slotted:leading-6",
-    "slotted:after:bg-daikinBlue-500",
-    "slotted:active:text-daikinNeutral-700",
-    "slotted:hover:text-daikinNeutral-500",
-    "slotted:hover:after:content-['']",
-    "slotted:hover:after:w-[50px]",
-    "slotted:hover:after:h-1",
-    "slotted:hover:after:absolute",
-    "slotted:hover:after:top-[65px]",
-    "slotted-[*:focus-visible]:outline",
-    "slotted-[*:focus-visible]:outline-1",
-    "slotted-[*:focus-visible]:outline-daikinBlue-700",
+    "text-inherit",
+    "border-0",
+    "no-underline",
+    "flex",
+    "items-center",
+    "justify-center",
+    "w-12",
+    "h-12",
+    "font-daikinSerif",
+    "text-base",
+    "text-daikinNeutral-800",
+    "not-italic",
+    "font-normal",
+    "leading-6",
+    "after:bg-daikinBlue-500",
+    "active:text-daikinNeutral-700",
+    "hover:text-daikinNeutral-500",
+    "hover:after:content-['']",
+    "hover:after:w-[50px]",
+    "hover:after:h-1",
+    "hover:after:absolute",
+    "hover:after:top-[65px]",
+    "focus-visible:outline",
+    "focus-visible:outline-1",
+    "focus-visible:outline-daikinBlue-700",
   ],
   {
     variants: {
       active: {
         true: [
-          "slotted:!text-daikinBlue-500",
-          "slotted:after:content-['']",
-          "slotted:after:w-[50px]",
-          "slotted:after:h-1",
-          "slotted:after:absolute",
-          "slotted:after:top-[65px]",
-          "slotted:hover:!text-daikinBlue-300",
-          "slotted:active:!text-daikinBlue-600",
-          "slotted-[*:focus-visible]:text-daikinBlue-600",
+          "!text-daikinBlue-500",
+          "after:content-['']",
+          "after:w-[50px]",
+          "after:h-1",
+          "after:absolute",
+          "after:top-[65px]",
+          "hover:!text-daikinBlue-300",
+          "active:!text-daikinBlue-600",
+          "focus-visible:text-daikinBlue-600",
         ],
         false: [],
       },
@@ -70,78 +70,25 @@ const cvaEllipsis = cva([
 ]);
 
 const cvaChevronButton = cva([
-  "slotted:text-inherit",
-  "slotted:border-0",
-  "slotted:no-underline",
-  "slotted:flex",
-  "slotted:items-center",
-  "slotted:justify-center",
-  "slotted:w-12",
-  "slotted:h-12",
-  "slotted:font-daikinSerif",
-  "slotted:text-base",
-  "slotted:not-italic",
-  "slotted:font-normal",
-  "slotted:leading-6",
-  "slotted:hover:text-daikinNeutral-500",
-  "slotted:active:text-daikinNeutral-700",
-  "slotted-[*:disabled]:!text-daikinNeutral-200",
-  "slotted-[*:focus-visible]:outline",
-  "slotted-[*:focus-visible]:outline-1",
-  "slotted-[*:focus-visible]:outline-daikinBlue-700",
-]);
-
-const cvaDropDown = cva(
-  [
-    "flex",
-    "flex-col",
-    "justify-start",
-    "items-center",
-    "flex-shrink-0",
-    "absolute",
-    "w-12",
-    "mt-[3px]",
-    "max-h-[226px]",
-    "overflow-auto",
-    "border-t",
-    "rounded-t",
-    "border-b",
-    "rounded-b",
-    "border-daikinNeutral-600",
-  ],
-  {
-    variants: {
-      open: {
-        false: ["hidden"],
-        true: [],
-      },
-    },
-  }
-);
-
-const cvaDropDownItem = cva([
-  "slotted:box-border",
-  "slotted:text-inherit",
-  "slotted:border-0",
-  "slotted:no-underline",
-  "slotted:flex",
-  "slotted:justify-center",
-  "slotted:items-center",
-  "slotted:px-4",
-  "slotted:py-[2px]",
-  "slotted:w-full",
-  "slotted:font-daikinSerif",
-  "slotted:text-sm",
-  "slotted:not-italic",
-  "slotted:font-normal",
-  "slotted:leading-5",
-  "slotted:border-t",
-  "slotted:first:border-t-0",
-  "slotted:border-r",
-  "slotted:border-l",
-  "slotted:border-solid",
-  "slotted:border-daikinNeutral-600",
-  "slotted:hover:bg-daikinNeutral-100",
+  "text-inherit",
+  "border-0",
+  "no-underline",
+  "flex",
+  "items-center",
+  "justify-center",
+  "w-12",
+  "h-12",
+  "font-daikinSerif",
+  "text-base",
+  "not-italic",
+  "font-normal",
+  "leading-6",
+  "hover:text-daikinNeutral-500",
+  "active:text-daikinNeutral-700",
+  "disabled:!text-daikinNeutral-200",
+  "focus-visible:outline",
+  "focus-visible:outline-1",
+  "focus-visible:outline-daikinBlue-700",
 ]);
 
 export interface PaginationContent {
@@ -164,17 +111,6 @@ export interface PaginationContent {
  * ```html
  * <!-- You can create a pagination just specify the max pages and how many pages should be show. -->
  * <daikin-pagination max="15" show-pages="5">
- * </daikin-pagination>
- * ```
- *
- * ```html
- * <!-- You can use a tag to replace the default page button. -->
- * <daikin-pagination max="5" show-pages="5">
- *  <a slot="page-1" href={url1}>1</a>
- *  <a slot="page-2" href={url2}>2</a>
- *  <a slot="page-3" href={url3}>3</a>
- *  <a slot="page-4" href={url4}>4</a>
- *  <a slot="page-5" href={url5}>5</a>
  * </daikin-pagination>
  * ```
  */
@@ -231,36 +167,8 @@ export class DaikinPagination extends LitElement {
     );
   }
 
-  @state()
-  private _leftDropDownOpen = false;
-
-  @state()
-  private _rightDropDownOpen = false;
-
-  private _closeDropDownMenu() {
-    this._leftDropDownOpen = false;
-    this._rightDropDownOpen = false;
-  }
-
   private _handleClickNumber(page: number) {
     this.currentPage = page;
-    this._closeDropDownMenu();
-  }
-
-  // If user replace <a> tag to page slot, this function will simulate click the page button
-  private _clickATag() {
-    const slot = this.shadowRoot?.querySelector(
-      `slot[name=page-${this.currentPage}]`
-    ) as HTMLSlotElement;
-    const a = slot.assignedElements()[0] as HTMLElement | null | undefined;
-    if (a && a.tagName === "A") {
-      a.click();
-    }
-  }
-
-  // Chose page from ellipsis button
-  private _handleChoosePage(currentPage: number) {
-    this.currentPage = currentPage;
   }
 
   private _handleClickChevron(type: "left" | "right") {
@@ -275,41 +183,22 @@ export class DaikinPagination extends LitElement {
       }
       this.currentPage += 1;
     }
-    this._clickATag();
   }
-
-  private _handleLeftEllipsisClick() {
-    this._leftDropDownOpen = !this._leftDropDownOpen;
-    this._rightDropDownOpen = false;
-  }
-
-  private _handleRightEllipsisClick() {
-    this._rightDropDownOpen = !this._rightDropDownOpen;
-    this._leftDropDownOpen = false;
-  }
-
-  private _handleWindowClick = (event: Event) => {
-    const target = event.target as HTMLElement;
-    if (target.nodeName != "DAIKIN-PAGINATION") {
-      this._closeDropDownMenu();
-    }
-  };
 
   override render() {
     const cvaChevron = cvaChevronButton();
     return html`
       <div class="inline-flex">
-        <div class=${cvaChevron}>
-          <button
-            aria-label="leftChevron"
-            .disabled=${this.currentPage === 1}
-            @click=${() => this._handleClickChevron("left")}
-          >
-            <div class="flex items-center justify-center">
-              <daikin-icon icon="chevronLeft" color="current"></daikin-icon>
-            </div>
-          </button>
-        </div>
+        <button
+          class=${cvaChevron}
+          aria-label="leftChevron"
+          .disabled=${this.currentPage === 1}
+          @click=${() => this._handleClickChevron("left")}
+        >
+          <div class="flex items-center justify-center">
+            <daikin-icon icon="chevronLeft" color="current"></daikin-icon>
+          </div>
+        </button>
 
         ${Object.entries(this._pageArray).map(([key, i]) => {
           const button1ClassName = cvaPageButton({
@@ -319,24 +208,19 @@ export class DaikinPagination extends LitElement {
             active: this.currentPage === this.lastPage,
           });
           const ellipsisClassName = cvaEllipsis();
-          const dropDownItemClassName = cvaDropDownItem();
           if (key === "leftMost") {
-            return html`<slot
-              name="page-1"
-              class=${button1ClassName}
-              @click=${() => this._handleClickNumber(1)}
-              @keydown=${() => {
-                return;
-              }}
-            >
-              <button aria-label="page1">1</button>
-            </slot>`;
+            return html`
+              <button
+                name="page-1"
+                class=${button1ClassName}
+                @click=${() => this._handleClickNumber(1)}
+                aria-label="page1"
+              >
+                1
+              </button>
+            `;
           } else if (key === "leftEllipsis") {
             const leftEllipsisPages = i as Array<number>;
-            // TODO: We are considering whether we need dropdown to select page, so close it temporarily
-            const cvaDropDownLeftClassName = cvaDropDown({
-              open: false,
-            });
             if (leftEllipsisPages.length > 0) {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
@@ -344,22 +228,9 @@ export class DaikinPagination extends LitElement {
                     .disabled=${true}
                     aria-disabled=${true}
                     aria-label="pageDetailLeft"
-                    @click=${this._handleLeftEllipsisClick}
                   >
                     ${". . ."}
                   </button>
-                </div>
-                <div class=${cvaDropDownLeftClassName}>
-                  ${leftEllipsisPages.map((page) => {
-                    return html`<slot
-                      name="page-${page}"
-                      class=${dropDownItemClassName}
-                      @click=${() => this._handleChoosePage(page)}
-                      @keydown=${() => this._handleChoosePage(page)}
-                    >
-                      <button>${page}</button>
-                    </slot>`;
-                  })}
                 </div>
               </div>`;
             }
@@ -369,23 +240,19 @@ export class DaikinPagination extends LitElement {
               const buttonClassName = cvaPageButton({
                 active: this.currentPage === page,
               });
-              return html`<slot
-                name="page-${page}"
-                class=${buttonClassName}
-                @click=${() => this._handleClickNumber(page)}
-                @keydown=${() => {
-                  return;
-                }}
-              >
-                <button aria-label="page${page}">${page}</button>
-              </slot>`;
+              return html`
+                <button
+                  name="page-${page}"
+                  class=${buttonClassName}
+                  @click=${() => this._handleClickNumber(page)}
+                  aria-label="page${page}"
+                >
+                  ${page}
+                </button>
+              `;
             })}`;
           } else if (key === "rightEllipsis") {
             const rightEllipsisPages = i as Array<number>;
-            // TODO: We are considering whether we need dropdown to select page, so close it temporarily
-            const cvaDropDownRightClassName = cvaDropDown({
-              open: false,
-            });
             if (rightEllipsisPages.length > 0) {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
@@ -393,63 +260,37 @@ export class DaikinPagination extends LitElement {
                     .disabled=${true}
                     aria-disabled=${true}
                     aria-label="pageDetailRight"
-                    @click=${this._handleRightEllipsisClick}
                   >
                     ${". . ."}
                   </button>
                 </div>
-                <div class=${cvaDropDownRightClassName}>
-                  ${rightEllipsisPages.map((page) => {
-                    return html`<slot
-                      name="page-${page}"
-                      class=${dropDownItemClassName}
-                      @click=${() => this._handleChoosePage(page)}
-                      @keydown=${() => this._handleChoosePage(page)}
-                    >
-                      <button>${page}</button>
-                    </slot>`;
-                  })}
-                </div>
               </div>`;
             }
           } else {
-            return html`<slot
-              name="page-${this.lastPage}"
-              class=${buttonLastClassName}
-              @click=${() => this._handleClickNumber(this.lastPage)}
-              @keydown=${() => {
-                return;
-              }}
-            >
-              <button aria-label="page${this.lastPage}">
+            return html`
+              <button
+                name="page-${this.lastPage}"
+                class=${buttonLastClassName}
+                @click=${() => this._handleClickNumber(this.lastPage)}
+                aria-label="page${this.lastPage}"
+              >
                 ${this.lastPage}
               </button>
-            </slot>`;
+            `;
           }
         })}
-        <div class=${cvaChevron}>
-          <button
-            aria-label="rightChevron"
-            .disabled=${this.currentPage === this.lastPage}
-            @click=${() => this._handleClickChevron("right")}
-          >
-            <div class="flex items-center justify-center">
-              <daikin-icon icon="chevronRight" color="current"></daikin-icon>
-            </div>
-          </button>
-        </div>
+        <button
+          class=${cvaChevron}
+          aria-label="rightChevron"
+          .disabled=${this.currentPage === this.lastPage}
+          @click=${() => this._handleClickChevron("right")}
+        >
+          <div class="flex items-center justify-center">
+            <daikin-icon icon="chevronRight" color="current"></daikin-icon>
+          </div>
+        </button>
       </div>
     `;
-  }
-
-  override connectedCallback(): void {
-    super.connectedCallback();
-    window.addEventListener("click", this._handleWindowClick);
-  }
-
-  override disconnectedCallback(): void {
-    super.disconnectedCallback();
-    window.removeEventListener("click", this._handleWindowClick);
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
@@ -465,7 +306,6 @@ export class DaikinPagination extends LitElement {
         this.currentPage,
         this.pageWindow
       );
-      this._closeDropDownMenu();
       this.requestUpdate();
       this.dispatchEvent(
         new CustomEvent("page-change", {
