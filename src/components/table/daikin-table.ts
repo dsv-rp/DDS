@@ -115,7 +115,7 @@ export class DaikinTable extends LitElement {
    * - label: This is the text that is displayed in the header cells.
    * - alignment: The direction in which the characters are aligned can be omitted. If it is omitted, the characters will be aligned to the left.
    * - leftIcon: In the header cell, you can optionally display an icon to the left of the text.
-   * - sortable: If sortable (`hasSort = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
+   * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
    */
   @property({ type: Array, attribute: false })
   headers: HeaderType[] = [];
@@ -131,28 +131,30 @@ export class DaikinTable extends LitElement {
   })[] = [];
 
   /**
-   * Whether or not to give the table the function of checkbox.
+   * Whether or not to enable selection of rows.
+   * If `true`, a checkbox will be displayed to the left of each row.
    */
-  @property({ type: Boolean, reflect: true, attribute: "has-checkbox" })
-  hasCheckbox: boolean = false;
+  @property({ type: Boolean, reflect: true })
+  selectable: boolean = false;
 
   /**
-   * Whether or not to give the table the function of sort.
+   * Whether or not to enable sorting of the rows.
+   * If `true`, a button for sorting will be displayed to the right of each header cell text.
    */
-  @property({ type: Boolean, reflect: true, attribute: "has-sort" })
-  hasSort: boolean = false;
+  @property({ type: Boolean, reflect: true })
+  sortable: boolean = false;
 
   /**
    * An array of `id`s for the `rows` that have been checked.
    */
   @property({ type: Array, attribute: false })
-  checkedIds: string[] = [];
+  selection: string[] = [];
 
   /**
    * Sort order of the table.
    */
-  @property({ type: String, reflect: true, attribute: "order-by" })
-  orderBy: "asc" | "desc" | null = null;
+  @property({ type: String, reflect: true })
+  order: "asc" | "desc" | null = null;
 
   /**
    * Specify this when you want to customize the sort function.
@@ -182,7 +184,7 @@ export class DaikinTable extends LitElement {
   private _headerCells: DaikinTableHeaderCell[] = [];
 
   @state()
-  private _allItemCheckState: "unchecked" | "indeterminate" | "checked" =
+  private _bulkRowsCheckState: "unchecked" | "indeterminate" | "checked" =
     "unchecked";
 
   /**
@@ -195,7 +197,7 @@ export class DaikinTable extends LitElement {
   })[] = [];
 
   private _updateSort() {
-    this._showRows = this._showRows.sort((a, b) => {
+    this._showRows = this.rows.sort((a, b) => {
       if (!this.sortedKey) {
         return 0;
       }
@@ -213,14 +215,14 @@ export class DaikinTable extends LitElement {
       }
     });
 
-    if (this.orderBy === "desc") {
+    if (this.order === "desc") {
       this._showRows.reverse();
     }
   }
 
   private _updateCheck() {
-    this.checkedIds = this.checkedIds.filter((checkedId) =>
-      this._showRows.find(({ id }) => checkedId === id)
+    this.selection = this.selection.filter((selectedId) =>
+      this._showRows.find(({ id }) => selectedId === id)
     );
 
     this._checkHeaderFunction();
@@ -230,7 +232,7 @@ export class DaikinTable extends LitElement {
     this.dispatchEvent(
       new CustomEvent("change-check", {
         detail: {
-          checkedIds: this.checkedIds,
+          selection: this.selection,
         },
       })
     );
@@ -250,21 +252,21 @@ export class DaikinTable extends LitElement {
   }
 
   private _handleCheckboxRowHeaderChange(): void {
-    switch (this._allItemCheckState) {
+    switch (this._bulkRowsCheckState) {
       case "unchecked":
       case "indeterminate":
-        this._allItemCheckState = "checked";
-        this.checkedIds = [
+        this._bulkRowsCheckState = "checked";
+        this.selection = [
           ...new Set([
-            ...this.checkedIds,
+            ...this.selection,
             ...this._showRows.map(({ id }) => id),
           ]),
         ];
         break;
 
       case "checked":
-        this._allItemCheckState = "unchecked";
-        this.checkedIds = this.checkedIds.filter(
+        this._bulkRowsCheckState = "unchecked";
+        this.selection = this.selection.filter(
           (checkedId) => !this._showRows.find(({ id }) => checkedId === id)
         );
         break;
@@ -274,10 +276,10 @@ export class DaikinTable extends LitElement {
   }
 
   private _handleCheckboxRowItemChange(id: string): void {
-    if (this.checkedIds.includes(id)) {
-      this.checkedIds = this.checkedIds.filter((checkedId) => checkedId !== id);
+    if (this.selection.includes(id)) {
+      this.selection = this.selection.filter((checkedId) => checkedId !== id);
     } else {
-      this.checkedIds = [...this.checkedIds, id];
+      this.selection = [...this.selection, id];
     }
 
     this._checkHeaderFunction();
@@ -286,26 +288,26 @@ export class DaikinTable extends LitElement {
 
   private _handleClickSort(key: string): void {
     if (this.sortedKey === key) {
-      this.orderBy = this.orderBy === "asc" ? "desc" : "asc";
+      this.order = this.order === "asc" ? "desc" : "asc";
     } else {
       this.sortedKey = key;
-      this.orderBy = "asc";
+      this.order = "asc";
     }
 
     this._updateTable();
     this.dispatchEvent(
       new CustomEvent("change-sort", {
-        detail: { key: this.sortedKey, orderBy: this.orderBy },
+        detail: { key: this.sortedKey, order: this.order },
       })
     );
   }
 
   private _checkHeaderFunction() {
     const checkedIdLengthInCurrentPage = this._showRows.filter(({ id }) =>
-      this.checkedIds.find((checkedId) => checkedId === id)
+      this.selection.find((selectedId) => selectedId === id)
     ).length;
 
-    this._allItemCheckState =
+    this._bulkRowsCheckState =
       this._showRows.length === checkedIdLengthInCurrentPage
         ? "checked"
         : checkedIdLengthInCurrentPage
@@ -334,7 +336,8 @@ export class DaikinTable extends LitElement {
         const headerCell = this._headerCells.find(
           (cell) => cell.slot === `header:${key}`
         );
-        const isSortable = this.hasSort && (sortable || sortable === undefined);
+        const isSortable =
+          this.sortable && (sortable || sortable === undefined);
 
         if (headerCell) {
           headerCell.alignment = alignment ?? "left";
@@ -344,8 +347,8 @@ export class DaikinTable extends LitElement {
         return html`<th
           class="h-full p-0"
           aria-sort=${ifDefined(
-            this.hasSort && this.sortedKey === key
-              ? this.orderBy === "asc"
+            this.sortable && this.sortedKey === key
+              ? this.order === "asc"
                 ? "ascending"
                 : "descending"
               : undefined
@@ -392,14 +395,14 @@ export class DaikinTable extends LitElement {
       >
         <thead>
           <tr class="border-b border-b-daikinNeutral-800">
-            ${this.hasCheckbox
+            ${this.selectable
               ? html`<td class="w-12 h-full p-0">
                   <span
                     class="flex items-center justify-center w-full min-h-14"
                   >
                     <daikin-checkbox
                       name="allItem"
-                      .checkState=${this._allItemCheckState}
+                      .checkState=${this._bulkRowsCheckState}
                       label="Select all"
                       label-position="hidden"
                       @change=${this._handleCheckboxRowHeaderChange}
@@ -415,17 +418,17 @@ export class DaikinTable extends LitElement {
             (row) =>
               html`<tr
                 class=${cvaRow({
-                  selected: !!this.checkedIds.find((id) => id === row.id),
+                  selected: !!this.selection.find((id) => id === row.id),
                 })}
               >
-                ${this.hasCheckbox
+                ${this.selectable
                   ? html`<td class="w-12 p-0">
                       <span
                         class="flex justify-center items-center w-full min-h-14"
                       >
                         <daikin-checkbox
                           name=${row.id}
-                          .checkState=${this.checkedIds.includes(row.id)
+                          .checkState=${this.selection.includes(row.id)
                             ? "checked"
                             : "unchecked"}
                           label="Select row"
@@ -445,6 +448,11 @@ export class DaikinTable extends LitElement {
   }
 
   protected override firstUpdated(): void {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!this.selection) {
+      this.selection = [];
+    }
+
     this._updateTable();
     this._updateCells();
   }

@@ -137,17 +137,17 @@ export const Default: Story = {
         price: "$1",
       },
     ],
-    hasCheckbox: false,
-    hasSort: false,
+    selectable: false,
+    sortable: false,
     hasCellSlot: false,
   },
 };
 
-export const Checkable: Story = {
+export const Selectable: Story = {
   args: {
     ...Default.args,
-    hasCheckbox: true,
-    checkedIds: ["1", "3"],
+    selectable: true,
+    selection: ["1", "3"],
     onChangeCheck: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -220,7 +220,7 @@ export const Checkable: Story = {
 export const Sortable: Story = {
   args: {
     ...Default.args,
-    hasSort: true,
+    sortable: true,
     onChangeSort: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -293,9 +293,9 @@ export const AllFunctions: Story = {
         sortable: false,
       },
     ],
-    hasCheckbox: true,
-    hasSort: true,
-    checkedIds: ["1", "3"],
+    selectable: true,
+    sortable: true,
+    selection: ["1", "3"],
     hasCellSlot: true,
     hasHeaderCellSlot: true,
     onChangeCheck: fn(),

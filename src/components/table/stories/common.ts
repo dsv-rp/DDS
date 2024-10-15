@@ -17,16 +17,16 @@ export const DAIKIN_TABLE_ARG_TYPES = {
   rows: {
     control: "object",
   },
-  hasCheckbox: {
+  selectable: {
     type: "boolean",
   },
-  hasSort: {
+  sortable: {
     type: "boolean",
   },
-  checkedIds: {
+  selection: {
     control: "object",
   },
-  orderBy: {
+  order: {
     control: "radio",
     options: ["asc", "desc"],
   },

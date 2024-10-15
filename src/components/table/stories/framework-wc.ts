@@ -10,28 +10,26 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
   render: ({
     headers,
     rows,
-    hasCheckbox,
-    hasSort,
-    checkedIds,
-    orderBy,
+    selectable,
+    sortable,
+    selection,
+    order,
     sort,
     sortedKey,
     hasCellSlot,
     hasHeaderCellSlot,
     onChangeCheck,
     onChangeSort,
-  }) => {
-    const fallbackCheckedIds = (checkedIds as string[] | null) ?? [];
-
-    return html`<daikin-table
+  }) =>
+    html`<daikin-table
       .headers=${headers}
       .rows=${rows}
       .sort=${sort}
-      .orderBy=${orderBy}
-      .checkedIds=${fallbackCheckedIds}
+      .order=${order}
+      .selection=${selection}
       .sortedKey=${sortedKey}
-      ?has-checkbox=${hasCheckbox}
-      ?has-sort=${hasSort}
+      ?selectable=${selectable}
+      ?sortable=${sortable}
       @change-check=${onChangeCheck}
       @change-sort=${onChangeSort}
     >
@@ -61,6 +59,5 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
               </daikin-table-header-cell>`
           )
         : nothing}
-    </daikin-table>`;
-  },
+    </daikin-table>`,
 };
