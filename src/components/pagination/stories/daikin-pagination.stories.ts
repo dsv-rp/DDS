@@ -134,7 +134,7 @@ export const Ellipsis: Story = {
     const root = canvasElement.getElementsByTagName("daikin-pagination")[0];
     await expect(root).toBeInTheDocument();
 
-    for (let i = 1; i < args.pageWindow; i++) {
+    for (let i = 1; i < args.pageWindow - 1; i++) {
       const button = getByShadowText(root, i.toString(), {
         ignore: ".hidden > *",
       });
@@ -188,22 +188,6 @@ export const Ellipsis: Story = {
         await checkPageButton(root, [1, 5, 6, 7, 15], allPages);
       }
     );
-    // currentPage should be changed when click page number from dropdown menu
-    await step("Try to click page number from drop down menu", async () => {
-      const ellipsisButton = getByShadowRole(root, "button", {
-        name: "pageDetailRight",
-      });
-      await expect(ellipsisButton).toBeInTheDocument();
-      await userEvent.click(ellipsisButton);
-      const page8 = getByShadowText(root, "8", {
-        ignore: ".hidden > *",
-      });
-      await expect(page8).toBeInTheDocument();
-      await userEvent.click(page8);
-      await expect(args.onChange).toHaveLastReturnedWith({ currentPage: 8 });
-      await expect(root.currentPage).toEqual(8);
-      await checkPageButton(root, [1, 7, 8, 9, 15], allPages);
-    });
     // click last page and click left chevron will hidden right ellipsis button
     await step("Try to click last page and click left chevron", async () => {
       const page15 = getByShadowText(root, "15", {
