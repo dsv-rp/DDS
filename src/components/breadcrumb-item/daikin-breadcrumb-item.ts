@@ -11,31 +11,31 @@ import type { MergeVariantProps } from "../../type-utils";
 
 const cvaLinkSlot = cva(
   [
-    "slotted:h-8",
-    "slotted:font-normal",
-    "slotted:not-italic",
-    "slotted:leading-8",
-    "slotted:text-sm",
-    "slotted:text-daikinBlue-500",
-    "slotted:outline-none",
-    "slotted:font-daikinSerif",
+    "h-8",
+    "font-normal",
+    "not-italic",
+    "leading-8",
+    "text-sm",
+    "text-daikinBlue-500",
+    "outline-none",
+    "font-daikinSerif",
   ],
   {
     variants: {
       variant: {
         normal: [
-          "slotted:hover:text-daikinBlue-300",
-          "slotted:active:text-daikinNeutral-800",
-          "slotted-[*:focus-visible]:text-daikinBlue-700",
+          "hover:text-daikinBlue-300",
+          "active:text-daikinNeutral-800",
+          "focus-visible:text-daikinBlue-700",
         ],
-        ellipsis: ["slotted:hover:text-daikinBlue-300"],
+        ellipsis: ["hover:text-daikinBlue-300"],
       },
       disabled: {
         true: [
-          "slotted:!text-daikinNeutral-800",
-          "slotted:pointer-events-none",
-          "slotted:cursor-default",
-          "slotted-[*:focus-visible]:!text-daikinNeutral-800",
+          "!text-daikinNeutral-800",
+          "pointer-events-none",
+          "cursor-default",
+          "focus-visible:!text-daikinNeutral-800",
         ],
         false: [],
       },
@@ -139,19 +139,18 @@ export class DaikinBreadcrumbItem extends LitElement {
       : null;
     return html`
       ${this.variant === "normal"
-        ? html`<slot name="link" class=${cvaLinkSlot(this)}>
-            <a
-              href=${ifDefined(this.href)}
-              target=${
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-                ifDefined(this.target) as any
-              }
-              aria-current=${this.last}
-              tabindex=${this.last ? "-1" : "0"}
-            >
-              <slot></slot>
-            </a>
-          </slot>`
+        ? html`<a
+            class=${cvaLinkSlot(this)}
+            href=${ifDefined(this.href)}
+            target=${
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+              ifDefined(this.target) as any
+            }
+            aria-current=${this.last}
+            tabindex=${this.last ? "-1" : "0"}
+          >
+            <slot></slot>
+          </a>`
         : // Though `cvaLinkSlot` is designed for slots, it contains "& > *" selector for fallback content so it can be used here.
           html`<span class=${cvaLinkSlot(this)} aria-label="…">
             <span>. . .</span>
