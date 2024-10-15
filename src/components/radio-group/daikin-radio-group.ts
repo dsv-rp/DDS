@@ -63,7 +63,7 @@ export class DaikinRadioGroup extends LitElement {
   `;
 
   @queryAssignedElements({ selector: "daikin-radio" })
-  private _radios!: Array<DaikinRadio>;
+  private readonly _radios!: Array<DaikinRadio>;
 
   /**
    * Specify the radio group orientation
@@ -86,7 +86,7 @@ export class DaikinRadioGroup extends LitElement {
 
   private _updateRadioIndex(daikinRadio: DaikinRadio, index: string) {
     const input = daikinRadio.shadowRoot?.querySelector("input");
-    input?.setAttribute("index", index);
+    input?.setAttribute("tabindex", index);
   }
 
   private _updateRadios(value: string, name: string) {
@@ -116,7 +116,9 @@ export class DaikinRadioGroup extends LitElement {
     }
   }
 
-  private _handleRadioChange = (event: CustomEvent<{ value: string }>) => {
+  private readonly _handleRadioChange = (
+    event: CustomEvent<{ value: string }>
+  ) => {
     this._updateRadios((event.target as HTMLInputElement).value, this.name);
   };
 
