@@ -7,45 +7,34 @@ import {
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
+import { returnPreventDefault } from "../../utils/returnPreventDefault";
 
 const cvaTooltip = cva(
   [
-    "absolute",
-
-    "p-3",
     "justify-center",
     "items-center",
-    "rounded",
     "w-max",
-    "top-0",
-    "left-0",
-    "max-w-[312px]",
-
+    "p-3",
+    "border",
+    "border-solid",
+    "rounded",
     "text-sm",
     "font-daikinSerif",
     "font-normal",
+    "absolute",
+    "inset-[unset]",
     "not-italic",
     "leading-5",
   ],
   {
     variants: {
       variant: {
-        light: [
-          "border",
-          "border-solid",
-          "border-daikinNeutral-800",
-          "bg-white/90",
-          "text-black",
-        ],
-        dark: ["bg-daikinNeutral-800/90", "text-white"],
-      },
-      open: {
-        true: ["visible", "opacity-100"],
-        false: ["invisible", "opacity-0"],
+        light: ["border-daikinNeutral-800", "bg-white/90", "text-black"],
+        dark: ["border-transparent", "bg-daikinNeutral-800/90", "text-white"],
       },
     },
   }
@@ -56,11 +45,11 @@ const DEFAULT_TOOLTIP_SPACING = "20px";
 /**
  * A tooltip component is used to show brief information when a user interacts with an element.
  *
- * @fires beforetoggle - _Cancellable._ A custom event emitted when the tooltip is about to be opened or closed by user interaction.
- * @fires toggle - A custom event emitted when the tooltip is opened or closed.
+ * @fires beforetoggle - _Cancellable._ A event emitted when the tooltip is about to be opened or closed by user interaction.
+ * @fires toggle - A event emitted when the tooltip is opened or closed.
  *
  * @slot - A slot for the element to which the tooltip is attached (the trigger element).
- * @slot tooltip - A slot for the tooltip content.
+ * @slot description - A slot for the tooltip description content.
  *
  * @cssprop [--dds-tooltip-spacing=20px] - Spacing between the tooltip and the trigger
  *
@@ -71,15 +60,15 @@ const DEFAULT_TOOLTIP_SPACING = "20px";
  * ```
  *
  * ```html
- * </daikin-tooltip>
- *   <span slot="tooltip">This is a message</span>
- *   <span>hover me</span>
+ * <daikin-tooltip>
+ *   <span>Hover me</span>
+ *   <span slot="description">This is a message</span>
  * </daikin-tooltip>
  * ```
  *
  * ```html
- * </daikin-tooltip description="This is a message">
- *   <span>hover me</span>
+ * <daikin-tooltip description="This is a message">
+ *   <span>Hover me</span>
  * </daikin-tooltip>
  * ```
  */
@@ -111,19 +100,19 @@ export class DaikinTooltip extends LitElement {
   /**
    * Specifies the position of the tooltip relative to the trigger.
    */
-  @property({ reflect: true, type: String })
+  @property({ type: String, reflect: true })
   placement: "top" | "bottom" | "left" | "right" = "bottom";
 
   /**
    * Specifies the tooltip theme.
    */
-  @property({ reflect: true, type: String })
+  @property({ type: String, reflect: true })
   variant: "light" | "dark" = "light";
 
   /**
    * Whether the tooltip is open.
    */
-  @property({ reflect: true, type: Boolean })
+  @property({ type: Boolean, reflect: true })
   open = false;
 
   /**
@@ -134,18 +123,30 @@ export class DaikinTooltip extends LitElement {
   description = "";
 
   /**
-   * if true, the tooltip will hide on click.
+   * Specify the value of the popover attribute in the Popover API.
+   * - `auto`: Clicking on a trigger element will open a tooltip, and clicking again will close it. You can also close it using the Esc button. You cannot open multiple tooltips at the same time.
+   * - `manual`: No click operation is specified for the trigger element. It will not close even if the Esc button is pressed. Multiple tooltips can be opened at once.
    */
-  @property({ reflect: true, type: Boolean })
-  closeOnClick = false;
+  @property({ type: String, attribute: "popover-value" })
+  popoverValue: "auto" | "manual" = "auto";
 
   /**
    * How the tooltip is controlled.
-   * - "hover": The tooltip is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering. (default)
-   * - "manual": The tooltip does not respond to user interaction. Use this to control the tooltip programmatically.
+   * - `hover`: The tooltip is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering. (default)
+   * - `click`: The tooltip is displayed when the mouse clicks on the trigger element, and hidden when you click on it again.
+   * - `manual`: The tooltip does not respond to user interaction. Use this to control the tooltip programmatically.
    */
-  @property({ reflect: true, type: String })
-  trigger: "hover" | "manual" = "hover";
+  @property({ type: String, reflect: true })
+  trigger: "hover" | "click" | "manual" = "hover";
+
+  @query("span[popover]")
+  private _popover!: HTMLElement;
+
+  @state()
+  private _isFocused = false;
+
+  @state()
+  private _isHovered = false;
 
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
@@ -166,7 +167,7 @@ export class DaikinTooltip extends LitElement {
       return;
     }
 
-    // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
+    // TODO(DDS-1226): refactor here with CSS Anchor Positioning instead of using floating-ui
     this._autoUpdateCleanup?.();
     this._autoUpdateCleanup = autoUpdate(reference, float, () => {
       const spacing = parseInt(
@@ -174,16 +175,17 @@ export class DaikinTooltip extends LitElement {
           DEFAULT_TOOLTIP_SPACING,
         10
       );
+
       computePosition(reference, float, {
         placement: this.placement,
         middleware: [offset({ mainAxis: spacing }), flip(), shift()],
       })
-        .then(({ x, y }) => {
+        .then(({ x, y }) =>
           Object.assign(float.style, {
             left: `${x}px`,
             top: `${y}px`,
-          });
-        })
+          })
+        )
         .catch((e: unknown) => console.error(e));
     });
   }
@@ -194,65 +196,94 @@ export class DaikinTooltip extends LitElement {
     this._autoUpdateCleanup = null;
   }
 
-  private _changeOpenState(state: boolean) {
-    if (this.open === state) {
+  private _setOpenState(newState: boolean): void {
+    if (this.open === newState) {
       return;
     }
-    if (
-      !this.dispatchEvent(
-        new CustomEvent("beforetoggle", {
-          detail: { open: this.open },
-          bubbles: true,
-          composed: true,
-          cancelable: true,
-        })
-      )
-    ) {
-      return;
-    }
-    this.open = state;
+    this._popover.togglePopover(newState);
+    this.open = newState;
   }
 
   private _handleClick() {
-    if (this.closeOnClick) {
-      this._changeOpenState(false);
-    }
-  }
-
-  private _handleMouseLeave() {
-    if (this.trigger === "hover") {
-      this._changeOpenState(false);
+    if (this.trigger === "click") {
+      this._setOpenState(!this.open);
     }
   }
 
   private _handleMouseEnter() {
     if (this.trigger === "hover") {
-      this._changeOpenState(true);
+      this._isHovered = true;
+      this._setOpenState(true);
+    }
+  }
+
+  private _handleMouseLeave() {
+    if (this.trigger === "hover" && !this._isFocused) {
+      this._isHovered = false;
+      this._setOpenState(false);
+    }
+  }
+
+  private _handleFocusIn() {
+    this._isFocused = true;
+    this._setOpenState(true);
+  }
+
+  private _handleFocusOut() {
+    if (!this._isHovered) {
+      this._isFocused = false;
+      this._setOpenState(false);
     }
   }
 
   override render() {
-    const tooltipClassName = cvaTooltip({
-      variant: this.variant,
-      open: this.open,
-    });
+    // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
+    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div class="relative inline-block">
       <div
         ${ref(this._triggerRef)}
-        part="trigger"
-        @click=${this._handleClick}
-        @keydown=${this._handleClick}
-        @mouseleave=${this._handleMouseLeave}
-        @mouseenter=${this._handleMouseEnter}
+        id="trigger"
+        aria-labelledby="trigger"
+        aria-describedby="tooltip"
       >
-        <slot></slot>
+        <slot
+          @click=${this._handleClick}
+          @mouseenter=${this._handleMouseEnter}
+          @mouseleave=${this._handleMouseLeave}
+          @focusin=${this._handleFocusIn}
+          @focusout=${this._handleFocusOut}
+        ></slot>
       </div>
-      <span ${ref(this._tooltipRef)} part="tooltip" class=${tooltipClassName}>
-        <slot name="tooltip">
+      <span
+        ${ref(this._tooltipRef)}
+        id="tooltip"
+        role="tooltip"
+        aria-labelledby="tooltip"
+        class=${cvaTooltip({
+          variant: this.variant,
+        })}
+        .popover=${this.popoverValue}
+        @beforetoggle=${(event: ToggleEvent) =>
+          returnPreventDefault(
+            this,
+            event,
+            new ToggleEvent("beforetoggle", event)
+          )}
+        @toggle=${(event: ToggleEvent) =>
+          returnPreventDefault(this, event, new ToggleEvent("toggle", event))}
+      >
+        <slot name="description">
           <span class="whitespace-pre-line">${this.description}</span>
         </slot>
       </span>
     </div>`;
+    /* eslint-enable lit-a11y/click-events-have-key-events */
+  }
+
+  protected override firstUpdated(): void {
+    if (this.open) {
+      this._popover.togglePopover(true);
+    }
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
@@ -263,14 +294,6 @@ export class DaikinTooltip extends LitElement {
         this._autoUpdateCleanup?.();
         this._autoUpdateCleanup = null;
       }
-      this.dispatchEvent(
-        new CustomEvent("toggle", {
-          detail: { open: this.open },
-          bubbles: true,
-          composed: true,
-          cancelable: false,
-        })
-      );
     }
   }
 
