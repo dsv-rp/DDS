@@ -9,22 +9,26 @@ export interface DaikinCheckboxStoryArgs
 }
 
 export const DAIKIN_CHECKBOX_ARG_TYPES = {
-  size: {
-    control: { type: "select" },
-    options: ["small", "large"],
+  name: {
+    type: "string",
   },
-  checkState: {
-    control: { type: "select" },
-    options: ["unchecked", "indeterminate", "checked"],
+  value: {
+    type: "string",
   },
-  disabled: { type: "boolean" },
-  labelPosition: { type: "string" },
-  readonly: { type: "boolean" },
   label: {
     type: "string",
   },
-  name: { type: "string" },
-  value: { type: "string" },
+  labelPosition: {
+    control: "radio",
+    options: ["right", "hidden"],
+  },
+  checkState: {
+    control: "radio",
+    options: ["unchecked", "indeterminate", "checked"],
+  },
+  disabled: {
+    type: "boolean",
+  },
 } as const satisfies Meta<DaikinCheckboxStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinCheckboxStoryArgs>;

@@ -1,27 +1,14 @@
 import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
-import { createLinkMap, linkify } from "./linkify";
+import type { StorybookFrameworkName } from "../../../storybook-env";
+import { createComponentDescription } from "./description";
+import { createLinkMap } from "./linkify";
 import { createTSProgram } from "./tsc";
-import { getComponentDescriptionAsMarkdown } from "./wca";
-
-function formatComponentDescription(
-  markdown: string,
-  linkMap: ReadonlyMap<string, string>,
-  linkExcludes: readonly string[]
-): string {
-  return linkify(
-    markdown
-      // Remove component title (e.g. `## daikin-checkbox`)
-      .replace(/^\s*#+ .+\n/, "")
-      // Replace " \" to "  " in the end of lines.
-      .replace(/ \\$/gm, "  ")
-      // Fix "\|", "\<" and "\>" in inline codes
-      .replace(/[^`]`[^`]+`/g, (all) => all.replace(/\\([|<>])/g, "$1"))
-      .trim(),
-    linkMap,
-    linkExcludes
-  );
-}
+import {
+  analyzeComponentFile,
+  collectComponentAttributeMetadata,
+  formatAnalyzerResultToMarkdown,
+} from "./wca";
 
 /**
  * Loader plugin for `#storybook-framework`. \
@@ -30,7 +17,10 @@ function formatComponentDescription(
  * @param frameworkPath Actual path for framework-specific exports. (e.g. `./framework-wc`)
  * @returns A plugin
  */
-export function storybookFrameworkLoader(frameworkPath: string): Plugin {
+export function storybookFrameworkLoader(
+  framework: StorybookFrameworkName,
+  frameworkPath: string
+): Plugin {
   const projectDir = resolve(import.meta.dirname, "../../..");
   let program = createTSProgram(projectDir);
   let linkMapPromise = createLinkMap(projectDir);
@@ -58,35 +48,50 @@ export function storybookFrameworkLoader(frameworkPath: string): Plugin {
         .replace(/\.stories.tsx?$/, "");
       // get component filepath ("<dir>/daikin-button.ts")
       const componentFilepath = resolve(storiesId, "../..", `${basename}.ts`);
-      const componentDescription = formatComponentDescription(
-        getComponentDescriptionAsMarkdown(
-          componentFilepath,
-          program,
-          this.warn.bind(this)
-        ) ?? "",
+      // analyze component using web-component-analyzer (wca)
+      const analyzerResult = analyzeComponentFile(
+        componentFilepath,
+        program,
+        this.warn.bind(this)
+      );
+      // render analysis result to markdown
+      const wcaMarkdown = analyzerResult
+        ? formatAnalyzerResultToMarkdown(program, analyzerResult)
+        : "";
+      // adjust the rendered markdown for Storybook
+      const componentDescription = createComponentDescription(
+        wcaMarkdown,
         await linkMapPromise,
         [basename]
       );
 
-      // prepare additional metadata
-      const additionalMetadata = {
-        parameters: {
-          docs: {
-            description: {
-              component: componentDescription,
-            },
-          },
-        },
+      // create a map of attributes and types using analysis result
+      const componentAttributeMetadataMap = analyzerResult
+        ? collectComponentAttributeMetadata(analyzerResult)
+        : {};
+      const ddsMetadata = {
+        componentAttributeMetadataMap,
       };
 
       return `
+import { getCodeTransformerForFramework } from "#storybook";
+import { defu } from "defu";
 import { metadata as fwMetadata } from ${JSON.stringify(frameworkPath)};
 
-export const metadata = {
-  ...fwMetadata,
-  ...(${JSON.stringify(additionalMetadata)}),
-};
-`;
+export const metadata = defu(fwMetadata, {
+  parameters: {
+    docs: {
+      description: {
+        component: ${JSON.stringify(componentDescription)},
+      },
+      source: {
+        transform: getCodeTransformerForFramework(${JSON.stringify(framework)}),
+      },
+    },
+    _ddsMetadata: ${JSON.stringify(ddsMetadata)},
+  },
+});
+      `;
     },
     // Storybook docs are written in the component file but they're read from `?storybookMetadata` virtual module.
     // We have to update the virtual modules manually when the component file updated.

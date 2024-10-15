@@ -53,6 +53,10 @@ const cvaInput = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
+ * ```
+ *
  * ```html
  * <!-- See `daikin-input-group` component for complete example. -->
  * <daikin-text-input name="name"></daikin-text-input>
