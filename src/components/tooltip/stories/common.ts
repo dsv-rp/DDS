@@ -6,6 +6,7 @@ export interface DaikinTooltipStoryArgs
   extends Required<ElementProps<DaikinTooltip>> {
   hasSlot: boolean;
   hasFocusableTrigger: boolean;
+  viewArea: "small" | "full";
   onClick: (event: Event) => void;
   onToggle: (event: Event) => void;
   onBeforeToggle: (event: Event) => void;
@@ -40,6 +41,10 @@ export const DAIKIN_TOOLTIP_ARG_TYPES = {
   },
   hasFocusableTrigger: {
     type: "boolean",
+  },
+  viewArea: {
+    control: "radio",
+    options: ["small", "full"],
   },
   __vrtContainer__: {
     type: "boolean",

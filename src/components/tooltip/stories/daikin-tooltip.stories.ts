@@ -20,6 +20,7 @@ export const Light: Story = {
       "This is a description using attributes.\nIt supports line breaks.",
     popoverValue: "auto",
     trigger: "hover",
+    viewArea: "small",
     onToggle: fn(),
     onBeforeToggle: fn(),
   },
@@ -75,4 +76,11 @@ export const UseFocusableTrigger: Story = {
       trigger.blur();
     });
   }),
+};
+
+export const FullSizeView: Story = {
+  args: {
+    ...Light.args,
+    viewArea: "full",
+  },
 };

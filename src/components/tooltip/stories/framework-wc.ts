@@ -15,6 +15,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     description,
     popoverValue,
     trigger,
+    viewArea,
     hasSlot,
     hasFocusableTrigger,
     onToggle,
@@ -24,10 +25,10 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     return html`
       <div
         data-testid="view-area"
-        style=${`width: 800px; height: ${__vrtContainer__ ? "900" : "500"}px; overflow: auto; border: 1px solid #ccc`}
+        style=${`width: ${viewArea === "full" ? "100vw" : "800px"}; height: ${__vrtContainer__ ? "900px" : "500px"}; overflow: auto; border: 1px solid #ccc`}
       >
         <div
-          style=${`width: 1500px; height: ${__vrtContainer__ ? "1700" : "900"}px; display: flex; align-items: center; justify-content: center`}
+          style=${`width: ${viewArea === "full" ? "200%" : "1500px"}; height: ${__vrtContainer__ ? "1700px" : "900px"}; display: flex; align-items: center; justify-content: center`}
         >
           <daikin-tooltip
             placement=${placement}
