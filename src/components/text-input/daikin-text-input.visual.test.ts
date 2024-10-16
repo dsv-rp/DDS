@@ -33,7 +33,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
         // ensure that hovering or clicking does not change the image for disabled
         const snapshotName =
           variant !== "enabled"
-            ? `${variant}-${error}-${content}-${icon}.png`
+            ? `${variant}-${error}-${content}-${icon}-base.png`
             : null;
 
         const testScreenshot = async (
