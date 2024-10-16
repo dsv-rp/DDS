@@ -19,15 +19,20 @@ function eventPayloadTransformer(event: Event) {
   };
 }
 
+function eventPayloadTransformerDetail(event: CustomEvent<{ count: number }>) {
+  return event.detail;
+}
+
 export const Default: Story = {
   args: {
     placeholder: "Placeholder text",
     disabled: false,
     readonly: false,
     error: false,
-    __vrtArgs__: "",
+    resizable: true,
     onChange: fn(eventPayloadTransformer),
     onInput: fn(eventPayloadTransformer),
+    onChangeCount: fn(eventPayloadTransformerDetail),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-textarea")[0];
@@ -45,12 +50,22 @@ export const Default: Story = {
       await expect(args.onInput).toHaveLastReturnedWith({
         value: "Example",
       });
+      await expect(args.onChangeCount).toHaveLastReturnedWith({ count: 7 });
       await expect(innerInput).toHaveValue("Example");
     });
 
     root.value = "";
     innerInput.blur();
   }),
+};
+
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    error: true,
+    onChange: fn(),
+    onInput: fn(),
+  },
 };
 
 export const Disabled: Story = {
@@ -89,13 +104,4 @@ export const Readonly: Story = {
   },
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
   play: Disabled.play!,
-};
-
-export const Error: Story = {
-  args: {
-    ...Default.args,
-    error: true,
-    onChange: fn(),
-    onInput: fn(),
-  },
 };

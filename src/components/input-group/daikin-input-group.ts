@@ -5,6 +5,7 @@ import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
@@ -44,6 +45,24 @@ const cvaHelper = cva(
     },
   }
 );
+
+const cvaCounter = cva(["text-xs"], {
+  variants: {
+    disabled: {
+      false: [],
+      true: ["text-[--text-input-outline-color-disabled]"],
+    },
+  },
+});
+
+const cvaCounterValueLength = cva([], {
+  variants: {
+    error: {
+      false: [],
+      true: ["text-daikinRed-500"],
+    },
+  },
+});
 
 /**
  * The input group component serves as a wrapper for a `daikin-text-input` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
@@ -130,10 +149,10 @@ export class DaikinInputGroup extends LitElement {
   error = "";
 
   /**
-   * Whether to display the counter in the Textarea
+   * Maximum value to display on the counter. When `null`, the counter will be hidden.
    */
-  @property({ type: Boolean, reflect: true })
-  textareaCounter = false;
+  @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
+  textareaMaxCount: number | null = null;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
   private readonly _textareas!: readonly DaikinTextarea[];
@@ -141,8 +160,19 @@ export class DaikinInputGroup extends LitElement {
   @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
   private readonly _controls!: readonly ControlElement[];
 
+  @state()
+  private _textareaValueLength: number | null = null;
+
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
+
+    const textarea = this._textareas[0] as DaikinTextarea | undefined;
+
+    this._textareaValueLength = textarea?.value.length ?? null;
+  }
+
+  private _handleChangeCount(e: CustomEvent<{ count: number }>): void {
+    this._textareaValueLength = e.detail.count;
   }
 
   private _reflectSlotProperties(): void {
@@ -151,10 +181,6 @@ export class DaikinInputGroup extends LitElement {
       control.disabled = !!this.disabled;
       control.required = !!this.required;
       control.error = isError;
-    }
-
-    for (const item of this._textareas) {
-      item.counter = this.textareaCounter;
     }
   }
 
@@ -179,15 +205,36 @@ export class DaikinInputGroup extends LitElement {
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label class="flex flex-col justify-center gap-2 w-full font-daikinSerif">
-        <span
-          class=${cvaLabel({
-            required: this.required,
-          })}
-        >
-          ${this.label}
-        </span>
+        <div class="flex justify-between items-center gap-2">
+          <span
+            class=${cvaLabel({
+              required: this.required,
+            })}
+          >
+            ${this.label}
+          </span>
+          ${this.textareaMaxCount != null && this._textareaValueLength != null
+            ? html`
+                <span
+                  class=${cvaCounter({
+                    disabled: this.disabled,
+                  })}
+                >
+                  <span
+                    class=${cvaCounterValueLength({
+                      error: this.textareaMaxCount < this._textareaValueLength,
+                    })}
+                    >${this._textareaValueLength}</span
+                  ><span>/</span><span>${this.textareaMaxCount}</span>
+                </span>
+              `
+            : nothing}
+        </div>
         ${this.required ? html`<span class="sr-only">required</span>` : nothing}
-        <slot @slotchange=${this._handleSlotChange}></slot>
+        <slot
+          @slotchange=${this._handleSlotChange}
+          @change-count=${this._handleChangeCount}
+        ></slot>
         <span
           class=${cvaHelper({ type: helperType })}
           aria-live=${helperType === "error" ? "polite" : "off"}

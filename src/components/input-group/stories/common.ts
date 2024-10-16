@@ -26,8 +26,8 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   error: {
     type: "string",
   },
-  textareaCounter: {
-    type: "boolean",
+  textareaMaxCount: {
+    type: "number",
   },
   content: {
     control: "select",
