@@ -57,7 +57,7 @@ const cvaRow = cva(
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
  *
- * @slot header:${headers[i].key} - Use content other than text in the table header cell. Be sure to use daikin-table-header-cell for the wrapper.
+ * @slot header:${headers[i].key} - Use content other than text in the table header cell. The same applies when you want to add the left icon. Be sure to use daikin-table-header-cell for the wrapper.
  * @slot cell:${headers[i].key}:${rows[i].id} - Use content other than text in the table. Be sure to use daikin-table-cell for the wrapper.
  *
  * @example
