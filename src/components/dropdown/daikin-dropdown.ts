@@ -22,7 +22,8 @@ const cvaButton = cva(
     "h-full",
     "min-h-12",
     "bg-white",
-    "px-3",
+    "pl-4",
+    "pr-3",
     "border",
     "border-[--color-base]",
     "rounded-md",
@@ -54,23 +55,19 @@ const cvaButton = cva(
     variants: {
       open: {
         false: [
-          "enabled:hover:outline-2",
-          "enabled:hover:outline-daikinNeutral-400",
-          "enabled:active:outline-2",
-          "enabled:active:outline-daikinNeutral-700",
+          "enabled:hover:bg-[#f2f2f2]",
+          "enabled:active:bg-daikinNeutral-100",
         ],
-        true: ["enabled:outline-2", "enabled:outline-[--color-opened]"],
+        true: ["enabled:bg-daikinNeutral-100"],
       },
       error: {
         false: [
           "var-color-daikinNeutral-600/color-base",
           "var-color-daikinBlue-700/color-focus",
-          "var-color-daikinNeutral-700/color-opened",
         ],
         true: [
           "var-color-daikinRed-500/color-base",
           "var-color-daikinRed-500/color-focus",
-          "var-color-daikinRed-500/color-opened",
         ],
       },
       placeholder: {
