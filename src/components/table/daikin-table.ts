@@ -262,7 +262,7 @@ export class DaikinTable<
       case "checked":
         this._bulkRowsCheckState = "unchecked";
         this.selection = this.selection.filter(
-          (checkedId) => !this._showRows.find(({ id }) => checkedId === id)
+          (selectedId) => !this._showRows.find(({ id }) => selectedId === id)
         );
         break;
     }
@@ -272,7 +272,7 @@ export class DaikinTable<
 
   private _handleCheckboxRowItemChange(id: string): void {
     if (this.selection.includes(id)) {
-      this.selection = this.selection.filter((checkedId) => checkedId !== id);
+      this.selection = this.selection.filter((selectedId) => selectedId !== id);
     } else {
       this.selection = [...this.selection, id];
     }
@@ -298,14 +298,14 @@ export class DaikinTable<
   }
 
   private _checkHeaderFunction() {
-    const checkedIdLengthInCurrentPage = this._showRows.filter(({ id }) =>
+    const selectedIdLengthInPage = this._showRows.filter(({ id }) =>
       this.selection.find((selectedId) => selectedId === id)
     ).length;
 
     this._bulkRowsCheckState =
-      this._showRows.length === checkedIdLengthInCurrentPage
+      this._showRows.length === selectedIdLengthInPage
         ? "checked"
-        : checkedIdLengthInCurrentPage
+        : selectedIdLengthInPage
           ? "indeterminate"
           : "unchecked";
   }
