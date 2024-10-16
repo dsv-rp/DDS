@@ -121,7 +121,7 @@ export class DaikinTable<
    * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
    */
   @property({ type: Array, attribute: false })
-  headers: HeaderType<Extract<keyof T, string>>[] = [];
+  headers: HeaderType<Exclude<Extract<keyof T, string>, "id">>[] = [];
 
   /**
    * Rows of the table.
