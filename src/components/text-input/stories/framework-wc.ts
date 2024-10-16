@@ -1,48 +1,62 @@
+import "#package/components/icon/daikin-icon";
 import "#package/components/text-input/daikin-text-input";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../storybook-tailwind.css";
 import type { DaikinTextInputStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTextInputStoryArgs> = {
   render: ({
-    value,
     type,
-    placeholder,
+    value,
     name,
+    placeholder,
     maxlength,
     autocomplete,
+    leftIcon,
+    rightIcon,
     disabled,
     readonly,
+    required,
     error,
-    __vrtArgs__,
     onChange,
     onInput,
     onKeyDown,
-  }) => {
-    const additionalClassNames = {
-      "": "",
-      resizeLarge: "w-[800px] h-[320px]",
-      resizeSmall: "w-[160px] h-[40px]",
-    }[__vrtArgs__];
-
-    return html`
+  }) => html`
+    <div style="width:340px;">
       <daikin-text-input
-        class=${additionalClassNames}
-        value=${value}
         type=${type}
-        placeholder=${placeholder}
+        value=${value}
         name=${ifDefined(name)}
+        placeholder=${placeholder}
         maxlength=${ifDefined(maxlength)}
         autocomplete=${ifDefined(autocomplete)}
         ?disabled=${disabled}
         ?readonly=${readonly}
+        ?required=${required}
         ?error=${error}
         @change=${onChange}
         @input=${onInput}
         @keydown=${onKeyDown}
-      ></daikin-text-input>
-    `;
-  },
+      >
+        ${leftIcon
+          ? html`<daikin-icon
+              slot="left-icon"
+              icon=${leftIcon}
+              size="xl"
+              color="current"
+            ></daikin-icon>`
+          : nothing}
+        ${rightIcon
+          ? html`<daikin-icon
+              slot="right-icon"
+              icon=${rightIcon}
+              size="xl"
+              color="current"
+            ></daikin-icon>`
+          : nothing}
+      </daikin-text-input>
+    </div>
+  `,
 };

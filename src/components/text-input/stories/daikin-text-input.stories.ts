@@ -27,8 +27,8 @@ export const Default: Story = {
     name: "Example",
     disabled: false,
     readonly: false,
+    required: false,
     error: false,
-    __vrtArgs__: "",
     onChange: fn(eventPayloadTransformer),
     onInput: fn(eventPayloadTransformer),
   },
@@ -60,6 +60,24 @@ export const Error: Story = {
   args: {
     ...Default.args,
     error: true,
+    onChange: fn(),
+    onInput: fn(),
+  },
+};
+
+export const LeftIcon: Story = {
+  args: {
+    ...Default.args,
+    leftIcon: "positive",
+    onChange: fn(),
+    onInput: fn(),
+  },
+};
+
+export const RightIcon: Story = {
+  args: {
+    ...Default.args,
+    rightIcon: "positive",
     onChange: fn(),
     onInput: fn(),
   },

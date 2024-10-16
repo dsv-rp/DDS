@@ -1,10 +1,12 @@
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
+import type { IconType } from "../../icon/daikin-icon";
 import type { DaikinTextInput } from "../daikin-text-input";
 
 export interface DaikinTextInputStoryArgs
   extends Required<ElementProps<DaikinTextInput>> {
-  __vrtArgs__: "resizeSmall" | "resizeLarge" | "";
+  leftIcon: IconType | null;
+  rightIcon: IconType | null;
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
   onKeyDown: (event: Event) => void;
@@ -13,52 +15,40 @@ export interface DaikinTextInputStoryArgs
 export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   value: {
     type: "string",
-    description: "Field value",
   },
   type: {
-    options: ["text", "email", "tel", "search"],
-    control: { type: "radio" },
-    defaultValue: "text",
-    description: "Type of field",
+    control: "radio",
+    options: ["text", "email", "tel"],
   },
   placeholder: {
     type: "string",
-    description: "Placeholder text",
   },
   disabled: {
     type: "boolean",
-    defaultValue: false,
-    description: "Whether the field is disabled",
   },
   readonly: {
     type: "boolean",
-    defaultValue: false,
-    description: "Whether the field is readonly",
+  },
+  required: {
+    type: "boolean",
   },
   name: {
     type: "string",
-    defaultValue: "Example",
-    description: "Name of the input field control used in the form",
   },
   maxlength: {
     type: "number",
-    description: "Maximum length in field values",
   },
   autocomplete: {
     type: "string",
-    description: "Specify autocomplete attribute for form",
   },
   error: {
     type: "boolean",
-    defaultValue: false,
-    description: "Error state. Ignored if the `disabled` is `true`.",
   },
-  __vrtArgs__: {
-    name: "",
+  leftIcon: {
     type: "string",
-    control: false,
-    defaultValue: "",
-    description: "Custom arguments for the Visual Regression Test.",
+  },
+  rightIcon: {
+    type: "string",
   },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 

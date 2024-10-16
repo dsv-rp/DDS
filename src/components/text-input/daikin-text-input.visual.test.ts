@@ -4,7 +4,7 @@ import {
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
-import { expect, test, type ElementHandle, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import type { DAIKIN_TEXT_INPUT_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXT_INPUT_ARG_TYPES>;
@@ -12,34 +12,22 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXT_INPUT_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-text-input--default", args);
 
-describeEach(["enabled", "disabled", "readonly"], (variant) => {
-  describeEach(["normal", "error"] as const, (error) => {
-    describeEach(["empty", "placeholder", "filled"] as const, (content) => {
-      const baseURL = getPageURL({
-        disabled: variant === "disabled",
-        readonly: variant === "readonly",
+describeEach(["normal", "error"] as const, (error) => {
+  describeEach(["empty", "placeholder", "filled"] as const, (content) => {
+    describeEach(["left", "right", "both", "none"] as const, (icon) => {
+      const baseArgs = {
         error: error === "error",
         placeholder: content !== "empty" ? "Placeholder Text" : "",
         value: content === "filled" ? "Content" : "",
-      });
-
-      // ensure that hovering or clicking does not change the image for disabled
-      const snapshotName =
-        variant === "disabled" ? `${variant}-${error}-${content}.png` : null;
-
-      const testScreenshot = async (
-        page: Page,
-        element: ElementHandle<HTMLElement>
-      ): Promise<void> => {
-        if (snapshotName) {
-          await expect(page).toHaveScreenshot(
-            snapshotName,
-            await clipFor(element)
-          );
-        } else {
-          await expect(page).toHaveScreenshot(await clipFor(element));
-        }
+        ...((icon === "left" || icon === "both") && {
+          leftIcon: "positive",
+        }),
+        ...((icon === "right" || icon === "both") && {
+          rightIcon: "positive",
+        }),
       };
+
+      const baseURL = getPageURL(baseArgs);
 
       test("base", async ({ page }) => {
         await page.goto(baseURL);
@@ -50,7 +38,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
         });
 
         // take screenshot and check for diffs
-        await testScreenshot(page, element);
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
       test("hover", async ({ page }) => {
@@ -65,7 +53,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
         await element.hover();
 
         // take screenshot and check for diffs
-        await testScreenshot(page, element);
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
       test("press", async ({ page }) => {
@@ -81,7 +69,7 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
         await page.mouse.down();
 
         // take screenshot and check for diffs
-        await testScreenshot(page, element);
+        await expect(page).toHaveScreenshot(await clipFor(element));
         await page.mouse.up();
       });
 
@@ -98,26 +86,32 @@ describeEach(["enabled", "disabled", "readonly"], (variant) => {
         }, element);
 
         // take screenshot and check for diffs
-        await testScreenshot(page, element);
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+
+      test("disabled", async ({ page }) => {
+        await page.goto(getPageURL({ ...baseArgs, disabled: true }));
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-input", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+
+      test("readonly", async ({ page }) => {
+        await page.goto(getPageURL({ ...baseArgs, readonly: true }));
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-input", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
     });
-  });
-});
-
-describeEach(["resizeSmall", "resizeLarge"] as const, (__vrtArgs__) => {
-  const baseURL = getPageURL({
-    __vrtArgs__,
-  });
-
-  test("base", async ({ page }) => {
-    await page.goto(baseURL);
-
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-text-input", {
-      state: "visible",
-    });
-
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });

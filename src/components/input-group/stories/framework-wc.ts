@@ -8,31 +8,38 @@ import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
   render: ({
-    content,
     label,
     helper,
-    error,
     disabled,
     required,
+    error,
     textareaCounter,
-  }) => html`
-    <daikin-input-group
-      label=${ifDefined(label)}
-      helper=${ifDefined(helper)}
-      error=${ifDefined(error)}
-      ?disabled=${disabled}
-      ?required=${required}
-      ?textareaCounter=${textareaCounter}
-    >
-      ${content === "TextInput"
-        ? html`<daikin-text-input value="Value"></daikin-text-input>`
-        : null}
-      ${content === "Textarea"
-        ? html`<daikin-textarea
-            value="Value"
-            placeholder="Placeholder text"
-          ></daikin-textarea>`
-        : null}
-    </daikin-input-group>
-  `,
+    content,
+  }) => {
+    const inputContent = {
+      TextInput: html`<daikin-text-input
+        value="Value"
+        placeholder="Placeholder text"
+      ></daikin-text-input>`,
+      Textarea: html`<daikin-textarea
+        value="Value"
+        placeholder="Placeholder text"
+      ></daikin-textarea>`,
+    }[content];
+
+    return html`
+      <div style="width:360px;">
+        <daikin-input-group
+          label=${ifDefined(label)}
+          helper=${ifDefined(helper)}
+          ?disabled=${disabled}
+          ?required=${required}
+          error=${ifDefined(error)}
+          ?textareaCounter=${textareaCounter}
+        >
+          ${inputContent}
+        </daikin-input-group>
+      </div>
+    `;
+  },
 };
