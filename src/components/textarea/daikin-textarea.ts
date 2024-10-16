@@ -1,4 +1,3 @@
-import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
@@ -14,34 +13,29 @@ const cvaTextarea = cva(
     "rounded-md",
     "font-daikinSerif",
     "text-daikinNeutral-900",
+    "bg-white",
+
     "placeholder:text-daikinNeutral-700",
 
-    // Define `--color-border` as a CSS variable that references `--color-state-active`, `--color-state-focus` and `--color-base` in that order.
+    // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
     "define-[--color-state-active,--color-state-focus,--color-base]/color-border",
     "border",
     "border-[--color-border]",
+
     "outline",
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
 
-    // Display the outline when hovered, pressed, or focused.
-    "enabled:hover:outline-2",
-    "enabled:active:outline-2",
-    "focus-visible:outline-2",
-
-    // Set `--color-state-active` when pressed.
-    "enabled:active:var-color-daikinNeutral-700/color-state-active",
-
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:hover:var-color-daikinNeutral-400/color-base",
-    "disabled:var-color-[--text-input-outline-color-disabled]/color-base",
-
-    "disabled:bg-[--text-input-background-color]",
-    "disabled:text-[--text-input-outline-color-disabled]",
-    "disabled:placeholder:text-[--text-input-outline-color-disabled]",
+    "enabled:hover:bg-[#f2f2f2]",
+    "enabled:active:bg-daikinNeutral-100",
+    "focus-visible:outline-2",
+    "disabled:text-daikinNeutral-200",
+    "disabled:var-color-daikinNeutral-200/color-base",
+    "disabled:placeholder:text-daikinNeutral-200",
   ],
   {
     variants: {
@@ -50,12 +44,7 @@ const cvaTextarea = cva(
           "var-color-daikinNeutral-600/color-base",
           "focus-visible:var-color-daikinBlue-700/color-state-focus",
         ],
-        true: [
-          // When the input is not focused and not hovered or pressed, the border color will always be the error color.
-          "var-color-[--text-input-border-color-error]/color-base",
-          // When the input is focused and not pressed, the border color will always be the error color.
-          "focus-visible:var-color-[--text-input-border-color-error]/color-state-focus",
-        ],
+        true: ["var-color-daikinRed-500/color-base"],
       },
       resize: {
         false: ["resize-none"],
@@ -93,12 +82,6 @@ export class DaikinTextarea extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --text-input-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
-      --text-input-outline-color-hover: #54c3f1;
-      --text-input-outline-color-disabled: #dcdcdc;
-      --text-input-outline-color-active: #cecece;
-      --text-input-background-color: #ffffff;
-
       display: block;
       height: 87px;
       position: relative;

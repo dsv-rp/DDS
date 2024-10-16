@@ -95,7 +95,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      test("enabled", async ({ page }) => {
+      test("readonly", async ({ page }) => {
         await page.goto(getPageURL({ ...baseArgs, readonly: true }));
 
         // wait for element to be visible

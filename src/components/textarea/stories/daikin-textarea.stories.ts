@@ -59,6 +59,15 @@ export const Default: Story = {
   }),
 };
 
+export const Error: Story = {
+  args: {
+    ...Default.args,
+    error: true,
+    onChange: fn(),
+    onInput: fn(),
+  },
+};
+
 export const Disabled: Story = {
   args: {
     ...Default.args,
@@ -95,13 +104,4 @@ export const Readonly: Story = {
   },
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
   play: Disabled.play!,
-};
-
-export const Error: Story = {
-  args: {
-    ...Default.args,
-    error: true,
-    onChange: fn(),
-    onInput: fn(),
-  },
 };
