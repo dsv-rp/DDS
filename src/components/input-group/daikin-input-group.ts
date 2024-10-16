@@ -155,10 +155,10 @@ export class DaikinInputGroup extends LitElement {
   textareaMaxCount: number | null = null;
 
   @queryAssignedElements({ selector: "daikin-textarea" })
-  private _textareas!: DaikinTextarea[];
+  private readonly _textareas!: readonly DaikinTextarea[];
 
   @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
-  private _controls!: ControlElement[];
+  private readonly _controls!: readonly ControlElement[];
 
   @state()
   private _textareaValueLength: number | null = null;
