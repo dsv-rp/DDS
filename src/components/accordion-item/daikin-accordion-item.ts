@@ -219,7 +219,7 @@ export class DaikinAccordionItem extends LitElement {
     return html`<details
       class="flex w-full bg-white font-daikinSerif overflow-clip"
       ?open=${this.disabled ? false : this._detailsOpen}
-      ?data-open=${this.open}
+      ?data-open=${this.disabled ? false : this.open}
       aria-disabled=${this.disabled}
       @toggle=${this._handleToggle}
     >
