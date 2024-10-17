@@ -5,26 +5,51 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 
-const INNER_CN = cva([
-  "text-left",
+const cvaList = cva(
+  [
+    "flex",
+    "justify-between",
+    "items-center",
+    "w-full",
+    "min-h-12",
+    "p-3",
+    "text-left",
+    "relative",
 
+    "has-[*:focus-visible]:outline",
+    "has-[*:focus-visible]:outline-1",
+    "has-[*:focus-visible]:-outline-offset-1",
+    "has-[*:focus-visible]:outline-daikinBlue-700",
+    "[&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200",
+
+    // For link
+    "has-[a:any-link:not(:active):hover]:bg-daikinNeutral-100",
+    "has-[a:any-link:active]:bg-daikinNeutral-200",
+
+    // For button
+    "has-[*:enabled:not(:active):hover]:bg-daikinNeutral-100",
+    "has-[*:enabled:active]:bg-daikinNeutral-200",
+  ],
+  {
+    variants: {
+      disabled: {
+        false: [
+          // For text
+          "has-[span]:hover:bg-daikinNeutral-100",
+        ],
+        true: [],
+      },
+    },
+  }
+);
+
+const INNER_CN = cva([
   "before:absolute",
   "before:inset-0",
   "before:w-full",
   "before:h-full",
 
   "focus-visible:outline-none",
-  "focus-visible:before:outline",
-  "focus-visible:before:outline-1",
-  "focus-visible:before:-outline-offset-1",
-  "focus-visible:before:outline-daikinBlue-700",
-
-  // For buttons and links
-  "link-enabled:before:hover:bg-daikinNeutral-100",
-  "link-enabled:before:active:bg-daikinNeutral-200",
-
-  // For text
-  "[&:not(a,button)]:before:hover:bg-daikinNeutral-100",
 ])();
 
 /**
@@ -117,7 +142,9 @@ export class DaikinListItem extends LitElement {
       <slot name="left-icon">
         <span class="block -ml-1"></span>
       </slot>
-      <slot class="block px-2"></slot>
+      <span class="block px-2 text-left">
+        <slot></slot>
+      </span>
     </span>`;
 
     const list = {
@@ -142,7 +169,7 @@ export class DaikinListItem extends LitElement {
       class=${
         // We cannot directly write classes like `class="..."` as they include '&', which must be escaped. It can't be escaped either because TailwindCSS can't process it.
         // Set the text color here to apply to the icons on both sides along with text.
-        "flex justify-between items-center w-full min-h-12 p-3 text-left relative [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"
+        cvaList({ disabled: this.disabled })
       }
       role="listitem"
     >
