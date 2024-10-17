@@ -224,70 +224,69 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
-    const moveOffset = (
+    const operation = (
       {
-        ArrowDown: 1,
-        ArrowUp: -1,
-        Escape: "esc",
+        ArrowDown: "moveDown",
+        ArrowUp: "moveUp",
+        Escape: "close",
       } as const
     )[event.key];
 
-    if (!moveOffset) {
+    if (!operation) {
       return;
     }
 
-    if (moveOffset === "esc") {
+    if (operation === "close") {
       if (this.open) {
+        // Close
         this.open = false;
       } else {
+        // Clear selection
         this.value = undefined;
       }
       return;
     }
 
+    const moveOffset = operation === "moveUp" ? -1 : 1;
     const items = this._items;
 
     // Get focused item if any
     const activeElement = document.activeElement;
-
     const focusedItemIndex = activeElement
       ? items.findIndex((item) => item.contains(activeElement))
       : -1;
 
-    const checkIsDisabledElementAndFocus = (
-      index: number,
-      moveOffset: number
-    ) => {
-      const nextFocusItemIndex =
-        !this.open && this.value
-          ? items.findIndex(({ value }) => value === this.value)
-          : moveOffset === 1
-            ? index === -1 || index === items.length - 1
-              ? 0
-              : index + moveOffset
-            : index <= 0
-              ? items.length - 1
-              : index + moveOffset;
+    // If there is no dropdown focused, do nothing.
+    if (focusedItemIndex === -1 && moveOffset === -1) {
+      return;
+    }
+
+    // Focus on the first dropdown that is enabled.
+    for (
+      let index = focusedItemIndex + moveOffset, i = 0;
+      i < items.length;
+      index += moveOffset, i++
+    ) {
+      index =
+        Math.sign(index % items.length) === -1
+          ? items.length - 1
+          : index % items.length;
+      const item = items[index];
 
       if (!this.open) {
         this.open = true;
       }
 
+      if (item.disabled) {
+        continue;
+      }
+
       this.updateComplete
-        .then(() => {
-          if (items[nextFocusItemIndex].disabled) {
-            checkIsDisabledElementAndFocus(nextFocusItemIndex, moveOffset);
-          } else {
-            items[nextFocusItemIndex].focus();
-          }
-        })
+        .then(() => item.focus())
         .catch((error: unknown) => console.error(error));
-    };
 
-    checkIsDisabledElementAndFocus(focusedItemIndex, moveOffset);
-
-    event.preventDefault();
-    return;
+      break;
+    }
   }
 
   /**
