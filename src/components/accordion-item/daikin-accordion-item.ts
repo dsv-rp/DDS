@@ -216,17 +216,20 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override render() {
+    const detailsOpen = this.disabled ? false : this._detailsOpen;
+    const open = this.disabled ? false : this.open;
+
     return html`<details
       class="flex w-full bg-white font-daikinSerif overflow-clip"
-      ?open=${this.disabled ? false : this._detailsOpen}
-      ?data-open=${this.disabled ? false : this.open}
+      ?open=${detailsOpen}
+      ?data-open=${open}
       aria-disabled=${this.disabled}
       @toggle=${this._handleToggle}
     >
       <summary
         id="summary"
         class=${cvaSummary({
-          open: this.disabled ? false : this.open,
+          open,
           disabled: this.disabled,
         })}
         tabindex=${this.disabled ? -1 : 0}
