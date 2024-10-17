@@ -1,15 +1,11 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, LitElement, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
-const cvaLinkSlot = cva(
+const cvaLink = cva(
   [
     "h-8",
     "font-normal",
@@ -43,7 +39,7 @@ const cvaLinkSlot = cva(
   }
 );
 
-type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
+type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
 
 /**
  * The `daikin-breadcrumb-item` is a component used to represent each item of the breadcrumb list, and is used as a child element of the `daikin-breadcrumb` component.
@@ -118,6 +114,8 @@ export class DaikinBreadcrumbItem extends LitElement {
 
   /**
    * Whether the item is the last one.
+   * The item will also be considered to be the current page if set to `true`.
+   * Automatically set by `daikin-breadcrumb` component.
    */
   @property({ type: Boolean, reflect: true })
   last = false;
@@ -128,9 +126,6 @@ export class DaikinBreadcrumbItem extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   override hidden = false;
-
-  @queryAssignedElements({ slot: "link" })
-  private _links!: Array<HTMLElement>;
 
   override render() {
     const slash = this.trailingSlash
@@ -144,34 +139,23 @@ export class DaikinBreadcrumbItem extends LitElement {
     return html`
       ${this.variant === "normal"
         ? html`<a
-            class=${cvaLinkSlot(this)}
+            class=${cvaLink(this)}
             href=${ifDefined(this.href)}
             target=${
               // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
               ifDefined(this.target) as any
             }
-            aria-current=${this.last}
+            aria-disabled=${ifDefined(this.disabled || undefined)}
+            aria-current=${ifDefined(this.last || undefined)}
             tabindex=${this.last ? "-1" : "0"}
           >
             <slot></slot>
           </a>`
-        : // Though `cvaLinkSlot` is designed for slots, it contains "& > *" selector for fallback content so it can be used here.
-          html`<span class=${cvaLinkSlot(this)} aria-label="…">
+        : html`<span class=${cvaLink(this)} aria-label="…">
             <span>. . .</span>
           </span> `}
       ${slash}
     `;
-  }
-
-  override updated(changedProperties: PropertyValues<this>) {
-    if (changedProperties.has("last") && this._links.length > 0) {
-      if (this.last) {
-        this._links[0].setAttribute("aria-current", "true");
-        this._links[0].setAttribute("tabindex", "-1");
-      } else {
-        this._links[0].setAttribute("tabindex", "0");
-      }
-    }
   }
 }
 

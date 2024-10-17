@@ -1,5 +1,6 @@
 ---
-"@daikin-oss/design-system-web-components": patch
+"@daikin-oss/design-system-web-components": minor
 ---
 
-Fix breadcrumb accessibility problem.
+Improve breadcrumb accessibility. (DDS-1482)
+**BREAKING CHANGE** Remove `link` slot from `daikin-breadcrumb-item`.
