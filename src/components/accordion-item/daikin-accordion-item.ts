@@ -120,12 +120,14 @@ export class DaikinAccordionItem extends LitElement {
 
   /**
    * Whether the accordion item is open.
+   * Ignored if `disabled` is `true`.
    */
   @property({ type: Boolean, reflect: true })
   open = false;
 
   /**
    * Whether the accordion item is disabled.
+   * If this is set to `true`, the accordion item will always be closed.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -139,7 +141,7 @@ export class DaikinAccordionItem extends LitElement {
    * The `<details>` element does not support animation on changing the `open` attribute.
    * In other words, the content is hidden immediately when the `open` attribute is removed.
    * To enable animation for an accordion, we need to run the animation while maintaining the `open` attribute, and then remove the `open` attribute at the end of the animation.
-   * Also, when disabled,this will not work.
+   * Treated as `false` if `disabled` is `true`.
    */
   @state()
   private _detailsOpen = false;
@@ -209,6 +211,7 @@ export class DaikinAccordionItem extends LitElement {
   private _handleToggle(event: ToggleEvent) {
     event.preventDefault();
     if (this.disabled) {
+      // Prevent the accordion item from opening with in-page searches when disabled.
       return;
     }
 
@@ -216,8 +219,8 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override render() {
-    const detailsOpen = this.disabled ? false : this._detailsOpen;
-    const open = this.disabled ? false : this.open;
+    const detailsOpen = !this.disabled && this._detailsOpen;
+    const open = !this.disabled && this.open;
 
     return html`<details
       class="flex w-full bg-white font-daikinSerif overflow-clip"

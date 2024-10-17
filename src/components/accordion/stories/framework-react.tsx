@@ -27,6 +27,7 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
           <span slot="summary">Accordion summary 2</span>
           <span>Accordion content 2</span>
         </ReactDaikinAccordionItem>
+        {/* `open` is ignored when `disabled` */}
         <ReactDaikinAccordionItem disabled open>
           <span slot="summary">Accordion summary 3</span>
           <span>Accordion content 3</span>

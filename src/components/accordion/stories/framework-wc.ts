@@ -16,6 +16,7 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
           <span slot="summary">Accordion summary 2</span>
           <span>Accordion content 2</span>
         </daikin-accordion-item>
+        <!-- 'open' is ignored when 'disabled' -->
         <daikin-accordion-item disabled open>
           <span slot="summary">Accordion summary 3</span>
           <span>Accordion content 3</span>
