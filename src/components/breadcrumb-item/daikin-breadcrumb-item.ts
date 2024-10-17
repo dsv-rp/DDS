@@ -140,7 +140,7 @@ export class DaikinBreadcrumbItem extends LitElement {
       ${this.variant === "normal"
         ? html`<a
             class=${cvaLink(this)}
-            href=${ifDefined(this.href)}
+            href=${ifDefined((!this.disabled && this.href) || undefined)}
             target=${
               // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
               ifDefined(this.target) as any
