@@ -4,7 +4,7 @@ import type { DaikinInputGroup } from "../daikin-input-group";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {
-  content: "TextInput" | "Textarea";
+  content: "TextInput" | "Textarea" | "Dropdown";
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
@@ -14,7 +14,7 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   content: {
     description: "Slot content to show",
     control: "select",
-    options: ["TextInput", "Textarea"],
+    options: ["TextInput", "Textarea", "Dropdown"],
   },
   label: {
     description: "Label text to place at the top of the field",

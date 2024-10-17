@@ -12,7 +12,7 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
-describeEach(["TextInput", "Textarea"] as const, (content) => {
+describeEach(["TextInput", "Textarea", "Dropdown"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
