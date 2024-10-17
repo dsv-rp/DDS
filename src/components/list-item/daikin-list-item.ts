@@ -13,6 +13,7 @@ const cvaList = cva(
     "w-full",
     "min-h-12",
     "p-3",
+    "text-daikinNeutral-800",
     "text-left",
     "relative",
 
@@ -23,19 +24,19 @@ const cvaList = cva(
     "[&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200",
 
     // For link
-    "has-[a:any-link:not(:active):hover]:bg-daikinNeutral-100",
-    "has-[a:any-link:active]:bg-daikinNeutral-200",
+    "has-[a:any-link:not(:active):hover]:bg-[#f2f2f2]",
+    "has-[a:any-link:active]:bg-daikinNeutral-100",
 
     // For button
-    "has-[*:enabled:not(:active):hover]:bg-daikinNeutral-100",
-    "has-[*:enabled:active]:bg-daikinNeutral-200",
+    "has-[*:enabled:not(:active):hover]:bg-[#f2f2f2]",
+    "has-[*:enabled:active]:bg-daikinNeutral-100",
   ],
   {
     variants: {
       disabled: {
         false: [
           // For text
-          "has-[span]:hover:bg-daikinNeutral-100",
+          "has-[span]:hover:bg-[#f2f2f2]",
         ],
         true: [],
       },
@@ -142,7 +143,7 @@ export class DaikinListItem extends LitElement {
       <slot name="left-icon">
         <span class="block -ml-1"></span>
       </slot>
-      <span class="block px-2 text-left">
+      <span class="block pl-2 pr-3 text-left">
         <slot></slot>
       </span>
     </span>`;
