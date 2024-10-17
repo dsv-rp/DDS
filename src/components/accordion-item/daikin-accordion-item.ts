@@ -139,6 +139,7 @@ export class DaikinAccordionItem extends LitElement {
    * The `<details>` element does not support animation on changing the `open` attribute.
    * In other words, the content is hidden immediately when the `open` attribute is removed.
    * To enable animation for an accordion, we need to run the animation while maintaining the `open` attribute, and then remove the `open` attribute at the end of the animation.
+   * Also, when disabled,this will not work.
    */
   @state()
   private _detailsOpen = false;
@@ -207,6 +208,9 @@ export class DaikinAccordionItem extends LitElement {
   // In order to handle such cases, it is necessary to respond to the "toggle" event.
   private _handleToggle(event: ToggleEvent) {
     event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
 
     this.open = event.newState === "open";
   }
@@ -214,7 +218,7 @@ export class DaikinAccordionItem extends LitElement {
   override render() {
     return html`<details
       class="flex w-full bg-white font-daikinSerif overflow-clip"
-      ?open=${this._detailsOpen}
+      ?open=${this.disabled ? false : this._detailsOpen}
       ?data-open=${this.open}
       aria-disabled=${this.disabled}
       @toggle=${this._handleToggle}
@@ -222,7 +226,7 @@ export class DaikinAccordionItem extends LitElement {
       <summary
         id="summary"
         class=${cvaSummary({
-          open: this.open,
+          open: this.disabled ? false : this.open,
           disabled: this.disabled,
         })}
         tabindex=${this.disabled ? -1 : 0}
@@ -231,7 +235,12 @@ export class DaikinAccordionItem extends LitElement {
       >
         <slot name="summary"></slot>
       </summary>
-      <div ${ref(this._contentRef)} role="region" aria-labelledby="summary">
+      <div
+        ${ref(this._contentRef)}
+        role="region"
+        aria-labelledby="summary"
+        ?hidden=${this.disabled}
+      >
         <div class="pt-2 pr-3 pb-3 pl-4">
           <slot></slot>
         </div>
