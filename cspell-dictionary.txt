@@ -21,6 +21,7 @@ tablist
 tabpanel
 textbox
 progressbar
+listitem
 
 # Custom Events
 beforechange

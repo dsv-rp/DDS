@@ -4,7 +4,7 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 import type { DaikinCheckboxStoryArgs } from "./common";
 
-const ReactDaikinCheckbox = createComponent({
+export const ReactDaikinCheckbox = createComponent({
   react: React,
   tagName: "daikin-checkbox",
   elementClass: DaikinCheckbox,
