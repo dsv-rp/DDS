@@ -11,7 +11,6 @@ const cvaContainer = cva(
     "flex-col",
     "gap-1",
     "w-full",
-    "border-solid",
     "pt-1",
     "border-t-4",
     "font-daikinSerif",
