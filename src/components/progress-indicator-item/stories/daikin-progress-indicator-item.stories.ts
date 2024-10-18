@@ -8,22 +8,24 @@ export default {
   ...metadata,
 };
 
-export const Default: Story = {
+export const Unfinished: Story = {
   args: {
     status: "unfinished",
+    label: "Progress indicator label",
+    description: "Progress indicator description",
   },
 };
 
-export const Progress: Story = {
+export const InProgress: Story = {
   args: {
-    ...Default.args,
+    ...Unfinished.args,
     status: "inprogress",
   },
 };
 
 export const Finished: Story = {
   args: {
-    ...Default.args,
+    ...Unfinished.args,
     status: "finished",
   },
 };

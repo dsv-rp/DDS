@@ -4,10 +4,10 @@ import { html } from "lit";
 import type { DaikinProgressIndicatorItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinProgressIndicatorItemStoryArgs> = {
-  render: ({ status }) => html`
+  render: ({ status, label, description }) => html`
     <daikin-progress-indicator-item status=${status}>
-      Progress indicator label
-      <span slot="description">Progress indicator description</span>
+      ${label}
+      <span slot="description">${description}</span>
     </daikin-progress-indicator-item>
   `,
 };

@@ -11,10 +11,14 @@ export const ReactDaikinProgressIndicatorItem = createComponent({
 });
 
 export const metadata: Meta<DaikinProgressIndicatorItemStoryArgs> = {
-  component: ({ ...props }: DaikinProgressIndicatorItemStoryArgs) => (
+  component: ({
+    label,
+    description,
+    ...props
+  }: DaikinProgressIndicatorItemStoryArgs) => (
     <ReactDaikinProgressIndicatorItem {...props}>
-      Progress indicator label
-      <span slot="description">Progress indicator description</span>
+      {label}
+      <span slot="description">{description}</span>
     </ReactDaikinProgressIndicatorItem>
   ),
 };

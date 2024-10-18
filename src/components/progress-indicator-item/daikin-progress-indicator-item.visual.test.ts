@@ -12,7 +12,7 @@ type StoryArgs = InferStorybookArgTypes<
 >;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-progress-indicator-item--default", args);
+  getStorybookIframeURL("components-progress-indicator-item--unfinished", args);
 
 describeEach(["unfinished", "inprogress", "finished"] as const, (status) => {
   const baseURL = getPageURL({
