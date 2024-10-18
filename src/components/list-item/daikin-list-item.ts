@@ -21,11 +21,11 @@ const INNER_CN = cva([
   "focus-visible:before:outline-daikinBlue-700",
 
   // For buttons and links
-  "link-enabled:before:hover:bg-[#f2f2f2]",
+  "link-enabled:before:group-hover:[&:not(:active)]:bg-[#f2f2f2]",
   "link-enabled:before:active:bg-daikinNeutral-100",
 
   // For text
-  "[&:not(a,button)]:before:hover:bg-[#f2f2f2]",
+  "[&:not(a,button)]:before:group-hover:bg-[#f2f2f2]",
 ])();
 
 /**
@@ -143,7 +143,7 @@ export class DaikinListItem extends LitElement {
       class=${
         // We cannot directly write classes like `class="..."` as they include '&', which must be escaped. It can't be escaped either because TailwindCSS can't process it.
         // Set the text color here to apply to the icons on both sides along with text.
-        "flex justify-between items-center w-full min-h-12 p-3 text-left relative [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"
+        "group flex justify-between items-center w-full min-h-12 p-3 text-left relative [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"
       }
       role="listitem"
     >
