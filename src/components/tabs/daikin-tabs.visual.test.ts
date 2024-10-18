@@ -10,15 +10,15 @@ import type { DAIKIN_TABS_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABS_ARG_TYPES>;
 
 const getPageURL = (
-  base: "default" | "single" | "many",
+  base: "default" | "single" | "scrollable",
   args: StoryArgs = {}
 ) => getStorybookIframeURL(`components-tabs--${base}`, args);
 
-describeEach(["default", "single", "many"] as const, (base) => {
+describeEach(["default", "single", "scrollable"] as const, (base) => {
   const targetTabs = {
     default: ["foo", "baz"],
     single: ["foo"],
-    many: ["tab1", "tab10", "tab20"],
+    scrollable: ["tab1", "tab10", "tab20"],
   }[base];
 
   describeEach(targetTabs, (selectedTab) => {

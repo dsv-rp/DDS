@@ -13,40 +13,50 @@ const cvaTab = cva(
     "px-4",
     "pt-2",
     "pb-3",
-    "text-base",
-    "font-bold",
     "text-center",
+    "font-bold",
     "font-daikinSerif",
-    "relative",
     "tracking-wide",
     "whitespace-nowrap",
-    "contain-paint",
+    "relative",
 
     "focus-visible:outline-none",
-    "focus-visible:before:w-full",
-    "focus-visible:before:h-[calc(100%_-_4px)]",
+    "focus-visible:before:w-[calc(100%_+_6px)]",
+    "focus-visible:before:h-[calc(100%_+_6px)]",
     "focus-visible:before:border",
-    "focus-visible:before:border-daikinBlue-700",
+    "focus-visible:before:border-2",
+    "focus-visible:before:border-[#0081C0]",
     "focus-visible:before:absolute",
-    "focus-visible:before:top-0",
+    "focus-visible:before:-top-[3px]",
+    "focus-visible:before:-left-[3px]",
+    "focus-visible:before:z-[1]",
 
     "disabled:text-daikinNeutral-200",
+
+    "after:w-full",
+    "after:absolute",
+    "after:bottom-0",
   ],
   {
     variants: {
       active: {
         false: [
-          "hover:text-daikinNeutral-500",
-          "active:text-daikinNeutral-700",
+          "enabled:text-[#515151]",
+          "enabled:hover:text-daikinNeutral-800",
+          "enabled:hover:bg-[#f2f2f2]",
+          "enabled:active:text-[#313131]",
+          "enabled:active:bg-daikinNeutral-100",
+
+          "after:h-[1px]",
+          "after:bg-daikinNeutral-100",
         ],
         true: [
-          "text-daikinBlue-500",
-          "hover:text-daikinBlue-300",
-          "active:text-daikinBlue-600",
-          "after:w-full",
+          "enabled:text-daikinBlue-500",
+          "enabled:hover:bg-[#DDF3FC]",
+          "enabled:active:bg-[#BBE7F9]",
+
           "after:h-1",
-          "after:absolute",
-          "after:bottom-0",
+
           "enabled:after:bg-daikinBlue-500",
           "disabled:after:bg-daikinNeutral-200",
         ],
@@ -83,7 +93,8 @@ export class DaikinTab extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: block;
+      width: 100%;
     }
   `;
 

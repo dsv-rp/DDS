@@ -6,6 +6,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export interface DaikinTabsStoryArgs
   extends Required<ElementProps<DaikinTabs>> {
   tabs: string[];
+  scrollable: boolean;
   onBeforeChange: (event: CustomEvent<{ newTab: DaikinTab }>) => void;
   onChange: (event: Event) => void;
 }

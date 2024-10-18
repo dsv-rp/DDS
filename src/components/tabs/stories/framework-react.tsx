@@ -21,15 +21,22 @@ export const ReactDaikinTabs = createComponent({
 });
 
 export const metadata: Meta<DaikinTabsStoryArgs> = {
-  component: ({ tabs, ...props }: DaikinTabsStoryArgs) => (
+  component: ({ tabs, scrollable, ...props }: DaikinTabsStoryArgs) => (
     <ReactDaikinTabs
       {...props}
-      className="w-[600px] h-[400px] flex flex-col items-stretch part-[tablist]:flex-none part-[tablist]:flex part-[tablist]:w-full part-[tablist]:overflow-auto"
+      {...(scrollable && {
+        class: "w-[600px] h-[400px] flex flex-col items-stretch",
+      })}
     >
       {tabs.map((tab) => {
         const [label, value, disabled] = parseTab(tab);
         return (
-          <ReactDaikinTab key={value} value={value} disabled={disabled}>
+          <ReactDaikinTab
+            key={value}
+            value={value}
+            disabled={disabled}
+            {...(tabs.length === 1 && { class: "w-fit" })}
+          >
             {label}
           </ReactDaikinTab>
         );
@@ -40,12 +47,20 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
           return (
             <div
               key={value}
-              className="font-daikinSerif w-full h-full overflow-auto bg-red-500/10"
-              tabIndex={0}
               slot={`panel:${value}`}
+              className="h-full font-daikinSerif overflow-auto"
+              tabIndex={0}
             >
-              <p className="pb-[500px]">Content of tab {label}. (Scrollable)</p>
-              <p>Bottom</p>
+              {scrollable ? (
+                <>
+                  <p className="pb-[800px]">
+                    Content of tab {label}. (Scrollable)
+                  </p>
+                  <p>Bottom</p>
+                </>
+              ) : (
+                <p>Content of tab {label}.</p>
+              )}
             </div>
           );
         })}
