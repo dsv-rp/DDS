@@ -28,14 +28,12 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * @slot - A slot for tab buttons. Place `daikin-tab` elements here.
  * @slot panels - A slot for tab panels component. Place a `daikin-tab-panels` element here.
  *
- * @csspart tablist - The container element for the default (tab list) slot. Has "tablist" role.
- *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/tab/index.js";
  * import "@daikin-oss/design-system-web-components/components/tab-group/index.js";
- * import "@daikin-oss/design-system-web-components/components/panel-switcher/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tab-panels/index.js";
  * ```
  *
  * ```html
@@ -56,6 +54,11 @@ import { scrollIntoViewOnlyParent } from "./scroller";
 export class DaikinTabs extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
+
+    :host {
+      display: block;
+      width: 100%;
+    }
   `;
 
   /**
@@ -283,7 +286,7 @@ export class DaikinTabs extends LitElement {
   override render() {
     return html`
       <div
-        part="tablist"
+        class="flex flex-nowrap w-full p-[3px] overflow-auto"
         role="tablist"
         @click=${this._handleTabClick}
         @keydown=${this._handleKeyDown}
