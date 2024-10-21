@@ -66,6 +66,10 @@ const DEFAULT_TOOLTIP_SPACING = "20px";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/tooltip/index.js";
+ * ```
+ *
  * ```html
  * </daikin-tooltip>
  *   <span slot="tooltip">This is a message</span>
