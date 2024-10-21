@@ -25,8 +25,7 @@
         "require": "./dist/cjs-dev/index.cjs"
       },
       "import": "./dist/es/index.js",
-      "require": "./dist/cjs/index.cjs",
-      "default": "./dist/es/index.js"
+      "require": "./dist/cjs/index.cjs"
     },
     "./*.js": {
       "development": {
@@ -34,8 +33,7 @@
         "require": "./dist/cjs-dev/*.cjs"
       },
       "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
-      "default": "./dist/es/*.js"
+      "require": "./dist/cjs/*.cjs"
     },
     "./*": {
       "development": {
@@ -43,8 +41,7 @@
         "require": "./dist/cjs-dev/*.cjs"
       },
       "import": "./dist/es/*.js",
-      "require": "./dist/cjs/*.cjs",
-      "default": "./dist/es/*.js"
+      "require": "./dist/cjs/*.cjs"
     }
   },
   "sideEffects": true,
@@ -132,6 +129,7 @@
     "lit-analyzer": "^2.0.3",
     "picocolors": "^1.1.1",
     "playwright": "^1.46.1",
+    "playwright-core": "^1.46.1",
     "postcss": "^8.4.47",
     "prettier": "^3.3.3",
     "prettier-plugin-organize-imports": "^4.1.0",

@@ -9,6 +9,7 @@ roboto
 runem
 tailwindcss
 taze
+tsbuildinfo
 tseslint
 
 # Colors
