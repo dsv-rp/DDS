@@ -147,7 +147,6 @@ export class DaikinBreadcrumbItem extends LitElement {
             }
             aria-disabled=${ifDefined(this.disabled || undefined)}
             aria-current=${ifDefined(this.last || undefined)}
-            tabindex=${this.last ? "-1" : "0"}
           >
             <slot></slot>
           </a>`
