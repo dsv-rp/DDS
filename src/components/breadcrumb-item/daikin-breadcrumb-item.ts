@@ -136,16 +136,18 @@ export class DaikinBreadcrumbItem extends LitElement {
           /
         </span>`
       : null;
+
+    const isDisable = this.last ? true : this.disabled;
     return html`
       ${this.variant === "normal"
         ? html`<a
-            class=${cvaLink(this)}
-            href=${ifDefined((!this.disabled && this.href) || undefined)}
+            class=${cvaLink({ variant: this.variant, disabled: isDisable })}
+            href=${ifDefined((!isDisable && this.href) || undefined)}
             target=${
               // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
               ifDefined(this.target) as any
             }
-            aria-disabled=${ifDefined(this.disabled || undefined)}
+            aria-disabled=${ifDefined(isDisable || undefined)}
             aria-current=${ifDefined(this.last || undefined)}
           >
             <slot></slot>

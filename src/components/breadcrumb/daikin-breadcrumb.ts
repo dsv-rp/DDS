@@ -106,14 +106,9 @@ export class DaikinBreadcrumb extends LitElement {
   private _updateBreadcrumbs() {
     const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
     for (const [index, item] of daikinBreadCrumbItems.entries()) {
-      if (index === daikinBreadCrumbItems.length - 1) {
-        // last item
-        item.trailingSlash = this.trailingSlash;
-        item.disabled = true;
-        item.last = true;
-        continue;
-      }
-      item.trailingSlash = true;
+      const isLast = index === daikinBreadCrumbItems.length - 1;
+      item.trailingSlash = !isLast || this.trailingSlash;
+      item.last = isLast;
     }
   }
 
