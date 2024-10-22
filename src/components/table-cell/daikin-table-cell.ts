@@ -13,6 +13,7 @@ const cvaCell = cva(
     "w-full",
     "h-full",
     "min-h-14",
+    "text-daikinNeutral-900",
     "p-4",
   ],
   {

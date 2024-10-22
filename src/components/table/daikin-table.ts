@@ -1,26 +1,31 @@
-import {
-  tableColorBackground,
-  tableColorText,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
+import {
+  LitElement,
+  css,
+  html,
+  nothing,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../checkbox/daikin-checkbox";
+import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
 import type { IconType } from "../icon";
 import "../table-cell/daikin-table-cell";
-import type DaikinTableCell from "../table-cell/daikin-table-cell";
 import "../table-header-cell/daikin-table-header-cell";
-import type DaikinTableHeaderCell from "../table-header-cell/daikin-table-header-cell";
 
-type HeaderType<T extends string = string> = {
+export type HeaderType<T extends string = string> = {
   key: T;
   label: string;
   alignment?: "left" | "right" | "center";
   leftIcon?: IconType;
   sortable?: boolean;
 };
+
+const defaultSort = <T>(a: T, b: T, key: keyof T) =>
+  String(a[key]).localeCompare(String(b[key]));
 
 const cvaRow = cva(
   [
@@ -57,8 +62,8 @@ const cvaRow = cva(
  * @fires change-check - When the checkbox is operated, it returns the array of `id`s that are currently checked.
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
  *
- * @slot header:${headers[i].key} - Use content other than text in the table header cell. The same applies when you want to add the left icon. Be sure to use daikin-table-header-cell for the wrapper.
- * @slot cell:${headers[i].key}:${rows[i].id} - Use content other than text in the table. Be sure to use daikin-table-cell for the wrapper.
+ * @slot header:${headers[i].key} - A slot for the header cell of a table. Use this when you want to display something other than text, such as an icon. Use `daikin-table-header-cell` for the wrapper.
+ * @slot cell:${headers[i].key}:${rows[j].id} - A slot for the data cell of a table. Use `daikin-table-cell` for the wrapper.
  *
  * @example
  *
@@ -104,9 +109,6 @@ export class DaikinTable<
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --table-color-text: ${unsafeCSS(tableColorText)};
-      --table-color-background: ${unsafeCSS(tableColorBackground)};
-
       display: block;
       width: 100%;
     }
@@ -121,7 +123,7 @@ export class DaikinTable<
    * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
    */
   @property({ type: Array, attribute: false })
-  headers: HeaderType<Extract<keyof T, string>>[] = [];
+  headers: readonly HeaderType<Extract<keyof T, string>>[] = [];
 
   /**
    * Rows of the table.
@@ -158,27 +160,21 @@ export class DaikinTable<
   order: "asc" | "desc" | null = null;
 
   /**
+   * The `key` of the currently sorted column.
+   */
+  @property({ type: String, reflect: true })
+  sort: keyof T | null = null;
+
+  /**
    * Specify this when you want to customize the sort function.
    * The function must be ascending, and the return value must be `0`, `1` or `-1`.
    */
   @property({ attribute: false })
-  sort:
+  sortFunction:
     | {
         [key in keyof T]?: (a: T, b: T, key: key) => number;
       }
     | null = null;
-
-  /**
-   * The `key` of the currently sorted column.
-   */
-  @property({ type: String, reflect: true, attribute: "sorted-key" })
-  sortedKey: keyof T | null = null;
-
-  @state()
-  private _cells: DaikinTableCell[] = [];
-
-  @state()
-  private _headerCells: DaikinTableHeaderCell[] = [];
 
   @state()
   private _bulkRowsCheckState: "unchecked" | "indeterminate" | "checked" =
@@ -189,35 +185,25 @@ export class DaikinTable<
    * It does not manage checks and pagination.
    */
   @state()
-  private _showRows: T[] = [];
+  private _currentView: T[] = [];
 
   private _updateSort() {
-    this._showRows = this.rows.sort((a, b) => {
-      if (!this.sortedKey) {
-        return 0;
-      }
+    const sort = this.sort;
+    if (!sort) {
+      return;
+    }
 
-      if (this.sort && !!this.sort[this.sortedKey]) {
-        return this.sort[this.sortedKey]?.(a, b, this.sortedKey) ?? 0;
-      } else {
-        if (a[this.sortedKey] === b[this.sortedKey]) {
-          return 0;
-        } else if (a[this.sortedKey] > b[this.sortedKey]) {
-          return 1;
-        } else {
-          return -1;
-        }
-      }
-    });
+    const sortFunction = this.sortFunction?.[sort] ?? defaultSort;
+    this._currentView = this.rows.toSorted((a, b) => sortFunction(a, b, sort));
 
     if (this.order === "desc") {
-      this._showRows.reverse();
+      this._currentView.reverse();
     }
   }
 
   private _updateCheck() {
     this.selection = this.selection.filter((selectedId) =>
-      this._showRows.find(({ id }) => selectedId === id)
+      this._currentView.find(({ id }) => selectedId === id)
     );
 
     this._checkHeaderFunction();
@@ -235,42 +221,31 @@ export class DaikinTable<
 
   private _updateTable() {
     // Reset rows
-    this._showRows = this.rows;
+    this._currentView = this.rows;
 
     this._updateSort();
     this._updateCheck();
   }
 
-  private _updateCells() {
-    this._cells = [...this.querySelectorAll("daikin-table-cell")];
-    this._headerCells = [...this.querySelectorAll("daikin-table-header-cell")];
-  }
-
   private _handleCheckboxRowHeaderChange(): void {
     switch (this._bulkRowsCheckState) {
-      case "unchecked":
-      case "indeterminate":
-        this._bulkRowsCheckState = "checked";
-        this.selection = [
-          ...new Set([
-            ...this.selection,
-            ...this._showRows.map(({ id }) => id),
-          ]),
-        ];
-        break;
-
       case "checked":
         this._bulkRowsCheckState = "unchecked";
-        this.selection = this.selection.filter(
-          (selectedId) => !this._showRows.find(({ id }) => selectedId === id)
-        );
+        this.selection = [];
+        break;
+
+      default:
+        this._bulkRowsCheckState = "checked";
+        this.selection = this._currentView.map(({ id }) => id);
         break;
     }
 
     this._emitChangeCheckEvent();
   }
 
-  private _handleCheckboxRowItemChange(id: string): void {
+  private _handleCheckboxRowItemChange(event: Event): void {
+    const { name: id } = event.target as DaikinCheckbox;
+
     if (this.selection.includes(id)) {
       this.selection = this.selection.filter((selectedId) => selectedId !== id);
     } else {
@@ -282,28 +257,26 @@ export class DaikinTable<
   }
 
   private _handleClickSort(key: keyof T): void {
-    if (this.sortedKey === key) {
+    if (this.sort === key) {
       this.order = this.order === "asc" ? "desc" : "asc";
     } else {
-      this.sortedKey = key;
+      this.sort = key;
       this.order = "asc";
     }
 
     this._updateTable();
     this.dispatchEvent(
       new CustomEvent("change-sort", {
-        detail: { key: this.sortedKey, order: this.order },
+        detail: { key: this.sort, order: this.order },
       })
     );
   }
 
   private _checkHeaderFunction() {
-    const selectedIdLengthInPage = this._showRows.filter(({ id }) =>
-      this.selection.find((selectedId) => selectedId === id)
-    ).length;
+    const selectedIdLengthInPage = this.selection.length;
 
     this._bulkRowsCheckState =
-      this._showRows.length === selectedIdLengthInPage
+      this._currentView.length === selectedIdLengthInPage
         ? "checked"
         : selectedIdLengthInPage
           ? "indeterminate"
@@ -311,40 +284,16 @@ export class DaikinTable<
   }
 
   override render() {
-    if (import.meta.env.DEV) {
-      if (
-        this.headers.length !==
-        [...new Set(this.headers.map(({ key }) => key))].length
-      ) {
-        console.warn("The `key` values in `headers` are duplicated");
-      }
-
-      if (
-        this.rows.length !== [...new Set(this.rows.map(({ id }) => id))].length
-      ) {
-        console.warn("The `id` values in `rows` are duplicated");
-      }
-    }
-
     const createHeaderRow = () =>
       this.headers.map(({ label, alignment, sortable, ...header }) => {
         const key = String(header.key);
-
-        const headerCell = this._headerCells.find(
-          (cell) => cell.slot === `header:${key}`
-        );
         const isSortable =
           this.sortable && (sortable || sortable === undefined);
-
-        if (headerCell) {
-          headerCell.alignment = alignment ?? "left";
-          headerCell.sortable = isSortable;
-        }
 
         return html`<th
           class="h-full p-0"
           aria-sort=${ifDefined(
-            this.sortable && this.sortedKey === key
+            this.sortable && this.sort === key
               ? this.order === "asc"
                 ? "ascending"
                 : "descending"
@@ -364,30 +313,19 @@ export class DaikinTable<
       });
 
     const createRow = (item: T) =>
-      this.headers.map(({ alignment, ...header }) => {
-        const key = String(header.key);
-
-        const cell = this._cells.find(
-          (cell) => cell.slot === `cell:${String(key)}:${item.id}`
-        );
-
-        if (cell) {
-          cell.alignment = alignment ?? "left";
-        }
-
-        return html`<td class="h-full p-0">
-          <slot name=${`cell:${String(key)}:${item.id}`}>
-            <daikin-table-cell alignment=${alignment ?? "left"}>
-              ${item[header.key]}
-            </daikin-table-cell>
-          </slot>
-        </td>`;
-      });
+      this.headers.map(
+        ({ alignment, ...header }) =>
+          html`<td class="h-full p-0">
+            <slot name=${`cell:${String(header.key)}:${item.id}`}>
+              <daikin-table-cell alignment=${alignment ?? "left"}>
+                ${item[header.key]}
+              </daikin-table-cell>
+            </slot>
+          </td>`
+      );
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
-      <table
-        class="w-full bg-[--table-color-background] table-fixed leading-[22px]"
-      >
+      <table class="w-full table-fixed leading-[22px]">
         <thead>
           <tr class="border-b border-b-daikinNeutral-800">
             ${this.selectable
@@ -408,8 +346,8 @@ export class DaikinTable<
             ${createHeaderRow()}
           </tr>
         </thead>
-        <tbody class="text-[--table-color-text]">
-          ${this._showRows.map(
+        <tbody>
+          ${this._currentView.map(
             (row) =>
               html`<tr
                 class=${cvaRow({
@@ -428,8 +366,7 @@ export class DaikinTable<
                             : "unchecked"}
                           label="Select row"
                           label-position="hidden"
-                          @change=${() =>
-                            this._handleCheckboxRowItemChange(row.id)}
+                          @change=${this._handleCheckboxRowItemChange}
                         ></daikin-checkbox>
                       </span>
                     </td>`
@@ -449,7 +386,30 @@ export class DaikinTable<
     }
 
     this._updateTable();
-    this._updateCells();
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("headers")) {
+      if (import.meta.env.DEV) {
+        if (
+          this.headers.length !==
+          [...new Set(this.headers.map(({ key }) => key))].length
+        ) {
+          console.warn("The `key` values in `headers` are duplicated");
+        }
+      }
+    }
+
+    if (changedProperties.has("rows")) {
+      if (import.meta.env.DEV) {
+        if (
+          this.rows.length !==
+          [...new Set(this.rows.map(({ id }) => id))].length
+        ) {
+          console.warn("The `id` values in `rows` are duplicated");
+        }
+      }
+    }
   }
 }
 

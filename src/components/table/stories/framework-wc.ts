@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
     selection,
     order,
     sort,
-    sortedKey,
+    sortFunction,
     hasCellSlot,
     hasHeaderCellSlot,
     onChangeCheck,
@@ -27,7 +27,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
       .sort=${sort}
       .order=${order}
       .selection=${selection}
-      .sortedKey=${sortedKey}
+      .sortFunction=${sortFunction}
       ?selectable=${selectable}
       ?sortable=${sortable}
       @change-check=${onChangeCheck}
@@ -40,15 +40,18 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
                   ${name}
                   <span slot="subtitle">It's subtitle.</span>
                 </daikin-table-cell>
-                <daikin-table-cell slot=${`cell:price:${id}`}>
+                <daikin-table-cell slot=${`cell:price:${id}`} alignment="right">
                   <daikin-button>${price}</daikin-button>
                 </daikin-table-cell>`
           )
         : nothing}
       ${hasHeaderCellSlot
         ? headers.map(
-            ({ key, label }) =>
-              html`<daikin-table-header-cell slot=${`header:${key}`}>
+            ({ key, label, alignment }) =>
+              html`<daikin-table-header-cell
+                slot=${`header:${key}`}
+                alignment=${alignment ?? "left"}
+              >
                 ${label}
                 <daikin-icon
                   slot="left-icon"

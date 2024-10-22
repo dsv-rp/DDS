@@ -33,7 +33,7 @@ export const DAIKIN_TABLE_ARG_TYPES = {
   sort: {
     control: "object",
   },
-  sortedKey: {
+  sortFunction: {
     type: "string",
   },
 } satisfies Meta<DaikinTableStoryArgs>["argTypes"];

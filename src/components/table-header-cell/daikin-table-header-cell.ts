@@ -79,14 +79,12 @@ export class DaikinTableHeaderCell extends LitElement {
 
   /**
    * Specify the direction of cell alignment.
-   * This is not normally something that users need to specify.
    */
   @property({ type: String, reflect: true })
   alignment: TableHeaderCellVariantProps["alignment"] = "left";
 
   /**
    * Whether sorting is possible in that column.
-   * This is not normally something that users need to specify.
    */
   @property({ type: Boolean, reflect: true })
   sortable = false;
