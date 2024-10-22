@@ -1,61 +1,43 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
-
-const cvaDetails = cva(
-  ["flex", "w-full", "h-max", "bg-white", "font-daikinSerif", "overflow-clip"],
-  {
-    variants: {
-      status: {
-        enabled: [],
-        disabled: ["text-[#DCDCDC]"],
-      },
-    },
-  }
-);
 
 const cvaSummary = cva(
   [
     "flex",
+    "justify-between",
     "items-center",
+    "gap-2",
     "w-full",
-    "h-12",
-    "px-5",
-    "outline-none",
-    "relative",
+    "min-h-12",
+    "py-3",
+    "pr-3",
+    "pl-4",
 
-    "after:block",
-    "after:w-5",
-    "after:h-5",
-    "after:m-auto",
-    "after:top-0",
-    "after:right-4",
-    "after:bottom-0",
-    "after:absolute",
-    "after:i-daikin-accordion-chevron-up",
+    "focus-visible:outline",
+    "focus-visible:outline-2",
+    "focus-visible:-outline-offset-2",
+    "focus-visible:outline-daikinBlue-700",
+
+    "after:size-6",
     "after:transition-all",
+    "after:i-daikin-chevron-down",
   ],
   {
     variants: {
-      visible: {
-        open: ["after:rotate-0"],
-        close: ["after:-rotate-180"],
+      open: {
+        false: ["after:rotate-0"],
+        true: ["after:rotate-180"],
       },
-      status: {
-        enabled: [
-          "hover:bg-[#DCDCDC]",
-          "hover:bg-[#DCDCDC]",
-          "hover:cursor-pointer",
-          "focus-visible:outline",
-          "focus-visible:outline-[2px]",
-          "focus-visible:outline-[#0097E0]",
-          "focus-visible:outline-offset-[-2px]",
-
-          "after:text-[#828282]",
+      disabled: {
+        false: [
+          "hover:bg-daikinNeutral-100",
+          "cursor-pointer",
+          "active:bg-daikinNeutral-200",
         ],
-        disabled: ["text-[#DCDCDC]", "after:text-[#DCDCDC]"],
+        true: ["text-daikinNeutral-200", "after:text-daikinNeutral-200"],
       },
     },
   }
@@ -82,12 +64,21 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * - `daikin-accordion` > `daikin-accordion-item`
  *
  * @slot - A slot for the accordion item content.
+ * @slot summary - A slot for the accordion item summary content.
+ *
+ * @cssprop [--divider-top-display=none] - The `display` property of the top divider. Must be either `block` or `none`. Set automatically by `daikin-accordion` component.
+ * @cssprop [--divider-bottom-display=none] - The `display` property of the bottom divider. Must be either `block` or `none`. Set automatically by `daikin-accordion` component.
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/accordion-item/index.js";
+ * ```
+ *
  * ```html
- * <daikin-accordion-item title="The first accordion item">
- *   Accordion 1 content.
+ * <daikin-accordion-item>
+ *   <span slot="Accordion summary">
+ *   Accordion content
  * </daikin-accordion-item>
  * ```
  */
@@ -97,38 +88,60 @@ export class DaikinAccordionItem extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
+      --divider-top-display: none;
+      --divider-bottom-display: none;
+
       display: block;
+      position: relative;
+    }
+
+    :host::before {
+      content: "";
+      display: var(--divider-top-display, none);
       width: 100%;
+      height: 1px;
+      background: #828282;
+      position: absolute;
+      top: 0;
+    }
+
+    :host::after {
+      content: "";
+      display: var(--divider-bottom-display, none);
+      width: 100%;
+      height: 1px;
+      background: #828282;
+      position: absolute;
+      bottom: 0;
     }
   `;
 
   private _contentRef = createRef<HTMLElement>();
 
   /**
-   * Heading of accordion
-   */
-  @property({ type: String })
-  override title = "";
-
-  /**
-   * Whether the accordion is open
+   * Whether the accordion item is open.
+   * Ignored if `disabled` is `true`.
    */
   @property({ type: Boolean, reflect: true })
   open = false;
 
   /**
-   * Whether the accordion is disabled
+   * Whether the accordion item is disabled.
+   * If this is set to `true`, the accordion item will always be closed.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  @query("summary")
+  private _summary!: HTMLElement | null;
+
   /**
-   * Open attribute of the actual details element
+   * Actual presence of `open` attribute of the `<details>` element.
    *
-   * The default `open` attribute of the default details element does not allow the display of content to have transitions.
-   * To solve this, the `open` property that `daikin-accordion-item` receives manages the opening and closing of items independently of the open attribute.
-   *
-   * The `open` attribute, which should be present, is taken over by `_detailsOpen`.
+   * The `<details>` element does not support animation on changing the `open` attribute.
+   * In other words, the content is hidden immediately when the `open` attribute is removed.
+   * To enable animation for an accordion, we need to run the animation while maintaining the `open` attribute, and then remove the `open` attribute at the end of the animation.
+   * Treated as `false` if `disabled` is `true`.
    */
   @state()
   private _detailsOpen = false;
@@ -160,8 +173,8 @@ export class DaikinAccordionItem extends LitElement {
     }
   }
 
-  private _handleSummaryClick(e: PointerEvent) {
-    e.preventDefault();
+  private _handleSummaryClick(event: PointerEvent) {
+    event.preventDefault();
     if (this.disabled) {
       return;
     }
@@ -169,31 +182,72 @@ export class DaikinAccordionItem extends LitElement {
     this.open = !this.open;
   }
 
-  override render() {
-    const accordionDetailsClassName = cvaDetails({
-      status: this.disabled ? "disabled" : "enabled",
-    });
+  private _handleKeyDown(event: KeyboardEvent) {
+    const direction = (
+      {
+        ArrowDown: "down",
+        ArrowUp: "up",
+      } as const
+    )[event.key];
 
-    const accordionSummaryClassName = cvaSummary({
-      status: this.disabled ? "disabled" : "enabled",
-      visible: this.open ? "open" : "close",
-    });
+    if (!direction) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.dispatchEvent(
+      new CustomEvent("accordion-move-focus", {
+        detail: {
+          direction,
+        },
+        bubbles: true,
+      })
+    );
+  }
+
+  // When using the in-page search, the `<details>` element may open without clicking on the `<summary>`.
+  // In order to handle such cases, it is necessary to respond to the "toggle" event.
+  private _handleToggle(event: ToggleEvent) {
+    event.preventDefault();
+    if (this.disabled) {
+      // Prevent the accordion item from opening with in-page searches when disabled.
+      return;
+    }
+
+    this.open = event.newState === "open";
+  }
+
+  override render() {
+    const detailsOpen = !this.disabled && this._detailsOpen;
+    const open = !this.disabled && this.open;
 
     return html`<details
-      class=${accordionDetailsClassName}
-      ?open=${this._detailsOpen}
-      ?data-open=${this.open}
+      class="flex w-full bg-white font-daikinSerif overflow-clip"
+      ?open=${detailsOpen}
+      ?data-open=${open}
       aria-disabled=${this.disabled}
+      @toggle=${this._handleToggle}
     >
       <summary
-        class=${accordionSummaryClassName}
+        id="summary"
+        class=${cvaSummary({
+          open,
+          disabled: this.disabled,
+        })}
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
+        @keydown=${this._handleKeyDown}
       >
-        ${this.title}
+        <slot name="summary"></slot>
       </summary>
-      <div ${ref(this._contentRef)}>
-        <div class="pt-2 pb-6 px-5 text-sm">
+      <div
+        ${ref(this._contentRef)}
+        role="region"
+        aria-labelledby="summary"
+        ?hidden=${this.disabled}
+      >
+        <div class="pt-2 pr-3 pb-3 pl-4">
           <slot></slot>
         </div>
       </div>
@@ -208,6 +262,14 @@ export class DaikinAccordionItem extends LitElement {
     if (changedProperties.has("open")) {
       this._contentAnimate();
     }
+  }
+
+  /**
+   * Focuses on the inner summary.
+   * @param options focus options
+   */
+  override focus(options?: FocusOptions | undefined): void {
+    this._summary?.focus(options);
   }
 }
 

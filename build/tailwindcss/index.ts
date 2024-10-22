@@ -60,6 +60,10 @@ export default {
         '&:enabled:not([aria-readonly="true"])',
       ]);
 
+      // Variants for link buttons
+      addVariant("link-enabled", ["&:is(:any-link, :enabled)"]); // Matches to <a> with href and <button>
+      addVariant("link-disabled", ["&:not(:any-link, :enabled)"]); // Matches to <a> without href, <span>, and <button disabled>
+
       addVariant("unchecked", ["&:not(:checked)"]);
 
       matchVariant("part", (value) => `&::part(${value})`);
