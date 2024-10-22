@@ -11,16 +11,7 @@ const cvaInput = cva(
     "w-full",
     "h-full",
     "relative",
-
-    // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
-    // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
-    "define-[--color-state-focus,--color-base]/color-border",
-    "border",
-    "border-[--color-border]",
-
     "px-2",
-    "pl-[--input-padding-left]",
-    "pr-[--input-padding-right]",
     "rounded-md",
     "overflow-hidden",
     "font-daikinSerif",
@@ -28,8 +19,13 @@ const cvaInput = cva(
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
-
     "placeholder:text-daikinNeutral-700",
+
+    // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
+    // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
+    "define-[--color-state-focus,--color-base]/color-border",
+    "border",
+    "border-[--color-border]",
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
@@ -50,6 +46,14 @@ const cvaInput = cva(
           "focus-visible:var-color-daikinBlue-700/color-state-focus",
         ],
         true: ["enabled:var-color-daikinRed-500/color-base"],
+      },
+      leftIcon: {
+        false: ["pl-4"],
+        true: ["pl-11"],
+      },
+      rightIcon: {
+        false: ["pr-4"],
+        true: ["pr-11"],
       },
     },
   }
@@ -180,15 +184,17 @@ export class DaikinTextInput extends LitElement {
   @state()
   private _hasRightIcon = false;
 
-  private _handleSlotChange(event: Event, icon: "left" | "right") {
-    const hasIcon = !!(event.target as HTMLSlotElement).assignedNodes().length;
+  private _handleSlotChange(event: Event) {
+    const target = event.target as HTMLSlotElement;
+    const name = target.name;
+    const hasIcon = !!target.assignedNodes().length;
 
-    switch (icon) {
-      case "left":
+    switch (name) {
+      case "left-icon":
         this._hasLeftIcon = hasIcon;
         break;
 
-      case "right":
+      case "right-icon":
         this._hasRightIcon = hasIcon;
         break;
     }
@@ -203,8 +209,11 @@ export class DaikinTextInput extends LitElement {
     const isError = !this.disabled && this.error;
 
     return html`<input
-        class=${cvaInput({ error: isError })}
-        style=${`--input-padding-left:${this._hasLeftIcon ? "44px" : "16px"}; --input-padding-right:${this._hasRightIcon ? "44px" : "16px"};`}
+        class=${cvaInput({
+          error: isError,
+          leftIcon: this._hasLeftIcon,
+          rightIcon: this._hasRightIcon,
+        })}
         type=${this.type}
         value=${this.value}
         placeholder=${this.placeholder}
@@ -221,17 +230,10 @@ export class DaikinTextInput extends LitElement {
         @input=${this._handleInput}
       />
       <div class=${cvaIcon({ icon: "left", disabled: this.disabled })}>
-        <slot
-          name="left-icon"
-          @slotchange=${(event: Event) => this._handleSlotChange(event, "left")}
-        ></slot>
+        <slot name="left-icon" @slotchange=${this._handleSlotChange}></slot>
       </div>
       <div class=${cvaIcon({ icon: "right", disabled: this.disabled })}>
-        <slot
-          name="right-icon"
-          @slotchange=${(event: Event) =>
-            this._handleSlotChange(event, "right")}
-        ></slot>
+        <slot name="right-icon" @slotchange=${this._handleSlotChange}></slot>
       </div>`;
   }
 
