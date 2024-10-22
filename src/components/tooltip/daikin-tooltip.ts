@@ -138,11 +138,19 @@ export class DaikinTooltip extends LitElement {
   @query("span[popover]")
   private _popover!: HTMLElement;
 
+  /**
+   * Whether the inner elements are focused.
+   * This variable is set independently of `_isMouseOpened`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
+   */
   @state()
-  private _isFocused = false;
+  _isFocused = false;
 
+  /**
+   * Whether the mouse operation (hover and click) opened the tooltip.
+   * This variable is set independently of `_isFocused`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
+   */
   @state()
-  private _isHovered = false;
+  _isMouseOpened = false;
 
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
@@ -182,7 +190,9 @@ export class DaikinTooltip extends LitElement {
             top: `${y}px`,
           })
         )
-        .catch((e: unknown) => console.error(e));
+        .catch(() => {
+          // do nothing
+        });
     });
   }
 
@@ -192,44 +202,30 @@ export class DaikinTooltip extends LitElement {
     this._autoUpdateCleanup = null;
   }
 
-  private _setOpenState(newState: boolean): void {
-    if (this.open === newState) {
-      return;
-    }
-    this._popover.togglePopover(newState);
-    this.open = newState;
-  }
-
   private _handleClick() {
     if (this.trigger === "click") {
-      this._setOpenState(!this.open);
+      this._isMouseOpened = !this._isMouseOpened;
     }
   }
 
   private _handleMouseEnter() {
     if (this.trigger === "hover") {
-      this._isHovered = true;
-      this._setOpenState(true);
+      this._isMouseOpened = true;
     }
   }
 
   private _handleMouseLeave() {
-    if (this.trigger === "hover" && !this._isFocused) {
-      this._isHovered = false;
-      this._setOpenState(false);
+    if (this.trigger === "hover") {
+      this._isMouseOpened = false;
     }
   }
 
   private _handleFocusIn() {
     this._isFocused = true;
-    this._setOpenState(true);
   }
 
   private _handleFocusOut() {
-    if (!this._isHovered) {
-      this._isFocused = false;
-      this._setOpenState(false);
-    }
+    this._isFocused = false;
   }
 
   override render() {
@@ -276,14 +272,19 @@ export class DaikinTooltip extends LitElement {
     /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
-  protected override firstUpdated(): void {
-    if (this.open) {
-      this._popover.togglePopover(true);
+  override willUpdate(changedProperties: PropertyValues<this>): void {
+    if (
+      changedProperties.has("_isFocused") ||
+      changedProperties.has("_isMouseOpened")
+    ) {
+      this.open = this._isFocused || this._isMouseOpened;
     }
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
+      this._popover.togglePopover(this.open);
+
       if (this.open) {
         this._startAutoUpdate();
       } else {

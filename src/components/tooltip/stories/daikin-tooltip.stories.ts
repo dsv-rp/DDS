@@ -1,8 +1,13 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn } from "@storybook/test";
-import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
+import {
+  getByShadowRole,
+  getByShadowText,
+  queryByShadowRole,
+} from "shadow-dom-testing-library";
 import { DAIKIN_TOOLTIP_ARG_TYPES, type Story } from "./common";
+import { TOOLTIP_SLOT_TEXT } from "./framework-wc";
 
 export default {
   title: "Components/Tooltip",
@@ -61,6 +66,7 @@ export const UseFocusableTrigger: Story = {
   args: {
     ...Light.args,
     hasFocusableTrigger: true,
+    hasSlot: true,
   },
   play: definePlay(async ({ step, canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
@@ -71,7 +77,10 @@ export const UseFocusableTrigger: Story = {
 
     await step("Try to focus trigger element", async () => {
       trigger.focus();
-      await expect(getByShadowRole(root, "tooltip")).toBeInTheDocument();
+
+      await expect(
+        getByShadowText(root, TOOLTIP_SLOT_TEXT)
+      ).toBeInTheDocument();
 
       trigger.blur();
     });
