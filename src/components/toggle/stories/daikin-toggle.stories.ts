@@ -32,7 +32,7 @@ export const Default: Story = {
     const root = canvasElement.getElementsByTagName("daikin-toggle")[0];
     await expect(root).toBeInTheDocument();
 
-    const toggle = getByShadowRole(root, "checkbox");
+    const toggle = getByShadowRole(root, "switch");
     await expect(toggle).toBeInTheDocument();
 
     await expect(toggle).not.toBeChecked();
@@ -73,7 +73,7 @@ export const Disabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-toggle")[0];
     await expect(root).toBeInTheDocument();
 
-    const toggle = getByShadowRole(root, "checkbox");
+    const toggle = getByShadowRole(root, "switch");
     await expect(toggle).toBeInTheDocument();
 
     await expect(toggle).not.toBeChecked();

@@ -35,6 +35,14 @@
     "chevron-down": {
       "class": "i-daikin-chevron-down",
       "color": null
+    },
+    "chevron-left": {
+      "class": "i-daikin-chevron-left",
+      "color": null
+    },
+    "chevron-right": {
+      "class": "i-daikin-chevron-right",
+      "color": null
     }
   }
 }
