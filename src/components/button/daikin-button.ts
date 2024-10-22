@@ -14,7 +14,6 @@ const cvaButton = cva(
     "items-center",
     "w-full",
     "h-full",
-    "text-sm",
     "font-daikinSerif",
     "font-bold",
     "rounded",
@@ -23,24 +22,29 @@ const cvaButton = cva(
     "text-nowrap",
 
     "focus-visible:outline",
-    "focus-visible:outline-1",
-    "focus-visible:outline-offset-1",
-    "focus-visible:outline-daikinBlue-700",
+    "focus-visible:outline-2",
+    "focus-visible:outline-offset-2",
+    "focus-visible:outline-[#0081C0]",
+
+    "var-color-transparent/color-secondary",
+    "link-disabled:var-color-daikinNeutral-400/color-primary",
   ],
   {
     variants: {
       color: {
         default: [
           "link-enabled:var-color-daikinBlue-500/color-primary",
-          "link-enabled:hover:var-color-daikinBlue-300/color-primary",
-          "link-enabled:active:var-color-daikinBlue-600/color-primary",
-          "link-disabled:var-color-daikinNeutral-200/color-primary",
+          "link-enabled:hover:var-color-[#0081C0]/color-primary",
+          "link-enabled:hover:var-color-[#DDF3FC]/color-secondary",
+          "link-enabled:active:var-color-[#00689A]/color-primary",
+          "link-enabled:active:var-color-[#BBE7F9]/color-secondary",
         ],
         danger: [
-          "link-enabled:var-color-daikinRed-500/color-primary",
-          "link-enabled:hover:var-color-daikinRed-400/color-primary",
-          "link-enabled:active:var-color-daikinRed-600/color-primary",
-          "link-disabled:var-color-daikinNeutral-200/color-primary",
+          "link-enabled:var-color-[#D80C18]/color-primary",
+          "link-enabled:hover:var-color-[#B90A15]/color-primary",
+          "link-enabled:hover:var-color-[#FDD9DB]/color-secondary",
+          "link-enabled:active:var-color-[#9A0911]/color-primary",
+          "link-enabled:active:var-color-[#FBB3B7]/color-secondary",
         ],
       },
       variant: {
@@ -48,9 +52,14 @@ const cvaButton = cva(
         outline: [
           "border",
           "text-[--color-primary]",
+          "bg-[--color-secondary]",
           "border-[--color-primary]",
         ],
-        ghost: ["text-[--color-primary]"],
+        ghost: ["text-[--color-primary]", "bg-[--color-secondary]"],
+      },
+      size: {
+        small: ["text-sm"],
+        medium: ["text-sm"],
       },
     },
   }
@@ -90,11 +99,13 @@ export class DaikinButton extends LitElement {
     }
 
     :host([size="small"]) {
+      min-width: 52px;
       height: 32px;
     }
 
     :host([size="medium"]) {
-      height: 44px;
+      min-width: 60px;
+      height: 48px;
     }
   `;
 
@@ -160,6 +171,7 @@ export class DaikinButton extends LitElement {
     const className = cvaButton({
       variant: this.variant,
       color: this.color,
+      size: this.size,
     });
 
     if (this.type === "link") {
