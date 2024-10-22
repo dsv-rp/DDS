@@ -155,7 +155,7 @@ export class DaikinDropdown extends LitElement {
    * Dropdown value
    */
   @property({ type: String, reflect: true })
-  value: string | undefined = undefined;
+  value: string | null = null;
 
   /**
    * Placeholder text
@@ -242,7 +242,7 @@ export class DaikinDropdown extends LitElement {
         this.open = false;
       } else {
         // Clear selection
-        this.value = undefined;
+        this.value = null;
       }
       return;
     }
@@ -267,10 +267,7 @@ export class DaikinDropdown extends LitElement {
       i < items.length;
       index += moveOffset, i++
     ) {
-      index =
-        Math.sign(index % items.length) === -1
-          ? items.length - 1
-          : index % items.length;
+      index = (index + items.length) % items.length;
       const item = items[index];
 
       if (!this.open) {
@@ -281,9 +278,14 @@ export class DaikinDropdown extends LitElement {
         continue;
       }
 
-      this.updateComplete
-        .then(() => item.focus())
-        .catch((error: unknown) => console.error(error));
+      this.updateComplete.then(
+        () => {
+          item.focus();
+        },
+        () => {
+          // do nothing
+        }
+      );
 
       break;
     }
