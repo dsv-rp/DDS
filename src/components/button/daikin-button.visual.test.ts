@@ -13,8 +13,8 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-button--fill", args);
 
 describeEach(["fill", "outline", "ghost"] as const, (variant) => {
-  describeEach(["default", "danger"] as const, (color) => {
-    describeEach(["small", "medium"] as const, (size) => {
+  describeEach(["small", "medium"] as const, (size) => {
+    describeEach(["default", "danger"] as const, (color) => {
       describeEach(["none", "left", "right"] as const, (icon) => {
         const baseArgs = {
           variant,
@@ -108,5 +108,42 @@ describeEach(["fill", "outline", "ghost"] as const, (variant) => {
         });
       });
     });
+  });
+});
+
+describeEach(["button", "link"] as const, (type) => {
+  const baseArgs = {
+    // Due to Storybook's limitation, we cannot use special characters in `href`.
+    ...(type === "link" && ({ type: "link", href: "example" } as const)),
+  };
+
+  test("base", async ({ page }) => {
+    await page.goto(getPageURL(baseArgs));
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-button", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
+  test("disabled", async ({ page }) => {
+    // load page with disabled=true
+    await page.goto(
+      getPageURL({
+        ...baseArgs,
+        disabled: true,
+      })
+    );
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-button", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });
