@@ -50,6 +50,10 @@ const TOGGLE_CLASS_NAME = cva([
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/toggle/index.js";
+ * ```
+ *
  * ```html
  * <daikin-toggle name="name" value="value"></daikin-toggle>
  * ```

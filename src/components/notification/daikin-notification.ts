@@ -95,6 +95,10 @@ type NotificationVariantProps = MergeVariantProps<
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/notification/index.js";
+ * ```
+ *
  * ```html
  * <daikin-notification>
  *   <span slot="title">Notification title</span>
