@@ -7,18 +7,10 @@ export type DaikinAccordionItemStoryArgs = Required<
 >;
 
 export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
-  heading: {
-    description: "Heading of accordion",
-    type: "string",
-  },
   open: {
-    description: "Whether the component is open",
-    defaultValue: false,
     type: "boolean",
   },
   disabled: {
-    description: "Whether the accordion is disabled",
-    defaultValue: false,
     type: "boolean",
   },
 } satisfies Meta<DaikinAccordionItemStoryArgs>["argTypes"];
