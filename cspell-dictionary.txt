@@ -16,12 +16,16 @@ Coolgrey
 Darkgrey
 Mediumgrey
 
+# ARIA
+aria-labelledby
+
 # ARIA Roles
 tablist
 tabpanel
 textbox
 progressbar
 treeitem
+listitem
 
 # Custom Events
 beforechange
