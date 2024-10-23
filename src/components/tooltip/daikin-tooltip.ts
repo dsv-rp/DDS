@@ -234,7 +234,7 @@ export class DaikinTooltip extends LitElement {
 
   private _handleToggle(event: ToggleEvent) {
     if (reDispatch(this, event, new ToggleEvent("beforetoggle", event))) {
-      this.open = !this.open;
+      this.open = event.newState === "open";
     }
   }
 
