@@ -15,8 +15,9 @@ export const ReactDaikinTreeSection = createComponent({
 });
 
 export const metadata: Meta<DaikinTreeSectionStoryArgs> = {
-  component: ({ ...props }: DaikinTreeSectionStoryArgs) => (
+  component: ({ label, ...props }: DaikinTreeSectionStoryArgs) => (
     <ReactDaikinTreeSection {...props}>
+      <span slot="label">{label}</span>
       <ReactDaikinTreeItem>Tree item</ReactDaikinTreeItem>
     </ReactDaikinTreeSection>
   ),

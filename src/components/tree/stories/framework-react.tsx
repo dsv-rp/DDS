@@ -16,23 +16,29 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
   component: ({ ...props }: DaikinTreeStoryArgs) => (
     <div style={{ width: "400px" }}>
       <ReactDaikinTree {...props}>
-        <ReactDaikinTreeSection label="Tree section 1" open>
+        <ReactDaikinTreeSection open>
+          <span slot="label">Tree section 1</span>
           <ReactDaikinTreeItem>Tree item 1-1</ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
-        <ReactDaikinTreeSection label="Tree section 2" selected>
-          <ReactDaikinTreeSection label="Tree section 2-1" open>
+        <ReactDaikinTreeSection selected>
+          <span slot="label">Tree section 2</span>
+          <ReactDaikinTreeSection open>
+            <span slot="label">Tree section 2-1</span>
             <ReactDaikinTreeItem>Tree item 2-1-1</ReactDaikinTreeItem>
             <ReactDaikinTreeItem>Tree item 2-1-2</ReactDaikinTreeItem>
           </ReactDaikinTreeSection>
           <ReactDaikinTreeItem>Tree item 2-2</ReactDaikinTreeItem>
-          <ReactDaikinTreeSection label="Tree section 2-3" open>
+          <ReactDaikinTreeSection open>
+            <span slot="label">Tree section 2-3</span>
             <ReactDaikinTreeItem>Tree item 2-3-1</ReactDaikinTreeItem>
           </ReactDaikinTreeSection>
         </ReactDaikinTreeSection>
-        <ReactDaikinTreeSection label="Tree section 3" disabled>
+        <ReactDaikinTreeSection disabled>
+          <span slot="label">Tree section 3</span>
           <ReactDaikinTreeItem>Tree item 3-1</ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
-        <ReactDaikinTreeSection label="Tree section 4" disabled open>
+        <ReactDaikinTreeSection disabled open>
+          <span slot="label">Tree section 4</span>
           <ReactDaikinTreeItem>Tree item 4-1</ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
         <ReactDaikinTreeItem>Tree item 5</ReactDaikinTreeItem>

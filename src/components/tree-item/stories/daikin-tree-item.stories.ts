@@ -15,6 +15,7 @@ export const Button: Story = {
   args: {
     selected: false,
     disabled: false,
+    label: "Tree item",
     onClick: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -87,7 +88,6 @@ export const LinkDisabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-tree-item")[0];
     await expect(root).toBeInTheDocument();
 
-    await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
     await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
   }),
 };

@@ -1,7 +1,9 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { emitMoveFocus, getDirection } from "../tree/daikin-tree";
 
 export const cvaTreeChildren = cva(
   [
@@ -21,9 +23,17 @@ export const cvaTreeChildren = cva(
 
     "before:size-6",
     "before:transition-all",
+
+    "link-enabled:hover:bg-[--color-hover]",
+    "link-enabled:active:bg-[--color-active]",
+    "link-disabled:text-daikinNeutral-200",
   ],
   {
     variants: {
+      disabled: {
+        false: ["hover:bg-[--color-hover]", "active:bg-[--color-active]"],
+        true: ["text-daikinNeutral-200"],
+      },
       selected: {
         false: [
           "bg-white",
@@ -37,10 +47,6 @@ export const cvaTreeChildren = cva(
           "var-color-daikinBlue-50/color-hover",
           "var-color-daikinBlue-100/color-active",
         ],
-      },
-      disabled: {
-        false: ["hover:bg-[--color-hover]", "active:bg-[--color-active]"],
-        true: ["text-daikinNeutral-200"],
       },
       icon: {
         false: [],
@@ -104,10 +110,25 @@ export class DaikinTreeItem extends LitElement {
   disabled: boolean = false;
 
   /**
-   * This receives the number of levels in the tree item. This is not specified by the user.
+   * This receives the number of levels in the tree item.
+   * This is not specified by the user.
    */
-  @property({ type: Number })
-  hierarchy: number = 0;
+  @property({ type: Number, reflect: true })
+  level: number = 0;
+
+  @query("button")
+  private readonly _button!: HTMLButtonElement;
+
+  private _handleKeyDown(event: KeyboardEvent) {
+    const direction = getDirection(event);
+
+    if (!direction) {
+      return;
+    }
+
+    // Communicate the operation to the tree-section
+    emitMoveFocus(this, direction);
+  }
 
   override render() {
     const itemCN = cvaTreeChildren({
@@ -117,12 +138,7 @@ export class DaikinTreeItem extends LitElement {
       open: false,
     });
 
-    const variant =
-      this.type === "link" && !!this.href
-        ? this.disabled
-          ? "linkDisabled"
-          : "link"
-        : "button";
+    const variant = this.type === "link" && !!this.href ? "link" : "button";
 
     const item = {
       button: html`<button
@@ -132,19 +148,22 @@ export class DaikinTreeItem extends LitElement {
       >
         <slot></slot>
       </button>`,
-      link: html`<a href=${this.href as string} class=${itemCN}>
+      link: html`<a
+        href=${ifDefined(!this.disabled ? (this.href ?? undefined) : undefined)}
+        role=${ifDefined(this.disabled ? "link" : undefined)}
+        aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+        class=${itemCN}
+      >
         <slot></slot>
       </a>`,
-      linkDisabled: html`<span class=${itemCN}>
-        <slot></slot>
-      </span>`,
     }[variant];
 
+    // eslint-disable-next-line lit-a11y/accessible-name
     return html`<div
       role="treeitem"
-      aria-selected="false"
-      aria-label=${this.textContent ?? ""}
-      style=${`--padding-left:${12 + this.hierarchy * 36}px`}
+      aria-selected=${this.selected}
+      style=${`--padding-left:${12 + this.level * 36}px`}
+      @keydown=${this._handleKeyDown}
     >
       ${item}
     </div>`;
@@ -155,7 +174,11 @@ export class DaikinTreeItem extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
+    this._button.focus(options);
+  }
+
+  focusLastItem(options?: FocusOptions | undefined): void {
+    this._button.focus(options);
   }
 }
 

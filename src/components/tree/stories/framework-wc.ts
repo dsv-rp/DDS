@@ -9,23 +9,29 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
   render: () => html`
     <div style="width:400px;">
       <daikin-tree>
-        <daikin-tree-section label="Tree section 1" open>
+        <daikin-tree-section open>
+          <span slot="label">Tree section 1</span>
           <daikin-tree-item>Tree item 1-1</daikin-tree-item>
         </daikin-tree-section>
-        <daikin-tree-section label="Tree section 2" selected>
-          <daikin-tree-section label="Tree section 2-1" open>
+        <daikin-tree-section selected>
+          <span slot="label">Tree section 2</span>
+          <daikin-tree-section open>
+            <span slot="label">Tree section 2-1</span>
             <daikin-tree-item>Tree item 2-1-1</daikin-tree-item>
             <daikin-tree-item>Tree item 2-1-2</daikin-tree-item>
           </daikin-tree-section>
           <daikin-tree-item>Tree item 2-2</daikin-tree-item>
-          <daikin-tree-section label="Tree section 2-3" open>
+          <daikin-tree-section open>
+            <span slot="label">Tree section 2-3</span>
             <daikin-tree-item>Tree item 2-3-1</daikin-tree-item>
           </daikin-tree-section>
         </daikin-tree-section>
-        <daikin-tree-section label="Tree section 3" disabled>
+        <daikin-tree-section disabled>
+          <span slot="label">Tree section 3</span>
           <daikin-tree-item>Tree item 3-1</daikin-tree-item>
         </daikin-tree-section>
-        <daikin-tree-section label="Tree section 4" disabled open>
+        <daikin-tree-section disabled open>
+          <span slot="label">Tree section 4</span>
           <daikin-tree-item>Tree item 4-1</daikin-tree-item>
         </daikin-tree-section>
         <daikin-tree-item>Tree item 5</daikin-tree-item>

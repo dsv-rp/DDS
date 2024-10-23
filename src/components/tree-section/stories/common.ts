@@ -4,6 +4,7 @@ import type { DaikinTreeSection } from "../daikin-tree-section";
 
 export interface DaikinTreeSectionStoryArgs
   extends Required<ElementProps<DaikinTreeSection>> {
+  label: string;
   onClick: () => void;
 }
 
@@ -19,9 +20,6 @@ export const DAIKIN_TREE_SECTION_ARG_TYPES = {
   },
   open: {
     type: "boolean",
-  },
-  hierarchy: {
-    type: "number",
   },
 } satisfies Meta<DaikinTreeSectionStoryArgs>["argTypes"];
 

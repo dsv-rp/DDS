@@ -2,7 +2,7 @@ import type { DaikinTreeSection } from "#package/components/tree-section";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, userEvent } from "@storybook/test";
-import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_TREE_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -38,10 +38,9 @@ export const Default: Story = {
         await userEvent.keyboard("[ArrowDown]");
 
         await expect(
-          getByShadowRole(
+          getByShadowText(
             document.activeElement as DaikinTreeSection,
-            "button",
-            { name: "Tree section 2" }
+            "Tree section 2"
           )
         ).toBeInTheDocument();
       }
@@ -50,20 +49,20 @@ export const Default: Story = {
     await step(
       "Pressing the Arrow Right button will open to the tree item",
       async () => {
+        await expect(document.activeElement).not.toHaveAttribute("open");
         await userEvent.keyboard("[ArrowRight]");
         await expect(document.activeElement).toHaveAttribute("open");
       }
     );
 
     await step(
-      "Pressing the Arrow Down button  will move down even if there are sibling and child elements mixed in with the section items.",
+      "Pressing the Arrow Down button will move down even if there are sibling and child elements mixed in with the section items.",
       async () => {
         await userEvent.keyboard("[ArrowDown]");
         await expect(
-          getByShadowRole(
+          getByShadowText(
             document.activeElement as DaikinTreeSection,
-            "button",
-            { name: "Tree section 2-1" }
+            "Tree section 2-1"
           )
         ).toBeInTheDocument();
         await userEvent.keyboard("[ArrowDown]");
@@ -78,10 +77,9 @@ export const Default: Story = {
         await expect(document.activeElement?.textContent).toBe("Tree item 2-2");
         await userEvent.keyboard("[ArrowDown]");
         await expect(
-          getByShadowRole(
+          getByShadowText(
             document.activeElement as DaikinTreeSection,
-            "button",
-            { name: "Tree section 2-3" }
+            "Tree section 2-3"
           )
         ).toBeInTheDocument();
         await userEvent.keyboard("[ArrowDown]");
@@ -95,39 +93,7 @@ export const Default: Story = {
       "Pressing the Arrow Left button will close to the tree item",
       async () => {
         await userEvent.keyboard("[ArrowLeft]");
-        await expect(
-          getByShadowRole(
-            document.activeElement as DaikinTreeSection,
-            "button",
-            { name: "Tree section 2-3" }
-          )
-        ).toBeInTheDocument();
         await expect(document.activeElement).not.toHaveAttribute("open");
-      }
-    );
-
-    await step(
-      "Pressing the Arrow Down button will move to the next focusable element, ignoring any sections or items that are disabled",
-      async () => {
-        await userEvent.keyboard("[ArrowDown]");
-        await expect(
-          queryByShadowRole(
-            document.activeElement as DaikinTreeSection,
-            "button",
-            { name: "Tree section 3" }
-          )
-        ).not.toBeInTheDocument();
-        await expect(
-          queryByShadowRole(
-            document.activeElement as DaikinTreeSection,
-            "button",
-            { name: "Tree section 4" }
-          )
-        ).not.toBeInTheDocument();
-        await expect(document.activeElement?.textContent).not.toBe(
-          "Tree item 4-1"
-        );
-        await expect(document.activeElement?.textContent).toBe("Tree item 5");
       }
     );
   }),

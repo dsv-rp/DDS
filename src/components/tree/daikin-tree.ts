@@ -1,10 +1,106 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { customElement, queryAssignedElements } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTreeItem } from "../tree-item";
 import type { DaikinTreeSection } from "../tree-section";
 
-type ElementType = DaikinTreeSection | DaikinTreeItem | null;
+type DirectionType = "down" | "up" | "left" | "right";
+
+type OptionType = {
+  previousParent?: boolean;
+};
+
+export type MoveFocusEventType = {
+  direction: DirectionType;
+  option?: OptionType;
+};
+
+export const getDirection: (
+  event: KeyboardEvent
+) => DirectionType | undefined = (event: KeyboardEvent) =>
+  (
+    ({
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowUp: "up",
+    }) as const
+  )[event.key];
+
+export const operationChildrenFocus = (
+  target: HTMLElement,
+  direction: "down" | "up" | "right",
+  children: readonly (DaikinTreeSection | DaikinTreeItem)[],
+  option?: OptionType
+) => {
+  const moveOffset = direction === "up" ? -1 : 1;
+
+  const focusedItemIndex = children.findIndex((item) => item === target);
+
+  if (option?.previousParent) {
+    target.focus();
+    return;
+  }
+
+  // Focus on the first tree section that is enabled.
+  for (
+    let index = focusedItemIndex + moveOffset, i = 0;
+    i < children.length;
+    index += moveOffset, i++
+  ) {
+    index %= children.length;
+    const item = children[index];
+    const isNegative =
+      index === -1 ||
+      (!index && new Uint8Array(new Float32Array([index]).buffer)[3] === 128);
+
+    if (isNegative && moveOffset === -1 && target.parentElement) {
+      // 直前のフォーカス可能な要素に跨ぐ
+      emitMoveFocus(target.parentElement, direction, {
+        previousParent: true,
+      });
+      break;
+    }
+
+    if (
+      focusedItemIndex === children.length - 1 &&
+      moveOffset === 1 &&
+      target.parentElement
+    ) {
+      // 直後のフォーカス可能な要素に跨ぐ
+      emitMoveFocus(target.parentElement, direction);
+      break;
+    }
+
+    if (item.disabled) {
+      continue;
+    }
+
+    if (item.tagName === "DAIKIN-TREE-SECTION" && moveOffset === -1) {
+      item.focusLastItem();
+      break;
+    }
+
+    item.focus();
+    break;
+  }
+};
+
+export const emitMoveFocus = (
+  target: HTMLElement,
+  direction: DirectionType,
+  option?: OptionType
+) => {
+  target.dispatchEvent(
+    new CustomEvent("tree-move-focus", {
+      detail: {
+        direction,
+        option,
+      },
+      bubbles: true,
+    })
+  );
+};
 
 /**
  * The tree component is a component that creates a hierarchical list. You can create a hierarchical structure by placing tree section components and tree item components under the parent tree component.
@@ -39,158 +135,27 @@ export class DaikinTree extends LitElement {
     }
   `;
 
-  @state()
-  private _previousElement: ElementType = null;
+  @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
+  private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  @state()
-  private _nextElement: ElementType = null;
+  private _handleMoveFocus(event: CustomEvent<MoveFocusEventType>) {
+    event.stopPropagation();
 
-  private _handleKeyDown(event: KeyboardEvent): void {
-    const moveOffset =
-      (
-        {
-          ArrowLeft: "left",
-          ArrowRight: "right",
-          ArrowDown: "down",
-          ArrowUp: "up",
-        } as const
-      )[event.key] ?? "";
+    const direction = event.detail.direction;
 
-    const focused = document.activeElement;
-    const isSection = !!(focused?.tagName === "DAIKIN-TREE-SECTION");
-    const isItem = !!(focused?.tagName === "DAIKIN-TREE-ITEM");
-
-    const getNextElement = (element: Element | null, isRetry?: boolean) => {
-      const nextElement = element?.nextElementSibling;
-
-      if (!isRetry && isSection && (element as DaikinTreeSection).open) {
-        this._nextElement = (element?.firstElementChild ?? null) as ElementType;
-        return;
-      }
-
-      if (nextElement) {
-        this._nextElement = nextElement as ElementType;
-      } else {
-        if (!(element?.parentElement?.nextElementSibling ?? null)) {
-          getNextElement(element?.parentElement ?? null, true);
-        } else {
-          this._nextElement = element?.parentElement
-            ?.nextElementSibling as ElementType;
-        }
-      }
-    };
-
-    const getPreviousDeepElement = (element: Element | null) => {
-      if (
-        element?.lastElementChild?.tagName === "DAIKIN-TREE-SECTION" &&
-        (element.lastElementChild as DaikinTreeSection).open
-      ) {
-        getPreviousDeepElement(element.lastElementChild);
-      } else {
-        this._previousElement = (element?.lastElementChild ??
-          null) as ElementType;
-      }
-    };
-
-    const getPreviousElement = (element: Element | null) => {
-      const previousElement = element?.previousElementSibling;
-      const parentElement = element?.parentElement;
-
-      if (
-        previousElement &&
-        previousElement.tagName === "DAIKIN-TREE-SECTION" &&
-        (previousElement as DaikinTreeSection).open
-      ) {
-        if (
-          previousElement.lastElementChild?.tagName === "DAIKIN-TREE-SECTION" &&
-          (previousElement.lastElementChild as DaikinTreeSection).open
-        ) {
-          getPreviousDeepElement(previousElement.lastElementChild);
-        } else {
-          this._previousElement = (previousElement.lastElementChild ??
-            null) as DaikinTreeSection | null;
-        }
-
-        return;
-      }
-
-      if (previousElement) {
-        this._previousElement = previousElement as ElementType;
-      } else if (
-        ["DAIKIN-TREE-SECTION", "DAIKIN-TREE-ITEM"].includes(
-          parentElement?.tagName ?? ""
-        )
-      ) {
-        this._previousElement = parentElement as ElementType;
-      }
-    };
-
-    const checkNextElement = () => {
-      if (this._nextElement?.disabled) {
-        getNextElement(this._nextElement);
-        checkNextElement();
-      } else {
-        this._nextElement?.focus();
-      }
-    };
-
-    const checkPreviousElement = () => {
-      if (this._previousElement?.disabled) {
-        getPreviousElement(this._previousElement);
-        checkPreviousElement();
-      } else {
-        this._previousElement?.focus();
-      }
-    };
-
-    switch (moveOffset) {
-      case "down": {
-        getNextElement(focused);
-        checkNextElement();
-        break;
-      }
-
-      case "up": {
-        getPreviousElement(focused);
-        checkPreviousElement();
-
-        break;
-      }
-
-      case "left": {
-        if (isItem) {
-          focused.parentElement?.focus();
-        }
-
-        (document.activeElement as DaikinTreeSection).open = false;
-
-        break;
-      }
-
-      case "right": {
-        if (isItem) {
-          (focused.nextElementSibling as HTMLElement | null)?.focus();
-          return;
-        }
-
-        if ((focused as DaikinTreeSection).open) {
-          ((focused?.firstElementChild ?? null) as ElementType)?.focus();
-        } else {
-          (focused as DaikinTreeSection).open = true;
-        }
-
-        break;
-      }
-
-      default: {
-        break;
-      }
+    if (direction === "up" || direction === "down") {
+      operationChildrenFocus(
+        event.target as HTMLElement,
+        direction,
+        this._children,
+        event.detail.option
+      );
     }
   }
 
   override render() {
-    return html`<div role="tree" @keydown=${this._handleKeyDown}>
-      <slot></slot>
+    return html`<div role="tree">
+      <slot @tree-move-focus=${this._handleMoveFocus}></slot>
     </div>`;
   }
 }
