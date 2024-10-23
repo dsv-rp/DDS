@@ -114,7 +114,7 @@ export class DaikinBreadcrumbItem extends LitElement {
 
   /**
    * Whether the item is the last one.
-   * The item will also be considered to be the current page if set to `true`.
+   * When set to `true`, the item will also be considered to be the current page and the link will be disabled.
    * Automatically set by `daikin-breadcrumb` component.
    */
   @property({ type: Boolean, reflect: true })
