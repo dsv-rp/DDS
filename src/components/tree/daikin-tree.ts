@@ -55,7 +55,6 @@ export const operationChildrenFocus = (
       (!index && new Uint8Array(new Float32Array([index]).buffer)[3] === 128);
 
     if (isNegative && moveOffset === -1 && target.parentElement) {
-      // 直前のフォーカス可能な要素に跨ぐ
       emitMoveFocus(target.parentElement, direction, {
         previousParent: true,
       });
@@ -67,7 +66,6 @@ export const operationChildrenFocus = (
       moveOffset === 1 &&
       target.parentElement
     ) {
-      // 直後のフォーカス可能な要素に跨ぐ
       emitMoveFocus(target.parentElement, direction);
       break;
     }
