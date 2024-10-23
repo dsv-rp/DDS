@@ -1,4 +1,3 @@
-import { fixupConfigRules } from "@eslint/compat";
 import eslint from "@eslint/js";
 import prettierPkg from "eslint-config-prettier";
 import { configs as litConfig } from "eslint-plugin-lit";
@@ -6,7 +5,6 @@ import {
   configs as litA11yConfigLegacy,
   rules as litA11yRules,
 } from "eslint-plugin-lit-a11y";
-import { configs as wcConfig } from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
 
 const { rules: prettierRules } = prettierPkg;
@@ -23,10 +21,6 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.strictTypeChecked,
-  ...fixupConfigRules([
-    wcConfig["flat/recommended"],
-    wcConfig["flat/best-practice"],
-  ]),
   litConfig["flat/recommended"],
   litA11yConfigFlatRecommended,
   { rules: prettierRules },
