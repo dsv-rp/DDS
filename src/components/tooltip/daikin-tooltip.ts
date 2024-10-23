@@ -11,7 +11,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
-import { returnPreventDefault } from "../../utils/returnPreventDefault";
+import { reDispatch } from "../../utils/reDispatch";
 
 const cvaTooltip = cva(
   [
@@ -232,6 +232,12 @@ export class DaikinTooltip extends LitElement {
     this._isFocused = false;
   }
 
+  private _handleToggle(event: ToggleEvent) {
+    if (reDispatch(this, event, new ToggleEvent("beforetoggle", event))) {
+      this.open = !this.open;
+    }
+  }
+
   override render() {
     // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
     /* eslint-disable lit-a11y/click-events-have-key-events */
@@ -260,13 +266,8 @@ export class DaikinTooltip extends LitElement {
         })}
         .popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
-          returnPreventDefault(
-            this,
-            event,
-            new ToggleEvent("beforetoggle", event)
-          )}
-        @toggle=${(event: ToggleEvent) =>
-          returnPreventDefault(this, event, new ToggleEvent("toggle", event))}
+          reDispatch(this, event, new ToggleEvent("beforetoggle", event))}
+        @toggle=${this._handleToggle}
       >
         <slot name="description">
           <span class="whitespace-pre-line">${this.description}</span>
