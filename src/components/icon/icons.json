@@ -32,6 +32,22 @@
       "class": "i-daikin-status-error",
       "color": "#ff4949"
     },
+    "chevron-up": {
+      "class": "i-daikin-chevron-up",
+      "color": null
+    },
+    "chevron-down": {
+      "class": "i-daikin-chevron-down",
+      "color": null
+    },
+    "chevron-left": {
+      "class": "i-daikin-chevron-left",
+      "color": null
+    },
+    "chevron-right": {
+      "class": "i-daikin-chevron-right",
+      "color": null
+    },
     "sort-chevron-up-and-down": {
       "class": "i-daikin-sort-chevron-up-and-down",
       "color": null
