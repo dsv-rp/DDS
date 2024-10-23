@@ -88,6 +88,7 @@ export const LinkDisabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-tree-item")[0];
     await expect(root).toBeInTheDocument();
 
+    await expect(getByShadowRole(root, "link")).toBeInTheDocument();
     await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
   }),
 };

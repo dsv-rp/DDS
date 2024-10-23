@@ -96,5 +96,33 @@ export const Default: Story = {
         await expect(document.activeElement).not.toHaveAttribute("open");
       }
     );
+
+    await step(
+      "Pressing the Arrow Down button will move to the next focusable element, ignoring any sections or items that are disabled",
+      async () => {
+        await userEvent.keyboard("[ArrowDown]");
+        await expect(
+          getByShadowText(
+            document.activeElement as DaikinTreeSection,
+            "Tree item 5"
+          )
+        ).toBeInTheDocument();
+      }
+    );
+
+    await step("Return to the top section correctly", async () => {
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[ArrowUp]");
+      await expect(
+        getByShadowText(
+          document.activeElement as DaikinTreeSection,
+          "Tree section 1"
+        )
+      ).toBeInTheDocument();
+    });
   }),
 };
