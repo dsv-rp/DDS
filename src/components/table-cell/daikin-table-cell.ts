@@ -11,10 +11,10 @@ const cvaCell = cva(
     "gap-1",
     "justify-center",
     "w-full",
-    "h-full",
-    "min-h-14",
+    "min-h-12",
+    "px-4",
+    "py-2",
     "text-daikinNeutral-900",
-    "p-4",
   ],
   {
     variants: {
@@ -57,7 +57,7 @@ export class DaikinTableCell extends LitElement {
     :host {
       display: block;
       width: 100%;
-      height: 100%;
+      min-height: 48px;
     }
   `;
 
