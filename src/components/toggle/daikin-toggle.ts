@@ -50,6 +50,10 @@ const TOGGLE_CLASS_NAME = cva([
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/toggle/index.js";
+ * ```
+ *
  * ```html
  * <daikin-toggle name="name" value="value"></daikin-toggle>
  * ```
@@ -105,11 +109,13 @@ export class DaikinToggle extends LitElement {
   }
 
   override render() {
+    // eslint-disable-next-line lit-a11y/role-has-required-aria-attrs -- We don't need `aria-checked` for `<input type="checkbox">`.
     return html`<input
       class=${TOGGLE_CLASS_NAME}
       type="checkbox"
       name=${this.name}
       value=${this.value}
+      role="switch"
       .checked=${this.checked}
       ?disabled=${this.disabled}
       @change=${this._handleChange}

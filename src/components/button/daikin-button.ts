@@ -1,91 +1,65 @@
-import {
-  buttonColorBackgroundPrimaryActive,
-  buttonColorBackgroundPrimaryDisabled,
-  buttonColorBackgroundPrimaryFocus,
-  buttonColorBackgroundPrimaryHover,
-  buttonColorBackgroundPrimaryPress,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
-import type { IconType } from "../icon/daikin-icon";
-
-const BUTTON_ICON_SIZE_MAP = {
-  medium: "m",
-  small: "s",
-} as const;
 
 const cvaButton = cva(
   [
     "inline-flex",
     "justify-center",
     "items-center",
-    "gap-2",
     "w-full",
     "h-full",
     "font-daikinSerif",
     "font-bold",
     "rounded",
+    "px-3",
     "tracking-wide",
     "text-nowrap",
-    "disabled:cursor-default",
-    "focus-visible:outline-none",
+
+    "focus-visible:outline",
+    "focus-visible:outline-2",
+    "focus-visible:outline-offset-2",
+    "focus-visible:outline-[#0081C0]",
+
+    "var-color-transparent/color-secondary",
+    "link-disabled:var-color-daikinNeutral-400/color-primary",
   ],
   {
     variants: {
-      variant: {
-        fill: [
-          "text-white",
-          "enabled:bg-[--color-base]",
-          "enabled:hover:bg-[--color-hover]",
-          "enabled:active:bg-[--color-active]",
-          "enabled:focus-visible:bg-[--color-focus]",
-          "disabled:bg-daikinNeutral-200",
-        ],
-        outline: [
-          "border",
-          "bg-white",
-          "text-[--color-base]",
-          "border-[--color-base]",
-          "enabled:hover:text-[--color-hover]",
-          "enabled:hover:border-[--color-hover]",
-          "enabled:active:text-[--color-active]",
-          "enabled:active:border-[--color-active]",
-          "enabled:focus-visible:text-[--color-focus]",
-          "enabled:focus-visible:border-[--color-focus]",
-          "disabled:border-daikinNeutral-200",
-          "disabled:text-daikinNeutral-200",
-        ],
-        ghost: [
-          "bg-white",
-          "enabled:text-[--color-base]",
-          "enabled:hover:text-[--color-hover]",
-          "enabled:active:text-[--color-active]",
-          "enabled:focus-visible:text-[--color-focus]",
-          "disabled:text-daikinNeutral-200",
-        ],
-      },
-      size: {
-        small: ["min-w-12", "px-3", "text-xs"],
-        medium: ["min-w-[60px]", "px-4", "text-sm"],
-      },
       color: {
         default: [
-          "var-color-daikinBlue-500/color-base",
-          "var-color-daikinBlue-300/color-hover",
-          "var-color-daikinBlue-600/color-active",
-          "var-color-daikinBlue-700/color-focus",
+          "link-enabled:var-color-daikinBlue-500/color-primary",
+          "link-enabled:hover:var-color-[#0081C0]/color-primary",
+          "link-enabled:hover:var-color-[#DDF3FC]/color-secondary",
+          "link-enabled:active:var-color-[#00689A]/color-primary",
+          "link-enabled:active:var-color-[#BBE7F9]/color-secondary",
         ],
         danger: [
-          "var-color-daikinRed-500/color-base",
-          "var-color-daikinRed-400/color-hover",
-          "var-color-daikinRed-600/color-active",
-          "var-color-daikinRed-700/color-focus",
+          "link-enabled:var-color-[#D80C18]/color-primary",
+          "link-enabled:hover:var-color-[#B90A15]/color-primary",
+          "link-enabled:hover:var-color-[#FDD9DB]/color-secondary",
+          "link-enabled:active:var-color-[#9A0911]/color-primary",
+          "link-enabled:active:var-color-[#FBB3B7]/color-secondary",
         ],
+      },
+      variant: {
+        fill: ["text-white", "bg-[--color-primary]"],
+        outline: [
+          "border",
+          "text-[--color-primary]",
+          "bg-[--color-secondary]",
+          "border-[--color-primary]",
+        ],
+        ghost: ["text-[--color-primary]", "bg-[--color-secondary]"],
+      },
+      size: {
+        small: ["text-sm"],
+        medium: ["text-sm"],
       },
     },
   }
@@ -100,8 +74,14 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
  *
  * @slot - A slot for the button content.
+ * @slot left-icon - A slot for an icon to be placed to the left of the text. Place `daikin-icon` or something similar.
+ * @slot right-icon - A slot for an icon to be placed to the right of the text. Place `daikin-icon` or something similar.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/button/index.js";
+ * ```
  *
  * ```html
  * <daikin-button>
@@ -115,148 +95,121 @@ export class DaikinButton extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --buttonColorBackgroundPrimaryActive: ${unsafeCSS(
-        buttonColorBackgroundPrimaryActive
-      )};
-      --buttonColorBackgroundPrimaryFocus: ${unsafeCSS(
-        buttonColorBackgroundPrimaryFocus
-      )};
-      --buttonColorBackgroundPrimaryHover: ${unsafeCSS(
-        buttonColorBackgroundPrimaryHover
-      )};
-      --buttonColorBackgroundPrimaryPress: ${unsafeCSS(
-        buttonColorBackgroundPrimaryPress
-      )};
-      --buttonColorBackgroundPrimaryDisabled: ${unsafeCSS(
-        buttonColorBackgroundPrimaryDisabled
-      )};
-
       display: inline-block;
-      width: fit-content;
     }
 
     :host([size="small"]) {
+      min-width: 52px;
       height: 32px;
     }
 
     :host([size="medium"]) {
-      height: 44px;
+      min-width: 60px;
+      height: 48px;
     }
   `;
 
   /**
-   * Type of variant.
+   * Variant of the button.
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   variant: ButtonVariantProps["variant"] = "fill";
 
   /**
-   * Type of color.
+   * Size of the button.
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
+  size: "small" | "medium" = "medium";
+
+  /**
+   * Color of the button.
+   */
+  @property({ type: String, reflect: true })
   color: ButtonVariantProps["color"] = "default";
 
   /**
-   * Specify the button size.
-   */
-  @property({ type: String, reflect: true })
-  size: ButtonVariantProps["size"] = "medium";
-
-  /**
-   * `true` if the button should be disabled.
+   * Whether the button is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Set a icon in the right of button label.
+   * Link `href`.
+   * Only used if the `type` is `"link"`.
+   * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
    */
   @property({ type: String, reflect: true })
-  rightIcon: IconType | null = null;
+  href: string | null = null;
 
   /**
-   * Set a icon in the left of button label.
+   * Type of the button.
+   * If `"link"` is specified, the button will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
    */
   @property({ type: String, reflect: true })
-  leftIcon: IconType | null = null;
+  type: "button" | "submit" | "reset" | "link" = "button";
 
   /**
-   * Link `href`. If present, this button is rendered as `<a>`.
-   */
-  @property({ type: String, reflect: true })
-  href = "";
-
-  /**
-   * Specify the button type.
-   */
-  @property({ type: String, reflect: true })
-  type: "button" | "submit" | "reset" = "button";
-
-  /**
-   * Specify the button role.
+   * Optional ARIA role of the button.
    */
   @property({ type: String, reflect: true, attribute: "button-role" })
-  buttonRole: ARIARole = "button";
+  buttonRole: ARIARole | null = null;
 
-  /**
-   * Specify whether the button is loading.
-   */
-  @property({ type: Boolean })
-  isLoading = false;
+  @query("a,button")
+  private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
+
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event: MouseEvent): void => {
+      if (this.disabled) {
+        event.stopImmediatePropagation();
+      }
+    });
+  }
 
   override render() {
-    const buttonClassName = cvaButton({
+    const className = cvaButton({
       variant: this.variant,
-      size: this.size,
       color: this.color,
+      size: this.size,
     });
 
-    const content = html`
-      ${this.leftIcon
-        ? html`<daikin-icon
-            icon=${this.leftIcon}
-            size=${BUTTON_ICON_SIZE_MAP[this.size]}
-            color="current"
-          ></daikin-icon>`
-        : null}
-      <slot></slot>
-      ${this.rightIcon
-        ? html`<daikin-icon
-            icon=${this.rightIcon}
-            size=${BUTTON_ICON_SIZE_MAP[this.size]}
-            color="current"
-          ></daikin-icon>`
-        : null}
-    `;
-
-    if (this.href) {
+    if (this.type === "link") {
+      const linkDisabled = this.disabled || this.href == null;
       return html`<a
-        href=${this.href}
-        class=${buttonClassName}
-        role=${this.buttonRole}
+        class=${className}
+        href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}
+        role=${ifDefined(
+          this.buttonRole ?? (linkDisabled ? "link" : undefined)
+        )}
+        aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
       >
-        ${content}
+        <slot name="left-icon"><span class="block -ml-1"></span></slot>
+        <span class="px-2"><slot></slot></span>
+        <slot name="right-icon"><span class="block -mr-1"></span></slot>
       </a>`;
     }
 
     return html`
       <button
-        class=${buttonClassName}
+        class=${className}
         ?disabled=${this.disabled}
         type=${this.type}
-        role=${this.buttonRole}
+        role=${ifDefined(this.buttonRole ?? undefined)}
       >
-        ${content}
+        <slot name="left-icon"><span class="block -ml-1"></span></slot>
+        <span class="px-2"><slot></slot></span>
+        <slot name="right-icon"><span class="block -mr-1"></span></slot>
       </button>
     `;
   }
 
   /**
-   * Focuses on the inner button.
+   * Focuses on the inner button or link.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
-    this.shadowRoot?.querySelector("button")?.focus(options);
+  override focus(options?: FocusOptions): void {
+    this._focusableElement?.focus(options);
   }
 }
 
