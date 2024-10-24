@@ -11,6 +11,7 @@ const cvaContainer = cva(
     "flex-col",
     "gap-1",
     "w-full",
+    "text-daikinNeutral-800",
     "pt-1",
     "border-t-4",
     "font-daikinSerif",
@@ -26,19 +27,22 @@ const cvaContainer = cva(
   }
 );
 
-const cvaLabel = cva(["flex", "items-center", "gap-2", "font-bold"], {
-  variants: {
-    status: {
-      unfinished: [],
-      inprogress: [],
-      finished: [
-        "after:size-4",
-        "after:i-daikin-status-success",
-        "after:text-daikinBlue-500",
-      ],
+const cvaLabel = cva(
+  ["flex", "items-center", "gap-2", "font-bold", "leading-5"],
+  {
+    variants: {
+      status: {
+        unfinished: [],
+        inprogress: [],
+        finished: [
+          "after:size-4",
+          "after:i-daikin-status-success",
+          "after:text-daikinBlue-500",
+        ],
+      },
     },
-  },
-});
+  }
+);
 
 type ProgressIndicatorItemVariantProps = MergeVariantProps<
   typeof cvaContainer | typeof cvaLabel
@@ -89,7 +93,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
       })}
     >
       <slot class=${cvaLabel({ status: this.status })}></slot>
-      <slot name="description" class="text-sm"></slot>
+      <slot name="description" class="text-sm leading-[18px]"></slot>
     </div>`;
   }
 }
