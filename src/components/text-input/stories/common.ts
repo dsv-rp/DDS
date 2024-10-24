@@ -17,7 +17,7 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   },
   type: {
     options: ["text", "email", "tel", "search"],
-    control: { type: "radio" },
+    control: "radio",
     defaultValue: "text",
     description: "Type of field",
   },
@@ -60,6 +60,9 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
     defaultValue: "",
     description: "Custom arguments for the Visual Regression Test.",
   },
+  // Hide event listeners
+  onChange: { name: "" },
+  onInput: { name: "" },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTextInputStoryArgs>;
