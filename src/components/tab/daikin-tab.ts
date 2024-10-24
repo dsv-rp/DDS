@@ -21,15 +21,12 @@ const cvaTab = cva(
     "relative",
 
     "focus-visible:outline-none",
-    "focus-visible:before:w-[calc(100%_+_6px)]",
-    "focus-visible:before:h-[calc(100%_+_6px)]",
+    "focus-visible:before:absolute",
+    "focus-visible:before:-inset-[3px]",
+    "focus-visible:before:z-[1]",
     "focus-visible:before:border",
     "focus-visible:before:border-2",
     "focus-visible:before:border-[#0081C0]",
-    "focus-visible:before:absolute",
-    "focus-visible:before:-top-[3px]",
-    "focus-visible:before:-left-[3px]",
-    "focus-visible:before:z-[1]",
 
     "disabled:text-daikinNeutral-200",
 
