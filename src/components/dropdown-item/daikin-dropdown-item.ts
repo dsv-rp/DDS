@@ -72,7 +72,7 @@ export class DaikinDropdownItem extends LitElement {
   `;
 
   /**
-   * Dropdown item value text
+   * Form value of the dropdown item.
    */
   @property({ type: String })
   value = "";
@@ -83,11 +83,15 @@ export class DaikinDropdownItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Whether the dropdown item is selected.
+   * Set automatically by `daikin-dropdown` component.
+   */
   @property({ type: Boolean, reflect: true })
   selected = false;
 
   @query("button")
-  private _button: HTMLButtonElement | null | undefined;
+  private _button!: HTMLButtonElement | null;
 
   private _handleClick(): void {
     if (this.disabled) {

@@ -4,11 +4,11 @@ import { html } from "lit";
 import type { DaikinDropdownItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinDropdownItemStoryArgs> = {
-  render: ({ value, disabled, onSelect, __vrtSelected__ }) => html`
+  render: ({ value, disabled, onSelect, selected }) => html`
     <daikin-dropdown-item
       value=${value}
       ?disabled=${disabled}
-      ?selected=${__vrtSelected__}
+      ?selected=${selected}
       @select=${onSelect}
     >
       Dropdown item

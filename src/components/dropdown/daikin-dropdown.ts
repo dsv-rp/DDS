@@ -145,44 +145,49 @@ export class DaikinDropdown extends LitElement {
     }
   `;
 
+  static readonly formAssociated = true;
+
+  private _internals = this.attachInternals();
+
   /**
-   * Label text
+   * Label of the dropdown.
    */
   @property({ type: String, reflect: true })
   label = "";
 
   /**
-   * Dropdown value
+   * Form value of the dropdown.
+   * `null` if not selected.
    */
   @property({ type: String, reflect: true })
   value: string | null = null;
 
   /**
-   * Placeholder text
+   * Placeholder text of the dropdown.
    */
   @property({ type: String, reflect: true })
   placeholder = "";
 
   /**
-   * Whether the dropdown is disabled
+   * Whether the dropdown is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the dropdown is required
+   * Whether the dropdown is required.
    */
   @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
-   * Whether the dropdown is error
+   * Whether the dropdown is in an error state.
    */
   @property({ type: Boolean, reflect: true })
   error = false;
 
   /**
-   * Whether or not a drop-down menu is displayed
+   * Whether the dropdown menu is opened.
    */
   @property({ type: Boolean, reflect: true })
   open = false;
@@ -202,6 +207,10 @@ export class DaikinDropdown extends LitElement {
     this,
     this._onClickOutside
   );
+
+  private _updateFormValue() {
+    this._internals.setFormValue(this.value);
+  }
 
   private _onClickOutside(): void {
     this.open = false;
@@ -359,6 +368,7 @@ export class DaikinDropdown extends LitElement {
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("value")) {
+      this._updateFormValue();
       this._reflectItemsAndLabel();
     }
   }

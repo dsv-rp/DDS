@@ -13,7 +13,7 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-dropdown-item--default", args);
 
 describeEach(["default", "selected"] as const, (state) => {
-  const baseArgs = { __vrtSelected__: state === "selected" };
+  const baseArgs = { selected: state === "selected" };
   const baseURL = getPageURL(baseArgs);
 
   test("base", async ({ page }) => {
