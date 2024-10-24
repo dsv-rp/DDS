@@ -8,32 +8,31 @@ const RADIO_CLASS_NAME = cva([
   "justify-center",
   "items-center",
   "size-4",
-  "bg-white",
   "rounded-full",
   "relative",
   "appearance-none",
 
   "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
+  "focus-visible:outline-2",
+  "focus-visible:outline-offset-2",
+  "focus-visible:outline-[#0081C0]",
 
   "unchecked:border-2",
-  "enabled:unchecked:border-daikinNeutral-600",
-  "enabled:unchecked:hover:border-daikinNeutral-400",
-  "enabled:unchecked:active:border-daikinNeutral-700",
+  "enabled:unchecked:border-[#616161]",
+  "enabled:unchecked:hover:bg-[#f2f2f2]",
+  "enabled:unchecked:active:bg-daikinNeutral-100",
   "checked:border-[5px]",
   "enabled:checked:border-daikinBlue-500",
-  "enabled:checked:group-hover:border-daikinBlue-300",
-  "enabled:checked:group-active:border-daikinBlue-600",
-  "disabled:border-daikinNeutral-200",
+  "enabled:checked:group-hover:border-[#0081C0]",
+  "enabled:checked:group-active:border-[#00689A]",
+  "disabled:border-daikinNeutral-400",
 ])();
 
-const cvaLabel = cva([], {
+const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
       false: [],
-      true: ["text-daikinNeutral-200"],
+      true: ["text-daikinNeutral-400"],
     },
   },
 });
