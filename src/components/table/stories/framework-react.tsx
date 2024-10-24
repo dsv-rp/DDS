@@ -32,14 +32,17 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
               {name}
               <span slot="subtitle">It's subtitle.</span>
             </ReactDaikinTableCell>
-            <ReactDaikinTableCell slot={`cell:price:${id}`}>
+            <ReactDaikinTableCell slot={`cell:price:${id}`} alignment="right">
               <ReactDaikinButton>{price}</ReactDaikinButton>
             </ReactDaikinTableCell>
           </Fragment>
         ))}
       {hasHeaderCellSlot &&
-        props.headers.map(({ key, label }) => (
-          <ReactDaikinTableHeaderCell slot={`header:${key}`}>
+        props.headers.map(({ key, label, alignment }) => (
+          <ReactDaikinTableHeaderCell
+            slot={`header:${key}`}
+            alignment={alignment ?? "left"}
+          >
             {label}
             <ReactDaikinIcon
               slot="left-icon"
