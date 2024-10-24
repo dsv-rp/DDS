@@ -5,6 +5,7 @@ import {
   configs as litA11yConfigLegacy,
   rules as litA11yRules,
 } from "eslint-plugin-lit-a11y";
+import { configs as wcConfig } from "eslint-plugin-wc";
 import tseslint from "typescript-eslint";
 
 const { rules: prettierRules } = prettierPkg;
@@ -21,6 +22,8 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.strictTypeChecked,
+  wcConfig["flat/recommended"],
+  wcConfig["flat/best-practice"],
   litConfig["flat/recommended"],
   litA11yConfigFlatRecommended,
   { rules: prettierRules },
