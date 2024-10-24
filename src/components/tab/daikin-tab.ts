@@ -30,9 +30,9 @@ const cvaTab = cva(
 
     "disabled:text-daikinNeutral-200",
 
-    "after:w-full",
     "after:absolute",
-    "after:bottom-0",
+    "after:inset-0",
+    "after:top-auto",
   ],
   {
     variants: {
