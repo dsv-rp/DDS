@@ -1,4 +1,11 @@
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
+import {
+  LitElement,
+  css,
+  html,
+  nothing,
+  unsafeCSS,
+  type PropertyValues,
+} from "lit";
 import {
   customElement,
   property,
@@ -149,7 +156,7 @@ export class DaikinTreeSection extends LitElement {
           icon: true,
           open: this.open,
         })}
-        style=${`--padding-left:${12 + this.level * 36}px`}
+        style=${`--padding-left:${12 + this.level * 28}px`}
         @click=${this._handleClick}
         @keydown=${this._handleKeyDown}
       >
@@ -166,8 +173,10 @@ export class DaikinTreeSection extends LitElement {
     </div>`;
   }
 
-  protected override firstUpdated(): void {
-    this._updateLevel();
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("level")) {
+      this._updateLevel();
+    }
   }
 
   /**

@@ -9,7 +9,7 @@ export const cvaTreeChildren = cva(
   [
     "flex",
     "items-center",
-    "gap-3",
+    "gap-1",
     "w-full",
     "min-h-12",
     "py-3",
@@ -116,8 +116,8 @@ export class DaikinTreeItem extends LitElement {
   @property({ type: Number, reflect: true })
   level: number = 0;
 
-  @query("button")
-  private readonly _button!: HTMLButtonElement;
+  @query("a,button")
+  private _focusableElement!: HTMLAnchorElement | HTMLButtonElement;
 
   private _handleKeyDown(event: KeyboardEvent) {
     const direction = getDirection(event);
@@ -162,7 +162,7 @@ export class DaikinTreeItem extends LitElement {
     return html`<div
       role="treeitem"
       aria-selected=${this.selected}
-      style=${`--padding-left:${12 + this.level * 36}px`}
+      style=${`--padding-left:${12 + this.level * 28}px`}
       @keydown=${this._handleKeyDown}
     >
       ${item}
@@ -174,11 +174,11 @@ export class DaikinTreeItem extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions | undefined): void {
-    this._button.focus(options);
+    this._focusableElement.focus(options);
   }
 
   focusLastItem(options?: FocusOptions | undefined): void {
-    this._button.focus(options);
+    this._focusableElement.focus(options);
   }
 }
 
