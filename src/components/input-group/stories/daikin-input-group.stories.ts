@@ -109,3 +109,10 @@ export const Textarea: Story = {
     innerInput.blur();
   }),
 };
+
+export const Select: Story = {
+  args: {
+    ...Default.args,
+    content: "Select",
+  },
+};

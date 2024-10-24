@@ -7,10 +7,11 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinSelect } from "../select/daikin-select";
 import type { DaikinTextInput } from "../text-input/daikin-text-input";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
-type ControlElement = DaikinTextInput | DaikinTextarea;
+type ControlElement = DaikinTextInput | DaikinTextarea | DaikinSelect;
 
 const cvaLabel = cva(["text-base", "font-bold"], {
   variants: {
@@ -35,15 +36,16 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
 });
 
 /**
- * The input group component serves as a wrapper for a `daikin-text-input` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for a `daikin-text-input` or `daikin-textarea` or `daikin-select` component, providing additional elements such as labels, helper texts, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
  * - `daikin-input-group` > `daikin-text-input`
  * - `daikin-input-group` > `daikin-textarea`
+ * - `daikin-input-group` > `daikin-select`
  *
- * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` element here.
+ * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` or `daikin-select` element here.
  *
  * @example
  *
@@ -51,6 +53,7 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
  * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * import "@daikin-oss/design-system-web-components/components/select/index.js";
  * ```
  *
  * With Text Input:
@@ -66,6 +69,20 @@ const cvaHelper = cva(["h-[22px]", "text-xs"], {
  * ```html
  * <daikin-input-group>
  *   <daikin-textarea value="Content of Textarea"></daikin-textarea>
+ * </daikin-input-group>
+ * ```
+ *
+ * With Select:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-select>
+ *     <select name="select">
+ *       <option value="value1">Option 1</option>
+ *       <option value="value2">Option 2</option>
+ *       <option value="value3">Option 3</option>
+ *     </select>
+ *   </daikin-select>
  * </daikin-input-group>
  * ```
  */
@@ -121,7 +138,9 @@ export class DaikinInputGroup extends LitElement {
   @queryAssignedElements({ selector: "daikin-textarea" })
   _textareas!: DaikinTextarea[];
 
-  @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
+  @queryAssignedElements({
+    selector: "daikin-text-input,daikin-textarea,daikin-select",
+  })
   _controls!: ControlElement[];
 
   private _handleSlotChange(): void {

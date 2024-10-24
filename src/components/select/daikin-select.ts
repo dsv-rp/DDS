@@ -15,14 +15,12 @@ const cvaSelect = cva(
     "slotted-[select]:w-full",
     "slotted-[select]:h-full",
     "slotted-[select]:min-h-12",
-    "slotted-[select]:pl-4",
-    "slotted-[select]:pr-3",
+    "slotted-[select]:!pl-4",
+    "slotted-[select]:!pr-3",
     "slotted-[select]:text-base",
     "slotted-[select]:font-daikinSerif",
-    "slotted-[select]:border",
-    "slotted-[select]:border-[--color-base]",
+    "slotted-[select]:!border",
     "slotted-[select]:rounded-md",
-    "slotted-[select]:font-daikinSerif",
     "slotted-[select]:leading-5",
     "slotted-[select]:outline",
     "slotted-[select]:outline-0",
@@ -35,9 +33,6 @@ const cvaSelect = cva(
     "slotted-[select:enabled]:cursor-pointer",
     "slotted-[select:enabled]:hover:bg-[#f2f2f2]",
     "slotted-[select:enabled]:active:bg-daikinNeutral-100",
-
-    "slotted-[select:disabled]:text-daikinNeutral-200",
-    "slotted-[select:disabled]:border-daikinNeutral-200",
   ],
   {
     variants: {
@@ -49,6 +44,16 @@ const cvaSelect = cva(
         true: [
           "var-color-daikinRed-500/color-base",
           "var-color-daikinRed-500/color-focus",
+        ],
+      },
+      disabled: {
+        false: [
+          "slotted-[select]:!text-daikinNeutral-800",
+          "slotted-[select]:!border-[--color-base]",
+        ],
+        true: [
+          "slotted-[select]:!text-daikinNeutral-200",
+          "slotted-[select]:!border-daikinNeutral-200",
         ],
       },
     },
@@ -84,6 +89,8 @@ const cvaSelectContainer = cva(
  * A select component. It can contain the HTML standard `select`, and all operations are delegated to it. Here, only the style is changed based on the DDS design.
  *
  * For disabled and error, you must also specify them in daikin-select.
+ *
+ * Note: The `disabled` attributes of `daikin-select` and `select` are not synchronized.
  *
  * Hierarchy:
  * - `daikin-input-group` > `daikin-select`
@@ -130,7 +137,9 @@ export class DaikinSelect extends LitElement {
 
   override render() {
     return html`<div class=${cvaSelectContainer({ disabled: this.disabled })}>
-      <slot class=${cvaSelect({ error: this.error })}></slot>
+      <slot
+        class=${cvaSelect({ disabled: this.disabled, error: this.error })}
+      ></slot>
     </div>`;
   }
 

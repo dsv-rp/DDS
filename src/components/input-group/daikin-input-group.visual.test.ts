@@ -12,7 +12,13 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
-describeEach(["TextInput", "Textarea"] as const, (content) => {
+const innerContent = {
+  TextInput: "daikin-text-input",
+  Textarea: "daikin-textarea",
+  Select: "daikin-select",
+};
+
+describeEach(["TextInput", "Textarea", "Select"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
@@ -32,6 +38,9 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
 
             // wait for element to be visible
             const element = await page.waitForSelector("daikin-input-group", {
+              state: "visible",
+            });
+            await page.waitForSelector(innerContent[content], {
               state: "visible",
             });
 

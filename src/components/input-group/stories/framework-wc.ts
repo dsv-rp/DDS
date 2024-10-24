@@ -1,9 +1,11 @@
 import "#package/components/input-group/daikin-input-group";
+import "#package/components/select/daikin-select";
 import "#package/components/text-input/daikin-text-input";
 import "#package/components/textarea/daikin-textarea";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
+import "../../../storybook-tailwind.css";
 import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
@@ -33,6 +35,15 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
             placeholder="Placeholder text"
           ></daikin-textarea>`
         : null}
+      ${content === "Select"
+        ? html`<daikin-select class="w-[360px]">
+            <select name="select">
+              <option value="value1">Option 1</option>
+              <option value="value2">Option 2</option>
+              <option value="value3">Option 3</option>
+            </select>
+          </daikin-select>`
+        : nothing}
     </daikin-input-group>
   `,
 };
