@@ -17,7 +17,7 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   },
   type: {
     options: ["text", "email", "tel", "search"],
-    control: { type: "radio" },
+    control: "radio",
     defaultValue: "text",
     description: "Type of field",
   },
