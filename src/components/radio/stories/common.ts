@@ -28,6 +28,12 @@ export const DAIKIN_RADIO_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
+  onChange: {
+    name: "",
+  },
+  onClick: {
+    name: "",
+  },
 } satisfies Meta<DaikinRadioStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinRadioStoryArgs>;

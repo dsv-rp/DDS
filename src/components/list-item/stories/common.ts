@@ -35,6 +35,9 @@ export const DAIKIN_LIST_ITEM_ARG_TYPES = {
   action: {
     type: "boolean",
   },
+  onClick: {
+    name: "",
+  },
 } satisfies Meta<DaikinListItemStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinListItemStoryArgs>;

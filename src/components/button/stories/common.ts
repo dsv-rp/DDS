@@ -44,6 +44,9 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
   rightIcon: {
     type: "string",
   },
+  onClick: {
+    name: "",
+  },
 } as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinButtonStoryArgs>;
