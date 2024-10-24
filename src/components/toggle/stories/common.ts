@@ -13,12 +13,9 @@ export const DAIKIN_TOGGLE_ARG_TYPES = {
   value: { type: "string" },
   checked: { type: "boolean" },
   disabled: { type: "boolean" },
-  onChange: {
-    name: "",
-  },
-  onClick: {
-    name: "",
-  },
+  // Hide event listeners
+  onChange: { name: "" },
+  onClick: { name: "" },
 } as const satisfies Meta<DaikinToggleStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinToggleStoryArgs>;

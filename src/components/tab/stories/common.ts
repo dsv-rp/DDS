@@ -14,9 +14,8 @@ export const DAIKIN_TAB_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
-  onClick: {
-    name: "",
-  },
+  // Hide event listeners
+  onClick: { name: "" },
 } satisfies Meta<DaikinTabStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTabStoryArgs>;

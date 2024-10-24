@@ -40,12 +40,9 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
     defaultValue: "",
     description: "Custom arguments for the Visual Regression Test.",
   },
-  onChange: {
-    name: "",
-  },
-  onInput: {
-    name: "",
-  },
+  // Hide event listeners
+  onChange: { name: "" },
+  onInput: { name: "" },
 } satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTextareaStoryArgs>;

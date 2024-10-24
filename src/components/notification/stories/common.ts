@@ -34,9 +34,8 @@ export const DAIKIN_NOTIFICATION_ARG_TYPES = {
   slotDescription: {
     type: "string",
   },
-  onClose: {
-    name: "",
-  },
+  // Hide event listeners
+  onClose: { name: "" },
 } satisfies Meta<DaikinNotificationStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinNotificationStoryArgs>;

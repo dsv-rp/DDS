@@ -29,12 +29,9 @@ export const DAIKIN_CHECKBOX_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
-  onChange: {
-    name: "",
-  },
-  onClick: {
-    name: "",
-  },
+  // Hide event listeners
+  onChange: { name: "" },
+  onClick: { name: "" },
 } as const satisfies Meta<DaikinCheckboxStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinCheckboxStoryArgs>;
