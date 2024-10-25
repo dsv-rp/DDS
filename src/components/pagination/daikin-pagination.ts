@@ -196,7 +196,10 @@ export class DaikinPagination extends LitElement {
           @click=${() => this._handleClickChevron("left")}
         >
           <div class="flex items-center justify-center">
-            <daikin-icon icon="chevronLeft" color="current"></daikin-icon>
+            <daikin-icon
+              icon="pagination-chevron-left"
+              color="current"
+            ></daikin-icon>
           </div>
         </button>
 
@@ -286,7 +289,10 @@ export class DaikinPagination extends LitElement {
           @click=${() => this._handleClickChevron("right")}
         >
           <div class="flex items-center justify-center">
-            <daikin-icon icon="chevronRight" color="current"></daikin-icon>
+            <daikin-icon
+              icon="pagination-chevron-right"
+              color="current"
+            ></daikin-icon>
           </div>
         </button>
       </div>

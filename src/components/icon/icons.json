@@ -24,12 +24,12 @@
       "class": "i-daikin-notification-status-warning",
       "color": null
     },
-    "chevronLeft": {
-      "class": "i-daikin-chevron-left",
+    "pagination-chevron-left": {
+      "class": "i-daikin-pagination-chevron-left",
       "color": "#414141"
     },
-    "chevronRight": {
-      "class": "i-daikin-chevron-right",
+    "pagination-chevron-right": {
+      "class": "i-daikin-pagination-chevron-right",
       "color": "#414141"
     },
     "arrowUp": {
