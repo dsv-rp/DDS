@@ -106,6 +106,12 @@ export class DaikinRadio extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Whether the radio button can be focused.
+   */
+  @property({ type: Boolean, reflect: true })
+  skipTab = false;
+
   static readonly formAssociated = true;
 
   // Define internals to let the radio button can be used in a form.
@@ -145,6 +151,7 @@ export class DaikinRadio extends LitElement {
           .checked=${this.checked}
           @click=${this._handleClick}
           @change=${this._handleChange}
+          tabindex=${this.skipTab ? "-1" : "0"}
         />
       </div>
       <span

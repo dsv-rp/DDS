@@ -84,46 +84,28 @@ export class DaikinRadioGroup extends LitElement {
   @property({ type: String, reflect: true })
   value = "";
 
-  private _updateRadioIndex(daikinRadio: DaikinRadio, index: string) {
-    const input = daikinRadio.shadowRoot?.querySelector("input");
-    input?.setAttribute("tabindex", index);
-  }
-
-  private _updateRadios(value: string, name: string) {
-    const defaultValue = this._radios.find(
-      (radio) => radio.value === this.value
-    );
-    for (const [index, daikinRadio] of this._radios.entries()) {
-      daikinRadio.name = name;
-      if (!defaultValue && index === 0) {
-        this._updateRadioIndex(daikinRadio, "0");
-        continue;
+  private _updateRadios() {
+    const radios = this._radios;
+    const selectedRadio = radios.find((radio) => radio.value === this.value);
+    for (const [, daikinRadio] of this._radios.entries()) {
+      if (this.name) {
+        daikinRadio.name = this.name;
       }
-      if (!defaultValue) {
-        this._updateRadioIndex(daikinRadio, "-1");
-        continue;
-      }
-      if (daikinRadio.value === value) {
-        this.value = value;
-        daikinRadio.checked = true;
-        this._updateRadioIndex(daikinRadio, "0");
-        daikinRadio.internals.setFormValue(daikinRadio.value);
-      } else {
-        daikinRadio.checked = false;
-        this._updateRadioIndex(daikinRadio, "-1");
-        daikinRadio.internals.setFormValue(null);
-      }
+      const isSelected = daikinRadio === selectedRadio;
+      daikinRadio.checked = isSelected;
+      daikinRadio.skipTab = !isSelected;
+      daikinRadio.internals.setFormValue(isSelected ? daikinRadio.value : null);
     }
   }
 
   private readonly _handleRadioChange = (
     event: CustomEvent<{ value: string }>
   ) => {
-    this._updateRadios((event.target as HTMLInputElement).value, this.name);
+    this.value = (event.target as HTMLInputElement).value;
   };
 
   private _handleSlotChange(): void {
-    this._updateRadios(this.value, this.name);
+    this._updateRadios();
   }
 
   /**
@@ -209,7 +191,7 @@ export class DaikinRadioGroup extends LitElement {
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("value") || changedProperties.has("name")) {
-      this._updateRadios(this.value, this.name);
+      this._updateRadios();
     }
   }
 }
