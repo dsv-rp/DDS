@@ -1,3 +1,10 @@
+import {
+  Controls,
+  Description,
+  Primary,
+  Subtitle,
+  Title,
+} from "@storybook/blocks";
 import { useGlobals } from "@storybook/preview-api";
 import type { Preview } from "@storybook/web-components";
 
@@ -53,6 +60,17 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/,
       },
+    },
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+          <Controls />
+        </>
+      ),
     },
   },
   globalTypes: {

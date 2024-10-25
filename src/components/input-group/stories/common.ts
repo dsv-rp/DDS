@@ -13,7 +13,7 @@ export interface DaikinInputGroupStoryArgs
 export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   content: {
     description: "Slot content to show",
-    control: "select",
+    control: "radio",
     options: ["TextInput", "Textarea", "Select"],
   },
   label: {

@@ -32,10 +32,10 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
     type: "string",
   },
   type: {
-    control: "select",
+    control: "radio",
     options: ["button", "submit", "reset", "link"],
   },
-  role: {
+  buttonRole: {
     type: "string",
   },
   leftIcon: {
@@ -44,6 +44,8 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
   rightIcon: {
     type: "string",
   },
+  // Hide event listeners
+  onClick: { name: "" },
 } as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinButtonStoryArgs>;
