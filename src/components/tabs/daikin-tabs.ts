@@ -12,7 +12,6 @@ import { scrollIntoViewOnlyParent } from "./scroller";
 /**
  * The tab group component manages a group of tabs and switches the content displayed using the panel switcher component.
  * It allows users to navigate between different sections of content by clicking on individual tabs.
- * Tab groups do not provide styles; developers must apply styles to the wrapper of the tabs (`tablist` part) and to the panel switcher(s).
  *
  * > [!WARNING]
  * > At least one tab must be available (that means, the tab must be present and enabled).
@@ -37,7 +36,6 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * ```
  *
  * ```html
- * <!-- See storybook for styling tab group. You'll need `::part(tablist)` to style the tab container. -->
  * <daikin-tabs value="foo">
  *   <daikin-tab value="foo">Foo tab</daikin-tab>
  *   <daikin-tab value="bar">Bar tab</daikin-tab>
