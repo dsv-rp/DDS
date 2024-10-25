@@ -14,7 +14,7 @@ export const metadata: Meta<DaikinSelectStoryArgs> = {
   component: ({ ...props }: DaikinSelectStoryArgs) => (
     <div style={{ width: "360px" }}>
       <ReactDaikinSelect {...props}>
-        <select name="select" disabled={props.disabled}>
+        <select name="select">
           <option value="value-1">Option 1</option>
           <option value="value-2">Option 2</option>
           <optgroup label="Group A">

@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
@@ -77,7 +77,7 @@ const cvaSelect = cva(
 /**
  * A select component.
  * This component accepts an HTML `<select>` element in the slot and applies styles to it.
- * To disable the component, you must set the `disabled` property to `true` for both the `<daikin-select>` component and the `<select>` element in the slot.
+ * The `disabled` property of the component is also reflected in the `<select>` element in the slot.
  *
  * Hierarchy:
  * - `daikin-input-group` > `daikin-select`
@@ -132,7 +132,7 @@ export class DaikinSelect extends LitElement {
 
   /**
    * Whether the select component is disabled.
-   * Must be same as `disabled` property of the `<select>` element in the slot.
+   * This value will also be applied to the `disabled` property of the `<select>` element in the slot.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -140,10 +140,32 @@ export class DaikinSelect extends LitElement {
   @queryAssignedElements({ selector: "select" })
   private readonly _selects!: readonly HTMLSelectElement[];
 
+  private get _select(): HTMLSelectElement | null {
+    return this._selects[0] ?? null;
+  }
+
+  private _updateSelect(): void {
+    const select = this._select;
+    if (select) {
+      select.disabled = this.disabled;
+    }
+  }
+
+  private _handleSlotChange(): void {
+    this._updateSelect();
+  }
+
   override render() {
     return html`<slot
       class=${cvaSelect({ disabled: this.disabled, error: this.error })}
+      @slotchange=${this._handleSlotChange}
     ></slot>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("disabled")) {
+      this._updateSelect();
+    }
   }
 
   /**
@@ -151,7 +173,7 @@ export class DaikinSelect extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._selects[0].focus(options);
+    this._select?.focus(options);
   }
 }
 

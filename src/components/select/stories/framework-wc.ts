@@ -7,7 +7,7 @@ export const metadata: Meta<DaikinSelectStoryArgs> = {
   render: ({ error, disabled }) =>
     html`<div style="width:360px;">
       <daikin-select ?error=${error} ?disabled=${disabled}>
-        <select name="select" ?disabled=${disabled}>
+        <select name="select">
           <option value="value-1">Option 1</option>
           <option value="value-2">Option 2</option>
           <optgroup label="Group A">

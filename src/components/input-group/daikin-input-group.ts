@@ -139,7 +139,7 @@ export class DaikinInputGroup extends LitElement {
   _textareas!: DaikinTextarea[];
 
   @queryAssignedElements({
-    selector: "daikin-text-input,daikin-textarea,daikin-select",
+    selector: "daikin-select,daikin-text-input,daikin-textarea",
   })
   _controls!: ControlElement[];
 
