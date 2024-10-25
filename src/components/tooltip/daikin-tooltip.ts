@@ -134,7 +134,7 @@ export class DaikinTooltip extends LitElement {
   description = "";
 
   /**
-   * if true, the tooltip will hide on click.
+   * if `true`, the tooltip will hide on click.
    */
   @property({ reflect: true, type: Boolean })
   closeOnClick = false;

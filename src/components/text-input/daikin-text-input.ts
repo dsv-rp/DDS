@@ -86,49 +86,49 @@ export class DaikinTextInput extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Field value
+   * The current value of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Type of field
+   * Type of field.
    */
   @property({ type: String })
   type: "text" | "email" | "tel" | "search" = "text";
 
   /**
-   * Placeholder text
+   * Placeholder text.
    */
   @property({ type: String })
   placeholder = "";
 
   /**
-   * Whether the field is disabled
+   * Whether the field is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the field is readonly
+   * Whether the field is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Name of the input field control used in the form
+   * The name of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String, reflect: true })
   name?: string;
 
   /**
-   * Maximum length in field values
+   * Maximum length in field values.
    */
   @property({ type: Number })
   maxlength?: number;
 
   /**
-   * Specify auto-completion values
+   * Specify auto-completion values.
    */
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];

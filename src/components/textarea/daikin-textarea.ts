@@ -100,43 +100,43 @@ export class DaikinTextarea extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Field value
+   * The current value of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String })
   value = "";
 
   /**
-   * Placeholder text
+   * Placeholder text.
    */
   @property({ type: String })
   placeholder = "";
 
   /**
-   * Whether the field is disabled
+   * Whether the field is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the field is required
+   * Whether the field is required.
    */
   @property({ type: Boolean, reflect: true })
   required = false;
 
   /**
-   * Whether the field is readonly
+   * Whether the field is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Maximum length in field values
+   * Maximum length in field values.
    */
   @property({ type: Number, reflect: true })
   maxlength: number = 100;
 
   /**
-   * Specify auto-completion values
+   * Specify auto-completion values.
    */
   @property({ type: String, reflect: true })
   autocomplete?: HTMLInputElement["autocomplete"];
@@ -148,7 +148,7 @@ export class DaikinTextarea extends LitElement {
   error = false;
 
   /**
-   * Whether to display a counter at the top of the text area
+   * Whether to display a counter at the top of the text area.
    */
   @property({ type: Boolean, reflect: true })
   counter = false;
