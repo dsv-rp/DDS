@@ -23,6 +23,7 @@ export const Default: Story = {
   args: {
     label: "Checkbox label",
     checkState: "unchecked",
+    labelPosition: "right",
     disabled: false,
     onChange: fn(eventPayloadTransformer),
     onClick: fn(eventPayloadTransformer),
