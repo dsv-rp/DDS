@@ -18,6 +18,9 @@ export const DAIKIN_TABS_ARG_TYPES = {
   value: {
     type: "string",
   },
+  // Hide event listeners
+  onBeforeChange: { name: "" },
+  onChange: { name: "" },
 } satisfies Meta<DaikinTabsStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTabsStoryArgs>;
