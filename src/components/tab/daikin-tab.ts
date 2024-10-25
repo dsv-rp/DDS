@@ -7,7 +7,8 @@ const cvaTab = cva(
   [
     "flex",
     "w-full",
-    "h-full",
+    "min-w-14",
+    "h-10",
     "items-center",
     "justify-center",
     "px-4",
@@ -28,7 +29,7 @@ const cvaTab = cva(
     "focus-visible:before:border-2",
     "focus-visible:before:border-[#0081C0]",
 
-    "disabled:text-daikinNeutral-200",
+    "disabled:text-daikinNeutral-400",
 
     "after:absolute",
     "after:inset-0",
@@ -38,14 +39,14 @@ const cvaTab = cva(
     variants: {
       active: {
         false: [
-          "enabled:text-[#515151]",
-          "enabled:hover:text-daikinNeutral-800",
+          "enabled:text-daikinNeutral-700",
+          "enabled:hover:text-[#414141]",
           "enabled:hover:bg-[#f2f2f2]",
-          "enabled:active:text-[#313131]",
+          "enabled:active:text-daikinNeutral-800",
           "enabled:active:bg-daikinNeutral-100",
 
           "after:h-[1px]",
-          "after:bg-daikinNeutral-100",
+          "after:bg-[#cecece]",
         ],
         true: [
           "enabled:text-daikinBlue-500",
@@ -55,7 +56,7 @@ const cvaTab = cva(
           "after:h-1",
 
           "enabled:after:bg-daikinBlue-500",
-          "disabled:after:bg-daikinNeutral-200",
+          "disabled:after:bg-daikinNeutral-400",
         ],
       },
     },
