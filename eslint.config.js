@@ -54,6 +54,13 @@ export default tseslint.config(
         },
       ],
       "wc/guard-super-call": "off",
+      "lit-a11y/anchor-is-valid": [
+        "error",
+        {
+          allowHash: false,
+          aspects: ["invalidHref", "preferButton"],
+        },
+      ],
     },
   },
   {

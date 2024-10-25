@@ -1,28 +1,28 @@
 import type { DaikinButton } from "#package/components/button/daikin-button";
+import type { IconType } from "#package/components/icon";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinButtonStoryArgs
   extends Required<ElementProps<DaikinButton>> {
-  /**
-   * Text input for users
-   */
   label: string;
-  onClick: (event: Event) => void;
+  leftIcon: IconType | null;
+  rightIcon: IconType | null;
+  onClick: (event: MouseEvent) => void;
 }
 
 export const DAIKIN_BUTTON_ARG_TYPES = {
   variant: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["fill", "outline", "ghost"],
   },
-  color: {
-    control: { type: "radio" },
-    options: ["default", "danger"],
-  },
   size: {
-    control: { type: "radio" },
+    control: "radio",
     options: ["small", "medium"],
+  },
+  color: {
+    control: "radio",
+    options: ["default", "danger"],
   },
   label: {
     type: "string",
@@ -32,22 +32,20 @@ export const DAIKIN_BUTTON_ARG_TYPES = {
     type: "string",
   },
   type: {
-    control: { type: "select" },
-    options: ["button", "submit", "reset"],
+    control: "radio",
+    options: ["button", "submit", "reset", "link"],
   },
-  role: {
+  buttonRole: {
     type: "string",
   },
   leftIcon: {
-    description:
-      "Specify the left icon to be inserted. See `daikin-icon` component for available icons.",
     type: "string",
   },
   rightIcon: {
-    description:
-      "Specify the right icon to be inserted. See `daikin-icon` component for available icons.",
     type: "string",
   },
+  // Hide event listeners
+  onClick: { name: "" },
 } as const satisfies Meta<DaikinButtonStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinButtonStoryArgs>;
