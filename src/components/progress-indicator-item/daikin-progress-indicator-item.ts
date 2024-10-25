@@ -91,6 +91,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
       class=${cvaContainer({
         status: this.status,
       })}
+      role="listitem"
     >
       <slot class=${cvaLabel({ status: this.status })}></slot>
       <slot name="description" class="text-sm leading-[18px]"></slot>

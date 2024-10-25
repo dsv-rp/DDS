@@ -48,6 +48,7 @@ export class DaikinProgressIndicator extends LitElement {
   override render() {
     return html`<div
       class="flex justify-stretch items-start w-full font-daikinSerif"
+      role="list"
     >
       <slot></slot>
     </div>`;
