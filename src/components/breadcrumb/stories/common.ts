@@ -9,7 +9,7 @@ export type DaikinBreadcrumbStoryArgs = Required<
 export const DAIKIN_BREADCRUMB_ARG_TYPES = {
   trailingSlash: { type: "boolean" },
   overflow: {
-    control: { type: "select" },
+    control: "radio",
     options: ["visible", "ellipsis"],
   },
 } as const satisfies Meta<DaikinBreadcrumbStoryArgs>["argTypes"];

@@ -5,33 +5,33 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
-const cvaLinkSlot = cva(
+const cvaLink = cva(
   [
-    "slotted:h-8",
-    "slotted:font-normal",
-    "slotted:not-italic",
-    "slotted:leading-8",
-    "slotted:text-sm",
-    "slotted:text-daikinBlue-500",
-    "slotted:outline-none",
-    "slotted:font-daikinSerif",
+    "h-8",
+    "font-normal",
+    "not-italic",
+    "leading-8",
+    "text-sm",
+    "text-daikinBlue-500",
+    "outline-none",
+    "font-daikinSerif",
   ],
   {
     variants: {
       variant: {
         normal: [
-          "slotted:hover:text-daikinBlue-300",
-          "slotted:active:text-daikinNeutral-800",
-          "slotted-[*:focus-visible]:text-daikinBlue-700",
+          "hover:text-daikinBlue-300",
+          "active:text-daikinNeutral-800",
+          "focus-visible:text-daikinBlue-700",
         ],
-        ellipsis: ["slotted:hover:text-daikinBlue-300"],
+        ellipsis: ["hover:text-daikinBlue-300"],
       },
       disabled: {
         true: [
-          "slotted:!text-daikinNeutral-800",
-          "slotted:pointer-events-none",
-          "slotted:cursor-default",
-          "slotted-[*:focus-visible]:!text-daikinNeutral-800",
+          "!text-daikinNeutral-800",
+          "pointer-events-none",
+          "cursor-default",
+          "focus-visible:!text-daikinNeutral-800",
         ],
         false: [],
       },
@@ -39,7 +39,7 @@ const cvaLinkSlot = cva(
   }
 );
 
-type LinkVariantProps = MergeVariantProps<typeof cvaLinkSlot>;
+type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
 
 /**
  * The `daikin-breadcrumb-item` is a component used to represent each item of the breadcrumb list, and is used as a child element of the `daikin-breadcrumb` component.
@@ -113,6 +113,14 @@ export class DaikinBreadcrumbItem extends LitElement {
   trailingSlash = false;
 
   /**
+   * Whether the item is the last one.
+   * When set to `true`, the item will also be considered to be the current page and the link will be disabled.
+   * Automatically set by `daikin-breadcrumb` component.
+   */
+  @property({ type: Boolean, reflect: true })
+  last = false;
+
+  /**
    * Whether the link should be hidden when ellipsis mode.
    * Set automatically by `daikin-breadcrumb`.
    */
@@ -121,23 +129,30 @@ export class DaikinBreadcrumbItem extends LitElement {
 
   override render() {
     const slash = this.trailingSlash
-      ? html`<span class="text-daikinNeutral-800 font-daikinSerif">/</span>`
+      ? html`<span
+          class="text-daikinNeutral-800 font-daikinSerif"
+          aria-hidden="true"
+        >
+          /
+        </span>`
       : null;
+
+    const isDisabled = this.last || this.disabled;
     return html`
       ${this.variant === "normal"
-        ? html`<slot name="link" class=${cvaLinkSlot(this)}>
-            <a
-              href=${ifDefined(this.href)}
-              target=${
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-                ifDefined(this.target) as any
-              }
-            >
-              <slot></slot>
-            </a>
-          </slot>`
-        : // Though `cvaLinkSlot` is designed for slots, it contains "& > *" selector for fallback content so it can be used here.
-          html`<span class=${cvaLinkSlot(this)} aria-label="…">
+        ? html`<a
+            class=${cvaLink({ variant: this.variant, disabled: isDisabled })}
+            href=${ifDefined((!isDisabled && this.href) || undefined)}
+            target=${
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+              ifDefined(this.target) as any
+            }
+            aria-disabled=${ifDefined(isDisabled || undefined)}
+            aria-current=${ifDefined(this.last || undefined)}
+          >
+            <slot></slot>
+          </a>`
+        : html`<span class=${cvaLink(this)} aria-label="…">
             <span>. . .</span>
           </span> `}
       ${slash}

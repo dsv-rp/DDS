@@ -66,5 +66,6 @@ export const Omission: BreadcrumbStory = {
 
     root.style.width = `${divLength + 1}px`;
     await sleep(500);
+    root.style.removeProperty("width");
   }),
 };

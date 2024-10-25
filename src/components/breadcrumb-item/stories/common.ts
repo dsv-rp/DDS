@@ -9,12 +9,12 @@ export type DaikinBreadcrumbItemStoryArgs = Required<
 export const DAIKIN_BREADCRUMB_ITEM_ARG_TYPES = {
   href: { type: "string" },
   variant: {
-    control: { type: "select" },
+    control: "radio",
     options: ["normal", "ellipsis"],
   },
   disabled: { type: "boolean" },
   target: {
-    control: { type: "select" },
+    control: "radio",
     options: ["_blank", "_self", "_parent", "_top"],
   },
   trailingSlash: { type: "boolean" },
