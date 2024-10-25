@@ -13,11 +13,10 @@ import tailwindStyles from "../../tailwind.css?inline";
 const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
-  "relative",
-  "bg-white",
-  "border-daikinNeutral-600",
+  "border-[#616161]",
   "border-2",
   "rounded-sm",
+  "relative",
   "appearance-none",
 
   "before:text-white",
@@ -29,42 +28,44 @@ const CHECKBOX_CLASS_NAME = cva([
   "indeterminate:before:size-2.5",
 
   "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
+  "focus-visible:outline-2",
+  "focus-visible:outline-offset-2",
+  "focus-visible:outline-[#0081C0]",
 
-  "enabled:group-hover:border-daikinNeutral-400",
-  "enabled:group-active:border-daikinNeutral-700",
+  "enabled:group-hover:border-[#515151]",
+  "enabled:group-hover:bg-[#F2F2F2]",
+  "enabled:group-active:border-daikinNeutral-800",
+  "enabled:group-active:bg-daikinNeutral-100",
 
   "enabled:checked:border-daikinBlue-500",
   "enabled:checked:bg-daikinBlue-500",
-  "enabled:checked:group-hover:bg-daikinBlue-300",
-  "enabled:checked:group-hover:border-daikinBlue-300",
+  "enabled:checked:group-hover:bg-[#0081C0]",
+  "enabled:checked:group-hover:border-[#0081C0]",
   "enabled:checked:group-hover:before:text-white",
-  "enabled:checked:group-active:bg-daikinBlue-600",
-  "enabled:checked:group-active:border-daikinBlue-600",
+  "enabled:checked:group-active:bg-[#00689A]",
+  "enabled:checked:group-active:border-[#00689A]",
   "enabled:checked:group-active:before:text-white",
 
   "enabled:indeterminate:bg-daikinBlue-500",
   "enabled:indeterminate:border-daikinBlue-500",
-  "enabled:indeterminate:group-hover:bg-daikinBlue-300",
-  "enabled:indeterminate:group-hover:border-daikinBlue-300",
+  "enabled:indeterminate:group-hover:bg-[#0081C0]",
+  "enabled:indeterminate:group-hover:border-[#0081C0]",
   "enabled:indeterminate:group-hover:before:text-white",
-  "enabled:indeterminate:group-active:bg-daikinBlue-600",
-  "enabled:indeterminate:group-active:border-daikinBlue-600",
+  "enabled:indeterminate:group-active:bg-[#00689A]",
+  "enabled:indeterminate:group-active:border-[#00689A]",
   "enabled:indeterminate:group-active:before:text-white",
 
-  "disabled:border-daikinNeutral-200",
+  "disabled:border-daikinNeutral-400",
   "disabled:bg-white",
-  "disabled:checked:bg-daikinNeutral-200",
-  "disabled:indeterminate:bg-daikinNeutral-200",
+  "disabled:checked:bg-daikinNeutral-400",
+  "disabled:indeterminate:bg-daikinNeutral-400",
 ])();
 
-const cvaLabel = cva([], {
+const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: [],
-      true: ["text-daikinNeutral-200"],
+      false: ["text-daikinNeutral-800"],
+      true: ["text-daikinNeutral-400"],
     },
   },
 });
