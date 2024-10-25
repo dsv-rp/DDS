@@ -186,7 +186,7 @@ export class DaikinDropdown extends LitElement {
   private readonly _items!: readonly DaikinDropdownItem[];
 
   @query("div[popover]")
-  private _popover!: HTMLElement;
+  private _popover!: HTMLElement | null;
 
   @state()
   private _hasSelectedItem = false;
@@ -225,31 +225,44 @@ export class DaikinDropdown extends LitElement {
     this.open = !this.open;
   }
 
-  private _handleKeyDown(event: KeyboardEvent): void {
-    const operation = (
-      {
-        ArrowDown: "moveDown",
-        ArrowUp: "moveUp",
-        Escape: "close",
-      } as const
-    )[event.key];
+  private _searchItem(key: string): void {
+    const items = this._items.filter(
+      (item) => item.textContent?.[0].toLowerCase() === key
+    );
+    const activeElement = document.activeElement;
+    const focusedItemIndex = activeElement
+      ? items.findIndex((item) => item.contains(activeElement))
+      : -1;
 
-    if (!operation) {
-      return;
-    }
+    // Focus on the first dropdown that is enabled.
+    for (
+      let index = focusedItemIndex + 1, i = 0;
+      i < items.length;
+      index += 1, i++
+    ) {
+      index %= items.length;
+      const item = items[index];
 
-    if (operation === "close") {
-      if (this.open) {
-        // Close
-        this.open = false;
-      } else {
-        // Clear selection
-        this.value = null;
+      if (item.disabled) {
+        continue;
       }
-      return;
-    }
 
-    const moveOffset = operation === "moveUp" ? -1 : 1;
+      item.focus();
+      break;
+    }
+  }
+
+  private _handleKeyDownEscape() {
+    if (this.open) {
+      // Close
+      this.open = false;
+    } else {
+      // Clear selection
+      this.value = null;
+    }
+  }
+
+  private _moveFocus(moveOffset: 1 | -1): void {
     const items = this._items;
 
     // Get focused item if any
@@ -290,6 +303,38 @@ export class DaikinDropdown extends LitElement {
       );
 
       break;
+    }
+  }
+
+  private _handleKeyDown(event: KeyboardEvent): void {
+    const firstCharacterKey = event.key.length === 1 ? event.key : undefined;
+    const operation = (
+      {
+        ArrowDown: "down",
+        ArrowUp: "up",
+        Escape: "close",
+      } as const
+    )[event.key];
+
+    if (!operation && !firstCharacterKey) {
+      return;
+    }
+
+    if (this.open && firstCharacterKey) {
+      this._searchItem(firstCharacterKey);
+      return;
+    }
+
+    if (operation === "down" || operation === "up") {
+      const moveOffset = operation === "up" ? -1 : 1;
+
+      this._moveFocus(moveOffset);
+      return;
+    }
+
+    if (operation === "close") {
+      this._handleKeyDownEscape();
+      return;
     }
   }
 
@@ -365,7 +410,7 @@ export class DaikinDropdown extends LitElement {
     }
 
     if (changedProperties.has("open")) {
-      this._popover.togglePopover(this.open && !this.disabled);
+      this._popover?.togglePopover(this.open && !this.disabled);
     }
   }
 
