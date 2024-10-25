@@ -1,9 +1,15 @@
-import { flip, offset, type ComputePositionConfig } from "@floating-ui/dom";
+import {
+  flip,
+  offset,
+  size,
+  type ComputePositionConfig,
+} from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
+  query,
   queryAssignedElements,
   state,
 } from "lit/decorators.js";
@@ -78,34 +84,18 @@ const cvaButton = cva(
   }
 );
 
-const cvaContent = cva(
-  [
-    "w-full",
-    "max-h-[200px]",
-    "overflow-y-auto",
-    "absolute",
-    "left-[--floating-x,0]",
-    "top-[--floating-y,0]",
-    "opacity-1",
-    "transition-[opacity]",
-    "rounded-[4px]",
-    "shadow-dropdown",
-  ],
-  {
-    variants: {
-      open: {
-        false: ["hidden"],
-        true: ["block"],
-      },
-    },
-  }
-);
-
 const floatingPositionOptions: Partial<ComputePositionConfig> = {
   placement: "bottom",
   middleware: [
     flip({ fallbackStrategy: "initialPlacement" }),
     offset({ mainAxis: 0 }),
+    size({
+      apply({ rects, elements }) {
+        Object.assign(elements.floating.style, {
+          minWidth: `${rects.reference.width}px`,
+        });
+      },
+    }),
   ],
 };
 
@@ -194,6 +184,9 @@ export class DaikinDropdown extends LitElement {
 
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private readonly _items!: readonly DaikinDropdownItem[];
+
+  @query("div[popover]")
+  private _popover!: HTMLElement;
 
   @state()
   private _hasSelectedItem = false;
@@ -342,9 +335,8 @@ export class DaikinDropdown extends LitElement {
       </button>
       <div
         id="dropdown-items"
-        class=${cvaContent({
-          open: this.open && !this.disabled,
-        })}
+        popover
+        class="max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
         aria-label=${this.label}
         role="listbox"
         ${this._autoUpdateController.refFloating()}
@@ -353,7 +345,7 @@ export class DaikinDropdown extends LitElement {
       </div>
       ${
         // Activate auto update only when the dropdown is open.
-        // TODO(DDS-1226): refactor here with Popover API + CSS Anchor Positioning instead of using floating-ui
+        // TODO(DDS-1226): refactor here with CSS Anchor Positioning instead of using floating-ui
         this._autoUpdateController.directive(
           floatingPositionOptions,
           this.open && !this.disabled
@@ -370,6 +362,10 @@ export class DaikinDropdown extends LitElement {
     if (changedProperties.has("value")) {
       this._updateFormValue();
       this._reflectItemsAndLabel();
+    }
+
+    if (changedProperties.has("open")) {
+      this._popover.togglePopover(this.open && !this.disabled);
     }
   }
 
