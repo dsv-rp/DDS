@@ -50,6 +50,7 @@ const cvaInput = cva(
  * - `daikin-input-group` > `daikin-text-input`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
+ * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
  *
  * @example
  *
