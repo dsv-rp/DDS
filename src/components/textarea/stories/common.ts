@@ -22,6 +22,9 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
   required: {
     type: "boolean",
   },
+  name: {
+    type: "string",
+  },
   error: {
     type: "boolean",
   },

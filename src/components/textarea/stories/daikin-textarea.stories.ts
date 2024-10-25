@@ -26,6 +26,7 @@ function eventPayloadTransformerDetail(event: CustomEvent<{ count: number }>) {
 export const Default: Story = {
   args: {
     placeholder: "Placeholder text",
+    name: "Textarea name",
     disabled: false,
     readonly: false,
     error: false,

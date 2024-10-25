@@ -93,31 +93,37 @@ export class DaikinTextarea extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Field value
+   * Value of the textarea.
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Placeholder text
+   * Form name of the textarea.
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
+   * Placeholder text.
+   */
+  @property({ type: String, reflect: true })
   placeholder = "";
 
   /**
-   * Whether the field is disabled
+   * Whether the textarea is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the field is readonly
+   * Whether the textarea is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Whether the field is required
+   * Whether the textarea is required.
    */
   @property({ type: Boolean, reflect: true })
   required = false;
@@ -129,13 +135,13 @@ export class DaikinTextarea extends LitElement {
   error = false;
 
   /**
-   * Specify auto-completion values
+   * Value of `autocomplete` attribute of the internal `<textarea>`.
    */
   @property({ type: String, reflect: true })
   autocomplete?: HTMLInputElement["autocomplete"];
 
   /**
-   * Whether to allow resizing of the text area
+   * Whether to allow resizing of the text area.
    */
   @property({ type: Boolean, reflect: true })
   resizable = false;
@@ -168,6 +174,7 @@ export class DaikinTextarea extends LitElement {
       })}
       .value=${this.value}
       placeholder=${this.placeholder}
+      name=${this.name}
       autocomplete=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.autocomplete as any)

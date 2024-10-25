@@ -8,6 +8,7 @@ import type { DaikinTextareaStoryArgs } from "./common";
 export const metadata: Meta<DaikinTextareaStoryArgs> = {
   render: ({
     placeholder,
+    name,
     autocomplete,
     disabled,
     readonly,
@@ -21,6 +22,7 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     <div style="width:360px;">
       <daikin-textarea
         placeholder=${placeholder}
+        name=${name}
         autocomplete=${ifDefined(autocomplete)}
         ?disabled=${disabled}
         ?readonly=${readonly}
