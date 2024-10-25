@@ -9,33 +9,57 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaSelect = cva(
   [
-    "slotted-[select]:flex",
-    "slotted-[select]:items-center",
-    "slotted-[select]:gap-2",
-    "slotted-[select]:w-full",
-    "slotted-[select]:h-full",
-    "slotted-[select]:min-h-12",
+    "block",
+    "w-full",
+    "h-full",
+    "relative",
+    "after:i-daikin-dropdown-chevron-down",
+    "after:w-6",
+    "after:h-6",
+    "after:m-auto",
+    "after:absolute",
+    "after:top-0",
+    "after:bottom-0",
+    "after:right-3",
+    "after:pointer-events-none",
+
+    "slotted-[select]:!appearance-none",
+    "slotted-[select]:!flex",
+    "slotted-[select]:!items-center",
+    "slotted-[select]:!gap-2",
+    "slotted-[select]:!w-full",
+    "slotted-[select]:!h-full",
+    "slotted-[select]:!min-h-12",
     "slotted-[select]:!pl-4",
-    "slotted-[select]:!pr-3",
-    "slotted-[select]:text-base",
-    "slotted-[select]:font-daikinSerif",
+    "slotted-[select]:!pr-12",
+    "slotted-[select]:!text-base",
+    "slotted-[select]:!font-daikinSerif",
     "slotted-[select]:!border",
-    "slotted-[select]:rounded-md",
-    "slotted-[select]:leading-5",
-    "slotted-[select]:outline",
-    "slotted-[select]:outline-0",
-    "slotted-[select]:-outline-offset-2",
-    "slotted-[select]:appearance-none",
+    "slotted-[select]:!border-[--color-base]",
+    "slotted-[select]:!rounded-md",
+    "slotted-[select]:!font-daikinSerif",
+    "slotted-[select]:!leading-5",
+    "slotted-[select]:!outline",
+    "slotted-[select]:!outline-0",
+    "slotted-[select]:!-outline-offset-2",
 
-    "slotted-[select:focus-visible]:outline-2",
-    "slotted-[select:focus-visible]:outline-[--color-focus]",
+    "slotted-[select:focus-visible]:!outline-2",
+    "slotted-[select:focus-visible]:!outline-[--color-focus]",
 
-    "slotted-[select:enabled]:cursor-pointer",
-    "slotted-[select:enabled]:hover:bg-[#f2f2f2]",
-    "slotted-[select:enabled]:active:bg-daikinNeutral-100",
+    "slotted-[select:enabled]:!cursor-pointer",
+    "slotted-[select:enabled]:!text-daikinNeutral-800",
+    "slotted-[select:enabled:hover]:!bg-[#f2f2f2]",
+    "slotted-[select:enabled:active]:!bg-daikinNeutral-100",
+
+    "slotted-[select:disabled]:!text-daikinNeutral-200",
+    "slotted-[select:disabled]:!border-daikinNeutral-200",
   ],
   {
     variants: {
+      disabled: {
+        false: ["after:text-daikinNeutral-900"],
+        true: ["after:text-daikinNeutral-200"],
+      },
       error: {
         false: [
           "var-color-daikinNeutral-600/color-base",
@@ -46,56 +70,21 @@ const cvaSelect = cva(
           "var-color-daikinRed-500/color-focus",
         ],
       },
-      disabled: {
-        false: [
-          "slotted-[select]:!text-daikinNeutral-800",
-          "slotted-[select]:!border-[--color-base]",
-        ],
-        true: [
-          "slotted-[select]:!text-daikinNeutral-200",
-          "slotted-[select]:!border-daikinNeutral-200",
-        ],
-      },
-    },
-  }
-);
-
-// For chevron only
-const cvaSelectContainer = cva(
-  [
-    "relative",
-
-    "after:i-daikin-dropdown-chevron-down",
-    "after:w-6",
-    "after:h-6",
-    "after:absolute",
-    "after:m-auto",
-    "after:top-0",
-    "after:bottom-0",
-    "after:right-3",
-    "after:pointer-events-none",
-  ],
-  {
-    variants: {
-      disabled: {
-        false: ["after:text-daikinNeutral-900"],
-        true: ["after:text-daikinNeutral-200"],
-      },
     },
   }
 );
 
 /**
- * A select component. It can contain the HTML standard `select`, and all operations are delegated to it. Here, only the style is changed based on the DDS design.
- *
- * For disabled and error, you must also specify them in daikin-select.
+ * A select component.
+ * This component accepts the HTML standard `<select>` element in the slot and applies styles to it.
+ * To disable the component, you must set the `disabled` property to `true` for both the `<daikin-select>` component and the `<select>` element in the slot.
  *
  * Note: The `disabled` attributes of `daikin-select` and `select` are not synchronized.
  *
  * Hierarchy:
  * - `daikin-input-group` > `daikin-select`
  *
- * @slot - HTML standard `select`. Contains `optgroup` and `option`.
+ * @slot - A slot for an HTML `select` element which may contain `option` and `optgroup`.
  *
  * @example
  *
@@ -112,6 +101,20 @@ const cvaSelectContainer = cva(
 @customElement("daikin-select")
 export class DaikinSelect extends LitElement {
   static override readonly styles = css`
+    ::slotted(select) {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border: 0 solid;
+
+      font: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      background: transparent;
+    }
+
     ${unsafeCSS(tailwindStyles)}
 
     :host {
@@ -121,13 +124,14 @@ export class DaikinSelect extends LitElement {
   `;
 
   /**
-   * Whether the select is error.
+   * Whether the select component is in an error state.
    */
   @property({ type: Boolean, reflect: true })
   error = false;
 
   /**
-   * Whether the select is disabled.
+   * Whether the select component is disabled. \
+   * Must be same as `disabled` property of the `<select>` element in the slot.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -136,13 +140,15 @@ export class DaikinSelect extends LitElement {
   private readonly _selects!: readonly HTMLSelectElement[];
 
   override render() {
-    return html`<div class=${cvaSelectContainer({ disabled: this.disabled })}>
-      <slot
-        class=${cvaSelect({ disabled: this.disabled, error: this.error })}
-      ></slot>
-    </div>`;
+    return html`<slot
+      class=${cvaSelect({ disabled: this.disabled, error: this.error })}
+    ></slot>`;
   }
 
+  /**
+   * Focuses on the `<select>` element in the slot.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions): void {
     this._selects[0].focus(options);
   }
