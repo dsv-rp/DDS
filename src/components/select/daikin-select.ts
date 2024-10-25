@@ -76,13 +76,13 @@ const cvaSelect = cva(
 
 /**
  * A select component.
- * This component accepts the HTML standard `<select>` element in the slot and applies styles to it.
+ * This component accepts an HTML `<select>` element in the slot and applies styles to it.
  * To disable the component, you must set the `disabled` property to `true` for both the `<daikin-select>` component and the `<select>` element in the slot.
  *
  * Hierarchy:
  * - `daikin-input-group` > `daikin-select`
  *
- * @slot - A slot for an HTML `select` element which may contain `option` and `optgroup`.
+ * @slot - A slot for an HTML `<select>` element which may contain `<option>` and `<optgroup>`.
  *
  * @example
  *
