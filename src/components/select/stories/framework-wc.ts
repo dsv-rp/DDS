@@ -8,11 +8,18 @@ export const metadata: Meta<DaikinSelectStoryArgs> = {
     html`<div style="width:360px;">
       <daikin-select ?error=${error} ?disabled=${disabled}>
         <select name="select" ?disabled=${disabled}>
-          <option value="value1">Option 1</option>
-          <option value="value2">Option 2</option>
-          <option value="value3">Option 3</option>
-          <option value="value4" disabled>Option 4</option>
-          <option value="value5">Option 5</option>
+          <option value="value-1">Option 1</option>
+          <option value="value-2">Option 2</option>
+          <optgroup label="Group A">
+            <option value="value-a-1">Option A-1</option>
+            <option value="value-a-2" disabled>Option A-2</option>
+            <option value="value-a-3">Option A-3</option>
+          </optgroup>
+          <optgroup label="Group B" disabled>
+            <option value="value-b-1">Option B-1</option>
+            <option value="value-b-2">Option B-2</option>
+            <option value="value-b-3">Option B-3</option>
+          </optgroup>
         </select>
       </daikin-select>
     </div>`,

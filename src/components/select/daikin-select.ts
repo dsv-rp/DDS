@@ -79,8 +79,6 @@ const cvaSelect = cva(
  * This component accepts the HTML standard `<select>` element in the slot and applies styles to it.
  * To disable the component, you must set the `disabled` property to `true` for both the `<daikin-select>` component and the `<select>` element in the slot.
  *
- * Note: The `disabled` attributes of `daikin-select` and `select` are not synchronized.
- *
  * Hierarchy:
  * - `daikin-input-group` > `daikin-select`
  *
@@ -93,7 +91,10 @@ const cvaSelect = cva(
  *   <select name="select">
  *     <option value="value1">Option 1</option>
  *     <option value="value2">Option 2</option>
- *     <option value="value3">Option 3</option>
+ *     <optgroup label="Group">
+ *       <option value="value3">Option 3</option>
+ *       <option value="value4">Option 4</option>
+ *     </optgroup>
  *   </select>
  * </daikin-select>
  * ```
@@ -130,7 +131,7 @@ export class DaikinSelect extends LitElement {
   error = false;
 
   /**
-   * Whether the select component is disabled. \
+   * Whether the select component is disabled.
    * Must be same as `disabled` property of the `<select>` element in the slot.
    */
   @property({ type: Boolean, reflect: true })
