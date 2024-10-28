@@ -8,7 +8,7 @@ const TOGGLE_CLASS_NAME = cva([
   "w-12",
   "h-6",
   "relative",
-  "bg-[--state-neutral-default]",
+  "bg-[--state-neutral-active]",
   "rounded-full",
   "cursor-pointer",
   "transition-colors",
@@ -21,7 +21,7 @@ const TOGGLE_CLASS_NAME = cva([
   "focus-visible:outline-offset-2",
   "focus-visible:outline-[--state-focus]",
 
-  "enabled:checked:bg-[--state-primary-default]",
+  "enabled:checked:bg-[--state-primary-active]",
   "enabled:checked:hover:bg-[--state-primary-hover]",
   "enabled:checked:active:bg-[--state-primary-press]",
   "disabled:bg-[--state-disabled]",
@@ -37,8 +37,8 @@ const TOGGLE_CLASS_NAME = cva([
   "before:transition",
   "before:duration-300",
   "before:checked:translate-x-6",
-  "enabled:before:bg-[--background-base-default]",
-  "disabled:before:bg-[--background-base-hover]",
+  "enabled:before:bg-[--background-base]",
+  "disabled:before:bg-[--background-surface-hover]",
 ])();
 
 /**
@@ -66,12 +66,12 @@ export class DaikinToggle extends LitElement {
 
     :host {
       display: inline-flex;
-      --background-base-default: ${unsafeCSS(color.background.base.default)};
-      --background-base-hover: ${unsafeCSS(color.background.base.hover)};
-      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --background-base: ${unsafeCSS(color.background.base)};
+      --background-surface-hover: ${unsafeCSS(color.background.surface.hover)};
+      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
       --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
       --state-primary-press: ${unsafeCSS(color.state.primary.press)};
-      --state-neutral-default: ${unsafeCSS(color.state.neutral.default)};
+      --state-neutral-active: ${unsafeCSS(color.state.neutral.active)};
       --state-neutral-hover: ${unsafeCSS(color.state.neutral.hover)};
       --state-neutral-press: ${unsafeCSS(color.state.neutral.press)};
       --state-focus: ${unsafeCSS(color.state.focus)};

@@ -19,11 +19,11 @@ const RADIO_CLASS_NAME = cva([
   "focus-visible:outline-[--state-focus]",
 
   "unchecked:border-2",
-  "enabled:unchecked:border-[--state-neutral-default]",
-  "enabled:unchecked:hover:bg-[--background-base-hover]",
-  "enabled:unchecked:active:bg-[--background-base-press]",
+  "enabled:unchecked:border-[--state-neutral-active]",
+  "enabled:unchecked:hover:bg-[--background-surface-hover]",
+  "enabled:unchecked:active:bg-[--background-surface-press]",
   "checked:border-[5px]",
-  "enabled:checked:border-[--state-primary-default]",
+  "enabled:checked:border-[--state-primary-active]",
   "enabled:checked:group-hover:border-[--state-primary-hover]",
   "enabled:checked:group-active:border-[--state-primary-press]",
   "disabled:border-[--state-disabled]",
@@ -63,12 +63,12 @@ export class DaikinRadio extends LitElement {
     :host {
       display: inline-block;
       --element-text-primary: ${unsafeCSS(color.element.text.primary)};
-      --background-base-hover: ${unsafeCSS(color.background.base.hover)};
-      --background-base-press: ${unsafeCSS(color.background.base.press)};
-      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --background-surface-hover: ${unsafeCSS(color.background.surface.hover)};
+      --background-surface-press: ${unsafeCSS(color.background.surface.press)};
+      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
       --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
       --state-primary-press: ${unsafeCSS(color.state.primary.press)};
-      --state-neutral-default: ${unsafeCSS(color.state.neutral.default)};
+      --state-neutral-active: ${unsafeCSS(color.state.neutral.active)};
       --state-focus: ${unsafeCSS(color.state.focus)};
       --state-disabled: ${unsafeCSS(color.state.disabled)};
     }

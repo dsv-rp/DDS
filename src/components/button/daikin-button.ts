@@ -34,14 +34,14 @@ const cvaButton = cva(
     variants: {
       color: {
         default: [
-          "link-enabled:var-color-[--state-primary-default]/color-primary",
+          "link-enabled:var-color-[--state-primary-active]/color-primary",
           "link-enabled:hover:var-color-[--state-primary-hover]/color-primary",
           "link-enabled:hover:var-color-[--state-primary-surface-hover]/color-secondary",
           "link-enabled:active:var-color-[--state-primary-press]/color-primary",
           "link-enabled:active:var-color-[--state-primary-surface-press]/color-secondary",
         ],
         danger: [
-          "link-enabled:var-color-[--state-error-default]/color-primary",
+          "link-enabled:var-color-[--state-error-active]/color-primary",
           "link-enabled:hover:var-color-[--state-error-hover]/color-primary",
           "link-enabled:hover:var-color-[--state-error-surface-hover]/color-secondary",
           "link-enabled:active:var-color-[--state-error-press]/color-primary",
@@ -98,7 +98,7 @@ export class DaikinButton extends LitElement {
     :host {
       display: inline-block;
       --element-text-inverse: ${unsafeCSS(color.element.text.inverse)};
-      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
       --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
       --state-primary-press: ${unsafeCSS(color.state.primary.press)};
       --state-primary-surface-hover: ${unsafeCSS(
@@ -107,7 +107,7 @@ export class DaikinButton extends LitElement {
       --state-primary-surface-press: ${unsafeCSS(
         color.state.primary.surface.press
       )};
-      --state-error-default: ${unsafeCSS(color.state.error.default)};
+      --state-error-active: ${unsafeCSS(color.state.error.active)};
       --state-error-hover: ${unsafeCSS(color.state.error.hover)};
       --state-error-press: ${unsafeCSS(color.state.error.press)};
       --state-error-surface-hover: ${unsafeCSS(

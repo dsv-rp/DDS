@@ -14,7 +14,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
-  "border-[--state-neutral-default]",
+  "border-[--state-neutral-active]",
   "border-2",
   "rounded-sm",
   "relative",
@@ -34,12 +34,12 @@ const CHECKBOX_CLASS_NAME = cva([
   "focus-visible:outline-[--state-focus]",
 
   "enabled:group-hover:border-[--state-neutral-hover]",
-  "enabled:group-hover:bg-[--background-base-hover]",
+  "enabled:group-hover:bg-[--background-surface-hover]",
   "enabled:group-active:border-[--state-neutral-press]",
-  "enabled:group-active:bg-[--background-base-press]",
+  "enabled:group-active:bg-[--background-surface-press]",
 
-  "enabled:checked:border-[--state-primary-default]",
-  "enabled:checked:bg-[--state-primary-default]",
+  "enabled:checked:border-[--state-primary-active]",
+  "enabled:checked:bg-[--state-primary-active]",
   "enabled:checked:group-hover:bg-[--state-primary-hover]",
   "enabled:checked:group-hover:border-[--state-primary-hover]",
   "enabled:checked:group-hover:before:text-[--element-text-inverse]",
@@ -47,8 +47,8 @@ const CHECKBOX_CLASS_NAME = cva([
   "enabled:checked:group-active:border-[--state-primary-press]",
   "enabled:checked:group-active:before:text-[--element-text-inverse]",
 
-  "enabled:indeterminate:bg-[--state-primary-default]",
-  "enabled:indeterminate:border-[--state-primary-default]",
+  "enabled:indeterminate:bg-[--state-primary-active]",
+  "enabled:indeterminate:border-[--state-primary-active]",
   "enabled:indeterminate:group-hover:bg-[--state-primary-hover]",
   "enabled:indeterminate:group-hover:border-[--state-primary-hover]",
   "enabled:indeterminate:group-hover:before:text-[--element-text-inverse]",
@@ -97,12 +97,12 @@ export class DaikinCheckbox extends LitElement {
       display: inline-flex;
       --element-text-primary: ${unsafeCSS(color.element.text.primary)};
       --element-text-inverse: ${unsafeCSS(color.element.text.inverse)};
-      --background-base-hover: ${unsafeCSS(color.background.base.hover)};
-      --background-base-press: ${unsafeCSS(color.background.base.press)};
-      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --background-surface-hover: ${unsafeCSS(color.background.surface.hover)};
+      --background-surface-press: ${unsafeCSS(color.background.surface.press)};
+      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
       --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
       --state-primary-press: ${unsafeCSS(color.state.primary.press)};
-      --state-neutral-default: ${unsafeCSS(color.state.neutral.default)};
+      --state-neutral-active: ${unsafeCSS(color.state.neutral.active)};
       --state-neutral-hover: ${unsafeCSS(color.state.neutral.hover)};
       --state-neutral-press: ${unsafeCSS(color.state.neutral.press)};
       --state-focus: ${unsafeCSS(color.state.focus)};

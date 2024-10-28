@@ -17,21 +17,19 @@
       "empty": "#CECECE"
     },
     "background": {
-      "base": {
-        "default": "#FFFFFF",
+      "base": "#FFFFFF",
+      "surface": {
         "hover": "#F2F2F2",
-        "press": "#EBEBEB"
-      },
-      "selected": {
-        "default": "#DDF3FC",
-        "hover": "#BBE7F9",
-        "active": "#98DBF7"
+        "press": "#EBEBEB",
+        "selected": "#DDF3FC",
+        "selectedHover": "#BBE7F9",
+        "selectedActive": "#98DBF7"
       },
       "blanket": "rgba(0, 0, 0, 0.5)"
     },
     "state": {
       "primary": {
-        "default": "#0097E0",
+        "active": "#0097E0",
         "hover": "#0081C0",
         "press": "#00689A",
         "surface": {
@@ -40,7 +38,7 @@
         }
       },
       "error": {
-        "default": "#D80C18",
+        "active": "#D80C18",
         "hover": "#B90A15",
         "press": "#9A0911",
         "surface": {
@@ -49,7 +47,7 @@
         }
       },
       "neutral": {
-        "default": "#616161",
+        "active": "#616161",
         "hover": "#515151",
         "press": "#414141"
       },
