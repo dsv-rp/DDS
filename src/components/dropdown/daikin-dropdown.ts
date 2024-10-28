@@ -227,30 +227,37 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _searchItem(prefix: string): void {
+    // Open the dropdown if not.
+    if (!this.open) {
+      this.open = true;
+      this.updateComplete
+        .then(() => {
+          // Search when opened.
+          this._searchItem(prefix);
+        })
+        .catch(() => {
+          // do nothing
+        });
+      return;
+    }
+
     const items = this._items.filter(
-      (item) => item.textContent?.[0].toLowerCase() === prefix.toLowerCase()
+      (item) =>
+        !item.disabled &&
+        item.textContent?.toLowerCase().startsWith(prefix.toLowerCase())
     );
+
+    if (!items.length) {
+      return;
+    }
+
     const activeElement = document.activeElement;
     const focusedItemIndex = activeElement
       ? items.findIndex((item) => item.contains(activeElement))
       : -1;
 
-    // Focus on the first dropdown that is enabled.
-    for (
-      let index = focusedItemIndex + 1, i = 0;
-      i < items.length;
-      index += 1, i++
-    ) {
-      index %= items.length;
-      const item = items[index];
-
-      if (item.disabled) {
-        continue;
-      }
-
-      item.focus();
-      break;
-    }
+    const nextItem = items[(focusedItemIndex + 1) % items.length];
+    nextItem.focus();
   }
 
   private _handleKeyDownEscape() {
@@ -308,8 +315,8 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
-    const printableCharacter = event.key.length === 1 ? event.key : null;
-    if (this.open && printableCharacter) {
+    const printableCharacter = event.key.trim().length === 1 ? event.key : null;
+    if (printableCharacter) {
       this._searchItem(printableCharacter);
       return;
     }
@@ -377,7 +384,7 @@ export class DaikinDropdown extends LitElement {
       <div
         id="dropdown-items"
         popover
-        class="w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
+        class="min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
         aria-label=${this.label}
         role="listbox"
         ${this._autoUpdateController.refFloating()}
