@@ -2,7 +2,6 @@ import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { color } from "../../colorToken";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -25,31 +24,31 @@ const cvaButton = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:outline-offset-2",
-    "focus-visible:outline-[--state-focus]",
+    "focus-visible:outline-system-state-focus",
 
     "var-color-transparent/color-secondary",
-    "link-disabled:var-color-[--state-disabled]/color-primary",
+    "link-disabled:var-color-system-state-disabled/color-primary",
   ],
   {
     variants: {
       color: {
         default: [
-          "link-enabled:var-color-[--state-primary-active]/color-primary",
-          "link-enabled:hover:var-color-[--state-primary-hover]/color-primary",
-          "link-enabled:hover:var-color-[--state-primary-surface-hover]/color-secondary",
-          "link-enabled:active:var-color-[--state-primary-press]/color-primary",
-          "link-enabled:active:var-color-[--state-primary-surface-press]/color-secondary",
+          "link-enabled:var-color-system-state-primary-active/color-primary",
+          "link-enabled:hover:var-color-system-state-primary-hover/color-primary",
+          "link-enabled:hover:var-color-system-state-primary-surface-hover/color-secondary",
+          "link-enabled:active:var-color-system-state-primary-press/color-primary",
+          "link-enabled:active:var-color-system-state-primary-surface-press/color-secondary",
         ],
         danger: [
-          "link-enabled:var-color-[--state-error-active]/color-primary",
-          "link-enabled:hover:var-color-[--state-error-hover]/color-primary",
-          "link-enabled:hover:var-color-[--state-error-surface-hover]/color-secondary",
-          "link-enabled:active:var-color-[--state-error-press]/color-primary",
-          "link-enabled:active:var-color-[--state-error-surface-press]/color-secondary",
+          "link-enabled:var-color-system-state-error-active/color-primary",
+          "link-enabled:hover:var-color-system-state-error-hover/color-primary",
+          "link-enabled:hover:var-color-system-state-error-surface-hover/color-secondary",
+          "link-enabled:active:var-color-system-state-error-press/color-primary",
+          "link-enabled:active:var-color-system-state-error-surface-press/color-secondary",
         ],
       },
       variant: {
-        fill: ["text-[--element-text-inverse]", "bg-[--color-primary]"],
+        fill: ["text-system-element-text-inverse", "bg-[--color-primary]"],
         outline: [
           "border",
           "text-[--color-primary]",
@@ -97,27 +96,6 @@ export class DaikinButton extends LitElement {
 
     :host {
       display: inline-block;
-      --element-text-inverse: ${unsafeCSS(color.element.text.inverse)};
-      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
-      --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
-      --state-primary-press: ${unsafeCSS(color.state.primary.press)};
-      --state-primary-surface-hover: ${unsafeCSS(
-        color.state.primary.surface.hover
-      )};
-      --state-primary-surface-press: ${unsafeCSS(
-        color.state.primary.surface.press
-      )};
-      --state-error-active: ${unsafeCSS(color.state.error.active)};
-      --state-error-hover: ${unsafeCSS(color.state.error.hover)};
-      --state-error-press: ${unsafeCSS(color.state.error.press)};
-      --state-error-surface-hover: ${unsafeCSS(
-        color.state.error.surface.hover
-      )};
-      --state-error-surface-press: ${unsafeCSS(
-        color.state.error.surface.press
-      )};
-      --state-focus: ${unsafeCSS(color.state.focus)};
-      --state-disabled: ${unsafeCSS(color.state.disabled)};
     }
 
     :host([size="small"]) {

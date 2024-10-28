@@ -8,19 +8,18 @@ import {
   type PropertyValues,
 } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { color } from "../../colorToken";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
-  "border-[--state-neutral-active]",
+  "border-system-state-neutral-active",
   "border-2",
   "rounded-sm",
   "relative",
   "appearance-none",
 
-  "before:text-[--element-text-inverse]",
+  "before:text-system-element-text-inverse",
   "before:absolute",
   "before:m-auto",
   "before:inset-0",
@@ -31,42 +30,42 @@ const CHECKBOX_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-[--state-focus]",
+  "focus-visible:outline-system-state-focus",
 
-  "enabled:group-hover:border-[--state-neutral-hover]",
-  "enabled:group-hover:bg-[--background-surface-hover]",
-  "enabled:group-active:border-[--state-neutral-press]",
-  "enabled:group-active:bg-[--background-surface-press]",
+  "enabled:group-hover:border-system-state-neutral-hover",
+  "enabled:group-hover:bg-system-background-surface-hover",
+  "enabled:group-active:border-system-state-neutral-press",
+  "enabled:group-active:bg-system-background-surface-press",
 
-  "enabled:checked:border-[--state-primary-active]",
-  "enabled:checked:bg-[--state-primary-active]",
-  "enabled:checked:group-hover:bg-[--state-primary-hover]",
-  "enabled:checked:group-hover:border-[--state-primary-hover]",
-  "enabled:checked:group-hover:before:text-[--element-text-inverse]",
-  "enabled:checked:group-active:bg-[--state-primary-press]",
-  "enabled:checked:group-active:border-[--state-primary-press]",
-  "enabled:checked:group-active:before:text-[--element-text-inverse]",
+  "enabled:checked:border-system-state-primary-active",
+  "enabled:checked:bg-system-state-primary-active",
+  "enabled:checked:group-hover:bg-system-state-primary-hover",
+  "enabled:checked:group-hover:border-system-state-primary-hover",
+  "enabled:checked:group-hover:before:text-system-element-text-inverse",
+  "enabled:checked:group-active:bg-system-state-primary-press",
+  "enabled:checked:group-active:border-system-state-primary-press",
+  "enabled:checked:group-active:before:text-system-element-text-inverse",
 
-  "enabled:indeterminate:bg-[--state-primary-active]",
-  "enabled:indeterminate:border-[--state-primary-active]",
-  "enabled:indeterminate:group-hover:bg-[--state-primary-hover]",
-  "enabled:indeterminate:group-hover:border-[--state-primary-hover]",
-  "enabled:indeterminate:group-hover:before:text-[--element-text-inverse]",
-  "enabled:indeterminate:group-active:bg-[--state-primary-press]",
-  "enabled:indeterminate:group-active:border-[--state-primary-press]",
-  "enabled:indeterminate:group-active:before:text-[--element-text-inverse]",
+  "enabled:indeterminate:bg-system-state-primary-active",
+  "enabled:indeterminate:border-system-state-primary-active",
+  "enabled:indeterminate:group-hover:bg-system-state-primary-hover",
+  "enabled:indeterminate:group-hover:border-system-state-primary-hover",
+  "enabled:indeterminate:group-hover:before:text-system-element-text-inverse",
+  "enabled:indeterminate:group-active:bg-system-state-primary-press",
+  "enabled:indeterminate:group-active:border-system-state-primary-press",
+  "enabled:indeterminate:group-active:before:text-system-element-text-inverse",
 
-  "disabled:border-[--state-disabled]",
-  "disabled:bg-[--element-text-inverse]",
-  "disabled:checked:bg-[--state-disabled]",
-  "disabled:indeterminate:bg-[--state-disabled]",
+  "disabled:border-system-state-disabled",
+  "disabled:bg-system-element-text-inverse",
+  "disabled:checked:bg-system-state-disabled",
+  "disabled:indeterminate:bg-system-state-disabled",
 ])();
 
 const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: ["text-[--element-text-primary]"],
-      true: ["text-[--state-disabled]"],
+      false: ["text-system-element-text-primary"],
+      true: ["text-system-state-disabled"],
     },
   },
 });
@@ -95,18 +94,6 @@ export class DaikinCheckbox extends LitElement {
 
     :host {
       display: inline-flex;
-      --element-text-primary: ${unsafeCSS(color.element.text.primary)};
-      --element-text-inverse: ${unsafeCSS(color.element.text.inverse)};
-      --background-surface-hover: ${unsafeCSS(color.background.surface.hover)};
-      --background-surface-press: ${unsafeCSS(color.background.surface.press)};
-      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
-      --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
-      --state-primary-press: ${unsafeCSS(color.state.primary.press)};
-      --state-neutral-active: ${unsafeCSS(color.state.neutral.active)};
-      --state-neutral-hover: ${unsafeCSS(color.state.neutral.hover)};
-      --state-neutral-press: ${unsafeCSS(color.state.neutral.press)};
-      --state-focus: ${unsafeCSS(color.state.focus)};
-      --state-disabled: ${unsafeCSS(color.state.disabled)};
     }
   `;
 

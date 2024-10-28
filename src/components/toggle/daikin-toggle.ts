@@ -1,30 +1,29 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { color } from "../../colorToken";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const TOGGLE_CLASS_NAME = cva([
   "w-12",
   "h-6",
   "relative",
-  "bg-[--state-neutral-active]",
+  "bg-system-state-neutral-active",
   "rounded-full",
   "cursor-pointer",
   "transition-colors",
   "duration-300",
   "appearance-none",
-  "enabled:hover:bg-[--state-neutral-hover]",
-  "enabled:active:bg-[--state-neutral-press]",
+  "enabled:hover:bg-system-state-neutral-hover",
+  "enabled:active:bg-system-state-neutral-press",
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-[--state-focus]",
+  "focus-visible:outline-system-state-focus",
 
-  "enabled:checked:bg-[--state-primary-active]",
-  "enabled:checked:hover:bg-[--state-primary-hover]",
-  "enabled:checked:active:bg-[--state-primary-press]",
-  "disabled:bg-[--state-disabled]",
+  "enabled:checked:bg-system-state-primary-active",
+  "enabled:checked:hover:bg-system-state-primary-hover",
+  "enabled:checked:active:bg-system-state-primary-press",
+  "disabled:bg-system-state-disabled",
   "disabled:cursor-default",
 
   "before:size-4",
@@ -37,8 +36,8 @@ const TOGGLE_CLASS_NAME = cva([
   "before:transition",
   "before:duration-300",
   "before:checked:translate-x-6",
-  "enabled:before:bg-[--background-base]",
-  "disabled:before:bg-[--background-surface-hover]",
+  "enabled:before:bg-system-background-base",
+  "disabled:before:bg-system-background-surface-hover",
 ])();
 
 /**
@@ -66,16 +65,6 @@ export class DaikinToggle extends LitElement {
 
     :host {
       display: inline-flex;
-      --background-base: ${unsafeCSS(color.background.base)};
-      --background-surface-hover: ${unsafeCSS(color.background.surface.hover)};
-      --state-primary-active: ${unsafeCSS(color.state.primary.active)};
-      --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
-      --state-primary-press: ${unsafeCSS(color.state.primary.press)};
-      --state-neutral-active: ${unsafeCSS(color.state.neutral.active)};
-      --state-neutral-hover: ${unsafeCSS(color.state.neutral.hover)};
-      --state-neutral-press: ${unsafeCSS(color.state.neutral.press)};
-      --state-focus: ${unsafeCSS(color.state.focus)};
-      --state-disabled: ${unsafeCSS(color.state.disabled)};
     }
   `;
 
