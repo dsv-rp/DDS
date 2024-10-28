@@ -111,18 +111,26 @@ export const Default: Story = {
     );
 
     await step("Return to the top section correctly", async () => {
+      getByShadowText(
+        document.activeElement as DaikinTreeSection,
+        "Tree item 5"
+      ).focus();
       await userEvent.keyboard("[ArrowUp]");
       await userEvent.keyboard("[ArrowUp]");
       await userEvent.keyboard("[ArrowUp]");
       await userEvent.keyboard("[ArrowUp]");
       await userEvent.keyboard("[ArrowUp]");
       await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[ArrowUp]");
+
       await expect(
         getByShadowText(
           document.activeElement as DaikinTreeSection,
           "Tree section 1"
         )
       ).toBeInTheDocument();
+
+      (document.activeElement as DaikinTreeSection).blur();
     });
   }),
 };
