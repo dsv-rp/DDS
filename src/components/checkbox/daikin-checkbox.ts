@@ -8,18 +8,19 @@ import {
   type PropertyValues,
 } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { color } from "../../colorToken";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
-  "border-[#616161]",
+  "border-[--state-neutral-default]",
   "border-2",
   "rounded-sm",
   "relative",
   "appearance-none",
 
-  "before:text-white",
+  "before:text-[--element-text-inverse]",
   "before:absolute",
   "before:m-auto",
   "before:inset-0",
@@ -30,42 +31,42 @@ const CHECKBOX_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-[#0081C0]",
+  "focus-visible:outline-[--state-focus]",
 
-  "enabled:group-hover:border-[#515151]",
-  "enabled:group-hover:bg-[#F2F2F2]",
-  "enabled:group-active:border-daikinNeutral-800",
-  "enabled:group-active:bg-daikinNeutral-100",
+  "enabled:group-hover:border-[--state-neutral-hover]",
+  "enabled:group-hover:bg-[--background-base-hover]",
+  "enabled:group-active:border-[--state-neutral-press]",
+  "enabled:group-active:bg-[--background-base-press]",
 
-  "enabled:checked:border-daikinBlue-500",
-  "enabled:checked:bg-daikinBlue-500",
-  "enabled:checked:group-hover:bg-[#0081C0]",
-  "enabled:checked:group-hover:border-[#0081C0]",
-  "enabled:checked:group-hover:before:text-white",
-  "enabled:checked:group-active:bg-[#00689A]",
-  "enabled:checked:group-active:border-[#00689A]",
-  "enabled:checked:group-active:before:text-white",
+  "enabled:checked:border-[--state-primary-default]",
+  "enabled:checked:bg-[--state-primary-default]",
+  "enabled:checked:group-hover:bg-[--state-primary-hover]",
+  "enabled:checked:group-hover:border-[--state-primary-hover]",
+  "enabled:checked:group-hover:before:text-[--element-text-inverse]",
+  "enabled:checked:group-active:bg-[--state-primary-press]",
+  "enabled:checked:group-active:border-[--state-primary-press]",
+  "enabled:checked:group-active:before:text-[--element-text-inverse]",
 
-  "enabled:indeterminate:bg-daikinBlue-500",
-  "enabled:indeterminate:border-daikinBlue-500",
-  "enabled:indeterminate:group-hover:bg-[#0081C0]",
-  "enabled:indeterminate:group-hover:border-[#0081C0]",
-  "enabled:indeterminate:group-hover:before:text-white",
-  "enabled:indeterminate:group-active:bg-[#00689A]",
-  "enabled:indeterminate:group-active:border-[#00689A]",
-  "enabled:indeterminate:group-active:before:text-white",
+  "enabled:indeterminate:bg-[--state-primary-default]",
+  "enabled:indeterminate:border-[--state-primary-default]",
+  "enabled:indeterminate:group-hover:bg-[--state-primary-hover]",
+  "enabled:indeterminate:group-hover:border-[--state-primary-hover]",
+  "enabled:indeterminate:group-hover:before:text-[--element-text-inverse]",
+  "enabled:indeterminate:group-active:bg-[--state-primary-press]",
+  "enabled:indeterminate:group-active:border-[--state-primary-press]",
+  "enabled:indeterminate:group-active:before:text-[--element-text-inverse]",
 
-  "disabled:border-daikinNeutral-400",
-  "disabled:bg-white",
-  "disabled:checked:bg-daikinNeutral-400",
-  "disabled:indeterminate:bg-daikinNeutral-400",
+  "disabled:border-[--state-disabled]",
+  "disabled:bg-[--element-text-inverse]",
+  "disabled:checked:bg-[--state-disabled]",
+  "disabled:indeterminate:bg-[--state-disabled]",
 ])();
 
 const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: ["text-daikinNeutral-800"],
-      true: ["text-daikinNeutral-400"],
+      false: ["text-[--element-text-primary]"],
+      true: ["text-[--state-disabled]"],
     },
   },
 });
@@ -94,6 +95,18 @@ export class DaikinCheckbox extends LitElement {
 
     :host {
       display: inline-flex;
+      --element-text-primary: ${unsafeCSS(color.element.text.primary)};
+      --element-text-inverse: ${unsafeCSS(color.element.text.inverse)};
+      --background-base-hover: ${unsafeCSS(color.background.base.hover)};
+      --background-base-press: ${unsafeCSS(color.background.base.press)};
+      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
+      --state-primary-press: ${unsafeCSS(color.state.primary.press)};
+      --state-neutral-default: ${unsafeCSS(color.state.neutral.default)};
+      --state-neutral-hover: ${unsafeCSS(color.state.neutral.hover)};
+      --state-neutral-press: ${unsafeCSS(color.state.neutral.press)};
+      --state-focus: ${unsafeCSS(color.state.focus)};
+      --state-disabled: ${unsafeCSS(color.state.disabled)};
     }
   `;
 

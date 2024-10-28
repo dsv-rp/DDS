@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { color } from "../../colorToken";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const RADIO_CLASS_NAME = cva([
@@ -15,24 +16,24 @@ const RADIO_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-[#0081C0]",
+  "focus-visible:outline-[--state-focus]",
 
   "unchecked:border-2",
-  "enabled:unchecked:border-[#616161]",
-  "enabled:unchecked:hover:bg-[#f2f2f2]",
-  "enabled:unchecked:active:bg-daikinNeutral-100",
+  "enabled:unchecked:border-[--state-neutral-default]",
+  "enabled:unchecked:hover:bg-[--background-base-hover]",
+  "enabled:unchecked:active:bg-[--background-base-press]",
   "checked:border-[5px]",
-  "enabled:checked:border-daikinBlue-500",
-  "enabled:checked:group-hover:border-[#0081C0]",
-  "enabled:checked:group-active:border-[#00689A]",
-  "disabled:border-daikinNeutral-400",
+  "enabled:checked:border-[--state-primary-default]",
+  "enabled:checked:group-hover:border-[--state-primary-hover]",
+  "enabled:checked:group-active:border-[--state-primary-press]",
+  "disabled:border-[--state-disabled]",
 ])();
 
 const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: ["text-daikinNeutral-800"],
-      true: ["text-daikinNeutral-400"],
+      false: ["text-[--element-text-primary]"],
+      true: ["text-[--state-disabled]"],
     },
   },
 });
@@ -61,6 +62,15 @@ export class DaikinRadio extends LitElement {
 
     :host {
       display: inline-block;
+      --element-text-primary: ${unsafeCSS(color.element.text.primary)};
+      --background-base-hover: ${unsafeCSS(color.background.base.hover)};
+      --background-base-press: ${unsafeCSS(color.background.base.press)};
+      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
+      --state-primary-press: ${unsafeCSS(color.state.primary.press)};
+      --state-neutral-default: ${unsafeCSS(color.state.neutral.default)};
+      --state-focus: ${unsafeCSS(color.state.focus)};
+      --state-disabled: ${unsafeCSS(color.state.disabled)};
     }
   `;
 

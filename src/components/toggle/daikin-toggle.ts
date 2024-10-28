@@ -1,29 +1,30 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { color } from "../../colorToken";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const TOGGLE_CLASS_NAME = cva([
   "w-12",
   "h-6",
   "relative",
-  "bg-daikinNeutral-700",
+  "bg-[--state-neutral-default]",
   "rounded-full",
   "cursor-pointer",
   "transition-colors",
   "duration-300",
   "appearance-none",
-  "enabled:hover:bg-[#515151]",
-  "enabled:active:bg-daikinNeutral-800",
+  "enabled:hover:bg-[--state-neutral-hover]",
+  "enabled:active:bg-[--state-neutral-press]",
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-[#0081C0]",
+  "focus-visible:outline-[--state-focus]",
 
-  "enabled:checked:bg-daikinBlue-500",
-  "enabled:checked:hover:bg-[#0081C0]",
-  "enabled:checked:active:bg-[#00689A]",
-  "disabled:bg-daikinNeutral-400",
+  "enabled:checked:bg-[--state-primary-default]",
+  "enabled:checked:hover:bg-[--state-primary-hover]",
+  "enabled:checked:active:bg-[--state-primary-press]",
+  "disabled:bg-[--state-disabled]",
   "disabled:cursor-default",
 
   "before:size-4",
@@ -36,8 +37,8 @@ const TOGGLE_CLASS_NAME = cva([
   "before:transition",
   "before:duration-300",
   "before:checked:translate-x-6",
-  "enabled:before:bg-white",
-  "disabled:before:bg-[#F2F2F2]",
+  "enabled:before:bg-[--background-base-default]",
+  "disabled:before:bg-[--background-base-hover]",
 ])();
 
 /**
@@ -65,6 +66,16 @@ export class DaikinToggle extends LitElement {
 
     :host {
       display: inline-flex;
+      --background-base-default: ${unsafeCSS(color.background.base.default)};
+      --background-base-hover: ${unsafeCSS(color.background.base.hover)};
+      --state-primary-default: ${unsafeCSS(color.state.primary.default)};
+      --state-primary-hover: ${unsafeCSS(color.state.primary.hover)};
+      --state-primary-press: ${unsafeCSS(color.state.primary.press)};
+      --state-neutral-default: ${unsafeCSS(color.state.neutral.default)};
+      --state-neutral-hover: ${unsafeCSS(color.state.neutral.hover)};
+      --state-neutral-press: ${unsafeCSS(color.state.neutral.press)};
+      --state-focus: ${unsafeCSS(color.state.focus)};
+      --state-disabled: ${unsafeCSS(color.state.disabled)};
     }
   `;
 
