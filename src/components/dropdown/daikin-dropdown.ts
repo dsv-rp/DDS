@@ -91,9 +91,10 @@ const floatingPositionOptions: Partial<ComputePositionConfig> = {
     offset({ mainAxis: 0 }),
     size({
       apply({ rects, elements }) {
-        Object.assign(elements.floating.style, {
-          minWidth: `${rects.reference.width}px`,
-        });
+        elements.floating.style.setProperty(
+          "--floating-width",
+          `${rects.reference.width}px`
+        );
       },
     }),
   ],
@@ -225,9 +226,9 @@ export class DaikinDropdown extends LitElement {
     this.open = !this.open;
   }
 
-  private _searchItem(key: string): void {
+  private _searchItem(prefix: string): void {
     const items = this._items.filter(
-      (item) => item.textContent?.[0].toLowerCase() === key
+      (item) => item.textContent?.[0].toLowerCase() === prefix.toLowerCase()
     );
     const activeElement = document.activeElement;
     const focusedItemIndex = activeElement
@@ -307,7 +308,12 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
-    const firstCharacterKey = event.key.length === 1 ? event.key : undefined;
+    const printableCharacter = event.key.length === 1 ? event.key : null;
+    if (this.open && printableCharacter) {
+      this._searchItem(printableCharacter);
+      return;
+    }
+
     const operation = (
       {
         ArrowDown: "down",
@@ -316,25 +322,15 @@ export class DaikinDropdown extends LitElement {
       } as const
     )[event.key];
 
-    if (!operation && !firstCharacterKey) {
-      return;
-    }
+    switch (operation) {
+      case "down":
+      case "up":
+        this._moveFocus(operation === "up" ? -1 : 1);
+        break;
 
-    if (this.open && firstCharacterKey) {
-      this._searchItem(firstCharacterKey);
-      return;
-    }
-
-    if (operation === "down" || operation === "up") {
-      const moveOffset = operation === "up" ? -1 : 1;
-
-      this._moveFocus(moveOffset);
-      return;
-    }
-
-    if (operation === "close") {
-      this._handleKeyDownEscape();
-      return;
+      case "close":
+        this._handleKeyDownEscape();
+        break;
     }
   }
 
@@ -381,7 +377,7 @@ export class DaikinDropdown extends LitElement {
       <div
         id="dropdown-items"
         popover
-        class="max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
+        class="w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
         aria-label=${this.label}
         role="listbox"
         ${this._autoUpdateController.refFloating()}
