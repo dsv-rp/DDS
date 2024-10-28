@@ -35,11 +35,11 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
         </ReactDaikinTreeSection>
         <ReactDaikinTreeSection disabled>
           <span slot="label">Tree section 3</span>
-          <ReactDaikinTreeItem>Tree item 3-1</ReactDaikinTreeItem>
+          <ReactDaikinTreeItem disabled>Tree item 3-1</ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
         <ReactDaikinTreeSection disabled open>
           <span slot="label">Tree section 4</span>
-          <ReactDaikinTreeItem>Tree item 4-1</ReactDaikinTreeItem>
+          <ReactDaikinTreeItem disabled>Tree item 4-1</ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
         <ReactDaikinTreeItem>Tree item 5</ReactDaikinTreeItem>
       </ReactDaikinTree>

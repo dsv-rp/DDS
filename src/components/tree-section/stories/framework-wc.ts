@@ -14,7 +14,7 @@ export const metadata: Meta<DaikinTreeSectionStoryArgs> = {
       @click=${onClick}
     >
       <span slot="label">${label}</span>
-      <daikin-tree-item>Tree item</daikin-tree-item>
+      <daikin-tree-item ?disabled=${disabled}>Tree item</daikin-tree-item>
     </daikin-tree-section>
   `,
 };

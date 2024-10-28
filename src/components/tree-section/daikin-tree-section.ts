@@ -1,11 +1,4 @@
-import {
-  LitElement,
-  css,
-  html,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
@@ -19,7 +12,7 @@ import {
   getDirection,
   operationChildrenFocus,
   type MoveFocusEventType,
-} from "../tree/daikin-tree";
+} from "../tree/common";
 
 /**
  * The tree section component that can be used within `daikin-tree` component.
@@ -82,13 +75,12 @@ export class DaikinTreeSection extends LitElement {
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
   @query("button")
-  private readonly _button!: HTMLButtonElement;
+  private readonly _button!: HTMLButtonElement | null;
 
   private _updateLevel() {
     const children = this._children;
 
     for (const item of children) {
-      item.disabled = this.disabled;
       item.level = this.level + 1;
     }
   }
@@ -163,12 +155,11 @@ export class DaikinTreeSection extends LitElement {
         <slot name="label"></slot>
       </button>
       <div role="group">
-        ${this.open
-          ? html`<slot
-              @slotchange=${this._handleSlotChange}
-              @tree-move-focus=${this._handleMoveFocus}
-            ></slot>`
-          : nothing}
+        <slot
+          ?hidden=${!this.open}
+          @slotchange=${this._handleSlotChange}
+          @tree-move-focus=${this._handleMoveFocus}
+        ></slot>
       </div>
     </div>`;
   }
@@ -183,13 +174,25 @@ export class DaikinTreeSection extends LitElement {
    * Focuses on the inner button.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
-    this._button.focus(options);
+  override focus(options?: FocusOptions): void {
+    this._button?.focus(options);
   }
 
-  focusLastItem(options?: FocusOptions | undefined): void {
-    const children = this._children;
-    children.at(-1)?.focusLastItem(options);
+  /**
+   * Focuses on the last enabled item in the slot recursively.
+   * If the tree is closed or there are no enabled items in the slot, this will focus on itself.
+   * This is called from the next item to move the focus to the item above it in the display.
+   * @param options focus options
+   */
+  focusLastItem(options?: FocusOptions): void {
+    const child =
+      this.open && this._children.findLast((element) => !element.disabled);
+
+    if (child) {
+      child.focusLastItem(options);
+    } else {
+      this.focus(options);
+    }
   }
 }
 

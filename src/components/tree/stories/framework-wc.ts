@@ -28,11 +28,11 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
         </daikin-tree-section>
         <daikin-tree-section disabled>
           <span slot="label">Tree section 3</span>
-          <daikin-tree-item>Tree item 3-1</daikin-tree-item>
+          <daikin-tree-item disabled>Tree item 3-1</daikin-tree-item>
         </daikin-tree-section>
         <daikin-tree-section disabled open>
           <span slot="label">Tree section 4</span>
-          <daikin-tree-item>Tree item 4-1</daikin-tree-item>
+          <daikin-tree-item disabled>Tree item 4-1</daikin-tree-item>
         </daikin-tree-section>
         <daikin-tree-item>Tree item 5</daikin-tree-item>
       </daikin-tree>

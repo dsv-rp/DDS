@@ -3,7 +3,7 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { emitMoveFocus, getDirection } from "../tree/daikin-tree";
+import { emitMoveFocus, getDirection } from "../tree/common";
 
 export const cvaTreeChildren = cva(
   [
@@ -173,11 +173,16 @@ export class DaikinTreeItem extends LitElement {
    * Focuses on the inner button.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
+  override focus(options?: FocusOptions): void {
     this._focusableElement.focus(options);
   }
 
-  focusLastItem(options?: FocusOptions | undefined): void {
+  /**
+   * Focuses on the inner button.
+   * This is provided to ensure consistency of the interface.
+   * @param options focus options
+   */
+  focusLastItem(options?: FocusOptions): void {
     this._focusableElement.focus(options);
   }
 }

@@ -18,7 +18,9 @@ export const metadata: Meta<DaikinTreeSectionStoryArgs> = {
   component: ({ label, ...props }: DaikinTreeSectionStoryArgs) => (
     <ReactDaikinTreeSection {...props}>
       <span slot="label">{label}</span>
-      <ReactDaikinTreeItem>Tree item</ReactDaikinTreeItem>
+      <ReactDaikinTreeItem disabled={props.disabled}>
+        Tree item
+      </ReactDaikinTreeItem>
     </ReactDaikinTreeSection>
   ),
 };
