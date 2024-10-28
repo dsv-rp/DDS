@@ -15,7 +15,6 @@ const cvaTab = cva(
     "pt-2",
     "pb-3",
     "text-center",
-    "font-bold",
     "font-daikinSerif",
     "tracking-wide",
     "whitespace-nowrap",
@@ -27,9 +26,9 @@ const cvaTab = cva(
     "focus-visible:before:z-[1]",
     "focus-visible:before:border",
     "focus-visible:before:border-2",
-    "focus-visible:before:border-[#0081C0]",
+    "focus-visible:before:border-system-state-focus",
 
-    "disabled:text-daikinNeutral-400",
+    "disabled:text-system-state-disabled",
 
     "after:absolute",
     "after:inset-0",
@@ -39,24 +38,25 @@ const cvaTab = cva(
     variants: {
       active: {
         false: [
-          "enabled:text-daikinNeutral-700",
-          "enabled:hover:text-[#414141]",
-          "enabled:hover:bg-[#f2f2f2]",
-          "enabled:active:text-daikinNeutral-800",
-          "enabled:active:bg-daikinNeutral-100",
+          "enabled:text-system-state-neutral-active",
+          "enabled:hover:text-system-state-neutral-hover",
+          "enabled:hover:bg-system-background-surface-hover",
+          "enabled:active:text-system-state-neutral-press",
+          "enabled:active:bg-system-background-surface-press",
 
           "after:h-[1px]",
-          "after:bg-[#cecece]",
+          "after:bg-system-element-divider-secondary",
         ],
         true: [
-          "enabled:text-daikinBlue-500",
-          "enabled:hover:bg-[#DDF3FC]",
-          "enabled:active:bg-[#BBE7F9]",
+          "font-bold",
+          "enabled:text-system-state-primary-active",
+          "enabled:hover:bg-system-state-primary-surface-hover",
+          "enabled:active:bg-system-state-primary-surface-press",
 
           "after:h-1",
 
-          "enabled:after:bg-daikinBlue-500",
-          "disabled:after:bg-daikinNeutral-400",
+          "enabled:after:bg-system-state-primary-active",
+          "disabled:after:bg-system-state-disabled",
         ],
       },
     },
