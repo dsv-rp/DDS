@@ -23,6 +23,9 @@ const base = async (page: Page, baseURL: string) => {
     }
   );
 
+  // blur focus
+  await page.locator("button[role='combobox']").blur();
+
   // take screenshot and check for diffs
   await expect(page).toHaveScreenshot(await clipFor(element));
 };
@@ -54,6 +57,9 @@ describeEach(["open", "close"] as const, (state) => {
         state: "visible",
       });
 
+      // blur focus
+      await page.locator("button[role='combobox']").blur();
+
       // hover cursor on the element
       await button.hover();
 
@@ -74,6 +80,9 @@ describeEach(["open", "close"] as const, (state) => {
       const button = await element.waitForSelector("button", {
         state: "visible",
       });
+
+      // blur focus
+      await page.locator("button[role='combobox']").blur();
 
       // hover cursor on the element
       await button.hover();
