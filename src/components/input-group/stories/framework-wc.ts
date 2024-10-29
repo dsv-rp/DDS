@@ -1,5 +1,5 @@
 import "#package/components/input-group/daikin-input-group";
-import "#package/components/text-input/daikin-text-input";
+import "#package/components/text-field/daikin-text-field";
 import "#package/components/textarea/daikin-textarea";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
@@ -17,10 +17,10 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     content,
   }) => {
     const inputContent = {
-      TextInput: html`<daikin-text-input
+      TextField: html`<daikin-text-field
         value="Value"
         placeholder="Placeholder text"
-      ></daikin-text-input>`,
+      ></daikin-text-field>`,
       Textarea: html`<daikin-textarea
         value="Value"
         placeholder="Placeholder text"

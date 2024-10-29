@@ -5,12 +5,12 @@ import {
   type InferStorybookArgTypes,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_TEXT_INPUT_ARG_TYPES } from "./stories/common";
+import type { DAIKIN_TEXT_FIELD_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXT_INPUT_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXT_FIELD_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-text-input--default", args);
+  getStorybookIframeURL("components-text-field--default", args);
 
 describeEach(["normal", "error"] as const, (error) => {
   describeEach(["empty", "placeholder", "filled"] as const, (content) => {
@@ -33,7 +33,7 @@ describeEach(["normal", "error"] as const, (error) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
+        const element = await page.waitForSelector("daikin-text-field", {
           state: "visible",
         });
 
@@ -45,7 +45,7 @@ describeEach(["normal", "error"] as const, (error) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
+        const element = await page.waitForSelector("daikin-text-field", {
           state: "visible",
         });
 
@@ -60,7 +60,7 @@ describeEach(["normal", "error"] as const, (error) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
+        const element = await page.waitForSelector("daikin-text-field", {
           state: "visible",
         });
 
@@ -77,7 +77,7 @@ describeEach(["normal", "error"] as const, (error) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
+        const element = await page.waitForSelector("daikin-text-field", {
           state: "visible",
         });
 
@@ -93,7 +93,7 @@ describeEach(["normal", "error"] as const, (error) => {
         await page.goto(getPageURL({ ...baseArgs, disabled: true }));
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
+        const element = await page.waitForSelector("daikin-text-field", {
           state: "visible",
         });
 
@@ -105,7 +105,7 @@ describeEach(["normal", "error"] as const, (error) => {
         await page.goto(getPageURL({ ...baseArgs, readonly: true }));
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-text-input", {
+        const element = await page.waitForSelector("daikin-text-field", {
           state: "visible",
         });
 

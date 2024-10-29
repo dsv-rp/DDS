@@ -1,12 +1,12 @@
 import "#package/components/icon/daikin-icon";
-import "#package/components/text-input/daikin-text-input";
+import "#package/components/text-field/daikin-text-field";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../storybook-tailwind.css";
-import type { DaikinTextInputStoryArgs } from "./common";
+import type { DaikinTextFieldStoryArgs } from "./common";
 
-export const metadata: Meta<DaikinTextInputStoryArgs> = {
+export const metadata: Meta<DaikinTextFieldStoryArgs> = {
   render: ({
     type,
     value,
@@ -25,7 +25,7 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
     onKeyDown,
   }) => html`
     <div style="width:340px;">
-      <daikin-text-input
+      <daikin-text-field
         type=${type}
         value=${value}
         name=${ifDefined(name)}
@@ -56,7 +56,7 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
               color="current"
             ></daikin-icon>`
           : nothing}
-      </daikin-text-input>
+      </daikin-text-field>
     </div>
   `,
 };

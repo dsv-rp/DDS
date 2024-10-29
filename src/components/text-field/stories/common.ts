@@ -1,10 +1,10 @@
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import type { IconType } from "../../icon/daikin-icon";
-import type { DaikinTextInput } from "../daikin-text-input";
+import type { DaikinTextField } from "../daikin-text-field";
 
-export interface DaikinTextInputStoryArgs
-  extends Required<ElementProps<DaikinTextInput>> {
+export interface DaikinTextFieldStoryArgs
+  extends Required<ElementProps<DaikinTextField>> {
   leftIcon: IconType | null;
   rightIcon: IconType | null;
   onChange: (event: Event) => void;
@@ -12,7 +12,7 @@ export interface DaikinTextInputStoryArgs
   onKeyDown: (event: Event) => void;
 }
 
-export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
+export const DAIKIN_TEXT_FIELD_ARG_TYPES = {
   value: {
     type: "string",
   },
@@ -53,6 +53,6 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   // Hide event listeners
   onChange: { name: "" },
   onInput: { name: "" },
-} satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
+} satisfies Meta<DaikinTextFieldStoryArgs>["argTypes"];
 
-export type Story = StoryObj<DaikinTextInputStoryArgs>;
+export type Story = StoryObj<DaikinTextFieldStoryArgs>;
