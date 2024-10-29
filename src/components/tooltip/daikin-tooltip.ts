@@ -277,7 +277,15 @@ export class DaikinTooltip extends LitElement {
     /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
-  override willUpdate(changedProperties: PropertyValues<this>): void {
+  override willUpdate(
+    changedProperties: PropertyValues<
+      // Treat `_isFocused` and `_isMouseOpened` as public.
+      Omit<this, "_isFocused" | "_isMouseOpened"> & {
+        _isFocused: boolean;
+        _isMouseOpened: boolean;
+      }
+    >
+  ): void {
     if (
       changedProperties.has("_isFocused") ||
       changedProperties.has("_isMouseOpened")
