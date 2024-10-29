@@ -61,7 +61,7 @@ export class DaikinAccordion extends LitElement {
     event: CustomEvent<{ direction: "up" | "down" }>
   ): void {
     const moveOffset = event.detail.direction === "up" ? -1 : 1;
-    const items = this._items;
+    const items = this._items.filter(({ disabled }) => !disabled);
 
     // Get focused item if any
     const activeElement = document.activeElement;
@@ -74,25 +74,11 @@ export class DaikinAccordion extends LitElement {
       return;
     }
 
-    // Focus on the first accordion that is enabled.
-    for (
-      let index = focusedItemIndex + moveOffset, i = 0;
-      i < items.length;
-      index += moveOffset, i++
-    ) {
-      index =
-        Math.sign(index % items.length) === -1
-          ? items.length - 1
-          : index % items.length;
-      const item = items[index];
+    const nextItemIndex = (focusedItemIndex + moveOffset) % items.length;
+    const nextItem =
+      items[Math.sign(nextItemIndex) === -1 ? items.length - 1 : nextItemIndex];
 
-      if (item.disabled) {
-        continue;
-      }
-
-      item.focus();
-      break;
-    }
+    nextItem.focus();
   }
 
   override render() {
