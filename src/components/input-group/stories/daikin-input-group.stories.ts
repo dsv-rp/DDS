@@ -20,7 +20,6 @@ export const Default: Story = {
     label: "Label text",
     helper: "Helper text",
     disabled: false,
-    required: false,
     content: "TextInput",
   },
   play: definePlay(async ({ canvasElement, step }) => {
@@ -46,7 +45,7 @@ export const Default: Story = {
 export const Required: Story = {
   args: {
     ...Default.args,
-    required: true,
+    required: "Required",
   },
 };
 

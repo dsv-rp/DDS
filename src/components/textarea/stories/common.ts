@@ -34,6 +34,9 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
   resizable: {
     type: "boolean",
   },
+  // Hide event listeners
+  onChange: { name: "" },
+  onInput: { name: "" },
 } satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTextareaStoryArgs>;

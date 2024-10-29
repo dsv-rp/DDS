@@ -21,7 +21,7 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     type: "boolean",
   },
   required: {
-    type: "boolean",
+    type: "string",
   },
   error: {
     type: "string",
@@ -30,8 +30,9 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     type: "number",
   },
   content: {
-    control: "select",
+    control: "radio",
     options: ["TextInput", "Textarea"],
+    description: "Slot content to show",
   },
 } satisfies Meta<DaikinInputGroupStoryArgs>["argTypes"];
 
