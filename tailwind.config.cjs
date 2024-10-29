@@ -102,6 +102,8 @@ module.exports = defineConfig({
 
       matchVariant("part", (value) => `&::part(${value})`);
 
+      addVariant("floating-unready", ["&:not([data-floating-ready])"]);
+
       matchVariant(
         "slotted",
         (value) => [
