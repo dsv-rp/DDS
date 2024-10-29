@@ -14,7 +14,7 @@ export const cvaTreeChildren = cva(
     "min-h-12",
     "py-3",
     "pr-3",
-    "pl-[--padding-left]",
+    "pl-[calc(var(--level)*28px+12px)]",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -121,13 +121,15 @@ export class DaikinTreeItem extends LitElement {
 
   private _handleKeyDown(event: KeyboardEvent) {
     const direction = getDirection(event);
-
     if (!direction) {
       return;
     }
 
-    // Communicate the operation to the tree-section
-    emitMoveFocus(this, direction);
+    event.preventDefault();
+
+    if (direction !== "right") {
+      emitMoveFocus(this, direction);
+    }
   }
 
   override render() {
@@ -138,32 +140,33 @@ export class DaikinTreeItem extends LitElement {
       open: false,
     });
 
-    const variant = this.type === "link" && !!this.href ? "link" : "button";
+    const disabled =
+      this.disabled || (this.type === "link" && this.href == null);
 
     const item = {
       button: html`<button
         type="button"
         class=${itemCN}
-        ?disabled=${this.disabled}
+        ?disabled=${disabled}
+        @keydown=${this._handleKeyDown}
       >
         <slot></slot>
       </button>`,
       link: html`<a
-        href=${ifDefined(!this.disabled ? (this.href ?? undefined) : undefined)}
-        role=${ifDefined(this.disabled ? "link" : undefined)}
-        aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+        href=${ifDefined(!disabled ? (this.href ?? undefined) : undefined)}
+        role=${ifDefined(disabled ? "link" : undefined)}
+        aria-disabled=${ifDefined(disabled ? "true" : undefined)}
         class=${itemCN}
       >
         <slot></slot>
       </a>`,
-    }[variant];
+    }[this.type];
 
-    // eslint-disable-next-line lit-a11y/accessible-name
+    // eslint-disable-next-line lit-a11y/accessible-name -- The accessible name of the `treeitem` will be calculated from the slot content.
     return html`<div
       role="treeitem"
       aria-selected=${this.selected}
-      style=${`--padding-left:${12 + this.level * 28}px`}
-      @keydown=${this._handleKeyDown}
+      style=${`--level:${this.level}`}
     >
       ${item}
     </div>`;

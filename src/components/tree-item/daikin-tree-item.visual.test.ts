@@ -15,7 +15,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(["button", "link"] as const, (type) => {
   const baseArgs = {
     type,
-    ...(type === "link" && { href: "#" }),
+    ...(type === "link" && { href: "example" }),
   };
 
   const baseURL = getPageURL(baseArgs);

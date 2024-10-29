@@ -10,7 +10,7 @@ import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
 import {
   emitMoveFocus,
   getDirection,
-  operationChildrenFocus,
+  moveFocus,
   type MoveFocusEventType,
 } from "../tree/common";
 
@@ -23,17 +23,19 @@ import {
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  *
- * @fires click - When an item in the tree section is clicked, it returns the open/closed status of the section.
+ * @fires click - When an item in the tree section is clicked.
  *
- * @slot - Tree item list slot. Place `daikin-tree-item` elements here.
+ * @slot - A slot for tree children. Place `daikin-tree-section` and `daikin-tree-item` elements here.
+ * @slot label - A slot for label text. Place a `span` element here.
  *
  * @example
  *
  * ```html
- * <daikin-tree-section label="Tree section 1">
- *   <daikin-tree-item>Tree item 1-1</daikin-tree-item>
- *   <daikin-tree-item>Tree item 1-2</daikin-tree-item>
- *   <daikin-tree-item>Tree item 1-3</daikin-tree-item>
+ * <daikin-tree-section>
+ *   <span slot="label">Tree section</span>
+ *   <daikin-tree-item>Tree item 1</daikin-tree-item>
+ *   <daikin-tree-item>Tree item 2</daikin-tree-item>
+ *   <daikin-tree-item>Tree item 3</daikin-tree-item>
  * </daikin-tree-section>
  * ```
  */
@@ -94,25 +96,20 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private _handleMoveFocus(event: CustomEvent<MoveFocusEventType>) {
-    event.stopPropagation();
-
     const direction = event.detail.direction;
 
-    // When `left` or `right`, the event is transmitted and the open/close process is performed.
-    if (direction === "left" || direction === "right") {
-      this.open = direction === "right";
-    }
-
     if (direction === "left") {
-      return;
+      event.stopPropagation();
+      this.open = false;
+      this.focus();
+    } else {
+      moveFocus(
+        event,
+        event.target as HTMLElement,
+        event.detail.direction,
+        this._children
+      );
     }
-
-    operationChildrenFocus(
-      event.target as HTMLElement,
-      direction,
-      this._children,
-      event.detail.option
-    );
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -121,19 +118,37 @@ export class DaikinTreeSection extends LitElement {
       return;
     }
 
-    // When `left` or `right`, the event is transmitted and the open/close process is performed.
-    if (direction === "left" || direction === "right") {
-      this.open = direction === "right";
-    }
+    event.preventDefault();
+    const children = this._children;
 
-    if (direction === "left") {
-      return;
-    }
+    switch (direction) {
+      case "down":
+        if (this.open) {
+          moveFocus(event, this, direction, children);
+        } else {
+          emitMoveFocus(this, direction);
+        }
+        break;
 
-    if (this.open && direction !== "up") {
-      operationChildrenFocus(this, direction, this._children);
-    } else {
-      emitMoveFocus(this, direction);
+      case "up":
+        emitMoveFocus(this, direction);
+        break;
+
+      case "left":
+        if (this.open) {
+          this.open = false;
+        } else {
+          emitMoveFocus(this, direction);
+        }
+        break;
+
+      case "right":
+        if (this.open) {
+          moveFocus(event, this, "down", children);
+        } else {
+          this.open = true;
+        }
+        break;
     }
   }
 
@@ -148,15 +163,14 @@ export class DaikinTreeSection extends LitElement {
           icon: true,
           open: this.open,
         })}
-        style=${`--padding-left:${12 + this.level * 28}px`}
+        style=${`--level:${this.level}`}
         @click=${this._handleClick}
         @keydown=${this._handleKeyDown}
       >
         <slot name="label"></slot>
       </button>
-      <div role="group">
+      <div role="group" ?hidden=${!this.open}>
         <slot
-          ?hidden=${!this.open}
           @slotchange=${this._handleSlotChange}
           @tree-move-focus=${this._handleMoveFocus}
         ></slot>

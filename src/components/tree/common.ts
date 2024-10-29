@@ -1,15 +1,11 @@
 import type { DaikinTreeItem } from "../tree-item";
 import type { DaikinTreeSection } from "../tree-section";
 
+export type DispatchDirectionType = "down" | "up" | "left";
 export type DirectionType = "down" | "up" | "left" | "right";
 
-export type OptionType = {
-  previousParent?: boolean;
-};
-
 export type MoveFocusEventType = {
-  direction: DirectionType;
-  option?: OptionType;
+  direction: DispatchDirectionType;
 };
 
 export const getDirection: (
@@ -24,74 +20,59 @@ export const getDirection: (
     }) as const
   )[event.key];
 
-export const operationChildrenFocus = (
+export const moveFocus = (
+  event: Event,
   target: HTMLElement,
-  direction: "down" | "up" | "right",
-  children: readonly (DaikinTreeSection | DaikinTreeItem)[],
-  option?: OptionType
+  direction: "down" | "up" | "left",
+  children: readonly (DaikinTreeSection | DaikinTreeItem)[]
 ) => {
-  const moveOffset = direction === "up" ? -1 : 1;
+  const enabledChildren = children.filter(({ disabled }) => !disabled);
+  const focusedItemIndex = enabledChildren.findIndex((item) => item === target);
 
-  const focusedItemIndex = children.findIndex((item) => item === target);
+  switch (direction) {
+    case "down": {
+      const nextIndex = (focusedItemIndex + 1) % enabledChildren.length;
+      event.stopPropagation();
 
-  if (option?.previousParent) {
-    target.focus();
-    return;
-  }
+      if (Math.sign(nextIndex - focusedItemIndex) === 1) {
+        enabledChildren[nextIndex].focus();
+      } else {
+        emitMoveFocus(target.parentElement as HTMLElement, direction);
+      }
 
-  // Focus on the first tree section that is enabled.
-  for (
-    let index = focusedItemIndex + moveOffset, i = 0;
-    i < children.length;
-    index += moveOffset, i++
-  ) {
-    index %= children.length;
-    const item = children[index];
-    const isNegative =
-      index === -1 ||
-      (!index && new Uint8Array(new Float32Array([index]).buffer)[3] === 128);
-
-    if (isNegative && moveOffset === -1 && target.parentElement) {
-      emitMoveFocus(target.parentElement, direction, {
-        previousParent: true,
-      });
       break;
     }
 
-    if (
-      focusedItemIndex === children.length - 1 &&
-      moveOffset === 1 &&
-      target.parentElement
-    ) {
-      emitMoveFocus(target.parentElement, direction);
+    case "up": {
+      const previousIndex = (focusedItemIndex - 1) % enabledChildren.length;
+
+      if (Math.sign(previousIndex) === -1) {
+        event.stopPropagation();
+        target.parentElement?.focus();
+      } else if (previousIndex !== focusedItemIndex) {
+        event.stopPropagation();
+        enabledChildren[previousIndex].focusLastItem();
+      }
       break;
     }
 
-    if (item.disabled) {
-      continue;
-    }
-
-    if (item.tagName === "DAIKIN-TREE-SECTION" && moveOffset === -1) {
-      item.focusLastItem();
+    case "left":
+      event.stopPropagation();
+      target.focus();
       break;
-    }
-
-    item.focus();
-    break;
   }
 };
 
 export const emitMoveFocus = (
   target: HTMLElement,
-  direction: DirectionType,
-  option?: OptionType
+  direction: DispatchDirectionType
 ) => {
   target.dispatchEvent(
     new CustomEvent("tree-move-focus", {
       detail: {
         direction,
-        option,
       },
+      composed: true,
       bubbles: true,
     })
   );
