@@ -12,10 +12,11 @@ const cvaTextarea = cva(
     "py-3",
     "rounded-md",
     "font-daikinSerif",
-    "text-daikinNeutral-900",
-    "bg-white",
-
-    "placeholder:text-daikinNeutral-700",
+    "outline",
+    "outline-[--color-border]",
+    "outline-0",
+    "-outline-offset-2",
+    "placeholder:text-[#616161]",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
@@ -23,28 +24,26 @@ const cvaTextarea = cva(
     "border",
     "border-[--color-border]",
 
-    "outline",
-    "outline-[--color-border]",
-    "outline-0",
-    "-outline-offset-2",
-
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
+    "enabled:text-[#414141]",
     "enabled:hover:bg-[#f2f2f2]",
-    "enabled:active:bg-daikinNeutral-100",
+    "enabled:active:bg-[#EBEBEB]",
     "focus-visible:outline-2",
-    "disabled:text-daikinNeutral-200",
-    "disabled:var-color-daikinNeutral-200/color-base",
-    "disabled:placeholder:text-daikinNeutral-200",
+
+    "disabled:var-color-[#BFBFBF]/color-base",
+    "disabled:text-[#BFBFBF]",
+    "disabled:bg-white",
+    "disabled:placeholder:text-[#BFBFBF]",
   ],
   {
     variants: {
       error: {
         false: [
-          "var-color-daikinNeutral-600/color-base",
-          "focus-visible:var-color-daikinBlue-700/color-state-focus",
+          "enabled:var-color-[#515151]/color-base",
+          "focus-visible:var-color-[#0081C0]/color-state-focus",
         ],
-        true: ["var-color-daikinRed-500/color-base"],
+        true: ["enabled:var-color-[#D80C18]/color-base"],
       },
       resize: {
         false: ["resize-none"],
