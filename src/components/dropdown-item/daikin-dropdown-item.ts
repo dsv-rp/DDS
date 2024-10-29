@@ -112,6 +112,7 @@ export class DaikinDropdownItem extends LitElement {
       data-value=${this.value}
       role="option"
       aria-selected=${this.selected}
+      tabindex="-1"
       ?disabled=${this.disabled}
       @click=${this._handleClick}
     >
