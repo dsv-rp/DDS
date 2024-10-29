@@ -14,14 +14,9 @@ type ControlElement = DaikinTextInput | DaikinTextarea;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
-    required: {
+    disabled: {
       false: [],
-      true: [
-        "after:i-daikin-required",
-        "after:size-4",
-        "after:text-daikinRed-500",
-        "after:ml-1",
-      ],
+      true: ["text-[#BFBFBF]"],
     },
   },
 });
@@ -31,10 +26,10 @@ const cvaHelper = cva(
   {
     variants: {
       type: {
-        helper: ["text-daikinNeutral-800"],
-        helperDisabled: ["text-daikinNeutral-200"],
+        helper: [],
+        helperDisabled: ["text-[#BFBFBF]"],
         error: [
-          "text-daikinRed-500",
+          "text-[#D80C18]",
           "font-bold",
           "before:size-4",
           "before:i-daikin-status-error",
@@ -107,19 +102,12 @@ export class DaikinInputGroup extends LitElement {
   helper = "";
 
   /**
-   * Whether the field is disabled.
-   * Reflected in `disabled` attribute of the input control in the slot.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
    * Whether the field is required.
    * If `true`, an additional star mark will be displayed at the right of the label text.
    * Reflected in `required` attribute of the input control in the slot.
    */
-  @property({ type: Boolean, reflect: true })
-  required = false;
+  @property({ type: String, reflect: true })
+  required = "";
 
   /**
    * Error text displayed at the bottom of the field.
@@ -128,6 +116,13 @@ export class DaikinInputGroup extends LitElement {
    */
   @property({ type: String, reflect: true })
   error = "";
+
+  /**
+   * Whether the field is disabled.
+   * Reflected in `disabled` attribute of the input control in the slot.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
 
   /**
    * Whether to display the counter in the Textarea
@@ -178,22 +173,24 @@ export class DaikinInputGroup extends LitElement {
     }[helperType];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center gap-2 w-full font-daikinSerif">
-        <span
-          class=${cvaLabel({
-            required: this.required,
-          })}
-        >
-          ${this.label}
-        </span>
-        ${this.required ? html`<span class="sr-only">required</span>` : nothing}
-        <slot @slotchange=${this._handleSlotChange}></slot>
+      <label
+        class="flex flex-col justify-center gap-2 w-full text-[#414141] font-daikinSerif"
+      >
+        <div class="flex items-center gap-1 font-bold">
+          <span class=${cvaLabel({ disabled: this.disabled })}>
+            ${this.label}
+          </span>
+          ${this.required.length && !this.disabled
+            ? html`<span class="text-[#D80C18] text-xs">${this.required}</span>`
+            : nothing}
+        </div>
         <span
           class=${cvaHelper({ type: helperType })}
           aria-live=${helperType === "error" ? "polite" : "off"}
         >
           ${helperText}
         </span>
+        <slot @slotchange=${this._handleSlotChange}></slot>
       </label>
     </fieldset>`;
   }

@@ -29,23 +29,24 @@ const cvaInput = cva(
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:text-daikinNeutral-800",
+    "enabled:text-[#414141]",
     "enabled:hover:bg-[#f2f2f2]",
-    "enabled:active:bg-daikinNeutral-100",
+    "enabled:active:bg-[#EBEBEB]",
     "focus-visible:outline-2",
 
-    "disabled:var-color-daikinNeutral-200/color-base",
-    "disabled:text-daikinNeutral-200",
-    "disabled:placeholder:text-daikinNeutral-200",
+    "disabled:var-color-[#BFBFBF]/color-base",
+    "disabled:text-[#BFBFBF]",
+    "disabled:bg-white",
+    "disabled:placeholder:text-[#BFBFBF]",
   ],
   {
     variants: {
       error: {
         false: [
-          "enabled:var-color-daikinNeutral-600/color-base",
-          "focus-visible:var-color-daikinBlue-700/color-state-focus",
+          "enabled:var-color-[#515151]/color-base",
+          "focus-visible:var-color-[#0081C0]/color-state-focus",
         ],
-        true: ["enabled:var-color-daikinRed-500/color-base"],
+        true: ["enabled:var-color-[#D80C18]/color-base"],
       },
       leftIcon: {
         false: ["pl-4"],
@@ -66,8 +67,8 @@ const cvaIcon = cva(["absolute", "pointer-events-none"], {
       right: "right-3",
     },
     disabled: {
-      false: ["text-daikinNeutral-800"],
-      true: ["text-daikinNeutral-200"],
+      false: ["text-[#414141]"],
+      true: ["text-[#BFBFBF]"],
     },
   },
 });

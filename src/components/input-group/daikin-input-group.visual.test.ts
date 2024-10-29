@@ -20,9 +20,11 @@ describeEach(["TextInput", "Textarea"] as const, (content) => {
           const baseURL = getPageURL({
             content,
             disabled: state === "disabled",
-            required: required === "required",
             ...(error === "error" && {
               error: "Error Text",
+            }),
+            ...(required === "required" && {
+              required: "Required",
             }),
             textareaCounter: textareaCounter === "visible",
           });

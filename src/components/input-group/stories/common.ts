@@ -21,7 +21,7 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
     type: "boolean",
   },
   required: {
-    type: "boolean",
+    type: "string",
   },
   error: {
     type: "string",
