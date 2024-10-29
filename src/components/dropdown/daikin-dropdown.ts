@@ -235,14 +235,6 @@ export class DaikinDropdown extends LitElement {
       return;
     }
 
-    const items = this._items;
-    const activeElement = document.activeElement;
-    this._lastFocusedItem =
-      (activeElement && items.find((item) => item.contains(activeElement))) ??
-      null;
-
-    console.log(activeElement, this._lastFocusedItem);
-
     this.open = false;
     this.updateComplete
       .then(() => {
@@ -313,6 +305,7 @@ export class DaikinDropdown extends LitElement {
       : -1;
 
     const nextItem = items[(focusedItemIndex + 1) % items.length];
+    this._lastFocusedItem = nextItem;
     nextItem.focus();
   }
 
@@ -359,6 +352,7 @@ export class DaikinDropdown extends LitElement {
         continue;
       }
 
+      this._lastFocusedItem = item;
       item.focus();
       break;
     }
