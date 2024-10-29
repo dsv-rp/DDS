@@ -186,6 +186,9 @@ export class DaikinDropdown extends LitElement {
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private readonly _items!: readonly DaikinDropdownItem[];
 
+  @query("button")
+  private _button!: HTMLElement | null;
+
   @query("div[popover]")
   private _popover!: HTMLElement | null;
 
@@ -448,6 +451,10 @@ export class DaikinDropdown extends LitElement {
         this._clickOutsideController.directive(this.open && !this.disabled)
       }
     </div>`;
+  }
+
+  override focus(options?: FocusOptions): void {
+    this._button?.focus(options);
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
