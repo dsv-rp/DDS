@@ -13,6 +13,7 @@ export default {
 
 export const Button: Story = {
   args: {
+    type: "button",
     selected: false,
     disabled: false,
     label: "Tree item",
