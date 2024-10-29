@@ -441,7 +441,7 @@ export class DaikinDropdown extends LitElement {
       <div
         id="dropdown-items"
         popover
-        class="min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
+        class="[&:not([data-floating-ready])]:hidden min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
         aria-label=${this.label}
         role="listbox"
         ${this._autoUpdateController.refFloating()}

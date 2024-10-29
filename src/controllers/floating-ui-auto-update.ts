@@ -30,22 +30,32 @@ const floatingUIAutoUpdateDirective = createControllerDirective<
     floatingElement: HTMLElement,
     options: Partial<ComputePositionConfig>
   ) => {
-    return autoUpdate(referenceElement, floatingElement, () => {
-      computePosition(referenceElement, floatingElement, options)
-        .then(({ x, y }) => {
-          floatingElement.style.setProperty("--floating-x", `${x}px`);
-          floatingElement.style.setProperty("--floating-y", `${y}px`);
-        })
-        .catch((error: unknown) => {
-          if (import.meta.env.DEV) {
-            console.error(
-              "Failed to compute floating position for",
-              referenceElement,
-              error
-            );
-          }
-        });
-    });
+    const cleanupAutoUpdate = autoUpdate(
+      referenceElement,
+      floatingElement,
+      () => {
+        computePosition(referenceElement, floatingElement, options)
+          .then(({ x, y }) => {
+            floatingElement.style.setProperty("--floating-x", `${x}px`);
+            floatingElement.style.setProperty("--floating-y", `${y}px`);
+            floatingElement.setAttribute("data-floating-ready", "");
+          })
+          .catch((error: unknown) => {
+            if (import.meta.env.DEV) {
+              console.error(
+                "Failed to compute floating position for",
+                referenceElement,
+                error
+              );
+            }
+          });
+      }
+    );
+
+    return () => {
+      cleanupAutoUpdate();
+      floatingElement.removeAttribute("data-floating-ready");
+    };
   },
   (current, previous) =>
     // Check if the reference element is changed
