@@ -16,6 +16,9 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   value: {
     type: "string",
   },
+  name: {
+    type: "string",
+  },
   type: {
     control: "radio",
     options: ["text", "email", "tel"],
@@ -31,9 +34,6 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   },
   required: {
     type: "boolean",
-  },
-  name: {
-    type: "string",
   },
   maxlength: {
     type: "number",
