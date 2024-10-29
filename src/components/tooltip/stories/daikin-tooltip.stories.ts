@@ -1,7 +1,13 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect } from "@storybook/test";
+import { expect, fn } from "@storybook/test";
+import {
+  getByShadowRole,
+  getByShadowText,
+  queryByShadowRole,
+} from "shadow-dom-testing-library";
 import { DAIKIN_TOOLTIP_ARG_TYPES, type Story } from "./common";
+import { TOOLTIP_SLOT_TEXT } from "./framework-wc";
 
 export default {
   title: "Components/Tooltip",
@@ -15,11 +21,13 @@ export const Light: Story = {
     placement: "bottom",
     variant: "light",
     open: false,
-    description: "Test description.\nNewlines supported.",
-    closeOnClick: false,
+    description:
+      "This is a description using attributes.\nIt supports line breaks.",
+    popoverValue: "auto",
     trigger: "hover",
-    tooltipSlot:
-      "Lorem ipsum dolor sit abet, consectetur advising edit. Maris fuegian, risus quia ferment protector, tupis ligula Laurent libero, id elemental cetus massa eu ipsum.",
+    viewArea: "small",
+    onToggle: fn(),
+    onBeforeToggle: fn(),
   },
 };
 
@@ -45,4 +53,43 @@ export const Dark: Story = {
     // await userEvent.click(triggerElement);
     // await expect(tooltip).not.toBeVisible();
   }),
+};
+
+export const SlotDescription: Story = {
+  args: {
+    ...Light.args,
+    hasSlot: true,
+  },
+};
+
+export const UseFocusableTrigger: Story = {
+  args: {
+    ...Light.args,
+    hasFocusableTrigger: true,
+    hasSlot: true,
+  },
+  play: definePlay(async ({ step, canvasElement }) => {
+    const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
+    await expect(root).toBeInTheDocument();
+    const trigger = getByShadowRole(root, "button", { name: "Focus me" });
+
+    await expect(queryByShadowRole(root, "tooltip")).not.toBeInTheDocument();
+
+    await step("Try to focus trigger element", async () => {
+      trigger.focus();
+
+      await expect(
+        getByShadowText(root, TOOLTIP_SLOT_TEXT)
+      ).toBeInTheDocument();
+
+      trigger.blur();
+    });
+  }),
+};
+
+export const FullSizeView: Story = {
+  args: {
+    ...Light.args,
+    viewArea: "full",
+  },
 };
