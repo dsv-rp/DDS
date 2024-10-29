@@ -50,6 +50,9 @@ export const DAIKIN_TEXT_INPUT_ARG_TYPES = {
   rightIcon: {
     type: "string",
   },
+  // Hide event listeners
+  onChange: { name: "" },
+  onInput: { name: "" },
 } satisfies Meta<DaikinTextInputStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTextInputStoryArgs>;

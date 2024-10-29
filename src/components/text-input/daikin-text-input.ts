@@ -83,6 +83,7 @@ const cvaIcon = cva(["absolute", "pointer-events-none"], {
  * - `daikin-input-group` > `daikin-text-input`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
+ * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
  *
  * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
  * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
