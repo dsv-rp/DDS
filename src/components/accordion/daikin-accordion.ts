@@ -74,9 +74,9 @@ export class DaikinAccordion extends LitElement {
       return;
     }
 
-    const nextItemIndex = (focusedItemIndex + moveOffset) % items.length;
+    // Focus on the next enabled accordion item.
     const nextItem =
-      items[Math.sign(nextItemIndex) === -1 ? items.length - 1 : nextItemIndex];
+      items[(focusedItemIndex + moveOffset + items.length) % items.length];
 
     nextItem.focus();
   }
