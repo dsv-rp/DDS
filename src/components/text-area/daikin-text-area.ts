@@ -4,7 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaTextarea = cva(
+const cvaTextArea = cva(
   [
     "w-full",
     "h-full",
@@ -54,13 +54,13 @@ const cvaTextarea = cva(
 );
 
 /**
- * The textarea component is designed for multiline text input, similar to the HTML `<textarea>` tag.
+ * The text area component is designed for multiline text input, similar to the HTML `<textarea>` tag.
  * It is ideal for situations where users need to enter longer pieces of text, such as comments, descriptions, or messages.
  * Can be used within `daikin-input-group` component.
  *
  * Hierarchies:
- * - `daikin-textarea` (can be used solely)
- * - `daikin-input-group` > `daikin-textarea`
+ * - `daikin-text-area` (can be used solely)
+ * - `daikin-input-group` > `daikin-text-area`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<textarea>` element.
  * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
@@ -68,16 +68,16 @@ const cvaTextarea = cva(
  * @example
  *
  * ```js
- * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * ```
  *
  * ```html
  * <!-- See `daikin-input-group` component for complete example. -->
- * <daikin-textarea name="name"></daikin-textarea>
+ * <daikin-text-area name="name"></daikin-text-area>
  * ```
  */
-@customElement("daikin-textarea")
-export class DaikinTextarea extends LitElement {
+@customElement("daikin-text-area")
+export class DaikinTextArea extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -93,13 +93,13 @@ export class DaikinTextarea extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Value of the textarea.
+   * Value of the text area.
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Form name of the textarea.
+   * Form name of the text area.
    */
   @property({ type: String, reflect: true })
   name = "";
@@ -111,19 +111,19 @@ export class DaikinTextarea extends LitElement {
   placeholder = "";
 
   /**
-   * Whether the textarea is disabled.
+   * Whether the text area is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the textarea is readonly.
+   * Whether the text area is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Whether the textarea is required.
+   * Whether the text area is required.
    */
   @property({ type: Boolean, reflect: true })
   required = false;
@@ -168,7 +168,7 @@ export class DaikinTextarea extends LitElement {
 
   override render() {
     return html`<textarea
-      class=${cvaTextarea({
+      class=${cvaTextArea({
         error: !this.disabled && this.error,
         resize: this.resizable,
       })}
@@ -199,6 +199,6 @@ export class DaikinTextarea extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "daikin-textarea": DaikinTextarea;
+    "daikin-text-area": DaikinTextArea;
   }
 }

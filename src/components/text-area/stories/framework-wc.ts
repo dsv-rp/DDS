@@ -1,11 +1,11 @@
-import "#package/components/textarea/daikin-textarea";
+import "#package/components/text-area/daikin-text-area";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import "../../../storybook-tailwind.css";
-import type { DaikinTextareaStoryArgs } from "./common";
+import type { DaikinTextAreaStoryArgs } from "./common";
 
-export const metadata: Meta<DaikinTextareaStoryArgs> = {
+export const metadata: Meta<DaikinTextAreaStoryArgs> = {
   render: ({
     placeholder,
     name,
@@ -20,7 +20,7 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
     onChangeCount,
   }) => html`
     <div style="width:360px;">
-      <daikin-textarea
+      <daikin-text-area
         placeholder=${placeholder}
         name=${name}
         autocomplete=${ifDefined(autocomplete)}
@@ -32,7 +32,7 @@ export const metadata: Meta<DaikinTextareaStoryArgs> = {
         @change=${onChange}
         @input=${onInput}
         @change-count=${onChangeCount}
-      ></daikin-textarea>
+      ></daikin-text-area>
     </div>
   `,
 };

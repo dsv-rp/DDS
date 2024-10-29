@@ -1,15 +1,15 @@
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinTextarea } from "../daikin-textarea";
+import type { DaikinTextArea } from "../daikin-text-area";
 
-export interface DaikinTextareaStoryArgs
-  extends Required<ElementProps<DaikinTextarea>> {
+export interface DaikinTextAreaStoryArgs
+  extends Required<ElementProps<DaikinTextArea>> {
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
   onChangeCount: (event: CustomEvent<{ count: number }>) => void;
 }
 
-export const DAIKIN_TEXTAREA_ARG_TYPES = {
+export const DAIKIN_TEXT_AREA_ARG_TYPES = {
   placeholder: {
     type: "string",
   },
@@ -37,6 +37,6 @@ export const DAIKIN_TEXTAREA_ARG_TYPES = {
   // Hide event listeners
   onChange: { name: "" },
   onInput: { name: "" },
-} satisfies Meta<DaikinTextareaStoryArgs>["argTypes"];
+} satisfies Meta<DaikinTextAreaStoryArgs>["argTypes"];
 
-export type Story = StoryObj<DaikinTextareaStoryArgs>;
+export type Story = StoryObj<DaikinTextAreaStoryArgs>;

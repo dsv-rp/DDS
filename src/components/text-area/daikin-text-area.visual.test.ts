@@ -5,12 +5,12 @@ import {
   type InferStorybookArgTypes,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_TEXTAREA_ARG_TYPES } from "./stories/common";
+import type { DAIKIN_TEXT_AREA_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXTAREA_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXT_AREA_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-textarea--default", args);
+  getStorybookIframeURL("components-text-area--default", args);
 
 describeEach(["resize", "fixed"] as const, (resizable) => {
   describeEach(["normal", "error"] as const, (error) => {
@@ -27,7 +27,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-textarea", {
+        const element = await page.waitForSelector("daikin-text-area", {
           state: "visible",
         });
 
@@ -39,7 +39,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-textarea", {
+        const element = await page.waitForSelector("daikin-text-area", {
           state: "visible",
         });
 
@@ -54,7 +54,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-textarea", {
+        const element = await page.waitForSelector("daikin-text-area", {
           state: "visible",
         });
 
@@ -71,7 +71,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-textarea", {
+        const element = await page.waitForSelector("daikin-text-area", {
           state: "visible",
         });
 
@@ -87,7 +87,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await page.goto(getPageURL({ ...baseArgs, disabled: true }));
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-textarea", {
+        const element = await page.waitForSelector("daikin-text-area", {
           state: "visible",
         });
 
@@ -99,7 +99,7 @@ describeEach(["resize", "fixed"] as const, (resizable) => {
         await page.goto(getPageURL({ ...baseArgs, readonly: true }));
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-textarea", {
+        const element = await page.waitForSelector("daikin-text-area", {
           state: "visible",
         });
 

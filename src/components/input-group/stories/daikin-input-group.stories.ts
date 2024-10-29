@@ -80,11 +80,11 @@ export const Error: Story = {
   },
 };
 
-export const Textarea: Story = {
+export const TextArea: Story = {
   args: {
     ...Default.args,
     textareaMaxCount: 100,
-    content: "Textarea",
+    content: "TextArea",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];

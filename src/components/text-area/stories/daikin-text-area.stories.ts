@@ -1,21 +1,21 @@
-import type { DaikinTextarea } from "#package/components/textarea/daikin-textarea";
+import type { DaikinTextArea } from "#package/components/text-area/daikin-text-area";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import { DAIKIN_TEXTAREA_ARG_TYPES, type Story } from "./common";
+import { DAIKIN_TEXT_AREA_ARG_TYPES, type Story } from "./common";
 
 export default {
-  title: "Components/Textarea",
+  title: "Components/Text Area",
   tags: ["autodocs"],
-  argTypes: DAIKIN_TEXTAREA_ARG_TYPES,
+  argTypes: DAIKIN_TEXT_AREA_ARG_TYPES,
   ...metadata,
 };
 
 function eventPayloadTransformer(event: Event) {
   // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
   return {
-    value: (event.target as DaikinTextarea).value,
+    value: (event.target as DaikinTextArea).value,
   };
 }
 
@@ -26,7 +26,7 @@ function eventPayloadTransformerDetail(event: CustomEvent<{ count: number }>) {
 export const Default: Story = {
   args: {
     placeholder: "Placeholder text",
-    name: "Textarea name",
+    name: "TextArea name",
     disabled: false,
     readonly: false,
     error: false,
@@ -36,7 +36,7 @@ export const Default: Story = {
     onChangeCount: fn(eventPayloadTransformerDetail),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-textarea")[0];
+    const root = canvasElement.getElementsByTagName("daikin-text-area")[0];
     await expect(root).toBeInTheDocument();
 
     const innerInput = getByShadowRole(root, "textbox");
@@ -77,7 +77,7 @@ export const Disabled: Story = {
     onInput: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-textarea")[0];
+    const root = canvasElement.getElementsByTagName("daikin-text-area")[0];
     await expect(root).toBeInTheDocument();
 
     const innerInput = getByShadowRole(root, "textbox");

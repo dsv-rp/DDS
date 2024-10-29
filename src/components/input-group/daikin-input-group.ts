@@ -8,10 +8,10 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
-import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
-type ControlElement = DaikinTextField | DaikinTextarea;
+type ControlElement = DaikinTextField | DaikinTextArea;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -60,22 +60,22 @@ const cvaCounterValueLength = cva([], {
 });
 
 /**
- * The input group component serves as a wrapper for a `daikin-text-field` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for a `daikin-text-field` or `daikin-text-area` component, providing additional elements such as labels, helper texts, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
  * - `daikin-input-group` > `daikin-text-field`
- * - `daikin-input-group` > `daikin-textarea`
+ * - `daikin-input-group` > `daikin-text-area`
  *
- * @slot - A slot for a input component. Place a `daikin-text-field` or `daikin-textarea` element here.
+ * @slot - A slot for a input component. Place a `daikin-text-field` or `daikin-text-area` element here.
  *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
- * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * ```
  *
  * With Text Field:
@@ -86,11 +86,11 @@ const cvaCounterValueLength = cva([], {
  * </daikin-input-group>
  * ```
  *
- * With Textarea:
+ * With TextArea:
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-textarea value="Content of Textarea"></daikin-textarea>
+ *   <daikin-text-area value="Content of TextArea"></daikin-text-area>
  * </daikin-input-group>
  * ```
  */
@@ -149,10 +149,10 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
   textareaMaxCount: number | null = null;
 
-  @queryAssignedElements({ selector: "daikin-textarea" })
-  private readonly _textareas!: readonly DaikinTextarea[];
+  @queryAssignedElements({ selector: "daikin-text-area" })
+  private readonly _textareas!: readonly DaikinTextArea[];
 
-  @queryAssignedElements({ selector: "daikin-text-field,daikin-textarea" })
+  @queryAssignedElements({ selector: "daikin-text-field,daikin-text-area" })
   private readonly _controls!: readonly ControlElement[];
 
   @state()
@@ -161,7 +161,7 @@ export class DaikinInputGroup extends LitElement {
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
 
-    const textarea = this._textareas[0] as DaikinTextarea | undefined;
+    const textarea = this._textareas[0] as DaikinTextArea | undefined;
 
     this._textareaValueLength = textarea?.value.length ?? null;
   }
