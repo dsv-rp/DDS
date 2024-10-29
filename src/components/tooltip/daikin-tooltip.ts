@@ -147,14 +147,14 @@ export class DaikinTooltip extends LitElement {
    * This variable is set independently of `_isMouseOpened`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
    */
   @state()
-  _isFocused = false;
+  private _isFocused = false;
 
   /**
    * Whether the mouse operation (hover and click) opened the tooltip.
    * This variable is set independently of `_isFocused`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
    */
   @state()
-  _isMouseOpened = false;
+  private _isMouseOpened = false;
 
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
