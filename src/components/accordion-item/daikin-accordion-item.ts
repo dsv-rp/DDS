@@ -2,7 +2,6 @@ import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
-import { colorTokens } from "../../../color-tokens.json";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaSummary = cva(
@@ -92,11 +91,9 @@ export class DaikinAccordionItem extends LitElement {
     :host {
       display: block;
       position: relative;
+
       --divider-top-display: none;
       --divider-bottom-display: none;
-      --element-divider-primary: ${unsafeCSS(
-        colorTokens.element.divider.primary
-      )};
     }
 
     :host::before {
@@ -104,7 +101,7 @@ export class DaikinAccordionItem extends LitElement {
       display: var(--divider-top-display, none);
       width: 100%;
       height: 1px;
-      background: var(--element-divider-primary);
+      background: #828282;
       position: absolute;
       top: 0;
     }
@@ -114,7 +111,7 @@ export class DaikinAccordionItem extends LitElement {
       display: var(--divider-bottom-display, none);
       width: 100%;
       height: 1px;
-      background: var(--element-divider-primary);
+      background: #828282;
       position: absolute;
       bottom: 0;
     }
