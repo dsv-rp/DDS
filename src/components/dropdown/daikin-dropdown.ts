@@ -458,7 +458,7 @@ export class DaikinDropdown extends LitElement {
 
       // Focus on the dropdown trigger button when closed.
       // Focusing on the item when the dropdown opens is done in the `_handleFloatingReady` method.
-      if (!this.open && !this.disabled) {
+      if (changedProperties.get("open") && !this.open && !this.disabled) {
         this.focus();
       }
     }
