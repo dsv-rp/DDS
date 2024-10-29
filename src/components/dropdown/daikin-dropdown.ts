@@ -308,7 +308,6 @@ export class DaikinDropdown extends LitElement {
       : -1;
 
     const nextItem = items[(focusedItemIndex + 1) % items.length];
-    this._lastFocusedItem = nextItem;
     nextItem.focus();
   }
 
@@ -355,7 +354,6 @@ export class DaikinDropdown extends LitElement {
         continue;
       }
 
-      this._lastFocusedItem = item;
       item.focus();
       break;
     }
@@ -406,6 +404,18 @@ export class DaikinDropdown extends LitElement {
     this.dispatchEvent(new Event("change"));
   }
 
+  /**
+   * Handle `focusin` event to remember last focused item.
+   */
+  private _handleFocusIn(event: Event): void {
+    const target = event.target as DaikinDropdownItem | null;
+    if (!target || !this._items.includes(target)) {
+      return;
+    }
+
+    this._lastFocusedItem = target;
+  }
+
   override render() {
     return html`<div class="w-full relative" @keydown=${this._handleKeyDown}>
       <button
@@ -436,7 +446,10 @@ export class DaikinDropdown extends LitElement {
         role="listbox"
         ${this._autoUpdateController.refFloating()}
       >
-        <slot @select=${this._handleSelect}></slot>
+        <slot
+          @select=${this._handleSelect}
+          @focusin=${this._handleFocusIn}
+        ></slot>
       </div>
       ${
         // Activate auto update only when the dropdown is open.
