@@ -41,77 +41,77 @@ describeEach(["normal", "error"] as const, (error) => {
         await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      // test("hover", async ({ page }) => {
-      //   await page.goto(baseURL);
+      test("hover", async ({ page }) => {
+        await page.goto(baseURL);
 
-      //   // wait for element to be visible
-      //   const element = await page.waitForSelector("daikin-text-field", {
-      //     state: "visible",
-      //   });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-field", {
+          state: "visible",
+        });
 
-      //   // hover cursor on the element
-      //   await element.hover();
+        // hover cursor on the element
+        await element.hover();
 
-      //   // take screenshot and check for diffs
-      //   await expect(page).toHaveScreenshot(await clipFor(element));
-      // });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
 
-      // test("press", async ({ page }) => {
-      //   await page.goto(baseURL);
+      test("press", async ({ page }) => {
+        await page.goto(baseURL);
 
-      //   // wait for element to be visible
-      //   const element = await page.waitForSelector("daikin-text-field", {
-      //     state: "visible",
-      //   });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-field", {
+          state: "visible",
+        });
 
-      //   // hover cursor on the element and hold down mouse button on the element
-      //   await element.hover();
-      //   await page.mouse.down();
+        // hover cursor on the element and hold down mouse button on the element
+        await element.hover();
+        await page.mouse.down();
 
-      //   // take screenshot and check for diffs
-      //   await expect(page).toHaveScreenshot(await clipFor(element));
-      //   await page.mouse.up();
-      // });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+        await page.mouse.up();
+      });
 
-      // test("focus", async ({ page }) => {
-      //   await page.goto(baseURL);
+      test("focus", async ({ page }) => {
+        await page.goto(baseURL);
 
-      //   // wait for element to be visible
-      //   const element = await page.waitForSelector("daikin-text-field", {
-      //     state: "visible",
-      //   });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-field", {
+          state: "visible",
+        });
 
-      //   await page.evaluate((container) => {
-      //     container.focus();
-      //   }, element);
+        await page.evaluate((container) => {
+          container.focus();
+        }, element);
 
-      //   // take screenshot and check for diffs
-      //   await expect(page).toHaveScreenshot(await clipFor(element));
-      // });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
 
-      // test("disabled", async ({ page }) => {
-      //   await page.goto(getPageURL({ ...baseArgs, disabled: true }));
+      test("disabled", async ({ page }) => {
+        await page.goto(getPageURL({ ...baseArgs, disabled: true }));
 
-      //   // wait for element to be visible
-      //   const element = await page.waitForSelector("daikin-text-field", {
-      //     state: "visible",
-      //   });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-field", {
+          state: "visible",
+        });
 
-      //   // take screenshot and check for diffs
-      //   await expect(page).toHaveScreenshot(await clipFor(element));
-      // });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
 
-      // test("readonly", async ({ page }) => {
-      //   await page.goto(getPageURL({ ...baseArgs, readonly: true }));
+      test("readonly", async ({ page }) => {
+        await page.goto(getPageURL({ ...baseArgs, readonly: true }));
 
-      //   // wait for element to be visible
-      //   const element = await page.waitForSelector("daikin-text-field", {
-      //     state: "visible",
-      //   });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-text-field", {
+          state: "visible",
+        });
 
-      //   // take screenshot and check for diffs
-      //   await expect(page).toHaveScreenshot(await clipFor(element));
-      // });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
     });
   });
 });
