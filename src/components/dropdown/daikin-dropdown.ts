@@ -418,7 +418,7 @@ export class DaikinDropdown extends LitElement {
     const item =
       items.find((item) => item === this._lastFocusedItem) ??
       items.find((item) => item.value === this.value) ??
-      items[0];
+      items.at(0);
 
     item?.focus();
   }
