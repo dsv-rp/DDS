@@ -205,6 +205,10 @@ export class DaikinDropdown extends LitElement {
     this._onClickOutside
   );
 
+  /**
+   * Last focused dropdown item.
+   * The next time the dropdown opens, the focus will be moved to this element.
+   */
   private _lastFocusedItem: DaikinDropdownItem | null = null;
 
   /**
@@ -216,20 +220,10 @@ export class DaikinDropdown extends LitElement {
     }
 
     this.open = true;
-    this.updateComplete
-      .then(() => {
-        const items = this._items;
-        const item =
-          items.find((item) => item === this._lastFocusedItem) ??
-          items.find((item) => item.value === this.value) ??
-          items[0];
 
-        item.focus();
-      })
-      .catch(() => {
-        // do nothing
-      });
+    // The focus will be moved in the `_handleFloatingReady` method.
   }
+
   /**
    * Closes the dropdown and focuses on the field.
    */
@@ -277,21 +271,6 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _searchItem(prefix: string): void {
-    // Open the dropdown if not.
-    if (!this.open) {
-      // Not using `this._open()` since we manage focus ourselves here.
-      this.open = true;
-      this.updateComplete
-        .then(() => {
-          // Search when opened.
-          this._searchItem(prefix);
-        })
-        .catch(() => {
-          // do nothing
-        });
-      return;
-    }
-
     const items = this._items.filter(
       (item) =>
         !item.disabled &&
@@ -299,6 +278,8 @@ export class DaikinDropdown extends LitElement {
     );
 
     if (!items.length) {
+      // Open the dropdown if not.
+      this._open();
       return;
     }
 
@@ -308,7 +289,15 @@ export class DaikinDropdown extends LitElement {
       : -1;
 
     const nextItem = items[(focusedItemIndex + 1) % items.length];
-    nextItem.focus();
+
+    if (this.open) {
+      // Focus on the item.
+      nextItem.focus();
+    } else {
+      // Change the item that is focused after the dropdown opens, then open the dropdown.
+      this._lastFocusedItem = nextItem;
+      this._open();
+    }
   }
 
   private _handleKeyDownEscape() {
@@ -419,6 +408,21 @@ export class DaikinDropdown extends LitElement {
     this._lastFocusedItem = target;
   }
 
+  /**
+   * Handle `floating-ready` event dispatched by `FloatingUIAutoUpdateController`.
+   * The dropdown menu opens after the Floating UI has finished calculating its position, so there is a slight time lag between the change to `this.open` and the actual display.
+   * Since the focus cannot be moved until the element is displayed on the screen, the focus is moved to the item after receiving the completion of the Floating UI position calculation here.
+   */
+  private _handleFloatingReady(): void {
+    const items = this._items;
+    const item =
+      items.find((item) => item === this._lastFocusedItem) ??
+      items.find((item) => item.value === this.value) ??
+      items[0];
+
+    item?.focus();
+  }
+
   override render() {
     return html`<div class="w-full relative" @keydown=${this._handleKeyDown}>
       <button
@@ -447,6 +451,7 @@ export class DaikinDropdown extends LitElement {
         class="floating-unready:hidden min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
         aria-label=${this.label}
         role="listbox"
+        @floating-ready=${this._handleFloatingReady}
         ${this._autoUpdateController.refFloating()}
       >
         <slot

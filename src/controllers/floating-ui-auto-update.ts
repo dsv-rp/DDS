@@ -36,9 +36,17 @@ const floatingUIAutoUpdateDirective = createControllerDirective<
       () => {
         computePosition(referenceElement, floatingElement, options)
           .then(({ x, y }) => {
+            const isFirst = !floatingElement.hasAttribute(
+              "data-floating-ready"
+            );
+
             floatingElement.style.setProperty("--floating-x", `${x}px`);
             floatingElement.style.setProperty("--floating-y", `${y}px`);
             floatingElement.setAttribute("data-floating-ready", "");
+
+            if (isFirst) {
+              floatingElement.dispatchEvent(new Event("floating-ready"));
+            }
           })
           .catch((error: unknown) => {
             if (import.meta.env.DEV) {
