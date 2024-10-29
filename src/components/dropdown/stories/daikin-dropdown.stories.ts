@@ -50,7 +50,6 @@ export const Default: Story = {
     await step("Selecting a dropdown will reflect the value", async () => {
       await expect(root).not.toHaveAttribute("value");
 
-      await userEvent.keyboard("[ArrowDown]");
       await expect(document.activeElement?.textContent).toBe("Dropdown item 1");
       await userEvent.keyboard("[ArrowDown]");
       await expect(document.activeElement?.textContent).toBe("Dropdown item 2");

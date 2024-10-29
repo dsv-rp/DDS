@@ -202,12 +202,63 @@ export class DaikinDropdown extends LitElement {
     this._onClickOutside
   );
 
+  private _lastFocusedItem: DaikinDropdownItem | null = null;
+
+  /**
+   * Opens the dropdown and focuses on the appropriate item.
+   */
+  private _open(): void {
+    if (this.open) {
+      return;
+    }
+
+    this.open = true;
+    this.updateComplete
+      .then(() => {
+        const items = this._items;
+        const item =
+          items.find((item) => item === this._lastFocusedItem) ??
+          items.find((item) => item.value === this.value) ??
+          items[0];
+
+        item.focus();
+      })
+      .catch(() => {
+        // do nothing
+      });
+  }
+  /**
+   * Closes the dropdown and focuses on the field.
+   */
+  private _close(): void {
+    if (!this.open) {
+      return;
+    }
+
+    const items = this._items;
+    const activeElement = document.activeElement;
+    this._lastFocusedItem =
+      (activeElement && items.find((item) => item.contains(activeElement))) ??
+      null;
+
+    console.log(activeElement, this._lastFocusedItem);
+
+    this.open = false;
+    this.updateComplete
+      .then(() => {
+        this.focus();
+      })
+      .catch(() => {
+        // do nothing
+      });
+  }
+
   private _updateFormValue() {
     this._internals.setFormValue(this.value);
   }
 
   private _onClickOutside(): void {
-    this.open = false;
+    this._close();
   }
 
   private _reflectItemsAndLabel(): void {
@@ -223,12 +274,17 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _handleClick(): void {
-    this.open = !this.open;
+    if (this.open) {
+      this._close();
+    } else {
+      this._open();
+    }
   }
 
   private _searchItem(prefix: string): void {
     // Open the dropdown if not.
     if (!this.open) {
+      // Not using `this._open()` since we manage focus ourselves here.
       this.open = true;
       this.updateComplete
         .then(() => {
@@ -263,7 +319,7 @@ export class DaikinDropdown extends LitElement {
   private _handleKeyDownEscape() {
     if (this.open) {
       // Close
-      this.open = false;
+      this._close();
     } else {
       // Clear selection
       this.value = null;
@@ -273,15 +329,7 @@ export class DaikinDropdown extends LitElement {
   private _moveFocus(moveOffset: 1 | -1): void {
     // Open the dropdown if not.
     if (!this.open) {
-      this.open = true;
-      this.updateComplete
-        .then(() => {
-          // Then select the first item.
-          this._moveFocus(1);
-        })
-        .catch(() => {
-          // do nothing
-        });
+      this._open();
       return;
     }
 
@@ -355,9 +403,9 @@ export class DaikinDropdown extends LitElement {
     this._hasSelectedItem = true;
     this._selectedItemLabel = target.textContent ?? "";
 
-    this.open = false;
     this.value = target.value;
 
+    this._close();
     this.dispatchEvent(new Event("change"));
   }
 
