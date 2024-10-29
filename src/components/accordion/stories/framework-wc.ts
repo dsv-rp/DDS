@@ -6,7 +6,7 @@ import type { DaikinAccordionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionStoryArgs> = {
   render: () => html`
-    <div style="width:256px;">
+    <div style="width:320px;">
       <daikin-accordion>
         <daikin-accordion-item>
           <span slot="summary">Accordion summary 1</span>

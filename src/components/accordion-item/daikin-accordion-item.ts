@@ -2,6 +2,7 @@ import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { colorTokens } from "../../../color-tokens.json";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaSummary = cva(
@@ -12,14 +13,12 @@ const cvaSummary = cva(
     "gap-2",
     "w-full",
     "min-h-12",
-    "py-3",
-    "pr-3",
-    "pl-4",
+    "p-3",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-daikinBlue-700",
+    "focus-visible:outline-system-state-focus",
 
     "after:size-6",
     "after:transition-all",
@@ -33,11 +32,14 @@ const cvaSummary = cva(
       },
       disabled: {
         false: [
-          "hover:bg-daikinNeutral-100",
           "cursor-pointer",
-          "active:bg-daikinNeutral-200",
+          "hover:bg-system-background-surface-hover",
+          "active:bg-system-background-surface-press",
         ],
-        true: ["text-daikinNeutral-200", "after:text-daikinNeutral-200"],
+        true: [
+          "text-system-state-disabled",
+          "after:text-system-state-disabled",
+        ],
       },
     },
   }
@@ -88,11 +90,13 @@ export class DaikinAccordionItem extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --divider-top-display: none;
-      --divider-bottom-display: none;
-
       display: block;
       position: relative;
+      --divider-top-display: none;
+      --divider-bottom-display: none;
+      --element-divider-primary: ${unsafeCSS(
+        colorTokens.element.divider.primary
+      )};
     }
 
     :host::before {
@@ -100,7 +104,7 @@ export class DaikinAccordionItem extends LitElement {
       display: var(--divider-top-display, none);
       width: 100%;
       height: 1px;
-      background: #828282;
+      background: var(--element-divider-primary);
       position: absolute;
       top: 0;
     }
@@ -110,7 +114,7 @@ export class DaikinAccordionItem extends LitElement {
       display: var(--divider-bottom-display, none);
       width: 100%;
       height: 1px;
-      background: #828282;
+      background: var(--element-divider-primary);
       position: absolute;
       bottom: 0;
     }
@@ -223,7 +227,7 @@ export class DaikinAccordionItem extends LitElement {
     const open = !this.disabled && this.open;
 
     return html`<details
-      class="flex w-full bg-white font-daikinSerif overflow-clip"
+      class="flex w-full text-system-element-text-primary font-daikinSerif overflow-clip"
       ?open=${detailsOpen}
       ?data-open=${open}
       aria-disabled=${this.disabled}
@@ -247,7 +251,7 @@ export class DaikinAccordionItem extends LitElement {
         aria-labelledby="summary"
         ?hidden=${this.disabled}
       >
-        <div class="pt-2 pr-3 pb-3 pl-4">
+        <div class="pt-2 px-3 pb-3">
           <slot></slot>
         </div>
       </div>
