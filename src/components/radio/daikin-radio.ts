@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const RADIO_CLASS_NAME = cva([
@@ -114,11 +114,22 @@ export class DaikinRadio extends LitElement {
 
   static readonly formAssociated = true;
 
+  @query("input")
+  private _radio!: HTMLInputElement | null;
+
+  /**
+   * Focuses on the inner radio.
+   * @param options focus options
+   */
+  override focus(options?: FocusOptions): void {
+    this._radio?.focus(options);
+  }
+
   // Define internals to let the radio button can be used in a form.
-  public internals = this.attachInternals();
+  private _internals = this.attachInternals();
 
   private _updateFormValue() {
-    this.internals.setFormValue(this.checked ? this.value : null);
+    this._internals.setFormValue(this.checked ? this.value : null);
   }
 
   private _handleClick(event: MouseEvent) {
@@ -130,12 +141,13 @@ export class DaikinRadio extends LitElement {
   private _handleChange(event: Event) {
     this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
-    const newEvent = new Event("change", {
-      bubbles: true,
-      composed: true,
-      cancelable: true,
-    });
-    this.dispatchEvent(newEvent);
+    this.dispatchEvent(
+      new Event("change", {
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      })
+    );
   }
 
   override render() {
@@ -151,7 +163,7 @@ export class DaikinRadio extends LitElement {
           .checked=${this.checked}
           @click=${this._handleClick}
           @change=${this._handleChange}
-          tabindex=${this.skipTab ? "-1" : "0"}
+          tabindex=${!this.skipTab ? "0" : "-1"}
         />
       </div>
       <span

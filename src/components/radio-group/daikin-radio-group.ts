@@ -87,14 +87,17 @@ export class DaikinRadioGroup extends LitElement {
   private _updateRadios() {
     const radios = this._radios;
     const selectedRadio = radios.find((radio) => radio.value === this.value);
-    for (const [, daikinRadio] of this._radios.entries()) {
+    const firstEnabledRadio = radios.find((radio) => !radio.disabled);
+    for (const daikinRadio of this._radios) {
       if (this.name) {
         daikinRadio.name = this.name;
       }
       const isSelected = daikinRadio === selectedRadio;
       daikinRadio.checked = isSelected;
-      daikinRadio.skipTab = !isSelected;
-      daikinRadio.internals.setFormValue(isSelected ? daikinRadio.value : null);
+      // If none of the radio buttons are selected, the first radio button can be focused.
+      daikinRadio.skipTab = selectedRadio
+        ? !isSelected
+        : daikinRadio !== firstEnabledRadio;
     }
   }
 
@@ -145,25 +148,26 @@ export class DaikinRadioGroup extends LitElement {
 
     // If there is no radio focused, focus on the active (current) radio
     if (focusedRadioIndex < 0) {
-      const activeRadio = radios.find(
-        (radio) => !radio.disabled && radio.checked
-      );
-      activeRadio?.shadowRoot?.querySelector("input")?.focus();
-      event.preventDefault();
+      const activeRadio =
+        radios.find((radio) => radio.checked) ??
+        radios.find((radio) => !radio.disabled);
+      if (activeRadio) {
+        activeRadio.checked = true;
+        activeRadio.focus();
+        event.preventDefault();
+      }
       return;
     }
 
     // If there is a radio focused, move focus forward or backward
     for (let i = 1; i <= radios.length; i++) {
       const index =
-        (focusedRadioIndex + moveOffset * i + radios.length * i) %
-        radios.length;
+        (focusedRadioIndex + moveOffset * i + radios.length) % radios.length;
       const nextRadio = radios[index];
       if (nextRadio.disabled) {
         continue;
       }
-      const nextRadioInput = nextRadio.shadowRoot?.querySelector("input");
-      nextRadioInput?.focus();
+      nextRadio.focus();
       nextRadio.checked = true;
       this.value = nextRadio.value;
 
@@ -179,7 +183,7 @@ export class DaikinRadioGroup extends LitElement {
   override render() {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
 
-    return html`<fieldset @keydown=${this._handleKeyDown}>
+    return html`<fieldset role="radiogroup" @keydown=${this._handleKeyDown}>
       <slot
         class=${radioGroupClassName}
         @slotchange=${this._handleSlotChange}
