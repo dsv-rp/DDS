@@ -131,12 +131,6 @@ export class DaikinRadioGroup extends LitElement {
 
     // Check if there is at least one radio available
     if (!radios.some((radio) => !radio.disabled)) {
-      // No radios available!
-      if (import.meta.env.DEV) {
-        console.warn(
-          `[daikin-radio-group] No radios that can be activated! This may cause unexpected behavior.`
-        );
-      }
       return;
     }
 

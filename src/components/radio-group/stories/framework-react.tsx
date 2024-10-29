@@ -18,11 +18,7 @@ const ReactDaikinRadioGroup = createComponent({
 
 export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
   component: ({ ...props }: DaikinRadioGroupStoryArgs) => (
-    <ReactDaikinInputGroup
-      label={"Label text"}
-      helper={"Helper text"}
-      required={true}
-    >
+    <ReactDaikinInputGroup label="Label text" helper="Helper text" required>
       <ReactDaikinRadioGroup {...props}>
         <ReactDaikinRadio
           name="name"

@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const RADIO_CLASS_NAME = cva([
@@ -108,8 +109,9 @@ export class DaikinRadio extends LitElement {
 
   /**
    * Whether the radio button can be focused.
+   * Automatically set by `daikin-radio-group` component.
    */
-  @property({ type: Boolean, reflect: true })
+  @property({ type: Boolean, attribute: false })
   skipTab = false;
 
   static readonly formAssociated = true;
@@ -163,7 +165,7 @@ export class DaikinRadio extends LitElement {
           .checked=${this.checked}
           @click=${this._handleClick}
           @change=${this._handleChange}
-          tabindex=${!this.skipTab ? "0" : "-1"}
+          tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
         />
       </div>
       <span
