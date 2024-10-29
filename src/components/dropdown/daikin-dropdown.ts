@@ -211,43 +211,12 @@ export class DaikinDropdown extends LitElement {
    */
   private _lastFocusedItem: DaikinDropdownItem | null = null;
 
-  /**
-   * Opens the dropdown and focuses on the appropriate item.
-   */
-  private _open(): void {
-    if (this.open) {
-      return;
-    }
-
-    this.open = true;
-
-    // The focus will be moved in the `_handleFloatingReady` method.
-  }
-
-  /**
-   * Closes the dropdown and focuses on the field.
-   */
-  private _close(): void {
-    if (!this.open) {
-      return;
-    }
-
-    this.open = false;
-    this.updateComplete
-      .then(() => {
-        this.focus();
-      })
-      .catch(() => {
-        // do nothing
-      });
-  }
-
   private _updateFormValue() {
     this._internals.setFormValue(this.value);
   }
 
   private _onClickOutside(): void {
-    this._close();
+    this.open = false;
   }
 
   private _reflectItemsAndLabel(): void {
@@ -263,11 +232,11 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _handleClick(): void {
-    if (this.open) {
-      this._close();
-    } else {
-      this._open();
+    if (this.disabled) {
+      return;
     }
+
+    this.open = !this.open;
   }
 
   private _searchItem(prefix: string): void {
@@ -279,7 +248,7 @@ export class DaikinDropdown extends LitElement {
 
     if (!items.length) {
       // Open the dropdown if not.
-      this._open();
+      this.open = true;
       return;
     }
 
@@ -296,14 +265,14 @@ export class DaikinDropdown extends LitElement {
     } else {
       // Change the item that is focused after the dropdown opens, then open the dropdown.
       this._lastFocusedItem = nextItem;
-      this._open();
+      this.open = true;
     }
   }
 
   private _handleKeyDownEscape() {
     if (this.open) {
       // Close
-      this._close();
+      this.open = false;
     } else {
       // Clear selection
       this.value = null;
@@ -313,7 +282,7 @@ export class DaikinDropdown extends LitElement {
   private _moveFocus(moveOffset: 1 | -1): void {
     // Open the dropdown if not.
     if (!this.open) {
-      this._open();
+      this.open = true;
       return;
     }
 
@@ -391,8 +360,8 @@ export class DaikinDropdown extends LitElement {
     this._selectedItemLabel = target.textContent ?? "";
 
     this.value = target.value;
+    this.open = false;
 
-    this._close();
     this.dispatchEvent(new Event("change"));
   }
 
@@ -484,8 +453,14 @@ export class DaikinDropdown extends LitElement {
       this._reflectItemsAndLabel();
     }
 
-    if (changedProperties.has("open")) {
+    if (changedProperties.has("open") || changedProperties.has("disabled")) {
       this._popover?.togglePopover(this.open && !this.disabled);
+
+      // Focus on the dropdown trigger button when closed.
+      // Focusing on the item when the dropdown opens is done in the `_handleFloatingReady` method.
+      if (!this.open && !this.disabled) {
+        this.focus();
+      }
     }
   }
 
