@@ -20,7 +20,7 @@ export const Default: Story = {
     label: "Label text",
     helper: "Helper text",
     disabled: false,
-    content: "TextInput",
+    content: "TextField",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];

@@ -74,13 +74,13 @@ const cvaIcon = cva(["absolute", "pointer-events-none"], {
 });
 
 /**
- * The text input component is a UI element that allows users to input single-line text data.
+ * The text field component is a UI element that allows users to input single-line text data.
  * It functions similarly to the HTML `<input type="text">` tag, providing a simple and efficient way for users to enter and edit short pieces of texts, such as names, email addresses, or search queries.
  * Can be used within `daikin-input-group` component.
  *
  * Hierarchies:
- * - `daikin-text-input` (can be used solely)
- * - `daikin-input-group` > `daikin-text-input`
+ * - `daikin-text-field` (can be used solely)
+ * - `daikin-input-group` > `daikin-text-field`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
  * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
@@ -91,16 +91,16 @@ const cvaIcon = cva(["absolute", "pointer-events-none"], {
  * @example
  *
  * ```js
- * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
  * ```
  *
  * ```html
  * <!-- See `daikin-input-group` component for complete example. -->
- * <daikin-text-input name="name"></daikin-text-input>
+ * <daikin-text-field name="name"></daikin-text-field>
  * ```
  */
-@customElement("daikin-text-input")
-export class DaikinTextInput extends LitElement {
+@customElement("daikin-text-field")
+export class DaikinTextField extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -117,19 +117,19 @@ export class DaikinTextInput extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Type of the text input.
+   * Type of the text field.
    */
   @property({ type: String })
   type: "text" | "email" | "tel" | "search" = "text";
 
   /**
-   * Value of the text input.
+   * Value of the text field.
    */
   @property({ type: String, reflect: true })
   value = "";
 
   /**
-   * Form name of the text input.
+   * Form name of the text field.
    */
   @property({ type: String, reflect: true })
   name = "";
@@ -141,20 +141,20 @@ export class DaikinTextInput extends LitElement {
   placeholder = "";
 
   /**
-   * Whether the text input is readonly.
+   * Whether the text field is readonly.
    */
   @property({ type: Boolean, reflect: true })
   readonly = false;
 
   /**
-   * Whether the text input is disabled.
+   * Whether the text field is disabled.
    * Controlled by `daikin-input-group` when used within `daikin-input-group`.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the text input is required.
+   * Whether the text field is required.
    * Controlled by `daikin-input-group` when used within `daikin-input-group`.
    */
   @property({ type: Boolean, reflect: true })
@@ -250,6 +250,6 @@ export class DaikinTextInput extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "daikin-text-input": DaikinTextInput;
+    "daikin-text-field": DaikinTextField;
   }
 }

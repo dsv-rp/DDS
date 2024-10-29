@@ -1,14 +1,14 @@
-import { DaikinTextInput } from "#package/components/text-input/daikin-text-input";
+import { DaikinTextField } from "#package/components/text-field/daikin-text-field";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import "../../../storybook-tailwind.css";
 import { ReactDaikinIcon } from "../../icon/stories/framework-react";
-import type { DaikinTextInputStoryArgs } from "./common";
+import type { DaikinTextFieldStoryArgs } from "./common";
 
-export const ReactDaikinTextInput = createComponent({
-  tagName: "daikin-text-input",
-  elementClass: DaikinTextInput,
+export const ReactDaikinTextField = createComponent({
+  tagName: "daikin-text-field",
+  elementClass: DaikinTextField,
   react: React,
   events: {
     onChange: "change",
@@ -17,11 +17,11 @@ export const ReactDaikinTextInput = createComponent({
   },
 });
 
-export const metadata: Meta<DaikinTextInputStoryArgs> = {
-  component: ({ leftIcon, rightIcon, ...props }: DaikinTextInputStoryArgs) => {
+export const metadata: Meta<DaikinTextFieldStoryArgs> = {
+  component: ({ leftIcon, rightIcon, ...props }: DaikinTextFieldStoryArgs) => {
     return (
       <div style={{ width: "340px" }}>
-        <ReactDaikinTextInput {...props}>
+        <ReactDaikinTextField {...props}>
           {leftIcon && (
             <ReactDaikinIcon
               slot="left-icon"
@@ -38,7 +38,7 @@ export const metadata: Meta<DaikinTextInputStoryArgs> = {
               color="current"
             />
           )}
-        </ReactDaikinTextInput>
+        </ReactDaikinTextField>
       </div>
     );
   },

@@ -1,21 +1,21 @@
-import type { DaikinTextInput } from "#package/components/text-input/daikin-text-input";
+import type { DaikinTextField } from "#package/components/text-field/daikin-text-field";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import { DAIKIN_TEXT_INPUT_ARG_TYPES, type Story } from "./common";
+import { DAIKIN_TEXT_FIELD_ARG_TYPES, type Story } from "./common";
 
 export default {
-  title: "Components/Text Input",
+  title: "Components/Text Field",
   tags: ["autodocs"],
-  argTypes: DAIKIN_TEXT_INPUT_ARG_TYPES,
+  argTypes: DAIKIN_TEXT_FIELD_ARG_TYPES,
   ...metadata,
 };
 
 function eventPayloadTransformer(event: Event) {
   // We need to retrieve `event.target.checked` inside the event listeners not to miss problems caused by the timing of acquisition.
   return {
-    value: (event.target as DaikinTextInput).value,
+    value: (event.target as DaikinTextField).value,
   };
 }
 
@@ -33,7 +33,7 @@ export const Default: Story = {
     onInput: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-text-input")[0];
+    const root = canvasElement.getElementsByTagName("daikin-text-field")[0];
     await expect(root).toBeInTheDocument();
 
     const innerInput = getByShadowRole(root, "textbox");
@@ -91,7 +91,7 @@ export const Disabled: Story = {
     onInput: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-text-input")[0];
+    const root = canvasElement.getElementsByTagName("daikin-text-field")[0];
     await expect(root).toBeInTheDocument();
 
     const innerInput = getByShadowRole(root, "textbox");
