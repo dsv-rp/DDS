@@ -271,6 +271,20 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _moveFocus(moveOffset: 1 | -1): void {
+    // Open the dropdown if not.
+    if (!this.open) {
+      this.open = true;
+      this.updateComplete
+        .then(() => {
+          // Then select the first item.
+          this._moveFocus(1);
+        })
+        .catch(() => {
+          // do nothing
+        });
+      return;
+    }
+
     const items = this._items;
 
     // Get focused item if any
@@ -279,12 +293,12 @@ export class DaikinDropdown extends LitElement {
       ? items.findIndex((item) => item.contains(activeElement))
       : -1;
 
-    // If there is no dropdown focused, do nothing.
-    if (focusedItemIndex === -1 && moveOffset === -1) {
-      return;
+    // If there is no item focused, then focus on the first item.
+    if (focusedItemIndex === -1) {
+      moveOffset = 1;
     }
 
-    // Focus on the first dropdown that is enabled.
+    // Focus on the first item that is enabled.
     for (
       let index = focusedItemIndex + moveOffset, i = 0;
       i < items.length;
@@ -293,23 +307,11 @@ export class DaikinDropdown extends LitElement {
       index = (index + items.length) % items.length;
       const item = items[index];
 
-      if (!this.open) {
-        this.open = true;
-      }
-
       if (item.disabled) {
         continue;
       }
 
-      this.updateComplete.then(
-        () => {
-          item.focus();
-        },
-        () => {
-          // do nothing
-        }
-      );
-
+      item.focus();
       break;
     }
   }
