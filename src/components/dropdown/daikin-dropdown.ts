@@ -362,6 +362,7 @@ export class DaikinDropdown extends LitElement {
   private _handleKeyDown(event: KeyboardEvent): void {
     const printableCharacter = event.key.trim().length === 1 ? event.key : null;
     if (printableCharacter) {
+      event.preventDefault();
       this._searchItem(printableCharacter);
       return;
     }
@@ -377,10 +378,12 @@ export class DaikinDropdown extends LitElement {
     switch (operation) {
       case "down":
       case "up":
+        event.preventDefault();
         this._moveFocus(operation === "up" ? -1 : 1);
         break;
 
       case "close":
+        event.preventDefault();
         this._handleKeyDownEscape();
         break;
     }
