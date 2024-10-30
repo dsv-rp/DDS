@@ -10,7 +10,7 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
     <daikin-input-group
       label="Label text"
       helper="Helper text"
-      .required=${true}
+      required="required"
     >
       <daikin-radio-group
         orientation=${orientation}

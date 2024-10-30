@@ -22,7 +22,7 @@ describeEach(["horizontal", "vertical"], (orientation) => {
     await page.goto(baseURL);
 
     // wait for element to be visible
-    const element = await page.waitForSelector("daikin-radio-group", {
+    const element = await page.waitForSelector("daikin-input-group", {
       state: "visible",
     });
 
