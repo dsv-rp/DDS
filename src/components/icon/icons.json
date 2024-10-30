@@ -48,8 +48,8 @@
       "class": "i-daikin-chevron-right",
       "color": null
     },
-    "sort-chevron-up-and-down": {
-      "class": "i-daikin-sort-chevron-up-and-down",
+    "sort": {
+      "class": "i-daikin-sort",
       "color": null
     }
   }

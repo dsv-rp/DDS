@@ -34,13 +34,13 @@ const cvaRow = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-daikinBlue-700",
+    "focus-visible:outline-[#0081C0]",
   ],
   {
     variants: {
       selected: {
-        false: ["bg-white", "hover:bg-daikinNeutral-100"],
-        true: ["bg-daikinBlue-50", "hover:bg-daikinBlue-50"],
+        false: ["hover:bg-[#F2F2F2]"],
+        true: ["bg-[#DDF3FC]", "hover:bg-[#DDF3FC]"],
       },
     },
   }
@@ -327,11 +327,11 @@ export class DaikinTable<
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
       <table class="w-full table-fixed leading-[22px]">
         <thead>
-          <tr class="border-b border-b-daikinNeutral-800">
+          <tr class="border-b border-b-[#828282]">
             ${this.selectable
-              ? html`<td class="w-12 h-full p-0">
+              ? html`<td class="w-12 p-0">
                   <span
-                    class="flex items-center justify-center w-full min-h-14"
+                    class="flex items-center justify-center w-full min-h-12"
                   >
                     <daikin-checkbox
                       name="allItem"
@@ -357,7 +357,7 @@ export class DaikinTable<
                 ${this.selectable
                   ? html`<td class="w-12 p-0">
                       <span
-                        class="flex justify-center items-center w-full min-h-14"
+                        class="flex justify-center items-center w-full min-h-12"
                       >
                         <daikin-checkbox
                           name=${row.id}

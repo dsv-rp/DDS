@@ -13,7 +13,7 @@ const cvaHeaderCell = cva(
     "h-12",
     "px-4",
     "py-2",
-    "text-daikinNeutral-900",
+    "text-[#414141]",
     "font-bold",
   ],
   {
@@ -26,16 +26,16 @@ const cvaHeaderCell = cva(
       sort: {
         false: [],
         true: [
-          "hover:bg-daikinNeutral-100",
-          "active:bg-daikinNeutral-200",
+          "hover:bg-[#F2F2F2]",
+          "active:bg-[#EBEBEB]",
           "focus-visible:outline",
           "focus-visible:outline-2",
           "focus-visible:-outline-offset-2",
-          "focus-visible:outline-daikinBlue-700",
+          "focus-visible:outline-[#0081C0]",
 
           "after:size-6",
-          "after:text-daikinNeutral-800",
-          "after:i-daikin-sort-chevron-up-and-down",
+          "after:text-[#414141]",
+          "after:i-daikin-sort",
         ],
       },
     },
