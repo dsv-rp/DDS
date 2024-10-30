@@ -60,22 +60,22 @@ const cvaCounterValueLength = cva([], {
 });
 
 /**
- * The input group component serves as a wrapper for a `daikin-text-field` or `daikin-text-area` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for a `daikin-text-area` or `daikin-text-field` component, providing additional elements such as labels, helper texts, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
- * - `daikin-input-group` > `daikin-text-field`
  * - `daikin-input-group` > `daikin-text-area`
+ * - `daikin-input-group` > `daikin-text-field`
  *
- * @slot - A slot for a input component. Place a `daikin-text-field` or `daikin-text-area` element here.
+ * @slot - A slot for a input component. Place a `daikin-text-area` or `daikin-text-field` element here.
  *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
- * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
  * ```
  *
  * With Text Field:
