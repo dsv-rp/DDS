@@ -27,15 +27,6 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         ?disabled=${disabled}
         ?textareaCounter=${textareaCounter}
       >
-        ${content === "TextField"
-          ? html`<daikin-text-field value="Value"></daikin-text-field>`
-          : nothing}
-        ${content === "Textarea"
-          ? html`<daikin-textarea
-              value="Value"
-              placeholder="Placeholder text"
-            ></daikin-textarea>`
-          : nothing}
         ${content === "Dropdown"
           ? html`<daikin-dropdown placeholder="Choose an Option">
               <daikin-dropdown-item value="value1">
@@ -48,6 +39,15 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
                 Dropdown item 3
               </daikin-dropdown-item>
             </daikin-dropdown>`
+          : nothing}
+        ${content === "TextField"
+          ? html`<daikin-text-field value="Value"></daikin-text-field>`
+          : nothing}
+        ${content === "Textarea"
+          ? html`<daikin-textarea
+              value="Value"
+              placeholder="Placeholder text"
+            ></daikin-textarea>`
           : nothing}
       </daikin-input-group>
     </div>

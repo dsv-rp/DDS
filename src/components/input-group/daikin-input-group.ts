@@ -11,7 +11,7 @@ import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
 import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
-type ControlElement = DaikinTextField | DaikinTextarea | DaikinDropdown;
+type ControlElement = DaikinDropdown | DaikinTextField | DaikinTextarea;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -51,7 +51,7 @@ const cvaHelper = cva(
  * - `daikin-input-group` > `daikin-textarea`
  * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
  *
- * @slot - A slot for a input component. Place a `daikin-text-field` or `daikin-textarea` or `daikin-dropdown` element here.
+ * @slot - A slot for a input component. Place a  `daikin-dropdown` or `daikin-text-field` or `daikin-textarea` element here.
  *
  * @example
  *
@@ -147,7 +147,7 @@ export class DaikinInputGroup extends LitElement {
   textareaCounter = false;
 
   @queryAssignedElements({
-    selector: "daikin-text-field,daikin-textarea,daikin-dropdown",
+    selector: "daikin-dropdown,daikin-text-field,daikin-textarea",
   })
   private readonly _controls!: readonly ControlElement[];
 

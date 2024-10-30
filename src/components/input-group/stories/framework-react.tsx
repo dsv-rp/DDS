@@ -18,10 +18,6 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
   component: ({ content, ...props }: DaikinInputGroupStoryArgs) => (
     <div style={{ width: "360px" }}>
       <ReactDaikinInputGroup {...props}>
-        {content === "TextField" && <ReactDaikinTextField value="Value" />}
-        {content === "Textarea" && (
-          <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
-        )}
         {content === "Dropdown" && (
           <ReactDaikinDropdown placeholder="Choose an Option">
             <ReactDaikinDropdownItem value="value1">
@@ -34,6 +30,10 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
               Dropdown item 3
             </ReactDaikinDropdownItem>
           </ReactDaikinDropdown>
+        )}
+        {content === "TextField" && <ReactDaikinTextField value="Value" />}
+        {content === "Textarea" && (
+          <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
         )}
       </ReactDaikinInputGroup>
     </div>
