@@ -144,7 +144,7 @@ export class DaikinDropdown extends LitElement {
    * Label of the dropdown.
    */
   @property({ type: String, reflect: true })
-  label = "";
+  label: string | null = null;
 
   /**
    * Form value of the dropdown.
@@ -403,7 +403,7 @@ export class DaikinDropdown extends LitElement {
         })}
         ?disabled=${this.disabled}
         role="combobox"
-        aria-label=${this.label}
+        aria-label=${this.label ?? ""}
         aria-expanded=${this.open && !this.disabled}
         aria-disabled=${this.disabled}
         aria-controls="dropdown-items"
@@ -418,7 +418,7 @@ export class DaikinDropdown extends LitElement {
         id="dropdown-items"
         popover
         class="floating-unready:hidden min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
-        aria-label=${this.label}
+        aria-label=${this.label ?? ""}
         role="listbox"
         @floating-ready=${this._handleFloatingReady}
         ${this._autoUpdateController.refFloating()}

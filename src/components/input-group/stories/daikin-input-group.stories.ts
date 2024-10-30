@@ -17,11 +17,10 @@ export default {
 
 export const Default: Story = {
   args: {
-    content: "TextInput",
     label: "Label text",
     helper: "Helper text",
     disabled: false,
-    required: false,
+    content: "TextField",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
@@ -46,7 +45,7 @@ export const Default: Story = {
 export const Required: Story = {
   args: {
     ...Default.args,
-    required: true,
+    required: "Required",
   },
 };
 
