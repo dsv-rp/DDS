@@ -4,7 +4,6 @@ import {
   property,
   query,
   queryAssignedElements,
-  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
@@ -57,19 +56,20 @@ export class DaikinTreeSection extends LitElement {
   `;
 
   /**
-   * Whether the tree section is selected
+   * Whether the tree section is selected.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
 
   /**
-   * Whether the tree section is disabled
+   * Whether the tree section is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
   /**
-   * Whether the tree section is open
+   * Whether the tree section is open.
+   * Treated as `false` when `disabled` is `true`.
    */
   @property({ type: Boolean, reflect: true })
   open: boolean = false;
@@ -78,6 +78,7 @@ export class DaikinTreeSection extends LitElement {
    * _Internal use._
    * The current nesting depth when the root's children are 0.
    * Automatically set by the parent.
+   *
    * @private
    */
   @property({ type: Number, attribute: false })
@@ -89,8 +90,9 @@ export class DaikinTreeSection extends LitElement {
   @query("button")
   private readonly _button!: HTMLButtonElement | null;
 
-  @state()
-  private _open: boolean = false;
+  private get _open(): boolean {
+    return this.open && !this.disabled;
+  }
 
   private _updateChildrenLevel(): void {
     for (const item of this._children) {
@@ -197,14 +199,11 @@ export class DaikinTreeSection extends LitElement {
     if (changedProperties.has("level")) {
       this._updateChildrenLevel();
     }
-
-    if (changedProperties.has("open") || changedProperties.has("disabled")) {
-      this._open = this.open && !this.disabled;
-    }
   }
 
   /**
    * Focuses on the inner button.
+   *s
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
@@ -215,6 +214,7 @@ export class DaikinTreeSection extends LitElement {
    * Focuses on the last enabled item in the slot recursively.
    * If the tree is closed or there are no enabled items in the slot, this will focus on itself.
    * This is called from the next item to move the focus to the item above it in the display.
+   *
    * @param options focus options
    */
   focusLastItem(options?: FocusOptions): void {

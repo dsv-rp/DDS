@@ -127,6 +127,7 @@ export class DaikinTreeItem extends LitElement {
    * _Internal use._
    * The current nesting depth when the root's children are 0.
    * Automatically set by the parent.
+   *
    * @private
    */
   @property({ type: Number, attribute: false })
@@ -203,6 +204,7 @@ export class DaikinTreeItem extends LitElement {
 
   /**
    * Focuses on the inner button.
+   *
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
@@ -212,6 +214,7 @@ export class DaikinTreeItem extends LitElement {
   /**
    * Focuses on the inner button.
    * This is provided to ensure consistency of the interface.
+   *
    * @param options focus options
    */
   focusLastItem(options?: FocusOptions): void {
