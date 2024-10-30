@@ -102,7 +102,8 @@ export class DaikinInputGroup extends LitElement {
   helper = "";
 
   /**
-   * Whether the field is required.
+   * Error text displayed at the right of the label.
+   * Ignored if `disabled` is `true`.
    * If `true`, an additional star mark will be displayed at the right of the label text.
    * Reflected in `required` attribute of the input control in the slot.
    */
@@ -110,7 +111,7 @@ export class DaikinInputGroup extends LitElement {
   required = "";
 
   /**
-   * Error text displayed at the bottom of the field.
+   * Error text displayed at the top of the field.
    * Ignored if `disabled` is `true`.
    * Reflected in presence of `error` attribute of the input control in the slot.
    */
