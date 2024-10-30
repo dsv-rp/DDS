@@ -100,7 +100,6 @@ export class DaikinTreeSection extends LitElement {
 
     if (direction === "left") {
       event.stopPropagation();
-      this.open = false;
       this.focus();
     } else {
       moveFocus(

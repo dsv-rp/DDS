@@ -93,6 +93,13 @@ export const Default: Story = {
       "Pressing the Arrow Left button will close to the tree item",
       async () => {
         await userEvent.keyboard("[ArrowLeft]");
+        await expect(
+          getByShadowText(
+            document.activeElement as DaikinTreeSection,
+            "Tree section 2-3"
+          )
+        ).toBeInTheDocument();
+        await userEvent.keyboard("[ArrowLeft]");
         await expect(document.activeElement).not.toHaveAttribute("open");
       }
     );
