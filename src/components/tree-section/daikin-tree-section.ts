@@ -8,10 +8,10 @@ import {
 import tailwindStyles from "../../tailwind.css?inline";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
 import {
-  emitMoveFocus,
-  getDirection,
-  moveFocus,
-  type MoveFocusEventType,
+  emitTreeMoveFocus,
+  getDirectionFromKey,
+  handleTreeMoveFocusSection,
+  type TreeMoveFocusEvent,
 } from "../tree/common";
 
 /**
@@ -79,7 +79,7 @@ export class DaikinTreeSection extends LitElement {
   @query("button")
   private readonly _button!: HTMLButtonElement | null;
 
-  private _updateLevel() {
+  private _updateLevel(): void {
     const children = this._children;
 
     for (const item of children) {
@@ -91,61 +91,58 @@ export class DaikinTreeSection extends LitElement {
     this.open = !this.open;
   }
 
-  private _handleSlotChange() {
+  private _handleSlotChange(): void {
     this._updateLevel();
   }
 
-  private _handleMoveFocus(event: CustomEvent<MoveFocusEventType>) {
-    const direction = event.detail.direction;
-
-    if (direction === "left") {
-      event.stopPropagation();
-      this.focus();
-    } else {
-      moveFocus(
-        event,
-        event.target as HTMLElement,
-        event.detail.direction,
-        this._children
-      );
-    }
+  private _handleMoveFocus(event: TreeMoveFocusEvent): void {
+    handleTreeMoveFocusSection(this, event, this._children);
   }
 
-  private _handleKeyDown(event: KeyboardEvent) {
-    const direction = getDirection(event);
+  private _handleKeyDown(event: KeyboardEvent): void {
+    const direction = getDirectionFromKey(event.key);
     if (!direction) {
       return;
     }
 
+    // Prevent scrolling.
     event.preventDefault();
-    const children = this._children;
 
     switch (direction) {
-      case "down":
-        if (this.open) {
-          moveFocus(event, this, direction, children);
-        } else {
-          emitMoveFocus(this, direction);
-        }
+      case "up":
+        // The item above the section header is in a previous sibling, so emit an event and let the parent handle it.
+        emitTreeMoveFocus(this, "up");
         break;
 
-      case "up":
-        emitMoveFocus(this, direction);
+      case "down": {
+        // If the section is open, the first item under the header is the first child, so focus on that.
+        // If the section is closed or there is no child in the slot, the next sibling needs to be focused, so emit the `tree-move-focus` event and let the parent handle it.
+        const nextItem = this.open && this._children[0];
+        if (nextItem) {
+          nextItem.focus();
+        } else {
+          emitTreeMoveFocus(this, "down");
+        }
         break;
+      }
 
       case "left":
         if (this.open) {
+          // Close the section if open.
           this.open = false;
         } else {
-          emitMoveFocus(this, direction);
+          // Move focus to the parent section/root if closed.
+          emitTreeMoveFocus(this, "left");
         }
         break;
 
       case "right":
-        if (this.open) {
-          moveFocus(event, this, "down", children);
-        } else {
+        if (!this.open) {
+          // Open the section if closed.
           this.open = true;
+        } else {
+          // Move focus to the first child (if any) if open.
+          this._children[0]?.focus();
         }
         break;
     }

@@ -3,7 +3,7 @@ import { customElement, queryAssignedElements } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTreeItem } from "../tree-item";
 import type { DaikinTreeSection } from "../tree-section";
-import { moveFocus, type MoveFocusEventType } from "./common";
+import { handleTreeMoveFocusRoot, type TreeMoveFocusEvent } from "./common";
 
 /**
  * The tree component is a component that creates a hierarchical list. You can create a hierarchical structure by placing tree section components and tree item components under the parent tree component.
@@ -41,10 +41,8 @@ export class DaikinTree extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  private _handleMoveFocus(event: CustomEvent<MoveFocusEventType>) {
-    const direction = event.detail.direction;
-
-    moveFocus(event, event.target as HTMLElement, direction, this._children);
+  private _handleMoveFocus(event: TreeMoveFocusEvent): void {
+    handleTreeMoveFocusRoot(event, this._children);
   }
 
   override render() {

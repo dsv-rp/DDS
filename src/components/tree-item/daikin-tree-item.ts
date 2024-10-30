@@ -3,7 +3,7 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { emitMoveFocus, getDirection } from "../tree/common";
+import { emitTreeMoveFocus, getDirectionFromKey } from "../tree/common";
 
 export const cvaTreeChildren = cva(
   [
@@ -117,18 +117,21 @@ export class DaikinTreeItem extends LitElement {
   level: number = 0;
 
   @query("a,button")
-  private _focusableElement!: HTMLAnchorElement | HTMLButtonElement;
+  private readonly _focusableElement!: HTMLAnchorElement | HTMLButtonElement;
 
   private _handleKeyDown(event: KeyboardEvent) {
-    const direction = getDirection(event);
+    const direction = getDirectionFromKey(event.key);
     if (!direction) {
       return;
     }
 
+    // Prevent scrolling.
     event.preventDefault();
 
     if (direction !== "right") {
-      emitMoveFocus(this, direction);
+      // In the leaf node, the right key is a no-op.
+      // The focus moves to the siblings or ancestors, so emit an event and let the parent handle it.
+      emitTreeMoveFocus(this, direction);
     }
   }
 
@@ -157,6 +160,7 @@ export class DaikinTreeItem extends LitElement {
         role=${ifDefined(disabled ? "link" : undefined)}
         aria-disabled=${ifDefined(disabled ? "true" : undefined)}
         class=${itemCN}
+        @keydown=${this._handleKeyDown}
       >
         <slot></slot>
       </a>`,
