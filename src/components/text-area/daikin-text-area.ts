@@ -95,7 +95,7 @@ export class DaikinTextArea extends LitElement {
   /**
    * Value of the text area.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String })
   value = "";
 
   /**
@@ -108,7 +108,7 @@ export class DaikinTextArea extends LitElement {
    * Placeholder text.
    */
   @property({ type: String, reflect: true })
-  placeholder = "";
+  placeholder: string | null = null;
 
   /**
    * Whether the text area is disabled.
@@ -173,7 +173,7 @@ export class DaikinTextArea extends LitElement {
         resize: this.resizable,
       })}
       .value=${this.value}
-      placeholder=${this.placeholder}
+      placeholder=${ifDefined(this.placeholder ?? undefined)}
       name=${this.name}
       autocomplete=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
