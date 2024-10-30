@@ -4,30 +4,51 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinTooltipStoryArgs
   extends Required<ElementProps<DaikinTooltip>> {
-  tooltipSlot: string;
+  hasSlot: boolean;
+  hasFocusableTrigger: boolean;
+  viewArea: "small" | "full";
   onClick: (event: Event) => void;
+  onToggle: (event: Event) => void;
+  onBeforeToggle: (event: Event) => void;
+  __vrtContainer__: boolean;
 }
 
 export const DAIKIN_TOOLTIP_ARG_TYPES = {
   placement: {
-    control: { type: "select" },
+    control: "radio",
     options: ["top", "bottom", "left", "right"],
   },
   variant: {
-    control: { type: "select" },
+    control: "radio",
     options: ["light", "dark"],
   },
-  open: { type: "boolean" },
+  open: {
+    type: "boolean",
+  },
   description: {
     type: "string",
   },
-  closeOnClick: { type: "boolean" },
-  trigger: {
-    control: { type: "select" },
-    options: ["hover", "manual"],
+  popoverValue: {
+    control: "radio",
+    options: ["auto", "manual"],
   },
-  tooltipSlot: {
-    type: "string",
+  trigger: {
+    control: "radio",
+    options: ["hover", "click", "manual"],
+  },
+  hasSlot: {
+    type: "boolean",
+  },
+  hasFocusableTrigger: {
+    type: "boolean",
+  },
+  viewArea: {
+    control: "radio",
+    options: ["small", "full"],
+  },
+  __vrtContainer__: {
+    type: "boolean",
+    control: false,
   },
 } as const satisfies Meta<DaikinTooltipStoryArgs>["argTypes"];
 
