@@ -72,7 +72,7 @@ export const cvaTreeChildren = cva(
  * - `daikin-tree` > `daikin-tree-item`
  *
  * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<a>` or `<button>` element. Suppressed if `disabled` is true,
- * @fires tree-move-focus - _Internal use._ An event used to move the focus within a tree.
+ * @fires tree-move-focus - _Internal use._ A custom event used to move the focus within a tree.
  *
  * @slot - A slot for the tree item content.
  *
@@ -124,8 +124,10 @@ export class DaikinTreeItem extends LitElement {
   disabled: boolean = false;
 
   /**
+   * _Internal use._
    * The current nesting depth when the root's children are 0.
    * Automatically set by the parent.
+   * @private
    */
   @property({ type: Number, attribute: false })
   level: number = 0;

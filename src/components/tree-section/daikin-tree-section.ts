@@ -24,7 +24,7 @@ import {
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  *
- * @fires tree-move-focus - _Internal use._ An event used to move the focus within a tree.
+ * @fires tree-move-focus - _Internal use._ A custom event used to move the focus within a tree.
  *
  * @slot - A slot for tree children. Place `daikin-tree-section` and `daikin-tree-item` elements here.
  * @slot label - A slot for section header content. Place a `span` element here.
@@ -74,8 +74,10 @@ export class DaikinTreeSection extends LitElement {
   open: boolean = false;
 
   /**
+   * _Internal use._
    * The current nesting depth when the root's children are 0.
    * Automatically set by the parent.
+   * @private
    */
   @property({ type: Number, attribute: false })
   level: number = 0;
