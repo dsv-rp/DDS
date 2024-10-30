@@ -5,12 +5,12 @@ import { html } from "lit";
 import type { DaikinTreeSectionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTreeSectionStoryArgs> = {
-  render: ({ label, selected, disabled, open, onClick }) => html`
+  render: ({ label, selected, disabled, open, onToggle }) => html`
     <daikin-tree-section
       ?selected=${selected}
       ?disabled=${disabled}
       ?open=${open}
-      @click=${onClick}
+      @toggle=${onToggle}
     >
       <span slot="label">${label}</span>
       <daikin-tree-item ?disabled=${disabled}>Tree item</daikin-tree-item>

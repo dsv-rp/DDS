@@ -5,7 +5,7 @@ import type { DaikinTreeSection } from "../daikin-tree-section";
 export interface DaikinTreeSectionStoryArgs
   extends Required<ElementProps<DaikinTreeSection>> {
   label: string;
-  onClick: () => void;
+  onToggle: (event: Event) => void;
 }
 
 export const DAIKIN_TREE_SECTION_ARG_TYPES = {
@@ -22,7 +22,7 @@ export const DAIKIN_TREE_SECTION_ARG_TYPES = {
     type: "boolean",
   },
   // Hide event listeners
-  onClick: { name: "" },
+  onToggle: { name: "" },
 } satisfies Meta<DaikinTreeSectionStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTreeSectionStoryArgs>;

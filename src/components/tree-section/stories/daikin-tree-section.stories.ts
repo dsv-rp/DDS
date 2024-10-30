@@ -17,7 +17,7 @@ export const Default: Story = {
     selected: false,
     disabled: false,
     open: true,
-    onClick: fn(),
+    onToggle: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tree-section")[0];
@@ -32,7 +32,7 @@ export const Default: Story = {
 
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerButton);
-      await expect(args.onClick).toHaveBeenCalledTimes(1);
+      await expect(args.onToggle).toHaveBeenCalledTimes(1);
       await expect(root).not.toHaveAttribute("open");
     });
 
@@ -40,7 +40,7 @@ export const Default: Story = {
       innerButton.focus();
       await userEvent.keyboard("[Space]");
       await expect(getByShadowText(root, "Tree item")).toBeVisible();
-      await expect(args.onClick).toHaveBeenCalledTimes(2);
+      await expect(args.onToggle).toHaveBeenCalledTimes(2);
     });
   }),
 };
@@ -64,6 +64,39 @@ export const Disabled: Story = {
     await expect(
       getByShadowRole(root, "button", { name: "Tree label" })
     ).toHaveAttribute("disabled");
-    await expect(args.onClick).toHaveBeenCalledTimes(0);
+    await expect(args.onToggle).toHaveBeenCalledTimes(0);
+  }),
+};
+
+export const CancelToggleEvent: Story = {
+  args: {
+    ...Default.args,
+    onToggle: fn((event: Event): void => {
+      event.preventDefault();
+    }),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-tree-section")[0];
+    await expect(root).toBeInTheDocument();
+
+    await expect(root).toHaveAttribute("open");
+    await expect(getByShadowText(root, "Tree item")).toBeVisible();
+
+    const innerButton = getByShadowRole(root, "button", { name: "Tree label" });
+
+    await expect(innerButton).toBeInTheDocument();
+
+    await step("Try to click inner summary", async () => {
+      await userEvent.click(innerButton);
+      await expect(args.onToggle).toHaveBeenCalledTimes(1);
+      await expect(root).toHaveAttribute("open");
+    });
+
+    await step("Try to keyboard navigation", async () => {
+      innerButton.focus();
+      await userEvent.keyboard("[Space]");
+      await expect(args.onToggle).toHaveBeenCalledTimes(2);
+      await expect(root).toHaveAttribute("open");
+    });
   }),
 };

@@ -24,6 +24,7 @@ import {
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  *
+ * @fires toggle - _Cancellable._ A custom event emitted when the user clicks the header.
  * @fires tree-move-focus - _Internal use._ A custom event used to move the focus within a tree.
  *
  * @slot - A slot for tree children. Place `daikin-tree-section` and `daikin-tree-item` elements here.
@@ -98,7 +99,15 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private _handleClick(): void {
-    this.open = !this.open;
+    if (
+      this.dispatchEvent(
+        new Event("toggle", {
+          cancelable: true,
+        })
+      )
+    ) {
+      this.open = !this.open;
+    }
   }
 
   private _handleSlotChange(): void {

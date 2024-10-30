@@ -10,7 +10,7 @@ export const ReactDaikinTreeSection = createComponent({
   elementClass: DaikinTreeSection,
   react: React,
   events: {
-    onClick: "click",
+    onToggle: "toggle",
   },
 });
 
