@@ -30,6 +30,7 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
           <span slot="label">Tree section 3</span>
           <daikin-tree-item disabled>Tree item 3-1</daikin-tree-item>
         </daikin-tree-section>
+        <!-- 'open' is ignored when 'disabled' -->
         <daikin-tree-section disabled open>
           <span slot="label">Tree section 4</span>
           <daikin-tree-item disabled>Tree item 4-1</daikin-tree-item>

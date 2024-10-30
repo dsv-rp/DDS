@@ -9,12 +9,11 @@ export const cvaTreeChildren = cva(
   [
     "flex",
     "items-center",
-    "gap-1",
     "w-full",
     "min-h-12",
     "py-3",
-    "pr-3",
-    "pl-[calc(var(--level)*28px+12px)]",
+    "pr-4",
+    "pl-[calc((var(--level)+1)*16px)]",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -36,7 +35,6 @@ export const cvaTreeChildren = cva(
       },
       selected: {
         false: [
-          "bg-white",
           "enabled:hover:bg-daikinNeutral-100",
           "enabled:active:bg-daikinNeutral-200",
           "var-color-daikinNeutral-100/color-hover",
@@ -50,7 +48,11 @@ export const cvaTreeChildren = cva(
       },
       icon: {
         false: [],
-        true: ["before:i-daikin-chevron-right"],
+        true: [
+          "before:i-daikin-chevron-right",
+          "before:size-5",
+          "before:m-0.5",
+        ],
       },
       open: {
         false: [],
@@ -70,6 +72,10 @@ export const cvaTreeChildren = cva(
  * - `daikin-tree` > `daikin-tree-item`
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/tree-item/index.js";
+ * ```
  *
  * ```html
  * <daikin-tree-item>Tree item</daikin-tree-item>

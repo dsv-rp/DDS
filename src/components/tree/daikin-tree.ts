@@ -17,6 +17,12 @@ import { handleTreeMoveFocusRoot, type TreeMoveFocusEvent } from "./common";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/tree/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tree-item/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tree-section/index.js";
+ * ```
+ *
  * ```html
  * <daikin-tree>
  *   <daikin-tree-section>

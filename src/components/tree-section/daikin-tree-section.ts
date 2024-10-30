@@ -4,6 +4,7 @@ import {
   property,
   query,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
@@ -29,6 +30,11 @@ import {
  * @slot label - A slot for label text. Place a `span` element here.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/tree-item/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tree-section/index.js";
+ * ```
  *
  * ```html
  * <daikin-tree-section>
@@ -79,6 +85,9 @@ export class DaikinTreeSection extends LitElement {
   @query("button")
   private readonly _button!: HTMLButtonElement | null;
 
+  @state()
+  private _open: boolean = false;
+
   private _updateLevel(): void {
     const children = this._children;
 
@@ -127,7 +136,7 @@ export class DaikinTreeSection extends LitElement {
       }
 
       case "left":
-        if (this.open) {
+        if (this._open) {
           // Close the section if open.
           this.open = false;
         } else {
@@ -137,7 +146,7 @@ export class DaikinTreeSection extends LitElement {
         break;
 
       case "right":
-        if (!this.open) {
+        if (!this._open) {
           // Open the section if closed.
           this.open = true;
         } else {
@@ -150,14 +159,14 @@ export class DaikinTreeSection extends LitElement {
 
   override render() {
     // eslint-disable-next-line lit-a11y/accessible-name
-    return html`<div role="treeitem" aria-selected=${this.open}>
+    return html`<div role="treeitem" aria-selected=${this._open}>
       <button
         type="button"
         ?disabled=${this.disabled}
         class=${cvaTreeChildren({
           selected: this.selected,
           icon: true,
-          open: this.open,
+          open: this._open,
         })}
         style=${`--level:${this.level}`}
         @click=${this._handleClick}
@@ -165,7 +174,7 @@ export class DaikinTreeSection extends LitElement {
       >
         <slot name="label"></slot>
       </button>
-      <div role="group" ?hidden=${!this.open}>
+      <div role="group" ?hidden=${!this._open}>
         <slot
           @slotchange=${this._handleSlotChange}
           @tree-move-focus=${this._handleMoveFocus}
@@ -177,6 +186,10 @@ export class DaikinTreeSection extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("level")) {
       this._updateLevel();
+    }
+
+    if (changedProperties.has("open") || changedProperties.has("disabled")) {
+      this._open = this.open && !this.disabled;
     }
   }
 
@@ -196,7 +209,7 @@ export class DaikinTreeSection extends LitElement {
    */
   focusLastItem(options?: FocusOptions): void {
     const child =
-      this.open && this._children.findLast((element) => !element.disabled);
+      this._open && this._children.findLast((element) => !element.disabled);
 
     if (child) {
       child.focusLastItem(options);
