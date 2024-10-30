@@ -17,13 +17,15 @@ describeEach(["light", "dark"] as const, (variant) => {
     const baseURL = getPageURL({
       variant,
       placement,
+      hasSlot: false,
+      hasFocusableTrigger: false,
+      __vrtContainer__: true,
     });
 
     test("center", async ({ page }) => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-
       const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
         state: "visible",
       });
@@ -32,9 +34,7 @@ describeEach(["light", "dark"] as const, (variant) => {
         state: "visible",
       });
 
-      await viewArea.evaluate((el) => {
-        el.scrollTo(350, 220);
-      });
+      await viewArea.evaluate((el) => el.scrollTo(350, 400));
 
       // hover cursor on the element
       await triggerElement.hover();
@@ -47,7 +47,6 @@ describeEach(["light", "dark"] as const, (variant) => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-
       const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
         state: "visible",
       });
@@ -56,9 +55,7 @@ describeEach(["light", "dark"] as const, (variant) => {
         state: "visible",
       });
 
-      await viewArea.evaluate((el) => {
-        el.scrollTo(700, 440);
-      });
+      await viewArea.evaluate((el) => el.scrollTo(700, 1400));
 
       // hover cursor on the element
       await triggerElement.hover();
@@ -87,13 +84,15 @@ describeEach(["light", "dark"] as const, (variant) => {
       await expect(page).toHaveScreenshot(await clipFor(viewArea));
     });
   });
+});
 
-  test("newline", async ({ page }) => {
+describeEach(["attribute", "slot"] as const, (description) => {
+  test("base", async ({ page }) => {
     await page.goto(
       getPageURL({
-        variant,
         placement: "bottom",
-        tooltipSlot: "",
+        hasSlot: description === "slot",
+        __vrtContainer__: true,
       })
     );
 
@@ -106,9 +105,7 @@ describeEach(["light", "dark"] as const, (variant) => {
       state: "visible",
     });
 
-    await viewArea.evaluate((el) => {
-      el.scrollTo(350, 220);
-    });
+    await viewArea.evaluate((el) => el.scrollTo(350, 400));
 
     // hover cursor on the element
     await triggerElement.hover();

@@ -1,5 +1,5 @@
 import "#package/components/input-group/daikin-input-group";
-import "#package/components/text-input/daikin-text-input";
+import "#package/components/text-field/daikin-text-field";
 import "#package/components/textarea/daikin-textarea";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
@@ -8,31 +8,38 @@ import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
   render: ({
-    content,
     label,
     helper,
+    required,
     error,
     disabled,
-    required,
     textareaCounter,
-  }) => html`
-    <daikin-input-group
-      label=${ifDefined(label)}
-      helper=${ifDefined(helper)}
-      error=${ifDefined(error)}
-      ?disabled=${disabled}
-      ?required=${required}
-      ?textareaCounter=${textareaCounter}
-    >
-      ${content === "TextInput"
-        ? html`<daikin-text-input value="Value"></daikin-text-input>`
-        : null}
-      ${content === "Textarea"
-        ? html`<daikin-textarea
-            value="Value"
-            placeholder="Placeholder text"
-          ></daikin-textarea>`
-        : null}
-    </daikin-input-group>
-  `,
+    content,
+  }) => {
+    const inputContent = {
+      TextField: html`<daikin-text-field
+        value="Value"
+        placeholder="Placeholder text"
+      ></daikin-text-field>`,
+      Textarea: html`<daikin-textarea
+        value="Value"
+        placeholder="Placeholder text"
+      ></daikin-textarea>`,
+    }[content];
+
+    return html`
+      <div style="width:360px;">
+        <daikin-input-group
+          label=${ifDefined(label)}
+          helper=${ifDefined(helper)}
+          required=${ifDefined(required)}
+          error=${ifDefined(error)}
+          ?disabled=${disabled}
+          ?textareaCounter=${textareaCounter}
+        >
+          ${inputContent}
+        </daikin-input-group>
+      </div>
+    `;
+  },
 };
