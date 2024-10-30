@@ -4,9 +4,13 @@ import { html } from "lit";
 import type { DaikinSelectStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinSelectStoryArgs> = {
-  render: ({ error, disabled }) =>
+  render: ({ error, required, disabled }) =>
     html`<div style="width:360px;">
-      <daikin-select ?error=${error} ?disabled=${disabled}>
+      <daikin-select
+        ?error=${error}
+        ?required=${required}
+        ?disabled=${disabled}
+      >
         <select name="select">
           <option value="value-1">Option 1</option>
           <option value="value-2">Option 2</option>

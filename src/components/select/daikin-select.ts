@@ -131,6 +131,12 @@ export class DaikinSelect extends LitElement {
   error = false;
 
   /**
+   * Whether the select component is required.
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  /**
    * Whether the select component is disabled.
    * This value will also be applied to the `disabled` property of the `<select>` element in the slot.
    */

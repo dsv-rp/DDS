@@ -8,6 +8,9 @@ export const DAIKIN_SELECT_ARG_TYPES = {
   error: {
     type: "boolean",
   },
+  required: {
+    type: "boolean",
+  },
   disabled: {
     type: "boolean",
   },
