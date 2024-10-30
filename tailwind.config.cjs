@@ -121,6 +121,7 @@ module.exports = defineConfig({
         }
       );
 
+      // Sets a CSS variable (for color).
       matchUtilities(
         {
           "var-color": (value, { modifier }) => {
@@ -137,6 +138,40 @@ module.exports = defineConfig({
           modifiers: "any",
           values: flattenColorPalette(theme("colors")),
           type: ["color", "any"],
+        }
+      );
+
+      // Defines a CSS variable with priority control. Use this together with `var-color`.
+      // Usage: `define-[--color-error,--color-focus,--color-base]/color-border`
+      //        => `--color-border: var(--color-error, var(--color-focus, var(--color-base)));`
+      matchUtilities(
+        {
+          define: (value, { modifier }) => {
+            if (!modifier) {
+              return {};
+            }
+
+            return {
+              [`--${modifier}`]: value
+                // `[--color-error,--color-focus,--color-base]` will be passed as `var(--color-error,--color-focus,--color-base)`
+                .replace(/^var\((.+)\)$/, "$1")
+                .split(",")
+                .reduceRight(
+                  (acc, cur) =>
+                    acc
+                      ? `var(${cur}, ${acc})`
+                      : // rightmost
+                        cur.startsWith("--")
+                        ? `var(${cur})`
+                        : cur,
+                  ""
+                ),
+            };
+          },
+        },
+        {
+          modifiers: "any",
+          values: {},
         }
       );
     }),
