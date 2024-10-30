@@ -91,24 +91,25 @@ export class DaikinInputGroup extends LitElement {
   /**
    * Label text displayed at the top of the field.
    */
-  @property({ type: String })
-  label = "";
+  @property({ type: String, reflect: true })
+  label: string | null = null;
 
   /**
    * Helper text displayed at the top of the field.
    * If `error` is specified and `disabled` is `false`, that takes precedence and helper text is not displayed.
    */
-  @property({ type: String })
-  helper = "";
+  @property({ type: String, reflect: true })
+  helper: string | null = null;
 
   /**
-   * Error text displayed at the right of the label.
+   * Text indicating that the field is required.
+   * If a non-empty string is set,
+   * - the text will be displayed in red to the right of the label, and
+   * - the `required` attribute will be set for the input control in the slot.
    * Ignored if `disabled` is `true`.
-   * If `true`, an additional star mark will be displayed at the right of the label text.
-   * Reflected in `required` attribute of the input control in the slot.
    */
   @property({ type: String, reflect: true })
-  required = "";
+  required: string | null = null;
 
   /**
    * Error text displayed at the top of the field.
@@ -116,7 +117,7 @@ export class DaikinInputGroup extends LitElement {
    * Reflected in presence of `error` attribute of the input control in the slot.
    */
   @property({ type: String, reflect: true })
-  error = "";
+  error: string | null = null;
 
   /**
    * Whether the field is disabled.
@@ -158,9 +159,9 @@ export class DaikinInputGroup extends LitElement {
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
     const helperType =
-      this.error.length && !this.disabled
+      this.error && !this.disabled
         ? "error"
-        : this.helper.length
+        : this.helper
           ? this.disabled
             ? "helperDisabled"
             : "helper"
@@ -181,7 +182,7 @@ export class DaikinInputGroup extends LitElement {
           <span class=${cvaLabel({ disabled: this.disabled })}>
             ${this.label}
           </span>
-          ${this.required.length && !this.disabled
+          ${this.required && !this.disabled
             ? html`<span class="text-[#D80C18] text-xs">${this.required}</span>`
             : nothing}
         </div>
