@@ -24,10 +24,10 @@ import {
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  *
- * @fires click - When an item in the tree section is clicked.
+ * @fires tree-move-focus - _Internal use._ An event used to move the focus within a tree.
  *
  * @slot - A slot for tree children. Place `daikin-tree-section` and `daikin-tree-item` elements here.
- * @slot label - A slot for label text. Place a `span` element here.
+ * @slot label - A slot for section header content. Place a `span` element here.
  *
  * @example
  *
@@ -74,9 +74,10 @@ export class DaikinTreeSection extends LitElement {
   open: boolean = false;
 
   /**
-   * This receives the number of levels in the tree section. This is not specified by the user.
+   * The current nesting depth when the root's children are 0.
+   * Automatically set by the parent.
    */
-  @property({ type: Number, reflect: true })
+  @property({ type: Number, attribute: false })
   level: number = 0;
 
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
@@ -88,10 +89,8 @@ export class DaikinTreeSection extends LitElement {
   @state()
   private _open: boolean = false;
 
-  private _updateLevel(): void {
-    const children = this._children;
-
-    for (const item of children) {
+  private _updateChildrenLevel(): void {
+    for (const item of this._children) {
       item.level = this.level + 1;
     }
   }
@@ -101,10 +100,10 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private _handleSlotChange(): void {
-    this._updateLevel();
+    this._updateChildrenLevel();
   }
 
-  private _handleMoveFocus(event: TreeMoveFocusEvent): void {
+  private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
     handleTreeMoveFocusSection(this, event, this._children);
   }
 
@@ -177,7 +176,7 @@ export class DaikinTreeSection extends LitElement {
       <div role="group" ?hidden=${!this._open}>
         <slot
           @slotchange=${this._handleSlotChange}
-          @tree-move-focus=${this._handleMoveFocus}
+          @tree-move-focus=${this._handleTreeMoveFocus}
         ></slot>
       </div>
     </div>`;
@@ -185,7 +184,7 @@ export class DaikinTreeSection extends LitElement {
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("level")) {
-      this._updateLevel();
+      this._updateChildrenLevel();
     }
 
     if (changedProperties.has("open") || changedProperties.has("disabled")) {

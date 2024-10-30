@@ -124,6 +124,9 @@ export function handleTreeMoveFocusRoot(
   event: TreeMoveFocusEvent,
   children: readonly (DaikinTreeSection | DaikinTreeItem)[]
 ): void {
+  // No need to propagate anymore.
+  event.stopPropagation();
+
   handleTreeMoveFocusCommon(event, children);
   // There is nothing to be done when the focus reaches the end for the root element.
 }

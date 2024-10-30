@@ -13,7 +13,7 @@ import { handleTreeMoveFocusRoot, type TreeMoveFocusEvent } from "./common";
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  * - `daikin-tree` > `daikin-tree-item`
  *
- * @slot - Tree section and tree item list slot. Place `daikin-tree-section` or `daikin-tree-item` elements here.
+ * @slot - A slot for tree sections and tree items. Place `daikin-tree-section` or `daikin-tree-item` elements here.
  *
  * @example
  *
@@ -47,13 +47,26 @@ export class DaikinTree extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  private _handleMoveFocus(event: TreeMoveFocusEvent): void {
+  private _updateChildrenLevel(): void {
+    for (const item of this._children) {
+      item.level = 0;
+    }
+  }
+
+  private _handleSlotChange(): void {
+    this._updateChildrenLevel();
+  }
+
+  private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
     handleTreeMoveFocusRoot(event, this._children);
   }
 
   override render() {
     return html`<div role="tree">
-      <slot @tree-move-focus=${this._handleMoveFocus}></slot>
+      <slot
+        @slotchange=${this._handleSlotChange}
+        @tree-move-focus=${this._handleTreeMoveFocus}
+      ></slot>
     </div>`;
   }
 }

@@ -71,6 +71,11 @@ export const cvaTreeChildren = cva(
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
  * - `daikin-tree` > `daikin-tree-item`
  *
+ * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<a>` or `<button>` element. Suppressed if `disabled` is true,
+ * @fires tree-move-focus - _Internal use._ An event used to move the focus within a tree.
+ *
+ * @slot - A slot for the tree item content.
+ *
  * @example
  *
  * ```js
@@ -92,34 +97,37 @@ export class DaikinTreeItem extends LitElement {
   `;
 
   /**
-   * Type of tree item
+   * Type of the tree item.
+   * If `"link"` is specified, the tree item will be rendered as an `<a>` element.
    */
   @property({ type: String })
   type: "button" | "link" = "button";
 
   /**
-   * Destination when the link is clicked
+   * Link `href`.
+   * Only used if the `type` is `"link"`.
+   * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
    */
   @property({ type: String })
   href: string | null = null;
 
   /**
-   * Whether the tree item is selected
+   * Whether the tree item is selected.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
 
   /**
-   * Whether the tree item is disabled
+   * Whether the tree item is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
 
   /**
-   * This receives the number of levels in the tree item.
-   * This is not specified by the user.
+   * The current nesting depth when the root's children are 0.
+   * Automatically set by the parent.
    */
-  @property({ type: Number, reflect: true })
+  @property({ type: Number, attribute: false })
   level: number = 0;
 
   @query("a,button")
@@ -141,6 +149,16 @@ export class DaikinTreeItem extends LitElement {
     }
   }
 
+  constructor() {
+    super();
+
+    this.addEventListener("click", (event: MouseEvent): void => {
+      if (this.disabled) {
+        event.stopImmediatePropagation();
+      }
+    });
+  }
+
   override render() {
     const itemCN = cvaTreeChildren({
       disabled: this.disabled,
@@ -151,26 +169,25 @@ export class DaikinTreeItem extends LitElement {
 
     const disabled =
       this.disabled || (this.type === "link" && this.href == null);
-
-    const item = {
-      button: html`<button
-        type="button"
-        class=${itemCN}
-        ?disabled=${disabled}
-        @keydown=${this._handleKeyDown}
-      >
-        <slot></slot>
-      </button>`,
-      link: html`<a
-        href=${ifDefined(!disabled ? (this.href ?? undefined) : undefined)}
-        role=${ifDefined(disabled ? "link" : undefined)}
-        aria-disabled=${ifDefined(disabled ? "true" : undefined)}
-        class=${itemCN}
-        @keydown=${this._handleKeyDown}
-      >
-        <slot></slot>
-      </a>`,
-    }[this.type];
+    const item =
+      this.type === "link"
+        ? html`<a
+            href=${ifDefined(!disabled ? (this.href ?? undefined) : undefined)}
+            role=${ifDefined(disabled ? "link" : undefined)}
+            aria-disabled=${ifDefined(disabled ? "true" : undefined)}
+            class=${itemCN}
+            @keydown=${this._handleKeyDown}
+          >
+            <slot></slot>
+          </a>`
+        : html`<button
+            type="button"
+            class=${itemCN}
+            ?disabled=${disabled}
+            @keydown=${this._handleKeyDown}
+          >
+            <slot></slot>
+          </button>`;
 
     // eslint-disable-next-line lit-a11y/accessible-name -- The accessible name of the `treeitem` will be calculated from the slot content.
     return html`<div
