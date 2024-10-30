@@ -21,6 +21,8 @@ export const DAIKIN_TREE_SECTION_ARG_TYPES = {
   open: {
     type: "boolean",
   },
+  // Hide event listeners
+  onClick: { name: "" },
 } satisfies Meta<DaikinTreeSectionStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTreeSectionStoryArgs>;

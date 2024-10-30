@@ -3,10 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 import type { DaikinTree } from "../daikin-tree";
 
 export interface DaikinTreeStoryArgs
-  extends Required<ElementProps<DaikinTree>> {
-  onChange: () => void;
-  onInput: () => void;
-}
+  extends Required<ElementProps<DaikinTree>> {}
 
 export const DAIKIN_TREE_ARG_TYPES =
   {} satisfies Meta<DaikinTreeStoryArgs>["argTypes"];
