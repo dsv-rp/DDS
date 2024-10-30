@@ -5,7 +5,7 @@ import React from "react";
 import { ReactDaikinIcon } from "../../icon/stories/framework-react";
 import type { DaikinButtonStoryArgs } from "./common";
 
-const ReactDaikinButton = createComponent({
+export const ReactDaikinButton = createComponent({
   react: React,
   tagName: "daikin-button",
   elementClass: DaikinButton,
