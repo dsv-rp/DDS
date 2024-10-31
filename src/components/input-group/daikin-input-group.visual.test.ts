@@ -15,14 +15,14 @@ const getPageURL = (args: StoryArgs = {}) =>
 const innerContent = {
   Select: "daikin-select",
   TextField: "daikin-text-field",
-  Textarea: "daikin-textarea",
+  TextArea: "daikin-text-area",
 };
 
-describeEach(["Select", "TextField", "Textarea"] as const, (content) => {
+describeEach(["Select", "TextField", "TextArea"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
-        describeEach(["visible", "hidden"] as const, (textareaCounter) => {
+        describeEach(["visible", "hidden"] as const, (counter) => {
           const baseURL = getPageURL({
             content,
             disabled: state === "disabled",
@@ -32,11 +32,13 @@ describeEach(["Select", "TextField", "Textarea"] as const, (content) => {
             ...(required === "required" && {
               required: "Required",
             }),
-            textareaCounter: textareaCounter === "visible",
+            ...(counter === "visible" && {
+              textareaMaxCount: 100,
+            }),
           });
 
           const snapshotName =
-            content !== "Textarea"
+            content !== "TextArea"
               ? `${content}-${state}-${required}-${error}.png`
               : null;
 

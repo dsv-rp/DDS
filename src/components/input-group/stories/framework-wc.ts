@@ -1,7 +1,7 @@
 import "#package/components/input-group/daikin-input-group";
 import "#package/components/select/daikin-select";
+import "#package/components/text-area/daikin-text-area";
 import "#package/components/text-field/daikin-text-field";
-import "#package/components/textarea/daikin-textarea";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -14,7 +14,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     required,
     error,
     disabled,
-    textareaCounter,
+    textareaMaxCount,
     content,
   }) => html`
     <div style="width:360px;">
@@ -24,17 +24,8 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         required=${ifDefined(required)}
         error=${ifDefined(error)}
         ?disabled=${disabled}
-        ?textareaCounter=${textareaCounter}
+        textarea-max-count=${ifDefined(textareaMaxCount)}
       >
-        ${content === "TextField"
-          ? html`<daikin-text-field value="Value"></daikin-text-field>`
-          : nothing}
-        ${content === "Textarea"
-          ? html`<daikin-textarea
-              value="Value"
-              placeholder="Placeholder text"
-            ></daikin-textarea>`
-          : nothing}
         ${content === "Select"
           ? html`<daikin-select>
               <select name="select">
@@ -43,6 +34,18 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
                 <option value="value3">Option 3</option>
               </select>
             </daikin-select>`
+          : nothing}
+        ${content === "TextArea"
+          ? html`<daikin-text-area
+              value="Value"
+              placeholder="Placeholder text"
+            ></daikin-text-area>`
+          : nothing}
+        ${content === "TextField"
+          ? html`<daikin-text-field
+              value="Value"
+              placeholder="Placeholder text"
+            ></daikin-text-field>`
           : nothing}
       </daikin-input-group>
     </div>

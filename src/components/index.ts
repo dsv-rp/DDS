@@ -15,7 +15,7 @@ export * from "./select";
 export * from "./tab";
 export * from "./tab-panels";
 export * from "./tabs";
+export * from "./text-area";
 export * from "./text-field";
-export * from "./textarea";
 export * from "./toggle";
 export * from "./tooltip";
