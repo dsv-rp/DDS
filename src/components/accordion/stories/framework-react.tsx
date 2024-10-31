@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
   component: ({ ...props }: DaikinAccordionStoryArgs) => (
     <div
       style={{
-        width: "320px",
+        width: "360px",
       }}
     >
       <ReactDaikinAccordion {...props}>
