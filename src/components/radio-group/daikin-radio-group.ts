@@ -122,6 +122,7 @@ export class DaikinRadioGroup extends LitElement {
       ArrowUp: -1,
     }[event.key];
     if (!moveOffset) {
+      event.preventDefault();
       return;
     }
 
