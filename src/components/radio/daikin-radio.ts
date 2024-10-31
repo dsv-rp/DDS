@@ -154,7 +154,7 @@ export class DaikinRadio extends LitElement {
 
   override render() {
     return html`<label class="group flex gap-2 items-center font-daikinSerif">
-      <div class="p-2">
+      <span class="p-2">
         <input
           class=${RADIO_CLASS_NAME}
           type="radio"
@@ -167,7 +167,7 @@ export class DaikinRadio extends LitElement {
           @change=${this._handleChange}
           tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
         />
-      </div>
+      </span>
       <span
         class=${cvaLabel({
           disabled: this.disabled,

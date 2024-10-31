@@ -24,21 +24,9 @@ export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
       required="required"
     >
       <ReactDaikinRadioGroup {...props}>
-        <ReactDaikinRadio
-          name="name"
-          value="value1"
-          label="Option1"
-        ></ReactDaikinRadio>
-        <ReactDaikinRadio
-          name="name"
-          value="value2"
-          label="Option2"
-        ></ReactDaikinRadio>
-        <ReactDaikinRadio
-          name="name"
-          value="value3"
-          label="Option3"
-        ></ReactDaikinRadio>
+        <ReactDaikinRadio value="value1" label="Option1"></ReactDaikinRadio>
+        <ReactDaikinRadio value="value2" label="Option2"></ReactDaikinRadio>
+        <ReactDaikinRadio value="value3" label="Option3"></ReactDaikinRadio>
       </ReactDaikinRadioGroup>
     </ReactDaikinInputGroup>
   ),

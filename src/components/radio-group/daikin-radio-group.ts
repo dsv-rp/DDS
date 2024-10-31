@@ -1,11 +1,10 @@
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
-
-import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import { DaikinRadio } from "../radio/daikin-radio";
@@ -35,19 +34,19 @@ type RadioGroupProps = MergeVariantProps<typeof radioGroupCN>;
  * @example
  *
  * ```html
- * <daikin-radio-group>
- *   <daikin-radio name="name" value="value1" label="Option1"></daikin-radio>
- *   <daikin-radio name="name" value="value2" label="Option2"></daikin-radio>
- *   <daikin-radio name="name" value="value3" label="Option3"></daikin-radio>
+ * <daikin-radio-group name="name">
+ *   <daikin-radio value="value1" label="Option1"></daikin-radio>
+ *   <daikin-radio value="value2" label="Option2"></daikin-radio>
+ *   <daikin-radio value="value3" label="Option3"></daikin-radio>
  * </daikin-radio-group>
  * ```
  *
  * ```html
  * <daikin-input-group label="Label text" helper="Helper text">
- *   <daikin-radio-group>
- *     <daikin-radio name="name" value="value1" label="Option1"></daikin-radio>
- *     <daikin-radio name="name" value="value2" label="Option2"></daikin-radio>
- *     <daikin-radio name="name" value="value3" label="Option3"></daikin-radio>
+ *   <daikin-radio-group name="name">
+ *     <daikin-radio value="value1" label="Option1"></daikin-radio>
+ *     <daikin-radio value="value2" label="Option2"></daikin-radio>
+ *     <daikin-radio value="value3" label="Option3"></daikin-radio>
  *   </daikin-radio-group>
  * </daikin-input-group>
  * ```
