@@ -2,8 +2,8 @@ import { DaikinInputGroup } from "#package/components/input-group/daikin-input-g
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinTextArea } from "../../text-area/stories/framework-react";
 import { ReactDaikinTextField } from "../../text-field/stories/framework-react";
-import { ReactDaikinTextarea } from "../../textarea/stories/framework-react";
 import type { DaikinInputGroupStoryArgs } from "./common";
 
 export const ReactDaikinInputGroup = createComponent({
@@ -13,18 +13,14 @@ export const ReactDaikinInputGroup = createComponent({
 });
 
 export const metadata: Meta<DaikinInputGroupStoryArgs> = {
-  component: ({ content, ...props }: DaikinInputGroupStoryArgs) => {
-    const inputContent = {
-      TextField: <ReactDaikinTextField value="Value" />,
-      Textarea: (
-        <ReactDaikinTextarea value="Value" placeholder="Placeholder text" />
-      ),
-    }[content];
-
-    return (
-      <div style={{ width: "360px" }}>
-        <ReactDaikinInputGroup {...props}>{inputContent}</ReactDaikinInputGroup>
-      </div>
-    );
-  },
+  component: ({ content, ...props }: DaikinInputGroupStoryArgs) => (
+    <div style={{ width: "360px" }}>
+      <ReactDaikinInputGroup {...props}>
+        {content === "TextField" && <ReactDaikinTextField value="Value" />}
+        {content === "TextArea" && (
+          <ReactDaikinTextArea value="Value" placeholder="Placeholder text" />
+        )}
+      </ReactDaikinInputGroup>
+    </div>
+  ),
 };

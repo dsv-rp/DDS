@@ -12,11 +12,11 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
-describeEach(["TextField", "Textarea"] as const, (content) => {
+describeEach(["TextField", "TextArea"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
-        describeEach(["visible", "hidden"] as const, (textareaCounter) => {
+        describeEach(["visible", "hidden"] as const, (counter) => {
           const baseURL = getPageURL({
             content,
             disabled: state === "disabled",
@@ -26,7 +26,9 @@ describeEach(["TextField", "Textarea"] as const, (content) => {
             ...(required === "required" && {
               required: "Required",
             }),
-            textareaCounter: textareaCounter === "visible",
+            ...(counter === "visible" && {
+              textareaMaxCount: 100,
+            }),
           });
 
           const snapshotName =
