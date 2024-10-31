@@ -5,13 +5,14 @@ import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
+import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
-import type { DaikinTextarea } from "../textarea/daikin-textarea";
 
-type ControlElement = DaikinDropdown | DaikinTextField | DaikinTextarea;
+type ControlElement = DaikinDropdown | DaikinTextField | DaikinTextArea;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -41,40 +42,42 @@ const cvaHelper = cva(
   }
 );
 
+const cvaCounter = cva(["text-sm", "font-bold"], {
+  variants: {
+    disabled: {
+      false: ["text-[#616161]"],
+      true: ["text-[#BFBFBF]"],
+    },
+  },
+});
+
+const cvaCounterValueLength = cva([], {
+  variants: {
+    error: {
+      false: [],
+      true: ["text-[#D80C18]"],
+    },
+  },
+});
+
 /**
- * The input group component serves as a wrapper for a `daikin-text-field` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for a `daikin-text-area` or `daikin-text-field` component, providing additional elements such as labels, helper texts, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
- * - `daikin-input-group` > `daikin-text-field`
- * - `daikin-input-group` > `daikin-textarea`
  * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
+ * - `daikin-input-group` > `daikin-text-area`
+ * - `daikin-input-group` > `daikin-text-field`
  *
- * @slot - A slot for a input component. Place a  `daikin-dropdown` or `daikin-text-field` or `daikin-textarea` element here.
+ * @slot - A slot for a input component. Place a  `daikin-dropdown` or `daikin-text-field` or `daikin-text-area` element here.
  *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
- * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
- * ```
- *
- * With Text Field:
- *
- * ```html
- * <daikin-input-group>
- *   <daikin-text-field value="Content of Text Field"></daikin-text-field>
- * </daikin-input-group>
- * ```
- *
- * With Textarea:
- *
- * ```html
- * <daikin-input-group>
- *   <daikin-textarea value="Value of Textarea"></daikin-textarea>
- * </daikin-input-group>
  * ```
  *
  * With Dropdown:
@@ -87,6 +90,22 @@ const cvaHelper = cva(
  *     </daikin-dropdown-item>
  *   </daikin-dropdown>
  * </daikin-input-group>
+ *
+ * With Text Field:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-text-field value="Content of Text Field"></daikin-text-field>
+ * </daikin-input-group>
+ * ```
+ *
+ * With TextArea:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-text-area value="Content of TextArea"></daikin-text-area>
+ * </daikin-input-group>
+ * ```
  * ```
  */
 @customElement("daikin-input-group")
@@ -130,6 +149,7 @@ export class DaikinInputGroup extends LitElement {
    * Ignored if `disabled` is `true`.
    * Reflected in presence of `error` attribute of the input control in the slot.
    */
+
   @property({ type: String, reflect: true })
   error: string | null = null;
 
@@ -141,18 +161,34 @@ export class DaikinInputGroup extends LitElement {
   disabled = false;
 
   /**
-   * Whether to display the counter in the Textarea
+   * Maximum value to display on the counter. When `null`, the counter will be hidden.
    */
-  @property({ type: Boolean, reflect: true })
-  textareaCounter = false;
+  @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
+  textareaMaxCount: number | null = null;
+
+  @queryAssignedElements({ selector: "daikin-text-area" })
+  private readonly _textareas!: readonly DaikinTextArea[];
 
   @queryAssignedElements({
-    selector: "daikin-dropdown,daikin-text-field,daikin-textarea",
+    selector: "daikin-dropdown,daikin-text-field,daikin-text-area",
   })
   private readonly _controls!: readonly ControlElement[];
 
+  @state()
+  private _textareaCount: number | null = null;
+
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
+
+    const textarea = this._textareas[0] as DaikinTextArea | undefined;
+    this._textareaCount = textarea?.count ?? null;
+  }
+
+  private _handleInput(event: Event): void {
+    // Update counter if emitted by textarea.
+    if ((event.target as HTMLElement).tagName === "DAIKIN-TEXT-AREA") {
+      this._textareaCount = (event.target as DaikinTextArea).count;
+    }
   }
 
   private _reflectSlotProperties(): void {
@@ -188,14 +224,30 @@ export class DaikinInputGroup extends LitElement {
       <label
         class="flex flex-col justify-center gap-2 w-full text-[#414141] font-daikinSerif"
       >
-        <div class="flex items-center gap-1 font-bold">
-          ${this.label
-            ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
-                ${this.label}
-              </span>`
-            : nothing}
-          ${this.required && !this.disabled
-            ? html`<span class="text-[#D80C18] text-xs">${this.required}</span>`
+        <div class="flex justify-between items-center gap-2">
+          <div class="flex items-center gap-1 font-bold">
+            ${this.label
+              ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
+                  ${this.label}
+                </span>`
+              : nothing}
+            ${this.required && !this.disabled
+              ? html`<span class="text-[#D80C18] text-xs">
+                  ${this.required}
+                </span>`
+              : nothing}
+          </div>
+          ${this.textareaMaxCount != null && this._textareaCount != null
+            ? html`
+                <span class=${cvaCounter({ disabled: this.disabled })}>
+                  <span
+                    class=${cvaCounterValueLength({
+                      error: this.textareaMaxCount < this._textareaCount,
+                    })}
+                    >${this._textareaCount}</span
+                  ><span>/</span><span>${this.textareaMaxCount}</span>
+                </span>
+              `
             : nothing}
         </div>
         <span
@@ -204,7 +256,10 @@ export class DaikinInputGroup extends LitElement {
         >
           ${helperText}
         </span>
-        <slot @slotchange=${this._handleSlotChange}></slot>
+        <slot
+          @slotchange=${this._handleSlotChange}
+          @input=${this._handleInput}
+        ></slot>
       </label>
     </fieldset>`;
   }

@@ -1,8 +1,8 @@
 import "#package/components/dropdown-item/daikin-dropdown-item";
 import "#package/components/dropdown/daikin-dropdown";
 import "#package/components/input-group/daikin-input-group";
+import "#package/components/text-area/daikin-text-area";
 import "#package/components/text-field/daikin-text-field";
-import "#package/components/textarea/daikin-textarea";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     required,
     error,
     disabled,
-    textareaCounter,
+    textareaMaxCount,
     content,
   }) => html`
     <div style="width:360px;">
@@ -25,7 +25,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         required=${ifDefined(required)}
         error=${ifDefined(error)}
         ?disabled=${disabled}
-        ?textareaCounter=${textareaCounter}
+        textarea-max-count=${ifDefined(textareaMaxCount)}
       >
         ${content === "Dropdown"
           ? html`<daikin-dropdown placeholder="Choose an Option">
@@ -40,14 +40,17 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
               </daikin-dropdown-item>
             </daikin-dropdown>`
           : nothing}
-        ${content === "TextField"
-          ? html`<daikin-text-field value="Value"></daikin-text-field>`
-          : nothing}
-        ${content === "Textarea"
-          ? html`<daikin-textarea
+        ${content === "TextArea"
+          ? html`<daikin-text-area
               value="Value"
               placeholder="Placeholder text"
-            ></daikin-textarea>`
+            ></daikin-text-area>`
+          : nothing}
+        ${content === "TextField"
+          ? html`<daikin-text-field
+              value="Value"
+              placeholder="Placeholder text"
+            ></daikin-text-field>`
           : nothing}
       </daikin-input-group>
     </div>

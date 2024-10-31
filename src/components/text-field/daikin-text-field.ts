@@ -125,7 +125,7 @@ export class DaikinTextField extends LitElement {
   /**
    * Value of the text field.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String })
   value = "";
 
   /**
@@ -138,7 +138,7 @@ export class DaikinTextField extends LitElement {
    * Placeholder text.
    */
   @property({ type: String })
-  placeholder = "";
+  placeholder: string | null = null;
 
   /**
    * Whether the text field is readonly.
@@ -218,7 +218,7 @@ export class DaikinTextField extends LitElement {
         })}
         type=${this.type}
         value=${this.value}
-        placeholder=${this.placeholder}
+        placeholder=${ifDefined(this.placeholder ?? undefined)}
         name=${ifDefined(this.name)}
         maxlength=${ifDefined(this.maxlength)}
         autocomplete=${

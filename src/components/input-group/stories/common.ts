@@ -4,7 +4,7 @@ import type { DaikinInputGroup } from "../daikin-input-group";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {
-  content: "Dropdown" | "TextField" | "Textarea";
+  content: "Dropdown" | "TextField" | "TextArea";
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
@@ -26,12 +26,12 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   error: {
     type: "string",
   },
-  textareaCounter: {
-    type: "boolean",
+  textareaMaxCount: {
+    type: "number",
   },
   content: {
     control: "radio",
-    options: ["Dropdown", "TextField", "Textarea"],
+    options: ["Dropdown", "TextField", "TextArea"],
     description: "Slot content to show",
   },
 } satisfies Meta<DaikinInputGroupStoryArgs>["argTypes"];
