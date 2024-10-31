@@ -159,18 +159,20 @@ export class DaikinInputGroup extends LitElement {
   private readonly _controls!: readonly ControlElement[];
 
   @state()
-  private _textareaValueLength: number | null = null;
+  private _textareaCount: number | null = null;
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
 
     const textarea = this._textareas[0] as DaikinTextArea | undefined;
-
-    this._textareaValueLength = textarea?.value.length ?? null;
+    this._textareaCount = textarea?.count ?? null;
   }
 
-  private _handleChangeCount(e: CustomEvent<{ count: number }>): void {
-    this._textareaValueLength = e.detail.count;
+  private _handleInput(event: Event): void {
+    // Update counter if emitted by textarea.
+    if ((event.target as HTMLElement).tagName === "DAIKIN-TEXT-AREA") {
+      this._textareaCount = (event.target as DaikinTextArea).count;
+    }
   }
 
   private _reflectSlotProperties(): void {
@@ -216,14 +218,14 @@ export class DaikinInputGroup extends LitElement {
                 </span>`
               : nothing}
           </div>
-          ${this.textareaMaxCount != null && this._textareaValueLength != null
+          ${this.textareaMaxCount != null && this._textareaCount != null
             ? html`
                 <span class=${cvaCounter({ disabled: this.disabled })}>
                   <span
                     class=${cvaCounterValueLength({
-                      error: this.textareaMaxCount < this._textareaValueLength,
+                      error: this.textareaMaxCount < this._textareaCount,
                     })}
-                    >${this._textareaValueLength}</span
+                    >${this._textareaCount}</span
                   ><span>/</span><span>${this.textareaMaxCount}</span>
                 </span>
               `
@@ -237,7 +239,7 @@ export class DaikinInputGroup extends LitElement {
         </span>
         <slot
           @slotchange=${this._handleSlotChange}
-          @change-count=${this._handleChangeCount}
+          @input=${this._handleInput}
         ></slot>
       </label>
     </fieldset>`;

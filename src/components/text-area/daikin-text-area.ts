@@ -146,6 +146,10 @@ export class DaikinTextArea extends LitElement {
   @property({ type: Boolean, reflect: true })
   resizable = false;
 
+  get count(): number {
+    return this.value.length;
+  }
+
   private _updateValue(value: string): void {
     this._internals.setFormValue(value);
   }
@@ -153,17 +157,6 @@ export class DaikinTextArea extends LitElement {
   private _handleInput(e: InputEvent): void {
     this.value = (e.target as HTMLInputElement).value;
     this._updateValue(this.value);
-
-    this.dispatchEvent(
-      new CustomEvent("change-count", {
-        detail: {
-          count: this.value.length,
-        },
-        bubbles: true,
-        composed: true,
-        cancelable: false,
-      })
-    );
   }
 
   override render() {
