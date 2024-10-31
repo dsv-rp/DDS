@@ -5,6 +5,7 @@ export * from "./breadcrumb-item";
 export * from "./button";
 export * from "./checkbox";
 export * from "./icon";
+export * from "./icon-button";
 export * from "./input-group";
 export * from "./list";
 export * from "./list-item";
