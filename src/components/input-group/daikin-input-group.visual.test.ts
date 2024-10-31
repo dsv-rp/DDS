@@ -36,7 +36,7 @@ describeEach(["Select", "TextField", "Textarea"] as const, (content) => {
           });
 
           const snapshotName =
-            content === "TextField"
+            content !== "Textarea"
               ? `${content}-${state}-${required}-${error}.png`
               : null;
 

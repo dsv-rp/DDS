@@ -28,13 +28,13 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
       >
         ${content === "TextField"
           ? html`<daikin-text-field value="Value"></daikin-text-field>`
-          : null}
+          : nothing}
         ${content === "Textarea"
           ? html`<daikin-textarea
               value="Value"
               placeholder="Placeholder text"
             ></daikin-textarea>`
-          : null}
+          : nothing}
         ${content === "Select"
           ? html`<daikin-select>
               <select name="select">
