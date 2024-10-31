@@ -17,12 +17,11 @@ export const metadata: Meta<DaikinTextAreaStoryArgs> = {
     resizable,
     onChange,
     onInput,
-    onChangeCount,
   }) => html`
     <div style="width:360px;">
       <daikin-text-area
-        placeholder=${placeholder}
         name=${name}
+        placeholder=${ifDefined(placeholder)}
         autocomplete=${ifDefined(autocomplete)}
         ?disabled=${disabled}
         ?readonly=${readonly}
@@ -31,7 +30,6 @@ export const metadata: Meta<DaikinTextAreaStoryArgs> = {
         ?resizable=${resizable}
         @change=${onChange}
         @input=${onInput}
-        @change-count=${onChangeCount}
       ></daikin-text-area>
     </div>
   `,

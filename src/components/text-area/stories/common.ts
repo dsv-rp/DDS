@@ -6,7 +6,6 @@ export interface DaikinTextAreaStoryArgs
   extends Required<ElementProps<DaikinTextArea>> {
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
-  onChangeCount: (event: CustomEvent<{ count: number }>) => void;
 }
 
 export const DAIKIN_TEXT_AREA_ARG_TYPES = {
