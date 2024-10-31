@@ -16,37 +16,46 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
     label,
     action,
     onClick,
-  }) => html`
-    <daikin-list-item
-      type=${type}
-      href=${ifDefined(href)}
-      ?disabled=${disabled}
-      @click=${onClick}
-    >
-      ${label}
-      ${leftIcon
-        ? html`<daikin-icon
-            slot="left-icon"
-            icon=${leftIcon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
-        : nothing}
-      ${rightIcon
-        ? html`<daikin-icon
-            slot="right-icon"
-            icon=${rightIcon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
-        : nothing}
-      ${action
-        ? html`<daikin-checkbox
-            label="Label"
-            label-position="hidden"
-            slot="action"
-          ></daikin-checkbox>`
-        : nothing}
-    </daikin-list-item>
-  `,
+  }) => {
+    const color = { enabled: "#414141", disabled: "#BFBFBF" }[
+      disabled ? "disabled" : "enabled"
+    ];
+
+    return html`
+      <daikin-list-item
+        type=${type}
+        href=${ifDefined(href)}
+        ?disabled=${disabled}
+        @click=${onClick}
+      >
+        ${label}
+        ${leftIcon
+          ? html`<span slot="left-icon" style=${`color:${color};`}>
+              <daikin-icon
+                icon=${leftIcon}
+                size="xl"
+                color="current"
+              ></daikin-icon>
+            </span>`
+          : nothing}
+        ${rightIcon
+          ? html`<span slot="right-icon" style=${`color:${color};`}>
+              <daikin-icon
+                icon=${rightIcon}
+                size="xl"
+                color="current"
+              ></daikin-icon>
+            </span>`
+          : nothing}
+        ${action
+          ? html`<daikin-checkbox
+              slot="action"
+              label="Label"
+              label-position="hidden"
+              ?disabled=${disabled}
+            ></daikin-checkbox>`
+          : nothing}
+      </daikin-list-item>
+    `;
+  },
 };
