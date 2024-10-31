@@ -41,7 +41,7 @@ const cvaHelper = cva(
   }
 );
 
-const cvaCounter = cva(["text-xs", "font-bold"], {
+const cvaCounter = cva(["text-sm", "font-bold"], {
   variants: {
     disabled: {
       false: ["text-[#616161]"],
