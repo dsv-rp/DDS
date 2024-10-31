@@ -42,7 +42,7 @@ const cvaHelper = cva(
 );
 
 /**
- * The input group component serves as a wrapper for a `daikin-select` or `daikin-text-field` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for an input control component (full list below), providing additional elements such as label text, helper text, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
