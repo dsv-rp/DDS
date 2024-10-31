@@ -122,55 +122,43 @@ export class DaikinRadioGroup extends LitElement {
       ArrowUp: -1,
     }[event.key];
     if (!moveOffset) {
-      event.preventDefault();
       return;
     }
 
-    // Retrieve all radios
-    const radios = this._radios;
+    event.preventDefault();
+
+    // get all active radios
+    const enabledRadios = this._radios.filter(({ disabled }) => !disabled);
 
     // Check if there is at least one radio available
-    if (!radios.some((radio) => !radio.disabled)) {
+    if (!enabledRadios.length) {
       return;
     }
 
     // Get focused radio if any
     const activeElement = document.activeElement;
     const focusedRadioIndex = activeElement
-      ? radios.findIndex((radio) => radio.contains(activeElement))
+      ? enabledRadios.findIndex((radio) => radio.contains(activeElement))
       : -1;
 
     // If there is no radio focused, focus on the active (current) radio
     if (focusedRadioIndex < 0) {
       const activeRadio =
-        radios.find((radio) => radio.checked) ??
-        radios.find((radio) => !radio.disabled);
-      if (activeRadio) {
-        activeRadio.checked = true;
-        activeRadio.focus();
-        event.preventDefault();
-      }
+        enabledRadios.find((radio) => radio.checked) ?? enabledRadios[0];
+      this.value = activeRadio.value;
+      activeRadio.focus();
       return;
     }
 
     // If there is a radio focused, move focus forward or backward
-    for (let i = 1; i <= radios.length; i++) {
-      const index =
-        (focusedRadioIndex + moveOffset * i + radios.length) % radios.length;
-      const nextRadio = radios[index];
-      if (nextRadio.disabled) {
-        continue;
-      }
-      nextRadio.focus();
-      nextRadio.checked = true;
-      this.value = nextRadio.value;
-
-      const beforeRadio = radios[focusedRadioIndex];
-      beforeRadio.checked = false;
-      event.preventDefault();
-
+    const newIndex =
+      (focusedRadioIndex + moveOffset + enabledRadios.length) %
+      enabledRadios.length;
+    if (newIndex !== focusedRadioIndex) {
+      const newRadio = enabledRadios[newIndex];
+      this.value = newRadio.value;
+      newRadio.focus();
       this.dispatchEvent(new Event("change"));
-      return;
     }
   }
 

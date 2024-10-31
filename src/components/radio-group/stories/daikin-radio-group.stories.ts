@@ -66,7 +66,6 @@ export const Default: Story = {
       await expect(secondRadio).not.toBeChecked();
     });
 
-    //
     await step("Try to use keyboard to select radio", async () => {
       await userEvent.keyboard("[ArrowLeft]");
       await userEvent.keyboard("[ArrowUp]");
