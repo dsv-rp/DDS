@@ -13,7 +13,7 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-icon-button--fill", args);
 
 describeEach(["fill", "outline", "ghost"] as const, (variant) => {
-  describeEach(["default", "danger", "neutral"] as const, (color) => {
+  describeEach(["default", "neutral", "danger"] as const, (color) => {
     const baseArgs = {
       variant,
       color,

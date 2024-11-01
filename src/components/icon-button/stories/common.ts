@@ -20,7 +20,7 @@ export const DAIKIN_ICON_BUTTON_ARG_TYPES = {
   },
   color: {
     control: "radio",
-    options: ["default", "danger", "neutral"],
+    options: ["default", "neutral", "danger"],
   },
   disabled: {
     type: "boolean",

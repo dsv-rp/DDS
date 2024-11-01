@@ -37,19 +37,19 @@ const cvaIconButton = cva(
           "link-enabled:active:var-color-[#00689A]/color-primary",
           "link-enabled:active:var-color-[#BBE7F9]/color-secondary",
         ],
-        danger: [
-          "link-enabled:var-color-[#D80C18]/color-primary",
-          "link-enabled:hover:var-color-[#B90A15]/color-primary",
-          "link-enabled:hover:var-color-[#FDD9DB]/color-secondary",
-          "link-enabled:active:var-color-[#9A0911]/color-primary",
-          "link-enabled:active:var-color-[#FBB3B7]/color-secondary",
-        ],
         neutral: [
           "link-enabled:var-color-[#616161]/color-primary",
           "link-enabled:hover:var-color-[#515151]/color-primary",
           "link-enabled:hover:var-color-[#F2F2F2]/color-secondary",
           "link-enabled:active:var-color-[#414141]/color-primary",
           "link-enabled:active:var-color-[#EBEBEB]/color-secondary",
+        ],
+        danger: [
+          "link-enabled:var-color-[#D80C18]/color-primary",
+          "link-enabled:hover:var-color-[#B90A15]/color-primary",
+          "link-enabled:hover:var-color-[#FDD9DB]/color-secondary",
+          "link-enabled:active:var-color-[#9A0911]/color-primary",
+          "link-enabled:active:var-color-[#FBB3B7]/color-secondary",
         ],
       },
       variant: {

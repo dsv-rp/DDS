@@ -46,6 +46,16 @@ export const Ghost: Story = {
   },
 };
 
+export const Neutral: Story = {
+  args: {
+    ...Fill.args,
+    color: "neutral",
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
+  },
+};
+
 export const Danger: Story = {
   args: {
     ...Fill.args,
