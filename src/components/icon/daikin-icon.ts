@@ -60,6 +60,10 @@ export class DaikinIcon extends LitElement {
 
     :host {
       display: block;
+      width: max-content;
+    }
+
+    :host([size="full"]) {
       width: 100%;
       height: 100%;
     }
