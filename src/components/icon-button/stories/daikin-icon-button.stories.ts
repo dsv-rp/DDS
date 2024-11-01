@@ -2,7 +2,7 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
 import { DAIKIN_ICON_BUTTON_ARG_TYPES, type Story } from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
@@ -104,6 +104,63 @@ export const Disabled: Story = {
     await step("Try to click inner button", async () => {
       await userEvent.click(button);
       await expect(args.onClick).not.toHaveBeenCalledOnce();
+    });
+  }),
+};
+
+export const Link: Story = {
+  args: {
+    ...Fill.args,
+    type: "link",
+    href: "#",
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-icon-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    // No buttons
+    await expect(queryByShadowRole(root, "button")).toBe(null);
+
+    const innerLink = getByShadowRole(root, "link", {
+      name: "Icon button label",
+    });
+    await expect(innerLink).toBeInTheDocument();
+
+    // should react if inner link clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
+      await expect(args.onClick).toHaveBeenCalled();
+    });
+  }),
+};
+
+export const LinkDisabled: Story = {
+  args: {
+    ...Link.args,
+    disabled: true,
+    onClick: fn((event: Event) => {
+      event.preventDefault();
+    }),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-icon-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    // No buttons
+    await expect(queryByShadowRole(root, "button")).toBe(null);
+
+    const innerLink = getByShadowRole(root, "link", {
+      name: "Icon button label",
+    });
+    await expect(innerLink).toBeInTheDocument();
+
+    // should not react if inner link clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
+      await expect(args.onClick).not.toHaveBeenCalled();
     });
   }),
 };

@@ -10,10 +10,6 @@ export interface DaikinIconButtonStoryArgs
 }
 
 export const DAIKIN_ICON_BUTTON_ARG_TYPES = {
-  type: {
-    control: "radio",
-    options: ["button", "submit", "reset"],
-  },
   variant: {
     control: "radio",
     options: ["fill", "outline", "ghost"],
@@ -25,7 +21,17 @@ export const DAIKIN_ICON_BUTTON_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
+  href: {
+    type: "string",
+  },
+  type: {
+    control: "radio",
+    options: ["button", "submit", "reset", "link"],
+  },
   buttonAriaLabel: {
+    type: "string",
+  },
+  buttonRole: {
     type: "string",
   },
   icon: {

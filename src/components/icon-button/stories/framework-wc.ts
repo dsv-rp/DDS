@@ -7,19 +7,23 @@ import type { DaikinIconButtonStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinIconButtonStoryArgs> = {
   render: ({
-    type,
     variant,
     color,
     disabled,
+    href,
+    type,
     buttonAriaLabel,
+    buttonRole,
     icon,
     onClick,
   }) => html`
     <daikin-icon-button
-      type=${type}
       variant=${variant}
       color=${color}
+      href=${ifDefined(href)}
+      type=${type}
       button-aria-label=${ifDefined(buttonAriaLabel)}
+      button-role=${ifDefined(buttonRole)}
       ?disabled=${disabled}
       @click=${onClick}
     >

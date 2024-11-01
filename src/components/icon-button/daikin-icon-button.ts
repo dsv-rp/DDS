@@ -1,6 +1,8 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
+import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
@@ -108,12 +110,6 @@ export class DaikinIconButton extends LitElement {
   `;
 
   /**
-   * Type of the button.
-   */
-  @property({ type: String, reflect: true })
-  type: "button" | "submit" | "reset" = "button";
-
-  /**
    * Variant of the button.
    */
   @property({ type: String, reflect: true })
@@ -126,16 +122,37 @@ export class DaikinIconButton extends LitElement {
   color: IconButtonVariantProps["color"] = "default";
 
   /**
-   * The aria-label of the button.
+   * Whether the button is disabled.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
+   * Link `href`.
+   * Only used if the `type` is `"link"`.
+   * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
+   */
+  @property({ type: String, reflect: true })
+  href: string | null = null;
+
+  /**
+   * Type of the button.
+   * If `"link"` is specified, the button will be rendered as an `<a>` element.
+   */
+  @property({ type: String, reflect: true })
+  type: "button" | "submit" | "reset" | "link" = "button";
+
+  /**
+   * The aria-label of the icon button.
    */
   @property({ type: String, reflect: true, attribute: "button-aria-label" })
   buttonAriaLabel: string | null = null;
 
   /**
-   * Whether the button is disabled.
+   * Optional ARIA role of the button.
    */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
+  @property({ type: String, reflect: true, attribute: "button-role" })
+  buttonRole: ARIARole | null = null;
 
   @query("button")
   private _button!: HTMLButtonElement | null;
@@ -151,12 +168,29 @@ export class DaikinIconButton extends LitElement {
   }
 
   override render() {
+    const IconButtonCN = cvaIconButton({
+      variant: this.variant,
+      color: this.color,
+    });
+
+    if (this.type === "link") {
+      const linkDisabled = this.disabled || this.href == null;
+      return html`<a
+        class=${IconButtonCN}
+        href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}
+        role=${ifDefined(
+          this.buttonRole ?? (linkDisabled ? "link" : undefined)
+        )}
+        aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
+        aria-label=${this.buttonAriaLabel ?? ""}
+      >
+        <slot></slot>
+      </a>`;
+    }
+
     return html`
       <button
-        class=${cvaIconButton({
-          variant: this.variant,
-          color: this.color,
-        })}
+        class=${IconButtonCN}
         type=${this.type}
         aria-label=${this.buttonAriaLabel ?? ""}
         ?disabled=${this.disabled}
