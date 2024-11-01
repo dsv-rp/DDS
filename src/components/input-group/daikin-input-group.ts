@@ -69,7 +69,7 @@ const cvaCounterValueLength = cva([], {
  * - `daikin-input-group` > `daikin-text-field`
  * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  *
- * @slot - A slot for a input component. Place a `daikin-text-area` or `daikin-text-field` element here.
+ * @slot - A slot for an input component. See **Hierarchies** for supported components.
  *
  * @example
  *
