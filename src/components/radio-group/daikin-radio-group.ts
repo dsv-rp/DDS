@@ -86,7 +86,7 @@ export class DaikinRadioGroup extends LitElement {
   value = "";
 
   /**
-   * Label text displayed at the top of the field.
+   * This label text will be used as `aria-label` and invisible.
    */
   @property({ type: String, reflect: true })
   label: string | null = null;
