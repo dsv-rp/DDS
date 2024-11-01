@@ -23,6 +23,7 @@ export const Default: Story = {
   args: {
     value: "value",
     disabled: false,
+    selected: false,
     onSelect: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {

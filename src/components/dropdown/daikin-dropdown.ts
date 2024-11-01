@@ -28,8 +28,7 @@ const cvaButton = cva(
     "h-full",
     "min-h-12",
     "bg-white",
-    "pl-4",
-    "pr-3",
+    "p-3",
     "border",
     "border-[--color-base]",
     "rounded-md",
@@ -45,8 +44,8 @@ const cvaButton = cva(
     "focus-visible:outline-2",
     "focus-visible:outline-[--color-focus]",
 
-    "disabled:text-daikinNeutral-200",
-    "disabled:border-daikinNeutral-200",
+    "disabled:text-system-state-disabled",
+    "disabled:border-system-state-disabled",
 
     "after:i-daikin-dropdown-chevron-down",
     "after:w-6",
@@ -56,29 +55,32 @@ const cvaButton = cva(
     "after:top-0",
     "after:bottom-0",
     "after:right-3",
+
+    "enabled:after:text-system-element-text-primary",
+    "disabled:after:text-system-state-disabled",
   ],
   {
     variants: {
       open: {
         false: [
-          "enabled:hover:bg-[#f2f2f2]",
-          "enabled:active:bg-daikinNeutral-100",
+          "enabled:hover:bg-system-background-surface-hover",
+          "enabled:active:bg-system-background-surface-press",
         ],
-        true: ["enabled:bg-daikinNeutral-100"],
+        true: ["enabled:bg-system-background-surface-press"],
       },
       error: {
         false: [
-          "var-color-daikinNeutral-600/color-base",
-          "var-color-daikinBlue-700/color-focus",
+          "var-color-system-state-neutral-active/color-base",
+          "var-color-system-state-focus/color-focus",
         ],
         true: [
-          "var-color-daikinRed-500/color-base",
-          "var-color-daikinRed-500/color-focus",
+          "var-color-system-state-error-active/color-base",
+          "var-color-system-state-error-active/color-focus",
         ],
       },
       placeholder: {
-        false: ["text-daikinNeutral-900"],
-        true: ["text-daikinNeutral-700"],
+        false: ["text-system-element-text-primary"],
+        true: ["text-system-element-text-secondary"],
       },
     },
   }
