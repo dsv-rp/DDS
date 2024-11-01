@@ -5,8 +5,10 @@ import {
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
 const radioGroupCN = cva(["flex", "gap-2", "py-2", "pr-2"], {
@@ -82,6 +84,12 @@ export class DaikinRadioGroup extends LitElement {
    */
   @property({ type: String, reflect: true })
   value = "";
+
+  /**
+   * Label text displayed at the top of the field.
+   */
+  @property({ type: String, reflect: true })
+  label: string | null = null;
 
   private _updateRadios() {
     const radios = this._radios;
@@ -165,7 +173,14 @@ export class DaikinRadioGroup extends LitElement {
   override render() {
     const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
 
-    return html`<fieldset role="radiogroup" @keydown=${this._handleKeyDown}>
+    return html`<fieldset
+      role="radiogroup"
+      aria-label=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.label as any)
+      }
+      @keydown=${this._handleKeyDown}
+    >
       <slot
         class=${radioGroupClassName}
         @slotchange=${this._handleSlotChange}
@@ -179,6 +194,10 @@ export class DaikinRadioGroup extends LitElement {
     if (changedProperties.has("value") || changedProperties.has("name")) {
       this._updateRadios();
     }
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    this.label = inputGroup.label;
   }
 }
 

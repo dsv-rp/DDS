@@ -8,10 +8,11 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { DaikinRadioGroup } from "../radio-group";
 import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
 
-type ControlElement = DaikinTextField | DaikinTextArea;
+type ControlElement = DaikinTextField | DaikinTextArea | DaikinRadioGroup;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -156,7 +157,9 @@ export class DaikinInputGroup extends LitElement {
   @queryAssignedElements({ selector: "daikin-text-area" })
   private readonly _textareas!: readonly DaikinTextArea[];
 
-  @queryAssignedElements({ selector: "daikin-text-field,daikin-text-area" })
+  @queryAssignedElements({
+    selector: "daikin-text-field,daikin-text-area,daikin-radio-group",
+  })
   private readonly _controls!: readonly ControlElement[];
 
   @state()
@@ -179,6 +182,10 @@ export class DaikinInputGroup extends LitElement {
   private _reflectSlotProperties(): void {
     const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
+      if (control instanceof DaikinRadioGroup) {
+        control.reflectInputGroup(this);
+        continue;
+      }
       control.disabled = !!this.disabled;
       control.required = !!this.required;
       control.error = isError;
