@@ -1,9 +1,3 @@
-import {
-  space12,
-  space16,
-  space20,
-  space24,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
@@ -23,10 +17,11 @@ const cvaIcon = cva(["block"], {
   variants: {
     icon: iconClassMap,
     size: {
-      s: [`w-[--size-s]`, `h-[--size-s]`],
-      m: [`w-[--size-m]`, `h-[--size-m]`],
-      l: [`w-[--size-l]`, `h-[--size-l]`],
-      xl: [`w-[--size-xl]`, `h-[--size-xl]`],
+      s: ["size-3"],
+      m: ["size-4"],
+      l: ["size-5"],
+      xl: ["size-6"],
+      full: ["size-full"],
     },
     color: {
       black: ["text-black"],
@@ -64,13 +59,9 @@ export class DaikinIcon extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --size-s: ${unsafeCSS(space12)};
-      --size-m: ${unsafeCSS(space16)};
-      --size-l: ${unsafeCSS(space20)};
-      --size-xl: ${unsafeCSS(space24)};
-
       display: block;
-      width: max-content;
+      width: 100%;
+      height: 100%;
     }
   `;
 

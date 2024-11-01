@@ -23,7 +23,7 @@ export const DAIKIN_ICON_ARG_TYPES = {
     description: "Specify the height and width of the icon",
     defaultValue: "m",
     control: "radio",
-    options: ["s", "m", "l", "xl"],
+    options: ["s", "m", "l", "xl", "full"],
   },
 } satisfies Meta<DaikinIconStoryArgs>["argTypes"];
 

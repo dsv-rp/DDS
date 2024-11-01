@@ -28,6 +28,10 @@
       "class": "i-daikin-status-error",
       "color": "#ff4949"
     },
+    "cross": {
+      "class": "i-daikin-cross",
+      "color": null
+    },
     "chevron-up": {
       "class": "i-daikin-chevron-up",
       "color": null

@@ -18,7 +18,8 @@ export const Fill: Story = {
     color: "default",
     disabled: false,
     type: "button",
-    icon: "close",
+    icon: "cross",
+    buttonAriaLabel: "Icon button label",
     onClick: fn((event: Event) => {
       event.preventDefault();
     }),
