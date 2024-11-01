@@ -1,6 +1,8 @@
 // This will import either "./framework-wc" or "./framework-react". See `build/vite/storybook-framework-loader.ts`.
+import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { fn } from "@storybook/test";
+import { expect, fn, userEvent } from "@storybook/test";
+import { getByShadowRole } from "shadow-dom-testing-library";
 import { DAIKIN_ICON_BUTTON_ARG_TYPES, type Story } from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
@@ -24,6 +26,21 @@ export const Fill: Story = {
       event.preventDefault();
     }),
   },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-icon-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    const button = getByShadowRole(root, "button", {
+      name: "Icon button label",
+    });
+    await expect(button).toBeInTheDocument();
+
+    // should react if inner button clicked
+    await step("Try to click inner button", async () => {
+      await userEvent.click(button);
+      await expect(args.onClick).toHaveBeenCalledOnce();
+    });
+  }),
 };
 
 export const Outline: Story = {
@@ -74,4 +91,19 @@ export const Disabled: Story = {
       event.preventDefault();
     }),
   },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-icon-button")[0];
+    await expect(root).toBeInTheDocument();
+
+    const button = getByShadowRole(root, "button", {
+      name: "Icon button label",
+    });
+    await expect(button).toBeInTheDocument();
+
+    // should not react if inner button clicked
+    await step("Try to click inner button", async () => {
+      await userEvent.click(button);
+      await expect(args.onClick).not.toHaveBeenCalledOnce();
+    });
+  }),
 };
