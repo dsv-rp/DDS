@@ -3,6 +3,7 @@ import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaInput = cva(
   [
@@ -180,6 +181,12 @@ export class DaikinTextField extends LitElement {
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
 
+  /**
+   * This label text will be used as `aria-label` and invisible.
+   */
+  @property({ type: String, reflect: true })
+  label: string | null = null;
+
   @state()
   private _hasLeftIcon = false;
 
@@ -225,6 +232,10 @@ export class DaikinTextField extends LitElement {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this.autocomplete as any)
         }
+        aria-label=${
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+          ifDefined(this.label as any)
+        }
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
@@ -245,6 +256,10 @@ export class DaikinTextField extends LitElement {
     }
 
     this._internals.setFormValue(this.value);
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    this.label = inputGroup.label;
   }
 }
 

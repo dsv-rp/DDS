@@ -3,6 +3,7 @@ import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaTextArea = cva(
   [
@@ -146,6 +147,12 @@ export class DaikinTextArea extends LitElement {
   @property({ type: Boolean, reflect: true })
   resizable = false;
 
+  /**
+   * This label text will be used as `aria-label` and invisible.
+   */
+  @property({ type: String, reflect: true })
+  label: string | null = null;
+
   get count(): number {
     return this.value.length;
   }
@@ -172,6 +179,10 @@ export class DaikinTextArea extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.autocomplete as any)
       }
+      aria-label=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.label as any)
+      }
       ?disabled=${this.disabled}
       ?readonly=${this.readonly}
       ?required=${this.required}
@@ -187,6 +198,10 @@ export class DaikinTextArea extends LitElement {
     }
 
     this._updateValue(this.value);
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    this.label = inputGroup.label;
   }
 }
 

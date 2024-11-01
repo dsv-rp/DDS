@@ -189,6 +189,7 @@ export class DaikinInputGroup extends LitElement {
       control.disabled = !!this.disabled;
       control.required = !!this.required;
       control.error = isError;
+      control.reflectInputGroup(this);
     }
   }
 
