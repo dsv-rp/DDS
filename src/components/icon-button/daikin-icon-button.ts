@@ -100,12 +100,9 @@ export class DaikinIconButton extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
-    }
+      --dds-icon-size: 100%;
 
-    ::slotted {
-      width: 100%;
-      height: 100%;
+      display: inline-block;
     }
   `;
 

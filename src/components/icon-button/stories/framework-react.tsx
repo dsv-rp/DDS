@@ -17,7 +17,7 @@ export const ReactDaikinIconButton = createComponent({
 export const metadata: Meta<DaikinIconButtonStoryArgs> = {
   component: ({ icon, ...props }: DaikinIconButtonStoryArgs) => (
     <ReactDaikinIconButton {...props}>
-      <ReactDaikinIcon icon={icon} size="full" color="current" />
+      <ReactDaikinIcon icon={icon} color="current" />
     </ReactDaikinIconButton>
   ),
 };

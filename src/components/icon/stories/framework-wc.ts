@@ -6,7 +6,7 @@ import type { DaikinIconStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinIconStoryArgs> = {
   render: ({ icon, color, size }) => html`
-    <div style="width:240px; height:240px; color:#0097e0;">
+    <div style="color:#0097e0;">
       <daikin-icon
         icon=${ifDefined(icon ?? undefined)}
         color=${color}

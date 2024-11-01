@@ -16,13 +16,6 @@ const iconClassMap = Object.fromEntries(
 const cvaIcon = cva(["block"], {
   variants: {
     icon: iconClassMap,
-    size: {
-      s: ["size-3"],
-      m: ["size-4"],
-      l: ["size-5"],
-      xl: ["size-6"],
-      full: ["size-full"],
-    },
     color: {
       black: ["text-black"],
       white: ["text-white"],
@@ -59,13 +52,25 @@ export class DaikinIcon extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: block;
-      width: max-content;
+      display: inline-block;
+      width: var(--dds-icon-size);
+      height: var(--dds-icon-size);
     }
 
-    :host([size="full"]) {
-      width: 100%;
-      height: 100%;
+    :host([size="s"]) {
+      --dds-icon-size: 12px;
+    }
+
+    :host([size="m"]) {
+      --dds-icon-size: 16px;
+    }
+
+    :host([size="l"]) {
+      --dds-icon-size: 20px;
+    }
+
+    :host([size="xl"]) {
+      --dds-icon-size: 24px;
     }
   `;
 
@@ -85,7 +90,7 @@ export class DaikinIcon extends LitElement {
    * Specify the height and width of the icon
    */
   @property({ type: String, reflect: true })
-  size: IconVariantProps["size"] = "m";
+  size: "s" | "m" | "l" | "xl" = "m";
 
   override render() {
     const defaultColor = (
@@ -106,7 +111,6 @@ export class DaikinIcon extends LitElement {
       class=${cvaIcon({
         icon: this.icon,
         color: this.color,
-        size: this.size,
       })}
       style=${`--default-color:${defaultColor ?? "#000000"}`}
       role="presentation"
