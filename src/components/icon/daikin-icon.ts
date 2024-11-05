@@ -90,7 +90,7 @@ export class DaikinIcon extends LitElement {
    * Specify the height and width of the icon
    */
   @property({ type: String, reflect: true })
-  size: "s" | "m" | "l" | "xl" = "m";
+  size: "s" | "m" | "l" | "xl" | "current" = "m";
 
   override render() {
     const defaultColor = (

@@ -27,7 +27,7 @@ export const metadata: Meta<DaikinIconButtonStoryArgs> = {
       ?disabled=${disabled}
       @click=${onClick}
     >
-      <daikin-icon icon=${icon} color="current"></daikin-icon>
+      <daikin-icon icon=${icon} size="current" color="current"></daikin-icon>
     </daikin-icon-button>
   `,
 };
