@@ -60,18 +60,21 @@ const cvaInput = cva(
   }
 );
 
-const cvaIcon = cva(["absolute", "pointer-events-none"], {
-  variants: {
-    icon: {
-      left: "left-3",
-      right: "right-3",
+const cvaIcon = cva(
+  ["flex", "items-center", "absolute", "pointer-events-none"],
+  {
+    variants: {
+      icon: {
+        left: "left-3",
+        right: "right-3",
+      },
+      disabled: {
+        false: ["text-[#414141]"],
+        true: ["text-[#BFBFBF]"],
+      },
     },
-    disabled: {
-      false: ["text-[#414141]"],
-      true: ["text-[#BFBFBF]"],
-    },
-  },
-});
+  }
+);
 
 /**
  * The text field component is a UI element that allows users to input single-line text data.
