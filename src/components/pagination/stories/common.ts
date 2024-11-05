@@ -9,9 +9,9 @@ export interface DaikinPaginationStoryArgs
 }
 
 export const DAIKIN_PAGINATION_ARG_TYPES = {
-  currentPage: { type: "number" },
-  lastPage: { type: "number" },
-  pageWindow: { type: "number" },
+  current: { type: "number" },
+  total: { type: "number" },
+  window: { type: "number" },
 } as const satisfies Meta<DaikinPaginationStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinPaginationStoryArgs>;

@@ -1,13 +1,12 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { css, html, LitElement, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 import { calculatePagination } from "./pagination-utils";
 
 const cvaPageButton = cva(
   [
-    "text-inherit",
     "border-0",
     "no-underline",
     "flex",
@@ -18,14 +17,8 @@ const cvaPageButton = cva(
     "min-h-12",
     "font-daikinSerif",
     "text-base",
-    "text-daikinNeutral-700",
     "not-italic",
-    "font-normal",
     "leading-6",
-    "active:bg-daikinNeutral-100",
-    "active:text-daikinNeutral-800",
-    "hover:bg-[#F2F2F2]",
-    "hover:text-[#515151]",
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:outline-offset-1",
@@ -35,10 +28,9 @@ const cvaPageButton = cva(
     variants: {
       active: {
         true: [
-          "!text-daikinBlue-500",
-          "focus-visible:text-daikinBlue-600",
-          "!font-bold",
           "text-daikinBlue-500",
+          "focus-visible:text-daikinBlue-500",
+          "font-bold",
           "hover:text-[#0081C0]",
           "hover:bg-[#DDF3FC]",
           "active:text-[#00689A]",
@@ -50,7 +42,15 @@ const cvaPageButton = cva(
           "after:inset-0",
           "after:top-auto",
         ],
-        false: [],
+        false: [
+          "text-inherit",
+          "font-normal",
+          "text-daikinNeutral-700",
+          "active:bg-daikinNeutral-100",
+          "active:text-daikinNeutral-800",
+          "hover:bg-[#F2F2F2]",
+          "hover:text-[#515151]",
+        ],
       },
     },
   }
@@ -98,6 +98,13 @@ const cvaChevronButton = cva([
   "focus-visible:outline-[#0081C0]",
 ]);
 
+/**
+ * leftMost: mean page 1
+ * leftEllipsis: mean the page which hidden in the left ellipsis button
+ * middle: mean the page be showed except first page and last page
+ * rightEllipsis: mean the page which hidden in the right ellipsis button
+ * rightMost: mean the last page
+ */
 export interface PaginationContent {
   leftMost: number;
   leftEllipsis: number[];
@@ -109,15 +116,15 @@ export interface PaginationContent {
 /**
  * The pagination component is used to navigate through a list of items that are divided into multiple pages.
  *
- * @fires page-change - Emitted when the pagination currentPage is changed.
+ * @fires change - Emitted when the pagination current is changed.
  *
- * @slot page-{currentPage} - A slot for the page content
+ * @slot page-{current} - A slot for the page content
  *
  * @example
  *
  * ```html
  * <!-- You can create a pagination just specify the max pages and how many pages should be show. -->
- * <daikin-pagination max="15" show-pages="5">
+ * <daikin-pagination total="5" window="5">
  * </daikin-pagination>
  * ```
  */
@@ -132,75 +139,55 @@ export class DaikinPagination extends LitElement {
   `;
 
   /**
-   * The current page number.
+   * The current page number, starting at 1.
+   * Must be greater than 0 and less than or equal to `this.total`.
    */
-  @property({ type: Number, reflect: true, attribute: "current-page" })
-  currentPage = 1;
+  @property({ type: Number, reflect: true })
+  current = 1;
 
   /**
-   * The last or total number of pages.
+   * The number of pages.
+   * Must be greater than 0.
    */
-  @property({ type: Number, reflect: true, attribute: "last-page" })
-  lastPage = 5;
+  @property({ type: Number, reflect: true })
+  total = 5;
 
   /**
-   * How many items to show at a time.
+   * Number of elements to display in pagination, including chevrons and ellipses.
    */
-  @property({ type: Number, reflect: true, attribute: "page-window" })
-  pageWindow = 5;
+  @property({ type: Number, reflect: true })
+  window = 5;
 
-  /**
-   * @readonly
-   * leftMost: mean page 1
-   * leftEllipsis: mean the page which hidden in the left ellipsis button
-   * middle: mean the page be showed except first page and last page
-   * rightEllipsis: mean the page which hidden in the right ellipsis button
-   * rightMost: mean the last page
-   */
-  @state()
-  private _pageArray: PaginationContent = {
-    leftMost: 1,
-    leftEllipsis: [],
-    middle: [],
-    rightEllipsis: [],
-    rightMost: this.lastPage,
-  };
-
-  private _initPaginationCalculator() {
-    this._pageArray = calculatePagination(
-      this.lastPage,
-      this.currentPage,
-      this.pageWindow
+  private _goto(page: number): void {
+    this.current = Math.max(page, 1);
+    this.dispatchEvent(
+      new CustomEvent("change", {
+        detail: { page: this.current },
+        bubbles: true,
+        composed: true,
+        cancelable: true,
+      })
     );
   }
-
-  private _handleClickNumber(page: number) {
-    this.currentPage = page;
-  }
-
-  private _handleClickChevron(type: "left" | "right") {
-    if (type === "left") {
-      if (this.currentPage === 1) {
-        return;
-      }
-      this.currentPage -= 1;
-    } else {
-      if (this.currentPage === this.lastPage) {
-        return;
-      }
-      this.currentPage += 1;
-    }
+  private _gotoOffset(offset: number): void {
+    this._goto(this.current + offset);
   }
 
   override render() {
     const cvaChevron = cvaChevronButton();
+
+    const pageArray = calculatePagination(
+      this.total,
+      this.current,
+      this.window
+    );
     return html`
       <div class="inline-flex gap-1">
         <button
           class=${cvaChevron}
           aria-label="leftChevron"
-          .disabled=${this.currentPage === 1}
-          @click=${() => this._handleClickChevron("left")}
+          .disabled=${this.current === 1}
+          @click=${() => this._gotoOffset(-1)}
         >
           <div class="flex items-center justify-center">
             <daikin-icon
@@ -210,21 +197,21 @@ export class DaikinPagination extends LitElement {
           </div>
         </button>
 
-        ${Object.entries(this._pageArray).map(([key, i]) => {
+        ${Object.entries(pageArray).map(([key, i]) => {
           const button1ClassName = cvaPageButton({
-            active: this.currentPage === 1,
+            active: this.current === 1,
           });
           const buttonLastClassName = cvaPageButton({
-            active: this.currentPage === this.lastPage,
+            active: this.current === this.total,
           });
           const ellipsisClassName = cvaEllipsis();
           if (key === "leftMost") {
             return html`
               <button
-                name="page-1"
+                type="button"
                 class=${button1ClassName}
-                @click=${() => this._handleClickNumber(1)}
-                aria-label="page1"
+                @click=${() => this._goto(1)}
+                aria-label="Page 1"
               >
                 1
               </button>
@@ -235,12 +222,12 @@ export class DaikinPagination extends LitElement {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
                   <button
-                    .disabled=${true}
-                    aria-disabled=${true}
-                    aria-label="pageDetailLeft"
-                  >
-                    ${". . ."}
-                  </button>
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    aria-label="Expand the omitted earlier pages."
+                    class="after:content-['._._.']"
+                  ></button>
                 </div>
               </div>`;
             }
@@ -248,14 +235,14 @@ export class DaikinPagination extends LitElement {
             const showPages = i as Array<number>;
             return html`${showPages.map((page) => {
               const buttonClassName = cvaPageButton({
-                active: this.currentPage === page,
+                active: this.current === page,
               });
               return html`
                 <button
                   name="page-${page}"
                   class=${buttonClassName}
-                  @click=${() => this._handleClickNumber(page)}
-                  aria-label="page${page}"
+                  @click=${() => this._goto(page)}
+                  aria-label="Page ${page}"
                 >
                   ${page}
                 </button>
@@ -270,21 +257,20 @@ export class DaikinPagination extends LitElement {
                     .disabled=${true}
                     aria-disabled=${true}
                     aria-label="pageDetailRight"
-                  >
-                    ${". . ."}
-                  </button>
+                    class="after:content-['._._.']"
+                  ></button>
                 </div>
               </div>`;
             }
           } else {
             return html`
               <button
-                name="page-${this.lastPage}"
+                name="page-${this.total}"
                 class=${buttonLastClassName}
-                @click=${() => this._handleClickNumber(this.lastPage)}
-                aria-label="page${this.lastPage}"
+                @click=${() => this._goto(this.total)}
+                aria-label="Page ${this.total}"
               >
-                ${this.lastPage}
+                ${this.total}
               </button>
             `;
           }
@@ -292,8 +278,8 @@ export class DaikinPagination extends LitElement {
         <button
           class=${cvaChevron}
           aria-label="rightChevron"
-          .disabled=${this.currentPage === this.lastPage}
-          @click=${() => this._handleClickChevron("right")}
+          .disabled=${this.current === this.total}
+          @click=${() => this._gotoOffset(1)}
         >
           <div class="flex items-center justify-center">
             <daikin-icon
@@ -304,31 +290,6 @@ export class DaikinPagination extends LitElement {
         </button>
       </div>
     `;
-  }
-
-  protected override updated(changedProperties: PropertyValues<this>): void {
-    if (
-      changedProperties.has("lastPage") ||
-      changedProperties.has("pageWindow")
-    ) {
-      this._initPaginationCalculator();
-    }
-    if (changedProperties.has("currentPage")) {
-      this._pageArray = calculatePagination(
-        this.lastPage,
-        this.currentPage,
-        this.pageWindow
-      );
-      this.requestUpdate();
-      this.dispatchEvent(
-        new CustomEvent("page-change", {
-          detail: { page: this.currentPage },
-          bubbles: true,
-          composed: true,
-          cancelable: false,
-        })
-      );
-    }
   }
 }
 

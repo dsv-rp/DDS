@@ -14,15 +14,15 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["default", "ellipsis"], (variant) => {
   const baseURL = getPageURL({
-    lastPage: variant === "default" ? 7 : 15,
-    pageWindow: 7,
-    currentPage: 1,
+    total: variant === "default" ? 7 : 15,
+    window: 7,
+    current: 1,
   });
 
   const activePage2Url = getPageURL({
-    lastPage: variant === "default" ? 7 : 15,
-    pageWindow: 7,
-    currentPage: 2,
+    total: variant === "default" ? 7 : 15,
+    window: 7,
+    current: 2,
   });
 
   test("base", async ({ page }) => {
