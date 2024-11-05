@@ -86,11 +86,13 @@ type IconButtonVariantProps = MergeVariantProps<typeof cvaIconButton>;
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/icon-button/index.js";
+ * // The following import is not necessary if you are not using `daikin-icon`.
+ * import "@daikin-oss/design-system-web-components/components/icon/index.js";
  * ```
  *
  * ```html
  * <daikin-icon-button>
- *   <!-- Any icon, including `daikin-icon` -->
+ *   <daikin-icon icon="chevron-right"></daikin-icon>
  * </daikin-icon-button>
  * ```
  */
