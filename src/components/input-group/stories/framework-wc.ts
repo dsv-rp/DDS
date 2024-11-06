@@ -1,6 +1,7 @@
 import "#package/components/dropdown-item/daikin-dropdown-item";
 import "#package/components/dropdown/daikin-dropdown";
 import "#package/components/input-group/daikin-input-group";
+import "#package/components/select/daikin-select";
 import "#package/components/text-area/daikin-text-area";
 import "#package/components/text-field/daikin-text-field";
 import type { Meta } from "@storybook/web-components";
@@ -39,6 +40,15 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
                 Dropdown item 3
               </daikin-dropdown-item>
             </daikin-dropdown>`
+          : nothing}
+        ${content === "Select"
+          ? html`<daikin-select>
+              <select name="select">
+                <option value="value1">Option 1</option>
+                <option value="value2">Option 2</option>
+                <option value="value3">Option 3</option>
+              </select>
+            </daikin-select>`
           : nothing}
         ${content === "TextArea"
           ? html`<daikin-text-area

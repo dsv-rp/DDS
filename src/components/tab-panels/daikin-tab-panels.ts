@@ -5,8 +5,8 @@ import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
- * The panel switcher component is a child element within the `daikin-tabs` that controls the display of the content panels associated with each tab.
- * When a user selects a tab, the panel switcher component ensures the corresponding content panel is shown while hiding the others.
+ * The tab panels component is a child element within the `daikin-tabs` that controls the display of the content panels associated with each tab.
+ * When a user selects a tab, the tab panels component ensures the corresponding content panel is shown while hiding the others.
  *
  * Hierarchy:
  * - `daikin-tabs` > `daikin-tab-panels` ("panels" slot)
@@ -16,7 +16,7 @@ import tailwindStyles from "../../tailwind.css?inline";
  * @example
  *
  * ```js
- * import "@daikin-oss/design-system-web-components/components/panel-switcher/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tab-panels/index.js";
  * ```
  *
  * ```html

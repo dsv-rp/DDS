@@ -13,6 +13,7 @@ export * from "./list-item";
 export * from "./notification";
 export * from "./progress-bar";
 export * from "./radio";
+export * from "./select";
 export * from "./tab";
 export * from "./tab-panels";
 export * from "./tabs";

@@ -113,8 +113,6 @@ module.exports = defineConfig({
         (value) => [
           // `::slotted` is equivalent to `::slotted(*)`
           `&::slotted(${value})`,
-          // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
-          `& > ${value}`,
         ],
         {
           values: {

@@ -115,3 +115,10 @@ export const Dropdown: Story = {
     content: "Dropdown",
   },
 };
+
+export const Select: Story = {
+  args: {
+    ...Default.args,
+    content: "Select",
+  },
+};
