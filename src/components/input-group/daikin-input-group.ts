@@ -18,7 +18,7 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
     disabled: {
       false: [],
-      true: ["text-[#BFBFBF]"],
+      true: ["text-system-state-disabled"],
     },
   },
 });
@@ -29,9 +29,9 @@ const cvaHelper = cva(
     variants: {
       type: {
         helper: [],
-        helperDisabled: ["text-[#BFBFBF]"],
+        helperDisabled: ["text-system-state-disabled"],
         error: [
-          "text-[#D80C18]",
+          "text-system-state-error-active",
           "font-bold",
           "before:size-4",
           "before:i-daikin-status-error",
@@ -45,8 +45,8 @@ const cvaHelper = cva(
 const cvaCounter = cva(["text-sm", "font-bold"], {
   variants: {
     disabled: {
-      false: ["text-[#616161]"],
-      true: ["text-[#BFBFBF]"],
+      false: ["text-system-element-text-secondary"],
+      true: ["text-system-state-disabled"],
     },
   },
 });
@@ -55,7 +55,7 @@ const cvaCounterValueLength = cva([], {
   variants: {
     error: {
       false: [],
-      true: ["text-[#D80C18]"],
+      true: ["text-system-state-error-active"],
     },
   },
 });
@@ -224,7 +224,7 @@ export class DaikinInputGroup extends LitElement {
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label
-        class="flex flex-col justify-center gap-2 w-full text-[#414141] font-daikinSerif"
+        class="flex flex-col justify-center gap-2 w-full text-system-element-text-primary font-daikinSerif"
       >
         <div class="flex justify-between items-center gap-2">
           <div class="flex items-center gap-1 font-bold">
@@ -232,7 +232,7 @@ export class DaikinInputGroup extends LitElement {
               ${this.label}
             </span>
             ${this.required && !this.disabled
-              ? html`<span class="text-[#D80C18] text-xs">
+              ? html`<span class="text-system-state-error-active text-xs">
                   ${this.required}
                 </span>`
               : nothing}

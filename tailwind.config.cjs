@@ -3,6 +3,7 @@ const plugin = require("tailwindcss/plugin");
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
 const { loadIcons } = require("./build/tailwindcss/icons.cjs");
+const { colorTokens } = require("./color-tokens.json");
 
 /**
  * @param {import("tailwindcss").Config} config
@@ -61,6 +62,9 @@ module.exports = defineConfig({
   ],
   theme: {
     extend: {
+      colors: {
+        system: colorTokens,
+      },
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
       },

@@ -10,6 +10,7 @@ runem
 tailwindcss
 taze
 tseslint
+rgba
 
 # Colors
 Coolgrey
