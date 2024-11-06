@@ -108,3 +108,10 @@ export const TextArea: Story = {
     innerInput.blur();
   }),
 };
+
+export const Select: Story = {
+  args: {
+    ...Default.args,
+    content: "Select",
+  },
+};
