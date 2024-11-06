@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import "../icon/daikin-icon";
@@ -86,12 +87,16 @@ export class DaikinProgressIndicatorItem extends LitElement {
   @property({ type: String, reflect: true })
   status: ProgressIndicatorItemVariantProps["status"] = "unfinished";
 
+  @property({ type: Boolean, reflect: true })
+  current: boolean = false;
+
   override render() {
     return html`<div
       class=${cvaContainer({
         status: this.status,
       })}
       role="listitem"
+      aria-current=${ifDefined(this.current ? "step" : undefined)}
     >
       <slot class=${cvaLabel({ status: this.status })}></slot>
       <slot name="description" class="text-sm leading-[18px]"></slot>

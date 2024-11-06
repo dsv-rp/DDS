@@ -9,5 +9,7 @@ export default {
 };
 
 export const Default: Story = {
-  args: {},
+  args: {
+    currentItem: 1,
+  },
 };
