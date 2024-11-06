@@ -36,6 +36,8 @@ export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
  * If you try to use an icon that does not exist, a blank space will be displayed.
  * In the development build, warnings will be displayed in the console, so please check there if you encounter any unexpected behavior.
  *
+ * @cssprop [--dds-icon-size] - Icon size. If a value other than "current" is set for the `size` property, it will be overwritten automatically. This may be set by the parent component such as `daikin-icon-button`.
+ *
  * @example
  *
  * ```js
@@ -53,8 +55,8 @@ export class DaikinIcon extends LitElement {
 
     :host {
       display: inline-block;
-      width: var(--dds-icon-size);
-      height: var(--dds-icon-size);
+      width: var(--dds-icon-size, 100%);
+      height: var(--dds-icon-size, 100%);
     }
 
     :host([size="s"]) {
@@ -87,10 +89,11 @@ export class DaikinIcon extends LitElement {
   color: IconVariantProps["color"] = "default";
 
   /**
-   * Specify the height and width of the icon
+   * Specify the size of the icon.
+   * If "current" is set, `--dds-icon-size` CSS variable will be used. `--dds-icon-size` may be set by the parent component such as `daikin-icon-button`.
    */
   @property({ type: String, reflect: true })
-  size: "s" | "m" | "l" | "xl" | "current" = "m";
+  size: "s" | "m" | "l" | "xl" | "current" = "current";
 
   override render() {
     const defaultColor = (
