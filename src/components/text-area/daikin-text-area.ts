@@ -16,7 +16,7 @@ const cvaTextArea = cva(
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
-    "placeholder:text-[#616161]",
+    "placeholder:text-system-element-text-secondary",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
@@ -26,24 +26,24 @@ const cvaTextArea = cva(
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:text-[#414141]",
-    "enabled:hover:bg-[#f2f2f2]",
-    "enabled:active:bg-[#EBEBEB]",
+    "enabled:text-system-element-text-primary",
+    "enabled:hover:bg-system-background-surface-hover",
+    "enabled:active:bg-system-background-surface-press",
     "focus-visible:outline-2",
 
-    "disabled:var-color-[#BFBFBF]/color-base",
-    "disabled:text-[#BFBFBF]",
+    "disabled:var-color-system-state-disabled/color-base",
+    "disabled:text-system-state-disabled",
     "disabled:bg-white",
-    "disabled:placeholder:text-[#BFBFBF]",
+    "disabled:placeholder:text-system-state-disabled",
   ],
   {
     variants: {
       error: {
         false: [
-          "enabled:var-color-[#515151]/color-base",
-          "focus-visible:var-color-[#0081C0]/color-state-focus",
+          "enabled:var-color-system-state-neutral-hover/color-base",
+          "focus-visible:var-color-system-state-focus/color-state-focus",
         ],
-        true: ["enabled:var-color-[#D80C18]/color-base"],
+        true: ["enabled:var-color-system-state-error-active/color-base"],
       },
       resize: {
         false: ["resize-none"],

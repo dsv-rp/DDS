@@ -15,17 +15,26 @@ const INNER_CN = cva([
 
   "focus-visible:outline-none",
   "focus-visible:before:outline",
-  "focus-visible:before:outline-1",
-  "focus-visible:before:-outline-offset-1",
-  "focus-visible:before:outline-daikinBlue-700",
+  "focus-visible:before:outline-2",
+  "focus-visible:before:-outline-offset-2",
+  "focus-visible:before:outline-system-state-focus",
 
   // For buttons and links
-  "link-enabled:before:group-hover:[&:not(:active)]:bg-[#f2f2f2]",
-  "link-enabled:before:active:bg-daikinNeutral-100",
+  "link-enabled:before:group-hover:[&:not(:active)]:bg-system-background-surface-hover",
+  "link-enabled:before:active:bg-system-background-surface-press",
 
   // For text
-  "[&:not(a,button)]:before:group-hover:bg-[#f2f2f2]",
+  "[&:not(a,button)]:before:group-hover:bg-system-background-surface-hover",
 ])();
+
+const cvaContent = cva(["block", "pl-2", "pr-3", "text-left"], {
+  variants: {
+    disabled: {
+      false: ["text-system-element-text-primary"],
+      true: ["text-system-state-disabled"],
+    },
+  },
+});
 
 /**
  * The list item component is used to represent a single item in a list. Please use it within the `daikin-list` component.
@@ -117,7 +126,7 @@ export class DaikinListItem extends LitElement {
       <slot name="left-icon">
         <span class="block -ml-1"></span>
       </slot>
-      <slot class="block pl-2 pr-3 text-left"></slot>
+      <slot class=${cvaContent({ disabled: this.disabled })}></slot>
     </span>`;
 
     const list = {
@@ -139,11 +148,7 @@ export class DaikinListItem extends LitElement {
 
     /* eslint-disable lit-a11y/click-events-have-key-events -- Since it's only used to suppress `click` events, listening for keyboard events is not necessary. */
     return html`<div
-      class=${
-        // We cannot directly write classes like `class="..."` as they include '&', which must be escaped. It can't be escaped either because TailwindCSS can't process it.
-        // Set the text color here to apply to the icons on both sides along with text.
-        "group flex justify-between items-center w-full min-h-12 p-3 text-left relative text-daikinNeutral-800 [&:has(a:not(:any-link),:disabled)]:text-daikinNeutral-200"
-      }
+      class="group flex justify-between items-center w-full min-h-12 p-3 text-left relative"
       role="listitem"
     >
       ${list}

@@ -15,22 +15,16 @@ const ReactDaikinList = createComponent({
 
 export const metadata: Meta<DaikinListStoryArgs> = {
   component: ({ ...props }: DaikinListStoryArgs) => (
-    <div style={{ width: "256px" }}>
+    <div style={{ width: "360px" }}>
       <ReactDaikinList {...props}>
         <ReactDaikinListItem>
           List item label 1
-          <ReactDaikinIcon
-            slot="left-icon"
-            icon="positive"
-            size="xl"
-            color="current"
-          />
-          <ReactDaikinIcon
-            slot="right-icon"
-            icon="chevron-right"
-            size="xl"
-            color="current"
-          />
+          <span slot="left-icon" style={{ color: "#414141" }}>
+            <ReactDaikinIcon icon="positive" size="xl" color="current" />
+          </span>
+          <span slot="right-icon" style={{ color: "#414141" }}>
+            <ReactDaikinIcon icon="chevron-right" size="xl" color="current" />
+          </span>
         </ReactDaikinListItem>
         <ReactDaikinListItem type="link" href="#">
           List item label 2 (Link)
@@ -42,15 +36,6 @@ export const metadata: Meta<DaikinListStoryArgs> = {
             label="Label"
             labelPosition="hidden"
             slot="action"
-          />
-        </ReactDaikinListItem>
-        <ReactDaikinListItem>
-          Multiple lines of the list item label
-          <ReactDaikinIcon
-            slot="right-icon"
-            icon="chevron-right"
-            size="xl"
-            color="current"
           />
         </ReactDaikinListItem>
       </ReactDaikinList>
