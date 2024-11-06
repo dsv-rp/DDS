@@ -4,6 +4,7 @@ import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -86,10 +87,17 @@ export class DaikinRadioGroup extends LitElement {
   value = "";
 
   /**
+   * Whether the radio group is required.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  required = false;
+
+  /**
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
    */
-  @property({ type: String, attribute: false })
+  @state()
   private _label: string | null = null;
 
   private _updateRadios() {
@@ -180,6 +188,10 @@ export class DaikinRadioGroup extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this._label as any)
       }
+      aria-required=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.required as any)
+      }
       @keydown=${this._handleKeyDown}
     >
       <slot
@@ -199,6 +211,7 @@ export class DaikinRadioGroup extends LitElement {
 
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     this._label = inputGroup.label;
+    this.required = !!inputGroup.required;
   }
 }
 

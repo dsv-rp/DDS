@@ -185,7 +185,7 @@ export class DaikinTextField extends LitElement {
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
    */
-  @property({ type: String, attribute: false })
+  @state()
   private _label: string | null = null;
 
   @state()

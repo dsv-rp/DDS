@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
@@ -151,7 +151,7 @@ export class DaikinTextArea extends LitElement {
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
    */
-  @property({ type: String, attribute: false })
+  @state()
   private _label: string | null = null;
 
   get count(): number {
