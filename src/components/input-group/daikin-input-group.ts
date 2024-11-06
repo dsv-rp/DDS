@@ -8,10 +8,11 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinSelect } from "../select/daikin-select";
 import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
 
-type ControlElement = DaikinTextField | DaikinTextArea;
+type ControlElement = DaikinSelect | DaikinTextField | DaikinTextArea;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -60,22 +61,38 @@ const cvaCounterValueLength = cva([], {
 });
 
 /**
- * The input group component serves as a wrapper for a `daikin-text-area` or `daikin-text-field` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for an input control component (full list below), providing additional elements such as label text, helper text, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
+ * - `daikin-input-group` > `daikin-select`
  * - `daikin-input-group` > `daikin-text-area`
  * - `daikin-input-group` > `daikin-text-field`
  *
- * @slot - A slot for a input component. Place a `daikin-text-area` or `daikin-text-field` element here.
+ * @slot - A slot for a input component. Place a `daikin-select`, `daikin-text-area`, or `daikin-text-field` element here.
  *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
+ * import "@daikin-oss/design-system-web-components/components/select/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
+ * ```
+ *
+ * With Select:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-select>
+ *     <select name="select">
+ *       <option value="value1">Option 1</option>
+ *       <option value="value2">Option 2</option>
+ *       <option value="value3">Option 3</option>
+ *     </select>
+ *   </daikin-select>
+ * </daikin-input-group>
  * ```
  *
  * With Text Field:
@@ -155,7 +172,9 @@ export class DaikinInputGroup extends LitElement {
   @queryAssignedElements({ selector: "daikin-text-area" })
   private readonly _textareas!: readonly DaikinTextArea[];
 
-  @queryAssignedElements({ selector: "daikin-text-field,daikin-text-area" })
+  @queryAssignedElements({
+    selector: "daikin-select,daikin-text-field,daikin-text-area",
+  })
   private readonly _controls!: readonly ControlElement[];
 
   @state()
