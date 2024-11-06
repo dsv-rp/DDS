@@ -86,10 +86,11 @@ export class DaikinRadioGroup extends LitElement {
   value = "";
 
   /**
-   * This label text will be used as `aria-label` and invisible.
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
    */
-  @property({ type: String, reflect: true })
-  label: string | null = null;
+  @property({ type: String, attribute: false })
+  private _label: string | null = null;
 
   private _updateRadios() {
     const radios = this._radios;
@@ -177,7 +178,7 @@ export class DaikinRadioGroup extends LitElement {
       role="radiogroup"
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(this.label as any)
+        ifDefined(this._label as any)
       }
       @keydown=${this._handleKeyDown}
     >
@@ -197,7 +198,7 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
-    this.label = inputGroup.label;
+    this._label = inputGroup.label;
   }
 }
 

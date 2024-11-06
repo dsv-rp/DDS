@@ -148,10 +148,11 @@ export class DaikinTextArea extends LitElement {
   resizable = false;
 
   /**
-   * This label text will be used as `aria-label` and invisible.
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
    */
-  @property({ type: String, reflect: true })
-  label: string | null = null;
+  @property({ type: String, attribute: false })
+  private _label: string | null = null;
 
   get count(): number {
     return this.value.length;
@@ -181,7 +182,7 @@ export class DaikinTextArea extends LitElement {
       }
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(this.label as any)
+        ifDefined(this._label as any)
       }
       ?disabled=${this.disabled}
       ?readonly=${this.readonly}
@@ -201,7 +202,11 @@ export class DaikinTextArea extends LitElement {
   }
 
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
-    this.label = inputGroup.label;
+    const isError = !inputGroup.disabled && !!inputGroup.error;
+    this.disabled = !!inputGroup.disabled;
+    this.required = !!inputGroup.required;
+    this.error = isError;
+    this._label = inputGroup.label;
   }
 }
 

@@ -180,15 +180,7 @@ export class DaikinInputGroup extends LitElement {
   }
 
   private _reflectSlotProperties(): void {
-    const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
-      if (control instanceof DaikinRadioGroup) {
-        control.reflectInputGroup(this);
-        continue;
-      }
-      control.disabled = !!this.disabled;
-      control.required = !!this.required;
-      control.error = isError;
       control.reflectInputGroup(this);
     }
   }

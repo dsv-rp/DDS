@@ -147,7 +147,6 @@ export class DaikinRadio extends LitElement {
       new Event("change", {
         bubbles: true,
         composed: true,
-        cancelable: true,
       })
     );
   }
