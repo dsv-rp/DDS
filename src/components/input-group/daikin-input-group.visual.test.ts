@@ -12,7 +12,13 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_INPUT_GROUP_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
-describeEach(["TextField", "TextArea"] as const, (content) => {
+const innerContent = {
+  Select: "daikin-select",
+  TextField: "daikin-text-field",
+  TextArea: "daikin-text-area",
+};
+
+describeEach(["Select", "TextField", "TextArea"] as const, (content) => {
   describeEach(["enabled", "disabled"] as const, (state) => {
     describeEach(["optional", "required"] as const, (required) => {
       describeEach(["normal", "error"] as const, (error) => {
@@ -32,7 +38,7 @@ describeEach(["TextField", "TextArea"] as const, (content) => {
           });
 
           const snapshotName =
-            content === "TextField"
+            content !== "TextArea"
               ? `${content}-${state}-${required}-${error}.png`
               : null;
 
@@ -55,6 +61,9 @@ describeEach(["TextField", "TextArea"] as const, (content) => {
 
             // wait for element to be visible
             const element = await page.waitForSelector("daikin-input-group", {
+              state: "visible",
+            });
+            await page.waitForSelector(innerContent[content], {
               state: "visible",
             });
 
