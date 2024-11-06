@@ -3,7 +3,7 @@ const plugin = require("tailwindcss/plugin");
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
 const { loadIcons } = require("./build/tailwindcss/icons.cjs");
-const { colorToken } = require("./src/colorToken.json");
+const { colorTokens } = require("./color-tokens.json");
 
 /**
  * @param {import("tailwindcss").Config} config
@@ -63,7 +63,7 @@ module.exports = defineConfig({
   theme: {
     extend: {
       colors: {
-        system: colorToken,
+        system: colorTokens,
       },
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
@@ -110,8 +110,6 @@ module.exports = defineConfig({
         (value) => [
           // `::slotted` is equivalent to `::slotted(*)`
           `&::slotted(${value})`,
-          // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
-          `& > ${value}`,
         ],
         {
           values: {
@@ -121,6 +119,7 @@ module.exports = defineConfig({
         }
       );
 
+      // Sets a CSS variable (for color).
       matchUtilities(
         {
           "var-color": (value, { modifier }) => {
@@ -137,6 +136,40 @@ module.exports = defineConfig({
           modifiers: "any",
           values: flattenColorPalette(theme("colors")),
           type: ["color", "any"],
+        }
+      );
+
+      // Defines a CSS variable with priority control. Use this together with `var-color`.
+      // Usage: `define-[--color-error,--color-focus,--color-base]/color-border`
+      //        => `--color-border: var(--color-error, var(--color-focus, var(--color-base)));`
+      matchUtilities(
+        {
+          define: (value, { modifier }) => {
+            if (!modifier) {
+              return {};
+            }
+
+            return {
+              [`--${modifier}`]: value
+                // `[--color-error,--color-focus,--color-base]` will be passed as `var(--color-error,--color-focus,--color-base)`
+                .replace(/^var\((.+)\)$/, "$1")
+                .split(",")
+                .reduceRight(
+                  (acc, cur) =>
+                    acc
+                      ? `var(${cur}, ${acc})`
+                      : // rightmost
+                        cur.startsWith("--")
+                        ? `var(${cur})`
+                        : cur,
+                  ""
+                ),
+            };
+          },
+        },
+        {
+          modifiers: "any",
+          values: {},
         }
       );
     }),
