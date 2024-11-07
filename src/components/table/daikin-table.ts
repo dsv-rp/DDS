@@ -190,9 +190,10 @@ export class DaikinTable<
   @state()
   private _currentView: T[] = [];
 
-  private _updateSort() {
+  private _updateCurrentView() {
     const sort = this.sort;
     if (!sort) {
+      this._currentView = Array.from(this.rows);
       return;
     }
 
@@ -213,20 +214,14 @@ export class DaikinTable<
   }
 
   private _emitChangeCheckEvent() {
-    this.dispatchEvent(
-      new CustomEvent("change-check", {
-        detail: {
-          selection: this.selection,
-        },
-      })
-    );
+    this.dispatchEvent(new CustomEvent("change-check"));
   }
 
   private _updateTable() {
     // Reset rows
     this._currentView = this.rows;
 
-    this._updateSort();
+    this._updateCurrentView();
     this._updateCheck();
   }
 
@@ -267,12 +262,7 @@ export class DaikinTable<
       this.order = "asc";
     }
 
-    this._updateTable();
-    this.dispatchEvent(
-      new CustomEvent("change-sort", {
-        detail: { key: this.sort, order: this.order },
-      })
-    );
+    this.dispatchEvent(new Event("change-sort"));
   }
 
   private _checkHeaderFunction() {
@@ -388,6 +378,10 @@ export class DaikinTable<
       this.selection = [];
     }
 
+    this._updateTable();
+  }
+
+  protected override willUpdate(): void {
     this._updateTable();
   }
 

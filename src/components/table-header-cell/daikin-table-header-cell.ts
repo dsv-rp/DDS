@@ -45,17 +45,19 @@ const cvaHeaderCell = cva(
 type TableHeaderCellVariantProps = MergeVariantProps<typeof cvaHeaderCell>;
 
 /**
- * This is a component that functions as an element to be placed on the daikin-table. When you want to insert a subtitle into a cell, or when you want to use something other than plain text (e.g. a button), you need to use this component.
+ * `daikin-table-header-cell` is a component that functions as a cell in the header row of `daikin-table`.
+ * By assigning this component to a slot in `daikin-table`, you can display advanced content such as subtitles and icons.
  *
- * This is a component used as a slot in the daikin-table, but in order to do so, you need to specify the appropriate slot attribute. For more information, please check the daikin-table component.
+ * This component is created for `daikin-table` and requires the appropriate slot name to be specified to use it.
+ * For more information, please refer to the `daikin-table` component.
  *
  * Hierarchy:
  * - `daikin-table` > `daikin-table-header-cell`
  *
- * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
+ * @fires change-sort - Fires when the sort button is clicked. See `sortable` property for details.
  *
  * @slot - A slot for the table header cell.
- * @slot left-icon: Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
+ * @slot left-icon - A slot for an icon to be placed to the left of the text. Place `daikin-icon` or something similar.
  *
  * @example
  *
@@ -78,13 +80,15 @@ export class DaikinTableHeaderCell extends LitElement {
   `;
 
   /**
-   * Specify the direction of cell alignment.
+   * Alignment of cell contents.
    */
   @property({ type: String, reflect: true })
   alignment: TableHeaderCellVariantProps["alignment"] = "left";
 
   /**
-   * Whether sorting is possible in that column.
+   * Whether to display as a sortable column or not.
+   * When set to `true`, it becomes clickable and the sort icon is displayed on the right.
+   * It also makes the component emit the `change-sort` event when clicked.
    */
   @property({ type: Boolean, reflect: true })
   sortable = false;
@@ -105,9 +109,7 @@ export class DaikinTableHeaderCell extends LitElement {
           type="button"
           class=${headerCellCN}
           @click=${() =>
-            this.dispatchEvent(
-              new CustomEvent("change-sort", { bubbles: false })
-            )}
+            this.dispatchEvent(new Event("change-sort", { bubbles: false }))}
         >
           ${content}
         </button>`
