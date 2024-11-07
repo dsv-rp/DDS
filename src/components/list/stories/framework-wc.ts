@@ -1,4 +1,5 @@
 import "#package/components/checkbox/daikin-checkbox";
+import "#package/components/icon/daikin-icon";
 import "#package/components/list-item/daikin-list-item";
 import "#package/components/list/daikin-list";
 import type { Meta } from "@storybook/web-components";
