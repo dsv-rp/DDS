@@ -3,6 +3,7 @@ import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaInput = cva(
   [
@@ -180,6 +181,13 @@ export class DaikinTextField extends LitElement {
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
 
+  /**
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
+   */
+  @state()
+  private _label: string | null = null;
+
   @state()
   private _hasLeftIcon = false;
 
@@ -225,6 +233,10 @@ export class DaikinTextField extends LitElement {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this.autocomplete as any)
         }
+        aria-label=${
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+          ifDefined(this._label as any)
+        }
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
@@ -247,8 +259,12 @@ export class DaikinTextField extends LitElement {
     this._internals.setFormValue(this.value);
   }
 
-  reflectInputGroup(): void {
-    // Nothing to do.
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    const isError = !inputGroup.disabled && !!inputGroup.error;
+    this.disabled = !!inputGroup.disabled;
+    this.required = !!inputGroup.required;
+    this.error = isError;
+    this._label = inputGroup.label;
   }
 }
 
