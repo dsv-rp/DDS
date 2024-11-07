@@ -12,7 +12,7 @@ const cvaContainer = cva(
     "flex-col",
     "gap-1",
     "w-full",
-    "text-daikinNeutral-800",
+    "text-system-element-text-primary",
     "pt-1",
     "border-t-4",
     "font-daikinSerif",
@@ -20,9 +20,9 @@ const cvaContainer = cva(
   {
     variants: {
       status: {
-        unfinished: ["border-daikinNeutral-200"],
-        inprogress: ["border-daikinBlue-500"],
-        finished: ["border-daikinBlue-500"],
+        unfinished: ["border-system-state-disabled"],
+        inprogress: ["border-system-state-primary-active"],
+        finished: ["border-system-state-primary-active"],
       },
     },
   }
@@ -38,7 +38,7 @@ const cvaLabel = cva(
         finished: [
           "after:size-4",
           "after:i-daikin-status-success",
-          "after:text-daikinBlue-500",
+          "after:text-system-state-primary-active",
         ],
       },
     },

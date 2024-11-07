@@ -50,6 +50,9 @@ export class DaikinProgressIndicator extends LitElement {
     }
   `;
 
+  /**
+   * Specify the index number of the current location in the progress indicator.
+   */
   @property({ type: Number, attribute: "current-item", reflect: true })
   currentItem: number | null = null;
 
