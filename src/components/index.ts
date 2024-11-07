@@ -4,6 +4,8 @@ export * from "./breadcrumb";
 export * from "./breadcrumb-item";
 export * from "./button";
 export * from "./checkbox";
+export * from "./dropdown";
+export * from "./dropdown-item";
 export * from "./icon";
 export * from "./icon-button";
 export * from "./input-group";

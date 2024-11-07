@@ -8,11 +8,18 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
+import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
 import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
 
-type ControlElement = DaikinSelect | DaikinTextField | DaikinTextArea;
+type ControlElement =
+  | DaikinDropdown
+  | DaikinSelect
+  | DaikinTextField
+  | DaikinTextArea
+  | DaikinRadioGroup;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -67,10 +74,12 @@ const cvaCounterValueLength = cva([], {
  *
  * Hierarchies:
  * - `daikin-input-group` > `daikin-select`
+ * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
  * - `daikin-input-group` > `daikin-text-area`
  * - `daikin-input-group` > `daikin-text-field`
+ * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  *
- * @slot - A slot for a input component. Place a `daikin-select`, `daikin-text-area`, or `daikin-text-field` element here.
+ * @slot - A slot for an input component. See **Hierarchies** for supported components.
  *
  * @example
  *
@@ -79,6 +88,18 @@ const cvaCounterValueLength = cva([], {
  * import "@daikin-oss/design-system-web-components/components/select/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
+ * ```
+ *
+ * With Dropdown:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-dropdown value="Value of Dropdown">
+ *     <daikin-dropdown-item value="Value of Dropdown Item">
+ *       Dropdown item 1
+ *     </daikin-dropdown-item>
+ *   </daikin-dropdown>
+ * </daikin-input-group>
  * ```
  *
  * With Select:
@@ -109,6 +130,7 @@ const cvaCounterValueLength = cva([], {
  * <daikin-input-group>
  *   <daikin-text-area value="Content of TextArea"></daikin-text-area>
  * </daikin-input-group>
+ * ```
  * ```
  */
 @customElement("daikin-input-group")
@@ -173,7 +195,8 @@ export class DaikinInputGroup extends LitElement {
   private readonly _textareas!: readonly DaikinTextArea[];
 
   @queryAssignedElements({
-    selector: "daikin-select,daikin-text-field,daikin-text-area",
+    selector:
+      "daikin-dropdown,daikin-select,daikin-text-field,daikin-text-area,daikin-radio-group",
   })
   private readonly _controls!: readonly ControlElement[];
 
@@ -195,11 +218,8 @@ export class DaikinInputGroup extends LitElement {
   }
 
   private _reflectSlotProperties(): void {
-    const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
-      control.disabled = !!this.disabled;
-      control.required = !!this.required;
-      control.error = isError;
+      control.reflectInputGroup(this);
     }
   }
 
@@ -228,9 +248,11 @@ export class DaikinInputGroup extends LitElement {
       >
         <div class="flex justify-between items-center gap-2">
           <div class="flex items-center gap-1 font-bold">
-            <span class=${cvaLabel({ disabled: this.disabled })}>
-              ${this.label}
-            </span>
+            ${this.label
+              ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
+                  ${this.label}
+                </span>`
+              : nothing}
             ${this.required && !this.disabled
               ? html`<span class="text-system-state-error-active text-xs">
                   ${this.required}

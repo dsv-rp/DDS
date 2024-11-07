@@ -26,6 +26,8 @@ tablist
 tabpanel
 textbox
 progressbar
+radiogroup
+combobox
 listitem
 
 # Custom Events
@@ -35,6 +37,8 @@ beforetoggle
 # HTML
 maxlength
 slotchange
+haspopup
+listbox
 valuenow
 
 # SVG

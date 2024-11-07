@@ -6,6 +6,7 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaSelect = cva(
   [
@@ -172,6 +173,13 @@ export class DaikinSelect extends LitElement {
     if (changedProperties.has("disabled")) {
       this._updateSelect();
     }
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    const isError = !inputGroup.disabled && !!inputGroup.error;
+    this.disabled = !!inputGroup.disabled;
+    this.required = !!inputGroup.required;
+    this.error = isError;
   }
 
   /**

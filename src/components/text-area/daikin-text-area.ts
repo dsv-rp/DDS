@@ -1,8 +1,9 @@
 import { cva } from "class-variance-authority";
 import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaTextArea = cva(
   [
@@ -146,6 +147,13 @@ export class DaikinTextArea extends LitElement {
   @property({ type: Boolean, reflect: true })
   resizable = false;
 
+  /**
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
+   */
+  @state()
+  private _label: string | null = null;
+
   get count(): number {
     return this.value.length;
   }
@@ -172,6 +180,10 @@ export class DaikinTextArea extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.autocomplete as any)
       }
+      aria-label=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this._label as any)
+      }
       ?disabled=${this.disabled}
       ?readonly=${this.readonly}
       ?required=${this.required}
@@ -187,6 +199,14 @@ export class DaikinTextArea extends LitElement {
     }
 
     this._updateValue(this.value);
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    const isError = !inputGroup.disabled && !!inputGroup.error;
+    this.disabled = !!inputGroup.disabled;
+    this.required = !!inputGroup.required;
+    this.error = isError;
+    this._label = inputGroup.label;
   }
 }
 
