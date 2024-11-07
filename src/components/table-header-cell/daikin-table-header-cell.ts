@@ -13,7 +13,7 @@ const cvaHeaderCell = cva(
     "h-12",
     "px-4",
     "py-2",
-    "text-[#414141]",
+    "text-system-element-text-primary",
     "font-bold",
   ],
   {
@@ -26,15 +26,15 @@ const cvaHeaderCell = cva(
       sort: {
         false: [],
         true: [
-          "hover:bg-[#F2F2F2]",
-          "active:bg-[#EBEBEB]",
+          "hover:bg-system-background-surface-hover",
+          "active:bg-system-background-surface-press",
           "focus-visible:outline",
           "focus-visible:outline-2",
           "focus-visible:-outline-offset-2",
-          "focus-visible:outline-[#0081C0]",
+          "focus-visible:outline-system-state-focus",
 
           "after:size-6",
-          "after:text-[#414141]",
+          "after:text-system-element-text-primary",
           "after:i-daikin-sort",
         ],
       },

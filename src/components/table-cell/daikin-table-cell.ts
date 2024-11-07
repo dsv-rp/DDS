@@ -14,7 +14,7 @@ const cvaCell = cva(
     "min-h-12",
     "px-4",
     "py-2",
-    "text-[#414141]",
+    "text-system-element-text-primary",
   ],
   {
     variants: {
@@ -71,7 +71,10 @@ export class DaikinTableCell extends LitElement {
   override render() {
     return html`<span class=${cvaCell({ alignment: this.alignment })}>
       <slot></slot>
-      <slot name="subtitle" class="text-[#616161] text-xs"></slot>
+      <slot
+        name="subtitle"
+        class="text-system-element-text-secondary text-xs"
+      ></slot>
     </span>`;
   }
 }

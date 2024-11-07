@@ -30,17 +30,20 @@ const defaultSort = <T>(a: T, b: T, key: keyof T) =>
 const cvaRow = cva(
   [
     "border-b",
-    "border-b-daikinNeutral-300",
+    "border-b-system-element-divider-secondary",
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-[#0081C0]",
+    "focus-visible:outline-system-state-focus",
   ],
   {
     variants: {
       selected: {
-        false: ["hover:bg-[#F2F2F2]"],
-        true: ["bg-[#DDF3FC]", "hover:bg-[#DDF3FC]"],
+        false: ["hover:bg-system-background-surface-hover"],
+        true: [
+          "bg-system-background-surface-selected",
+          "hover:bg-system-background-surface-selectedHover",
+        ],
       },
     },
   }
@@ -327,7 +330,7 @@ export class DaikinTable<
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
       <table class="w-full table-fixed leading-[22px]">
         <thead>
-          <tr class="border-b border-b-[#828282]">
+          <tr class="border-b border-b-system-element-divider-primary">
             ${this.selectable
               ? html`<td class="w-12 p-0">
                   <span
