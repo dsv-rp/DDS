@@ -12,7 +12,6 @@ import { scrollIntoViewOnlyParent } from "./scroller";
 /**
  * The tab group component manages a group of tabs and switches the content displayed using the panel switcher component.
  * It allows users to navigate between different sections of content by clicking on individual tabs.
- * Tab groups do not provide styles; developers must apply styles to the wrapper of the tabs (`tablist` part) and to the panel switcher(s).
  *
  * > [!WARNING]
  * > At least one tab must be available (that means, the tab must be present and enabled).
@@ -28,18 +27,15 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * @slot - A slot for tab buttons. Place `daikin-tab` elements here.
  * @slot panels - A slot for tab panels component. Place a `daikin-tab-panels` element here.
  *
- * @csspart tablist - The container element for the default (tab list) slot. Has "tablist" role.
- *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/tab/index.js";
  * import "@daikin-oss/design-system-web-components/components/tab-group/index.js";
- * import "@daikin-oss/design-system-web-components/components/panel-switcher/index.js";
+ * import "@daikin-oss/design-system-web-components/components/tab-panels/index.js";
  * ```
  *
  * ```html
- * <!-- See storybook for styling tab group. You'll need `::part(tablist)` to style the tab container. -->
  * <daikin-tabs value="foo">
  *   <daikin-tab value="foo">Foo tab</daikin-tab>
  *   <daikin-tab value="bar">Bar tab</daikin-tab>
@@ -56,6 +52,11 @@ import { scrollIntoViewOnlyParent } from "./scroller";
 export class DaikinTabs extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
+
+    :host {
+      display: block;
+      width: 100%;
+    }
   `;
 
   /**
@@ -283,7 +284,7 @@ export class DaikinTabs extends LitElement {
   override render() {
     return html`
       <div
-        part="tablist"
+        class="flex flex-nowrap w-full p-[3px] overflow-auto relative before:absolute before:h-[1px] before:inset-[3px] before:top-auto before:bg-system-element-divider-secondary"
         role="tablist"
         @click=${this._handleTabClick}
         @keydown=${this._handleKeyDown}

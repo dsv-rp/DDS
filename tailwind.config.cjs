@@ -3,6 +3,7 @@ const plugin = require("tailwindcss/plugin");
 const daikinPlugin = require("@daikin-oss/tailwind");
 const { iconsPlugin } = require("@egoist/tailwindcss-icons");
 const { loadIcons } = require("./build/tailwindcss/icons.cjs");
+const { colorTokens } = require("./color-tokens.json");
 
 /**
  * @param {import("tailwindcss").Config} config
@@ -61,8 +62,12 @@ module.exports = defineConfig({
   ],
   theme: {
     extend: {
+      colors: {
+        system: colorTokens,
+      },
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
+        dropdown: "0px 0px 8px 0px #00000033",
       },
       keyframes: {
         "progress-bar-indeterminate": {
@@ -101,13 +106,13 @@ module.exports = defineConfig({
 
       matchVariant("part", (value) => `&::part(${value})`);
 
+      addVariant("floating-unready", ["&:not([data-floating-ready])"]);
+
       matchVariant(
         "slotted",
         (value) => [
           // `::slotted` is equivalent to `::slotted(*)`
           `&::slotted(${value})`,
-          // `& > *` is for fallback contents. See https://github.com/w3c/csswg-drafts/issues/5482.
-          `& > ${value}`,
         ],
         {
           values: {

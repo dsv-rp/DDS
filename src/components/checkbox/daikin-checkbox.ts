@@ -13,13 +13,13 @@ import tailwindStyles from "../../tailwind.css?inline";
 const CHECKBOX_CLASS_NAME = cva([
   "block",
   "size-4",
-  "relative",
-  "border-daikinNeutral-600",
+  "border-system-state-neutral-active",
   "border-2",
   "rounded-sm",
+  "relative",
   "appearance-none",
 
-  "before:text-white",
+  "before:text-system-element-text-inverse",
   "before:absolute",
   "before:m-auto",
   "before:inset-0",
@@ -28,41 +28,44 @@ const CHECKBOX_CLASS_NAME = cva([
   "indeterminate:before:size-2.5",
 
   "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
+  "focus-visible:outline-2",
+  "focus-visible:outline-offset-2",
+  "focus-visible:outline-system-state-focus",
 
-  "enabled:group-hover:border-daikinNeutral-400",
-  "enabled:group-active:border-daikinNeutral-700",
+  "enabled:group-hover:border-system-state-neutral-hover",
+  "enabled:group-hover:bg-system-background-surface-hover",
+  "enabled:group-active:border-system-state-neutral-press",
+  "enabled:group-active:bg-system-background-surface-press",
 
-  "enabled:checked:border-daikinBlue-500",
-  "enabled:checked:bg-daikinBlue-500",
-  "enabled:checked:group-hover:bg-daikinBlue-300",
-  "enabled:checked:group-hover:border-daikinBlue-300",
-  "enabled:checked:group-hover:before:text-white",
-  "enabled:checked:group-active:bg-daikinBlue-600",
-  "enabled:checked:group-active:border-daikinBlue-600",
-  "enabled:checked:group-active:before:text-white",
+  "enabled:checked:border-system-state-primary-active",
+  "enabled:checked:bg-system-state-primary-active",
+  "enabled:checked:group-hover:bg-system-state-primary-hover",
+  "enabled:checked:group-hover:border-system-state-primary-hover",
+  "enabled:checked:group-hover:before:text-system-element-text-inverse",
+  "enabled:checked:group-active:bg-system-state-primary-press",
+  "enabled:checked:group-active:border-system-state-primary-press",
+  "enabled:checked:group-active:before:text-system-element-text-inverse",
 
-  "enabled:indeterminate:bg-daikinBlue-500",
-  "enabled:indeterminate:border-daikinBlue-500",
-  "enabled:indeterminate:group-hover:bg-daikinBlue-300",
-  "enabled:indeterminate:group-hover:border-daikinBlue-300",
-  "enabled:indeterminate:group-hover:before:text-white",
-  "enabled:indeterminate:group-active:bg-daikinBlue-600",
-  "enabled:indeterminate:group-active:border-daikinBlue-600",
-  "enabled:indeterminate:group-active:before:text-white",
+  "enabled:indeterminate:bg-system-state-primary-active",
+  "enabled:indeterminate:border-system-state-primary-active",
+  "enabled:indeterminate:group-hover:bg-system-state-primary-hover",
+  "enabled:indeterminate:group-hover:border-system-state-primary-hover",
+  "enabled:indeterminate:group-hover:before:text-system-element-text-inverse",
+  "enabled:indeterminate:group-active:bg-system-state-primary-press",
+  "enabled:indeterminate:group-active:border-system-state-primary-press",
+  "enabled:indeterminate:group-active:before:text-system-element-text-inverse",
 
-  "disabled:border-daikinNeutral-200",
-  "disabled:checked:bg-daikinNeutral-200",
-  "disabled:indeterminate:bg-daikinNeutral-200",
+  "disabled:border-system-state-disabled",
+  "disabled:bg-system-element-text-inverse",
+  "disabled:checked:bg-system-state-disabled",
+  "disabled:indeterminate:bg-system-state-disabled",
 ])();
 
-const cvaLabel = cva([], {
+const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: [],
-      true: ["text-daikinNeutral-200"],
+      false: ["text-system-element-text-primary"],
+      true: ["text-system-state-disabled"],
     },
   },
 });
@@ -170,7 +173,7 @@ export class DaikinCheckbox extends LitElement {
 
   override render() {
     return html`<label class="group flex gap-2 items-center font-daikinSerif">
-      <div class="p-2">
+      <span class="p-2">
         <input
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
@@ -183,7 +186,7 @@ export class DaikinCheckbox extends LitElement {
           @change=${this._handleChange}
           @click=${this._handleClick}
         />
-      </div>
+      </span>
       <span
         class=${cvaLabel({
           disabled: this.disabled,
