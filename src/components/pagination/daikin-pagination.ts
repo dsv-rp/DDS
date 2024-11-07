@@ -167,7 +167,7 @@ export class DaikinPagination extends LitElement {
       this.window
     );
     return html`
-      <div class="inline-flex gap-1">
+      <div aria-label="pagination" class="inline-flex gap-1">
         <button
           class=${cvaChevron}
           aria-label="Left chevron"
