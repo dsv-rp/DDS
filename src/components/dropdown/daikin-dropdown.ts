@@ -467,6 +467,10 @@ export class DaikinDropdown extends LitElement {
   }
 
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    const isError = !inputGroup.disabled && !!inputGroup.error;
+    this.disabled = !!inputGroup.disabled;
+    this.required = !!inputGroup.required;
+    this.error = isError;
     this.label = inputGroup.label;
   }
 }

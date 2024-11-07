@@ -9,6 +9,7 @@ import {
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
+import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
 import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
@@ -17,7 +18,8 @@ type ControlElement =
   | DaikinDropdown
   | DaikinSelect
   | DaikinTextField
-  | DaikinTextArea;
+  | DaikinTextArea
+  | DaikinRadioGroup;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -75,8 +77,9 @@ const cvaCounterValueLength = cva([], {
  * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
  * - `daikin-input-group` > `daikin-text-area`
  * - `daikin-input-group` > `daikin-text-field`
+ * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  *
- * @slot - A slot for a input component. Place a `daikin-dropdown`, `daikin-select`, `daikin-text-area`, or `daikin-text-field` element here.
+ * @slot - A slot for an input component. See **Hierarchies** for supported components.
  *
  * @example
  *
@@ -193,7 +196,7 @@ export class DaikinInputGroup extends LitElement {
 
   @queryAssignedElements({
     selector:
-      "daikin-dropdown,daikin-select,daikin-text-field,daikin-text-area",
+      "daikin-dropdown,daikin-select,daikin-text-field,daikin-text-area,daikin-radio-group",
   })
   private readonly _controls!: readonly ControlElement[];
 
@@ -215,11 +218,7 @@ export class DaikinInputGroup extends LitElement {
   }
 
   private _reflectSlotProperties(): void {
-    const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
-      control.disabled = this.disabled;
-      control.required = !!this.required;
-      control.error = isError;
       control.reflectInputGroup(this);
     }
   }
