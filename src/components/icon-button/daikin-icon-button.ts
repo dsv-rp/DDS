@@ -165,7 +165,7 @@ export class DaikinIconButton extends LitElement {
   }
 
   override render() {
-    const IconButtonCN = cvaIconButton({
+    const iconButtonCN = cvaIconButton({
       variant: this.variant,
       color: this.color,
     });
