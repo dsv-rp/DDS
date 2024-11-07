@@ -218,10 +218,14 @@ export class DaikinTable<
   }
 
   private _updateTable() {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    if (!this.selection) {
+      this.selection = [];
+    }
+
     // Reset rows
     this._currentView = this.rows;
 
-    this._updateCurrentView();
     this._updateCheck();
   }
 
@@ -262,6 +266,7 @@ export class DaikinTable<
       this.order = "asc";
     }
 
+    this._updateCurrentView();
     this.dispatchEvent(new Event("change-sort"));
   }
 
@@ -373,11 +378,6 @@ export class DaikinTable<
   }
 
   protected override firstUpdated(): void {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    if (!this.selection) {
-      this.selection = [];
-    }
-
     this._updateTable();
   }
 
