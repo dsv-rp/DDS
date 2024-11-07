@@ -233,7 +233,7 @@ export class DaikinNotification extends LitElement {
                   <div class="flex items-center gap-5">
                     <button
                       aria-label="Close"
-                      class="relative flex w-5 h-5 after:i-daikin-notification-close after:size-5"
+                      class="relative flex w-5 h-5 after:i-daikin-notification-close after:size-5 after:text-[#a0a0a0]"
                       @click=${this._handleClickClose}
                     ></button>
                   </div>
