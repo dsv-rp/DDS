@@ -46,7 +46,10 @@ describeEach(["default", "ellipsis"], (variant) => {
         state: "visible",
       });
 
-      await page.getByLabel("pageDetailRight").hover();
+      await page
+        .getByLabel("Expand the omitted earlier pages.")
+        .first()
+        .hover();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
@@ -60,7 +63,7 @@ describeEach(["default", "ellipsis"], (variant) => {
         state: "visible",
       });
 
-      await page.getByLabel("pageDetailRight").focus();
+      await page.getByLabel("Expand the omitted earlier pages.").focus();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));

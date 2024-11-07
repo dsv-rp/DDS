@@ -139,11 +139,6 @@ export const Ellipsis: Story = {
       });
       await expect(button).toBeInTheDocument();
     }
-    // ellipsis left button should be in document
-    const ellipsisRight = getByShadowRole(root, "button", {
-      name: "pageDetailRight",
-    });
-    await expect(ellipsisRight).toBeInTheDocument();
     // last page button should be in document
     const buttonLast = getByShadowText(root, "15", {
       ignore: ".hidden > *",

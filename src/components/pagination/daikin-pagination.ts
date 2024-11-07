@@ -99,21 +99,6 @@ const cvaChevronButton = cva([
 ]);
 
 /**
- * leftMost: mean page 1
- * leftEllipsis: mean the page which hidden in the left ellipsis button
- * middle: mean the page be showed except first page and last page
- * rightEllipsis: mean the page which hidden in the right ellipsis button
- * rightMost: mean the last page
- */
-export interface PaginationContent {
-  leftMost: number;
-  leftEllipsis: number[];
-  middle: number[];
-  rightEllipsis: number[];
-  rightMost: number;
-}
-
-/**
  * The pagination component is used to navigate through a list of items that are divided into multiple pages.
  *
  * @fires change - Emitted when the pagination current is changed.
@@ -161,8 +146,7 @@ export class DaikinPagination extends LitElement {
   private _goto(page: number): void {
     this.current = Math.max(page, 1);
     this.dispatchEvent(
-      new CustomEvent("change", {
-        detail: { page: this.current },
+      new Event("change", {
         bubbles: true,
         composed: true,
         cancelable: true,
@@ -197,27 +181,24 @@ export class DaikinPagination extends LitElement {
           </div>
         </button>
 
-        ${Object.entries(pageArray).map(([key, i]) => {
-          const button1ClassName = cvaPageButton({
-            active: this.current === 1,
-          });
-          const buttonLastClassName = cvaPageButton({
-            active: this.current === this.total,
-          });
+        ${pageArray.map((pageItem) => {
           const ellipsisClassName = cvaEllipsis();
-          if (key === "leftMost") {
+          if (pageItem.type === "page") {
+            const buttonClassName = cvaPageButton({
+              active: this.current === pageItem.page,
+            });
             return html`
               <button
-                type="button"
-                class=${button1ClassName}
-                @click=${() => this._goto(1)}
-                aria-label="Page 1"
+                name="page-${pageItem.page}"
+                class=${buttonClassName}
+                @click=${() => this._goto(pageItem.page)}
+                aria-label="Page ${pageItem.page}"
               >
-                1
+                ${pageItem.page}
               </button>
             `;
-          } else if (key === "leftEllipsis") {
-            const leftEllipsisPages = i as Array<number>;
+          } else {
+            const leftEllipsisPages = pageItem.pages;
             if (leftEllipsisPages.length > 0) {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
@@ -231,48 +212,6 @@ export class DaikinPagination extends LitElement {
                 </div>
               </div>`;
             }
-          } else if (key === "middle") {
-            const showPages = i as Array<number>;
-            return html`${showPages.map((page) => {
-              const buttonClassName = cvaPageButton({
-                active: this.current === page,
-              });
-              return html`
-                <button
-                  name="page-${page}"
-                  class=${buttonClassName}
-                  @click=${() => this._goto(page)}
-                  aria-label="Page ${page}"
-                >
-                  ${page}
-                </button>
-              `;
-            })}`;
-          } else if (key === "rightEllipsis") {
-            const rightEllipsisPages = i as Array<number>;
-            if (rightEllipsisPages.length > 0) {
-              return html`<div class="relative">
-                <div class=${ellipsisClassName}>
-                  <button
-                    .disabled=${true}
-                    aria-disabled=${true}
-                    aria-label="pageDetailRight"
-                    class="after:content-['._._.']"
-                  ></button>
-                </div>
-              </div>`;
-            }
-          } else {
-            return html`
-              <button
-                name="page-${this.total}"
-                class=${buttonLastClassName}
-                @click=${() => this._goto(this.total)}
-                aria-label="Page ${this.total}"
-              >
-                ${this.total}
-              </button>
-            `;
           }
         })}
         <button
