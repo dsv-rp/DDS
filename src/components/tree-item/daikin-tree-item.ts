@@ -18,40 +18,38 @@ export const cvaTreeChildren = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-daikinBlue-700",
-
-    "before:size-6",
-    "before:transition-all",
+    "focus-visible:outline-system-state-focus",
 
     "link-enabled:hover:bg-[--color-hover]",
     "link-enabled:active:bg-[--color-active]",
-    "link-disabled:text-daikinNeutral-200",
+    "link-disabled:text-system-state-disabled",
   ],
   {
     variants: {
       disabled: {
         false: ["hover:bg-[--color-hover]", "active:bg-[--color-active]"],
-        true: ["text-daikinNeutral-200"],
+        true: ["text-system-state-disabled"],
       },
       selected: {
         false: [
-          "enabled:hover:bg-daikinNeutral-100",
-          "enabled:active:bg-daikinNeutral-200",
-          "var-color-daikinNeutral-100/color-hover",
-          "var-color-daikinNeutral-200/color-active",
+          "enabled:hover:bg-system-background-surface-hover",
+          "enabled:active:bg-system-background-surface-press",
+          "var-color-system-background-surface-hover/color-hover",
+          "var-color-system-background-surface-press/color-active",
         ],
         true: [
-          "bg-daikinBlue-50",
-          "var-color-daikinBlue-50/color-hover",
-          "var-color-daikinBlue-100/color-active",
+          "bg-system-background-surface-selected",
+          "var-color-system-background-surface-selectedHover/color-hover",
+          "var-color-system-background-surface-selectedActive/color-active",
         ],
       },
       icon: {
-        false: [],
+        false: ["before:size-6"],
         true: [
           "before:i-daikin-chevron-right",
           "before:size-5",
           "before:m-0.5",
+          "before:transition-all",
         ],
       },
       open: {
