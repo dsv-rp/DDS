@@ -5,21 +5,22 @@ import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import type { DaikinListStoryArgs } from "./common";
 
+const style = "display:flex; align-items:center; color:#414141;";
+
 export const metadata: Meta<DaikinListStoryArgs> = {
   render: () => html`
     <div style="width:360px;">
       <daikin-list>
         <daikin-list-item>
           List item label 1
-          <span slot="left-icon" style="color:#414141;">
+          <span slot="left-icon" style=${style}>
             <daikin-icon
-              slot="left-icon"
               icon="positive"
               size="xl"
               color="current"
             ></daikin-icon>
           </span>
-          <span slot="right-icon" style="color:#414141;">
+          <span slot="right-icon" style=${style}>
             <daikin-icon
               icon="chevron-right"
               size="xl"

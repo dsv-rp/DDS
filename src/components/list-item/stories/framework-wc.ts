@@ -21,6 +21,8 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
       disabled ? "disabled" : "enabled"
     ];
 
+    const style = `display:flex; align-items:center; color:${color};`;
+
     return html`
       <daikin-list-item
         type=${type}
@@ -30,7 +32,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
       >
         ${label}
         ${leftIcon
-          ? html`<span slot="left-icon" style=${`color:${color};`}>
+          ? html`<span slot="left-icon" style=${style}>
               <daikin-icon
                 icon=${leftIcon}
                 size="xl"
@@ -39,7 +41,7 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
             </span>`
           : nothing}
         ${rightIcon
-          ? html`<span slot="right-icon" style=${`color:${color};`}>
+          ? html`<span slot="right-icon" style=${style}>
               <daikin-icon
                 icon=${rightIcon}
                 size="xl"

@@ -26,16 +26,18 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
       props.disabled ? "disabled" : "enabled"
     ];
 
+    const style = { display: "flex", alignItems: "center", color };
+
     return (
       <ReactDaikinListItem {...props}>
         {label}
         {leftIcon && (
-          <span slot="left-icon" style={{ color }}>
+          <span slot="left-icon" style={style}>
             <ReactDaikinIcon icon={leftIcon} size="xl" color="current" />
           </span>
         )}
         {rightIcon && (
-          <span slot="right-icon" style={{ color }}>
+          <span slot="right-icon" style={style}>
             <ReactDaikinIcon icon={rightIcon} size="xl" color="current" />
           </span>
         )}

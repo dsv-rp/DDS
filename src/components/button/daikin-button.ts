@@ -183,9 +183,13 @@ export class DaikinButton extends LitElement {
         )}
         aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
       >
-        <slot name="left-icon"><span class="block -ml-1"></span></slot>
+        <slot name="left-icon" class="icon-size-6">
+          <span class="block -ml-1"> </span>
+        </slot>
         <span class="px-2"><slot></slot></span>
-        <slot name="right-icon"><span class="block -mr-1"></span></slot>
+        <slot name="right-icon" class="icon-size-6">
+          <span class="block -mr-1"> </span>
+        </slot>
       </a>`;
     }
 
@@ -196,9 +200,13 @@ export class DaikinButton extends LitElement {
         type=${this.type}
         role=${ifDefined(this.buttonRole ?? undefined)}
       >
-        <slot name="left-icon"><span class="block -ml-1"></span></slot>
+        <slot name="left-icon" class="icon-size-6">
+          <span class="block -ml-1"> </span>
+        </slot>
         <span class="px-2"><slot></slot></span>
-        <slot name="right-icon"><span class="block -mr-1"></span></slot>
+        <slot name="right-icon" class="icon-size-6">
+          <span class="block -mr-1"> </span>
+        </slot>
       </button>
     `;
   }

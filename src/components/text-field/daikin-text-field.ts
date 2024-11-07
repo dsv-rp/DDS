@@ -248,10 +248,18 @@ export class DaikinTextField extends LitElement {
         @input=${this._handleInput}
       />
       <div class=${cvaIcon({ icon: "left", disabled: this.disabled })}>
-        <slot name="left-icon" @slotchange=${this._handleSlotChange}></slot>
+        <slot
+          name="left-icon"
+          class="icon-size-6"
+          @slotchange=${this._handleSlotChange}
+        ></slot>
       </div>
       <div class=${cvaIcon({ icon: "right", disabled: this.disabled })}>
-        <slot name="right-icon" @slotchange=${this._handleSlotChange}></slot>
+        <slot
+          name="right-icon"
+          class="icon-size-6"
+          @slotchange=${this._handleSlotChange}
+        ></slot>
       </div>`;
   }
 

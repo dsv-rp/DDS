@@ -122,7 +122,7 @@ export class DaikinListItem extends LitElement {
     const disabled = this._disabled;
 
     const content = html`<span class="flex items-center w-full relative">
-      <slot name="left-icon">
+      <slot name="left-icon" class="icon-size-6">
         <span class="block -ml-1"></span>
       </slot>
       <slot class=${cvaContent({ disabled: this.disabled })}></slot>
@@ -156,7 +156,7 @@ export class DaikinListItem extends LitElement {
         class="flex items-center gap-3"
         @click=${this._handleClickAction}
       >
-        <slot name="right-icon" class="pointer-events-none">
+        <slot name="right-icon" class="pointer-events-none icon-size-6">
           <span class="block -mr-1"></span>
         </slot>
       </slot>
