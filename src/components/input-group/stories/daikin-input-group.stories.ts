@@ -109,6 +109,13 @@ export const TextArea: Story = {
   }),
 };
 
+export const Dropdown: Story = {
+  args: {
+    ...Default.args,
+    content: "Dropdown",
+  },
+};
+
 export const Select: Story = {
   args: {
     ...Default.args,
