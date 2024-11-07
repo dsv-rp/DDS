@@ -10,6 +10,7 @@ runem
 tailwindcss
 taze
 tseslint
+rgba
 
 # Colors
 Coolgrey
@@ -26,6 +27,7 @@ tabpanel
 textbox
 progressbar
 treeitem
+combobox
 listitem
 
 # Custom Events
@@ -35,6 +37,8 @@ beforetoggle
 # HTML
 maxlength
 slotchange
+haspopup
+listbox
 valuenow
 
 # SVG
