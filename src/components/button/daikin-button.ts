@@ -5,7 +5,6 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import "../icon/daikin-icon";
 
 const cvaButton = cva(
   [

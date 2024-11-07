@@ -40,15 +40,38 @@ const cvaContainer = cva(
 );
 
 const cvaIconContainer = cva(
-  ["flex-none", "flex", "justify-center", "items-center", "w-[44px]"],
+  [
+    "flex-none",
+    "flex",
+    "justify-center",
+    "items-center",
+    "w-[44px]",
+    "after:size-6",
+    "after:text-white",
+  ],
   {
     variants: {
       status: {
-        positive: ["bg-[--colorFeedbackPositive]"],
-        negative: ["bg-[--colorFeedbackNegative]"],
-        warning: ["bg-[--colorFeedbackWarning]"],
-        alarm: ["bg-[--colorFeedbackAlarm]"],
-        information: ["bg-[--colorFeedbackInformation]"],
+        positive: [
+          "bg-[--colorFeedbackPositive]",
+          "after:i-daikin-notification-status-positive",
+        ],
+        negative: [
+          "bg-[--colorFeedbackNegative]",
+          "after:i-daikin-notification-status-negative",
+        ],
+        warning: [
+          "bg-[--colorFeedbackWarning]",
+          "after:i-daikin-notification-status-warning",
+        ],
+        alarm: [
+          "bg-[--colorFeedbackAlarm]",
+          "after:i-daikin-notification-status-alarm",
+        ],
+        information: [
+          "bg-[--colorFeedbackInformation]",
+          "after:i-daikin-notification-status-information",
+        ],
       },
     },
     defaultVariants: {
@@ -189,13 +212,7 @@ export class DaikinNotification extends LitElement {
             class=${cvaIconContainer({
               status: this.status,
             })}
-          >
-            <daikin-icon
-              icon=${this.status}
-              color="white"
-              size="xl"
-            ></daikin-icon>
-          </div>
+          ></div>
           <div
             class="flex justify-between items-center gap-5 p-5 text-lg flex-auto flex-shrink-0"
           >
@@ -216,15 +233,9 @@ export class DaikinNotification extends LitElement {
                   <div class="flex items-center gap-5">
                     <button
                       aria-label="Close"
-                      class="relative flex w-5 h-5"
+                      class="relative flex w-5 h-5 after:i-daikin-notification-close after:size-5"
                       @click=${this._handleClickClose}
-                    >
-                      <daikin-icon
-                        icon="close"
-                        size="l"
-                        color="default"
-                      ></daikin-icon>
-                    </button>
+                    ></button>
                   </div>
                 `
               : nothing}

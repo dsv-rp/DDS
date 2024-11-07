@@ -3,7 +3,6 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
 
 const INNER_CN = cva([
   "text-left",
