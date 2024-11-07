@@ -1,3 +1,5 @@
+import "#package/components/dropdown-item/daikin-dropdown-item";
+import "#package/components/dropdown/daikin-dropdown";
 import "#package/components/input-group/daikin-input-group";
 import "#package/components/select/daikin-select";
 import "#package/components/text-area/daikin-text-area";
@@ -26,6 +28,19 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         ?disabled=${disabled}
         textarea-max-count=${ifDefined(textareaMaxCount)}
       >
+        ${content === "Dropdown"
+          ? html`<daikin-dropdown placeholder="Choose an Option">
+              <daikin-dropdown-item value="value1">
+                Dropdown item 1
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value2">
+                Dropdown item 2
+              </daikin-dropdown-item>
+              <daikin-dropdown-item value="value3">
+                Dropdown item 3
+              </daikin-dropdown-item>
+            </daikin-dropdown>`
+          : nothing}
         ${content === "Select"
           ? html`<daikin-select>
               <select name="select">

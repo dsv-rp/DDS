@@ -188,6 +188,10 @@ export class DaikinTextArea extends LitElement {
 
     this._updateValue(this.value);
   }
+
+  reflectInputGroup(): void {
+    // Nothing to do.
+  }
 }
 
 declare global {

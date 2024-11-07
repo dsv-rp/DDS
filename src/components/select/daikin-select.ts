@@ -181,6 +181,10 @@ export class DaikinSelect extends LitElement {
   override focus(options?: FocusOptions): void {
     this._select?.focus(options);
   }
+
+  reflectInputGroup(): void {
+    // Nothing to do.
+  }
 }
 
 declare global {
