@@ -173,7 +173,7 @@ export class DaikinCheckbox extends LitElement {
 
   override render() {
     return html`<label class="group flex gap-2 items-center font-daikinSerif">
-      <div class="p-2">
+      <span class="p-2">
         <input
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
@@ -186,7 +186,7 @@ export class DaikinCheckbox extends LitElement {
           @change=${this._handleChange}
           @click=${this._handleClick}
         />
-      </div>
+      </span>
       <span
         class=${cvaLabel({
           disabled: this.disabled,
