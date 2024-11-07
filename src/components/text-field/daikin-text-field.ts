@@ -3,6 +3,7 @@ import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinInputGroup } from "../input-group";
 
 const cvaInput = cva(
   [
@@ -19,7 +20,7 @@ const cvaInput = cva(
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
-    "placeholder:text-[#616161]",
+    "placeholder:text-system-element-text-secondary",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
@@ -29,24 +30,24 @@ const cvaInput = cva(
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:text-[#414141]",
-    "enabled:hover:bg-[#f2f2f2]",
-    "enabled:active:bg-[#EBEBEB]",
+    "enabled:text-system-element-text-primary",
+    "enabled:hover:bg-system-background-surface-hover",
+    "enabled:active:bg-system-background-surface-press",
     "focus-visible:outline-2",
 
-    "disabled:var-color-[#BFBFBF]/color-base",
-    "disabled:text-[#BFBFBF]",
+    "disabled:var-color-system-state-disabled/color-base",
+    "disabled:text-system-state-disabled",
     "disabled:bg-white",
-    "disabled:placeholder:text-[#BFBFBF]",
+    "disabled:placeholder:text-system-state-disabled",
   ],
   {
     variants: {
       error: {
         false: [
-          "enabled:var-color-[#515151]/color-base",
-          "focus-visible:var-color-[#0081C0]/color-state-focus",
+          "enabled:var-color-system-state-neutral-hover/color-base",
+          "focus-visible:var-color-system-state-focus/color-state-focus",
         ],
-        true: ["enabled:var-color-[#D80C18]/color-base"],
+        true: ["enabled:var-color-system-state-error-active/color-base"],
       },
       leftIcon: {
         false: ["pl-4"],
@@ -67,8 +68,8 @@ const cvaIcon = cva(["absolute", "pointer-events-none"], {
       right: "right-3",
     },
     disabled: {
-      false: ["text-[#414141]"],
-      true: ["text-[#BFBFBF]"],
+      false: ["text-system-element-text-primary"],
+      true: ["text-system-state-disabled"],
     },
   },
 });
@@ -125,7 +126,7 @@ export class DaikinTextField extends LitElement {
   /**
    * Value of the text field.
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String })
   value = "";
 
   /**
@@ -138,7 +139,7 @@ export class DaikinTextField extends LitElement {
    * Placeholder text.
    */
   @property({ type: String })
-  placeholder = "";
+  placeholder: string | null = null;
 
   /**
    * Whether the text field is readonly.
@@ -180,6 +181,13 @@ export class DaikinTextField extends LitElement {
   @property({ type: String })
   autocomplete?: HTMLInputElement["autocomplete"];
 
+  /**
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
+   */
+  @state()
+  private _label: string | null = null;
+
   @state()
   private _hasLeftIcon = false;
 
@@ -218,12 +226,16 @@ export class DaikinTextField extends LitElement {
         })}
         type=${this.type}
         value=${this.value}
-        placeholder=${this.placeholder}
+        placeholder=${ifDefined(this.placeholder ?? undefined)}
         name=${ifDefined(this.name)}
         maxlength=${ifDefined(this.maxlength)}
         autocomplete=${
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this.autocomplete as any)
+        }
+        aria-label=${
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+          ifDefined(this._label as any)
         }
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
@@ -245,6 +257,14 @@ export class DaikinTextField extends LitElement {
     }
 
     this._internals.setFormValue(this.value);
+  }
+
+  reflectInputGroup(inputGroup: DaikinInputGroup): void {
+    const isError = !inputGroup.disabled && !!inputGroup.error;
+    this.disabled = !!inputGroup.disabled;
+    this.required = !!inputGroup.required;
+    this.error = isError;
+    this._label = inputGroup.label;
   }
 }
 
