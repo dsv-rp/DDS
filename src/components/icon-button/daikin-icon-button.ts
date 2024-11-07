@@ -102,8 +102,6 @@ export class DaikinIconButton extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --dds-icon-size: 100%;
-
       display: inline-block;
     }
   `;
@@ -183,7 +181,7 @@ export class DaikinIconButton extends LitElement {
         aria-disabled=${ifDefined(linkDisabled ? "true" : undefined)}
         aria-label=${this.buttonAriaLabel ?? ""}
       >
-        <slot></slot>
+        <slot class="icon-size-full"></slot>
       </a>`;
     }
 
@@ -194,7 +192,7 @@ export class DaikinIconButton extends LitElement {
         aria-label=${this.buttonAriaLabel ?? ""}
         ?disabled=${this.disabled}
       >
-        <slot></slot>
+        <slot class="icon-size-full"></slot>
       </button>
     `;
   }
