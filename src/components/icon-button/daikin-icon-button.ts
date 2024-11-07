@@ -92,7 +92,7 @@ type IconButtonVariantProps = MergeVariantProps<typeof cvaIconButton>;
  *
  * ```html
  * <daikin-icon-button>
- *   <daikin-icon icon="chevron-right"></daikin-icon>
+ *   <daikin-icon icon="chevron-right" color="current"></daikin-icon>
  * </daikin-icon-button>
  * ```
  */
@@ -173,7 +173,7 @@ export class DaikinIconButton extends LitElement {
     if (this.type === "link") {
       const linkDisabled = this.disabled || this.href == null;
       return html`<a
-        class=${IconButtonCN}
+        class=${iconButtonCN}
         href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}
         role=${ifDefined(
           this.buttonRole ?? (linkDisabled ? "link" : undefined)
@@ -187,7 +187,7 @@ export class DaikinIconButton extends LitElement {
 
     return html`
       <button
-        class=${IconButtonCN}
+        class=${iconButtonCN}
         type=${this.type}
         aria-label=${this.buttonAriaLabel ?? ""}
         ?disabled=${this.disabled}
