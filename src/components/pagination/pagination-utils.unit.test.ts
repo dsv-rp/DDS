@@ -1844,16 +1844,16 @@ describe("test calculatePagination some special case", () => {
 describe("test range function", () => {
   it("test range when start: 1, stop: 5", ({ expect }) => {
     const result = range(1, 5);
-    expect(result).toMatchInlineSnapshot([1, 2, 3, 4]);
+    expect(result).toEqual([1, 2, 3, 4]);
   });
 
   it("test range when start: 2, stop: 6", ({ expect }) => {
     const result = range(2, 6);
-    expect(result).toMatchInlineSnapshot([2, 3, 4, 5]);
+    expect(result).toEqual([2, 3, 4, 5]);
   });
 
   it("test range when start: 1, stop: 10, step: 2", ({ expect }) => {
     const result = range(1, 10, 2);
-    expect(result).toMatchInlineSnapshot([1, 3, 5, 7, 9]);
+    expect(result).toEqual([1, 3, 5, 7, 9]);
   });
 });

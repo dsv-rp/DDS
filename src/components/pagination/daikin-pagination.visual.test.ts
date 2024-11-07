@@ -134,7 +134,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("leftChevron").hover();
+    await page.getByLabel("Left chevron").hover();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));
@@ -148,7 +148,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("leftChevron").focus();
+    await page.getByLabel("Left chevron").focus();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));
@@ -162,7 +162,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("rightChevron").hover();
+    await page.getByLabel("Right chevron").hover();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));
@@ -176,7 +176,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("rightChevron").focus();
+    await page.getByLabel("Right chevron").focus();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));

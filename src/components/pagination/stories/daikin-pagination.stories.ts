@@ -67,11 +67,11 @@ export const Default: Story = {
 
     // chevron button should be in document
     const chevronLeft = getByShadowRole(root, "button", {
-      name: "leftChevron",
+      name: "Left chevron",
     });
     await expect(chevronLeft).toBeInTheDocument();
     const chevronRight = getByShadowRole(root, "button", {
-      name: "rightChevron",
+      name: "Right chevron",
     });
     await expect(chevronRight).toBeInTheDocument();
 
@@ -139,6 +139,7 @@ export const Ellipsis: Story = {
       });
       await expect(button).toBeInTheDocument();
     }
+
     // last page button should be in document
     const buttonLast = getByShadowText(root, "15", {
       ignore: ".hidden > *",
@@ -149,11 +150,11 @@ export const Ellipsis: Story = {
 
     // chevron button should be in document
     const chevronLeft = getByShadowRole(root, "button", {
-      name: "leftChevron",
+      name: "Left chevron",
     });
     await expect(chevronLeft).toBeInTheDocument();
     const chevronRight = getByShadowRole(root, "button", {
-      name: "rightChevron",
+      name: "Right chevron",
     });
     await expect(chevronRight).toBeInTheDocument();
 

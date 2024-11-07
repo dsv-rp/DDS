@@ -139,6 +139,7 @@ export class DaikinPagination extends LitElement {
 
   /**
    * Number of elements to display in pagination, including chevrons and ellipses.
+   * Must be greater than 5.
    */
   @property({ type: Number, reflect: true })
   window = 5;
@@ -169,7 +170,7 @@ export class DaikinPagination extends LitElement {
       <div class="inline-flex gap-1">
         <button
           class=${cvaChevron}
-          aria-label="leftChevron"
+          aria-label="Left chevron"
           .disabled=${this.current === 1}
           @click=${() => this._gotoOffset(-1)}
         >
@@ -216,7 +217,7 @@ export class DaikinPagination extends LitElement {
         })}
         <button
           class=${cvaChevron}
-          aria-label="rightChevron"
+          aria-label="Right chevron"
           .disabled=${this.current === this.total}
           @click=${() => this._gotoOffset(1)}
         >
