@@ -50,7 +50,6 @@ const cvaSelect = cva(
     "slotted-[select:enabled]:!text-system-element-text-primary",
     "slotted-[select:enabled:hover]:!bg-system-background-surface-hover",
     "slotted-[select:enabled:active]:!bg-system-background-surface-press",
-    "slotted-[select:enabled]:after:text-system-element-text-primary",
 
     "slotted-[select:disabled]:!text-system-state-disabled",
     "slotted-[select:disabled]:!border-system-state-disabled",
