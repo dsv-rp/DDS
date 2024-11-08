@@ -1,4 +1,5 @@
 import "#package/components/button/daikin-button";
+import "#package/components/icon/daikin-icon";
 import "#package/components/table-cell/daikin-table-cell";
 import "#package/components/table-header-cell/daikin-table-header-cell";
 import "#package/components/table/daikin-table";
