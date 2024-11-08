@@ -16,10 +16,10 @@ import type { DaikinTextField } from "../text-field/daikin-text-field";
 
 type ControlElement =
   | DaikinDropdown
+  | DaikinRadioGroup
   | DaikinSelect
   | DaikinTextField
-  | DaikinTextArea
-  | DaikinRadioGroup;
+  | DaikinTextArea;
 
 const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
@@ -73,11 +73,11 @@ const cvaCounterValueLength = cva([], {
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
- * - `daikin-input-group` > `daikin-select`
  * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
+ * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
+ * - `daikin-input-group` > `daikin-select`
  * - `daikin-input-group` > `daikin-text-area`
  * - `daikin-input-group` > `daikin-text-field`
- * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  *
  * @slot - A slot for an input component. See **Hierarchies** for supported components.
  *
@@ -85,6 +85,11 @@ const cvaCounterValueLength = cva([], {
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
+ * <!-- The following will be imported as needed. -->
+ * import "@daikin-oss/design-system-web-components/components/dropdown/index.js";
+ * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
+ * import "@daikin-oss/design-system-web-components/components/radio-group/index.js";
+ * import "@daikin-oss/design-system-web-components/components/radio/index.js";
  * import "@daikin-oss/design-system-web-components/components/select/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
@@ -99,6 +104,16 @@ const cvaCounterValueLength = cva([], {
  *       Dropdown item 1
  *     </daikin-dropdown-item>
  *   </daikin-dropdown>
+ * </daikin-input-group>
+ * ```
+ *
+ * With Radio Group:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-radio-group value="Value of Radio Group">
+ *     <daikin-radio value="Value of Radio Group" label="Option1"></daikin-radio>
+ *   </daikin-radio-group>
  * </daikin-input-group>
  * ```
  *
@@ -196,7 +211,7 @@ export class DaikinInputGroup extends LitElement {
 
   @queryAssignedElements({
     selector:
-      "daikin-dropdown,daikin-select,daikin-text-field,daikin-text-area,daikin-radio-group",
+      "daikin-dropdown,daikin-radio-group,daikin-select,daikin-text-field,daikin-text-area",
   })
   private readonly _controls!: readonly ControlElement[];
 
