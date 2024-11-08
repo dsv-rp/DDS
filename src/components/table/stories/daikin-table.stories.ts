@@ -287,4 +287,64 @@ export const AllFunctions: Story = {
     onChangeCheck: fn(),
     onChangeSort: fn(),
   },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-table")[0];
+    await expect(root).toBeInTheDocument();
+
+    const allItemCheckbox = getAllByShadowRole(root, "checkbox")[0];
+    const checkbox1 = getAllByShadowRole(root, "checkbox")[1];
+    const checkbox2 = getAllByShadowRole(root, "checkbox")[2];
+    const checkbox3 = getAllByShadowRole(root, "checkbox")[3];
+    const checkbox4 = getAllByShadowRole(root, "checkbox")[4];
+    const checkbox10 = getAllByShadowRole(root, "checkbox")[10];
+
+    await userEvent.click(checkbox1);
+    await userEvent.click(checkbox3);
+
+    await expect(allItemCheckbox).not.toBeChecked();
+    await expect(checkbox1).not.toBeChecked();
+    await expect(checkbox2).not.toBeChecked();
+    await expect(checkbox3).not.toBeChecked();
+    await expect(checkbox4).not.toBeChecked();
+
+    // should react if inner checkbox clicked
+    await step("Try to click checkbox", async () => {
+      await userEvent.click(allItemCheckbox);
+      await expect(args.onChangeCheck).toHaveBeenCalledTimes(3);
+      await expect(allItemCheckbox).toBeChecked();
+      await expect(checkbox1).toBeChecked();
+      await expect(checkbox2).toBeChecked();
+      await expect(checkbox3).toBeChecked();
+      await expect(checkbox4).toBeChecked();
+    });
+
+    // should react if inner checkbox clicked
+    await step("Try to click checkbox", async () => {
+      await userEvent.click(allItemCheckbox);
+      await expect(args.onChangeCheck).toHaveBeenCalledTimes(4);
+      await expect(allItemCheckbox).not.toBeChecked();
+      await expect(checkbox1).not.toBeChecked();
+      await expect(checkbox2).not.toBeChecked();
+    });
+
+    await userEvent.click(checkbox1);
+    await userEvent.click(checkbox10);
+
+    // should react if inner sort button clicked
+    await step("Try to click sort button", async () => {
+      const sortButton = getAllByShadowRole(root, "button", {
+        name: "Name",
+      })[0];
+      const th = getAllByShadowRole(root, "columnheader")[0];
+
+      console.log(sortButton, th);
+      await expect(sortButton).toBeInTheDocument();
+      await expect(th).not.toHaveAttribute("aria-sort");
+
+      await userEvent.click(sortButton);
+
+      await expect(th).toHaveAttribute("aria-sort", "ascending");
+      await expect(args.onChangeSort).toHaveBeenCalledTimes(1);
+    });
+  }),
 };
