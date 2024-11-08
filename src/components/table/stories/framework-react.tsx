@@ -19,39 +19,38 @@ const ReactDaikinTable = createComponent({
 });
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
-  component: ({
-    hasCellSlot,
-    hasHeaderCellSlot,
-    ...props
-  }: DaikinTableStoryArgs) => (
+  component: ({ hasSlot, ...props }: DaikinTableStoryArgs) => (
     <ReactDaikinTable {...props}>
-      {hasCellSlot &&
-        props.rows.map(({ id, name, price }) => (
-          <Fragment key={String(id)}>
-            <ReactDaikinTableCell slot={`cell:name:${id}`}>
-              {name}
-              <span slot="subtitle">It's subtitle.</span>
-            </ReactDaikinTableCell>
-            <ReactDaikinTableCell slot={`cell:price:${id}`} alignment="right">
-              <ReactDaikinButton>{price}</ReactDaikinButton>
-            </ReactDaikinTableCell>
-          </Fragment>
-        ))}
-      {hasHeaderCellSlot &&
-        props.headers.map(({ key, label, alignment }) => (
-          <ReactDaikinTableHeaderCell
-            slot={`header:${key}`}
-            alignment={alignment ?? "left"}
-          >
-            {label}
-            <ReactDaikinIcon
-              slot="left-icon"
-              icon="positive"
-              size="xl"
-              color="current"
-            />
-          </ReactDaikinTableHeaderCell>
-        ))}
+      {hasSlot && (
+        <>
+          {props.rows.map(({ id, name, price }) => (
+            <Fragment key={String(id)}>
+              <ReactDaikinTableCell slot={`cell:name:${id}`}>
+                {name}
+                <span slot="subtitle">It's subtitle.</span>
+              </ReactDaikinTableCell>
+              <ReactDaikinTableCell slot={`cell:price:${id}`} alignment="right">
+                <ReactDaikinButton>{price}</ReactDaikinButton>
+              </ReactDaikinTableCell>
+            </Fragment>
+          ))}
+          {props.headers.map(({ key, label, alignment, sortable }) => (
+            <ReactDaikinTableHeaderCell
+              slot={`header:${key}`}
+              alignment={alignment ?? "left"}
+              sortable={props.sortable && sortable}
+            >
+              {label}
+              <ReactDaikinIcon
+                slot="left-icon"
+                icon="positive"
+                size="xl"
+                color="current"
+              />
+            </ReactDaikinTableHeaderCell>
+          ))}
+        </>
+      )}
     </ReactDaikinTable>
   ),
 };

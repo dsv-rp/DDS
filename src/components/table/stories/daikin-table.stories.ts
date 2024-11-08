@@ -139,7 +139,7 @@ export const Default: Story = {
     ],
     selectable: false,
     sortable: false,
-    hasCellSlot: false,
+    hasSlot: false,
   },
 };
 
@@ -274,29 +274,17 @@ export const Sortable: Story = {
 export const UseSlot: Story = {
   args: {
     ...Default.args,
-    hasCellSlot: true,
+    hasSlot: true,
   },
 };
 
 export const AllFunctions: Story = {
   args: {
     ...Default.args,
-    headers: [
-      { key: "name", label: "Name", sortable: true },
-      { key: "season", label: "Season", sortable: true },
-      { key: "inStock", label: "In stock", sortable: true },
-      {
-        key: "price",
-        label: "Price",
-        alignment: "right",
-        sortable: false,
-      },
-    ],
     selectable: true,
     sortable: true,
     selection: ["1", "3"],
-    hasCellSlot: true,
-    hasHeaderCellSlot: true,
+    hasSlot: true,
     onChangeCheck: fn(),
     onChangeSort: fn(),
   },

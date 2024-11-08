@@ -19,7 +19,7 @@ export type HeaderType<T extends string = string> = {
   key: T;
   label: string;
   alignment?: "left" | "right" | "center";
-  sortable?: boolean;
+  sortable: boolean;
 };
 
 const defaultSort = <T>(a: T, b: T, key: keyof T) =>
@@ -120,7 +120,7 @@ export class DaikinTable<
    * - key: The value of `key` corresponds to the key, excluding the id of rows. As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.
    * - label: This is the text that is displayed in the header cells.
    * - alignment: The direction in which the characters are aligned can be omitted. If it is omitted, the characters will be aligned to the left.
-   * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If it is omitted, this is considered to be `false`.
+   * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column.
    */
   @property({ type: Array, attribute: false })
   headers: readonly HeaderType<Extract<keyof T, string>>[] = [];
