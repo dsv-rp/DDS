@@ -337,7 +337,6 @@ export const AllFunctions: Story = {
       })[0];
       const th = getAllByShadowRole(root, "columnheader")[0];
 
-      console.log(sortButton, th);
       await expect(sortButton).toBeInTheDocument();
       await expect(th).not.toHaveAttribute("aria-sort");
 
