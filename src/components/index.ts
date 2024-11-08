@@ -13,6 +13,8 @@ export * from "./list-item";
 export * from "./notification";
 export * from "./pagination";
 export * from "./progress-bar";
+export * from "./progress-indicator";
+export * from "./progress-indicator-item";
 export * from "./radio";
 export * from "./select";
 export * from "./tab";
