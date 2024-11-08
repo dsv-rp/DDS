@@ -151,7 +151,7 @@ export class DaikinTable<
    * An array of `id`s for the `rows` that have been checked.
    */
   @property({ type: Array, attribute: false })
-  selection?: string[] = undefined;
+  selection: string[] = [];
 
   /**
    * Sort order of the table.
@@ -230,10 +230,10 @@ export class DaikinTable<
   private _handleBodyCheckboxChange(event: Event): void {
     const { name: id } = event.target as DaikinCheckbox;
 
-    if (this.selection?.includes(id)) {
+    if (this.selection.includes(id)) {
       this.selection = this.selection.filter((selectedId) => selectedId !== id);
     } else {
-      this.selection = [...(this.selection ?? []), id];
+      this.selection = [...this.selection, id];
     }
 
     this._emitChangeCheckEvent();
@@ -254,7 +254,7 @@ export class DaikinTable<
   }
 
   private _updateHeaderCheckboxState() {
-    const selectedIdLengthInPage = this.selection?.length;
+    const selectedIdLengthInPage = this.selection.length;
 
     this._bulkRowsCheckState =
       this._currentView.length === selectedIdLengthInPage
@@ -335,7 +335,7 @@ export class DaikinTable<
                 class=${cvaRow({
                   selected:
                     this.selectable &&
-                    !!this.selection?.find((id) => id === row.id),
+                    !!this.selection.find((id) => id === row.id),
                 })}
               >
                 ${this.selectable
@@ -345,7 +345,7 @@ export class DaikinTable<
                       >
                         <daikin-checkbox
                           name=${row.id}
-                          .checkState=${this.selection?.includes(row.id)
+                          .checkState=${this.selection.includes(row.id)
                             ? "checked"
                             : "unchecked"}
                           label="Select row"
