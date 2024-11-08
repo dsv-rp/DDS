@@ -254,7 +254,9 @@ export class DaikinTable<
     this._emitChangeCheckEvent();
   }
 
-  private _handleClickSort(key: keyof T): void {
+  private _handleClickSort(event: Event, key: keyof T): void {
+    event.stopPropagation();
+
     if (this.sort === key) {
       this.order = this.order === "asc" ? "desc" : "asc";
     } else {
@@ -294,11 +296,14 @@ export class DaikinTable<
               : undefined
           )}
         >
-          <slot name=${`header:${key}`}>
+          <slot
+            name=${`header:${key}`}
+            @change-sort=${(event: Event) =>
+              this._handleClickSort(event, header.key)}
+          >
             <daikin-table-header-cell
               alignment=${alignment ?? "left"}
               ?sortable=${isSortable}
-              @change-sort=${() => this._handleClickSort(header.key)}
             >
               ${label}
             </daikin-table-header-cell>
@@ -325,7 +330,7 @@ export class DaikinTable<
             ${this.selectable
               ? html`<td class="w-12 p-0">
                   <span
-                    class="flex items-center justify-center w-full min-h-12"
+                    class="flex items-center justify-center w-full h-full min-h-12"
                   >
                     <daikin-checkbox
                       name="allItem"
@@ -351,7 +356,7 @@ export class DaikinTable<
                 ${this.selectable
                   ? html`<td class="w-12 p-0">
                       <span
-                        class="flex justify-center items-center w-full min-h-12"
+                        class="flex justify-center items-center w-full h-full min-h-12"
                       >
                         <daikin-checkbox
                           name=${row.id}

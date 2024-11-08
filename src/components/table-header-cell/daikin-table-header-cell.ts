@@ -23,7 +23,7 @@ const cvaHeaderCell = cva(
         right: ["justify-end", "text-end"],
         center: ["justify-center", "text-center"],
       },
-      sort: {
+      sortable: {
         false: [],
         true: [
           "hover:bg-system-background-surface-hover",
@@ -96,7 +96,7 @@ export class DaikinTableHeaderCell extends LitElement {
   override render() {
     const headerCellCN = cvaHeaderCell({
       alignment: this.alignment,
-      sort: this.sortable,
+      sortable: this.sortable,
     });
 
     const content = html`<slot name="left-icon">
@@ -109,7 +109,7 @@ export class DaikinTableHeaderCell extends LitElement {
           type="button"
           class=${headerCellCN}
           @click=${() =>
-            this.dispatchEvent(new Event("change-sort", { bubbles: false }))}
+            this.dispatchEvent(new Event("change-sort", { bubbles: true }))}
         >
           ${content}
         </button>`
