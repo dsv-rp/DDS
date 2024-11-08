@@ -139,6 +139,7 @@ export const Default: Story = {
     ],
     selectable: false,
     sortable: false,
+    selection: ["1", "3"],
     hasSlot: false,
   },
 };
@@ -147,7 +148,6 @@ export const Selectable: Story = {
   args: {
     ...Default.args,
     selectable: true,
-    selection: ["1", "3"],
     onChangeCheck: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -283,7 +283,6 @@ export const AllFunctions: Story = {
     ...Default.args,
     selectable: true,
     sortable: true,
-    selection: ["1", "3"],
     hasSlot: true,
     onChangeCheck: fn(),
     onChangeSort: fn(),

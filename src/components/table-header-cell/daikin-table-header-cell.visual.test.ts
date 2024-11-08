@@ -12,7 +12,7 @@ type StoryArgs = InferStorybookArgTypes<
 >;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL(`components-table-header-cell--default`, args);
+  getStorybookIframeURL("components-table-header-cell--default", args);
 
 describeEach(["left", "right", "center"] as const, (alignment) => {
   describeEach(["default", "sortable"] as const, (sortable) => {

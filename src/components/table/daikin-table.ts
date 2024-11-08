@@ -333,7 +333,9 @@ export class DaikinTable<
             (row) =>
               html`<tr
                 class=${cvaRow({
-                  selected: !!this.selection?.find((id) => id === row.id),
+                  selected:
+                    this.selectable &&
+                    !!this.selection?.find((id) => id === row.id),
                 })}
               >
                 ${this.selectable

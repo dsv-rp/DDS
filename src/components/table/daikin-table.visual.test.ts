@@ -1,20 +1,38 @@
-import { clipFor, describeEach, getStorybookIframeURL } from "#tests/visual";
+import {
+  clipFor,
+  describeEach,
+  getStorybookIframeURL,
+  type InferStorybookArgTypes,
+} from "#tests/visual";
 import { expect, test } from "@playwright/test";
+import type { DAIKIN_TABLE_ARG_TYPES } from "./stories/common";
 
-describeEach(
-  ["default", "selectable", "sortable", "use-slot", "all-functions"],
-  (option) => {
-    test("base", async ({ page }) => {
-      const baseURL = getStorybookIframeURL(`components-table--${option}`, {});
-      await page.goto(baseURL);
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABLE_ARG_TYPES>;
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-table", {
-        state: "visible",
+const getPageURL = (args: StoryArgs = {}) =>
+  getStorybookIframeURL("components-table--default", args);
+
+describeEach(["default", "selectable"] as const, (selectable) => {
+  describeEach(["default", "sortable"] as const, (sortable) => {
+    describeEach(["default", "hasSlot"] as const, (hasSlot) => {
+      const baseURL = getPageURL({
+        selectable: selectable === "selectable",
+        sortable: sortable === "sortable",
+        hasSlot: hasSlot === "hasSlot",
+        sort: undefined,
       });
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-table", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
     });
-  }
-);
+  });
+});

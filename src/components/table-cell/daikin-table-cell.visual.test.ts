@@ -10,7 +10,7 @@ import type { DAIKIN_TABLE_CELL_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABLE_CELL_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL(`components-table-cell--default`, args);
+  getStorybookIframeURL("components-table-cell--default", args);
 
 describeEach(["left", "right", "center"] as const, (alignment) => {
   describeEach(["subtitle", "none"] as const, (subtitle) => {
