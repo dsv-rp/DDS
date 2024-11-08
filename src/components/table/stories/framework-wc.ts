@@ -4,6 +4,7 @@ import "#package/components/table-header-cell/daikin-table-header-cell";
 import "#package/components/table/daikin-table";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinTableStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTableStoryArgs> = {
@@ -47,10 +48,11 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
         : nothing}
       ${hasHeaderCellSlot
         ? headers.map(
-            ({ key, label, alignment }) =>
+            ({ key, label, alignment, sortable }) =>
               html`<daikin-table-header-cell
                 slot=${`header:${key}`}
-                alignment=${alignment ?? "left"}
+                alignment=${ifDefined(alignment)}
+                ?sortable=${sortable}
               >
                 ${label}
                 <daikin-icon

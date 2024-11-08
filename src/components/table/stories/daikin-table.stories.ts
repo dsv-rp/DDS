@@ -18,9 +18,9 @@ export default {
 export const Default: Story = {
   args: {
     headers: [
-      { key: "name", label: "Name" },
-      { key: "season", label: "Season" },
-      { key: "inStock", label: "In stock" },
+      { key: "name", label: "Name", sortable: true },
+      { key: "season", label: "Season", sortable: true },
+      { key: "inStock", label: "In stock", sortable: true },
       { key: "price", label: "Price", alignment: "right", sortable: false },
     ],
     rows: [
@@ -282,14 +282,13 @@ export const AllFunctions: Story = {
   args: {
     ...Default.args,
     headers: [
-      { key: "name", label: "Name", leftIcon: "positive" },
-      { key: "season", label: "Season", leftIcon: "positive" },
-      { key: "inStock", label: "In stock", leftIcon: "positive" },
+      { key: "name", label: "Name", sortable: true },
+      { key: "season", label: "Season", sortable: true },
+      { key: "inStock", label: "In stock", sortable: true },
       {
         key: "price",
         label: "Price",
         alignment: "right",
-        leftIcon: "positive",
         sortable: false,
       },
     ],

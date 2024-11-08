@@ -12,7 +12,6 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../checkbox/daikin-checkbox";
 import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
-import type { IconType } from "../icon";
 import "../table-cell/daikin-table-cell";
 import "../table-header-cell/daikin-table-header-cell";
 
@@ -20,7 +19,6 @@ export type HeaderType<T extends string = string> = {
   key: T;
   label: string;
   alignment?: "left" | "right" | "center";
-  leftIcon?: IconType;
   sortable?: boolean;
 };
 
@@ -73,8 +71,8 @@ const cvaRow = cva(
  * ```html
  * <daikin-table
  *   .headers="[
- *     { key: 'name', label: 'Name' },
- *     { key: 'season', label: 'Season' },
+ *     { key: 'name', label: 'Name', sortable: true },
+ *     { key: 'season', label: 'Season', sortable: true },
  *     { key: 'price', label: 'Price', alignment: 'right', sortable: false },
  *   ]"
  *   .rows="[
@@ -122,8 +120,7 @@ export class DaikinTable<
    * - key: The value of `key` corresponds to the key, excluding the id of rows. As a whole array, the value of `key` must be unique. Also, only use alphanumeric characters, `$`, and `_` in the `key`.
    * - label: This is the text that is displayed in the header cells.
    * - alignment: The direction in which the characters are aligned can be omitted. If it is omitted, the characters will be aligned to the left.
-   * - leftIcon: In the header cell, you can optionally display an icon to the left of the text.
-   * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If `undefined`, this is considered to be `true`.
+   * - sortable: If sortable (`sortable = true`), this specifies whether sorting is performed on this column. If it is omitted, this is considered to be `false`.
    */
   @property({ type: Array, attribute: false })
   headers: readonly HeaderType<Extract<keyof T, string>>[] = [];
@@ -283,8 +280,6 @@ export class DaikinTable<
     const createHeaderRow = () =>
       this.headers.map(({ label, alignment, sortable, ...header }) => {
         const key = String(header.key);
-        const isSortable =
-          this.sortable && (sortable || sortable === undefined);
 
         return html`<th
           class="h-full p-0"
@@ -303,7 +298,7 @@ export class DaikinTable<
           >
             <daikin-table-header-cell
               alignment=${alignment ?? "left"}
-              ?sortable=${isSortable}
+              ?sortable=${this.sortable && sortable}
             >
               ${label}
             </daikin-table-header-cell>

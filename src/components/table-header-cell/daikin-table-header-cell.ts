@@ -10,7 +10,8 @@ const cvaHeaderCell = cva(
     "items-center",
     "gap-2",
     "w-full",
-    "h-12",
+    "h-full",
+    "min-h-12",
     "px-4",
     "py-2",
     "text-system-element-text-primary",
@@ -33,6 +34,7 @@ const cvaHeaderCell = cva(
           "focus-visible:-outline-offset-2",
           "focus-visible:outline-system-state-focus",
 
+          "after:flex-none",
           "after:size-6",
           "after:text-system-element-text-primary",
           "after:i-daikin-sort",
