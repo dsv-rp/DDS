@@ -46,10 +46,7 @@ describeEach(["default", "ellipsis"], (variant) => {
         state: "visible",
       });
 
-      await page
-        .getByLabel("Expand the omitted earlier pages.")
-        .first()
-        .hover();
+      await page.getByLabel("Expand the omitted pages.").first().hover();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
@@ -63,7 +60,7 @@ describeEach(["default", "ellipsis"], (variant) => {
         state: "visible",
       });
 
-      await page.getByLabel("Expand the omitted earlier pages.").focus();
+      await page.getByLabel("Expand the omitted pages.").focus();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
@@ -134,7 +131,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("Left chevron").hover();
+    await page.getByLabel("Go to the previous page.").hover();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));
@@ -148,7 +145,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("Left chevron").focus();
+    await page.getByLabel("Go to the previous page.").focus();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));
@@ -162,7 +159,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("Right chevron").hover();
+    await page.getByLabel("Go to the next page.").hover();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));
@@ -176,7 +173,7 @@ describeEach(["default", "ellipsis"], (variant) => {
       state: "visible",
     });
 
-    await page.getByLabel("Right chevron").focus();
+    await page.getByLabel("Go to the next page.").focus();
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));

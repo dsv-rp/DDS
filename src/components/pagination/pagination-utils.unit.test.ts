@@ -1,5 +1,5 @@
 import { describe, it } from "vitest";
-import { calculatePagination, range } from "./pagination-utils";
+import { calculatePagination, sequence } from "./pagination-utils";
 
 describe("test calculatePagination function when lastPage is odd number and pageWindow is odd number", () => {
   it("test calculatePagination when lastPage: 15, currentPage: 1, pageWindow: 7", ({
@@ -953,57 +953,6 @@ describe("test calculatePagination function when lastPage is odd number and page
           "type": "page",
         },
         {
-          "page": 2,
-          "type": "page",
-        },
-        {
-          "page": 3,
-          "type": "page",
-        },
-        {
-          "page": 4,
-          "type": "page",
-        },
-        {
-          "page": 5,
-          "type": "page",
-        },
-        {
-          "page": 6,
-          "type": "page",
-        },
-        {
-          "pages": [
-            7,
-            8,
-            9,
-            10,
-            11,
-            12,
-            13,
-            14,
-          ],
-          "type": "ellipsis",
-        },
-        {
-          "page": 15,
-          "type": "page",
-        },
-      ]
-    `);
-  });
-
-  it("test calculatePagination when lastPage: 15, currentPage: 6, pageWindow: 8", ({
-    expect,
-  }) => {
-    const result = calculatePagination(15, 6, 8);
-    expect(result).toMatchInlineSnapshot(`
-      [
-        {
-          "page": 1,
-          "type": "page",
-        },
-        {
           "pages": [
             2,
             3,
@@ -1046,10 +995,10 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 7, pageWindow: 8", ({
+  it("test calculatePagination when lastPage: 15, currentPage: 6, pageWindow: 8", ({
     expect,
   }) => {
-    const result = calculatePagination(15, 7, 8);
+    const result = calculatePagination(15, 6, 8);
     expect(result).toMatchInlineSnapshot(`
       [
         {
@@ -1099,10 +1048,10 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 8, pageWindow: 8", ({
+  it("test calculatePagination when lastPage: 15, currentPage: 7, pageWindow: 8", ({
     expect,
   }) => {
-    const result = calculatePagination(15, 8, 8);
+    const result = calculatePagination(15, 7, 8);
     expect(result).toMatchInlineSnapshot(`
       [
         {
@@ -1152,10 +1101,10 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 9, pageWindow: 8", ({
+  it("test calculatePagination when lastPage: 15, currentPage: 8, pageWindow: 8", ({
     expect,
   }) => {
-    const result = calculatePagination(15, 9, 8);
+    const result = calculatePagination(15, 8, 8);
     expect(result).toMatchInlineSnapshot(`
       [
         {
@@ -1205,10 +1154,10 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 10, pageWindow: 8", ({
+  it("test calculatePagination when lastPage: 15, currentPage: 9, pageWindow: 8", ({
     expect,
   }) => {
-    const result = calculatePagination(15, 10, 8);
+    const result = calculatePagination(15, 9, 8);
     expect(result).toMatchInlineSnapshot(`
       [
         {
@@ -1258,10 +1207,10 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 11, pageWindow: 8", ({
+  it("test calculatePagination when lastPage: 15, currentPage: 10, pageWindow: 8", ({
     expect,
   }) => {
-    const result = calculatePagination(15, 11, 8);
+    const result = calculatePagination(15, 10, 8);
     expect(result).toMatchInlineSnapshot(`
       [
         {
@@ -1302,6 +1251,57 @@ describe("test calculatePagination function when lastPage is odd number and page
             14,
           ],
           "type": "ellipsis",
+        },
+        {
+          "page": 15,
+          "type": "page",
+        },
+      ]
+    `);
+  });
+
+  it("test calculatePagination when lastPage: 15, currentPage: 11, pageWindow: 8", ({
+    expect,
+  }) => {
+    const result = calculatePagination(15, 11, 8);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "page": 1,
+          "type": "page",
+        },
+        {
+          "pages": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+          ],
+          "type": "ellipsis",
+        },
+        {
+          "page": 10,
+          "type": "page",
+        },
+        {
+          "page": 11,
+          "type": "page",
+        },
+        {
+          "page": 12,
+          "type": "page",
+        },
+        {
+          "page": 13,
+          "type": "page",
+        },
+        {
+          "page": 14,
+          "type": "page",
         },
         {
           "page": 15,
@@ -1528,10 +1528,8 @@ describe("test calculatePagination some special case", () => {
           "type": "page",
         },
         {
-          "pages": [
-            2,
-          ],
-          "type": "ellipsis",
+          "page": 2,
+          "type": "page",
         },
         {
           "page": 3,
@@ -1709,20 +1707,20 @@ describe("test calculatePagination some special case", () => {
         {
           "pages": [
             2,
+            3,
           ],
           "type": "ellipsis",
-        },
-        {
-          "page": 3,
-          "type": "page",
         },
         {
           "page": 4,
           "type": "page",
         },
         {
+          "page": 5,
+          "type": "page",
+        },
+        {
           "pages": [
-            5,
             6,
             7,
             8,
@@ -1843,17 +1841,12 @@ describe("test calculatePagination some special case", () => {
 
 describe("test range function", () => {
   it("test range when start: 1, stop: 5", ({ expect }) => {
-    const result = range(1, 5);
+    const result = sequence(1, 5);
     expect(result).toEqual([1, 2, 3, 4]);
   });
 
   it("test range when start: 2, stop: 6", ({ expect }) => {
-    const result = range(2, 6);
+    const result = sequence(2, 6);
     expect(result).toEqual([2, 3, 4, 5]);
-  });
-
-  it("test range when start: 1, stop: 10, step: 2", ({ expect }) => {
-    const result = range(1, 10, 2);
-    expect(result).toEqual([1, 3, 5, 7, 9]);
   });
 });

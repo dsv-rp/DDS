@@ -87,10 +87,10 @@ const cvaChevronButton = cva([
   "not-italic",
   "font-normal",
   "leading-6",
-  "hover:bg-[#F2F2F2]",
-  "hover:text-daikinNeutral-800",
-  "active:bg-daikinNeutral-100",
-  "active:text-daikinNeutral-900",
+  "enabled:hover:bg-[#F2F2F2]",
+  "enabled:hover:text-daikinNeutral-800",
+  "enabled:active:bg-daikinNeutral-100",
+  "enabled:active:text-daikinNeutral-900",
   "disabled:!text-daikinNeutral-400",
   "focus-visible:outline",
   "focus-visible:outline-2",
@@ -139,7 +139,8 @@ export class DaikinPagination extends LitElement {
 
   /**
    * Number of elements to display in pagination, including chevrons and ellipses.
-   * Must be greater than 5.
+   * Must be greater than or equal to 5.
+   * If a value less than 5 is specified, it will be treated as 5.
    */
   @property({ type: Number, reflect: true })
   window = 5;
@@ -167,11 +168,11 @@ export class DaikinPagination extends LitElement {
       this.window
     );
     return html`
-      <div aria-label="pagination" class="inline-flex gap-1">
+      <div aria-label="Pagination" class="inline-flex gap-1">
         <button
           class=${cvaChevron}
-          aria-label="Left chevron"
-          .disabled=${this.current === 1}
+          aria-label="Go to the previous page."
+          ?disabled=${this.current === 1}
           @click=${() => this._gotoOffset(-1)}
         >
           <div class="flex items-center justify-center">
@@ -190,24 +191,23 @@ export class DaikinPagination extends LitElement {
             });
             return html`
               <button
-                name="page-${pageItem.page}"
+                type="button"
                 class=${buttonClassName}
                 @click=${() => this._goto(pageItem.page)}
-                aria-label="Page ${pageItem.page}"
+                aria-label="Go to page ${pageItem.page}"
               >
                 ${pageItem.page}
               </button>
             `;
           } else {
-            const leftEllipsisPages = pageItem.pages;
-            if (leftEllipsisPages.length > 0) {
+            const omittedPages = pageItem.pages;
+            if (omittedPages.length > 0) {
               return html`<div class="relative">
                 <div class=${ellipsisClassName}>
                   <button
                     type="button"
                     disabled
-                    aria-disabled="true"
-                    aria-label="Expand the omitted earlier pages."
+                    aria-label="Expand the omitted pages."
                     class="after:content-['._._.']"
                   ></button>
                 </div>
@@ -217,8 +217,8 @@ export class DaikinPagination extends LitElement {
         })}
         <button
           class=${cvaChevron}
-          aria-label="Right chevron"
-          .disabled=${this.current === this.total}
+          aria-label="Go to the next page."
+          ?disabled=${this.current === this.total}
           @click=${() => this._gotoOffset(1)}
         >
           <div class="flex items-center justify-center">

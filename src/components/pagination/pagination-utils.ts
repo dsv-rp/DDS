@@ -1,18 +1,3 @@
-/**
- * leftMost: mean page 1
- * leftEllipsis: mean the page which hidden in the left ellipsis button
- * middle: mean the page be showed except first page and last page
- * rightEllipsis: mean the page which hidden in the right ellipsis button
- * rightMost: mean the last page
- */
-// export interface PaginationContent {
-//   leftMost: number;
-//   leftEllipsis: number[];
-//   middle: number[];
-//   rightEllipsis: number[];
-//   rightMost: number;
-// }
-
 interface Page {
   type: "page";
   page: number;
@@ -25,60 +10,72 @@ interface Ellipsis {
 
 export type PaginationContent = (Page | Ellipsis)[];
 
-export const range = (start: number, stop: number, step: number = 1) => {
-  const length = Math.max(Math.ceil((stop - start) / step), 0);
-  return Array.from({ length: length }, (_, i) => start + i * step);
-};
+/**
+ * Generates an array of a sequence of numbers in the sequence `[begin, end)`.
+ *
+ * @param begin The value of the first element in the generated array.
+ * @param end The value of the last element of the generated array + 1.
+ * @returns An array of increasing sequences. Empty if `begin` is greater than or equal to `end`.
+ */
+export function sequence(begin: number, end: number): number[] {
+  const length = Math.max(end - begin, 0);
+  return Array.from({ length }, (_, i) => begin + i);
+}
 
+export function pageSequence(begin: number, end: number): Page[] {
+  return sequence(begin, end).map((page): Page => ({ type: "page", page }));
+}
+
+/**
+ * Calculate the display and hidden page items.
+ *
+ * @param total The total pages number.
+ * @param current The current page number.
+ * @param window Number of elements to display in pagination.
+ * @returns {PaginationContent}.
+ */
 export function calculatePagination(
-  lastPage: number,
-  currentPage: number,
-  pageWindow: number
+  total: number,
+  current: number,
+  window: number
 ): PaginationContent {
-  if (pageWindow < 5) {
-    pageWindow = 5;
+  if (window < 5) {
+    window = 5;
   }
-  if (lastPage <= pageWindow) {
-    // result.middle = range(2, lastPage);
+  if (total <= window) {
+    // All pages can be displayed within `window`.
+    return pageSequence(1, total + 1);
+  }
+  // Calculates the left and right page numbers of the page numbers in the middle.
+  // These values will only be correct if there is an omission on both sides.
+  // If there is one or no omissions, it is only guaranteed that `centerLeft` will be less than or equal to 3 (if there is no left omission), or `centerRight` will be greater than or equal to `total - 2`.
+  const centerLeft = current - Math.floor((window - 5) / 2);
+  const centerRight = centerLeft + window - 5;
+  // The first page to the current page can be displayed in the `window`.
+  // Only the right side needs an ellipsis.
+  if (centerLeft <= 3) {
     return [
-      ...range(1, lastPage + 1).map(
-        (value) => ({ type: "page", page: value }) as Page
-      ),
+      ...pageSequence(1, window - 1),
+      { type: "ellipsis", pages: sequence(window - 1, total) },
+      { type: "page", page: total },
     ];
   }
-  if (currentPage < pageWindow - 2) {
-    return [
-      ...range(1, pageWindow - 1).map(
-        (value) => ({ type: "page", page: value }) as Page
-      ),
-      { type: "ellipsis", pages: range(pageWindow - 1, lastPage) },
-      { type: "page", page: lastPage },
-    ];
-  }
-  if (currentPage > lastPage - 2 - Math.floor((pageWindow - 3) / 2)) {
+  if (centerRight >= total - 2) {
     return [
       { type: "page", page: 1 },
-      { type: "ellipsis", pages: range(2, lastPage - (pageWindow - 3)) },
-      ...range(lastPage - (pageWindow - 3), lastPage).map(
+      { type: "ellipsis", pages: sequence(2, total - (window - 3)) },
+      ...sequence(total - (window - 3), total).map(
         (value) => ({ type: "page", page: value }) as Page
       ),
-      { type: "page", page: lastPage },
+      { type: "page", page: total },
     ];
   }
 
-  const adjustFlag = (pageWindow - 3) % 2 === 0 ? 1 : 0;
-  const leftPages = currentPage - Math.floor((pageWindow - 3) / 2);
-  const rightPages = currentPage + Math.floor((pageWindow - 3) / 2);
-  // result.leftEllipsis = range(2, leftPages + adjustFlag);
-  // result.rightEllipsis = range(rightPages, lastPage);
-  // result.middle = range(leftPages + adjustFlag, rightPages);
   return [
     { type: "page", page: 1 },
-    { type: "ellipsis", pages: range(2, leftPages + adjustFlag) },
-    ...range(leftPages + adjustFlag, rightPages).map(
-      (value) => ({ type: "page", page: value }) as Page
-    ),
-    { type: "ellipsis", pages: range(rightPages, lastPage) },
-    { type: "page", page: lastPage },
+    { type: "ellipsis", pages: sequence(2, centerLeft) },
+    ...pageSequence(centerLeft, centerRight + 1),
+    { type: "ellipsis", pages: sequence(centerRight + 1, total) },
+    { type: "page", page: total },
   ];
 }
