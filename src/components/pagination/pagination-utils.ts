@@ -11,7 +11,7 @@ interface Ellipsis {
 export type PaginationContent = (Page | Ellipsis)[];
 
 /**
- * Generates an array of a sequence of numbers in the sequence `[begin, end)`.
+ * Generates an array of a sequence of numbers in the range `[begin, end)`.
  *
  * @param begin The value of the first element in the generated array.
  * @param end The value of the last element of the generated array + 1.
