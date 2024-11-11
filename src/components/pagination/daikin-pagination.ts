@@ -200,14 +200,14 @@ export class DaikinPagination extends LitElement {
               const omittedPages = item.pages;
               if (omittedPages.length > 0) {
                 return html`
-                  <div class=${cvaEllipsis()}>
+                  <span class=${cvaEllipsis()}>
                     <button
                       type="button"
                       disabled
                       aria-label="Expand the omitted pages."
                       class="after:content-['._._.']"
                     ></button>
-                  </div>
+                  </span>
                 `;
               }
             }
