@@ -3,7 +3,6 @@ import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
 import { calculatePagination } from "./pagination-utils";
 
 const cvaPageButton = cva(
@@ -58,6 +57,7 @@ const cvaPageButton = cva(
 );
 
 const cvaEllipsis = cva([
+  "relative",
   "text-inherit",
   "border-0",
   "no-underline",
@@ -107,9 +107,7 @@ const cvaChevronButton = cva([
  * @example
  *
  * ```html
- * <!-- You can create a pagination just specify the max pages and how many pages should be show. -->
- * <daikin-pagination total="5" window="5">
- * </daikin-pagination>
+ * <daikin-pagination window="5" total="20" current="3"></daikin-pagination>
  * ```
  */
 @customElement("daikin-pagination")
@@ -134,7 +132,7 @@ export class DaikinPagination extends LitElement {
    * Must be greater than 0.
    */
   @property({ type: Number, reflect: true })
-  total = 5;
+  total = 1;
 
   /**
    * Number of elements to display in pagination, including ellipses.
@@ -179,38 +177,42 @@ export class DaikinPagination extends LitElement {
           <span class="i-daikin-pagination-chevron-left w-4 h-4"></span>
         </button>
 
-        ${repeat(pageArray, (pageItem) => {
-          const ellipsisClassName = cvaEllipsis();
-          if (pageItem.type === "page") {
-            const buttonClassName = cvaPageButton({
-              active: this.current === pageItem.page,
-            });
-            return html`
-              <button
-                type="button"
-                class=${buttonClassName}
-                @click=${() => this._goto(pageItem.page)}
-                aria-label="Go to page ${pageItem.page}"
-              >
-                ${pageItem.page}
-              </button>
-            `;
-          } else {
-            const omittedPages = pageItem.pages;
-            if (omittedPages.length > 0) {
-              return html`<div class="relative">
-                <span class=${ellipsisClassName}>
-                  <button
-                    type="button"
-                    disabled
-                    aria-label="Expand the omitted pages."
-                    class="after:content-['._._.']"
-                  ></button>
-                </span>
-              </div>`;
+        ${repeat(
+          pageArray,
+          (item, index) =>
+            item.type === "page" ? `p${item.page}` : `e${index}`,
+          (item) => {
+            if (item.type === "page") {
+              const buttonClassName = cvaPageButton({
+                active: this.current === item.page,
+              });
+              return html`
+                <button
+                  type="button"
+                  class=${buttonClassName}
+                  @click=${() => this._goto(item.page)}
+                  aria-label="Go to page ${item.page}"
+                >
+                  ${item.page}
+                </button>
+              `;
+            } else {
+              const omittedPages = item.pages;
+              if (omittedPages.length > 0) {
+                return html`
+                  <div class=${cvaEllipsis()}>
+                    <button
+                      type="button"
+                      disabled
+                      aria-label="Expand the omitted pages."
+                      class="after:content-['._._.']"
+                    ></button>
+                  </div>
+                `;
+              }
             }
           }
-        })}
+        )}
         <button
           type="button"
           class=${cvaChevron}
