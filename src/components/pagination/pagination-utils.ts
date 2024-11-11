@@ -39,6 +39,9 @@ export function calculatePagination(
   current: number,
   window: number
 ): PaginationContent {
+  if (total < 1) {
+    total = 1;
+  }
   if (window < 5) {
     window = 5;
   }

@@ -102,7 +102,7 @@ const cvaChevronButton = cva([
 /**
  * The pagination component is used to navigate through a list of items that are divided into multiple pages.
  *
- * @fires change - Emitted when the pagination current is changed.
+ * @fires change - Emitted when the current page number is changed.
  *
  * @example
  *
@@ -143,7 +143,7 @@ export class DaikinPagination extends LitElement {
   window = 5;
 
   private _goto(page: number): void {
-    this.current = Math.max(page, 1);
+    this.current = this.current = Math.max(Math.min(page, this.total), 1);
     this.dispatchEvent(
       new Event("change", {
         bubbles: true,
@@ -176,7 +176,6 @@ export class DaikinPagination extends LitElement {
         >
           <span class="i-daikin-pagination-chevron-left w-4 h-4"></span>
         </button>
-
         ${repeat(
           pageArray,
           (item, index) =>
@@ -197,19 +196,16 @@ export class DaikinPagination extends LitElement {
                 </button>
               `;
             } else {
-              const omittedPages = item.pages;
-              if (omittedPages.length > 0) {
-                return html`
-                  <span class=${cvaEllipsis()}>
-                    <button
-                      type="button"
-                      disabled
-                      aria-label="Expand the omitted pages."
-                      class="after:content-['._._.']"
-                    ></button>
-                  </span>
-                `;
-              }
+              return html`
+                <span class=${cvaEllipsis()}>
+                  <button
+                    type="button"
+                    disabled
+                    aria-label="Expand the omitted pages."
+                    class="after:content-['._._.']"
+                  ></button>
+                </span>
+              `;
             }
           }
         )}

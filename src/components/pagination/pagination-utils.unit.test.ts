@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
 import { calculatePagination, sequence } from "./pagination-utils";
 
-describe("test calculatePagination function when lastPage is odd number and pageWindow is odd number", () => {
-  it("test calculatePagination when lastPage: 15, currentPage: 1, pageWindow: 7", ({
+describe("test calculatePagination function when total is odd number and window is odd number", () => {
+  it("test calculatePagination when total: 15, current: 1, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 1, 7);
@@ -50,7 +50,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 2, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 2, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 2, 7);
@@ -98,7 +98,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 3, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 3, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 3, 7);
@@ -146,7 +146,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 4, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 4, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 4, 7);
@@ -194,7 +194,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 5, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 5, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 5, 7);
@@ -244,7 +244,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 6, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 6, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 6, 7);
@@ -294,7 +294,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 7, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 7, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 7, 7);
@@ -344,7 +344,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 8, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 8, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 8, 7);
@@ -394,7 +394,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 9, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 9, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 9, 7);
@@ -444,7 +444,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 10, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 10, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 10, 7);
@@ -494,7 +494,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 11, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 11, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 11, 7);
@@ -544,7 +544,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 12, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 12, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 12, 7);
@@ -592,7 +592,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 13, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 13, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 13, 7);
@@ -640,7 +640,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 14, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 14, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 14, 7);
@@ -688,7 +688,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 15, pageWindow: 7", ({
+  it("test calculatePagination when total: 15, current: 15, window: 7", ({
     expect,
   }) => {
     const result = calculatePagination(15, 15, 7);
@@ -737,8 +737,8 @@ describe("test calculatePagination function when lastPage is odd number and page
   });
 });
 
-describe("test calculatePagination function when lastPage is odd number and pageWindow is even number", () => {
-  it("test calculatePagination when lastPage: 15, currentPage: 1, pageWindow: 8", ({
+describe("test calculatePagination function when total is odd number and window is even number", () => {
+  it("test calculatePagination when total: 15, current: 1, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 1, 8);
@@ -789,7 +789,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 2, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 2, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 2, 8);
@@ -840,7 +840,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 3, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 3, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 3, 8);
@@ -891,7 +891,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 4, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 4, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 4, 8);
@@ -942,7 +942,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 5, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 5, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 5, 8);
@@ -995,7 +995,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 6, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 6, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 6, 8);
@@ -1048,7 +1048,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 7, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 7, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 7, 8);
@@ -1101,7 +1101,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 8, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 8, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 8, 8);
@@ -1154,7 +1154,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 9, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 9, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 9, 8);
@@ -1207,7 +1207,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 10, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 10, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 10, 8);
@@ -1260,7 +1260,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 11, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 11, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 11, 8);
@@ -1311,7 +1311,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 12, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 12, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 12, 8);
@@ -1362,7 +1362,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 13, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 13, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 13, 8);
@@ -1413,7 +1413,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 14, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 14, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 14, 8);
@@ -1464,7 +1464,7 @@ describe("test calculatePagination function when lastPage is odd number and page
     `);
   });
 
-  it("test calculatePagination when lastPage: 15, currentPage: 15, pageWindow: 8", ({
+  it("test calculatePagination when total: 15, current: 15, window: 8", ({
     expect,
   }) => {
     const result = calculatePagination(15, 15, 8);
@@ -1517,7 +1517,7 @@ describe("test calculatePagination function when lastPage is odd number and page
 });
 
 describe("test calculatePagination some special case", () => {
-  it("test calculatePagination when lastPage: 10, currentPage: 3, pageWindow: 5", ({
+  it("test calculatePagination when total: 10, current: 3, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(10, 3, 5);
@@ -1554,7 +1554,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 10, currentPage: 8, pageWindow: 5", ({
+  it("test calculatePagination when total: 10, current: 8, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(10, 8, 5);
@@ -1591,7 +1591,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 6, currentPage: 2, pageWindow: 5", ({
+  it("test calculatePagination when total: 6, current: 2, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(6, 2, 5);
@@ -1624,7 +1624,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 5, currentPage: 3, pageWindow: 5", ({
+  it("test calculatePagination when total: 5, current: 3, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(5, 3, 5);
@@ -1654,7 +1654,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 10, currentPage: 3, pageWindow: 6", ({
+  it("test calculatePagination when total: 10, current: 3, window: 6", ({
     expect,
   }) => {
     const result = calculatePagination(10, 3, 6);
@@ -1694,7 +1694,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 10, currentPage: 4, pageWindow: 6", ({
+  it("test calculatePagination when total: 10, current: 4, window: 6", ({
     expect,
   }) => {
     const result = calculatePagination(10, 4, 6);
@@ -1736,7 +1736,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 10, currentPage: 2, pageWindow: 5", ({
+  it("test calculatePagination when total: 10, current: 2, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(10, 2, 5);
@@ -1773,7 +1773,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 10, currentPage: 4, pageWindow: 5", ({
+  it("test calculatePagination when total: 10, current: 4, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(10, 4, 5);
@@ -1812,7 +1812,7 @@ describe("test calculatePagination some special case", () => {
     `);
   });
 
-  it("test calculatePagination when lastPage: 4, currentPage: 2, pageWindow: 5", ({
+  it("test calculatePagination when total: 4, current: 2, window: 5", ({
     expect,
   }) => {
     const result = calculatePagination(4, 2, 5);
@@ -1832,6 +1832,51 @@ describe("test calculatePagination some special case", () => {
         },
         {
           "page": 4,
+          "type": "page",
+        },
+      ]
+    `);
+  });
+  it("test calculatePagination when total: 6, current: 1, window: 4", ({
+    expect,
+  }) => {
+    const result = calculatePagination(6, 1, 4);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "page": 1,
+          "type": "page",
+        },
+        {
+          "page": 2,
+          "type": "page",
+        },
+        {
+          "page": 3,
+          "type": "page",
+        },
+        {
+          "pages": [
+            4,
+            5,
+          ],
+          "type": "ellipsis",
+        },
+        {
+          "page": 6,
+          "type": "page",
+        },
+      ]
+    `);
+  });
+  it("test calculatePagination when total: 0, current: 2, window: 5", ({
+    expect,
+  }) => {
+    const result = calculatePagination(0, 2, 4);
+    expect(result).toMatchInlineSnapshot(`
+      [
+        {
+          "page": 1,
           "type": "page",
         },
       ]
