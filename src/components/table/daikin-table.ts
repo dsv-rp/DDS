@@ -9,6 +9,7 @@ import {
 } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../checkbox/daikin-checkbox";
 import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
@@ -206,13 +207,6 @@ export class DaikinTable<
     this.dispatchEvent(new Event("change-check"));
   }
 
-  private _updateTable() {
-    // Reset rows
-    this._currentView = this.rows;
-
-    this._updateCurrentView();
-  }
-
   private _handleHeaderCheckboxChange(): void {
     switch (this._bulkRowsCheckState) {
       case "checked":
@@ -249,7 +243,6 @@ export class DaikinTable<
       this.order = "asc";
     }
 
-    this._updateTable();
     this.dispatchEvent(new Event("change-sort"));
   }
 
@@ -266,7 +259,7 @@ export class DaikinTable<
 
   override render() {
     const createHeaderRow = () =>
-      this.headers.map(({ label, alignment, sortable, ...header }) => {
+      repeat(this.headers, ({ label, alignment, sortable, ...header }) => {
         const key = String(header.key);
 
         return html`<th
@@ -295,7 +288,8 @@ export class DaikinTable<
       });
 
     const createRow = (item: T) =>
-      this.headers.map(
+      repeat(
+        this.headers,
         ({ alignment, ...header }) =>
           html`<td class="h-full p-0">
             <slot name=${`cell:${String(header.key)}:${item.id}`}>
@@ -329,7 +323,8 @@ export class DaikinTable<
           </tr>
         </thead>
         <tbody>
-          ${this._currentView.map(
+          ${repeat(
+            this._currentView,
             (row) =>
               html`<tr
                 class=${cvaRow({
@@ -363,12 +358,23 @@ export class DaikinTable<
     </div>`;
   }
 
-  protected override willUpdate(): void {
-    this._updateTable();
-    this._updateHeaderCheckboxState();
+  protected override willUpdate(changedProperties: PropertyValues<this>): void {
+    const viewChanged =
+      changedProperties.has("rows") ||
+      changedProperties.has("sort") ||
+      changedProperties.has("order") ||
+      changedProperties.has("sortFunction");
+    const selectionChanged = changedProperties.has("selection");
+
+    if (viewChanged) {
+      this._updateCurrentView();
+    }
+    if (viewChanged || selectionChanged) {
+      this._updateHeaderCheckboxState();
+    }
   }
 
-  protected override updated(changedProperties: PropertyValues): void {
+  protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("headers")) {
       if (import.meta.env.DEV) {
         if (
