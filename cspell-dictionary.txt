@@ -11,6 +11,7 @@ runem
 tailwindcss
 taze
 tseslint
+rgba
 
 # Colors
 Coolgrey
@@ -18,6 +19,7 @@ Darkgrey
 Mediumgrey
 
 # ARIA
+aria-describedby
 aria-labelledby
 
 # ARIA Roles
@@ -25,6 +27,8 @@ tablist
 tabpanel
 textbox
 progressbar
+radiogroup
+combobox
 listitem
 
 # Custom Events
@@ -34,6 +38,8 @@ beforetoggle
 # HTML
 maxlength
 slotchange
+haspopup
+listbox
 valuenow
 
 # SVG

@@ -55,6 +55,15 @@ export default tseslint.config(
           allowNumber: true,
         },
       ],
+
+      "wc/guard-super-call": "off", // Disabled as it's checked by TypeScript
+      "lit-a11y/anchor-is-valid": [
+        "error",
+        {
+          allowHash: false,
+          aspects: ["invalidHref", "preferButton"],
+        },
+      ],
     },
   },
   {

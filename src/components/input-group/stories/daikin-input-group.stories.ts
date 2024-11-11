@@ -17,11 +17,10 @@ export default {
 
 export const Default: Story = {
   args: {
-    content: "TextInput",
     label: "Label text",
     helper: "Helper text",
     disabled: false,
-    required: false,
+    content: "TextField",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
@@ -46,7 +45,7 @@ export const Default: Story = {
 export const Required: Story = {
   args: {
     ...Default.args,
-    required: true,
+    required: "Required",
   },
 };
 
@@ -81,31 +80,45 @@ export const Error: Story = {
   },
 };
 
-export const Textarea: Story = {
+export const TextArea: Story = {
   args: {
     ...Default.args,
-    content: "Textarea",
-    textareaCounter: true,
+    textareaMaxCount: 100,
+    content: "TextArea",
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-input-group")[0];
     await expect(root).toBeInTheDocument();
 
-    const inner = canvasElement.getElementsByTagName("daikin-textarea")[0];
     const innerInput: HTMLInputElement = getByShadowRole(root, "textbox");
     await expect(innerInput).toBeInTheDocument();
 
     await expect(innerInput).toHaveValue("Value");
-    await expect(getByShadowText(root, "5/100")).toBeInTheDocument();
+    await expect(getByShadowText(root, "5")).toBeInTheDocument();
 
     // has counter
     await step("Try to type inner textbox", async () => {
-      await userEvent.type(innerInput, "Example");
-      await expect(getByShadowText(root, "12/100")).toBeInTheDocument();
-      await expect(queryByShadowText(root, "5/100")).not.toBeInTheDocument();
+      await userEvent.type(innerInput, "A");
+      await expect(getByShadowText(root, "6")).toBeInTheDocument();
+      await expect(queryByShadowText(root, "5")).not.toBeInTheDocument();
     });
 
-    inner.value = "";
+    await userEvent.keyboard("[BackSpace]");
+    await expect(queryByShadowText(root, "5")).toBeInTheDocument();
     innerInput.blur();
   }),
+};
+
+export const Dropdown: Story = {
+  args: {
+    ...Default.args,
+    content: "Dropdown",
+  },
+};
+
+export const Select: Story = {
+  args: {
+    ...Default.args,
+    content: "Select",
+  },
 };

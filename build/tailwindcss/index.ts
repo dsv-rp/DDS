@@ -3,6 +3,7 @@ import { iconsPlugin } from "@egoist/tailwindcss-icons";
 import { env } from "node:process";
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
+import { colorTokens } from "../../color-tokens.json";
 import { loadIcons } from "./icons";
 import { tokensPlugin } from "./tokens";
 import { flattenColorPalette, toColorValue } from "./utils";
@@ -24,8 +25,12 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        system: colorTokens,
+      },
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
+        dropdown: "0px 0px 8px 0px #00000033",
       },
       keyframes: {
         "progress-bar-indeterminate": {
@@ -68,6 +73,8 @@ export default {
 
       matchVariant("part", (value) => `&::part(${value})`);
 
+      addVariant("floating-unready", ["&:not([data-floating-ready])"]);
+
       matchVariant(
         "slotted",
         (value) => [
@@ -84,6 +91,7 @@ export default {
         }
       );
 
+      // Sets a CSS variable (for color).
       matchUtilities(
         {
           "var-color": (value, { modifier }) => {
@@ -100,6 +108,40 @@ export default {
           modifiers: "any",
           values: flattenColorPalette(theme("colors")),
           type: ["color", "any"],
+        }
+      );
+
+      // Defines a CSS variable with priority control. Use this together with `var-color`.
+      // Usage: `define-[--color-error,--color-focus,--color-base]/color-border`
+      //        => `--color-border: var(--color-error, var(--color-focus, var(--color-base)));`
+      matchUtilities(
+        {
+          define: (value, { modifier }) => {
+            if (!modifier) {
+              return {};
+            }
+
+            return {
+              [`--${modifier}`]: value
+                // `[--color-error,--color-focus,--color-base]` will be passed as `var(--color-error,--color-focus,--color-base)`
+                .replace(/^var\((.+)\)$/, "$1")
+                .split(",")
+                .reduceRight(
+                  (acc, cur) =>
+                    acc
+                      ? `var(${cur}, ${acc})`
+                      : // rightmost
+                        cur.startsWith("--")
+                        ? `var(${cur})`
+                        : cur,
+                  ""
+                ),
+            };
+          },
+        },
+        {
+          modifiers: "any",
+          values: {},
         }
       );
     }),
