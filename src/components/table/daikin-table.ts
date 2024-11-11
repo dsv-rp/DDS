@@ -65,7 +65,7 @@ const cvaRow = cva(
  * @fires change-sort - When the sort is changed, it returns the current sort key and the order (ascending or descending).
  *
  * @slot header:${headers[i].key} - A slot for the header cell of a table. Use this when you want to display something other than text, such as an icon. Use `daikin-table-header-cell` for the wrapper.
- * @slot cell:${headers[i].key}:${rows[j].id} - A slot for the data cell of a table. Use `daikin-table-cell` for the wrapper.
+ * @slot cell:${rows[j].id}:${headers[i].key} - A slot for the data cell of a table. Use `daikin-table-cell` for the wrapper.
  *
  * @example
  *
@@ -83,19 +83,19 @@ const cvaRow = cva(
  *     { id: '4', name: 'Strawberry', season: 'Spring', price: '$4' },
  *   ]"
  * >
- *   <daikin-table-cell slot="cell:name:1">
+ *   <daikin-table-cell slot="cell:1:name">
  *     Apple
  *     <span slot="subtitle">This is a autumn fruit.</span>
  *   </daikin-table-cell>
- *   <daikin-table-cell slot="cell:name:2">
+ *   <daikin-table-cell slot="cell:2:name">
  *     Peach
  *     <span slot="subtitle">This is a summer fruit.</span>
  *   </daikin-table-cell>
- *   <daikin-table-cell slot="cell:name:3">
+ *   <daikin-table-cell slot="cell:3:name">
  *     Orange
  *     <span slot="subtitle">This is a winter fruit.</span>
  *   </daikin-table-cell>
- *   <daikin-table-cell slot="cell:name:4">
+ *   <daikin-table-cell slot="cell:4:name">
  *     Strawberry
  *     <span slot="subtitle">This is a spring fruit.</span>
  *   </daikin-table-cell>
@@ -247,54 +247,59 @@ export class DaikinTable<
   }
 
   private _updateHeaderCheckboxState() {
-    const selectedIdLengthInPage = this.selection.length;
+    // Filter items in case `this.rows` are changed.
+    const rowIdSet = new Set(this.rows.map(({ id }) => id));
+    this.selection = this.selection.filter((id) => rowIdSet.has(id));
+    const selectionCount = this.selection.length;
 
     this._bulkRowsCheckState =
-      this._currentView.length === selectedIdLengthInPage
+      this._currentView.length === selectionCount
         ? "checked"
-        : selectedIdLengthInPage
+        : selectionCount
           ? "indeterminate"
           : "unchecked";
   }
 
   override render() {
     const createHeaderRow = () =>
-      repeat(this.headers, ({ label, alignment, sortable, ...header }) => {
-        const key = String(header.key);
-
-        return html`<th
-          class="h-full p-0"
-          aria-sort=${ifDefined(
-            this.sortable && this.sort === key
-              ? this.order === "asc"
-                ? "ascending"
-                : "descending"
-              : undefined
-          )}
-        >
-          <slot
-            name=${`header:${key}`}
-            @change-sort=${(event: Event) =>
-              this._handleClickSort(event, header.key)}
+      repeat(
+        this.headers,
+        ({ key }) => key,
+        ({ key, label, alignment, sortable }) =>
+          html`<th
+            class="h-full p-0"
+            aria-sort=${ifDefined(
+              this.sortable && this.sort === key
+                ? this.order === "asc"
+                  ? "ascending"
+                  : "descending"
+                : undefined
+            )}
           >
-            <daikin-table-header-cell
-              alignment=${alignment ?? "left"}
-              ?sortable=${this.sortable && sortable}
+            <slot
+              name=${`header:${key}`}
+              @change-sort=${(event: Event) =>
+                this._handleClickSort(event, key)}
             >
-              ${label}
-            </daikin-table-header-cell>
-          </slot>
-        </th>`;
-      });
+              <daikin-table-header-cell
+                alignment=${alignment ?? "left"}
+                ?sortable=${this.sortable && sortable}
+              >
+                ${label}
+              </daikin-table-header-cell>
+            </slot>
+          </th>`
+      );
 
     const createRow = (item: T) =>
       repeat(
         this.headers,
-        ({ alignment, ...header }) =>
+        ({ key }) => `${item.id}:${key}`,
+        ({ key, alignment }) =>
           html`<td class="h-full p-0">
-            <slot name=${`cell:${String(header.key)}:${item.id}`}>
+            <slot name=${`cell:${item.id}:${key}`}>
               <daikin-table-cell alignment=${alignment ?? "left"}>
-                ${item[header.key]}
+                ${item[key]}
               </daikin-table-cell>
             </slot>
           </td>`
@@ -325,6 +330,7 @@ export class DaikinTable<
         <tbody>
           ${repeat(
             this._currentView,
+            ({ id }) => id,
             (row) =>
               html`<tr
                 class=${cvaRow({
