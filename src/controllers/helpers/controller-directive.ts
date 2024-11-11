@@ -1,5 +1,9 @@
 import { nothing, type Part } from "lit";
-import { AsyncDirective, directive } from "lit/async-directive.js";
+import {
+  AsyncDirective,
+  directive,
+  type DirectiveResult,
+} from "lit/async-directive.js";
 
 function argsChanged(
   current: readonly unknown[],
@@ -27,7 +31,7 @@ export function createControllerDirective<T extends unknown[]>(
     newArgs: NoInfer<T>,
     oldArgs: NoInfer<T>
   ) => boolean = argsChanged
-) {
+): (...values: T) => DirectiveResult {
   class ControllerDirective extends AsyncDirective {
     /** The arguments passed to render. */
     private _args: T | undefined;
