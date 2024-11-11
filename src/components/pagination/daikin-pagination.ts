@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { calculatePagination } from "./pagination-utils";
@@ -191,6 +192,9 @@ export class DaikinPagination extends LitElement {
                   class=${buttonClassName}
                   @click=${() => this._goto(item.page)}
                   aria-label="Go to page ${item.page}"
+                  aria-current=${ifDefined(
+                    item.page === this.current ? "page" : undefined
+                  )}
                 >
                   ${item.page}
                 </button>
