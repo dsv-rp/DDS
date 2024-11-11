@@ -3,7 +3,7 @@ import { iconsPlugin } from "@egoist/tailwindcss-icons";
 import { env } from "node:process";
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
-import { colorTokens } from "../../color-tokens.json";
+import { colorTokens } from "./color-tokens.json";
 import { loadIcons } from "./icons";
 import { tokensPlugin } from "./tokens";
 import { flattenColorPalette, toColorValue } from "./utils";
