@@ -51,9 +51,9 @@ export function calculatePagination(
   // If there is one or no omissions, it is only guaranteed that `centerLeft` will be less than or equal to 3 (if there is no left omission), or `centerRight` will be greater than or equal to `total - 2`.
   const centerLeft = current - Math.floor((window - 5) / 2);
   const centerRight = centerLeft + window - 5;
-  // The first page to the current page can be displayed in the `window`.
-  // Only the right side needs an ellipsis.
   if (centerLeft <= 3) {
+    // The first page to the current page can be displayed in the `window`.
+    // Only the right side needs an ellipsis.
     return [
       ...pageSequence(1, window - 1),
       { type: "ellipsis", pages: sequence(window - 1, total) },
@@ -61,6 +61,8 @@ export function calculatePagination(
     ];
   }
   if (centerRight >= total - 2) {
+    // The current page to the last page can be displayed in the `window`.
+    // Only the left side needs an ellipsis.
     return [
       { type: "page", page: 1 },
       { type: "ellipsis", pages: sequence(2, total - (window - 3)) },
@@ -72,6 +74,7 @@ export function calculatePagination(
   }
 
   return [
+    // Both sides need an ellipsis.
     { type: "page", page: 1 },
     { type: "ellipsis", pages: sequence(2, centerLeft) },
     ...pageSequence(centerLeft, centerRight + 1),

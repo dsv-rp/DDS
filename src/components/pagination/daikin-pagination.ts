@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import "../icon/daikin-icon";
 import { calculatePagination } from "./pagination-utils";
@@ -103,8 +104,6 @@ const cvaChevronButton = cva([
  *
  * @fires change - Emitted when the pagination current is changed.
  *
- * @slot page-{current} - A slot for the page content
- *
  * @example
  *
  * ```html
@@ -138,7 +137,7 @@ export class DaikinPagination extends LitElement {
   total = 5;
 
   /**
-   * Number of elements to display in pagination, including chevrons and ellipses.
+   * Number of elements to display in pagination, including ellipses.
    * Must be greater than or equal to 5.
    * If a value less than 5 is specified, it will be treated as 5.
    */
@@ -155,6 +154,7 @@ export class DaikinPagination extends LitElement {
       })
     );
   }
+
   private _gotoOffset(offset: number): void {
     this._goto(this.current + offset);
   }
@@ -171,19 +171,15 @@ export class DaikinPagination extends LitElement {
       <div aria-label="Pagination" class="inline-flex gap-1">
         <button
           class=${cvaChevron}
+          type="button"
           aria-label="Go to the previous page."
           ?disabled=${this.current === 1}
           @click=${() => this._gotoOffset(-1)}
         >
-          <div class="flex items-center justify-center">
-            <daikin-icon
-              icon="pagination-chevron-left"
-              color="current"
-            ></daikin-icon>
-          </div>
+          <span class="i-daikin-pagination-chevron-left w-4 h-4"></span>
         </button>
 
-        ${pageArray.map((pageItem) => {
+        ${repeat(pageArray, (pageItem) => {
           const ellipsisClassName = cvaEllipsis();
           if (pageItem.type === "page") {
             const buttonClassName = cvaPageButton({
@@ -203,30 +199,26 @@ export class DaikinPagination extends LitElement {
             const omittedPages = pageItem.pages;
             if (omittedPages.length > 0) {
               return html`<div class="relative">
-                <div class=${ellipsisClassName}>
+                <span class=${ellipsisClassName}>
                   <button
                     type="button"
                     disabled
                     aria-label="Expand the omitted pages."
                     class="after:content-['._._.']"
                   ></button>
-                </div>
+                </span>
               </div>`;
             }
           }
         })}
         <button
+          type="button"
           class=${cvaChevron}
           aria-label="Go to the next page."
           ?disabled=${this.current === this.total}
           @click=${() => this._gotoOffset(1)}
         >
-          <div class="flex items-center justify-center">
-            <daikin-icon
-              icon="pagination-chevron-right"
-              color="current"
-            ></daikin-icon>
-          </div>
+          <span class="i-daikin-pagination-chevron-right w-4 h-4"></span>
         </button>
       </div>
     `;
