@@ -9,7 +9,7 @@ export interface DaikinTabPanelsStoryArgs
 
 export const DAIKIN_TAB_PANELS_ARG_TYPES = {
   content: {
-    control: "select",
+    control: "radio",
     options: ["text", "form", "long"],
     description: "[slot] Content to show",
   },

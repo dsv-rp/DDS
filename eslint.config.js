@@ -63,6 +63,7 @@ export default tseslint.config(
           allowNumber: true,
         },
       ],
+
       // Web Components and lit
       "lit/attribute-names": "error",
       "lit/lifecycle-super": "error",
@@ -75,6 +76,13 @@ export default tseslint.config(
       "lit/value-after-constraints": "error",
 
       "wc/guard-super-call": "off", // Disabled as it's checked by TypeScript
+      "lit-a11y/anchor-is-valid": [
+        "error",
+        {
+          allowHash: false,
+          aspects: ["invalidHref", "preferButton"],
+        },
+      ],
     },
   },
   // Restrict imports

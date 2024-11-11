@@ -1,72 +1,136 @@
 import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { DaikinTextInput } from "../text-input/daikin-text-input";
-import type { DaikinTextarea } from "../textarea/daikin-textarea";
+import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
+import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
+import type { DaikinSelect } from "../select/daikin-select";
+import type { DaikinTextArea } from "../text-area/daikin-text-area";
+import type { DaikinTextField } from "../text-field/daikin-text-field";
 
-type ControlElement = DaikinTextInput | DaikinTextarea;
+type ControlElement =
+  | DaikinDropdown
+  | DaikinSelect
+  | DaikinTextField
+  | DaikinTextArea
+  | DaikinRadioGroup;
 
-const cvaLabel = cva(["text-base", "font-bold"], {
+const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
-    variant: {
-      enabled: ["text-daikinNeutral-800"],
-      disabled: ["text-daikinNeutral-200"],
-    },
-    required: {
-      optional: [],
-      required: ["after:content-['*']", "after:ml-[2px]"],
+    disabled: {
+      false: [],
+      true: ["text-system-state-disabled"],
     },
   },
 });
 
-const cvaHelper = cva(["h-[22px]", "text-xs"], {
+const cvaHelper = cva(
+  ["flex", "gap-1", "items-center", "leading-5", "text-sm"],
+  {
+    variants: {
+      type: {
+        helper: [],
+        helperDisabled: ["text-system-state-disabled"],
+        error: [
+          "text-system-state-error-active",
+          "font-bold",
+          "before:size-4",
+          "before:i-daikin-status-error",
+        ],
+        none: ["hidden"],
+      },
+    },
+  }
+);
+
+const cvaCounter = cva(["text-sm", "font-bold"], {
   variants: {
-    variant: {
-      enabled: ["text-daikinNeutral-800"],
-      disabled: ["text-daikinNeutral-200"],
+    disabled: {
+      false: ["text-system-element-text-secondary"],
+      true: ["text-system-state-disabled"],
+    },
+  },
+});
+
+const cvaCounterValueLength = cva([], {
+  variants: {
+    error: {
+      false: [],
+      true: ["text-system-state-error-active"],
     },
   },
 });
 
 /**
- * The input group component serves as a wrapper for a `daikin-text-input` or `daikin-textarea` component, providing additional elements such as labels, helper texts, or a counter.
+ * The input group component serves as a wrapper for an input control component (full list below), providing additional elements such as label text, helper text, or a counter.
  * It enhances the user experience by associating supplementary information or functionality directly with the input field.
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
- * - `daikin-input-group` > `daikin-text-input`
- * - `daikin-input-group` > `daikin-textarea`
+ * - `daikin-input-group` > `daikin-select`
+ * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
+ * - `daikin-input-group` > `daikin-text-area`
+ * - `daikin-input-group` > `daikin-text-field`
+ * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  *
- * @slot - A slot for a input component. Place a `daikin-text-input` or `daikin-textarea` element here.
+ * @slot - A slot for an input component. See **Hierarchies** for supported components.
  *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
- * import "@daikin-oss/design-system-web-components/components/text-input/index.js";
- * import "@daikin-oss/design-system-web-components/components/textarea/index.js";
+ * import "@daikin-oss/design-system-web-components/components/select/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
+ * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
  * ```
  *
- * With Text Input:
+ * With Dropdown:
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-text-input value="Content of Text Input"></daikin-text-input>
+ *   <daikin-dropdown value="Value of Dropdown">
+ *     <daikin-dropdown-item value="Value of Dropdown Item">
+ *       Dropdown item 1
+ *     </daikin-dropdown-item>
+ *   </daikin-dropdown>
  * </daikin-input-group>
  * ```
  *
- * With Textarea:
+ * With Select:
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-textarea value="Content of Textarea"></daikin-textarea>
+ *   <daikin-select>
+ *     <select name="select">
+ *       <option value="value1">Option 1</option>
+ *       <option value="value2">Option 2</option>
+ *       <option value="value3">Option 3</option>
+ *     </select>
+ *   </daikin-select>
  * </daikin-input-group>
+ * ```
+ *
+ * With Text Field:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-text-field value="Content of Text Field"></daikin-text-field>
+ * </daikin-input-group>
+ * ```
+ *
+ * With TextArea:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-text-area value="Content of TextArea"></daikin-text-area>
+ * </daikin-input-group>
+ * ```
  * ```
  */
 @customElement("daikin-input-group")
@@ -78,94 +142,146 @@ export class DaikinInputGroup extends LitElement {
       --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
 
       display: block;
-      width: max-content;
+      width: 100%;
     }
   `;
 
   /**
-   * Label text to place at the top of the field
+   * Label text displayed at the top of the field.
    */
-  @property({ type: String })
-  label?: string;
+  @property({ type: String, reflect: true })
+  label: string | null = null;
 
   /**
-   * Helper text to place at the bottom of the field. In error conditions, this text is hidden.
+   * Helper text displayed at the top of the field.
+   * If `error` is specified and `disabled` is `false`, that takes precedence and helper text is not displayed.
    */
-  @property({ type: String })
-  helper?: string;
+  @property({ type: String, reflect: true })
+  helper: string | null = null;
 
   /**
-   * Whether the field is disabled. Reflected in the `disabled` property of the input in the slot.
+   * Text indicating that the field is required.
+   * If a non-empty string is set,
+   * - the text will be displayed in red to the right of the label, and
+   * - the `required` attribute will be set for the input control in the slot.
+   * Ignored if `disabled` is `true`.
+   */
+  @property({ type: String, reflect: true })
+  required: string | null = null;
+
+  /**
+   * Error text displayed at the top of the field.
+   * Ignored if `disabled` is `true`.
+   * Reflected in presence of `error` attribute of the input control in the slot.
+   */
+
+  @property({ type: String, reflect: true })
+  error: string | null = null;
+
+  /**
+   * Whether the field is disabled.
+   * Reflected in `disabled` attribute of the input control in the slot.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Whether the field is required. An additional star mark will be added if `true`.
+   * Maximum value to display on the counter. When `null`, the counter will be hidden.
    */
-  @property({ type: Boolean, reflect: true })
-  required = false;
+  @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
+  textareaMaxCount: number | null = null;
 
-  /**
-   * Error text to place at the bottom of the field. If specified, sets the `error` property of the element in the slot to `true`. Ignored if the `disabled` is `true`.
-   */
-  @property({ type: String, reflect: true })
-  error = "";
+  @queryAssignedElements({ selector: "daikin-text-area" })
+  private readonly _textareas!: readonly DaikinTextArea[];
 
-  /**
-   * Whether to display the counter in the Textarea
-   */
-  @property({ type: Boolean, reflect: true, attribute: "textarea-counter" })
-  textareaCounter = false;
+  @queryAssignedElements({
+    selector:
+      "daikin-dropdown,daikin-select,daikin-text-field,daikin-text-area,daikin-radio-group",
+  })
+  private readonly _controls!: readonly ControlElement[];
 
-  @queryAssignedElements({ selector: "daikin-textarea" })
-  _textareas!: DaikinTextarea[];
-
-  @queryAssignedElements({ selector: "daikin-text-input,daikin-textarea" })
-  _controls!: ControlElement[];
+  @state()
+  private _textareaCount: number | null = null;
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
+
+    const textarea = this._textareas[0] as DaikinTextArea | undefined;
+    this._textareaCount = textarea?.count ?? null;
+  }
+
+  private _handleInput(event: Event): void {
+    // Update counter if emitted by textarea.
+    if ((event.target as HTMLElement).tagName === "DAIKIN-TEXT-AREA") {
+      this._textareaCount = (event.target as DaikinTextArea).count;
+    }
   }
 
   private _reflectSlotProperties(): void {
-    const isError = !this.disabled && !!this.error;
     for (const control of this._controls) {
-      control.disabled = !!this.disabled;
-      control.error = isError;
-    }
-
-    for (const item of this._textareas) {
-      item.counter = this.textareaCounter;
+      control.reflectInputGroup(this);
     }
   }
 
   override render() {
-    const inputGroupLabelClassName = cvaLabel({
-      variant: this.disabled ? "disabled" : "enabled",
-      required: this.required ? "required" : "optional",
-    });
+    // Priority: Error -> Helper -> None
+    // The error text is not displayed when disabled.
+    const helperType =
+      this.error && !this.disabled
+        ? "error"
+        : this.helper
+          ? this.disabled
+            ? "helperDisabled"
+            : "helper"
+          : "none";
 
-    const inputGroupHelperClassName = cvaHelper({
-      variant: this.disabled ? "disabled" : "enabled",
-    });
+    const helperText = {
+      error: this.error,
+      helper: this.helper,
+      helperDisabled: this.helper,
+      none: "",
+    }[helperType];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
-      <label class="flex flex-col justify-center w-max gap-1 font-daikinSerif">
-        ${this.label
-          ? html`<span class=${inputGroupLabelClassName}>${this.label}</span>`
-          : null}
-        <slot @slotchange=${this._handleSlotChange}></slot>
-        ${this.helper && !this.error
-          ? html`<span class=${inputGroupHelperClassName}>${this.helper}</span>`
-          : null}
-        ${!this.disabled && !!this.error
-          ? html`<span
-              class="flex gap-2 text-[--input-group-border-color-error] leading-[22px] before:i-daikin-status-error before:block before:w-[16px] before:h-[22px]"
-            >
-              ${this.error}
-            </span>`
-          : null}
+      <label
+        class="flex flex-col justify-center gap-2 w-full text-system-element-text-primary font-daikinSerif"
+      >
+        <div class="flex justify-between items-center gap-2">
+          <div class="flex items-center gap-1 font-bold">
+            ${this.label
+              ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
+                  ${this.label}
+                </span>`
+              : nothing}
+            ${this.required && !this.disabled
+              ? html`<span class="text-system-state-error-active text-xs">
+                  ${this.required}
+                </span>`
+              : nothing}
+          </div>
+          ${this.textareaMaxCount != null && this._textareaCount != null
+            ? html`
+                <span class=${cvaCounter({ disabled: this.disabled })}>
+                  <span
+                    class=${cvaCounterValueLength({
+                      error: this.textareaMaxCount < this._textareaCount,
+                    })}
+                    >${this._textareaCount}</span
+                  ><span>/</span><span>${this.textareaMaxCount}</span>
+                </span>
+              `
+            : nothing}
+        </div>
+        <span
+          class=${cvaHelper({ type: helperType })}
+          aria-live=${helperType === "error" ? "polite" : "off"}
+        >
+          ${helperText}
+        </span>
+        <slot
+          @slotchange=${this._handleSlotChange}
+          @input=${this._handleInput}
+        ></slot>
       </label>
     </fieldset>`;
   }

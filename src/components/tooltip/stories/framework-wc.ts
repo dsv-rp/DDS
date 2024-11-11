@@ -1,7 +1,11 @@
+import "#package/components/button/daikin-button";
 import "#package/components/tooltip/daikin-tooltip";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { DaikinTooltipStoryArgs } from "./common";
+
+export const TOOLTIP_SLOT_TEXT =
+  "This is a description using a slot. It also supports content other than character strings.";
 
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   render: ({
@@ -9,30 +13,39 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     variant,
     open,
     description,
-    closeOnClick,
+    popoverValue,
     trigger,
-    tooltipSlot,
+    viewArea,
+    hasSlot,
+    hasFocusableTrigger,
+    onToggle,
+    onBeforeToggle,
+    __vrtContainer__,
   }) => {
     return html`
       <div
         data-testid="view-area"
-        style="width: 800px; height: 500px; overflow: auto; border: 1px solid #ccc"
+        style=${`width: ${viewArea === "full" ? "100vw" : "800px"}; height: ${__vrtContainer__ ? "900px" : "500px"}; overflow: auto; border: 1px solid #ccc`}
       >
         <div
-          style="width: 1500px; height: 900px; display: flex; align-items: center; justify-content: center"
+          style=${`width: ${viewArea === "full" ? "200%" : "1500px"}; height: ${__vrtContainer__ ? "1700px" : "900px"}; display: flex; align-items: center; justify-content: center`}
         >
           <daikin-tooltip
             placement=${placement}
             variant=${variant}
             ?open=${open}
             description=${description}
-            ?close-on-click=${closeOnClick}
+            popover-value=${popoverValue}
             trigger=${trigger}
+            @toggle=${onToggle}
+            @beforetoggle=${onBeforeToggle}
           >
-            ${tooltipSlot
-              ? html`<span slot="tooltip">${tooltipSlot}</span>`
-              : null}
-            <span>hover me</span>
+            ${hasFocusableTrigger
+              ? html`<daikin-button>Focus me</daikin-button>`
+              : html`<span>Hover me</span>`}
+            ${hasSlot
+              ? html`<span slot="description">${TOOLTIP_SLOT_TEXT}</span>`
+              : nothing}
           </daikin-tooltip>
         </div>
       </div>
