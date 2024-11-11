@@ -63,3 +63,4 @@ quasis
 retargeted
 rgba
 textareas
+tsbuildinfo

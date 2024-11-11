@@ -5,7 +5,8 @@ const jiti = createJiti(__filename, {
   interopDefault: true,
 });
 
-//eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 module.exports = /** @type {import("./build/tailwindcss")["default"]} */ (
+  // eslint-disable-next-line @typescript-eslint/no-deprecated
   jiti("./build/tailwindcss")
 );
