@@ -85,7 +85,7 @@ const cvaCounterValueLength = cva([], {
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
- * <!-- The following will be imported as needed. -->
+ * <!-- Import the following as necessary. -->
  * import "@daikin-oss/design-system-web-components/components/dropdown/index.js";
  * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
  * import "@daikin-oss/design-system-web-components/components/radio-group/index.js";
