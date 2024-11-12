@@ -6,11 +6,17 @@ export type DDSPropertyDeclaration<
   TypeHint = unknown,
 > = PropertyDeclaration<Type, TypeHint> &
   (
-    | object
     | {
-        fallbackValue?: Type | undefined;
+        fallbackValue?: undefined;
+        isAllowedValue?: undefined;
       }
     | {
+        reflect: true;
+        fallbackValue: Type;
+        isAllowedValue?: undefined;
+      }
+    | {
+        reflect: true;
         fallbackValue: Type;
         isAllowedValue: (value: Type) => boolean;
       }

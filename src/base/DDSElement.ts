@@ -7,14 +7,7 @@ export class DDSElement extends LitElement {
   static override getPropertyDescriptor(
     name: PropertyKey,
     key: string | symbol,
-    {
-      fallbackValue,
-      isAllowedValue,
-      ...options
-    }: DDSPropertyDeclaration & {
-      fallbackValue?: unknown;
-      isAllowedValue?: (value: unknown) => void;
-    }
+    { fallbackValue, isAllowedValue, ...options }: DDSPropertyDeclaration
   ): PropertyDescriptor | undefined {
     const defaultDescriptor = super.getPropertyDescriptor(
       name,
