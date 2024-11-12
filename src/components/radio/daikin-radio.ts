@@ -157,7 +157,7 @@ export class DaikinRadio extends LitElement {
           class=${RADIO_CLASS_NAME}
           type="radio"
           name=${this.name}
-          value=${this.value}
+          .value=${this.value}
           aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
           ?disabled=${this.disabled}
           .checked=${this.checked}

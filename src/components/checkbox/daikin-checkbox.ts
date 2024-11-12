@@ -178,8 +178,8 @@ export class DaikinCheckbox extends LitElement {
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
-          value=${this.value}
           aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          .value=${this.value}
           .indeterminate=${this.checkState === "indeterminate"}
           .checked=${this.checked}
           ?disabled=${this.disabled}

@@ -236,7 +236,7 @@ export class DaikinTextField extends LitElement {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this._label as any)
         }
-        value=${this.value}
+        .value=${this.value}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
