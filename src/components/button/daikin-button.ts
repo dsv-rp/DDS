@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsProperty } from "../../base";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -90,7 +91,7 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  * ```
  */
 @customElement("daikin-button")
-export class DaikinButton extends LitElement {
+export class DaikinButton extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -112,20 +113,36 @@ export class DaikinButton extends LitElement {
   /**
    * Variant of the button.
    */
-  @property({ type: String, reflect: true })
-  variant: ButtonVariantProps["variant"] = "fill";
+  @ddsProperty({
+    type: String,
+    reflect: true,
+    fallbackValue: "fill",
+    isAllowedValue: (value) =>
+      ["fill", "outline", "ghost"].includes(value as string),
+  })
+  variant!: ButtonVariantProps["variant"];
 
   /**
    * Size of the button.
    */
-  @property({ type: String, reflect: true })
-  size: "small" | "medium" = "medium";
+  @ddsProperty({
+    type: String,
+    reflect: true,
+    fallbackValue: "medium",
+    isAllowedValue: (value) => ["small", "medium"].includes(value as string),
+  })
+  size!: ButtonVariantProps["size"];
 
   /**
    * Color of the button.
    */
-  @property({ type: String, reflect: true })
-  color: ButtonVariantProps["color"] = "default";
+  @ddsProperty({
+    type: String,
+    reflect: true,
+    fallbackValue: "default",
+    isAllowedValue: (value) => ["default", "danger"].includes(value as string),
+  })
+  color!: ButtonVariantProps["color"];
 
   /**
    * Whether the button is disabled.
@@ -138,15 +155,21 @@ export class DaikinButton extends LitElement {
    * Only used if the `type` is `"link"`.
    * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
    */
-  @property({ type: String, reflect: true })
-  href: string | null = null;
+  @ddsProperty({ type: String, reflect: true, fallbackValue: "" })
+  href!: string;
 
   /**
    * Type of the button.
    * If `"link"` is specified, the button will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
    */
-  @property({ type: String, reflect: true })
-  type: "button" | "submit" | "reset" | "link" = "button";
+  @ddsProperty({
+    type: String,
+    reflect: true,
+    fallbackValue: "button",
+    isAllowedValue: (value) =>
+      ["button", "submit", "reset", "link"].includes(value as string),
+  })
+  type!: "button" | "submit" | "reset" | "link";
 
   /**
    * Optional ARIA role of the button.
@@ -175,10 +198,11 @@ export class DaikinButton extends LitElement {
     });
 
     if (this.type === "link") {
-      const linkDisabled = this.disabled || this.href == null;
+      const href = this.getBackingProperty("href");
+      const linkDisabled = this.disabled || href == null;
       return html`<a
         class=${className}
-        href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}
+        href=${ifDefined(!linkDisabled ? href : undefined)}
         role=${ifDefined(
           this.buttonRole ?? (linkDisabled ? "link" : undefined)
         )}

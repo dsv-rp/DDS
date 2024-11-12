@@ -1,6 +1,7 @@
 import { LitElement } from "lit";
 import type { DDSPropertyDeclaration } from "./ddsProperty";
 
+// TODO: add test
 export class DDSElement extends LitElement {
   private static _propertyNameKeyMap?: Map<PropertyKey, string | symbol>;
 
@@ -31,8 +32,8 @@ export class DDSElement extends LitElement {
       set(value: unknown): void {
         defaultDescriptor.set.call(
           this,
-          fallbackValue !== undefined && isAllowedValue?.(value) === false
-            ? fallbackValue
+          isAllowedValue != null && (value == null || !isAllowedValue(value))
+            ? undefined
             : value
         );
       },
