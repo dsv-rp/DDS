@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
+import { type PropertyValues, css, html, unsafeCSS } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsProperty } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
 
@@ -78,7 +79,7 @@ const cvaTextArea = cva(
  * ```
  */
 @customElement("daikin-text-area")
-export class DaikinTextArea extends LitElement {
+export class DaikinTextArea extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -102,14 +103,14 @@ export class DaikinTextArea extends LitElement {
   /**
    * Form name of the text area.
    */
-  @property({ type: String, reflect: true })
-  name = "";
+  @ddsProperty({ type: String, reflect: true, fallbackValue: "" })
+  name!: string;
 
   /**
    * Placeholder text.
    */
-  @property({ type: String, reflect: true })
-  placeholder: string | null = null;
+  @ddsProperty({ type: String, reflect: true, fallbackValue: "" })
+  placeholder!: string;
 
   /**
    * Whether the text area is disabled.
@@ -138,8 +139,8 @@ export class DaikinTextArea extends LitElement {
   /**
    * Value of `autocomplete` attribute of the internal `<textarea>`.
    */
-  @property({ type: String, reflect: true })
-  autocomplete?: HTMLInputElement["autocomplete"];
+  @ddsProperty({ type: String, reflect: true, fallbackValue: "" })
+  autocomplete!: HTMLInputElement["autocomplete"] | "";
 
   /**
    * Whether to allow resizing of the text area.
@@ -173,17 +174,14 @@ export class DaikinTextArea extends LitElement {
         error: !this.disabled && this.error,
         resize: this.resizable,
       })}
-      .value=${this.value}
-      placeholder=${ifDefined(this.placeholder ?? undefined)}
-      name=${this.name}
-      autocomplete=${
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(this.autocomplete as any)
-      }
+      name=${ifDefined(this.getBackingProperty("name"))}
+      placeholder=${ifDefined(this.getBackingProperty("placeholder"))}
+      autocomplete=${ifDefined(this.getBackingProperty("autocomplete"))}
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this._label as any)
       }
+      .value=${this.value}
       ?disabled=${this.disabled}
       ?readonly=${this.readonly}
       ?required=${this.required}
