@@ -25,6 +25,7 @@ export class DDSElement extends LitElement {
     return {
       get(): unknown {
         const orgValue = defaultDescriptor.get.call(this) as unknown;
+        // If `fallbackValue` is provided, replace `undefined` with `fallbackValue` and return it.
         return orgValue === undefined && fallbackValue !== undefined
           ? fallbackValue
           : orgValue;
@@ -32,6 +33,9 @@ export class DDSElement extends LitElement {
       set(value: unknown): void {
         defaultDescriptor.set.call(
           this,
+          // Convert a nullish value or an invalid value to `undefined` before setting.
+          // This `undefined` will be replaced with `fallbackValue` in the getter above (if provided).
+          // We cannot use `fallbackValue` here since it prevents reflection when the user tries to set the same value as `fallbackValue` next time.
           isAllowedValue != null && (value == null || !isAllowedValue(value))
             ? undefined
             : value
@@ -48,10 +52,10 @@ export class DDSElement extends LitElement {
     const key = (
       this.constructor as typeof DDSElement
     )._propertyNameKeyMap?.get(name);
-    if (!key) {
+    if (key == null) {
       return;
     }
 
-    return this[key as T];
+    return (this as unknown as Record<typeof key, this[T] | undefined>)[key];
   }
 }
