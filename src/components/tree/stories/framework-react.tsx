@@ -16,33 +16,43 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
   component: ({ ...props }: DaikinTreeStoryArgs) => (
     <div style={{ width: "400px" }}>
       <ReactDaikinTree {...props}>
-        <ReactDaikinTreeSection open>
+        <ReactDaikinTreeSection value="1" open>
           <span slot="label">Tree section 1</span>
-          <ReactDaikinTreeItem>Tree item 1-1</ReactDaikinTreeItem>
+          <ReactDaikinTreeItem value="1-1">Tree item 1-1</ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
-        <ReactDaikinTreeSection selected>
+        <ReactDaikinTreeSection value="2" selected>
           <span slot="label">Tree section 2</span>
-          <ReactDaikinTreeSection open>
+          <ReactDaikinTreeSection value="2-1" open>
             <span slot="label">Tree section 2-1</span>
-            <ReactDaikinTreeItem>Tree item 2-1-1</ReactDaikinTreeItem>
-            <ReactDaikinTreeItem>Tree item 2-1-2</ReactDaikinTreeItem>
+            <ReactDaikinTreeItem value="2-1-1">
+              Tree item 2-1-1
+            </ReactDaikinTreeItem>
+            <ReactDaikinTreeItem value="2-1-2">
+              Tree item 2-1-2
+            </ReactDaikinTreeItem>
           </ReactDaikinTreeSection>
-          <ReactDaikinTreeItem>Tree item 2-2</ReactDaikinTreeItem>
-          <ReactDaikinTreeSection open>
+          <ReactDaikinTreeItem value="2-2">Tree item 2-2</ReactDaikinTreeItem>
+          <ReactDaikinTreeSection value="2-3" open>
             <span slot="label">Tree section 2-3</span>
-            <ReactDaikinTreeItem>Tree item 2-3-1</ReactDaikinTreeItem>
+            <ReactDaikinTreeItem value="2-3">
+              Tree item 2-3-1
+            </ReactDaikinTreeItem>
           </ReactDaikinTreeSection>
         </ReactDaikinTreeSection>
-        <ReactDaikinTreeSection disabled>
+        <ReactDaikinTreeSection value="3" disabled>
           <span slot="label">Tree section 3</span>
-          <ReactDaikinTreeItem disabled>Tree item 3-1</ReactDaikinTreeItem>
+          <ReactDaikinTreeItem value="3-1" disabled>
+            Tree item 3-1
+          </ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
         {/* 'open' is ignored when 'disabled' */}
-        <ReactDaikinTreeSection disabled open>
+        <ReactDaikinTreeSection value="4" disabled open>
           <span slot="label">Tree section 4</span>
-          <ReactDaikinTreeItem disabled>Tree item 4-1</ReactDaikinTreeItem>
+          <ReactDaikinTreeItem value="4-1" disabled>
+            Tree item 4-1
+          </ReactDaikinTreeItem>
         </ReactDaikinTreeSection>
-        <ReactDaikinTreeItem>Tree item 5</ReactDaikinTreeItem>
+        <ReactDaikinTreeItem value="5">Tree item 5</ReactDaikinTreeItem>
       </ReactDaikinTree>
     </div>
   ),

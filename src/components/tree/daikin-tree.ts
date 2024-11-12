@@ -1,5 +1,9 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, queryAssignedElements } from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTreeItem } from "../tree-item";
 import type { DaikinTreeSection } from "../tree-section";
@@ -44,6 +48,12 @@ export class DaikinTree extends LitElement {
     }
   `;
 
+  @property({ type: Boolean, reflect: true })
+  selectable: boolean = false;
+
+  @property({ type: String, reflect: true })
+  selected: string | null = null;
+
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
@@ -61,13 +71,35 @@ export class DaikinTree extends LitElement {
     handleTreeMoveFocusRoot(event, this._children);
   }
 
+  private _handleTreeSelect(event: Event): void {
+    const target = event.target as DaikinTreeSection | DaikinTreeItem;
+
+    this.selected = target.value;
+  }
+
   override render() {
     return html`<div role="tree">
       <slot
         @slotchange=${this._handleSlotChange}
         @tree-move-focus=${this._handleTreeMoveFocus}
+        @tree-select=${this._handleTreeSelect}
       ></slot>
     </div>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    if (
+      changedProperties.has("selectable") ||
+      changedProperties.has("selected")
+    ) {
+      if (!this.selectable || !this.selected) {
+        return;
+      }
+
+      this._children.forEach((section) =>
+        section.selectedItem(this.selected ?? undefined)
+      );
+    }
   }
 }
 

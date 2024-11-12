@@ -3,7 +3,11 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { emitTreeMoveFocus, getDirectionFromKey } from "../tree/common";
+import {
+  emitTreeMoveFocus,
+  emitTreeSelect,
+  getDirectionFromKey,
+} from "../tree/common";
 
 export const cvaTreeChildren = cva(
   [
@@ -93,6 +97,12 @@ export class DaikinTreeItem extends LitElement {
       display: block;
     }
   `;
+
+  /**
+   * Value of the tree item.
+   */
+  @property({ type: String })
+  value: string = "";
 
   /**
    * Type of the tree item.
@@ -185,6 +195,7 @@ export class DaikinTreeItem extends LitElement {
             type="button"
             class=${itemCN}
             ?disabled=${disabled}
+            @click=${() => emitTreeSelect(this)}
             @keydown=${this._handleKeyDown}
           >
             <slot></slot>
@@ -193,7 +204,7 @@ export class DaikinTreeItem extends LitElement {
     // eslint-disable-next-line lit-a11y/accessible-name -- The accessible name of the `treeitem` will be calculated from the slot content.
     return html`<div
       role="treeitem"
-      aria-selected=${this.selected}
+      aria-selected=${this.selected && !this.disabled}
       style=${`--level:${this.level}`}
     >
       ${item}
@@ -217,6 +228,10 @@ export class DaikinTreeItem extends LitElement {
    */
   focusLastItem(options?: FocusOptions): void {
     this._focusableElement.focus(options);
+  }
+
+  selectedItem(selected?: string): void {
+    this.selected = this.value === selected;
   }
 }
 

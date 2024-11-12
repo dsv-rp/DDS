@@ -13,7 +13,10 @@ export default {
 };
 
 export const Default: Story = {
-  args: {},
+  args: {
+    selectable: true,
+    selected: "1",
+  },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tree")[0];
     await expect(root).toBeInTheDocument();

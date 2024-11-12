@@ -4,7 +4,13 @@ import type { DaikinTree } from "../daikin-tree";
 
 export type DaikinTreeStoryArgs = Required<ElementProps<DaikinTree>>;
 
-export const DAIKIN_TREE_ARG_TYPES =
-  {} satisfies Meta<DaikinTreeStoryArgs>["argTypes"];
+export const DAIKIN_TREE_ARG_TYPES = {
+  selectable: {
+    type: "boolean",
+  },
+  selected: {
+    type: "string",
+  },
+} satisfies Meta<DaikinTreeStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTreeStoryArgs>;

@@ -9,6 +9,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
 import {
   emitTreeMoveFocus,
+  emitTreeSelect,
   getDirectionFromKey,
   handleTreeMoveFocusSection,
   type TreeMoveFocusEvent,
@@ -54,6 +55,12 @@ export class DaikinTreeSection extends LitElement {
       display: block;
     }
   `;
+
+  /**
+   * Value of the tree item.
+   */
+  @property({ type: String })
+  value: string = "";
 
   /**
    * Whether the tree section is selected.
@@ -109,6 +116,7 @@ export class DaikinTreeSection extends LitElement {
       )
     ) {
       this.open = !this.open;
+      emitTreeSelect(this);
     }
   }
 
@@ -171,7 +179,12 @@ export class DaikinTreeSection extends LitElement {
 
   override render() {
     // eslint-disable-next-line lit-a11y/accessible-name
-    return html`<div role="treeitem" aria-selected=${this._open}>
+    return html`<div
+      role="treeitem"
+      aria-selected=${this._open && !this.disabled}
+      aria-expanded=${this._open && !this.disabled}
+      aria-disabled=${this.disabled}
+    >
       <button
         type="button"
         ?disabled=${this.disabled}
@@ -218,6 +231,7 @@ export class DaikinTreeSection extends LitElement {
    * @param options focus options
    */
   focusLastItem(options?: FocusOptions): void {
+    // console.log(this._children);
     const child =
       this._open && this._children.findLast((element) => !element.disabled);
 
@@ -226,6 +240,11 @@ export class DaikinTreeSection extends LitElement {
     } else {
       this.focus(options);
     }
+  }
+
+  selectedItem(selected?: string): void {
+    this.selected = this.value === selected;
+    this._children.forEach((section) => section.selectedItem(selected));
   }
 }
 

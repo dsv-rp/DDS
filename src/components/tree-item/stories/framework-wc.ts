@@ -5,8 +5,9 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinTreeItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTreeItemStoryArgs> = {
-  render: ({ type, href, selected, disabled, label, onClick }) => html`
+  render: ({ value, type, href, selected, disabled, label, onClick }) => html`
     <daikin-tree-item
+      value=${value}
       type=${type}
       href=${ifDefined(href)}
       ?selected=${selected}

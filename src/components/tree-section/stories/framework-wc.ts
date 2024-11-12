@@ -5,8 +5,9 @@ import { html } from "lit";
 import type { DaikinTreeSectionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTreeSectionStoryArgs> = {
-  render: ({ label, selected, disabled, open, onToggle }) => html`
+  render: ({ value, selected, disabled, open, label, onToggle }) => html`
     <daikin-tree-section
+      value=${value}
       ?selected=${selected}
       ?disabled=${disabled}
       ?open=${open}
