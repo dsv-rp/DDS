@@ -48,9 +48,15 @@ export class DaikinTree extends LitElement {
     }
   `;
 
+  /**
+   * Whether or not to enable tree selection.
+   */
   @property({ type: Boolean, reflect: true })
   selectable: boolean = false;
 
+  /**
+   * The value of the currently selected tree section or tree item.
+   */
   @property({ type: String, reflect: true })
   selected: string | null = null;
 
