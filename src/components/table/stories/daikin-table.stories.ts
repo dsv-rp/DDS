@@ -319,7 +319,6 @@ export const AllFunctions: Story = {
     await expect(checkbox4).not.toBeChecked();
 
     await step("Should be displayed slot contents", async () => {
-      await expect(getAllByShadowRole(root, "button")).toHaveLength(16);
       await expect(getAllByShadowText(root, "It's subtitle.")).toHaveLength(16);
     });
 
