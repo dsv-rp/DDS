@@ -13,7 +13,7 @@ const cvaCell = cva(
     "w-full",
     "min-h-12",
     "px-4",
-    "py-2",
+    "py-3",
     "text-system-element-text-primary",
   ],
   {
