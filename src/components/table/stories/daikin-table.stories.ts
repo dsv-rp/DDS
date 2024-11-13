@@ -280,6 +280,7 @@ export const UseSlot: Story = {
 
 export const AllFunctions: Story = {
   args: {
+    // It displays all the functions that can be added to a table (checkboxes, sorting, and adding text cells other than those using slots).
     ...Default.args,
     selectable: true,
     sortable: true,
