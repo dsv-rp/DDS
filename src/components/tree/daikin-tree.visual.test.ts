@@ -1,5 +1,6 @@
 import {
   clipFor,
+  describeEach,
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
@@ -11,14 +12,18 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TREE_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-tree--default", args);
 
-test("base", async ({ page }) => {
-  await page.goto(getPageURL());
+describeEach(["normal", "selectable"] as const, (selectable) => {
+  test("base", async ({ page }) => {
+    await page.goto(
+      getPageURL({ selectable: selectable === "selectable", selected: "1" })
+    );
 
-  // wait for element to be visible
-  const element = await page.waitForSelector("daikin-tree", {
-    state: "visible",
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-tree", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
-
-  // take screenshot and check for diffs
-  await expect(page).toHaveScreenshot(await clipFor(element));
 });
