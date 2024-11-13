@@ -160,29 +160,29 @@ export const Selectable: Story = {
   args: {
     ...Default.args,
     selectable: true,
-    selected: "3",
+    selected: "1",
   },
-  // play: definePlay(async ({ canvasElement, step }) => {
-  //   const root = canvasElement.getElementsByTagName("daikin-tree")[0];
-  //   await expect(root).toBeInTheDocument();
+  play: definePlay(async ({ canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-tree")[0];
+    await expect(root).toBeInTheDocument();
 
-  //   await step(
-  //     "Should change the selected state when an item is clicked",
-  //     async () => {
-  //       await expect(root).toHaveAttribute("selected", "1");
-  //       await expect(
-  //         getByShadowText(root, "Tree section 1").parentElement
-  //       ).toHaveAttribute("selected");
+    await step(
+      "Should change the selected state when an item is clicked",
+      async () => {
+        await expect(root).toHaveAttribute("selected", "1");
+        await expect(
+          getByShadowText(root, "Tree section 1").parentElement
+        ).toHaveAttribute("selected");
 
-  //       await userEvent.click(getByShadowText(root, "Tree section 2"));
-  //       await expect(root).toHaveAttribute("selected", "2");
-  //       await expect(
-  //         getByShadowText(root, "Tree section 1").parentElement
-  //       ).not.toHaveAttribute("selected");
-  //       await expect(
-  //         getByShadowText(root, "Tree section 2").parentElement
-  //       ).toHaveAttribute("selected");
-  //     }
-  //   );
-  // }),
+        await userEvent.click(getByShadowText(root, "Tree section 2"));
+        await expect(root).toHaveAttribute("selected", "2");
+        await expect(
+          getByShadowText(root, "Tree section 1").parentElement
+        ).not.toHaveAttribute("selected");
+        await expect(
+          getByShadowText(root, "Tree section 2").parentElement
+        ).toHaveAttribute("selected");
+      }
+    );
+  }),
 };
