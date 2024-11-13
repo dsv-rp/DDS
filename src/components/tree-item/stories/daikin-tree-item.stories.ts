@@ -35,13 +35,6 @@ export const Button: Story = {
   }),
 };
 
-export const Selected: Story = {
-  args: {
-    ...Button.args,
-    selected: true,
-  },
-};
-
 export const Link: Story = {
   args: {
     ...Button.args,
@@ -55,6 +48,13 @@ export const Link: Story = {
     await expect(getByShadowRole(root, "link")).toBeInTheDocument();
     await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
   }),
+};
+
+export const ButtonSelected: Story = {
+  args: {
+    ...Button.args,
+    selected: true,
+  },
 };
 
 export const ButtonDisabled: Story = {
