@@ -234,7 +234,7 @@ export const Sortable: Story = {
     await expect(sortButton).not.toHaveAttribute("aria-sort");
 
     // should react if inner sort button clicked
-    await step("Try to click sort button", async () => {
+    await step("Should sort in ascending order", async () => {
       await userEvent.click(sortButton);
 
       const rows = getAllByShadowRole(root, "row");
@@ -251,7 +251,7 @@ export const Sortable: Story = {
     });
 
     // should react if inner sort button click again
-    await step("Try to click again sort button", async () => {
+    await step("Should sort in descending order", async () => {
       await userEvent.click(sortButton);
 
       const rows = getAllByShadowRole(root, "row");
@@ -308,18 +308,21 @@ export const AllFunctions: Story = {
     await expect(checkbox4).not.toBeChecked();
 
     // should react if inner checkbox clicked
-    await step("Try to click checkbox", async () => {
-      await userEvent.click(allItemCheckbox);
-      await expect(args.onChangeCheck).toHaveBeenCalledTimes(3);
-      await expect(allItemCheckbox).toBeChecked();
-      await expect(checkbox1).toBeChecked();
-      await expect(checkbox2).toBeChecked();
-      await expect(checkbox3).toBeChecked();
-      await expect(checkbox4).toBeChecked();
-    });
+    await step(
+      "Should select all items when checking top-level checkbox",
+      async () => {
+        await userEvent.click(allItemCheckbox);
+        await expect(args.onChangeCheck).toHaveBeenCalledTimes(3);
+        await expect(allItemCheckbox).toBeChecked();
+        await expect(checkbox1).toBeChecked();
+        await expect(checkbox2).toBeChecked();
+        await expect(checkbox3).toBeChecked();
+        await expect(checkbox4).toBeChecked();
+      }
+    );
 
     // should react if inner checkbox clicked
-    await step("Try to click checkbox", async () => {
+    await step("Should unselect item when checked again", async () => {
       await userEvent.click(allItemCheckbox);
       await expect(args.onChangeCheck).toHaveBeenCalledTimes(4);
       await expect(allItemCheckbox).not.toBeChecked();
@@ -331,7 +334,7 @@ export const AllFunctions: Story = {
     await userEvent.click(checkbox10);
 
     // should react if inner sort button clicked
-    await step("Try to click sort button", async () => {
+    await step("Should sort in ascending order", async () => {
       const sortButton = getAllByShadowRole(root, "button", {
         name: "Name",
       })[0];

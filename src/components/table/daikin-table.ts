@@ -55,7 +55,7 @@ const cvaRow = cva(
  *
  * If the contents of the table are plain text only, give them to the `rows` property. However, if you want to give contents other than text, such as buttons or images, you will need to prepare a element with the corresponding `slot` attribute. The value of this attribute must be structured as follows: ``slot=${`cell:${headers[i].key}:${rows[i].id}`}``
  *
- * The table provides tow functions: checkboxes and sorting, and you can select the functions you need.
+ * The table provides two functions: checkboxes and sorting, and you can select the functions you need.
  *
  * Hierarchy:
  * - `daikin-table` > `daikin-table-cell`
