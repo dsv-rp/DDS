@@ -20,6 +20,7 @@ export * from "./tab";
 export * from "./tab-panels";
 export * from "./table";
 export * from "./table-cell";
+export * from "./table-header-cell";
 export * from "./tabs";
 export * from "./text-area";
 export * from "./text-field";
