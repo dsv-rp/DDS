@@ -12,24 +12,27 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TREE_SECTION_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-tree-section--default", args);
 
-describeEach(["enabled", "disabled"] as const, (disabled) => {
-  describeEach(["open", "close"] as const, (open) => {
-    const baseURL = getPageURL({
-      label: "Tree section label",
-      disabled: disabled === "disabled",
-      open: open === "open",
-    });
-
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-tree-section", {
-        state: "visible",
+describeEach(["normal", "selected"] as const, (selected) => {
+  describeEach(["enabled", "disabled"] as const, (disabled) => {
+    describeEach(["open", "close"] as const, (open) => {
+      const baseURL = getPageURL({
+        label: "Tree section label",
+        disabled: disabled === "disabled",
+        open: open === "open",
+        selected: selected === "selected",
       });
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-tree-section", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
     });
   });
 });

@@ -24,6 +24,7 @@ export const cvaTreeChildren = cva(
     "focus-visible:-outline-offset-2",
     "focus-visible:outline-system-state-focus",
 
+    "link-enabled:bg-[--color-base]",
     "link-enabled:hover:bg-[--color-hover]",
     "link-enabled:active:bg-[--color-active]",
     "link-disabled:text-system-state-disabled",
@@ -36,13 +37,12 @@ export const cvaTreeChildren = cva(
       },
       selected: {
         false: [
-          "enabled:hover:bg-system-background-surface-hover",
-          "enabled:active:bg-system-background-surface-press",
+          "var-color-transparent/color-base",
           "var-color-system-background-surface-hover/color-hover",
           "var-color-system-background-surface-press/color-active",
         ],
         true: [
-          "bg-system-background-surface-selected",
+          "var-color-system-background-surface-selected/color-base",
           "var-color-system-background-surface-selectedHover/color-hover",
           "var-color-system-background-surface-selectedActive/color-active",
         ],
@@ -121,6 +121,7 @@ export class DaikinTreeItem extends LitElement {
 
   /**
    * Whether the tree item is selected.
+   * When disabled, this value is ignored.
    * This is usually specified automatically and the user does not operate it.
    */
   @property({ type: Boolean, reflect: true })

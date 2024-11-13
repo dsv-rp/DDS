@@ -64,6 +64,7 @@ export class DaikinTreeSection extends LitElement {
 
   /**
    * Whether the tree section is selected.
+   * When disabled, this value is ignored.
    * This is usually specified automatically and the user does not operate it.
    */
   @property({ type: Boolean, reflect: true })
@@ -100,6 +101,10 @@ export class DaikinTreeSection extends LitElement {
 
   private get _open(): boolean {
     return this.open && !this.disabled;
+  }
+
+  private get _selected(): boolean {
+    return this.selected && !this.disabled;
   }
 
   private _updateChildrenLevel(): void {
@@ -182,15 +187,15 @@ export class DaikinTreeSection extends LitElement {
     // eslint-disable-next-line lit-a11y/accessible-name
     return html`<div
       role="treeitem"
-      aria-selected=${this._open && !this.disabled}
-      aria-expanded=${this._open && !this.disabled}
+      aria-selected=${this._selected}
+      aria-expanded=${this._open}
       aria-disabled=${this.disabled}
     >
       <button
         type="button"
         ?disabled=${this.disabled}
         class=${cvaTreeChildren({
-          selected: this.selected,
+          selected: this._selected,
           icon: true,
           open: this._open,
         })}
