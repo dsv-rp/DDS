@@ -78,6 +78,10 @@ export class DaikinTree extends LitElement {
   }
 
   private _handleTreeSelect(event: Event): void {
+    if (!this.selectable) {
+      return;
+    }
+
     const target = event.target as DaikinTreeSection | DaikinTreeItem;
 
     this.selected = target.value;
