@@ -102,12 +102,10 @@ export class DaikinTree extends LitElement {
       changedProperties.has("selectable") ||
       changedProperties.has("selected")
     ) {
-      if (!this.selectable || !this.selected) {
-        return;
-      }
-
       this._children.forEach((section) =>
-        section.selectedItem(this.selected ?? undefined)
+        section.selectedItem(
+          this.selectable ? (this.selected ?? undefined) : undefined
+        )
       );
     }
   }
