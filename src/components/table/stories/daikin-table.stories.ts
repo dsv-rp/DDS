@@ -3,6 +3,7 @@ import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import {
   getAllByShadowRole,
+  getAllByShadowText,
   getByShadowRole,
   getByShadowText,
 } from "shadow-dom-testing-library";
@@ -276,6 +277,15 @@ export const UseSlot: Story = {
     ...Default.args,
     hasSlot: true,
   },
+  play: definePlay(async ({ canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-table")[0];
+    await expect(root).toBeInTheDocument();
+
+    await step("Should be displayed slot contents", async () => {
+      await expect(getAllByShadowRole(root, "button")).toHaveLength(16);
+      await expect(getAllByShadowText(root, "It's subtitle.")).toHaveLength(16);
+    });
+  }),
 };
 
 export const AllFunctions: Story = {
@@ -307,6 +317,11 @@ export const AllFunctions: Story = {
     await expect(checkbox2).not.toBeChecked();
     await expect(checkbox3).not.toBeChecked();
     await expect(checkbox4).not.toBeChecked();
+
+    await step("Should be displayed slot contents", async () => {
+      await expect(getAllByShadowRole(root, "button")).toHaveLength(16);
+      await expect(getAllByShadowText(root, "It's subtitle.")).toHaveLength(16);
+    });
 
     // should react if inner checkbox clicked
     await step(
