@@ -121,6 +121,7 @@ export class DaikinTreeItem extends LitElement {
 
   /**
    * Whether the tree item is selected.
+   * This is usually specified automatically and the user does not operate it.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
