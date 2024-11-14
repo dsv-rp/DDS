@@ -4,6 +4,7 @@ import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
@@ -147,6 +148,13 @@ export class DaikinSelect extends LitElement {
   @queryAssignedElements({ selector: "select" })
   private readonly _selects!: readonly HTMLSelectElement[];
 
+  /**
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
+   */
+  @state()
+  private _label: string | null = null;
+
   private get _select(): HTMLSelectElement | null {
     return this._selects[0] ?? null;
   }
@@ -155,6 +163,7 @@ export class DaikinSelect extends LitElement {
     const select = this._select;
     if (select) {
       select.disabled = this.disabled;
+      select.ariaLabel = this._label;
     }
   }
 
@@ -180,6 +189,7 @@ export class DaikinSelect extends LitElement {
     this.disabled = !!inputGroup.disabled;
     this.required = !!inputGroup.required;
     this.error = isError;
+    this._label = inputGroup.label;
   }
 
   /**

@@ -13,6 +13,7 @@ import {
   queryAssignedElements,
   state,
 } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -143,12 +144,6 @@ export class DaikinDropdown extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Label of the dropdown.
-   */
-  @property({ type: String, reflect: true })
-  label: string | null = null;
-
-  /**
    * Form value of the dropdown.
    * `null` if not selected.
    */
@@ -193,6 +188,13 @@ export class DaikinDropdown extends LitElement {
 
   @query("div[popover]")
   private _popover!: HTMLElement | null;
+
+  /**
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
+   */
+  @state()
+  private _label: string | null = null;
 
   @state()
   private _hasSelectedItem = false;
@@ -405,7 +407,7 @@ export class DaikinDropdown extends LitElement {
         })}
         ?disabled=${this.disabled}
         role="combobox"
-        aria-label=${this.label ?? ""}
+        aria-label=${ifDefined(this._label ?? undefined)}
         aria-expanded=${this.open && !this.disabled}
         aria-disabled=${this.disabled}
         aria-controls="dropdown-items"
@@ -420,7 +422,7 @@ export class DaikinDropdown extends LitElement {
         id="dropdown-items"
         popover
         class="floating-unready:hidden min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
-        aria-label=${this.label ?? ""}
+        aria-label=${ifDefined(this._label ?? undefined)}
         role="listbox"
         @floating-ready=${this._handleFloatingReady}
         ${this._autoUpdateController.refFloating()}
@@ -471,7 +473,7 @@ export class DaikinDropdown extends LitElement {
     this.disabled = !!inputGroup.disabled;
     this.required = !!inputGroup.required;
     this.error = isError;
-    this.label = inputGroup.label;
+    this._label = inputGroup.label;
   }
 }
 
