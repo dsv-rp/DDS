@@ -161,10 +161,13 @@ export class DaikinSelect extends LitElement {
 
   private _updateSelect(): void {
     const select = this._select;
-    if (select) {
-      select.disabled = this.disabled;
-      select.ariaLabel = this._label;
+    if (!select) {
+      return;
     }
+
+    select.disabled = this.disabled;
+    select.required = this.required;
+    select.ariaLabel = this._label;
   }
 
   private _handleSlotChange(): void {
@@ -190,6 +193,8 @@ export class DaikinSelect extends LitElement {
     this.required = !!inputGroup.required;
     this.error = isError;
     this._label = inputGroup.label;
+
+    this._updateSelect();
   }
 
   /**
