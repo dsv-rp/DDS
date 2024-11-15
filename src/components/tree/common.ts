@@ -148,7 +148,7 @@ export function emitTreeMoveFocus(
 
 export function emitTreeSelect(target: HTMLElement): void {
   target.dispatchEvent(
-    new CustomEvent("tree-select", {
+    new Event("tree-select", {
       composed: true,
       bubbles: true,
     })

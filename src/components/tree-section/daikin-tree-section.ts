@@ -63,18 +63,17 @@ export class DaikinTreeSection extends LitElement {
   value: string = "";
 
   /**
-   * Whether the tree section is selected.
-   * When disabled, this value is ignored.
-   * This is usually specified automatically and the user does not operate it.
-   */
-  @property({ type: Boolean, reflect: true })
-  selected: boolean = false;
-
-  /**
    * Whether the tree section is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
+
+  /**
+   * Ignored if disabled.
+   * Controlled by `daikin-tree` if its `selectable` is true.
+   */
+  @property({ type: Boolean, reflect: true })
+  selected: boolean = false;
 
   /**
    * Whether the tree section is open.
@@ -187,9 +186,9 @@ export class DaikinTreeSection extends LitElement {
     // eslint-disable-next-line lit-a11y/accessible-name
     return html`<div
       role="treeitem"
-      aria-selected=${this._selected}
       aria-expanded=${this._open}
       aria-disabled=${this.disabled}
+      aria-selected=${this._selected}
     >
       <button
         type="button"
@@ -235,6 +234,7 @@ export class DaikinTreeSection extends LitElement {
    * This is called from the next item to move the focus to the item above it in the display.
    *
    * @param options focus options
+   * @private
    */
   focusLastItem(options?: FocusOptions): void {
     // console.log(this._children);
@@ -248,9 +248,16 @@ export class DaikinTreeSection extends LitElement {
     }
   }
 
-  selectedItem(selected?: string): void {
-    this.selected = this.value === selected;
-    this._children.forEach((section) => section.selectedItem(selected));
+  /**
+   * Updates the selection state (`this.selected`) to true if the argument `value` matches `this.value`. Otherwise, sets it to false.
+   * In addition, calls `selectItem` for the tree sections and tree items of the child elements in the slot in the same way.
+   *
+   * @param value Tree item value.
+   * @private
+   */
+  selectItem(value: string | null): void {
+    this.selected = this.value === value;
+    this._children.forEach((section) => section.selectItem(value));
   }
 }
 

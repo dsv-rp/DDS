@@ -120,18 +120,17 @@ export class DaikinTreeItem extends LitElement {
   href: string | null = null;
 
   /**
-   * Whether the tree item is selected.
-   * When disabled, this value is ignored.
-   * This is usually specified automatically and the user does not operate it.
-   */
-  @property({ type: Boolean, reflect: true })
-  selected: boolean = false;
-
-  /**
    * Whether the tree item is disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
+
+  /**
+   * Ignored if disabled.
+   * Controlled by `daikin-tree` if its `selectable` is true.
+   */
+  @property({ type: Boolean, reflect: true })
+  selected: boolean = false;
 
   /**
    * _Internal use._
@@ -175,7 +174,7 @@ export class DaikinTreeItem extends LitElement {
   override render() {
     const itemCN = cvaTreeChildren({
       disabled: this.disabled,
-      selected: this.selected,
+      selected: this.selected && !this.disabled,
       icon: false,
       open: false,
     });
@@ -206,6 +205,7 @@ export class DaikinTreeItem extends LitElement {
     // eslint-disable-next-line lit-a11y/accessible-name -- The accessible name of the `treeitem` will be calculated from the slot content.
     return html`<div
       role="treeitem"
+      aria-disabled=${this.disabled}
       aria-selected=${this.selected && !this.disabled}
       style=${`--level:${this.level}`}
     >
@@ -227,13 +227,20 @@ export class DaikinTreeItem extends LitElement {
    * This is provided to ensure consistency of the interface.
    *
    * @param options focus options
+   * @private
    */
   focusLastItem(options?: FocusOptions): void {
     this._focusableElement.focus(options);
   }
 
-  selectedItem(selected?: string): void {
-    this.selected = this.value === selected;
+  /**
+   * Updates the selection state (`this.selected`) to true if the argument `value` matches `this.value`. Otherwise, sets it to false.
+   *
+   * @param value Tree item value.
+   * @private
+   */
+  selectItem(value: string | null): void {
+    this.selected = this.value === value;
   }
 }
 

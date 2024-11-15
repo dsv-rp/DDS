@@ -50,12 +50,15 @@ export class DaikinTree extends LitElement {
 
   /**
    * Whether or not to enable tree selection.
+   * When enabled, tree sections and items can be selected by click, and the `selected` property of the `daikin-tree` and its descendants will be automatically controlled.
+   * Even if this is disabled, you can still set the `selected` property of sections and items yourself.
    */
   @property({ type: Boolean, reflect: true })
   selectable: boolean = false;
 
   /**
    * The value of the currently selected tree section or tree item.
+   * Only used if `selectable` is `true`.
    */
   @property({ type: String, reflect: true })
   selected: string | null = null;
@@ -78,6 +81,8 @@ export class DaikinTree extends LitElement {
   }
 
   private _handleTreeSelect(event: Event): void {
+    event.stopPropagation();
+
     if (!this.selectable) {
       return;
     }
@@ -98,14 +103,12 @@ export class DaikinTree extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues): void {
-    if (
-      changedProperties.has("selectable") ||
-      changedProperties.has("selected")
-    ) {
-      this._children.forEach((section) =>
-        section.selectedItem(
-          this.selectable ? (this.selected ?? undefined) : undefined
-        )
+    if (changedProperties.has("selected") && this.selectable) {
+      // If the component is set to selectable, update the selection state of descendant sections and items.
+      const children = this._children;
+
+      children.forEach((section) =>
+        section.selectItem(this.selectable ? this.selected : null)
       );
     }
   }
