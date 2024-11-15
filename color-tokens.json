@@ -51,6 +51,11 @@
         "hover": "#515151",
         "press": "#414141"
       },
+      "visited": {
+        "active": "#9B5EA3",
+        "hover": "#8E4898",
+        "press": "#81318E"
+      },
       "disabled": "#BFBFBF",
       "focus": "#0081C0",
       "feedback": {

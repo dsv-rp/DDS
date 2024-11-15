@@ -1,0 +1,59 @@
+// This will import either "./framework-wc" or "./framework-react". See `build/vite/storybook-framework-loader.ts`.
+import { definePlay } from "#storybook";
+import { metadata } from "#storybook-framework";
+import { expect, fn, userEvent } from "@storybook/test";
+import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
+import { DAIKIN_TEXT_LINK_ARG_TYPES, type Story } from "./common";
+
+// The default export must have a static `title` property starting from Storybook v7.
+// See https://storybook.js.org/docs/writing-stories#default-export.
+export default {
+  title: "Components/Text Link",
+  tags: ["autodocs"],
+  argTypes: DAIKIN_TEXT_LINK_ARG_TYPES,
+  ...metadata,
+};
+
+export const Default: Story = {
+  args: {
+    href: "#",
+    disabled: false,
+    hasVisited: false,
+    label: "Link label",
+  },
+  play: definePlay(async ({ canvasElement }) => {
+    const root = canvasElement.getElementsByTagName("daikin-text-link")[0];
+    await expect(root).toBeInTheDocument();
+
+    const innerLink = getByShadowRole(root, "link", { name: "Link label" });
+    await expect(innerLink).toBeInTheDocument();
+  }),
+};
+
+export const HasVisited: Story = {
+  args: {
+    ...Default.args,
+    hasVisited: true,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+    onClick: fn(),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-text-link")[0];
+    await expect(root).toBeInTheDocument();
+
+    const innerLink = getByShadowText(root, "Link label");
+    await expect(innerLink).toBeInTheDocument();
+
+    // should not react if inner link clicked
+    await step("Try to click inner link", async () => {
+      await userEvent.click(innerLink);
+      await expect(args.onClick).not.toHaveBeenCalled();
+    });
+  }),
+};

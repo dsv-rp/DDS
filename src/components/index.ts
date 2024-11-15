@@ -21,5 +21,6 @@ export * from "./tab-panels";
 export * from "./tabs";
 export * from "./text-area";
 export * from "./text-field";
+export * from "./text-link";
 export * from "./toggle";
 export * from "./tooltip";
