@@ -256,6 +256,10 @@ export class DaikinTreeSection extends LitElement {
    * @private
    */
   selectItem(value: string | null): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.selected = this.value === value;
     this._children.forEach((section) => section.selectItem(value));
   }
