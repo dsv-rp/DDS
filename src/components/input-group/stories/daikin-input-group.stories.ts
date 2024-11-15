@@ -80,6 +80,27 @@ export const Error: Story = {
   },
 };
 
+export const Dropdown: Story = {
+  args: {
+    ...Default.args,
+    content: "Dropdown",
+  },
+};
+
+export const RadioGroup: Story = {
+  args: {
+    ...Default.args,
+    content: "RadioGroup",
+  },
+};
+
+export const Select: Story = {
+  args: {
+    ...Default.args,
+    content: "Select",
+  },
+};
+
 export const TextArea: Story = {
   args: {
     ...Default.args,
@@ -107,18 +128,4 @@ export const TextArea: Story = {
     await expect(queryByShadowText(root, "5")).toBeInTheDocument();
     innerInput.blur();
   }),
-};
-
-export const Dropdown: Story = {
-  args: {
-    ...Default.args,
-    content: "Dropdown",
-  },
-};
-
-export const Select: Story = {
-  args: {
-    ...Default.args,
-    content: "Select",
-  },
 };
