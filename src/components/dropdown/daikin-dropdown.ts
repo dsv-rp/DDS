@@ -32,7 +32,7 @@ const cvaButton = cva(
     "p-3",
     "border",
     "border-[--color-base]",
-    "rounded-md",
+    "rounded",
     "overflow-hidden",
     "font-daikinSerif",
     "text-left",
@@ -421,7 +421,7 @@ export class DaikinDropdown extends LitElement {
       <div
         id="dropdown-items"
         popover
-        class="floating-unready:hidden min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded-[4px] shadow-dropdown"
+        class="floating-unready:hidden min-w-[--floating-width] max-h-[200px] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded shadow-dropdown"
         aria-label=${ifDefined(this._label ?? undefined)}
         role="listbox"
         @floating-ready=${this._handleFloatingReady}
