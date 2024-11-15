@@ -11,7 +11,7 @@ const cvaTextArea = cva(
     "h-full",
     "px-4",
     "py-3",
-    "rounded-md",
+    "rounded",
     "font-daikinSerif",
     "outline",
     "outline-[--color-border]",
