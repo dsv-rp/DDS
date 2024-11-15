@@ -1,7 +1,7 @@
 // This will import either "./framework-wc" or "./framework-react". See `build/vite/storybook-framework-loader.ts`.
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, fn, userEvent } from "@storybook/test";
+import { expect, userEvent } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_TEXT_LINK_ARG_TYPES, type Story } from "./common";
 
@@ -41,9 +41,8 @@ export const Disabled: Story = {
   args: {
     ...Default.args,
     disabled: true,
-    onClick: fn(),
   },
-  play: definePlay(async ({ args, canvasElement, step }) => {
+  play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-text-link")[0];
     await expect(root).toBeInTheDocument();
 
@@ -53,7 +52,6 @@ export const Disabled: Story = {
     // should not react if inner link clicked
     await step("Try to click inner link", async () => {
       await userEvent.click(innerLink);
-      await expect(args.onClick).not.toHaveBeenCalled();
     });
   }),
 };

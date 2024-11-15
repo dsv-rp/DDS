@@ -8,7 +8,6 @@ export interface DaikinTextLinkStoryArgs
   label: string;
   leftIcon: IconType | null;
   rightIcon: IconType | null;
-  onClick: () => void;
 }
 
 export const DAIKIN_TEXT_LINK_ARG_TYPES = {
