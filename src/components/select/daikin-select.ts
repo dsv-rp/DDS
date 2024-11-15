@@ -181,7 +181,10 @@ export class DaikinSelect extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("disabled")) {
+    if (
+      changedProperties.has("disabled") ||
+      changedProperties.has("required")
+    ) {
       this._updateSelect();
     }
   }
