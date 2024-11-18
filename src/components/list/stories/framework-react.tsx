@@ -7,8 +7,6 @@ import { ReactDaikinIcon } from "../../icon/stories/framework-react";
 import { ReactDaikinListItem } from "../../list-item/stories/framework-react";
 import type { DaikinListStoryArgs } from "./common";
 
-const style = { display: "flex", alignItems: "center", color: "#414141" };
-
 const ReactDaikinList = createComponent({
   tagName: "daikin-list",
   elementClass: DaikinList,
@@ -21,12 +19,18 @@ export const metadata: Meta<DaikinListStoryArgs> = {
       <ReactDaikinList {...props}>
         <ReactDaikinListItem>
           List item label 1
-          <span slot="left-icon" style={style}>
-            <ReactDaikinIcon icon="positive" size="xl" color="current" />
-          </span>
-          <span slot="right-icon" style={style}>
-            <ReactDaikinIcon icon="chevron-right" size="xl" color="current" />
-          </span>
+          <ReactDaikinIcon
+            slot="left-icon"
+            icon="positive"
+            size="current"
+            color="current"
+          />
+          <ReactDaikinIcon
+            slot="right-icon"
+            icon="chevron-right"
+            size="current"
+            color="current"
+          />
         </ReactDaikinListItem>
         <ReactDaikinListItem type="link" href="#">
           List item label 2 (Link)

@@ -21,35 +21,33 @@ export const metadata: Meta<DaikinListItemStoryArgs> = {
     leftIcon,
     rightIcon,
     ...props
-  }: DaikinListItemStoryArgs) => {
-    const color = { enabled: "#414141", disabled: "#BFBFBF" }[
-      props.disabled ? "disabled" : "enabled"
-    ];
-
-    const style = { display: "flex", alignItems: "center", color };
-
-    return (
-      <ReactDaikinListItem {...props}>
-        {label}
-        {leftIcon && (
-          <span slot="left-icon" style={style}>
-            <ReactDaikinIcon icon={leftIcon} size="xl" color="current" />
-          </span>
-        )}
-        {rightIcon && (
-          <span slot="right-icon" style={style}>
-            <ReactDaikinIcon icon={rightIcon} size="xl" color="current" />
-          </span>
-        )}
-        {props.action && (
-          <ReactDaikinCheckbox
-            slot="action"
-            label="Checkbox"
-            labelPosition="hidden"
-            disabled={props.disabled}
-          />
-        )}
-      </ReactDaikinListItem>
-    );
-  },
+  }: DaikinListItemStoryArgs) => (
+    <ReactDaikinListItem {...props}>
+      {label}
+      {leftIcon && (
+        <ReactDaikinIcon
+          slot="left-icon"
+          icon={leftIcon}
+          size="current"
+          color="current"
+        />
+      )}
+      {rightIcon && (
+        <ReactDaikinIcon
+          slot="right-icon"
+          icon={rightIcon}
+          size="current"
+          color="current"
+        />
+      )}
+      {props.action && (
+        <ReactDaikinCheckbox
+          slot="action"
+          label="Checkbox"
+          labelPosition="hidden"
+          disabled={props.disabled}
+        />
+      )}
+    </ReactDaikinListItem>
+  ),
 };

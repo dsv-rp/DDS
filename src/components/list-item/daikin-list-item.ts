@@ -35,6 +35,19 @@ const cvaContent = cva(["block", "pl-2", "pr-3", "text-left"], {
   },
 });
 
+const cvaIcon = cva(["icon-size-6"], {
+  variants: {
+    position: {
+      left: [],
+      right: ["pointer-events-none"],
+    },
+    disabled: {
+      false: ["text-system-element-text-primary"],
+      true: ["text-system-state-disabled"],
+    },
+  },
+});
+
 /**
  * The list item component is used to represent a single item in a list. Please use it within the `daikin-list` component.
  *
@@ -122,7 +135,10 @@ export class DaikinListItem extends LitElement {
     const disabled = this._disabled;
 
     const content = html`<span class="flex items-center w-full relative">
-      <slot name="left-icon" class="icon-size-6">
+      <slot
+        name="left-icon"
+        class=${cvaIcon({ disabled: this.disabled, position: "left" })}
+      >
         <span class="block -ml-1"></span>
       </slot>
       <slot class=${cvaContent({ disabled: this.disabled })}></slot>
@@ -156,7 +172,10 @@ export class DaikinListItem extends LitElement {
         class="flex items-center gap-3"
         @click=${this._handleClickAction}
       >
-        <slot name="right-icon" class="pointer-events-none icon-size-6">
+        <slot
+          name="right-icon"
+          class=${cvaIcon({ disabled: this.disabled, position: "right" })}
+        >
           <span class="block -mr-1"></span>
         </slot>
       </slot>
