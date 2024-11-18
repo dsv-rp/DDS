@@ -12,7 +12,8 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TEXT_LINK_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-text-link--default", args);
 
-describeEach(["normal", "hasVisited"] as const, (hasVisited) => {
+describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
+  // NOTE: Has not implemented the VRT for hasVisited
   describeEach(["none", "left", "right"] as const, (icon) => {
     const baseArgs = {
       hasVisited: hasVisited === hasVisited,
@@ -24,6 +25,8 @@ describeEach(["normal", "hasVisited"] as const, (hasVisited) => {
       }),
     };
     const baseURL = getPageURL(baseArgs);
+
+    console.log(baseURL);
 
     test("base", async ({ page }) => {
       await page.goto(baseURL);

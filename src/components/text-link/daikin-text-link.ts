@@ -13,7 +13,6 @@ const cvaTextLink = cva(
     "gap-0.5",
     "w-fit",
     "h-fit",
-    "text-[--color-primary]",
     "font-daikinSerif",
     "rounded-[1px]",
     "relative",
@@ -28,21 +27,21 @@ const cvaTextLink = cva(
     "focus-visible:before:outline",
     "focus-visible:before:outline-system-state-focus",
     "focus-visible:before:outline-2",
-
-    "link-disabled:var-color-system-state-disabled/color-primary",
   ],
   {
     variants: {
-      hasVisited: {
+      disabled: {
         false: [
-          "link-enabled:var-color-system-state-primary-active/color-primary",
-          "link-enabled:hover:var-color-system-state-primary-hover/color-primary",
-          "link-enabled:active:var-color-system-state-primary-press/color-primary",
+          "text-system-state-primary-active",
+          "hover:text-system-state-primary-hover",
+          "active:text-system-state-primary-press",
+          "[&>span::after]:bg-system-state-primary-active",
+          "[&:hover>span::after]:bg-system-state-primary-hover",
+          "[&:active>span::after]:bg-system-state-primary-press",
         ],
         true: [
-          "link-enabled:var-color-system-state-visited-active/color-primary",
-          "link-enabled:hover:var-color-system-state-visited-hover/color-primary",
-          "link-enabled:active:var-color-system-state-visited-press/color-primary",
+          "text-system-state-disabled",
+          "[&>span::after]:bg-system-state-disabled",
         ],
       },
     },
@@ -77,6 +76,30 @@ export class DaikinTextLink extends LitElement {
       width: fit-content;
       height: fit-content;
     }
+
+    :host([hasVisited]):host(:not([disabled])) a:visited {
+      color: #9b5ea3; /* system-state-visited-active */
+    }
+
+    :host([hasVisited]):host(:not([disabled])) a:hover:visited {
+      color: #8e4898; /* system-state-visited-hover */
+    }
+
+    :host([hasVisited]):host(:not([disabled])) a:active:visited {
+      color: #81318e; /* system-state-visited-press */
+    }
+
+    :host([hasVisited]):host(:not([disabled])) a:visited > span::after {
+      background-color: #9b5ea3; /* system-state-visited-active */
+    }
+
+    :host([hasVisited]):host(:not([disabled])) a:hover:visited > span::after {
+      background-color: #8e4898; /* system-state-visited-hover */
+    }
+
+    :host([hasVisited]):host(:not([disabled])) a:active:visited > span::after {
+      background-color: #81318e; /* system-state-visited-press */
+    }
   `;
 
   /**
@@ -106,13 +129,13 @@ export class DaikinTextLink extends LitElement {
   override render() {
     return html`
       <a
-        class=${cvaTextLink({ hasVisited: this.hasVisited })}
+        class=${cvaTextLink({ disabled: this.disabled })}
         href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
         <slot name="left-icon"></slot>
         <span
-          class="relative after:h-[1px] after:bg-[--color-primary] after:absolute after:inset-[auto_0_0_0]"
+          class="relative after:h-[1px] after:absolute after:inset-[auto_0_0_0]"
         >
           <slot></slot>
         </span>
