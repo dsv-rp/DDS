@@ -11,7 +11,8 @@ const cvaTextLink = cva(
     "justify-center",
     "items-center",
     "gap-0.5",
-    "size-fit",
+    "w-fit",
+    "h-fit",
     "font-daikinSerif",
     "rounded-[1px]",
     "relative",
@@ -132,13 +133,13 @@ export class DaikinTextLink extends LitElement {
         href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
-        <slot name="left-icon" class="icon-size-4"></slot>
+        <slot name="left-icon"></slot>
         <span
           class="relative after:h-[1px] after:absolute after:inset-[auto_0_0_0]"
         >
           <slot></slot>
         </span>
-        <slot name="right-icon" class="icon-size-4"></slot>
+        <slot name="right-icon"></slot>
       </a>
     `;
   }

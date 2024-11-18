@@ -175,12 +175,6 @@ module.exports = defineConfig({
           values: {},
         }
       );
-
-      // Sets a CSS variable (for color).
-      matchUtilities(
-        { "icon-size": (value) => ({ "--dds-icon-size": `${value}` }) },
-        { values: theme("width"), supportsNegativeValues: false }
-      );
     }),
   ],
 });
