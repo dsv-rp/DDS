@@ -11,8 +11,7 @@ const cvaButton = cva(
     "inline-flex",
     "justify-center",
     "items-center",
-    "w-full",
-    "h-full",
+    "size-full",
     "font-daikinSerif",
     "font-bold",
     "rounded",
@@ -99,12 +98,12 @@ export class DaikinButton extends LitElement {
 
     :host([size="small"]) {
       min-width: 52px;
-      height: 32px;
+      height: 2rem;
     }
 
     :host([size="medium"]) {
       min-width: 60px;
-      height: 48px;
+      height: 3rem;
     }
   `;
 
