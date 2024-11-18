@@ -13,7 +13,7 @@ const cvaInput = cva(
     "h-full",
     "relative",
     "px-2",
-    "rounded-md",
+    "rounded",
     "overflow-hidden",
     "font-daikinSerif",
     "outline",

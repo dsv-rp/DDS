@@ -1,6 +1,8 @@
 import "#package/components/dropdown-item/daikin-dropdown-item";
 import "#package/components/dropdown/daikin-dropdown";
 import "#package/components/input-group/daikin-input-group";
+import "#package/components/radio-group/daikin-radio-group";
+import "#package/components/radio/daikin-radio";
 import "#package/components/select/daikin-select";
 import "#package/components/text-area/daikin-text-area";
 import "#package/components/text-field/daikin-text-field";
@@ -40,6 +42,13 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
                 Dropdown item 3
               </daikin-dropdown-item>
             </daikin-dropdown>`
+          : nothing}
+        ${content === "RadioGroup"
+          ? html`<daikin-radio-group value="value1">
+              <daikin-radio value="value1" label="Option1"></daikin-radio>
+              <daikin-radio value="value2" label="Option2"></daikin-radio>
+              <daikin-radio value="value3" label="Option3"></daikin-radio>
+            </daikin-radio-group>`
           : nothing}
         ${content === "Select"
           ? html`<daikin-select>

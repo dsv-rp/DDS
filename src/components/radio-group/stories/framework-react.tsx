@@ -6,7 +6,7 @@ import { ReactDaikinInputGroup } from "../../input-group/stories/framework-react
 import { ReactDaikinRadio } from "../../radio/stories/framework-react";
 import type { DaikinRadioGroupStoryArgs } from "./common";
 
-const ReactDaikinRadioGroup = createComponent({
+export const ReactDaikinRadioGroup = createComponent({
   tagName: "daikin-radio-group",
   elementClass: DaikinRadioGroup,
   react: React,
