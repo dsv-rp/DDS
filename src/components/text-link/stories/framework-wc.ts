@@ -25,7 +25,7 @@ export const metadata: Meta<DaikinTextLinkStoryArgs> = {
         ? html`<daikin-icon
             slot="left-icon"
             icon=${leftIcon}
-            size="m"
+            size="current"
             color="current"
           ></daikin-icon>`
         : nothing}
@@ -34,7 +34,7 @@ export const metadata: Meta<DaikinTextLinkStoryArgs> = {
         ? html`<daikin-icon
             slot="right-icon"
             icon=${rightIcon}
-            size="m"
+            size="current"
             color="current"
           ></daikin-icon>`
         : nothing}
