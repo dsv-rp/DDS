@@ -98,12 +98,12 @@ export class DaikinButton extends LitElement {
 
     :host([size="small"]) {
       min-width: 52px;
-      height: 2rem;
+      height: 32px;
     }
 
     :host([size="medium"]) {
       min-width: 60px;
-      height: 3rem;
+      height: 48px;
     }
   `;
 
