@@ -84,7 +84,7 @@ export class DaikinTextArea extends LitElement {
 
     :host {
       display: block;
-      height: 87px;
+      height: 5.5rem;
       position: relative;
     }
   `;

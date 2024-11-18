@@ -77,7 +77,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
     :host {
       display: block;
       width: 100%;
-      min-width: 142px;
+      min-width: 9rem;
     }
   `;
 
