@@ -1,13 +1,8 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, fn } from "@storybook/test";
-import {
-  getByShadowRole,
-  getByShadowText,
-  queryByShadowRole,
-} from "shadow-dom-testing-library";
+import { expect, fn, userEvent, waitFor } from "@storybook/test";
+import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
 import { DAIKIN_TOOLTIP_ARG_TYPES, type Story } from "./common";
-import { TOOLTIP_SLOT_TEXT } from "./framework-wc";
 
 export default {
   title: "Components/Tooltip",
@@ -68,21 +63,33 @@ export const UseFocusableTrigger: Story = {
     hasFocusableTrigger: true,
     hasSlot: true,
   },
-  play: definePlay(async ({ step, canvasElement }) => {
+  play: definePlay(async ({ args, step, canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
     await expect(root).toBeInTheDocument();
     const trigger = getByShadowRole(root, "button", { name: "Focus me" });
 
+    await expect(root).not.toHaveAttribute("open");
+    await expect(args.onToggle).toHaveBeenCalledTimes(0);
     await expect(queryByShadowRole(root, "tooltip")).not.toBeInTheDocument();
 
     await step("Try to focus trigger element", async () => {
       trigger.focus();
 
-      await expect(
-        getByShadowText(root, TOOLTIP_SLOT_TEXT)
-      ).toBeInTheDocument();
+      await waitFor(() => expect(root).toHaveAttribute("open"));
+    });
 
+    await step("Try to hover trigger element", async () => {
+      await expect(root).toHaveAttribute("open");
+
+      await userEvent.hover(trigger);
+
+      await expect(root).toHaveAttribute("open");
+    });
+
+    await step("Try to focus out trigger element", async () => {
       trigger.blur();
+
+      await waitFor(() => expect(root).not.toHaveAttribute("open"));
     });
   }),
 };

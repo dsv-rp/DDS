@@ -143,15 +143,7 @@ export class DaikinTooltip extends LitElement {
   private _popover!: HTMLElement;
 
   /**
-   * Whether the inner elements are focused.
-   * This variable is set independently of `_isMouseOpened`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
-   */
-  @state()
-  private _isFocused = false;
-
-  /**
    * Whether the mouse operation (hover and click) opened the tooltip.
-   * This variable is set independently of `_isFocused`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
    */
   @state()
   private _isMouseOpened = false;
@@ -207,7 +199,7 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _handleClick() {
-    if (this.trigger === "click") {
+    if (this.trigger === "click" || this.trigger === "hover") {
       this._isMouseOpened = !this._isMouseOpened;
     }
   }
@@ -225,15 +217,15 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _handleFocusIn() {
-    this._isFocused = true;
+    this.open = true;
   }
 
   private _handleFocusOut() {
-    this._isFocused = false;
+    this.open = false;
   }
 
   private _handleToggle(event: ToggleEvent) {
-    if (reDispatch(this, event, new ToggleEvent("beforetoggle", event))) {
+    if (reDispatch(this, event, new ToggleEvent("toggle", event))) {
       this.open = event.newState === "open";
     }
   }
@@ -261,9 +253,7 @@ export class DaikinTooltip extends LitElement {
         id="tooltip"
         role="tooltip"
         aria-labelledby="tooltip"
-        class=${cvaTooltip({
-          variant: this.variant,
-        })}
+        class=${cvaTooltip({ variant: this.variant })}
         .popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
           reDispatch(this, event, new ToggleEvent("beforetoggle", event))}
@@ -279,18 +269,14 @@ export class DaikinTooltip extends LitElement {
 
   override willUpdate(
     changedProperties: PropertyValues<
-      // Treat `_isFocused` and `_isMouseOpened` as public.
-      Omit<this, "_isFocused" | "_isMouseOpened"> & {
-        _isFocused: boolean;
+      // Treat `_isMouseOpened` as public.
+      Omit<this, "_isMouseOpened"> & {
         _isMouseOpened: boolean;
       }
     >
   ): void {
-    if (
-      changedProperties.has("_isFocused") ||
-      changedProperties.has("_isMouseOpened")
-    ) {
-      this.open = this._isFocused || this._isMouseOpened;
+    if (changedProperties.has("_isMouseOpened")) {
+      this.open = this._isMouseOpened;
     }
   }
 
