@@ -22,7 +22,6 @@ function eventPayloadTransformer(event: Event) {
 
 export const Default: Story = {
   args: {
-    label: "Dropdown label",
     open: false,
     placeholder: "Choose an Option",
     disabled: false,
