@@ -45,6 +45,7 @@ const cvaIconContainer = cva(
     "justify-center",
     "items-center",
     "w-[44px]",
+
     "after:size-6",
     "after:text-white",
   ],
@@ -53,23 +54,20 @@ const cvaIconContainer = cva(
       status: {
         positive: [
           "bg-[--colorFeedbackPositive]",
-          "after:i-daikin-notification-status-positive",
+          "after:i-daikin-status-positive",
         ],
         negative: [
           "bg-[--colorFeedbackNegative]",
-          "after:i-daikin-notification-status-negative",
+          "after:i-daikin-status-negative",
         ],
         warning: [
           "bg-[--colorFeedbackWarning]",
-          "after:i-daikin-notification-status-warning",
+          "after:i-daikin-status-warning",
         ],
-        alarm: [
-          "bg-[--colorFeedbackAlarm]",
-          "after:i-daikin-notification-status-alarm",
-        ],
+        alarm: ["bg-[--colorFeedbackAlarm]", "after:i-daikin-status-alarm"],
         information: [
           "bg-[--colorFeedbackInformation]",
-          "after:i-daikin-notification-status-information",
+          "after:i-daikin-status-information",
         ],
       },
     },
