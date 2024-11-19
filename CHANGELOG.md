@@ -1,5 +1,46 @@
 # @daikin-oss/design-system-web-components
 
+## 0.5.0
+
+### Minor Changes
+
+- [#80](https://github.com/dsv-rp/DDS/pull/80) [`108e3c1`](https://github.com/dsv-rp/DDS/commit/108e3c152e7ad0589f34eb32f6f0345ec167fb73) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tab: The `tablist` CSS part has been removed since we started providing default styles. (DDS-1430)
+  Tab: Updated appearance. (DDS-1430)
+
+- [#86](https://github.com/dsv-rp/DDS/pull/86) [`923224e`](https://github.com/dsv-rp/DDS/commit/923224e8f90b34c58e9cd32d88d42b6bb9a4b233) Thanks [@poetrainy](https://github.com/poetrainy)! - Radio: Update appearance. (DDS-1350)
+  Checkbox: Update appearance. (DDS-1288)
+  Toggle: Update appearance. (DDS-1374)
+  Accordion: Update appearance. (DDS-1414)
+  List: Update appearance. (DDS-1414)
+
+- [#74](https://github.com/dsv-rp/DDS/pull/74) [`3151097`](https://github.com/dsv-rp/DDS/commit/3151097362d40e58e18e70914c5dd2ee83f6c430) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tooltip: The `closeOnClick` attribute has been removed. (DDS-1501)
+  **BREAKING CHANGE** Tooltip: The `trigger` and `tooltip` CSS parts have been removed. (DDS-1501)
+  **BREAKING CHANGE** Tooltip: The `tooltip` slot has been renamed to `description`. (DDS-1501)
+  Tooltip: The `trigger` attribute now accepts value of `"click"`. (DDS-1501)
+  Tooltip: The `popover-value` attribute has been added. (DDS-1501)
+
+- [#64](https://github.com/dsv-rp/DDS/pull/64) [`d0c031d`](https://github.com/dsv-rp/DDS/commit/d0c031d28a6eeac5043546ee01209e86c9f5fc2a) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Text Area: Renamed Textarea (`daikin-textarea`) to Text Area (`daikin-text-area`). (DDS-1327)
+  **BREAKING CHANGE** Text Area: The `maxlength` attribute have been removed. (DDS-1327)
+  **BREAKING CHANGE** Input Group: The `textareaCounter` attribute has been removed and the `textareaMaxCount` attribute has been added. (DDS-1327)
+  Text Area: The `resizable`, `name` and `error` attributes has been added. (DDS-1327)
+  Text Area: Updated appearance. (DDS-1327)
+
+- [#62](https://github.com/dsv-rp/DDS/pull/62) [`94d6548`](https://github.com/dsv-rp/DDS/commit/94d65484625bebb2f17f023bb55b565d29d8c972) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Text Field: Renamed Text Input to Text Field. (DDS-1325)
+  **BREAKING CHANGE** Input Group: The value accepted by `required` attribute has been changed from `boolean` to `string` (DDS-1325)
+  Text Field: The `left-icon` and `right-icon` slots have been accepted. (DDS-1325)
+  Text Field: Updated appearance. (DDS-1325)
+  Input Group: Updated appearance. (DDS-1325)
+
+### Patch Changes
+
+- [#25](https://github.com/dsv-rp/DDS/pull/25) [`2a59211`](https://github.com/dsv-rp/DDS/commit/2a592110b5e5b1aaf23060832403acba21336845) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Dropdown Component.
+
+- [#65](https://github.com/dsv-rp/DDS/pull/65) [`c72d763`](https://github.com/dsv-rp/DDS/commit/c72d76356cb42c36b3c782a12654e95790ecc837) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add radio group component. (DDS-1361)
+
+- [#83](https://github.com/dsv-rp/DDS/pull/83) [`9eae0b8`](https://github.com/dsv-rp/DDS/commit/9eae0b866bbff612c33b8920e9dda95835007dc1) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Select Component. (DDS-1566)
+
+- [#47](https://github.com/dsv-rp/DDS/pull/47) [`32ed03c`](https://github.com/dsv-rp/DDS/commit/32ed03cdb2cafb562c57776ac136a3f7be90d8c3) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Progress Indicator Component. (DDS-921)
+
 ## 0.4.0
 
 ### Minor Changes

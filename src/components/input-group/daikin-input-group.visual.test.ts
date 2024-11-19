@@ -14,13 +14,14 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 const innerContent = {
   Dropdown: "daikin-dropdown",
+  RadioGroup: "daikin-radio-group",
   Select: "daikin-select",
   TextField: "daikin-text-field",
   TextArea: "daikin-text-area",
 };
 
 describeEach(
-  ["Dropdown", "Select", "TextField", "TextArea"] as const,
+  ["Dropdown", "RadioGroup", "Select", "TextField", "TextArea"] as const,
   (content) => {
     describeEach(["enabled", "disabled"] as const, (state) => {
       describeEach(["optional", "required"] as const, (required) => {

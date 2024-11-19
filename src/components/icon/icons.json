@@ -1,7 +1,7 @@
 {
   "icons": {
     "alarm": {
-      "class": "i-daikin-notification-status-alarm",
+      "class": "i-daikin-status-alarm",
       "color": null
     },
     "close": {
@@ -9,24 +9,28 @@
       "color": "#a0a0a0"
     },
     "information": {
-      "class": "i-daikin-notification-status-information",
+      "class": "i-daikin-status-information",
       "color": null
     },
     "negative": {
-      "class": "i-daikin-notification-status-negative",
+      "class": "i-daikin-status-negative",
       "color": null
     },
     "positive": {
-      "class": "i-daikin-notification-status-positive",
+      "class": "i-daikin-status-positive",
       "color": null
     },
     "warning": {
-      "class": "i-daikin-notification-status-warning",
+      "class": "i-daikin-status-warning",
       "color": null
+    },
+    "success": {
+      "class": "i-daikin-status-success",
+      "color": "#0097E0"
     },
     "error": {
       "class": "i-daikin-status-error",
-      "color": "#ff4949"
+      "color": "#FF4949"
     },
     "cross": {
       "class": "i-daikin-cross",
