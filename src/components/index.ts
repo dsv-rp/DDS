@@ -11,6 +11,7 @@ export * from "./input-group";
 export * from "./list";
 export * from "./list-item";
 export * from "./notification";
+export * from "./pagination";
 export * from "./progress-bar";
 export * from "./progress-indicator";
 export * from "./progress-indicator-item";
