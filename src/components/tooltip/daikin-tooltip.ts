@@ -41,6 +41,7 @@ const cvaTooltip = cva(
 );
 
 const DEFAULT_TOOLTIP_SPACING = "20px";
+
 /**
  * A tooltip component is used to show brief information when a user interacts with an element.
  *
