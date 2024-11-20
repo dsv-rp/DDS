@@ -118,19 +118,19 @@ export class DaikinTextField extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Type of the text field.
+   * Type of field.
    */
   @property({ type: String })
   type: "text" | "email" | "tel" | "search" = "text";
 
   /**
-   * Value of the text field.
+   * The current value of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String })
   value = "";
 
   /**
-   * Form name of the text field.
+   * The name of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String, reflect: true })
   name = "";
