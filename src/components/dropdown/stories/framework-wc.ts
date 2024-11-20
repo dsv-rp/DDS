@@ -7,7 +7,6 @@ import type { DaikinDropdownStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinDropdownStoryArgs> = {
   render: ({
-    label,
     value,
     placeholder,
     open,
@@ -20,7 +19,6 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
   }) => html`
     <div data-testid="vrt-container" style="width:360px; height:256px;">
       <daikin-dropdown
-        label=${ifDefined(label)}
         value=${ifDefined(value)}
         placeholder=${placeholder}
         ?open=${open}
