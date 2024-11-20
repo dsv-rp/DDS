@@ -40,7 +40,7 @@ const cvaContainer = cva(
 );
 
 const cvaIconContainer = cva(
-  ["flex-none", "flex", "justify-center", "items-center", "w-[44px]"],
+  ["flex-none", "flex", "justify-center", "items-center", "w-[2.75rem]"],
   {
     variants: {
       status: {

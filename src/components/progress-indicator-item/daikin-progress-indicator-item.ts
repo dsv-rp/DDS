@@ -14,7 +14,7 @@ const cvaContainer = cva(
     "w-full",
     "text-system-element-text-primary",
     "pt-1",
-    "border-t-4",
+    "border-t-[0.25rem]",
     "font-daikinSerif",
   ],
   {
@@ -99,7 +99,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
       aria-current=${ifDefined(this.current ? "step" : undefined)}
     >
       <slot class=${cvaLabel({ status: this.status })}></slot>
-      <slot name="description" class="text-sm leading-[18px]"></slot>
+      <slot name="description" class="text-sm leading-[1.1rem]"></slot>
     </div>`;
   }
 }
