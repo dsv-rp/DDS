@@ -306,7 +306,7 @@ export class DaikinTable<
       );
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
-      <table class="w-full table-fixed leading-[22px]">
+      <table class="w-full table-fixed">
         <thead>
           <tr class="border-b border-b-system-element-divider-primary">
             ${this.selectable

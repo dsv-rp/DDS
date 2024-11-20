@@ -57,7 +57,7 @@ export class DaikinTableCell extends LitElement {
     :host {
       display: block;
       width: 100%;
-      min-height: 48px;
+      min-height: 3rem;
     }
   `;
 
