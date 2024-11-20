@@ -51,9 +51,9 @@ export const Default: Story = {
       name: "Baz",
     });
 
-    await expect(
-      isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
-    ).toBe(true);
+    await expect(isVisible(getByShadowText(root, "Content of tab Foo."))).toBe(
+      true
+    );
 
     // should react if baz tab clicked
     await step("Try to click baz tab", async () => {
@@ -71,10 +71,10 @@ export const Default: Story = {
       await expect(root.value).toBe("baz");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(false);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(true);
     });
 
@@ -87,13 +87,13 @@ export const Default: Story = {
       await expect(root.value).toBe("baz");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(false);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Bar. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Bar."))
       ).toBe(false);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(true);
     });
 
@@ -113,10 +113,10 @@ export const Default: Story = {
       await expect(root.value).toBe("foo");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(true);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(false);
     });
 
@@ -143,10 +143,10 @@ export const Default: Story = {
       await expect(root.value).toBe("baz");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(false);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(true);
     });
 
@@ -172,10 +172,10 @@ export const Default: Story = {
       await expect(root.value).toBe("foo");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(true);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(false);
     });
 
@@ -201,10 +201,10 @@ export const Default: Story = {
       await expect(root.value).toBe("baz");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(false);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(true);
     });
 
@@ -221,10 +221,11 @@ export const Single: Story = {
   },
 };
 
-export const Many: Story = {
+export const Scrollable: Story = {
   args: {
     tabs: new Array(20).fill("").map((_, i) => `Tab ${i + 1}`),
     value: "tab1",
+    scrollable: true,
     onBeforeChange: fn(),
     onChange: fn(),
   },
@@ -257,10 +258,10 @@ export const PreventBeforeChange: Story = {
       await expect(root.value).toBe("foo");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(true);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(false);
     });
 
@@ -271,10 +272,10 @@ export const PreventBeforeChange: Story = {
       await expect(root.value).toBe("foo");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(true);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(false);
     });
 
@@ -292,10 +293,10 @@ export const PreventBeforeChange: Story = {
       await expect(root.value).toBe("foo");
 
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Foo. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Foo."))
       ).toBe(true);
       await expect(
-        isVisible(getByShadowText(root, "Content of tab Baz. (Scrollable)"))
+        isVisible(getByShadowText(root, "Content of tab Baz."))
       ).toBe(false);
     });
   }),
