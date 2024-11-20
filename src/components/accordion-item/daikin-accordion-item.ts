@@ -224,7 +224,7 @@ export class DaikinAccordionItem extends LitElement {
     const open = !this.disabled && this.open;
 
     return html`<details
-      class="flex w-full text-system-element-text-primary font-daikinSerif overflow-clip"
+      class="w-full text-system-element-text-primary font-daikinSerif overflow-clip"
       ?open=${detailsOpen}
       ?data-open=${open}
       aria-disabled=${this.disabled}
