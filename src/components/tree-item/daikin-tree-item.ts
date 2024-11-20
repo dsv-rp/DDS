@@ -17,7 +17,7 @@ export const cvaTreeChildren = cva(
     "min-h-12",
     "py-3",
     "pr-4",
-    "pl-[calc((var(--level)+1)*16px)]",
+    "pl-[calc((var(--level)+1)*1rem)]",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
