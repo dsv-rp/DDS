@@ -3,9 +3,8 @@ import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../icon/daikin-icon";
 
-const cvaTextLink = cva(
+const cvaLinkButton = cva(
   [
     "flex",
     "justify-center",
@@ -57,17 +56,17 @@ const cvaTextLink = cva(
  * @example
  *
  * ```js
- * import "@daikin-oss/design-system-web-components/components/text-link/index.js";
+ * import "@daikin-oss/design-system-web-components/components/link-button/index.js";
  * ```
  *
  * ```html
- * <daikin-text-link href="#">
+ * <daikin-link-button href="#">
  *   Link label
- * </daikin-text-link>
+ * </daikin-link-button>
  * ```
  */
-@customElement("daikin-text-link")
-export class DaikinTextLink extends LitElement {
+@customElement("daikin-link-button")
+export class DaikinLinkButton extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -129,7 +128,7 @@ export class DaikinTextLink extends LitElement {
   override render() {
     return html`
       <a
-        class=${cvaTextLink({ disabled: this.disabled })}
+        class=${cvaLinkButton({ disabled: this.disabled })}
         href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
@@ -147,6 +146,6 @@ export class DaikinTextLink extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "daikin-text-link": DaikinTextLink;
+    "daikin-link-button": DaikinLinkButton;
   }
 }

@@ -1,16 +1,16 @@
 import type { IconType } from "#package/components/icon";
-import type { DaikinTextLink } from "#package/components/text-link/daikin-text-link";
+import type { DaikinLinkButton } from "#package/components/link-button/daikin-link-button";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export interface DaikinTextLinkStoryArgs
-  extends Required<ElementProps<DaikinTextLink>> {
+export interface DaikinLinkButtonStoryArgs
+  extends Required<ElementProps<DaikinLinkButton>> {
   label: string;
   leftIcon: IconType | null;
   rightIcon: IconType | null;
 }
 
-export const DAIKIN_TEXT_LINK_ARG_TYPES = {
+export const DAIKIN_LINK_BUTTON_ARG_TYPES = {
   target: {
     type: "string",
   },
@@ -32,6 +32,6 @@ export const DAIKIN_TEXT_LINK_ARG_TYPES = {
   rightIcon: {
     type: "string",
   },
-} as const satisfies Meta<DaikinTextLinkStoryArgs>["argTypes"];
+} as const satisfies Meta<DaikinLinkButtonStoryArgs>["argTypes"];
 
-export type Story = StoryObj<DaikinTextLinkStoryArgs>;
+export type Story = StoryObj<DaikinLinkButtonStoryArgs>;
