@@ -22,7 +22,7 @@ const cvaSelect = cva(
     "after:absolute",
     "after:top-0",
     "after:bottom-0",
-    "after:right-3",
+    "after:right-[calc(0.75rem+1px)]",
     "after:pointer-events-none",
 
     "slotted-[select]:!appearance-none",
@@ -63,7 +63,7 @@ const cvaSelect = cva(
       },
       error: {
         false: [
-          "var-color-system-state-neutral-press/color-base",
+          "var-color-system-state-neutral-active/color-base",
           "var-color-system-state-focus/color-focus",
         ],
         true: [
