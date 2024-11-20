@@ -31,12 +31,12 @@ const cvaLinkButton = cva(
     variants: {
       disabled: {
         false: [
-          "text-system-state-primary-active",
-          "hover:text-system-state-primary-hover",
-          "active:text-system-state-primary-press",
-          "[&>span::after]:bg-system-state-primary-active",
-          "[&:hover>span::after]:bg-system-state-primary-hover",
-          "[&:active>span::after]:bg-system-state-primary-press",
+          "text-system-state-link-active",
+          "hover:text-system-state-link-hover",
+          "active:text-system-state-link-press",
+          "[&>span::after]:bg-system-state-link-active",
+          "[&:hover>span::after]:bg-system-state-link-hover",
+          "[&:active>span::after]:bg-system-state-link-press",
         ],
         true: [
           "text-system-state-disabled",
@@ -77,27 +77,27 @@ export class DaikinLinkButton extends LitElement {
     }
 
     :host([hasVisited]):host(:not([disabled])) a:visited {
-      color: #9b5ea3; /* system-state-visited-active */
+      color: #5c2365; /* system-state-visited-active */
     }
 
     :host([hasVisited]):host(:not([disabled])) a:hover:visited {
-      color: #8e4898; /* system-state-visited-hover */
+      color: #4a1c51; /* system-state-visited-hover */
     }
 
     :host([hasVisited]):host(:not([disabled])) a:active:visited {
-      color: #81318e; /* system-state-visited-press */
+      color: #37153d; /* system-state-visited-press */
     }
 
     :host([hasVisited]):host(:not([disabled])) a:visited > span::after {
-      background-color: #9b5ea3; /* system-state-visited-active */
+      background-color: #5c2365; /* system-state-visited-active */
     }
 
     :host([hasVisited]):host(:not([disabled])) a:hover:visited > span::after {
-      background-color: #8e4898; /* system-state-visited-hover */
+      background-color: #4a1c51; /* system-state-visited-hover */
     }
 
     :host([hasVisited]):host(:not([disabled])) a:active:visited > span::after {
-      background-color: #81318e; /* system-state-visited-press */
+      background-color: #37153d; /* system-state-visited-press */
     }
   `;
 

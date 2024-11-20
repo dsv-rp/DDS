@@ -51,11 +51,6 @@
         "hover": "#515151",
         "press": "#414141"
       },
-      "visited": {
-        "active": "#9B5EA3",
-        "hover": "#8E4898",
-        "press": "#81318E"
-      },
       "disabled": "#BFBFBF",
       "focus": "#0081C0",
       "feedback": {
@@ -64,6 +59,16 @@
         "warning": "#B88700",
         "alarm": "#E46B08",
         "information": "#0097E0"
+      },
+      "link": {
+        "active": "#00689A",
+        "hover": "#005077",
+        "press": "#004160"
+      },
+      "visited": {
+        "active": "#5C2365",
+        "hover": "#4A1C51",
+        "press": "#37153D"
       }
     }
   }
