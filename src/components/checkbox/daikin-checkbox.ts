@@ -98,13 +98,13 @@ export class DaikinCheckbox extends LitElement {
   `;
 
   /**
-   * Form name of the checkbox.
+   * The form name, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Form value of the checkbox.
+   * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -124,13 +124,13 @@ export class DaikinCheckbox extends LitElement {
   labelPosition: "right" | "hidden" = "right";
 
   /**
-   * Checked state of the checkbox.
+   * Specify the checkbox checked state.
    */
   @property({ type: String, reflect: true, attribute: "check-state" })
   checkState: "unchecked" | "indeterminate" | "checked" = "unchecked";
 
   /**
-   * Whether the checkbox is disabled.
+   * Specify the checkbox disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
