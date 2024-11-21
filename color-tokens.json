@@ -18,6 +18,7 @@
     },
     "background": {
       "base": "#FFFFFF",
+      "inverse": "#414141",
       "surface": {
         "hover": "#F2F2F2",
         "press": "#EBEBEB",

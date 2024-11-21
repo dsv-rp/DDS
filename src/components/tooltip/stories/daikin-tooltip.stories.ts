@@ -16,10 +16,10 @@ export default {
   ...metadata,
 };
 
-export const Light: Story = {
+export const Default: Story = {
   args: {
     placement: "bottom",
-    variant: "light",
+    color: "default",
     open: false,
     description:
       "This is a description using attributes.\nIt supports line breaks.",
@@ -31,10 +31,10 @@ export const Light: Story = {
   },
 };
 
-export const Dark: Story = {
+export const Inverse: Story = {
   args: {
-    ...Light.args,
-    variant: "dark",
+    ...Default.args,
+    color: "inverse",
   },
   play: definePlay(async ({ canvasElement }) => {
     const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
@@ -57,14 +57,14 @@ export const Dark: Story = {
 
 export const SlotDescription: Story = {
   args: {
-    ...Light.args,
+    ...Default.args,
     hasSlot: true,
   },
 };
 
 export const UseFocusableTrigger: Story = {
   args: {
-    ...Light.args,
+    ...Default.args,
     hasFocusableTrigger: true,
     hasSlot: true,
   },
@@ -89,7 +89,7 @@ export const UseFocusableTrigger: Story = {
 
 export const FullSizeView: Story = {
   args: {
-    ...Light.args,
+    ...Default.args,
     viewArea: "full",
   },
 };

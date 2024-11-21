@@ -11,6 +11,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 import { reDispatch } from "../../utils/reDispatch";
 
 const cvaTooltip = cva(
@@ -18,6 +19,7 @@ const cvaTooltip = cva(
     "justify-center",
     "items-center",
     "w-max",
+    "min-w-[10.5rem]",
     "p-3",
     "border",
     "border-solid",
@@ -32,15 +34,25 @@ const cvaTooltip = cva(
   ],
   {
     variants: {
-      variant: {
-        light: ["border-daikinNeutral-800", "bg-white/90", "text-black"],
-        dark: ["border-transparent", "bg-daikinNeutral-800/90", "text-white"],
+      color: {
+        default: [
+          "text-system-element-text-primary",
+          "bg-system-background-base",
+          "border-system-state-neutral-active",
+        ],
+        inverse: [
+          "text-system-element-text-inverse",
+          "bg-system-background-inverse",
+          "border-transparent",
+        ],
       },
     },
   }
 );
 
 const DEFAULT_TOOLTIP_SPACING = "20px";
+
+type TooltipVariantProps = MergeVariantProps<typeof cvaTooltip>;
 
 /**
  * A tooltip component is used to show brief information when a user interacts with an element.
@@ -107,7 +119,7 @@ export class DaikinTooltip extends LitElement {
    * Specifies the tooltip theme.
    */
   @property({ type: String, reflect: true })
-  variant: "light" | "dark" = "light";
+  color: TooltipVariantProps["color"] = "default";
 
   /**
    * Whether the tooltip is open.
@@ -241,7 +253,9 @@ export class DaikinTooltip extends LitElement {
   override render() {
     // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
     /* eslint-disable lit-a11y/click-events-have-key-events */
-    return html`<div class="relative inline-block">
+    return html`<div
+      class="relative inline-block text-system-element-text-primary font-daikinSerif"
+    >
       <div
         ${ref(this._triggerRef)}
         id="trigger"
@@ -261,9 +275,7 @@ export class DaikinTooltip extends LitElement {
         id="tooltip"
         role="tooltip"
         aria-labelledby="tooltip"
-        class=${cvaTooltip({
-          variant: this.variant,
-        })}
+        class=${cvaTooltip({ color: this.color })}
         .popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
           reDispatch(this, event, new ToggleEvent("beforetoggle", event))}
