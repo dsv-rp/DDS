@@ -199,7 +199,7 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _handleClick() {
-    if (this.trigger === "click" || this.trigger === "hover") {
+    if (this.trigger === "click") {
       this._isMouseOpened = !this._isMouseOpened;
     }
   }
@@ -221,6 +221,11 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _handleFocusOut() {
+    if (this._isMouseOpened) {
+      // Do not close if the tooltip is opened by mouse operation.
+      return;
+    }
+
     this.open = false;
   }
 
