@@ -41,7 +41,7 @@ const cvaTextArea = cva(
     variants: {
       error: {
         false: [
-          "enabled:var-color-system-state-neutral-hover/color-base",
+          "enabled:var-color-system-state-neutral-active/color-base",
           "focus-visible:var-color-system-state-focus/color-state-focus",
         ],
         true: ["enabled:var-color-system-state-error-active/color-base"],
@@ -84,7 +84,7 @@ export class DaikinTextArea extends LitElement {
 
     :host {
       display: block;
-      height: 87px;
+      height: 5.5rem;
       position: relative;
     }
   `;
