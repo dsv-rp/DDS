@@ -175,6 +175,8 @@ export class DaikinTable<
     | {
         [key in keyof T]?: (a: T, b: T, key: key) => number;
       }
+    | ((a: T, b: T, key: keyof T) => number)
+    | false
     | null = null;
 
   @state()
@@ -190,12 +192,15 @@ export class DaikinTable<
 
   private _updateCurrentView() {
     const sort = this.sort;
-    if (!sort) {
+    if (!sort || this.sortFunction === false) {
       this._currentView = Array.from(this.rows);
       return;
     }
 
-    const sortFunction = this.sortFunction?.[sort] ?? defaultSort;
+    const sortFunction =
+      (typeof this.sortFunction === "object"
+        ? this.sortFunction?.[sort]
+        : this.sortFunction) ?? defaultSort;
     this._currentView = this.rows.toSorted((a, b) => sortFunction(a, b, sort));
 
     if (this.order === "desc") {
