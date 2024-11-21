@@ -4,54 +4,35 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaLink = cva(
-  [
-    "flex",
-    "justify-center",
-    "items-center",
-    "gap-0.5",
-    "w-fit",
-    "h-fit",
-    "font-daikinSerif",
-    "rounded-[1px]",
-    "relative",
+const LINK_CLASS_NAME = cva([
+  "flex",
+  "justify-center",
+  "items-center",
+  "gap-0.5",
+  "size-fit",
+  "font-daikinSerif",
+  "rounded-[1px]",
+  "relative",
 
-    "focus-visible:outline-none",
+  "link-enabled:text-system-state-link-active",
+  "link-enabled:hover:text-system-state-link-hover",
+  "link-enabled:active:text-system-state-link-press",
+  "link-disabled:text-system-state-disabled",
 
-    "focus-visible:before:block",
-    "focus-visible:before:w-[calc(100%+2px)]",
-    "focus-visible:before:h-[calc(100%+2px)]",
-    "focus-visible:before:rounded-[1px]",
-    "focus-visible:before:absolute",
-    "focus-visible:before:outline",
-    "focus-visible:before:outline-system-state-focus",
-    "focus-visible:before:outline-2",
-  ],
-  {
-    variants: {
-      disabled: {
-        false: [
-          "text-system-state-link-active",
-          "hover:text-system-state-link-hover",
-          "active:text-system-state-link-press",
-          "[&>span::after]:bg-system-state-link-active",
-          "[&:hover>span::after]:bg-system-state-link-hover",
-          "[&:active>span::after]:bg-system-state-link-press",
-        ],
-        true: [
-          "text-system-state-disabled",
-          "[&>span::after]:bg-system-state-disabled",
-        ],
-      },
-    },
-  }
-);
+  "focus-visible:outline-none",
+  "focus-visible:before:block",
+  "focus-visible:before:rounded-[1px]",
+  "focus-visible:before:absolute",
+  "focus-visible:before:inset-[-1px]",
+  "focus-visible:before:outline",
+  "focus-visible:before:outline-system-state-focus",
+  "focus-visible:before:outline-2",
+])();
 
 /**
- * The button component is a versatile UI element that triggers actions or submits forms when clicked.
- * It functions similarly to the HTML `<button>` tag, allowing users to initiate various operations such as submitting data, opening dialogs, or navigating to different sections of an application.
+ * The link component uses the standard HTML <a> tag. Unlike the link used in the button component, it provides the style of the text as it is.
  *
- * @slot - A slot for the button content.
+ * @slot - A slot for the link content.
  *
  * @example
  *
@@ -60,7 +41,7 @@ const cvaLink = cva(
  * ```
  *
  * ```html
- * <daikin-link href="#">
+ * <daikin-link href="https://www.example.com">
  *   Link label
  * </daikin-link>
  * ```
@@ -76,28 +57,16 @@ export class DaikinLink extends LitElement {
       height: fit-content;
     }
 
-    :host([hasVisited]):host(:not([disabled])) a:visited {
+    :host([show-visited]:not([disabled])) a:visited {
       color: #5c2365; /* system-state-visited-active */
     }
 
-    :host([hasVisited]):host(:not([disabled])) a:hover:visited {
+    :host([show-visited]:not([disabled])) a:hover:visited {
       color: #4a1c51; /* system-state-visited-hover */
     }
 
-    :host([hasVisited]):host(:not([disabled])) a:active:visited {
+    :host([show-visited]:not([disabled])) a:active:visited {
       color: #37153d; /* system-state-visited-press */
-    }
-
-    :host([hasVisited]):host(:not([disabled])) a:visited > span::after {
-      background-color: #5c2365; /* system-state-visited-active */
-    }
-
-    :host([hasVisited]):host(:not([disabled])) a:hover:visited > span::after {
-      background-color: #4a1c51; /* system-state-visited-hover */
-    }
-
-    :host([hasVisited]):host(:not([disabled])) a:active:visited > span::after {
-      background-color: #37153d; /* system-state-visited-press */
     }
   `;
 
@@ -122,19 +91,19 @@ export class DaikinLink extends LitElement {
   /**
    * Whether or not to change the color of visited links.
    */
-  @property({ type: Boolean, reflect: true })
-  hasVisited = false;
+  @property({ type: Boolean, reflect: true, attribute: "show-visited" })
+  showVisited = false;
 
   override render() {
     return html`
       <a
-        class=${cvaLink({ disabled: this.disabled })}
+        class=${LINK_CLASS_NAME}
         href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
         <slot name="left-icon"></slot>
         <span
-          class="relative after:h-[1px] after:absolute after:inset-[auto_0_0_0]"
+          class="relative after:h-[1px] after:absolute after:inset-[auto_0_0_0] after:bg-current"
         >
           <slot></slot>
         </span>

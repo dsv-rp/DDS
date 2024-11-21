@@ -10,7 +10,7 @@ export const metadata: Meta<DaikinLinkStoryArgs> = {
     href,
     target,
     disabled,
-    hasVisited,
+    showVisited,
     label,
     leftIcon,
     rightIcon,
@@ -19,7 +19,7 @@ export const metadata: Meta<DaikinLinkStoryArgs> = {
       href=${ifDefined(href ?? undefined)}
       target=${ifDefined(target ?? undefined)}
       ?disabled=${disabled}
-      ?hasVisited=${hasVisited}
+      ?show-visited=${showVisited}
     >
       ${leftIcon
         ? html`<daikin-icon

@@ -20,7 +20,7 @@ export const DAIKIN_LINK_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
-  hasVisited: {
+  showVisited: {
     type: "boolean",
   },
   label: {

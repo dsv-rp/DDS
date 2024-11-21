@@ -18,7 +18,7 @@ export const Default: Story = {
   args: {
     href: "https://dsv-rp.github.io/DDS",
     disabled: false,
-    hasVisited: false,
+    showVisited: false,
     label: "Link label",
   },
   play: definePlay(async ({ canvasElement }) => {
@@ -30,10 +30,10 @@ export const Default: Story = {
   }),
 };
 
-export const HasVisited: Story = {
+export const ShowVisited: Story = {
   args: {
     ...Default.args,
-    hasVisited: true,
+    showVisited: true,
   },
 };
 
