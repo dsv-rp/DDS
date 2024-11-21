@@ -1,24 +1,24 @@
-import { DaikinLinkButton } from "#package/components/link-button/daikin-link-button";
+import { DaikinLink } from "#package/components/link/daikin-link";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import { ReactDaikinIcon } from "../../icon/stories/framework-react";
-import type { DaikinLinkButtonStoryArgs } from "./common";
+import type { DaikinLinkStoryArgs } from "./common";
 
-export const ReactDaikinLinkButton = createComponent({
+export const ReactDaikinLink = createComponent({
   react: React,
-  tagName: "daikin-link-button",
-  elementClass: DaikinLinkButton,
+  tagName: "daikin-link",
+  elementClass: DaikinLink,
 });
 
-export const metadata: Meta<DaikinLinkButtonStoryArgs> = {
+export const metadata: Meta<DaikinLinkStoryArgs> = {
   component: ({
     label,
     leftIcon,
     rightIcon,
     ...props
-  }: DaikinLinkButtonStoryArgs) => (
-    <ReactDaikinLinkButton {...props}>
+  }: DaikinLinkStoryArgs) => (
+    <ReactDaikinLink {...props}>
       {leftIcon && (
         <ReactDaikinIcon
           slot="left-icon"
@@ -36,6 +36,6 @@ export const metadata: Meta<DaikinLinkButtonStoryArgs> = {
           color="current"
         />
       )}
-    </ReactDaikinLinkButton>
+    </ReactDaikinLink>
   ),
 };

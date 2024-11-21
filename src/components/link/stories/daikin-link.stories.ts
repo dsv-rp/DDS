@@ -3,14 +3,14 @@ import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, userEvent } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
-import { DAIKIN_LINK_BUTTON_ARG_TYPES, type Story } from "./common";
+import { DAIKIN_LINK_ARG_TYPES, type Story } from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
 // See https://storybook.js.org/docs/writing-stories#default-export.
 export default {
-  title: "Components/Link Button",
+  title: "Components/Link",
   tags: ["autodocs"],
-  argTypes: DAIKIN_LINK_BUTTON_ARG_TYPES,
+  argTypes: DAIKIN_LINK_ARG_TYPES,
   ...metadata,
 };
 
@@ -22,7 +22,7 @@ export const Default: Story = {
     label: "Link label",
   },
   play: definePlay(async ({ canvasElement }) => {
-    const root = canvasElement.getElementsByTagName("daikin-link-button")[0];
+    const root = canvasElement.getElementsByTagName("daikin-link")[0];
     await expect(root).toBeInTheDocument();
 
     const innerLink = getByShadowRole(root, "link", { name: "Link label" });
@@ -43,7 +43,7 @@ export const Disabled: Story = {
     disabled: true,
   },
   play: definePlay(async ({ canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName("daikin-link-button")[0];
+    const root = canvasElement.getElementsByTagName("daikin-link")[0];
     await expect(root).toBeInTheDocument();
 
     const innerLink = getByShadowText(root, "Link label");

@@ -5,12 +5,12 @@ import {
   getStorybookIframeURL,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_LINK_BUTTON_ARG_TYPES } from "./stories/common";
+import type { DAIKIN_LINK_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_LINK_BUTTON_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_LINK_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-link-button--default", args);
+  getStorybookIframeURL("components-link--default", args);
 
 describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
   // NOTE: Has not implemented the VRT for hasVisited
@@ -30,7 +30,7 @@ describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link-button", {
+      const element = await page.waitForSelector("daikin-link", {
         state: "visible",
       });
 
@@ -42,7 +42,7 @@ describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link-button", {
+      const element = await page.waitForSelector("daikin-link", {
         state: "visible",
       });
 
@@ -57,7 +57,7 @@ describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link-button", {
+      const element = await page.waitForSelector("daikin-link", {
         state: "visible",
       });
 
@@ -74,7 +74,7 @@ describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
       await page.goto(baseURL);
 
       // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link-button", {
+      const element = await page.waitForSelector("daikin-link", {
         state: "visible",
       });
 
@@ -96,7 +96,7 @@ describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
       );
 
       // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link-button", {
+      const element = await page.waitForSelector("daikin-link", {
         state: "visible",
       });
 

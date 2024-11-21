@@ -4,7 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaLinkButton = cva(
+const cvaLink = cva(
   [
     "flex",
     "justify-center",
@@ -56,17 +56,17 @@ const cvaLinkButton = cva(
  * @example
  *
  * ```js
- * import "@daikin-oss/design-system-web-components/components/link-button/index.js";
+ * import "@daikin-oss/design-system-web-components/components/link/index.js";
  * ```
  *
  * ```html
- * <daikin-link-button href="#">
+ * <daikin-link href="#">
  *   Link label
- * </daikin-link-button>
+ * </daikin-link>
  * ```
  */
-@customElement("daikin-link-button")
-export class DaikinLinkButton extends LitElement {
+@customElement("daikin-link")
+export class DaikinLink extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -128,7 +128,7 @@ export class DaikinLinkButton extends LitElement {
   override render() {
     return html`
       <a
-        class=${cvaLinkButton({ disabled: this.disabled })}
+        class=${cvaLink({ disabled: this.disabled })}
         href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
@@ -146,6 +146,6 @@ export class DaikinLinkButton extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "daikin-link-button": DaikinLinkButton;
+    "daikin-link": DaikinLink;
   }
 }

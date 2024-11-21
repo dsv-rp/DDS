@@ -1,11 +1,11 @@
 import "#package/components/icon/daikin-icon";
-import "#package/components/link-button/daikin-link-button";
+import "#package/components/link/daikin-link";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import type { DaikinLinkButtonStoryArgs } from "./common";
+import type { DaikinLinkStoryArgs } from "./common";
 
-export const metadata: Meta<DaikinLinkButtonStoryArgs> = {
+export const metadata: Meta<DaikinLinkStoryArgs> = {
   render: ({
     href,
     target,
@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinLinkButtonStoryArgs> = {
     leftIcon,
     rightIcon,
   }) => html`
-    <daikin-link-button
+    <daikin-link
       href=${ifDefined(href ?? undefined)}
       target=${ifDefined(target ?? undefined)}
       ?disabled=${disabled}
@@ -38,6 +38,6 @@ export const metadata: Meta<DaikinLinkButtonStoryArgs> = {
             color="current"
           ></daikin-icon>`
         : nothing}
-    </daikin-link-button>
+    </daikin-link>
   `,
 };

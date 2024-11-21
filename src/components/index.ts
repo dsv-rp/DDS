@@ -8,7 +8,7 @@ export * from "./dropdown";
 export * from "./dropdown-item";
 export * from "./icon";
 export * from "./input-group";
-export * from "./link-button";
+export * from "./link";
 export * from "./list";
 export * from "./list-item";
 export * from "./notification";
