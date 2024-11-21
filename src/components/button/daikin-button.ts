@@ -128,7 +128,7 @@ export class DaikinButton extends LitElement {
   color: ButtonVariantProps["color"] = "default";
 
   /**
-   * Whether the button is disabled.
+   * Specify the button disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;

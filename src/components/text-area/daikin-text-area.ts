@@ -94,13 +94,13 @@ export class DaikinTextArea extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Value of the text area.
+   * The current value of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String })
   value = "";
 
   /**
-   * Form name of the text area.
+   * The name of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String, reflect: true })
   name = "";
