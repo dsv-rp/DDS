@@ -26,8 +26,6 @@ describeEach(["normal"] as const, (hasVisited: "normal" | "hasVisited") => {
     };
     const baseURL = getPageURL(baseArgs);
 
-    console.log(baseURL);
-
     test("base", async ({ page }) => {
       await page.goto(baseURL);
 
