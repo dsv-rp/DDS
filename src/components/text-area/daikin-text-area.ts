@@ -41,7 +41,7 @@ const cvaTextArea = cva(
     variants: {
       error: {
         false: [
-          "enabled:var-color-system-state-neutral-hover/color-base",
+          "enabled:var-color-system-state-neutral-active/color-base",
           "focus-visible:var-color-system-state-focus/color-state-focus",
         ],
         true: ["enabled:var-color-system-state-error-active/color-base"],
@@ -84,7 +84,7 @@ export class DaikinTextArea extends LitElement {
 
     :host {
       display: block;
-      height: 87px;
+      height: 5.5rem;
       position: relative;
     }
   `;
@@ -94,13 +94,13 @@ export class DaikinTextArea extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Value of the text area.
+   * The current value of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String })
   value = "";
 
   /**
-   * Form name of the text area.
+   * The name of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String, reflect: true })
   name = "";
