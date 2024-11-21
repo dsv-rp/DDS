@@ -70,7 +70,7 @@ export class DaikinBreadcrumbItem extends LitElement {
     :host {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 0.5rem;
       flex-shrink: 0;
     }
 
