@@ -85,7 +85,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
           ? html`
               <span
                 class="size-4 i-daikin-status-success text-system-state-primary-active"
-                aria-label="Completed."
+                aria-label="Completed"
               ></span>
             `
           : nothing}
