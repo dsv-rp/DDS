@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-Tooltip: Fixed unintended behavior when focusing on the trigger element. (DDS-1631)
+Tooltip: Fixed an issue where the tooltip would remain opened after clicking on the trigger element. (DDS-1631)

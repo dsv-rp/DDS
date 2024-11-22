@@ -7,7 +7,7 @@ import {
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -139,9 +139,6 @@ export class DaikinTooltip extends LitElement {
   @property({ type: String, reflect: true })
   trigger: "hover" | "click" | "manual" = "hover";
 
-  @query("span[popover]")
-  private _popover!: HTMLElement;
-
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
   private _triggerRef: Ref<HTMLElement> = createRef();
@@ -194,6 +191,7 @@ export class DaikinTooltip extends LitElement {
 
   private _handleClick(event: PointerEvent) {
     if (this.trigger === "click") {
+      // Prevent the tooltip from closing via the Popover feature.
       event.preventDefault();
 
       this.open = !this.open;
@@ -265,7 +263,7 @@ export class DaikinTooltip extends LitElement {
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
-      this._popover.togglePopover(this.open);
+      this._tooltipRef.value?.togglePopover(this.open);
 
       if (this.open) {
         this._startAutoUpdate();
