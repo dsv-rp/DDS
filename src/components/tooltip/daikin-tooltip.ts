@@ -7,7 +7,7 @@ import {
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -142,12 +142,6 @@ export class DaikinTooltip extends LitElement {
   @query("span[popover]")
   private _popover!: HTMLElement;
 
-  /**
-   * Whether the mouse operation (hover and click) opened the tooltip.
-   */
-  @state()
-  private _isMouseOpened = false;
-
   private _tooltipRef: Ref<HTMLElement> = createRef();
 
   private _triggerRef: Ref<HTMLElement> = createRef();
@@ -202,19 +196,19 @@ export class DaikinTooltip extends LitElement {
     if (this.trigger === "click") {
       event.preventDefault();
 
-      this._isMouseOpened = !this._isMouseOpened;
+      this.open = !this.open;
     }
   }
 
   private _handleMouseEnter() {
     if (this.trigger === "hover") {
-      this._isMouseOpened = true;
+      this.open = true;
     }
   }
 
   private _handleMouseLeave() {
     if (this.trigger === "hover") {
-      this._isMouseOpened = false;
+      this.open = false;
     }
   }
 
@@ -223,11 +217,6 @@ export class DaikinTooltip extends LitElement {
   }
 
   private _handleFocusOut() {
-    if (this._isMouseOpened) {
-      // Do not close if the tooltip is opened by mouse operation.
-      return;
-    }
-
     this.open = false;
   }
 
@@ -272,19 +261,6 @@ export class DaikinTooltip extends LitElement {
       </span>
     </div>`;
     /* eslint-enable lit-a11y/click-events-have-key-events */
-  }
-
-  override willUpdate(
-    changedProperties: PropertyValues<
-      // Treat `_isMouseOpened` as public.
-      Omit<this, "_isMouseOpened"> & {
-        _isMouseOpened: boolean;
-      }
-    >
-  ): void {
-    if (changedProperties.has("_isMouseOpened")) {
-      this.open = this._isMouseOpened;
-    }
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
