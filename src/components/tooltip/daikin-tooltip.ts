@@ -198,8 +198,10 @@ export class DaikinTooltip extends LitElement {
     this._autoUpdateCleanup = null;
   }
 
-  private _handleClick() {
+  private _handleClick(event: PointerEvent) {
     if (this.trigger === "click") {
+      event.preventDefault();
+
       this._isMouseOpened = !this._isMouseOpened;
     }
   }
