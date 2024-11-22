@@ -272,6 +272,48 @@ export const Sortable: Story = {
   }),
 };
 
+export const SortByUser: Story = {
+  args: {
+    ...Sortable.args,
+    sortFunction: false,
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-table")[0];
+    await expect(root).toBeInTheDocument();
+
+    const sortButton = getByShadowRole(root, "button", {
+      name: "Name",
+    });
+    await expect(sortButton).toBeInTheDocument();
+    await expect(sortButton).not.toHaveAttribute("aria-sort");
+
+    const rows = getAllByShadowRole(root, "row");
+    await expect(getByShadowText(rows[1], "Apple")).toBeInTheDocument();
+    await expect(getByShadowText(rows[2], "Peach")).toBeInTheDocument();
+    await expect(getByShadowText(rows[3], "Orange")).toBeInTheDocument();
+    await expect(getByShadowText(rows[4], "Strawberry")).toBeInTheDocument();
+
+    // should react if inner sort button clicked
+    await step(
+      "`@change-sort` is called, but sorting is not done automatically",
+      async () => {
+        await userEvent.click(sortButton);
+
+        await expect(
+          getAllByShadowRole(root, "columnheader")[0]
+        ).toHaveAttribute("aria-sort", "ascending");
+        await expect(args.onChangeSort).toHaveBeenCalledOnce();
+        await expect(getByShadowText(rows[1], "Apple")).toBeInTheDocument();
+        await expect(getByShadowText(rows[2], "Peach")).toBeInTheDocument();
+        await expect(getByShadowText(rows[3], "Orange")).toBeInTheDocument();
+        await expect(
+          getByShadowText(rows[4], "Strawberry")
+        ).toBeInTheDocument();
+      }
+    );
+  }),
+};
+
 export const UseSlot: Story = {
   args: {
     ...Default.args,
