@@ -41,7 +41,7 @@ export class DaikinAccordion extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      min-width: 160px;
+      min-width: 10rem;
     }
 
     ::slotted(daikin-accordion-item) {
