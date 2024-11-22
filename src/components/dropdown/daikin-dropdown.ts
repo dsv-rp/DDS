@@ -186,9 +186,6 @@ export class DaikinDropdown extends LitElement {
   @query("button")
   private _button!: HTMLElement | null;
 
-  @query("div[popover]")
-  private _popover!: HTMLElement | null;
-
   /**
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
@@ -421,7 +418,7 @@ export class DaikinDropdown extends LitElement {
       <div
         id="dropdown-items"
         popover
-        class="floating-unready:hidden min-w-[--floating-width] max-h-[12.5rem] overflow-y-auto m-0 p-0 absolute left-[--floating-x,0] top-[--floating-y,0] right-auto bottom-auto opacity-1 transition-[opacity] rounded shadow-dropdown"
+        class="floating-unready:hidden absolute left-[--floating-x,0] top-[--floating-y,0] min-w-[--floating-width] max-h-[12.5rem] overflow-y-auto opacity-1 transition-[opacity] rounded shadow-dropdown"
         aria-label=${ifDefined(this._label ?? undefined)}
         role="listbox"
         @floating-ready=${this._handleFloatingReady}
@@ -458,7 +455,9 @@ export class DaikinDropdown extends LitElement {
     }
 
     if (changedProperties.has("open") || changedProperties.has("disabled")) {
-      this._popover?.togglePopover(this.open && !this.disabled);
+      this._autoUpdateController.floatingElement?.togglePopover(
+        this.open && !this.disabled
+      );
 
       // Focus on the dropdown trigger button when closed.
       // Focusing on the item when the dropdown opens is done in the `_handleFloatingReady` method.
