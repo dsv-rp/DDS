@@ -18,14 +18,17 @@ const cvaBar = cva(
   {
     variants: {
       variant: {
-        inprogress: ["after:w-[--bar-width]", "after:bg-daikinBlue-500"],
-        completed: ["after:w-full", "after:bg-daikinGreen-500"],
+        inprogress: [
+          "after:w-[--bar-width]",
+          "after:bg-system-state-primary-active",
+        ],
+        completed: ["after:w-full", "after:bg-system-state-feedback-success"],
         indeterminate: [
           "after:w-1/2",
-          "after:bg-daikinBlue-500",
+          "after:bg-system-state-primary-active",
           "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
         ],
-        error: ["after:w-full", "after:bg-daikinRed-500"],
+        error: ["after:w-full", "after:bg-system-state-feedback-negative"],
       },
       size: {
         medium: ["h-1"],
@@ -43,13 +46,13 @@ const cvaBarContainer = cva(
         inprogress: [],
         completed: [
           "after:size-4",
-          "after:text-daikinGreen-500",
+          "after:text-system-state-feedback-success",
           "after:i-daikin-status-positive",
         ],
         indeterminate: [],
         error: [
           "after:size-4",
-          "after:text-daikinRed-500",
+          "after:text-system-state-feedback-negative",
           "after:i-daikin-status-error",
         ],
       },
@@ -63,7 +66,7 @@ const cvaHelper = cva(["text-sm"], {
       inprogress: [],
       completed: [],
       indeterminate: [],
-      error: ["text-daikinRed-500", "font-bold"],
+      error: ["text-system-state-feedback-negative", "font-bold"],
     },
     visible: {
       false: ["hidden"],
