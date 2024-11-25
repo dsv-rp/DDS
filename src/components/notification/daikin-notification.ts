@@ -40,7 +40,7 @@ const cvaContainer = cva(
 );
 
 const cvaIconContainer = cva(
-  ["flex-none", "flex", "justify-center", "items-center", "w-[44px]"],
+  ["flex-none", "flex", "justify-center", "items-center", "w-[2.75rem]"],
   {
     variants: {
       status: {
@@ -131,37 +131,37 @@ export class DaikinNotification extends LitElement {
   `;
 
   /**
-   * Type of notification
+   * Type of notification.
    */
   @property({ type: String, reflect: true })
   variant: NotificationVariantProps["variant"] = "toast";
 
   /**
-   * Status of notification
+   * Status of notification.
    */
   @property({ type: String })
   status: NotificationVariantProps["status"] = "positive";
 
   /**
-   * Display in single or multiple lines
+   * Display in single or multiple lines.
    */
   @property({ type: String })
   line: NotificationVariantProps["line"] = "single";
 
   /**
-   * Whether the component is open
+   * Specify the notification's open state.
    */
   @property({ type: Boolean, reflect: true })
   open = false;
 
   /**
-   * Whether to display the close button
+   * Whether to display the close button.
    */
   @property({ type: Boolean, attribute: "close-button" })
   closeButton = false;
 
   /**
-   * Call the event registered in "close"
+   * Call the event registered in "close".
    */
   private _handleClickClose() {
     const event = new CustomEvent(EVENT_CLOSE);

@@ -69,13 +69,13 @@ export class DaikinToggle extends LitElement {
   `;
 
   /**
-   * Form name of the toggle switch.
+   * The form name, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Form value of the toggle switch.
+   * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -87,7 +87,7 @@ export class DaikinToggle extends LitElement {
   checked = false;
 
   /**
-   * Whether the toggle switch is disabled.
+   * Specify the toggle switch disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;

@@ -10,9 +10,6 @@ export interface DaikinDropdownStoryArgs
 }
 
 export const DAIKIN_DROPDOWN_ARG_TYPES = {
-  label: {
-    type: "string",
-  },
   value: {
     type: "string",
   },

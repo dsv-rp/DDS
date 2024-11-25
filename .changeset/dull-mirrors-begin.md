@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-Add Dropdown Component.
+Accordion: Update appearance.
