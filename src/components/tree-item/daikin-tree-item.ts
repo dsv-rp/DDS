@@ -1,11 +1,12 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import {
   emitTreeMoveFocus,
   emitTreeSelect,
+  emitTreeUnselect,
   getDirectionFromKey,
 } from "../tree/common";
 
@@ -213,6 +214,15 @@ export class DaikinTreeItem extends LitElement {
     </div>`;
   }
 
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("disabled")) {
+      if (this.disabled) {
+        this.selectItem(null);
+        emitTreeUnselect(this);
+      }
+    }
+  }
+
   /**
    * Focuses on the inner button.
    *
@@ -240,7 +250,23 @@ export class DaikinTreeItem extends LitElement {
    * @private
    */
   selectItem(value: string | null): void {
+    if (this.disabled) {
+      return;
+    }
+
     this.selected = this.value === value;
+  }
+
+  getSelectedItem(): string | null {
+    if (this.disabled) {
+      return null;
+    }
+
+    if (this.selected) {
+      return this.value;
+    }
+
+    return null;
   }
 }
 

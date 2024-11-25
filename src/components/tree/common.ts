@@ -154,3 +154,12 @@ export function emitTreeSelect(target: HTMLElement): void {
     })
   );
 }
+
+export function emitTreeUnselect(target: HTMLElement): void {
+  target.dispatchEvent(
+    new Event("tree-unselect", {
+      composed: true,
+      bubbles: true,
+    })
+  );
+}

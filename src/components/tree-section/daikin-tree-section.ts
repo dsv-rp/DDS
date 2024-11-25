@@ -10,6 +10,7 @@ import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
 import {
   emitTreeMoveFocus,
   emitTreeSelect,
+  emitTreeUnselect,
   getDirectionFromKey,
   handleTreeMoveFocusSection,
   type TreeMoveFocusEvent,
@@ -217,6 +218,13 @@ export class DaikinTreeSection extends LitElement {
     if (changedProperties.has("level")) {
       this._updateChildrenLevel();
     }
+
+    if (changedProperties.has("disabled")) {
+      if (this.disabled) {
+        this.selectItem(null);
+        emitTreeUnselect(this);
+      }
+    }
   }
 
   /**
@@ -261,7 +269,23 @@ export class DaikinTreeSection extends LitElement {
     }
 
     this.selected = this.value === value;
-    this._children.forEach((section) => section.selectItem(value));
+    this._children.forEach((child) => child.selectItem(value));
+  }
+
+  getSelectedItem(): string | null {
+    if (this.disabled) {
+      return null;
+    }
+
+    if (this.selected) {
+      return this.value;
+    }
+
+    return (
+      this._children
+        .map((child) => child.getSelectedItem())
+        .find((item) => !!item) ?? null
+    );
   }
 }
 

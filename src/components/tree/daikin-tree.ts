@@ -92,12 +92,22 @@ export class DaikinTree extends LitElement {
     this.selected = target.value;
   }
 
+  private _handleTreeUnselect(event: Event): void {
+    event.stopPropagation();
+
+    this.selected =
+      this._children
+        .map((child) => child.getSelectedItem())
+        .find((item) => !!item) ?? null;
+  }
+
   override render() {
     return html`<div role="tree">
       <slot
         @slotchange=${this._handleSlotChange}
         @tree-move-focus=${this._handleTreeMoveFocus}
         @tree-select=${this._handleTreeSelect}
+        @tree-unselect=${this._handleTreeUnselect}
       ></slot>
     </div>`;
   }
@@ -107,8 +117,8 @@ export class DaikinTree extends LitElement {
       // If the component is set to selectable, update the selection state of descendant sections and items.
       const children = this._children;
 
-      children.forEach((section) =>
-        section.selectItem(this.selectable ? this.selected : null)
+      children.forEach((child) =>
+        child.selectItem(this.selectable ? this.selected : null)
       );
     }
   }
