@@ -264,7 +264,7 @@ export class DaikinTreeSection extends LitElement {
    * @private
    */
   selectItem(value: string | null): void {
-    if (this.disabled) {
+    if (this.disabled && value != null) {
       return;
     }
 
