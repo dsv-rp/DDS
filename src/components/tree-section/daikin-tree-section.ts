@@ -272,6 +272,12 @@ export class DaikinTreeSection extends LitElement {
     this._children.forEach((child) => child.selectItem(value));
   }
 
+  /**
+   * When the tree select is selected, this.value is returned. When this.disabled is true, null is returned.
+   * If neither of these is the case, we fire `getSelectedItem()` on the child element to get the value.
+   *
+   * @private
+   */
   getSelectedItem(): string | null {
     if (this.disabled) {
       return null;
