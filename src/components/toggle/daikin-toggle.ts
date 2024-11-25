@@ -7,23 +7,23 @@ const TOGGLE_CLASS_NAME = cva([
   "w-12",
   "h-6",
   "relative",
-  "bg-daikinNeutral-600",
+  "bg-system-state-neutral-active",
   "rounded-full",
   "cursor-pointer",
   "transition-colors",
   "duration-300",
   "appearance-none",
-  "enabled:hover:bg-daikinNeutral-400",
-  "enabled:active:bg-daikinNeutral-700",
+  "enabled:hover:bg-system-state-neutral-hover",
+  "enabled:active:bg-system-state-neutral-press",
   "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
+  "focus-visible:outline-2",
+  "focus-visible:outline-offset-2",
+  "focus-visible:outline-system-state-focus",
 
-  "enabled:checked:bg-daikinBlue-500",
-  "enabled:checked:hover:bg-daikinBlue-300",
-  "enabled:checked:active:bg-daikinBlue-600",
-  "disabled:bg-daikinNeutral-200",
+  "enabled:checked:bg-system-state-primary-active",
+  "enabled:checked:hover:bg-system-state-primary-hover",
+  "enabled:checked:active:bg-system-state-primary-press",
+  "disabled:bg-system-state-disabled",
   "disabled:cursor-default",
 
   "before:size-4",
@@ -36,8 +36,8 @@ const TOGGLE_CLASS_NAME = cva([
   "before:transition",
   "before:duration-300",
   "before:checked:translate-x-6",
-  "enabled:before:bg-white",
-  "disabled:before:bg-daikinNeutral-100",
+  "enabled:before:bg-system-background-base",
+  "disabled:before:bg-system-background-surface-hover",
 ])();
 
 /**
@@ -69,13 +69,13 @@ export class DaikinToggle extends LitElement {
   `;
 
   /**
-   * Form name of the toggle switch.
+   * The form name, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Form value of the toggle switch.
+   * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -87,7 +87,7 @@ export class DaikinToggle extends LitElement {
   checked = false;
 
   /**
-   * Whether the toggle switch is disabled.
+   * Specify the toggle switch disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;

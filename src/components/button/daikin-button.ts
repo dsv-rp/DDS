@@ -24,31 +24,31 @@ const cvaButton = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:outline-offset-2",
-    "focus-visible:outline-[#0081C0]",
+    "focus-visible:outline-system-state-focus",
 
     "var-color-transparent/color-secondary",
-    "link-disabled:var-color-daikinNeutral-400/color-primary",
+    "link-disabled:var-color-system-state-disabled/color-primary",
   ],
   {
     variants: {
       color: {
         default: [
-          "link-enabled:var-color-daikinBlue-500/color-primary",
-          "link-enabled:hover:var-color-[#0081C0]/color-primary",
-          "link-enabled:hover:var-color-[#DDF3FC]/color-secondary",
-          "link-enabled:active:var-color-[#00689A]/color-primary",
-          "link-enabled:active:var-color-[#BBE7F9]/color-secondary",
+          "link-enabled:var-color-system-state-primary-active/color-primary",
+          "link-enabled:hover:var-color-system-state-primary-hover/color-primary",
+          "link-enabled:hover:var-color-system-state-primary-surface-hover/color-secondary",
+          "link-enabled:active:var-color-system-state-primary-press/color-primary",
+          "link-enabled:active:var-color-system-state-primary-surface-press/color-secondary",
         ],
         danger: [
-          "link-enabled:var-color-[#D80C18]/color-primary",
-          "link-enabled:hover:var-color-[#B90A15]/color-primary",
-          "link-enabled:hover:var-color-[#FDD9DB]/color-secondary",
-          "link-enabled:active:var-color-[#9A0911]/color-primary",
-          "link-enabled:active:var-color-[#FBB3B7]/color-secondary",
+          "link-enabled:var-color-system-state-error-active/color-primary",
+          "link-enabled:hover:var-color-system-state-error-hover/color-primary",
+          "link-enabled:hover:var-color-system-state-error-surface-hover/color-secondary",
+          "link-enabled:active:var-color-system-state-error-press/color-primary",
+          "link-enabled:active:var-color-system-state-error-surface-press/color-secondary",
         ],
       },
       variant: {
-        fill: ["text-white", "bg-[--color-primary]"],
+        fill: ["text-system-element-text-inverse", "bg-[--color-primary]"],
         outline: [
           "border",
           "text-[--color-primary]",
@@ -99,13 +99,13 @@ export class DaikinButton extends LitElement {
     }
 
     :host([size="small"]) {
-      min-width: 52px;
-      height: 32px;
+      min-width: 3.25em;
+      height: 2rem;
     }
 
     :host([size="medium"]) {
-      min-width: 60px;
-      height: 48px;
+      min-width: 3.75em;
+      height: 3rem;
     }
   `;
 
@@ -128,7 +128,7 @@ export class DaikinButton extends LitElement {
   color: ButtonVariantProps["color"] = "default";
 
   /**
-   * Whether the button is disabled.
+   * Specify the button disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;

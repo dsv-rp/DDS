@@ -7,48 +7,56 @@ const cvaTab = cva(
   [
     "flex",
     "w-full",
-    "h-full",
+    "min-w-14",
+    "h-10",
     "items-center",
     "justify-center",
     "px-4",
     "pt-2",
     "pb-3",
-    "text-base",
-    "font-bold",
     "text-center",
     "font-daikinSerif",
-    "relative",
     "tracking-wide",
     "whitespace-nowrap",
-    "contain-paint",
+    "relative",
 
     "focus-visible:outline-none",
-    "focus-visible:before:w-full",
-    "focus-visible:before:h-[calc(100%_-_4px)]",
-    "focus-visible:before:border",
-    "focus-visible:before:border-daikinBlue-700",
     "focus-visible:before:absolute",
-    "focus-visible:before:top-0",
+    "focus-visible:before:-inset-[3px]",
+    "focus-visible:before:z-[1]",
+    "focus-visible:before:border",
+    "focus-visible:before:border-2",
+    "focus-visible:before:border-system-state-focus",
 
-    "disabled:text-daikinNeutral-200",
+    "disabled:text-system-state-disabled",
+
+    "after:absolute",
+    "after:inset-0",
+    "after:top-auto",
   ],
   {
     variants: {
       active: {
         false: [
-          "hover:text-daikinNeutral-500",
-          "active:text-daikinNeutral-700",
+          "enabled:text-system-state-neutral-active",
+          "enabled:hover:text-system-state-neutral-hover",
+          "enabled:hover:bg-system-background-surface-hover",
+          "enabled:active:text-system-state-neutral-press",
+          "enabled:active:bg-system-background-surface-press",
+
+          "after:h-[1px]",
+          "after:bg-system-element-divider-secondary",
         ],
         true: [
-          "text-daikinBlue-500",
-          "hover:text-daikinBlue-300",
-          "active:text-daikinBlue-600",
-          "after:w-full",
+          "font-bold",
+          "enabled:text-system-state-primary-active",
+          "enabled:hover:bg-system-state-primary-surface-hover",
+          "enabled:active:bg-system-state-primary-surface-press",
+
           "after:h-1",
-          "after:absolute",
-          "after:bottom-0",
-          "enabled:after:bg-daikinBlue-500",
-          "disabled:after:bg-daikinNeutral-200",
+
+          "enabled:after:bg-system-state-primary-active",
+          "disabled:after:bg-system-state-disabled",
         ],
       },
     },
@@ -83,7 +91,8 @@ export class DaikinTab extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: block;
+      width: 100%;
     }
   `;
 

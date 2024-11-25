@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const RADIO_CLASS_NAME = cva([
@@ -8,32 +9,31 @@ const RADIO_CLASS_NAME = cva([
   "justify-center",
   "items-center",
   "size-4",
-  "bg-white",
   "rounded-full",
   "relative",
   "appearance-none",
 
   "focus-visible:outline",
-  "focus-visible:outline-1",
-  "focus-visible:outline-offset-1",
-  "focus-visible:outline-daikinBlue-700",
+  "focus-visible:outline-2",
+  "focus-visible:outline-offset-2",
+  "focus-visible:outline-system-state-focus",
 
   "unchecked:border-2",
-  "enabled:unchecked:border-daikinNeutral-600",
-  "enabled:unchecked:hover:border-daikinNeutral-400",
-  "enabled:unchecked:active:border-daikinNeutral-700",
+  "enabled:unchecked:border-system-state-neutral-active",
+  "enabled:unchecked:hover:bg-system-background-surface-hover",
+  "enabled:unchecked:active:bg-system-background-surface-press",
   "checked:border-[5px]",
-  "enabled:checked:border-daikinBlue-500",
-  "enabled:checked:group-hover:border-daikinBlue-300",
-  "enabled:checked:group-active:border-daikinBlue-600",
-  "disabled:border-daikinNeutral-200",
+  "enabled:checked:border-system-state-primary-active",
+  "enabled:checked:group-hover:border-system-state-primary-hover",
+  "enabled:checked:group-active:border-system-state-primary-press",
+  "disabled:border-system-state-disabled",
 ])();
 
-const cvaLabel = cva([], {
+const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: [],
-      true: ["text-daikinNeutral-200"],
+      false: ["text-system-element-text-primary"],
+      true: ["text-system-state-disabled"],
     },
   },
 });
@@ -42,6 +42,9 @@ const cvaLabel = cva([], {
  * The radio button component is a UI element that allows users to select one options from a set of choices.
  * It functions similarly to the HTML `<input type="radio">` tag. \
  * Please note that **a radio group component is not yet available**, so you'll need to manually group radio buttons when using multiple instances.
+ *
+ * Hierarchies:
+ * - `daikin-radio-group` > `daikin-radio`
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="radio">` element.
  *
@@ -66,13 +69,13 @@ export class DaikinRadio extends LitElement {
   `;
 
   /**
-   * Form name of the radio button.
+   * The form name, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Form value of the radio button.
+   * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -92,18 +95,36 @@ export class DaikinRadio extends LitElement {
   labelPosition: "right" | "hidden" = "right";
 
   /**
-   * Whether the radio button is checked.
+   * Specify the radio button checked state.
    */
   @property({ type: Boolean, reflect: true })
   checked = false;
 
   /**
-   * Whether the radio button is disabled.
+   * Specify the radio button disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Whether the radio button can be focused.
+   * Automatically set by `daikin-radio-group` component.
+   */
+  @property({ type: Boolean, attribute: false })
+  skipTab = false;
+
   static readonly formAssociated = true;
+
+  @query("input")
+  private _radio!: HTMLInputElement | null;
+
+  /**
+   * Focuses on the inner radio.
+   * @param options focus options
+   */
+  override focus(options?: FocusOptions): void {
+    this._radio?.focus(options);
+  }
 
   // Define internals to let the radio button can be used in a form.
   private _internals = this.attachInternals();
@@ -121,12 +142,17 @@ export class DaikinRadio extends LitElement {
   private _handleChange(event: Event) {
     this.checked = (event.target as HTMLInputElement).checked;
     this._updateFormValue();
-    this.dispatchEvent(new Event("change", event));
+    this.dispatchEvent(
+      new Event("change", {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   override render() {
     return html`<label class="group flex gap-2 items-center font-daikinSerif">
-      <div class="p-2">
+      <span class="p-2">
         <input
           class=${RADIO_CLASS_NAME}
           type="radio"
@@ -137,8 +163,9 @@ export class DaikinRadio extends LitElement {
           .checked=${this.checked}
           @click=${this._handleClick}
           @change=${this._handleChange}
+          tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
         />
-      </div>
+      </span>
       <span
         class=${cvaLabel({
           disabled: this.disabled,
