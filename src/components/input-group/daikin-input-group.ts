@@ -296,16 +296,14 @@ export class DaikinInputGroup extends LitElement {
           @input=${this._handleInput}
         ></slot>
         ${this.textareaMaxCount != null && this._textareaCount != null
-          ? html`
-              <span
-                class=${cvaCounter({
-                  disabled: this.disabled,
-                  error: this.textareaCounterOverflow,
-                })}
-              >
-                <span>${this._textareaCount}/${this.textareaMaxCount}</span>
-              </span>
-            `
+          ? html`<span
+              class=${cvaCounter({
+                disabled: this.disabled,
+                error: this.textareaCounterOverflow,
+              })}
+            >
+              <span>${this._textareaCount}/${this.textareaMaxCount}</span>
+            </span>`
           : nothing}
       </label>
     </fieldset>`;
