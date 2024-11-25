@@ -63,12 +63,18 @@
       "link": {
         "active": "#00689A",
         "hover": "#005077",
-        "press": "#004160"
+        "press": "#004160",
+        "surface": {
+          "hover": "#DDF3FC"
+        }
       },
       "visited": {
         "active": "#5C2365",
         "hover": "#4A1C51",
-        "press": "#37153D"
+        "press": "#37153D",
+        "surface": {
+          "hover": "#F0DDF3"
+        }
       }
     }
   }

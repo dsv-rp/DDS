@@ -16,17 +16,23 @@ const LINK_CLASS_NAME = cva([
 
   "link-enabled:text-system-state-link-active",
   "link-enabled:hover:text-system-state-link-hover",
+  "link-enabled:hover:bg-system-state-link-surface-hover",
   "link-enabled:active:text-system-state-link-press",
   "link-disabled:text-system-state-disabled",
 
   "focus-visible:outline-none",
   "focus-visible:before:block",
-  "focus-visible:before:rounded-[1px]",
+  "focus-visible:before:rounded-none",
   "focus-visible:before:absolute",
   "focus-visible:before:inset-[-1px]",
   "focus-visible:before:outline",
   "focus-visible:before:outline-system-state-focus",
   "focus-visible:before:outline-2",
+
+  "after:h-[1px]",
+  "after:absolute",
+  "after:inset-[auto_0_0_0]",
+  "after:bg-current",
 ])();
 
 /**
@@ -63,6 +69,10 @@ export class DaikinLink extends LitElement {
 
     :host([show-visited]:not([disabled])) a:hover:visited {
       color: #4a1c51; /* system-state-visited-hover */
+    }
+
+    :host([show-visited]:not([disabled])) a:hover:visited {
+      background-color: #f0ddf3; /* system-state-visited-hover */
     }
 
     :host([show-visited]:not([disabled])) a:active:visited {
@@ -102,11 +112,7 @@ export class DaikinLink extends LitElement {
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
         <slot name="left-icon"></slot>
-        <span
-          class="relative after:h-[1px] after:absolute after:inset-[auto_0_0_0] after:bg-current"
-        >
-          <slot></slot>
-        </span>
+        <slot></slot>
         <slot name="right-icon"></slot>
       </a>
     `;
