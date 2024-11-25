@@ -115,17 +115,17 @@ export const TextArea: Story = {
     await expect(innerInput).toBeInTheDocument();
 
     await expect(innerInput).toHaveValue("Value");
-    await expect(getByShadowText(root, "5")).toBeInTheDocument();
+    await expect(getByShadowText(root, "5/100")).toBeInTheDocument();
 
     // has counter
     await step("Try to type inner textbox", async () => {
       await userEvent.type(innerInput, "A");
-      await expect(getByShadowText(root, "6")).toBeInTheDocument();
-      await expect(queryByShadowText(root, "5")).not.toBeInTheDocument();
+      await expect(getByShadowText(root, "6/100")).toBeInTheDocument();
+      await expect(queryByShadowText(root, "5/100")).not.toBeInTheDocument();
     });
 
     await userEvent.keyboard("[BackSpace]");
-    await expect(queryByShadowText(root, "5")).toBeInTheDocument();
+    await expect(queryByShadowText(root, "5/100")).toBeInTheDocument();
     innerInput.blur();
   }),
 };
