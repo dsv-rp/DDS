@@ -118,12 +118,20 @@ export class DaikinTree extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selected") && this.selectable) {
       // If the component is set to selectable, update the selection state of descendant sections and items.
-      this._children.forEach((child) =>
-        child.selectItem(this.selectable ? this.selected : null)
-      );
-
+      this.selectItem();
       this._updateSection();
     }
+  }
+
+  /**
+   * Calls `selectItem` for the tree sections and tree items of the child elements in the slot.
+   *
+   * @private
+   */
+  selectItem(): void {
+    this._children.forEach((child) =>
+      child.selectItem(this.selectable ? this.selected : null)
+    );
   }
 
   /**
