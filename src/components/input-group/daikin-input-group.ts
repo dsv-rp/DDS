@@ -52,13 +52,10 @@ const cvaHelper = cva(
 
 const cvaCounter = cva(["text-sm", "font-bold", "ml-auto"], {
   variants: {
-    disabled: {
-      false: ["text-system-element-text-secondary"],
-      true: ["text-system-state-disabled"],
-    },
-    error: {
-      false: [],
-      true: ["text-system-state-error-active"],
+    variant: {
+      normal: ["text-system-element-text-secondary"],
+      disabled: ["text-system-state-disabled"],
+      error: ["text-system-state-error-active"],
     },
   },
 });
@@ -298,8 +295,11 @@ export class DaikinInputGroup extends LitElement {
         ${this.textareaMaxCount != null && this._textareaCount != null
           ? html`<span
               class=${cvaCounter({
-                disabled: this.disabled,
-                error: this.textareaCounterOverflow,
+                variant: this.disabled
+                  ? "disabled"
+                  : this.textareaCounterOverflow
+                    ? "error"
+                    : "normal",
               })}
             >
               <span>${this._textareaCount}/${this.textareaMaxCount}</span>
