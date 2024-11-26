@@ -115,7 +115,7 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private get _selected(): boolean {
-    return this.selectable && this.selected && !this.disabled;
+    return this.selected && !this.disabled;
   }
 
   private _updateChildrenLevel(): void {
