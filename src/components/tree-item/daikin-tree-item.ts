@@ -3,6 +3,7 @@ import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { isSimpleKeyEvent } from "../../utils/isSimpleKey";
 import {
   emitTreeMoveFocus,
   emitTreeSelect,
@@ -147,6 +148,10 @@ export class DaikinTreeItem extends LitElement {
   private readonly _focusableElement!: HTMLAnchorElement | HTMLButtonElement;
 
   private _handleKeyDown(event: KeyboardEvent) {
+    if (!isSimpleKeyEvent(event)) {
+      return;
+    }
+
     const direction = getDirectionFromKey(event.key);
     if (!direction) {
       return;

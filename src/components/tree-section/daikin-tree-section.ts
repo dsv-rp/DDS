@@ -6,6 +6,7 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { isSimpleKeyEvent } from "../../utils/isSimpleKey";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
 import {
   emitTreeMoveFocus,
@@ -143,6 +144,10 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
+    if (!isSimpleKeyEvent(event)) {
+      return;
+    }
+
     if (this.selectable && ["Enter", " "].includes(event.key)) {
       event.preventDefault();
       emitTreeSelect(this);
