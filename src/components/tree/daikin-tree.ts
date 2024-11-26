@@ -70,7 +70,7 @@ export class DaikinTree extends LitElement {
   private readonly _sections!: readonly DaikinTreeSection[];
 
   private _updateChildrenLevel(): void {
-    this._children.forEach((item) => (item.level = 0));
+    this._children.forEach((child) => (child.level = 0));
   }
 
   private _updateSection(): void {
@@ -116,10 +116,13 @@ export class DaikinTree extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("selectable")) {
+      this._updateSection();
+    }
+
     if (changedProperties.has("selected") && this.selectable) {
       // If the component is set to selectable, update the selection state of descendant sections and items.
       this.selectItem();
-      this._updateSection();
     }
   }
 

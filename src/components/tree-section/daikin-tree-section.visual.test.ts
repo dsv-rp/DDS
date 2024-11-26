@@ -19,6 +19,7 @@ describeEach(["normal", "selected"] as const, (selected) => {
         label: "Tree section label",
         disabled: disabled === "disabled",
         open: open === "open",
+        selectable: selected === "selected",
         selected: selected === "selected",
       });
 

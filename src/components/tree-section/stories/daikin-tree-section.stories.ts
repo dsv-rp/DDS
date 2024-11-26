@@ -50,6 +50,7 @@ export const Selected: Story = {
   args: {
     ...Default.args,
     selected: true,
+    selectable: true,
   },
 };
 
