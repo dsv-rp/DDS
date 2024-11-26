@@ -6,7 +6,7 @@ import {
   queryAssignedElements,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { isSimpleKeyEvent } from "../../utils/isSimpleKey";
+import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
 import {
   emitTreeMoveFocus,

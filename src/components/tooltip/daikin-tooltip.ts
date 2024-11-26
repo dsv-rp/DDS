@@ -11,7 +11,7 @@ import { customElement, property, query, state } from "lit/decorators.js";
 import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
-import { reDispatch } from "../../utils/reDispatch";
+import { reDispatch } from "../../utils/re-dispatch";
 
 const cvaTooltip = cva(
   [
