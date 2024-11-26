@@ -143,7 +143,7 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
-    if (["Enter", " "].includes(event.key)) {
+    if (this.selectable && ["Enter", " "].includes(event.key)) {
       event.preventDefault();
       emitTreeSelect(this);
 
