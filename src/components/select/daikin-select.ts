@@ -4,6 +4,7 @@ import {
   customElement,
   property,
   queryAssignedElements,
+  state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
@@ -21,7 +22,7 @@ const cvaSelect = cva(
     "after:absolute",
     "after:top-0",
     "after:bottom-0",
-    "after:right-3",
+    "after:right-[calc(0.75rem+1px)]",
     "after:pointer-events-none",
 
     "slotted-[select]:!appearance-none",
@@ -37,8 +38,7 @@ const cvaSelect = cva(
     "slotted-[select]:!font-daikinSerif",
     "slotted-[select]:!border",
     "slotted-[select]:!border-[--color-base]",
-    "slotted-[select]:!rounded-md",
-    "slotted-[select]:!font-daikinSerif",
+    "slotted-[select]:!rounded",
     "slotted-[select]:!leading-5",
     "slotted-[select]:!outline",
     "slotted-[select]:!outline-0",
@@ -48,27 +48,27 @@ const cvaSelect = cva(
     "slotted-[select:focus-visible]:!outline-[--color-focus]",
 
     "slotted-[select:enabled]:!cursor-pointer",
-    "slotted-[select:enabled]:!text-daikinNeutral-800",
-    "slotted-[select:enabled:hover]:!bg-[#f2f2f2]",
-    "slotted-[select:enabled:active]:!bg-daikinNeutral-100",
+    "slotted-[select:enabled]:!text-system-element-text-primary",
+    "slotted-[select:enabled:hover]:!bg-system-background-surface-hover",
+    "slotted-[select:enabled:active]:!bg-system-background-surface-press",
 
-    "slotted-[select:disabled]:!text-daikinNeutral-200",
-    "slotted-[select:disabled]:!border-daikinNeutral-200",
+    "slotted-[select:disabled]:!text-system-state-disabled",
+    "slotted-[select:disabled]:!border-system-state-disabled",
   ],
   {
     variants: {
       disabled: {
-        false: ["after:text-daikinNeutral-900"],
-        true: ["after:text-daikinNeutral-200"],
+        false: ["after:text-system-element-text-primary"],
+        true: ["after:text-system-state-disabled"],
       },
       error: {
         false: [
-          "var-color-daikinNeutral-600/color-base",
-          "var-color-daikinBlue-700/color-focus",
+          "var-color-system-state-neutral-active/color-base",
+          "var-color-system-state-focus/color-focus",
         ],
         true: [
-          "var-color-daikinRed-500/color-base",
-          "var-color-daikinRed-500/color-focus",
+          "var-color-system-state-error-active/color-base",
+          "var-color-system-state-error-active/color-focus",
         ],
       },
     },
@@ -147,15 +147,26 @@ export class DaikinSelect extends LitElement {
   @queryAssignedElements({ selector: "select" })
   private readonly _selects!: readonly HTMLSelectElement[];
 
+  /**
+   * The label text used as the value of aria-label.
+   * Set automatically by `reflectInputGroup` method.
+   */
+  @state()
+  private _label: string | null = null;
+
   private get _select(): HTMLSelectElement | null {
     return this._selects[0] ?? null;
   }
 
   private _updateSelect(): void {
     const select = this._select;
-    if (select) {
-      select.disabled = this.disabled;
+    if (!select) {
+      return;
     }
+
+    select.disabled = this.disabled;
+    select.required = this.required;
+    select.ariaLabel = this._label;
   }
 
   private _handleSlotChange(): void {
@@ -170,7 +181,10 @@ export class DaikinSelect extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("disabled")) {
+    if (
+      changedProperties.has("disabled") ||
+      changedProperties.has("required")
+    ) {
       this._updateSelect();
     }
   }
@@ -180,6 +194,9 @@ export class DaikinSelect extends LitElement {
     this.disabled = !!inputGroup.disabled;
     this.required = !!inputGroup.required;
     this.error = isError;
+    this._label = inputGroup.label;
+
+    this._updateSelect();
   }
 
   /**

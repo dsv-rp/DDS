@@ -4,6 +4,8 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 import { ReactDaikinDropdownItem } from "../../dropdown-item/stories/framework-react";
 import { ReactDaikinDropdown } from "../../dropdown/stories/framework-react";
+import { ReactDaikinRadioGroup } from "../../radio-group/stories/framework-react";
+import { ReactDaikinRadio } from "../../radio/stories/framework-react";
 import { ReactDaikinSelect } from "../../select/stories/framework-react";
 import { ReactDaikinTextArea } from "../../text-area/stories/framework-react";
 import { ReactDaikinTextField } from "../../text-field/stories/framework-react";
@@ -31,6 +33,13 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
               Dropdown item 3
             </ReactDaikinDropdownItem>
           </ReactDaikinDropdown>
+        )}
+        {content === "RadioGroup" && (
+          <ReactDaikinRadioGroup value="value1">
+            <ReactDaikinRadio value="value1" label="Option1"></ReactDaikinRadio>
+            <ReactDaikinRadio value="value2" label="Option2"></ReactDaikinRadio>
+            <ReactDaikinRadio value="value3" label="Option3"></ReactDaikinRadio>
+          </ReactDaikinRadioGroup>
         )}
         {content === "Select" && (
           <ReactDaikinSelect>

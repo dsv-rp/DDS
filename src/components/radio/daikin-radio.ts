@@ -69,13 +69,13 @@ export class DaikinRadio extends LitElement {
   `;
 
   /**
-   * Form name of the radio button.
+   * The form name, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Form value of the radio button.
+   * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   value = "";
@@ -95,13 +95,13 @@ export class DaikinRadio extends LitElement {
   labelPosition: "right" | "hidden" = "right";
 
   /**
-   * Whether the radio button is checked.
+   * Specify the radio button checked state.
    */
   @property({ type: Boolean, reflect: true })
   checked = false;
 
   /**
-   * Whether the radio button is disabled.
+   * Specify the radio button disabled state.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
