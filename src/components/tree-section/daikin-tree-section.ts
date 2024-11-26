@@ -124,8 +124,10 @@ export class DaikinTreeSection extends LitElement {
     }
   }
 
-  private _updateSection(): void {
-    this._sections.forEach((section) => (section.selectable = this.selectable));
+  private _updateSections(): void {
+    this._sections.forEach((section) => {
+      section.selectable = this.selectable;
+    });
   }
 
   private _handleClick(): void {
@@ -144,7 +146,7 @@ export class DaikinTreeSection extends LitElement {
 
   private _handleSlotChange(): void {
     this._updateChildrenLevel();
-    this._updateSection();
+    this._updateSections();
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -255,7 +257,7 @@ export class DaikinTreeSection extends LitElement {
     }
 
     if (changedProperties.has("selectable")) {
-      this._updateSection();
+      this._updateSections();
     }
   }
 

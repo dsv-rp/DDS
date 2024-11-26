@@ -73,13 +73,15 @@ export class DaikinTree extends LitElement {
     this._children.forEach((child) => (child.level = 0));
   }
 
-  private _updateSection(): void {
-    this._sections.forEach((section) => (section.selectable = this.selectable));
+  private _updateSections(): void {
+    this._sections.forEach((section) => {
+      section.selectable = this.selectable;
+    });
   }
 
   private _handleSlotChange(): void {
     this._updateChildrenLevel();
-    this._updateSection();
+    this._updateSections();
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -117,24 +119,23 @@ export class DaikinTree extends LitElement {
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selectable")) {
-      this._updateSection();
+      this._updateSections();
     }
 
     if (changedProperties.has("selected") && this.selectable) {
       // If the component is set to selectable, update the selection state of descendant sections and items.
-      this.selectItem();
+      this.selectItem(this.selected);
     }
   }
 
   /**
    * Calls `selectItem` for the tree sections and tree items of the child elements in the slot.
    *
+   * @param value Tree item value.
    * @private
    */
-  selectItem(): void {
-    this._children.forEach((child) =>
-      child.selectItem(this.selectable ? this.selected : null)
-    );
+  selectItem(value: string | null): void {
+    this._children.forEach((child) => child.selectItem(value));
   }
 
   /**
