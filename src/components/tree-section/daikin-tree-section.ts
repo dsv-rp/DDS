@@ -70,6 +70,13 @@ export class DaikinTreeSection extends LitElement {
   disabled: boolean = false;
 
   /**
+   * Whether or not to enable tree selection.
+   * Controlled by `daikin-tree`.
+   */
+  @property({ type: Boolean, reflect: true })
+  selectable: boolean = false;
+
+  /**
    * Ignored if disabled.
    * Controlled by `daikin-tree` if its `selectable` is true.
    */
@@ -136,6 +143,13 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
+    if (["Enter", " "].includes(event.key)) {
+      event.preventDefault();
+      emitTreeSelect(this);
+
+      return;
+    }
+
     const direction = getDirectionFromKey(event.key);
     if (!direction) {
       return;

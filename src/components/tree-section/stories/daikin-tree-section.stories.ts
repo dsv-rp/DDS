@@ -14,6 +14,7 @@ export default {
 export const Default: Story = {
   args: {
     label: "Tree label",
+    selectable: false,
     selected: false,
     disabled: false,
     open: true,
