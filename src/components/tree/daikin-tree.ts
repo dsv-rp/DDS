@@ -95,10 +95,7 @@ export class DaikinTree extends LitElement {
   private _handleTreeUnselect(event: Event): void {
     event.stopPropagation();
 
-    this.selected =
-      this._children
-        .map((child) => child.getSelectedItem())
-        .find((item) => !!item) ?? null;
+    this.selected = this.getSelectedItem();
   }
 
   override render() {
@@ -121,6 +118,21 @@ export class DaikinTree extends LitElement {
         child.selectItem(this.selectable ? this.selected : null)
       );
     }
+  }
+
+  /**
+   * Returns the `value` of the currently selected section or item.
+   * If nothing is selected, returns `null`.
+   *
+   * @returns The `value` of the selected section or item (if any). `null` if there is none.
+   * @private
+   */
+  getSelectedItem(): string | null {
+    return (
+      this._children
+        .map((child) => child.getSelectedItem())
+        .find((item) => !!item) ?? null
+    );
   }
 }
 

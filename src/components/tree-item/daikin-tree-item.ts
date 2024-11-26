@@ -258,20 +258,13 @@ export class DaikinTreeItem extends LitElement {
   }
 
   /**
-   * When the tree item is selected, this.value is returned. When it is not selected or when this.disabled is true, null is returned.
+   * Returns `this.value` if selected, or `null` if not selected.
    *
+   * @returns `this.value` if selected. `null` if not selected.
    * @private
    */
   getSelectedItem(): string | null {
-    if (this.disabled) {
-      return null;
-    }
-
-    if (this.selected) {
-      return this.value;
-    }
-
-    return null;
+    return !this.disabled && this.selected ? this.value : null;
   }
 }
 

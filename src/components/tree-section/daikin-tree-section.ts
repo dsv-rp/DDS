@@ -122,8 +122,9 @@ export class DaikinTreeSection extends LitElement {
       )
     ) {
       this.open = !this.open;
-      emitTreeSelect(this);
     }
+
+    emitTreeSelect(this);
   }
 
   private _handleSlotChange(): void {
@@ -273,9 +274,10 @@ export class DaikinTreeSection extends LitElement {
   }
 
   /**
-   * When the tree select is selected, this.value is returned. When this.disabled is true, null is returned.
-   * If neither of these is the case, we fire `getSelectedItem()` on the child element to get the value.
+   * Returns the `value` of the currently selected section or item.
+   * If nothing is selected, returns `null`.
    *
+   * @returns The `value` of the selected section or item (if any). `null` if there is none.
    * @private
    */
   getSelectedItem(): string | null {
