@@ -1,5 +1,5 @@
 ---
-"@daikin-oss/design-system-web-components": patch
+"@daikin-oss/design-system-web-components": minor
 ---
 
-Add Tree Component.
+Tree: Initial Implementation.
