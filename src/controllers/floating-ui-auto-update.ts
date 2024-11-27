@@ -119,6 +119,14 @@ export class FloatingUIAutoUpdateController<
     this._host.requestUpdate();
   };
 
+  get floatingElement(): HTMLElement | undefined {
+    return this._floatingElement;
+  }
+
+  get referenceElement(): Element | undefined {
+    return this._referenceElement;
+  }
+
   refFloating() {
     return ref(this._refCallbackFloating);
   }
