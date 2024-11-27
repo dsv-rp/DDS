@@ -9,6 +9,7 @@ export * from "./dropdown-item";
 export * from "./icon";
 export * from "./icon-button";
 export * from "./input-group";
+export * from "./link";
 export * from "./list";
 export * from "./list-item";
 export * from "./notification";
