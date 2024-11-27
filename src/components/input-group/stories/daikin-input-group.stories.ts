@@ -105,6 +105,7 @@ export const TextArea: Story = {
   args: {
     ...Default.args,
     textareaMaxCount: 100,
+    textareaOverflowError: "The number of characters exceeds the limit",
     content: "TextArea",
   },
   play: definePlay(async ({ canvasElement, step }) => {

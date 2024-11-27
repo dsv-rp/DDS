@@ -44,6 +44,13 @@ const cvaHelper = cva(
           "before:i-daikin-status-error",
           "before:flex-none",
         ],
+        textareaOverflowError: [
+          "text-system-state-error-active",
+          "font-bold",
+          "before:size-4",
+          "before:i-daikin-status-error",
+          "before:flex-none",
+        ],
         none: ["hidden"],
       },
     },
@@ -199,6 +206,16 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
   textareaMaxCount: number | null = null;
 
+  /**
+   * Maximum value to display on the counter. When `null`, the counter will be hidden.
+   */
+  @property({
+    type: String,
+    reflect: true,
+    attribute: "textarea-overflow-error",
+  })
+  textareaOverflowError: string | null = null;
+
   @queryAssignedElements({ selector: "daikin-text-area" })
   private readonly _textareas!: readonly DaikinTextArea[];
 
@@ -240,29 +257,26 @@ export class DaikinInputGroup extends LitElement {
   }
 
   override render() {
-    if (this.textareaCounterOverflow && !this.error) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `'error' property is empty: The number of characters in the text area exceeds ${this.textareaMaxCount}, but no 'error' property is empty.`
-        );
-      }
-    }
-
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
     const helperType =
-      (this.textareaCounterOverflow || this.error) && !this.disabled
-        ? "error"
-        : this.helper
-          ? this.disabled
-            ? "helperDisabled"
-            : "helper"
-          : "none";
+      this.textareaCounterOverflow &&
+      !!this.textareaOverflowError &&
+      !this.disabled
+        ? "textareaOverflowError"
+        : this.error && !this.disabled
+          ? "error"
+          : this.helper
+            ? this.disabled
+              ? "helperDisabled"
+              : "helper"
+            : "none";
 
     const helperText = {
-      error: this.error,
       helper: this.helper,
       helperDisabled: this.helper,
+      error: this.error,
+      textareaOverflowError: this.textareaOverflowError,
       none: "",
     }[helperType];
 
