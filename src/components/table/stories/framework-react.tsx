@@ -44,7 +44,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
               <ReactDaikinIcon
                 slot="left-icon"
                 icon="positive"
-                size="xl"
+                size="current"
                 color="current"
               />
             </ReactDaikinTableHeaderCell>

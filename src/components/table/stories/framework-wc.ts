@@ -56,7 +56,7 @@ export const metadata: Meta<DaikinTableStoryArgs> = {
                 <daikin-icon
                   slot="left-icon"
                   icon="positive"
-                  size="xl"
+                  size="current"
                   color="current"
                 ></daikin-icon>
               </daikin-table-header-cell>`

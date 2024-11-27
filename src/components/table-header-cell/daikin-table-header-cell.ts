@@ -101,7 +101,7 @@ export class DaikinTableHeaderCell extends LitElement {
       sortable: this.sortable,
     });
 
-    const content = html`<slot name="left-icon">
+    const content = html`<slot name="left-icon" class="icon-size-6">
         <span class="block -mr-2"></span>
       </slot>
       <slot></slot>`;

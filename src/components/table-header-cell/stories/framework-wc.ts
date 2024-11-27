@@ -16,7 +16,7 @@ export const metadata: Meta<DaikinTableHeaderCellStoryArgs> = {
         ? html`<daikin-icon
             slot="left-icon"
             icon=${leftIcon}
-            size="xl"
+            size="current"
             color="current"
           ></daikin-icon>`
         : nothing}
