@@ -78,8 +78,10 @@ export class DaikinTreeSection extends LitElement {
   selectable: boolean = false;
 
   /**
+   * Whether the tree item is selected.
    * Ignored if disabled.
    * Controlled by `daikin-tree` if its `selectable` is true.
+   * If the tree's `selected` is false, you can manually set this property to control the display of the selected state.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
