@@ -112,9 +112,9 @@ export class DaikinLink extends LitElement {
         target=${ifDefined(this.target ?? undefined)}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
-        <slot name="left-icon"></slot>
+        <slot name="left-icon" class="icon-size-4"></slot>
         <slot></slot>
-        <slot name="right-icon"></slot>
+        <slot name="right-icon" class="icon-size-4"></slot>
       </a>
     `;
   }
