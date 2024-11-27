@@ -50,6 +50,7 @@ docgen
 
 # Testing
 testid
+unhover
 
 # JSDoc extension
 csspart

@@ -1,20 +1,19 @@
-import {
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  shift,
-} from "@floating-ui/dom";
+import { flip, offset, shift } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
-import { createRef, ref, type Ref } from "lit/directives/ref.js";
+import { customElement, property } from "lit/decorators.js";
+import { guard } from "lit/directives/guard.js";
+import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
 import { reDispatch } from "../../utils/reDispatch";
 
 const cvaTooltip = cva(
   [
+    "floating-unready:hidden",
+    "absolute",
+    "left-[--floating-x,0]",
+    "top-[--floating-y,0]",
     "justify-center",
     "items-center",
     "w-max",
@@ -25,8 +24,6 @@ const cvaTooltip = cva(
     "text-sm",
     "font-daikinSerif",
     "font-normal",
-    "absolute",
-    "inset-[unset]",
     "not-italic",
     "leading-5",
   ],
@@ -139,114 +136,60 @@ export class DaikinTooltip extends LitElement {
   @property({ type: String, reflect: true })
   trigger: "hover" | "click" | "manual" = "hover";
 
-  @query("span[popover]")
-  private _popover!: HTMLElement;
-
-  /**
-   * Whether the inner elements are focused.
-   * This variable is set independently of `_isMouseOpened`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
-   */
-  @state()
-  private _isFocused = false;
-
-  /**
-   * Whether the mouse operation (hover and click) opened the tooltip.
-   * This variable is set independently of `_isFocused`, and whether or not to display the tooltip is determined by `_isFocused || _isMouseOpened`.
-   */
-  @state()
-  private _isMouseOpened = false;
-
-  private _tooltipRef: Ref<HTMLElement> = createRef();
-
-  private _triggerRef: Ref<HTMLElement> = createRef();
-
-  private _autoUpdateCleanup: (() => void) | null = null;
+  private _autoUpdateController = new FloatingUIAutoUpdateController(this);
 
   private _hostStyles = isClient ? window.getComputedStyle(this) : null;
 
-  private _startAutoUpdate() {
-    if (!isClient) {
-      return;
-    }
-
-    const reference = this._triggerRef.value;
-    const float = this._tooltipRef.value;
-    if (!reference || !float) {
-      return;
-    }
-
-    // TODO(DDS-1226): refactor here with CSS Anchor Positioning instead of using floating-ui
-    this._autoUpdateCleanup?.();
-    this._autoUpdateCleanup = autoUpdate(reference, float, () => {
-      const spacing = parseInt(
-        this._hostStyles?.getPropertyValue("--dds-tooltip-spacing") ||
-          DEFAULT_TOOLTIP_SPACING,
-        10
-      );
-
-      computePosition(reference, float, {
-        placement: this.placement,
-        middleware: [offset({ mainAxis: spacing }), flip(), shift()],
-      })
-        .then(({ x, y }) =>
-          Object.assign(float.style, {
-            left: `${x}px`,
-            top: `${y}px`,
-          })
-        )
-        .catch(() => {
-          // do nothing
-        });
-    });
-  }
-
-  private _uninstallAutoUpdate() {
-    this.open = false;
-    this._autoUpdateCleanup?.();
-    this._autoUpdateCleanup = null;
-  }
-
-  private _handleClick() {
+  private _handleClick(event: PointerEvent) {
     if (this.trigger === "click") {
-      this._isMouseOpened = !this._isMouseOpened;
+      // Prevent the tooltip from closing via the Popover feature.
+      event.preventDefault();
+
+      this.open = !this.open;
     }
   }
 
   private _handleMouseEnter() {
     if (this.trigger === "hover") {
-      this._isMouseOpened = true;
+      this.open = true;
     }
   }
 
   private _handleMouseLeave() {
     if (this.trigger === "hover") {
-      this._isMouseOpened = false;
+      this.open = false;
     }
   }
 
   private _handleFocusIn() {
-    this._isFocused = true;
+    this.open = true;
   }
 
   private _handleFocusOut() {
-    this._isFocused = false;
+    this.open = false;
   }
 
   private _handleToggle(event: ToggleEvent) {
-    if (reDispatch(this, event, new ToggleEvent("beforetoggle", event))) {
+    if (reDispatch(this, event, new ToggleEvent("toggle", event))) {
       this.open = event.newState === "open";
     }
   }
 
   override render() {
+    const spacing = parseInt(
+      this._hostStyles?.getPropertyValue("--dds-tooltip-spacing") ||
+        DEFAULT_TOOLTIP_SPACING,
+      10
+    );
+
     // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div class="relative inline-block">
       <div
-        ${ref(this._triggerRef)}
         id="trigger"
         aria-labelledby="trigger"
         aria-describedby="tooltip"
+        ${this._autoUpdateController.refReference()}
       >
         <slot
           @click=${this._handleClick}
@@ -257,58 +200,41 @@ export class DaikinTooltip extends LitElement {
         ></slot>
       </div>
       <span
-        ${ref(this._tooltipRef)}
         id="tooltip"
         role="tooltip"
         aria-labelledby="tooltip"
-        class=${cvaTooltip({
-          variant: this.variant,
-        })}
-        .popover=${this.popoverValue}
+        class=${cvaTooltip({ variant: this.variant })}
+        popover=${this.popoverValue}
         @beforetoggle=${(event: ToggleEvent) =>
           reDispatch(this, event, new ToggleEvent("beforetoggle", event))}
         @toggle=${this._handleToggle}
+        ${this._autoUpdateController.refFloating()}
       >
         <slot name="description">
           <span class="whitespace-pre-line">${this.description}</span>
         </slot>
       </span>
+      ${
+        // Activate auto update only when the tooltip is open.
+        // TODO(DDS-1226): refactor here with CSS Anchor Positioning instead of using floating-ui
+        guard([this.open, this.placement, spacing], () =>
+          this._autoUpdateController.directive(
+            {
+              placement: this.placement,
+              middleware: [offset({ mainAxis: spacing }), flip(), shift()],
+            },
+            this.open
+          )
+        )
+      }
     </div>`;
     /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
-  override willUpdate(
-    changedProperties: PropertyValues<
-      // Treat `_isFocused` and `_isMouseOpened` as public.
-      Omit<this, "_isFocused" | "_isMouseOpened"> & {
-        _isFocused: boolean;
-        _isMouseOpened: boolean;
-      }
-    >
-  ): void {
-    if (
-      changedProperties.has("_isFocused") ||
-      changedProperties.has("_isMouseOpened")
-    ) {
-      this.open = this._isFocused || this._isMouseOpened;
-    }
-  }
-
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("open")) {
-      this._popover.togglePopover(this.open);
-
-      if (this.open) {
-        this._startAutoUpdate();
-      } else {
-        this._autoUpdateCleanup?.();
-        this._autoUpdateCleanup = null;
-      }
+      this._autoUpdateController.floatingElement?.togglePopover(this.open);
     }
-  }
-
-  override disconnectedCallback() {
-    this._uninstallAutoUpdate();
   }
 }
 

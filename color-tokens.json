@@ -59,6 +59,22 @@
         "warning": "#B88700",
         "alarm": "#E46B08",
         "information": "#0097E0"
+      },
+      "link": {
+        "active": "#00689A",
+        "hover": "#005077",
+        "press": "#004160",
+        "surface": {
+          "hover": "#DDF3FC"
+        }
+      },
+      "visited": {
+        "active": "#5C2365",
+        "hover": "#4A1C51",
+        "press": "#37153D",
+        "surface": {
+          "hover": "#F0DDF3"
+        }
       }
     }
   }

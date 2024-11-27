@@ -1,4 +1,5 @@
 import "#package/components/checkbox/daikin-checkbox";
+import "#package/components/icon/daikin-icon";
 import "#package/components/list-item/daikin-list-item";
 import "#package/components/list/daikin-list";
 import type { Meta } from "@storybook/web-components";
@@ -11,21 +12,18 @@ export const metadata: Meta<DaikinListStoryArgs> = {
       <daikin-list>
         <daikin-list-item>
           List item label 1
-          <span slot="left-icon" style="color:#414141;">
-            <daikin-icon
-              slot="left-icon"
-              icon="positive"
-              size="xl"
-              color="current"
-            ></daikin-icon>
-          </span>
-          <span slot="right-icon" style="color:#414141;">
-            <daikin-icon
-              icon="chevron-right"
-              size="xl"
-              color="current"
-            ></daikin-icon>
-          </span>
+          <daikin-icon
+            slot="left-icon"
+            icon="positive"
+            size="current"
+            color="current"
+          ></daikin-icon>
+          <daikin-icon
+            slot="right-icon"
+            icon="chevron-right"
+            size="current"
+            color="current"
+          ></daikin-icon>
         </daikin-list-item>
         <daikin-list-item type="link" href="#">
           List item label 2 (Link)
