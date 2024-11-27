@@ -10,7 +10,7 @@ const cvaCell = cva(
     "flex-col",
     "gap-1",
     "justify-center",
-    "w-full",
+    "size-full",
     "min-h-12",
     "px-4",
     "py-3",

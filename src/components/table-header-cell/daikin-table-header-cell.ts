@@ -9,8 +9,7 @@ const cvaHeaderCell = cva(
     "flex",
     "items-center",
     "gap-2",
-    "w-full",
-    "h-full",
+    "size-full",
     "min-h-12",
     "px-4",
     "py-3",
@@ -101,9 +100,7 @@ export class DaikinTableHeaderCell extends LitElement {
       sortable: this.sortable,
     });
 
-    const content = html`<slot name="left-icon" class="icon-size-6">
-        <span class="block -mr-2"></span>
-      </slot>
+    const content = html`<slot name="left-icon" class="icon-size-6"></slot>
       <slot></slot>`;
 
     return this.sortable

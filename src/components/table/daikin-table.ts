@@ -317,7 +317,7 @@ export class DaikinTable<
             ${this.selectable
               ? html`<td class="w-12 p-0">
                   <span
-                    class="flex items-center justify-center w-full h-full min-h-12"
+                    class="flex items-center justify-center size-full min-h-12"
                   >
                     <daikin-checkbox
                       name="allItem"
@@ -347,7 +347,7 @@ export class DaikinTable<
                 ${this.selectable
                   ? html`<td class="w-12 p-0">
                       <span
-                        class="flex justify-center items-center w-full h-full min-h-12"
+                        class="flex justify-center items-center size-full min-h-12"
                       >
                         <daikin-checkbox
                           name=${row.id}
