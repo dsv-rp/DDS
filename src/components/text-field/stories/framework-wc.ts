@@ -44,7 +44,7 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
           ? html`<daikin-icon
               slot="left-icon"
               icon=${leftIcon}
-              size="xl"
+              size="current"
               color="current"
             ></daikin-icon>`
           : nothing}
@@ -52,7 +52,7 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
           ? html`<daikin-icon
               slot="right-icon"
               icon=${rightIcon}
-              size="xl"
+              size="current"
               color="current"
             ></daikin-icon>`
           : nothing}

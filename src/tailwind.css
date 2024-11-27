@@ -3,3 +3,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  [popover] {
+    position: unset;
+    inset: unset;
+    width: unset;
+    height: unset;
+    margin: 0;
+    padding: 0;
+    overflow: unset;
+    color: unset;
+    background-color: unset;
+
+    border-width: 0;
+    border-style: solid;
+    border-color: theme("borderColor.DEFAULT", currentColor);
+  }
+}
