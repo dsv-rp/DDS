@@ -73,6 +73,8 @@ export class DaikinTreeSection extends LitElement {
   /**
    * Whether or not to enable tree selection.
    * Controlled by `daikin-tree`.
+   *
+   * @private
    */
   @property({ type: Boolean, reflect: true })
   selectable: boolean = false;
