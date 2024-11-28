@@ -4,38 +4,34 @@
 
 ### Minor Changes
 
-- [#89](https://github.com/dsv-rp/DDS/pull/89) [`c9bd3a7`](https://github.com/dsv-rp/DDS/commit/c9bd3a77932d1f4c3f2547f35daa7b026eff7a08) Thanks [@poetrainy](https://github.com/poetrainy)! - Dropdown: Update appearance.
-  Select: Update appearance.
-  Text Area: Update appearance.
-  Text Input: Update appearance.
-
-- [#53](https://github.com/dsv-rp/DDS/pull/53) [`651bc76`](https://github.com/dsv-rp/DDS/commit/651bc767f92be4a5b48b4c8c48b3378ef0e13855) Thanks [@yodas7](https://github.com/yodas7)! - **BREAKING CHANGE** Some attributes and properties have been renamed or removed.
-
-  The following attributes (not properties) have been renamed to kebab case:
-
-  - `<daikin-notification>`: ~~`closeButton`~~ -> `close-button`
-
-- [#91](https://github.com/dsv-rp/DDS/pull/91) [`a188387`](https://github.com/dsv-rp/DDS/commit/a188387a0da9a452be1ebad4898a54c205d73b8e) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Dropdown: The `label` attribute has been removed.
-
-### Patch Changes
-
-- [#95](https://github.com/dsv-rp/DDS/pull/95) [`0d78d58`](https://github.com/dsv-rp/DDS/commit/0d78d585963b229c68971d7558b63c2c7d073db9) Thanks [@poetrainy](https://github.com/poetrainy)! - Tooltip: Fixed an issue where the tooltip would remain opened after clicking on the trigger element. (DDS-1631)
+- [#53](https://github.com/dsv-rp/DDS/pull/53) [`651bc76`](https://github.com/dsv-rp/DDS/commit/651bc767f92be4a5b48b4c8c48b3378ef0e13855) Thanks [@yodas7](https://github.com/yodas7)! - **BREAKING CHANGE** Notification: The `closeButton` attribute (not property) has been renamed to `close-button`.
 
 - [#88](https://github.com/dsv-rp/DDS/pull/88) [`90e1625`](https://github.com/dsv-rp/DDS/commit/90e1625f6455b60670920e397a51370eba70ace8) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Icon: The `size` attribute now defaults to `current`.
   Icon Button: Add Icon Button Component. (DDS-1536)
   Icon: The `size` attribute now accepts `current`, which references `--dds-icon-size` CSS variable.
 
-- [#96](https://github.com/dsv-rp/DDS/pull/96) [`bdd827f`](https://github.com/dsv-rp/DDS/commit/bdd827fe1bc400de68f11a63bb6312d368cdadd9) Thanks [@poetrainy](https://github.com/poetrainy)! - Accordion: Update appearance.
+- [#91](https://github.com/dsv-rp/DDS/pull/91) [`a188387`](https://github.com/dsv-rp/DDS/commit/a188387a0da9a452be1ebad4898a54c205d73b8e) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Dropdown: The `label` attribute has been removed.
 
-- [#49](https://github.com/dsv-rp/DDS/pull/49) [`c1f44f8`](https://github.com/dsv-rp/DDS/commit/c1f44f825e0de8422be87a3efdae2e1e84d5d4da) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add pagination component
+- [#44](https://github.com/dsv-rp/DDS/pull/44) [`d51e2ee`](https://github.com/dsv-rp/DDS/commit/d51e2eed13d3772542fb8141bb524489e2570602) Thanks [@poetrainy](https://github.com/poetrainy)! - Table: **Initial Implementation.**
+
+- [#49](https://github.com/dsv-rp/DDS/pull/49) [`c1f44f8`](https://github.com/dsv-rp/DDS/commit/c1f44f825e0de8422be87a3efdae2e1e84d5d4da) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Pagination: **Initial Implementation.**
+
+- [#93](https://github.com/dsv-rp/DDS/pull/93) [`39a5a8f`](https://github.com/dsv-rp/DDS/commit/39a5a8f27079610bf62094486888b9c7c0af3416) Thanks [@poetrainy](https://github.com/poetrainy)! - Link: **Initial Implementation.** (DDS-1600)
+
+### Patch Changes
+
+- [#89](https://github.com/dsv-rp/DDS/pull/89) [`c9bd3a7`](https://github.com/dsv-rp/DDS/commit/c9bd3a77932d1f4c3f2547f35daa7b026eff7a08) Thanks [@poetrainy](https://github.com/poetrainy)! - Dropdown: Updated appearance.
+  Select: Updated appearance.
+  Text Area: Updated appearance.
+  Text Input: Updated appearance.
+
+- [#95](https://github.com/dsv-rp/DDS/pull/95) [`0d78d58`](https://github.com/dsv-rp/DDS/commit/0d78d585963b229c68971d7558b63c2c7d073db9) Thanks [@poetrainy](https://github.com/poetrainy)! - Tooltip: Fixed an issue where the tooltip would remain opened after clicking on the trigger element. (DDS-1631)
+
+- [#96](https://github.com/dsv-rp/DDS/pull/96) [`bdd827f`](https://github.com/dsv-rp/DDS/commit/bdd827fe1bc400de68f11a63bb6312d368cdadd9) Thanks [@poetrainy](https://github.com/poetrainy)! - Accordion: Updated appearance.
 
 - [#79](https://github.com/dsv-rp/DDS/pull/79) [`2e351b8`](https://github.com/dsv-rp/DDS/commit/2e351b8137f5d0aac1c5feb9520d25e35e81f138) Thanks [@yodas7](https://github.com/yodas7)! - Correct package type definitions. (DDS-1529)
 
-- [#93](https://github.com/dsv-rp/DDS/pull/93) [`39a5a8f`](https://github.com/dsv-rp/DDS/commit/39a5a8f27079610bf62094486888b9c7c0af3416) Thanks [@poetrainy](https://github.com/poetrainy)! - Link: Initial Implementation. (DDS-1600)
-
 - [#85](https://github.com/dsv-rp/DDS/pull/85) [`82b4fa9`](https://github.com/dsv-rp/DDS/commit/82b4fa95c1c9c60640ca3ce3d336ed00485908e4) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Modified the descriptions of some properties.
-
-- [#44](https://github.com/dsv-rp/DDS/pull/44) [`d51e2ee`](https://github.com/dsv-rp/DDS/commit/d51e2eed13d3772542fb8141bb524489e2570602) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Table Component.
 
 ## 0.5.0
 
@@ -43,12 +39,6 @@
 
 - [#80](https://github.com/dsv-rp/DDS/pull/80) [`108e3c1`](https://github.com/dsv-rp/DDS/commit/108e3c152e7ad0589f34eb32f6f0345ec167fb73) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tab: The `tablist` CSS part has been removed since we started providing default styles. (DDS-1430)
   Tab: Updated appearance. (DDS-1430)
-
-- [#86](https://github.com/dsv-rp/DDS/pull/86) [`923224e`](https://github.com/dsv-rp/DDS/commit/923224e8f90b34c58e9cd32d88d42b6bb9a4b233) Thanks [@poetrainy](https://github.com/poetrainy)! - Radio: Update appearance. (DDS-1350)
-  Checkbox: Update appearance. (DDS-1288)
-  Toggle: Update appearance. (DDS-1374)
-  Accordion: Update appearance. (DDS-1414)
-  List: Update appearance. (DDS-1414)
 
 - [#74](https://github.com/dsv-rp/DDS/pull/74) [`3151097`](https://github.com/dsv-rp/DDS/commit/3151097362d40e58e18e70914c5dd2ee83f6c430) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tooltip: The `closeOnClick` attribute has been removed. (DDS-1501)
   **BREAKING CHANGE** Tooltip: The `trigger` and `tooltip` CSS parts have been removed. (DDS-1501)
@@ -68,15 +58,21 @@
   Text Field: Updated appearance. (DDS-1325)
   Input Group: Updated appearance. (DDS-1325)
 
+- [#25](https://github.com/dsv-rp/DDS/pull/25) [`2a59211`](https://github.com/dsv-rp/DDS/commit/2a592110b5e5b1aaf23060832403acba21336845) Thanks [@poetrainy](https://github.com/poetrainy)! - Dropdown: **Initial Implementation.**
+
+- [#65](https://github.com/dsv-rp/DDS/pull/65) [`c72d763`](https://github.com/dsv-rp/DDS/commit/c72d76356cb42c36b3c782a12654e95790ecc837) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Radio Group: **Initial Implementation.** (DDS-1361)
+
+- [#83](https://github.com/dsv-rp/DDS/pull/83) [`9eae0b8`](https://github.com/dsv-rp/DDS/commit/9eae0b866bbff612c33b8920e9dda95835007dc1) Thanks [@poetrainy](https://github.com/poetrainy)! - Select: **Initial Implementation.** (DDS-1566)
+
+- [#47](https://github.com/dsv-rp/DDS/pull/47) [`32ed03c`](https://github.com/dsv-rp/DDS/commit/32ed03cdb2cafb562c57776ac136a3f7be90d8c3) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Indicator: **Initial Implementation.** (DDS-921)
+
 ### Patch Changes
 
-- [#25](https://github.com/dsv-rp/DDS/pull/25) [`2a59211`](https://github.com/dsv-rp/DDS/commit/2a592110b5e5b1aaf23060832403acba21336845) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Dropdown Component.
-
-- [#65](https://github.com/dsv-rp/DDS/pull/65) [`c72d763`](https://github.com/dsv-rp/DDS/commit/c72d76356cb42c36b3c782a12654e95790ecc837) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add radio group component. (DDS-1361)
-
-- [#83](https://github.com/dsv-rp/DDS/pull/83) [`9eae0b8`](https://github.com/dsv-rp/DDS/commit/9eae0b866bbff612c33b8920e9dda95835007dc1) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Select Component. (DDS-1566)
-
-- [#47](https://github.com/dsv-rp/DDS/pull/47) [`32ed03c`](https://github.com/dsv-rp/DDS/commit/32ed03cdb2cafb562c57776ac136a3f7be90d8c3) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Progress Indicator Component. (DDS-921)
+- [#86](https://github.com/dsv-rp/DDS/pull/86) [`923224e`](https://github.com/dsv-rp/DDS/commit/923224e8f90b34c58e9cd32d88d42b6bb9a4b233) Thanks [@poetrainy](https://github.com/poetrainy)! - Radio: Updated appearance. (DDS-1350)
+  Checkbox: Updated appearance. (DDS-1288)
+  Toggle: Updated appearance. (DDS-1374)
+  Accordion: Updated appearance. (DDS-1414)
+  List: Updated appearance. (DDS-1414)
 
 ## 0.4.0
 
@@ -91,12 +87,11 @@
   Checkbox: The `labelPosition` property now accepts `"hidden"` value. (DDS-1288)
   Checkbox: Updated appearance. (DDS-1288)
 
-- [#75](https://github.com/dsv-rp/DDS/pull/75) [`3922068`](https://github.com/dsv-rp/DDS/commit/3922068e28efcd5786f576435f68c35983f252c2) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Improve breadcrumb accessibility. (DDS-1482)
-  **BREAKING CHANGE** Remove `link` slot from `daikin-breadcrumb-item`.
+- [#75](https://github.com/dsv-rp/DDS/pull/75) [`3922068`](https://github.com/dsv-rp/DDS/commit/3922068e28efcd5786f576435f68c35983f252c2) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Breadcrumbs: Improved accessibility. (DDS-1482)
+  **BREAKING CHANGE** Breadcrumbs: Removed `link` slot from `daikin-breadcrumb-item`.
 
 - [#69](https://github.com/dsv-rp/DDS/pull/69) [`3fcbc38`](https://github.com/dsv-rp/DDS/commit/3fcbc38a1affb1f3d50dbfb4e1aeb1fd34f301a7) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Accordion: The `title` attribute has been removed and replaced with a `summary` slot. (DDS-1414)
   Accordion: Updated appearance. (DDS-1414)
-  Accordion Item: Updated appearance. (DDS-1414)
 
 - [#61](https://github.com/dsv-rp/DDS/pull/61) [`36ef955`](https://github.com/dsv-rp/DDS/commit/36ef9551a504de318a51a738b9b6b58edfb7f6f9) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Radio: The `readonly`, `size` and `error` properties have been removed. (DDS-1350)
   **BREAKING CHANGE** Radio: The `labelPosition` property no longer supports `"left"`. Instead, it now supports `"hidden"`. (DDS-1350)
@@ -124,9 +119,9 @@
 
 ### Patch Changes
 
-- [#82](https://github.com/dsv-rp/DDS/pull/82) [`db7f9f3`](https://github.com/dsv-rp/DDS/commit/db7f9f331650d21d07d192d7032fd2689a849e3d) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Delete Stories area from component documentation page.
+- [#82](https://github.com/dsv-rp/DDS/pull/82) [`db7f9f3`](https://github.com/dsv-rp/DDS/commit/db7f9f331650d21d07d192d7032fd2689a849e3d) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Storybook: Removed Stories section from component documentation page.
 
-- [#77](https://github.com/dsv-rp/DDS/pull/77) [`dce6fa9`](https://github.com/dsv-rp/DDS/commit/dce6fa9128c84d55baf64b3d0ad8f35c4d8ea69c) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add component import guideline to documentation.
+- [#77](https://github.com/dsv-rp/DDS/pull/77) [`dce6fa9`](https://github.com/dsv-rp/DDS/commit/dce6fa9128c84d55baf64b3d0ad8f35c4d8ea69c) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Storybook: Added component import guidance to documentation.
 
 - [#59](https://github.com/dsv-rp/DDS/pull/59) [`dcfaef3`](https://github.com/dsv-rp/DDS/commit/dcfaef3e5aabe47e61b3ed815d2c74fcb14afc68) Thanks [@yodas7](https://github.com/yodas7)! - Storybook: Improve the code displayed by "Show code".
   Storybook: Added a common description of the event to the beginning of the Events section of the component documentation.
@@ -137,27 +132,27 @@
 - [#45](https://github.com/dsv-rp/DDS/pull/45) [`42f6d1b`](https://github.com/dsv-rp/DDS/commit/42f6d1b27e4020db4e1c286f16d632aa305457d9) Thanks [@poetrainy](https://github.com/poetrainy)! - Text Input: Fixed an issue where the size of components could not be changed. (DDS-1279)
   Textarea: Fixed an issue where the size of components could not be changed. (DDS-1279)
 
-- [#78](https://github.com/dsv-rp/DDS/pull/78) [`fbd2adb`](https://github.com/dsv-rp/DDS/commit/fbd2adbd671a9d928fb92eec7d548260e5bbaa87) Thanks [@poetrainy](https://github.com/poetrainy)! - Toggle: Assign the `switch` role. (DDS-1531)
+- [#78](https://github.com/dsv-rp/DDS/pull/78) [`fbd2adb`](https://github.com/dsv-rp/DDS/commit/fbd2adbd671a9d928fb92eec7d548260e5bbaa87) Thanks [@poetrainy](https://github.com/poetrainy)! - Toggle: Use the `switch` role for accessibility. (DDS-1531)
 
-- [#70](https://github.com/dsv-rp/DDS/pull/70) [`144a2ad`](https://github.com/dsv-rp/DDS/commit/144a2adbe9043f345f88f42c80a0106fcb68f542) Thanks [@poetrainy](https://github.com/poetrainy)! - Add List Component.
+- [#70](https://github.com/dsv-rp/DDS/pull/70) [`144a2ad`](https://github.com/dsv-rp/DDS/commit/144a2adbe9043f345f88f42c80a0106fcb68f542) Thanks [@poetrainy](https://github.com/poetrainy)! - List: **Initial Implementation.**
 
 ## 0.3.2
 
 ### Patch Changes
 
-- [#24](https://github.com/dsv-rp/DDS/pull/24) [`b2971f4`](https://github.com/dsv-rp/DDS/commit/b2971f4f4fff45d7615157e00314ea26ccc747f9) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add Breadcrumbs Component
+- [#52](https://github.com/dsv-rp/DDS/pull/52) [`d477bae`](https://github.com/dsv-rp/DDS/commit/d477baec057acf00c42038ebcbd7eeba5a13989e) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Breadcrumbs: Added document.
 
-- [#42](https://github.com/dsv-rp/DDS/pull/42) [`7db6d0e`](https://github.com/dsv-rp/DDS/commit/7db6d0e0f2f823d9c0ff80e287060b92f32a89ff) Thanks [@yodas7](https://github.com/yodas7)! - Update dependencies.
+- [#24](https://github.com/dsv-rp/DDS/pull/24) [`b2971f4`](https://github.com/dsv-rp/DDS/commit/b2971f4f4fff45d7615157e00314ea26ccc747f9) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Breadcrumbs: **Initial Implementation.**
+
+- [#42](https://github.com/dsv-rp/DDS/pull/42) [`7db6d0e`](https://github.com/dsv-rp/DDS/commit/7db6d0e0f2f823d9c0ff80e287060b92f32a89ff) Thanks [@yodas7](https://github.com/yodas7)! - Updated dependencies.
 
   - lit: ^3.1.4 -> ^3.2.0
 
-- [#34](https://github.com/dsv-rp/DDS/pull/34) [`dc2640a`](https://github.com/dsv-rp/DDS/commit/dc2640a012c9fb8ab74b969c4721c15a3f814e2c) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Progress Bar Component.
+- [#34](https://github.com/dsv-rp/DDS/pull/34) [`dc2640a`](https://github.com/dsv-rp/DDS/commit/dc2640a012c9fb8ab74b969c4721c15a3f814e2c) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Bar: **Initial Implementation.**
 
 - [#40](https://github.com/dsv-rp/DDS/pull/40) [`d11ec1d`](https://github.com/dsv-rp/DDS/commit/d11ec1d49f9d8c7b9a32582954b9b3f96123c1ef) Thanks [@yodas7](https://github.com/yodas7)! - Include CHANGELOG.md in the package.
 
-- [#29](https://github.com/dsv-rp/DDS/pull/29) [`38a7063`](https://github.com/dsv-rp/DDS/commit/38a706337a4008b163b05fe4f4b90b838b4be4fc) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add Tooltip Component.
-
-- [#52](https://github.com/dsv-rp/DDS/pull/52) [`d477bae`](https://github.com/dsv-rp/DDS/commit/d477baec057acf00c42038ebcbd7eeba5a13989e) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add document to breadcrumb component.
+- [#29](https://github.com/dsv-rp/DDS/pull/29) [`38a7063`](https://github.com/dsv-rp/DDS/commit/38a706337a4008b163b05fe4f4b90b838b4be4fc) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Tooltip: **Initial Implementation.**
 
 ## 0.3.1
 
@@ -169,17 +164,22 @@
 
 ### Minor Changes
 
-- [#7](https://github.com/dsv-rp/DDS/pull/7) Navigation Tab
-- [#18](https://github.com/dsv-rp/DDS/pull/18) Icon
-- [#20](https://github.com/dsv-rp/DDS/pull/20) Accordion
-- [#30](https://github.com/dsv-rp/DDS/pull/30) Toggle Switch
-- Add icon to button component
-- Add icon to notification component
+- [#7](https://github.com/dsv-rp/DDS/pull/7) - Navigation Tab: **Initial Implementation.**
+
+- [#18](https://github.com/dsv-rp/DDS/pull/18) - Icon: **Initial Implementation.**
+
+- [#20](https://github.com/dsv-rp/DDS/pull/20) - Accordion: **Initial Implementation.**
+
+- [#30](https://github.com/dsv-rp/DDS/pull/30) - Toggle Switch: **Initial Implementation.**
 
 ### Patch Changes
 
-- [#33](https://github.com/dsv-rp/DDS/pull/33) [`7dabcfc`](https://github.com/dsv-rp/DDS/commit/7dabcfc08dd3bf9f7dbcc368e0afc25b878f53d0) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Improve Storybook documents
+- [#33](https://github.com/dsv-rp/DDS/pull/33) [`7dabcfc`](https://github.com/dsv-rp/DDS/commit/7dabcfc08dd3bf9f7dbcc368e0afc25b878f53d0) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Improve Storybook documents.
 
 - [#31](https://github.com/dsv-rp/DDS/pull/31) [`f72fbbd`](https://github.com/dsv-rp/DDS/commit/f72fbbd4791a0aad32fe9359ff30bc506d14afff) Thanks [@yodas7](https://github.com/yodas7)! - Introduce Changesets.
 
-- [#35](https://github.com/dsv-rp/DDS/pull/35) Fix button text being wrapped
+- [#35](https://github.com/dsv-rp/DDS/pull/35) - Button: Fix label being wrapped.
+
+- Button: Added icon feature.
+
+- Notification: Added icon feature.
