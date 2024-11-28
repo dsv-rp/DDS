@@ -63,6 +63,10 @@
     "chevron-right": {
       "class": "i-daikin-chevron-right",
       "color": null
+    },
+    "sort": {
+      "class": "i-daikin-sort",
+      "color": null
     }
   }
 }

@@ -1,4 +1,5 @@
 ls:
+  .dir: kebab-case | regex:.+-snapshots$
   .js: kebab-case
   .config.js: kebab-case
   .cjs: kebab-case
@@ -22,10 +23,9 @@ ls:
     .md: snake_case
   .github/workflows:
     .yml: lowercase
-  src:
-    .dir: kebab-case | regex:.+-snapshots$
 
 ignore:
+  - .*
   - dist
   - storybook-static
   - test-results

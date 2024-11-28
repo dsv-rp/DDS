@@ -7,7 +7,7 @@ import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-au
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import { reDispatch } from "../../utils/reDispatch";
+import { reDispatch } from "../../utils/re-dispatch";
 
 const cvaTooltip = cva(
   [
