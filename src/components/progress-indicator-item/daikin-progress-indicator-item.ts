@@ -10,7 +10,7 @@ const cvaContainer = cva(
   [
     "flex",
     "flex-col",
-    "gap-1",
+    "gap-2",
     "w-full",
     "text-system-element-text-primary",
     "pt-1",
@@ -78,7 +78,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
       role="listitem"
       aria-current=${ifDefined(this.current ? "step" : undefined)}
     >
-      <div class="flex justify-between gap-2 font-bold leading-5">
+      <div class="flex justify-between gap-1 font-bold leading-5">
         <slot></slot>
         ${this.status === "finished"
           ? html`
