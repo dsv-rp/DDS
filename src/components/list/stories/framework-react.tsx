@@ -19,12 +19,18 @@ export const metadata: Meta<DaikinListStoryArgs> = {
       <ReactDaikinList {...props}>
         <ReactDaikinListItem>
           List item label 1
-          <span slot="left-icon" style={{ color: "#414141" }}>
-            <ReactDaikinIcon icon="positive" size="xl" color="current" />
-          </span>
-          <span slot="right-icon" style={{ color: "#414141" }}>
-            <ReactDaikinIcon icon="chevron-right" size="xl" color="current" />
-          </span>
+          <ReactDaikinIcon
+            slot="left-icon"
+            icon="positive"
+            size="current"
+            color="current"
+          />
+          <ReactDaikinIcon
+            slot="right-icon"
+            icon="chevron-right"
+            size="current"
+            color="current"
+          />
         </ReactDaikinListItem>
         <ReactDaikinListItem type="link" href="#">
           List item label 2 (Link)

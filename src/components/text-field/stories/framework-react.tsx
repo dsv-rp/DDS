@@ -26,7 +26,7 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
             <ReactDaikinIcon
               slot="left-icon"
               icon={leftIcon}
-              size="xl"
+              size="current"
               color="current"
             />
           )}
@@ -34,7 +34,7 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
             <ReactDaikinIcon
               slot="right-icon"
               icon={rightIcon}
-              size="xl"
+              size="current"
               color="current"
             />
           )}

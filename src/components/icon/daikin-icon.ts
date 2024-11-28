@@ -1,9 +1,3 @@
-import {
-  space12,
-  space16,
-  space20,
-  space24,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
@@ -22,12 +16,6 @@ const iconClassMap = Object.fromEntries(
 const cvaIcon = cva(["block"], {
   variants: {
     icon: iconClassMap,
-    size: {
-      s: [`w-[--size-s]`, `h-[--size-s]`],
-      m: [`w-[--size-m]`, `h-[--size-m]`],
-      l: [`w-[--size-l]`, `h-[--size-l]`],
-      xl: [`w-[--size-xl]`, `h-[--size-xl]`],
-    },
     color: {
       black: ["text-black"],
       white: ["text-white"],
@@ -48,6 +36,8 @@ export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
  * If you try to use an icon that does not exist, a blank space will be displayed.
  * In the development build, warnings will be displayed in the console, so please check there if you encounter any unexpected behavior.
  *
+ * @cssprop [--dds-icon-size] - Icon size. If a value other than "current" is set for the `size` property, it will be overwritten automatically. This may be set by the parent component such as `daikin-icon-button`.
+ *
  * @example
  *
  * ```js
@@ -64,13 +54,25 @@ export class DaikinIcon extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --size-s: ${unsafeCSS(space12)};
-      --size-m: ${unsafeCSS(space16)};
-      --size-l: ${unsafeCSS(space20)};
-      --size-xl: ${unsafeCSS(space24)};
+      display: inline-block;
+      width: var(--dds-icon-size, 100%);
+      height: var(--dds-icon-size, 100%);
+    }
 
-      display: block;
-      width: max-content;
+    :host([size="s"]) {
+      --dds-icon-size: 12px;
+    }
+
+    :host([size="m"]) {
+      --dds-icon-size: 16px;
+    }
+
+    :host([size="l"]) {
+      --dds-icon-size: 20px;
+    }
+
+    :host([size="xl"]) {
+      --dds-icon-size: 24px;
     }
   `;
 
@@ -87,10 +89,11 @@ export class DaikinIcon extends LitElement {
   color: IconVariantProps["color"] = "default";
 
   /**
-   * Specify the height and width of the icon
+   * Specify the size of the icon.
+   * If "current" is set, `--dds-icon-size` CSS variable will be used. `--dds-icon-size` may be set by the parent component such as `daikin-icon-button`.
    */
   @property({ type: String, reflect: true })
-  size: IconVariantProps["size"] = "m";
+  size: "s" | "m" | "l" | "xl" | "current" = "current";
 
   override render() {
     const defaultColor = (
@@ -111,7 +114,6 @@ export class DaikinIcon extends LitElement {
       class=${cvaIcon({
         icon: this.icon,
         color: this.color,
-        size: this.size,
       })}
       style=${`--default-color:${defaultColor ?? "#000000"}`}
       role="presentation"
