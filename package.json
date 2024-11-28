@@ -78,11 +78,11 @@
   "dependencies": {
     "@daikin-oss/dds-tokens": "^0.1.0",
     "@floating-ui/dom": "^1.6.12",
-    "class-variance-authority": "^0.7.0",
+    "class-variance-authority": "^0.7.1",
     "lit": "^3.2.1"
   },
   "devDependencies": {
-    "@arethetypeswrong/cli": "^0.16.4",
+    "@arethetypeswrong/cli": "^0.17.0",
     "@axe-core/playwright": "^4.10.1",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.10",
@@ -114,10 +114,10 @@
     "@types/jest-image-snapshot": "^6.4.0",
     "@types/node": "^20.17.8",
     "@types/react": "^18.3.12",
-    "@vitejs/plugin-react": "^4.3.3",
+    "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
     "cross-env": "^7.0.3",
-    "cspell": "^8.16.0",
+    "cspell": "^8.16.1",
     "defu": "^6.1.4",
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
@@ -133,7 +133,7 @@
     "playwright": "1.46.1",
     "playwright-core": "1.46.1",
     "postcss": "^8.4.49",
-    "prettier": "^3.4.0",
+    "prettier": "^3.4.1",
     "prettier-plugin-organize-imports": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -147,7 +147,7 @@
     "vite": "^5.4.11",
     "vite-plugin-dts": "^4.3.0",
     "vite-plugin-externalize-deps": "^0.8.0",
-    "vitest": "^2.1.5",
+    "vitest": "^2.1.6",
     "web-component-analyzer": "^2.0.0"
   }
 }
