@@ -15,8 +15,8 @@ const cvaTextArea = cva(
     "font-daikinSerif",
     "outline",
     "outline-[--color-border]",
-    "outline-0",
-    "-outline-offset-2",
+    "outline-1",
+    "-outline-offset-1",
     "placeholder:text-system-element-text-secondary",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
@@ -31,6 +31,7 @@ const cvaTextArea = cva(
     "enabled:hover:bg-system-background-surface-hover",
     "enabled:active:bg-system-background-surface-press",
     "focus-visible:outline-2",
+    "focus-visible:-outline-offset-2",
 
     "disabled:var-color-system-state-disabled/color-base",
     "disabled:text-system-state-disabled",
@@ -202,7 +203,9 @@ export class DaikinTextArea extends LitElement {
   }
 
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
-    const isError = !inputGroup.disabled && !!inputGroup.error;
+    const isError =
+      !inputGroup.disabled &&
+      (!!inputGroup.error || !!inputGroup.textareaCounterOverflow);
     this.disabled = !!inputGroup.disabled;
     this.required = !!inputGroup.required;
     this.error = isError;

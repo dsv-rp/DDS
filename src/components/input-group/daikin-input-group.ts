@@ -31,7 +31,7 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
 });
 
 const cvaHelper = cva(
-  ["flex", "gap-1", "items-center", "leading-5", "text-sm"],
+  ["flex", "gap-1", "items-center", "min-h-5", "leading-5", "text-sm"],
   {
     variants: {
       type: {
@@ -42,6 +42,14 @@ const cvaHelper = cva(
           "font-bold",
           "before:size-4",
           "before:i-daikin-status-error",
+          "before:flex-none",
+        ],
+        textareaOverflowError: [
+          "text-system-state-error-active",
+          "font-bold",
+          "before:size-4",
+          "before:i-daikin-status-error",
+          "before:flex-none",
         ],
         none: ["hidden"],
       },
@@ -49,20 +57,12 @@ const cvaHelper = cva(
   }
 );
 
-const cvaCounter = cva(["text-sm", "font-bold"], {
+const cvaCounter = cva(["text-sm", "font-bold", "ml-auto"], {
   variants: {
-    disabled: {
-      false: ["text-system-element-text-secondary"],
-      true: ["text-system-state-disabled"],
-    },
-  },
-});
-
-const cvaCounterValueLength = cva([], {
-  variants: {
-    error: {
-      false: [],
-      true: ["text-system-state-error-active"],
+    variant: {
+      normal: ["text-system-element-text-secondary"],
+      disabled: ["text-system-state-disabled"],
+      error: ["text-system-state-error-active"],
     },
   },
 });
@@ -206,6 +206,16 @@ export class DaikinInputGroup extends LitElement {
   @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
   textareaMaxCount: number | null = null;
 
+  /**
+   * Maximum value to display on the counter. When `null`, the counter will be hidden.
+   */
+  @property({
+    type: String,
+    reflect: true,
+    attribute: "textarea-overflow-error",
+  })
+  textareaOverflowError: string | null = null;
+
   @queryAssignedElements({ selector: "daikin-text-area" })
   private readonly _textareas!: readonly DaikinTextArea[];
 
@@ -217,6 +227,14 @@ export class DaikinInputGroup extends LitElement {
 
   @state()
   private _textareaCount: number | null = null;
+
+  get textareaCounterOverflow(): boolean {
+    return (
+      this.textareaMaxCount != null &&
+      this._textareaCount != null &&
+      this.textareaMaxCount < this._textareaCount
+    );
+  }
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -242,18 +260,23 @@ export class DaikinInputGroup extends LitElement {
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
     const helperType =
-      this.error && !this.disabled
-        ? "error"
-        : this.helper
-          ? this.disabled
-            ? "helperDisabled"
-            : "helper"
-          : "none";
+      this.textareaCounterOverflow &&
+      !!this.textareaOverflowError &&
+      !this.disabled
+        ? "textareaOverflowError"
+        : this.error && !this.disabled
+          ? "error"
+          : this.helper
+            ? this.disabled
+              ? "helperDisabled"
+              : "helper"
+            : "none";
 
     const helperText = {
-      error: this.error,
       helper: this.helper,
       helperDisabled: this.helper,
+      error: this.error,
+      textareaOverflowError: this.textareaOverflowError,
       none: "",
     }[helperType];
 
@@ -261,30 +284,16 @@ export class DaikinInputGroup extends LitElement {
       <label
         class="flex flex-col justify-center gap-2 w-full text-system-element-text-primary font-daikinSerif"
       >
-        <div class="flex justify-between items-center gap-2">
-          <div class="flex items-center gap-1 font-bold">
-            ${this.label
-              ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
-                  ${this.label}
-                </span>`
-              : nothing}
-            ${this.required && !this.disabled
-              ? html`<span class="text-system-state-error-active text-xs">
-                  ${this.required}
-                </span>`
-              : nothing}
-          </div>
-          ${this.textareaMaxCount != null && this._textareaCount != null
-            ? html`
-                <span class=${cvaCounter({ disabled: this.disabled })}>
-                  <span
-                    class=${cvaCounterValueLength({
-                      error: this.textareaMaxCount < this._textareaCount,
-                    })}
-                    >${this._textareaCount}</span
-                  ><span>/</span><span>${this.textareaMaxCount}</span>
-                </span>
-              `
+        <div class="flex items-center gap-1 font-bold">
+          ${this.label
+            ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
+                ${this.label}
+              </span>`
+            : nothing}
+          ${this.required && !this.disabled
+            ? html`<span class="text-system-state-error-active text-xs">
+                ${this.required}
+              </span>`
             : nothing}
         </div>
         <span
@@ -297,6 +306,19 @@ export class DaikinInputGroup extends LitElement {
           @slotchange=${this._handleSlotChange}
           @input=${this._handleInput}
         ></slot>
+        ${this.textareaMaxCount != null && this._textareaCount != null
+          ? html`<span
+              class=${cvaCounter({
+                variant: this.disabled
+                  ? "disabled"
+                  : this.textareaCounterOverflow
+                    ? "error"
+                    : "normal",
+              })}
+            >
+              <span>${this._textareaCount}/${this.textareaMaxCount}</span>
+            </span>`
+          : nothing}
       </label>
     </fieldset>`;
   }
