@@ -11,6 +11,7 @@ roboto
 runem
 tailwindcss
 taze
+tsbuildinfo
 tseslint
 rgba
 
@@ -63,3 +64,4 @@ FOUC
 linkify
 retargeted
 textareas
+classfield
