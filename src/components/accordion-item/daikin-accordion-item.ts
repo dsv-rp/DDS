@@ -269,7 +269,7 @@ export class DaikinAccordionItem extends LitElement {
    * Focuses on the inner summary.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
+  override focus(options?: FocusOptions): void {
     this._summary?.focus(options);
   }
 }
