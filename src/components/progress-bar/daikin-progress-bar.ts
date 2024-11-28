@@ -7,7 +7,7 @@ import type { MergeVariantProps } from "../../type-utils";
 const cvaBar = cva(
   [
     "w-full",
-    "bg-daikinNeutral-200",
+    "bg-system-state-disabled",
     "overflow-hidden",
     "relative",
     "after:block",
