@@ -174,7 +174,6 @@ export class DaikinTextArea extends LitElement {
         error: !this.disabled && this.error,
         resize: this.resizable,
       })}
-      .value=${this.value}
       placeholder=${ifDefined(this.placeholder ?? undefined)}
       name=${this.name}
       autocomplete=${
@@ -185,6 +184,7 @@ export class DaikinTextArea extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this._label as any)
       }
+      .value=${this.value}
       ?disabled=${this.disabled}
       ?readonly=${this.readonly}
       ?required=${this.required}

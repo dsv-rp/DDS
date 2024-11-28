@@ -1,6 +1,6 @@
+import type { DaikinTabPanels } from "#package/components/tab-panels/daikin-tab-panels";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinTabPanels } from "../daikin-tab-panels";
 
 export interface DaikinTabPanelsStoryArgs
   extends Required<ElementProps<DaikinTabPanels>> {

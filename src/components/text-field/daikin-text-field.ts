@@ -229,7 +229,6 @@ export class DaikinTextField extends LitElement {
           rightIcon: this._hasRightIcon,
         })}
         type=${this.type}
-        value=${this.value}
         placeholder=${ifDefined(this.placeholder ?? undefined)}
         name=${ifDefined(this.name)}
         maxlength=${ifDefined(this.maxlength)}
@@ -241,6 +240,7 @@ export class DaikinTextField extends LitElement {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this._label as any)
         }
+        .value=${this.value}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
