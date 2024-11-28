@@ -1,6 +1,6 @@
+import type { DaikinTreeItem } from "#package/components/tree-item/daikin-tree-item";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinTreeItem } from "../daikin-tree-item";
 
 export interface DaikinTreeItemStoryArgs
   extends Required<ElementProps<DaikinTreeItem>> {

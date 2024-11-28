@@ -1,6 +1,6 @@
+import type { DaikinTreeSection } from "#package/components/tree-section/daikin-tree-section";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinTreeSection } from "../daikin-tree-section";
 
 export interface DaikinTreeSectionStoryArgs
   extends Required<ElementProps<DaikinTreeSection>> {
