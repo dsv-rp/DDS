@@ -224,7 +224,7 @@ export class DaikinAccordionItem extends LitElement {
     const open = !this.disabled && this.open;
 
     return html`<details
-      class="flex w-full text-system-element-text-primary font-daikinSerif overflow-clip"
+      class="w-full text-system-element-text-primary font-daikinSerif overflow-clip"
       ?open=${detailsOpen}
       ?data-open=${open}
       aria-disabled=${this.disabled}
@@ -269,7 +269,7 @@ export class DaikinAccordionItem extends LitElement {
    * Focuses on the inner summary.
    * @param options focus options
    */
-  override focus(options?: FocusOptions | undefined): void {
+  override focus(options?: FocusOptions): void {
     this._summary?.focus(options);
   }
 }

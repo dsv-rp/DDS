@@ -1,3 +1,4 @@
+import type { DaikinPagination } from "#package/components/pagination/daikin-pagination";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
@@ -6,7 +7,6 @@ import {
   getByShadowText,
   queryByShadowText,
 } from "shadow-dom-testing-library";
-import type { DaikinPagination } from "../daikin-pagination";
 import { DAIKIN_PAGINATION_ARG_TYPES, type Story } from "./common";
 
 export default {

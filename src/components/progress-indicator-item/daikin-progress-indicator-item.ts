@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -14,7 +14,7 @@ const cvaContainer = cva(
     "w-full",
     "text-system-element-text-primary",
     "pt-1",
-    "border-t-4",
+    "border-t-[0.25rem]",
     "font-daikinSerif",
   ],
   {
@@ -28,26 +28,7 @@ const cvaContainer = cva(
   }
 );
 
-const cvaLabel = cva(
-  ["flex", "items-center", "gap-2", "font-bold", "leading-5"],
-  {
-    variants: {
-      status: {
-        unfinished: [],
-        inprogress: [],
-        finished: [
-          "after:size-4",
-          "after:i-daikin-status-success",
-          "after:text-system-state-primary-active",
-        ],
-      },
-    },
-  }
-);
-
-type ProgressIndicatorItemVariantProps = MergeVariantProps<
-  typeof cvaContainer | typeof cvaLabel
->;
+type ProgressIndicatorItemVariantProps = MergeVariantProps<typeof cvaContainer>;
 
 /**
  * The progress indicator item component is a child element within the `daikin-progress-indicator` component, this represents one of the tasks that the user is working on.
@@ -77,7 +58,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
     :host {
       display: block;
       width: 100%;
-      min-width: 142px;
+      min-width: 9rem;
     }
   `;
 
@@ -98,8 +79,18 @@ export class DaikinProgressIndicatorItem extends LitElement {
       role="listitem"
       aria-current=${ifDefined(this.current ? "step" : undefined)}
     >
-      <slot class=${cvaLabel({ status: this.status })}></slot>
-      <slot name="description" class="text-sm leading-[18px]"></slot>
+      <div class="flex items-center gap-2 font-bold leading-5">
+        <slot></slot>
+        ${this.status === "finished"
+          ? html`
+              <span
+                class="size-4 i-daikin-status-success text-system-state-primary-active"
+                aria-label="Completed"
+              ></span>
+            `
+          : nothing}
+      </div>
+      <slot name="description" class="text-sm leading-[1.1rem]"></slot>
     </div>`;
   }
 }

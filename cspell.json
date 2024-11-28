@@ -18,6 +18,7 @@
     "test-results",
     "*.log",
     "*.log*",
+    "*.tsbuildinfo",
     "package-lock.json",
     "cspell-dictionary.txt"
   ]

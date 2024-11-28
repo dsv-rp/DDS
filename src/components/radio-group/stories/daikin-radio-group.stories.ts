@@ -1,8 +1,8 @@
+import type { DaikinRadioGroup } from "#package/components/radio-group/daikin-radio-group";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole } from "shadow-dom-testing-library";
-import type { DaikinRadioGroup } from "../daikin-radio-group";
 import { DAIKIN_RADIO_GROUP_ARG_TYPES, type Story } from "./common";
 
 export default {

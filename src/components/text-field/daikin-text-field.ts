@@ -44,7 +44,7 @@ const cvaInput = cva(
     variants: {
       error: {
         false: [
-          "enabled:var-color-system-state-neutral-hover/color-base",
+          "enabled:var-color-system-state-neutral-active/color-base",
           "focus-visible:var-color-system-state-focus/color-state-focus",
         ],
         true: ["enabled:var-color-system-state-error-active/color-base"],
@@ -61,18 +61,22 @@ const cvaInput = cva(
   }
 );
 
-const cvaIcon = cva(["absolute", "pointer-events-none"], {
-  variants: {
-    icon: {
-      left: "left-3",
-      right: "right-3",
+const cvaIcon = cva(
+  ["flex", "items-center", "absolute", "pointer-events-none"],
+  {
+    variants: {
+      icon: {
+        left: "left-3",
+        right: "right-3",
+      },
+
+      disabled: {
+        false: ["text-system-element-text-primary"],
+        true: ["text-system-state-disabled"],
+      },
     },
-    disabled: {
-      false: ["text-system-element-text-primary"],
-      true: ["text-system-state-disabled"],
-    },
-  },
-});
+  }
+);
 
 /**
  * The text field component is a UI element that allows users to input single-line text data.
@@ -108,7 +112,7 @@ export class DaikinTextField extends LitElement {
     :host {
       display: flex;
       align-items: center;
-      height: 48px;
+      height: 3rem;
       position: relative;
     }
   `;
@@ -118,19 +122,19 @@ export class DaikinTextField extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Type of the text field.
+   * Type of field.
    */
   @property({ type: String })
   type: "text" | "email" | "tel" | "search" = "text";
 
   /**
-   * Value of the text field.
+   * The current value of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String })
   value = "";
 
   /**
-   * Form name of the text field.
+   * The name of the input, submitted as a name/value pair with form data.
    */
   @property({ type: String, reflect: true })
   name = "";
@@ -225,7 +229,6 @@ export class DaikinTextField extends LitElement {
           rightIcon: this._hasRightIcon,
         })}
         type=${this.type}
-        value=${this.value}
         placeholder=${ifDefined(this.placeholder ?? undefined)}
         name=${ifDefined(this.name)}
         maxlength=${ifDefined(this.maxlength)}
@@ -237,6 +240,7 @@ export class DaikinTextField extends LitElement {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this._label as any)
         }
+        .value=${this.value}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
@@ -244,10 +248,18 @@ export class DaikinTextField extends LitElement {
         @input=${this._handleInput}
       />
       <div class=${cvaIcon({ icon: "left", disabled: this.disabled })}>
-        <slot name="left-icon" @slotchange=${this._handleSlotChange}></slot>
+        <slot
+          name="left-icon"
+          class="icon-size-6"
+          @slotchange=${this._handleSlotChange}
+        ></slot>
       </div>
       <div class=${cvaIcon({ icon: "right", disabled: this.disabled })}>
-        <slot name="right-icon" @slotchange=${this._handleSlotChange}></slot>
+        <slot
+          name="right-icon"
+          class="icon-size-6"
+          @slotchange=${this._handleSlotChange}
+        ></slot>
       </div>`;
   }
 

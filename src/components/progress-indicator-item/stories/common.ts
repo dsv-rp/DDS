@@ -1,6 +1,6 @@
+import type { DaikinProgressIndicatorItem } from "#package/components/progress-indicator-item/daikin-progress-indicator-item";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinProgressIndicatorItem } from "../daikin-progress-indicator-item";
 
 export interface DaikinProgressIndicatorItemStoryArgs
   extends Required<ElementProps<DaikinProgressIndicatorItem>> {

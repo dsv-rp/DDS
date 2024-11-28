@@ -1,5 +1,42 @@
 # @daikin-oss/design-system-web-components
 
+## 0.6.0
+
+### Minor Changes
+
+- [#89](https://github.com/dsv-rp/DDS/pull/89) [`c9bd3a7`](https://github.com/dsv-rp/DDS/commit/c9bd3a77932d1f4c3f2547f35daa7b026eff7a08) Thanks [@poetrainy](https://github.com/poetrainy)! - Dropdown: Update appearance.
+  Select: Update appearance.
+  Text Area: Update appearance.
+  Text Input: Update appearance.
+
+- [#53](https://github.com/dsv-rp/DDS/pull/53) [`651bc76`](https://github.com/dsv-rp/DDS/commit/651bc767f92be4a5b48b4c8c48b3378ef0e13855) Thanks [@yodas7](https://github.com/yodas7)! - **BREAKING CHANGE** Some attributes and properties have been renamed or removed.
+
+  The following attributes (not properties) have been renamed to kebab case:
+
+  - `<daikin-notification>`: ~~`closeButton`~~ -> `close-button`
+
+- [#91](https://github.com/dsv-rp/DDS/pull/91) [`a188387`](https://github.com/dsv-rp/DDS/commit/a188387a0da9a452be1ebad4898a54c205d73b8e) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Dropdown: The `label` attribute has been removed.
+
+### Patch Changes
+
+- [#95](https://github.com/dsv-rp/DDS/pull/95) [`0d78d58`](https://github.com/dsv-rp/DDS/commit/0d78d585963b229c68971d7558b63c2c7d073db9) Thanks [@poetrainy](https://github.com/poetrainy)! - Tooltip: Fixed an issue where the tooltip would remain opened after clicking on the trigger element. (DDS-1631)
+
+- [#88](https://github.com/dsv-rp/DDS/pull/88) [`90e1625`](https://github.com/dsv-rp/DDS/commit/90e1625f6455b60670920e397a51370eba70ace8) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Icon: The `size` attribute now defaults to `current`.
+  Icon Button: Add Icon Button Component. (DDS-1536)
+  Icon: The `size` attribute now accepts `current`, which references `--dds-icon-size` CSS variable.
+
+- [#96](https://github.com/dsv-rp/DDS/pull/96) [`bdd827f`](https://github.com/dsv-rp/DDS/commit/bdd827fe1bc400de68f11a63bb6312d368cdadd9) Thanks [@poetrainy](https://github.com/poetrainy)! - Accordion: Update appearance.
+
+- [#49](https://github.com/dsv-rp/DDS/pull/49) [`c1f44f8`](https://github.com/dsv-rp/DDS/commit/c1f44f825e0de8422be87a3efdae2e1e84d5d4da) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Add pagination component
+
+- [#79](https://github.com/dsv-rp/DDS/pull/79) [`2e351b8`](https://github.com/dsv-rp/DDS/commit/2e351b8137f5d0aac1c5feb9520d25e35e81f138) Thanks [@yodas7](https://github.com/yodas7)! - Correct package type definitions. (DDS-1529)
+
+- [#93](https://github.com/dsv-rp/DDS/pull/93) [`39a5a8f`](https://github.com/dsv-rp/DDS/commit/39a5a8f27079610bf62094486888b9c7c0af3416) Thanks [@poetrainy](https://github.com/poetrainy)! - Link: Initial Implementation. (DDS-1600)
+
+- [#85](https://github.com/dsv-rp/DDS/pull/85) [`82b4fa9`](https://github.com/dsv-rp/DDS/commit/82b4fa95c1c9c60640ca3ce3d336ed00485908e4) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Modified the descriptions of some properties.
+
+- [#44](https://github.com/dsv-rp/DDS/pull/44) [`d51e2ee`](https://github.com/dsv-rp/DDS/commit/d51e2eed13d3772542fb8141bb524489e2570602) Thanks [@poetrainy](https://github.com/poetrainy)! - Add Table Component.
+
 ## 0.5.0
 
 ### Minor Changes
