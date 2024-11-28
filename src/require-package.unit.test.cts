@@ -1,4 +1,4 @@
-// @ts-expect-error Vitest only supports `import`s.
+// @ts-expect-error Vitest only supports `import` even with CommonJS
 import { it } from "vitest";
 
 // Note that these tests require the package built beforehand - run `npm run build` before running the test.

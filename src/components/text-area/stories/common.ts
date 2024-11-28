@@ -1,6 +1,6 @@
+import type { DaikinTextArea } from "#package/components/text-area/daikin-text-area";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { DaikinTextArea } from "../daikin-text-area";
 
 export interface DaikinTextAreaStoryArgs
   extends Required<ElementProps<DaikinTextArea>> {

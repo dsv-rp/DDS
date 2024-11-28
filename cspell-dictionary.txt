@@ -1,4 +1,6 @@
 # Proper nouns
+arethetypeswrong
+attw
 daikin
 defu
 dotfiles
@@ -10,6 +12,7 @@ roboto
 runem
 tailwindcss
 taze
+tsbuildinfo
 tseslint
 rgba
 
@@ -51,6 +54,7 @@ docgen
 
 # Testing
 testid
+unhover
 
 # JSDoc extension
 csspart
@@ -63,4 +67,4 @@ quasis
 retargeted
 rgba
 textareas
-tsbuildinfo
+classfield
