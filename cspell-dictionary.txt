@@ -11,6 +11,7 @@ roboto
 runem
 tailwindcss
 taze
+tsbuildinfo
 tseslint
 rgba
 
@@ -57,6 +58,9 @@ unhover
 # JSDoc extension
 csspart
 cssprop
+
+# Renovate
+datasource
 
 # Misc.
 FOUC

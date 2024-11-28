@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment -- Using `@ts-ignore` since whether the following `import` statement will cause an error or not depends on the TypeScript version.
+// @ts-ignore "vitest" can only be imported using `import`.
 import { it } from "vitest";
 
 // Note that these tests require the package built beforehand - run `npm run build` before running the test.
