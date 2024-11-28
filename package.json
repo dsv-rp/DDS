@@ -65,6 +65,7 @@
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
     "lint-fix": "eslint --fix && prettier -w .",
+    "test:attw": "attw --pack .",
     "test:unit": "vitest",
     "test:interaction-wc": "start-server-and-test storybook:ci-wc http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
     "test:interaction-react": "start-server-and-test storybook:ci-react http://localhost:6099 \"npx test-storybook --url http://localhost:6099\"",
@@ -81,6 +82,7 @@
     "lit": "^3.2.1"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.16.4",
     "@axe-core/playwright": "^4.10.1",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.10",
