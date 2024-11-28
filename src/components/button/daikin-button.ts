@@ -69,7 +69,7 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
  * The button component is a versatile UI element that triggers actions or submits forms when clicked.
  * It functions similarly to the HTML `<button>` tag, allowing users to initiate various operations such as submitting data, opening dialogs, or navigating to different sections of an application.
  *
- * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<button>` element. Suppressed if `disabled` is true,
+ * @fires click - A retargeted event of a [click event](https://developer.mozilla.org/en-US/docs/Web/API/Element/click_event) emitted from the inner `<a>` or `<button>` element. Suppressed if `disabled` is true,
  *
  * @slot - A slot for the button content.
  * @slot left-icon - A slot for an icon to be placed to the left of the text. Place `daikin-icon` or something similar.
@@ -141,7 +141,7 @@ export class DaikinButton extends LitElement {
 
   /**
    * Type of the button.
-   * If `"link"` is specified, the button will be rendered as an `<a>` element or `<span>` element (if `disabled` is `true`).
+   * If `"link"` is specified, the button will be rendered as an `<a>` element.
    */
   @property({ type: String, reflect: true })
   type: "button" | "submit" | "reset" | "link" = "button";
