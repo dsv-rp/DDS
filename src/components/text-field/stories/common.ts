@@ -1,7 +1,7 @@
+import type { IconType } from "#package/components/icon/daikin-icon";
+import type { DaikinTextField } from "#package/components/text-field/daikin-text-field";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
-import type { IconType } from "../../icon/daikin-icon";
-import type { DaikinTextField } from "../daikin-text-field";
 
 export interface DaikinTextFieldStoryArgs
   extends Required<ElementProps<DaikinTextField>> {

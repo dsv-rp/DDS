@@ -8,7 +8,7 @@
 
     "jsx": "react-jsx",
     "experimentalDecorators": true,
-    "useDefineForClassFields": true
+    "useDefineForClassFields": false
   },
   "include": ["src"],
   "exclude": [

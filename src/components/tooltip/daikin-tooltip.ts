@@ -6,7 +6,7 @@ import { guard } from "lit/directives/guard.js";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
-import { reDispatch } from "../../utils/reDispatch";
+import { reDispatch } from "../../utils/re-dispatch";
 
 const cvaTooltip = cva(
   [
