@@ -60,11 +60,6 @@ export default {
       },
     }),
     plugin(({ addVariant, matchUtilities, matchVariant, theme }) => {
-      addVariant("aria-controllable", [
-        // We don't know why, but `:read-only` was applied to checkboxes with and without `readonly` attribute, so we use `aria-readonly` instead.
-        '&:enabled:not([aria-readonly="true"])',
-      ]);
-
       // Variants for link buttons
       addVariant("link-enabled", ["&:is(:any-link, :enabled)"]); // Matches to <a> with href and <button>
       addVariant("link-disabled", ["&:not(:any-link, :enabled)"]); // Matches to <a> without href, <span>, and <button disabled>
