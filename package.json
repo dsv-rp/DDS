@@ -76,7 +76,6 @@
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
   "dependencies": {
-    "@daikin-oss/dds-tokens": "^0.1.0",
     "@floating-ui/dom": "^1.6.12",
     "class-variance-authority": "^0.7.1",
     "lit": "^3.2.1"
@@ -86,6 +85,7 @@
     "@axe-core/playwright": "^4.10.1",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.10",
+    "@daikin-oss/dds-tokens": "^0.1.0",
     "@daikin-oss/tailwind": "^0.0.1",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@eslint/js": "^9.15.0",
@@ -151,5 +151,8 @@
     "vite-plugin-externalize-deps": "^0.8.0",
     "vitest": "^2.1.6",
     "web-component-analyzer": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@daikin-oss/dds-tokens": "^0.1.0"
   }
 }
