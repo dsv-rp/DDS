@@ -57,14 +57,24 @@ const preview: Preview = {
   decorators: [
     // Note that this file is shared between Web Components and React so decorators have to be compatible for both frameworks.
     (story, context) => {
-      const [{ theme }] = useGlobals();
-      const background = (context.globals.backgrounds ||
-        context.parameters.backgrounds) as { value: string };
-      const colorScheme =
-        /\/\*(\w+)\*\//.exec(background.value)?.[1] ?? "light";
+      const sp = new URLSearchParams(location.search);
 
-      document.documentElement.dataset.theme = theme as string;
+      const [{ theme: userTheme }] = useGlobals();
+      const theme = sp.get("theme-override") ?? (userTheme as string);
+
+      const background = (context.globals.backgrounds ||
+        context.parameters.backgrounds) as {
+        value: string;
+      };
+      const colorScheme =
+        sp.get("color-scheme-override") ??
+        /\/\*(\w+)\*\//.exec(background.value)?.[1] ??
+        "light";
+
+      document.documentElement.dataset.theme = theme;
       document.documentElement.dataset.colorScheme = colorScheme;
+
+      document.documentElement.classList.toggle("no-bg", sp.has("no-bg"));
 
       return story();
     },
