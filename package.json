@@ -138,6 +138,7 @@
     "prettier-plugin-organize-imports": "^4.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sass-embedded": "^1.81.0",
     "shadow-dom-testing-library": "^1.11.3",
     "start-server-and-test": "^2.0.8",
     "storybook": "^8.4.5",
