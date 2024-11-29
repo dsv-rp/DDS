@@ -17,7 +17,7 @@ const cvaSummary = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-system-state-focus",
+    "focus-visible:outline-ddt-border-focus",
 
     "after:size-6",
     "after:transition-all",
