@@ -13,6 +13,7 @@ export function getStorybookIframeURL(
   )
     .filter(
       (item): item is [string, string | number | boolean] =>
+        !item[0].startsWith("$") &&
         item[1] != null &&
         typeof item[1] !== "object" &&
         typeof item[1] !== "function"
