@@ -10,8 +10,8 @@ const cvaOption = cva(
     "justify-between",
     "w-full",
     "min-h-12",
-    "text-system-element-text-primary",
-    "bg-system-element-text-inverse",
+    "text-ddt-text-primary",
+    "bg-ddt-text-inverse",
     "p-3",
     "font-daikinSerif",
     "leading-5",
@@ -20,21 +20,21 @@ const cvaOption = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-system-state-focus",
+    "focus-visible:outline-ddt-border-focus",
 
-    "disabled:text-system-state-disabled",
+    "disabled:text-ddt-common-disabled",
   ],
   {
     variants: {
       selected: {
         false: [
-          "enabled:hover:bg-system-background-surface-hover",
-          "enabled:active:bg-system-background-surface-press",
+          "enabled:hover:bg-ddt-surface-hover",
+          "enabled:active:bg-ddt-surface-press",
         ],
         true: [
-          "enabled:bg-system-background-surface-selected",
-          "enabled:hover:bg-system-background-surface-selectedHover",
-          "enabled:active:bg-system-background-surface-selectedActive",
+          "enabled:bg-ddt-surface-selected-default",
+          "enabled:hover:bg-ddt-surface-selected-hover",
+          "enabled:active:bg-ddt-surface-selected-press",
           "after:i-daikin-dropdown-check",
           "after:size-6",
         ],

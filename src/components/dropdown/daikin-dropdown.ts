@@ -28,7 +28,7 @@ const cvaButton = cva(
     "w-full",
     "h-full",
     "min-h-12",
-    "bg-white",
+    "bg-ddt-background-default",
     "p-3",
     "border",
     "border-[--color-base]",
@@ -45,8 +45,8 @@ const cvaButton = cva(
     "focus-visible:outline-2",
     "focus-visible:outline-[--color-focus]",
 
-    "disabled:text-system-state-disabled",
-    "disabled:border-system-state-disabled",
+    "disabled:text-ddt-common-disabled",
+    "disabled:border-ddt-common-disabled",
 
     "after:i-daikin-dropdown-chevron-down",
     "after:w-6",
@@ -57,31 +57,31 @@ const cvaButton = cva(
     "after:bottom-0",
     "after:right-3",
 
-    "enabled:after:text-system-element-text-primary",
-    "disabled:after:text-system-state-disabled",
+    "enabled:after:text-ddt-text-primary",
+    "disabled:after:text-ddt-common-disabled",
   ],
   {
     variants: {
       open: {
         false: [
-          "enabled:hover:bg-system-background-surface-hover",
-          "enabled:active:bg-system-background-surface-press",
+          "enabled:hover:bg-ddt-surface-hover",
+          "enabled:active:bg-ddt-surface-press",
         ],
-        true: ["enabled:bg-system-background-surface-press"],
+        true: ["enabled:bg-ddt-surface-press"],
       },
       error: {
         false: [
-          "var-color-system-state-neutral-active/color-base",
-          "var-color-system-state-focus/color-focus",
+          "var-color-ddt-common-neutral-default/color-base",
+          "var-color-ddt-border-focus/color-focus",
         ],
         true: [
-          "var-color-system-state-error-active/color-base",
-          "var-color-system-state-error-active/color-focus",
+          "var-color-ddt-common-danger/color-base",
+          "var-color-ddt-common-danger/color-focus",
         ],
       },
       placeholder: {
-        false: ["text-system-element-text-primary"],
-        true: ["text-system-element-text-secondary"],
+        false: ["text-ddt-text-primary"],
+        true: ["text-ddt-text-secondary"],
       },
     },
   }
