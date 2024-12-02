@@ -25,7 +25,7 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
   variants: {
     disabled: {
       false: [],
-      true: ["text-system-state-disabled"],
+      true: ["text-ddt-common-disabled"],
     },
   },
 });
@@ -36,9 +36,9 @@ const cvaHelper = cva(
     variants: {
       type: {
         helper: [],
-        helperDisabled: ["text-system-state-disabled"],
+        helperDisabled: ["text-ddt-common-disabled"],
         error: [
-          "text-system-state-error-active",
+          "text-ddt-common-danger",
           "font-bold",
           "before:size-4",
           "before:i-daikin-status-error",
@@ -52,8 +52,8 @@ const cvaHelper = cva(
 const cvaCounter = cva(["text-sm", "font-bold"], {
   variants: {
     disabled: {
-      false: ["text-system-element-text-secondary"],
-      true: ["text-system-state-disabled"],
+      false: ["text-ddt-text-secondary"],
+      true: ["text-ddt-common-disabled"],
     },
   },
 });
@@ -62,7 +62,7 @@ const cvaCounterValueLength = cva([], {
   variants: {
     error: {
       false: [],
-      true: ["text-system-state-error-active"],
+      true: ["text-ddt-common-danger"],
     },
   },
 });
@@ -259,7 +259,7 @@ export class DaikinInputGroup extends LitElement {
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label
-        class="flex flex-col justify-center gap-2 w-full text-system-element-text-primary font-daikinSerif"
+        class="flex flex-col justify-center gap-2 w-full text-ddt-text-primary font-daikinSerif"
       >
         <div class="flex justify-between items-center gap-2">
           <div class="flex items-center gap-1 font-bold">
@@ -269,7 +269,7 @@ export class DaikinInputGroup extends LitElement {
                 </span>`
               : nothing}
             ${this.required && !this.disabled
-              ? html`<span class="text-system-state-error-active text-xs">
+              ? html`<span class="text-ddt-common-danger text-xs">
                   ${this.required}
                 </span>`
               : nothing}

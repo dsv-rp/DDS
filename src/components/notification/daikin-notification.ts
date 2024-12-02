@@ -11,7 +11,13 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
 const cvaContainer = cva(
-  ["flex", "box-border", "bg-white", "overflow-hidden", "font-daikinSerif"],
+  [
+    "flex",
+    "box-border",
+    "bg-ddt-background-default",
+    "overflow-hidden",
+    "font-daikinSerif",
+  ],
   {
     variants: {
       variant: {
@@ -47,7 +53,7 @@ const cvaIconContainer = cva(
     "w-[2.75rem]",
 
     "after:size-6",
-    "after:text-white",
+    "after:text-ddt-background-default",
   ],
   {
     variants: {

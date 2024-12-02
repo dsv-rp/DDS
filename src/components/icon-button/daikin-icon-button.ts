@@ -24,20 +24,20 @@ const cvaIconButton = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:outline-offset-2",
-    "focus-visible:outline-system-state-focus",
+    "focus-visible:outline-ddt-border-focus",
 
     "var-color-transparent/color-secondary",
-    "link-disabled:var-color-system-state-disabled/color-primary",
+    "link-disabled:var-color-ddt-common-disabled/color-primary",
   ],
   {
     variants: {
       color: {
         default: [
-          "link-enabled:var-color-system-state-primary-active/color-primary",
-          "link-enabled:hover:var-color-system-state-primary-hover/color-primary",
-          "link-enabled:hover:var-color-system-state-primary-surface-hover/color-secondary",
-          "link-enabled:active:var-color-system-state-primary-press/color-primary",
-          "link-enabled:active:var-color-system-state-primary-surface-press/color-secondary",
+          "link-enabled:var-color-ddt-common-brand/color-primary",
+          "link-enabled:hover:var-color-ddt-common-brand-primary-hover/color-primary",
+          "link-enabled:hover:var-color-ddt-surface-hover/color-secondary",
+          "link-enabled:active:var-color-ddt-common-brand-primary-press/color-primary",
+          "link-enabled:active:var-color-ddt-common-brand-secondary-press/color-secondary",
         ],
         neutral: [
           "link-enabled:var-color-system-state-neutral-active/color-primary",
@@ -47,15 +47,15 @@ const cvaIconButton = cva(
           "link-enabled:active:var-color-system-background-surface-press/color-secondary",
         ],
         danger: [
-          "link-enabled:var-color-system-state-error-active/color-primary",
-          "link-enabled:hover:var-color-system-state-error-hover/color-primary",
-          "link-enabled:hover:var-color-system-state-error-surface-hover/color-secondary",
-          "link-enabled:active:var-color-system-state-error-press/color-primary",
-          "link-enabled:active:var-color-system-state-error-surface-press/color-secondary",
+          "link-enabled:var-color-ddt-common-danger/color-primary",
+          "link-enabled:hover:var-color-ddt-common-danger-primary-hover/color-primary",
+          "link-enabled:hover:var-color-ddt-common-danger-secondary-hover/color-secondary",
+          "link-enabled:active:var-color-ddt-common-danger-primary-press/color-primary",
+          "link-enabled:active:var-color-ddt-common-danger-secondary-press/color-secondary",
         ],
       },
       variant: {
-        fill: ["text-white", "bg-[--color-primary]"],
+        fill: ["text-ddt-text-inverse", "bg-[--color-primary]"],
         outline: [
           "border",
           "text-[--color-primary]",
