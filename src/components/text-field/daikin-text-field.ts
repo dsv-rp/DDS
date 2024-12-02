@@ -20,7 +20,7 @@ const cvaInput = cva(
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
-    "placeholder:text-system-element-text-secondary",
+    "placeholder:text-ddt-text-secondary",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
@@ -30,24 +30,24 @@ const cvaInput = cva(
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:text-system-element-text-primary",
-    "enabled:hover:bg-system-background-surface-hover",
-    "enabled:active:bg-system-background-surface-press",
+    "enabled:text-ddt-text-primary",
+    "enabled:hover:bg-ddt-surface-hover",
+    "enabled:active:bg-ddt-surface-press",
     "focus-visible:outline-2",
 
-    "disabled:var-color-system-state-disabled/color-base",
-    "disabled:text-system-state-disabled",
-    "disabled:bg-white",
-    "disabled:placeholder:text-system-state-disabled",
+    "disabled:var-color-ddt-common-disabled/color-base",
+    "disabled:text-ddt-common-disabled",
+    "disabled:bg-ddt-background-default",
+    "disabled:placeholder:text-ddt-common-disabled",
   ],
   {
     variants: {
       error: {
         false: [
-          "enabled:var-color-system-state-neutral-active/color-base",
-          "focus-visible:var-color-system-state-focus/color-state-focus",
+          "enabled:var-color-ddt-common-neutral-default/color-base",
+          "focus-visible:var-color-ddt-border-focus/color-state-focus",
         ],
-        true: ["enabled:var-color-system-state-error-active/color-base"],
+        true: ["enabled:var-color-ddt-common-danger/color-base"],
       },
       leftIcon: {
         false: ["pl-4"],
@@ -71,8 +71,8 @@ const cvaIcon = cva(
       },
 
       disabled: {
-        false: ["text-system-element-text-primary"],
-        true: ["text-system-state-disabled"],
+        false: ["text-ddt-text-primary"],
+        true: ["text-ddt-common-disabled"],
       },
     },
   }
