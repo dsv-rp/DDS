@@ -16,24 +16,24 @@ const RADIO_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-system-state-focus",
+  "focus-visible:outline-ddt-border-focus",
 
   "unchecked:border-2",
-  "enabled:unchecked:border-system-state-neutral-active",
-  "enabled:unchecked:hover:bg-system-background-surface-hover",
-  "enabled:unchecked:active:bg-system-background-surface-press",
+  "enabled:unchecked:border-ddt-common-neutral-default",
+  "enabled:unchecked:hover:bg-ddt-surface-hover",
+  "enabled:unchecked:active:bg-ddt-surface-press",
   "checked:border-[5px]",
-  "enabled:checked:border-system-state-primary-active",
-  "enabled:checked:group-hover:border-system-state-primary-hover",
-  "enabled:checked:group-active:border-system-state-primary-press",
-  "disabled:border-system-state-disabled",
+  "enabled:checked:border-ddt-common-brand",
+  "enabled:checked:group-hover:border-ddt-common-brand-primary-hover",
+  "enabled:checked:group-active:border-ddt-common-brand-primary-press",
+  "disabled:border-ddt-common-disabled",
 ])();
 
 const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: ["text-system-element-text-primary"],
-      true: ["text-system-state-disabled"],
+      false: ["text-ddt-text-primary"],
+      true: ["text-ddt-common-disabled"],
     },
   },
 });

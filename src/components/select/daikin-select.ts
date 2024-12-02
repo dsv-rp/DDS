@@ -48,27 +48,27 @@ const cvaSelect = cva(
     "slotted-[select:focus-visible]:!outline-[--color-focus]",
 
     "slotted-[select:enabled]:!cursor-pointer",
-    "slotted-[select:enabled]:!text-system-element-text-primary",
-    "slotted-[select:enabled:hover]:!bg-system-background-surface-hover",
-    "slotted-[select:enabled:active]:!bg-system-background-surface-press",
+    "slotted-[select:enabled]:!text-ddt-text-primary",
+    "slotted-[select:enabled:hover]:!bg-ddt-surface-hover",
+    "slotted-[select:enabled:active]:!bg-ddt-surface-press",
 
-    "slotted-[select:disabled]:!text-system-state-disabled",
-    "slotted-[select:disabled]:!border-system-state-disabled",
+    "slotted-[select:disabled]:!text-ddt-common-disabled",
+    "slotted-[select:disabled]:!border-ddt-common-disabled",
   ],
   {
     variants: {
       disabled: {
-        false: ["after:text-system-element-text-primary"],
-        true: ["after:text-system-state-disabled"],
+        false: ["after:text-ddt-text-primary"],
+        true: ["after:text-ddt-common-disabled"],
       },
       error: {
         false: [
-          "var-color-system-state-neutral-active/color-base",
-          "var-color-system-state-focus/color-focus",
+          "var-color-ddt-common-neutral-default/color-base",
+          "var-color-ddt-border-focus/color-focus",
         ],
         true: [
-          "var-color-system-state-error-active/color-base",
-          "var-color-system-state-error-active/color-focus",
+          "var-color-ddt-common-danger/color-base",
+          "var-color-ddt-common-danger/color-focus",
         ],
       },
     },
