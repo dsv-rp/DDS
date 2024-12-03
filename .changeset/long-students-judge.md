@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": minor
 ---
 
-Link: Updated appearance.
+Link: Fixed underline not shown correctly with line breaks.
