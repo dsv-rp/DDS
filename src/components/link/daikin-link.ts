@@ -16,14 +16,8 @@ const LINK_CLASS_NAME = cva([
   "link-enabled:active:text-system-state-link-press",
   "link-disabled:text-system-state-disabled",
 
-  "focus-visible:outline-none",
-  "focus-visible:before:block",
-  "focus-visible:before:rounded-none",
-  "focus-visible:before:absolute",
-  "focus-visible:before:inset-[-1px]",
-  "focus-visible:before:outline",
-  "focus-visible:before:outline-system-state-focus",
-  "focus-visible:before:outline-2",
+  "focus-visible:outline-system-state-focus",
+  "focus-visible:outline-2",
 ])();
 
 /**
