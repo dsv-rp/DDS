@@ -5,14 +5,10 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const LINK_CLASS_NAME = cva([
-  "flex",
-  "justify-center",
-  "items-center",
-  "gap-0.5",
-  "size-fit",
   "font-daikinSerif",
   "rounded-[1px]",
   "relative",
+  "underline",
 
   "link-enabled:text-system-state-link-active",
   "link-enabled:hover:text-system-state-link-hover",
@@ -28,11 +24,6 @@ const LINK_CLASS_NAME = cva([
   "focus-visible:before:outline",
   "focus-visible:before:outline-system-state-focus",
   "focus-visible:before:outline-2",
-
-  "after:h-[1px]",
-  "after:absolute",
-  "after:inset-[auto_0_0_0]",
-  "after:bg-current",
 ])();
 
 /**
@@ -56,12 +47,6 @@ const LINK_CLASS_NAME = cva([
 export class DaikinLink extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
-
-    :host {
-      display: block;
-      width: fit-content;
-      height: fit-content;
-    }
 
     :host([show-visited]:not([disabled])) a:visited {
       color: #5c2365; /* system-state-visited-active */
@@ -112,10 +97,14 @@ export class DaikinLink extends LitElement {
         target=${ifDefined(this.target ?? undefined)}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
-        <slot name="left-icon" class="icon-size-4"></slot>
-        <slot></slot>
-        <slot name="right-icon" class="icon-size-4"></slot>
-      </a>
+        <span class="mr-[0.125rem]">
+          <slot name="left-icon" class="icon-size-4"
+            ><span class="-mr-[0.125rem]"></span></slot></span
+        ><slot></slot
+        ><span class="ml-[0.125rem]"
+          ><slot name="right-icon" class="icon-size-4"
+            ><span class="-ml-[0.125rem]"></span></slot></span
+      ></a>
     `;
   }
 }

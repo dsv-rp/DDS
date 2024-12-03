@@ -16,26 +16,47 @@ export const metadata: Meta<DaikinLinkStoryArgs> = {
     label,
     leftIcon,
     rightIcon,
+    withSentence,
     ...props
-  }: DaikinLinkStoryArgs) => (
-    <ReactDaikinLink {...props}>
-      {leftIcon && (
-        <ReactDaikinIcon
-          slot="left-icon"
-          icon={leftIcon}
-          size="current"
-          color="current"
-        />
-      )}
-      {label}
-      {rightIcon && (
-        <ReactDaikinIcon
-          slot="right-icon"
-          icon={rightIcon}
-          size="current"
-          color="current"
-        />
-      )}
-    </ReactDaikinLink>
-  ),
+  }: DaikinLinkStoryArgs) => {
+    const Link = ({ overrideLabel }: { overrideLabel?: string }) => (
+      <ReactDaikinLink {...props}>
+        {leftIcon && (
+          <ReactDaikinIcon
+            slot="left-icon"
+            icon={leftIcon}
+            size="current"
+            color="current"
+          />
+        )}
+        {overrideLabel ?? label}
+        {rightIcon && (
+          <ReactDaikinIcon
+            slot="right-icon"
+            icon={rightIcon}
+            size="current"
+            color="current"
+          />
+        )}
+      </ReactDaikinLink>
+    );
+
+    if (withSentence) {
+      return (
+        <p
+          style={{
+            width: "400px",
+            margin: 0,
+            fontFamily: "'Roboto', sans-serif",
+          }}
+        >
+          Here, we are using a long sentence. If you use the link component,{" "}
+          <Link overrideLabel="even links within sentences will respond correctly to line breaks and other elements," />{" "}
+          and will work.
+        </p>
+      );
+    }
+
+    return <Link />;
+  },
 };

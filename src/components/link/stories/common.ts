@@ -8,6 +8,7 @@ export interface DaikinLinkStoryArgs
   label: string;
   leftIcon: IconType | null;
   rightIcon: IconType | null;
+  withSentence: boolean;
 }
 
 export const DAIKIN_LINK_ARG_TYPES = {
@@ -31,6 +32,9 @@ export const DAIKIN_LINK_ARG_TYPES = {
   },
   rightIcon: {
     type: "string",
+  },
+  withSentence: {
+    type: "boolean",
   },
 } as const satisfies Meta<DaikinLinkStoryArgs>["argTypes"];
 

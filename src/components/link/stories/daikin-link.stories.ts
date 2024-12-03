@@ -55,3 +55,10 @@ export const Disabled: Story = {
     });
   }),
 };
+
+export const WithSentence: Story = {
+  args: {
+    ...Default.args,
+    withSentence: true,
+  },
+};
