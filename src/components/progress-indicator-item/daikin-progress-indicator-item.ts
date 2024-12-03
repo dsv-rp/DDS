@@ -83,6 +83,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
         ${this.status === "finished"
           ? html`
               <span
+                role="img"
                 class="flex-none size-4 i-daikin-status-positive text-system-state-primary-active"
                 aria-label="Completed"
               ></span>
