@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": minor
 ---
 
-Progress Indicator: Update appearance. (DDS-1302)
+Progress Indicator: Updated appearance. (DDS-1302)
