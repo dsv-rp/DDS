@@ -6,7 +6,6 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const LINK_CLASS_NAME = cva([
   "font-daikinSerif",
-  "rounded-[1px]",
   "relative",
   "underline",
 
@@ -16,8 +15,10 @@ const LINK_CLASS_NAME = cva([
   "link-enabled:active:text-system-state-link-press",
   "link-disabled:text-system-state-disabled",
 
-  "focus-visible:outline-system-state-focus",
+  "focus-visible:outline",
   "focus-visible:outline-2",
+  "focus-visible:outline-system-state-focus",
+  "focus-visible:outline-offset-1",
 ])();
 
 /**
@@ -91,11 +92,11 @@ export class DaikinLink extends LitElement {
         target=${ifDefined(this.target ?? undefined)}
         aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
       >
-        <span class="mr-[0.125rem]">
+        <span class="inline-flex mr-[0.125rem] align-middle">
           <slot name="left-icon" class="icon-size-4"
             ><span class="-mr-[0.125rem]"></span></slot></span
         ><slot></slot
-        ><span class="ml-[0.125rem]"
+        ><span class="inline-flex ml-[0.125rem] align-middle"
           ><slot name="right-icon" class="icon-size-4"
             ><span class="-ml-[0.125rem]"></span></slot></span
       ></a>
