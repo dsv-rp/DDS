@@ -8,17 +8,14 @@ import { ifDefined } from "lit/directives/if-defined.js";
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   title: "Components/Breadcrumb",
   tags: ["autodocs"],
-  render: (args) => html`
+  render: ({ href, target, variant, disabled }) => html`
     <daikin-breadcrumb-item
-      href=${args.href}
-      target=${
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(args.target) as any
-      }
-      variant=${args.variant}
-      ?disabled=${args.disabled}
-      ?trailing-slash=${args.trailingSlash}
-      >Breadcrumb Item 1</daikin-breadcrumb-item
+      href=${ifDefined(href)}
+      target=${ifDefined(target)}
+      variant=${variant}
+      ?disabled=${disabled}
     >
+      Breadcrumb item
+    </daikin-breadcrumb-item>
   `,
 };

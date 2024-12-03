@@ -8,22 +8,10 @@ export default {
   ...metadata,
 };
 
-export const Normal: Story = {
+export const Default: Story = {
   args: {
     variant: "normal",
     href: "#",
-    target: "_self",
     disabled: false,
-    trailingSlash: true,
-  },
-};
-
-export const Ellipsis: Story = {
-  args: {
-    variant: "ellipsis",
-    href: "#",
-    target: "_self",
-    disabled: false,
-    trailingSlash: true,
   },
 };

@@ -1,45 +1,8 @@
-import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
-
-const cvaLink = cva(
-  [
-    "h-8",
-    "font-normal",
-    "not-italic",
-    "leading-8",
-    "text-sm",
-    "text-daikinBlue-500",
-    "outline-none",
-    "font-daikinSerif",
-  ],
-  {
-    variants: {
-      variant: {
-        normal: [
-          "hover:text-daikinBlue-300",
-          "active:text-daikinNeutral-800",
-          "focus-visible:text-daikinBlue-700",
-        ],
-        ellipsis: ["hover:text-daikinBlue-300"],
-      },
-      disabled: {
-        true: [
-          "!text-daikinNeutral-800",
-          "pointer-events-none",
-          "cursor-default",
-          "focus-visible:!text-daikinNeutral-800",
-        ],
-        false: [],
-      },
-    },
-  }
-);
-
-type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
+import "../link/daikin-link";
 
 /**
  * The `daikin-breadcrumb-item` is a component used to represent each item of the breadcrumb list, and is used as a child element of the `daikin-breadcrumb` component.
@@ -67,23 +30,21 @@ export class DaikinBreadcrumbItem extends LitElement {
   static override styles = css`
     ${unsafeCSS(tailwindStyles)}
 
-    :host {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    :host([hidden]) {
-      display: none;
+    :host::after {
+      content: "/";
+      color: #414141; /* system-element-text-primary */
+      margin: 0 var(--breadcrumb-gap, 0);
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      display: var(--breadcrumb-separator-display, none);
     }
   `;
 
   /**
-   * Specify link href
+   * Specify link href.
    */
   @property({ type: String, reflect: true })
-  href = "";
+  href: string | null = null;
 
   /**
    * Specifies the display content.
@@ -91,65 +52,35 @@ export class DaikinBreadcrumbItem extends LitElement {
    * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: String, reflect: true })
-  variant: LinkVariantProps["variant"] = "normal";
+  variant: "normal" | "current" = "normal";
 
   /**
-   * Specify whether the link should be disabled
+   * Specify whether the link should be disabled.
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
   /**
-   * Specify the link target
+   * Specify the link target.
    */
   @property({ type: String, reflect: true })
   target: string | null = null;
 
-  /**
-   * Whether the slash after the link should shown.
-   * Set automatically by `daikin-breadcrumb`.
-   */
-  @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
-  trailingSlash = false;
-
-  /**
-   * Whether the item is the last one.
-   * When set to `true`, the item will also be considered to be the current page and the link will be disabled.
-   * Automatically set by `daikin-breadcrumb` component.
-   */
-  @property({ type: Boolean, reflect: true })
-  last = false;
-
   override render() {
-    const slash = this.trailingSlash
-      ? html`<span
-          class="text-daikinNeutral-800 font-daikinSerif"
-          aria-hidden="true"
-        >
-          /
-        </span>`
-      : null;
+    const disabled = this.disabled || this.variant === "current";
 
-    const isDisabled = this.last || this.disabled;
-    return html`
-      ${this.variant === "normal"
-        ? html`<a
-            class=${cvaLink({ variant: this.variant, disabled: isDisabled })}
-            href=${ifDefined((!isDisabled && this.href) || undefined)}
-            target=${
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-              ifDefined(this.target) as any
-            }
-            aria-disabled=${ifDefined(isDisabled || undefined)}
-            aria-current=${ifDefined(this.last || undefined)}
-          >
-            <slot></slot>
-          </a>`
-        : html`<span class=${cvaLink(this)} aria-label="…">
-            <span>. . .</span>
-          </span> `}
-      ${slash}
-    `;
+    return this.variant === "normal"
+      ? html`<daikin-link
+          class="text-sm"
+          href=${ifDefined(this.href ?? undefined)}
+          ?disabled=${disabled}
+          ><slot></slot
+        ></daikin-link>`
+      : html`<span
+          class="text-sm font-daikinSerif text-system-element-text-primary"
+          aria-current="true"
+          ><slot></slot
+        ></span>`;
   }
 }
 
