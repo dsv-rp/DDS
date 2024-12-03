@@ -85,22 +85,19 @@ export class DaikinLink extends LitElement {
   showVisited = false;
 
   override render() {
-    return html`
-      <a
-        class=${LINK_CLASS_NAME}
-        href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
-        target=${ifDefined(this.target ?? undefined)}
-        aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
-      >
-        <span class="inline-flex mr-[0.125rem] align-middle">
-          <slot name="left-icon" class="icon-size-4"
-            ><span class="-mr-[0.125rem]"></span></slot></span
-        ><slot></slot
-        ><span class="inline-flex ml-[0.125rem] align-middle"
-          ><slot name="right-icon" class="icon-size-4"
-            ><span class="-ml-[0.125rem]"></span></slot></span
-      ></a>
-    `;
+    return html`<a
+      class=${LINK_CLASS_NAME}
+      href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
+      target=${ifDefined(this.target ?? undefined)}
+      aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+      ><span class="inline-flex mr-[0.125rem] align-middle">
+        <slot name="left-icon" class="icon-size-4"
+          ><span class="-mr-[0.125rem]"></span></slot></span
+      ><slot></slot
+      ><span class="inline-flex ml-[0.125rem] align-middle"
+        ><slot name="right-icon" class="icon-size-4"
+          ><span class="-ml-[0.125rem]"></span></slot></span
+    ></a>`;
   }
 }
 
