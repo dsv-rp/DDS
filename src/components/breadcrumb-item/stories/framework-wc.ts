@@ -1,9 +1,8 @@
+import "#package/components/breadcrumb-item/daikin-breadcrumb-item";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import type { DaikinBreadcrumbItemStoryArgs } from "./common";
-
-import "#package/components/breadcrumb-item/daikin-breadcrumb-item";
 import { ifDefined } from "lit/directives/if-defined.js";
+import type { DaikinBreadcrumbItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   title: "Components/Breadcrumb",
