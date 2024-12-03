@@ -2,5 +2,5 @@
 "@daikin-oss/design-system-web-components": minor
 ---
 
-Input Group: Update appearance.
-Progress bar: Update appearance.
+Input Group: Updated appearance.
+Progress bar: Updated appearance.
