@@ -32,13 +32,10 @@ const cvaSummary = cva(
       disabled: {
         false: [
           "cursor-pointer",
-          "hover:bg-system-background-surface-hover",
-          "active:bg-system-background-surface-press",
+          "hover:bg-ddt-surface-hover",
+          "active:bg-ddt-surface-press",
         ],
-        true: [
-          "text-system-state-disabled",
-          "after:text-system-state-disabled",
-        ],
+        true: ["text-ddt-common-disabled", "after:text-ddt-common-disabled"],
       },
     },
   }
@@ -224,7 +221,7 @@ export class DaikinAccordionItem extends LitElement {
     const open = !this.disabled && this.open;
 
     return html`<details
-      class="w-full text-system-element-text-primary font-daikinSerif overflow-clip"
+      class="w-full text-ddt-text-primary font-daikinSerif overflow-clip"
       ?open=${detailsOpen}
       ?data-open=${open}
       aria-disabled=${this.disabled}

@@ -40,11 +40,11 @@ const cvaIconButton = cva(
           "link-enabled:active:var-color-ddt-common-brand-secondary-press/color-secondary",
         ],
         neutral: [
-          "link-enabled:var-color-system-state-neutral-active/color-primary",
-          "link-enabled:hover:var-color-system-state-neutral-hover/color-primary",
-          "link-enabled:hover:var-color-system-background-surface-hover/color-secondary",
-          "link-enabled:active:var-color-system-state-neutral-press/color-primary",
-          "link-enabled:active:var-color-system-background-surface-press/color-secondary",
+          "link-enabled:var-color-ddt-common-neutral-default/color-primary",
+          "link-enabled:hover:var-color-ddt-common-neutral-primary-hover/color-primary",
+          "link-enabled:hover:var-color-ddt-common-neutral-secondary-hover/color-secondary",
+          "link-enabled:active:var-color-ddt-common-neutral-primary-press/color-primary",
+          "link-enabled:active:var-color-ddt-common-neutral-secondary-press/color-secondary",
         ],
         danger: [
           "link-enabled:var-color-ddt-common-danger/color-primary",
