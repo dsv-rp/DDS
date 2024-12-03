@@ -1,5 +1,9 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, queryAssignedElements } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
@@ -48,16 +52,22 @@ export class DaikinBreadcrumb extends LitElement {
     }
   `;
 
+  /**
+   * Whether or not to change the color of visited links.
+   */
+  @property({ type: Boolean, reflect: true, attribute: "show-visited" })
+  showVisited = false;
+
   @queryAssignedElements({ selector: "daikin-breadcrumb-item" })
   private readonly _items!: readonly DaikinBreadcrumbItem[];
 
   private _updateBreadcrumbs() {
     const items = this._items;
 
-    items.forEach(
-      (item, index) =>
-        (item.variant = index === items.length - 1 ? "current" : "normal")
-    );
+    items.forEach((item, index) => {
+      item.variant = index === items.length - 1 ? "current" : "normal";
+      item.showVisited = this.showVisited;
+    });
   }
 
   private _handleSlotChange() {

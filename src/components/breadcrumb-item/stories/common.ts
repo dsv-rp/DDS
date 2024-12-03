@@ -21,6 +21,9 @@ export const DAIKIN_BREADCRUMB_ITEM_ARG_TYPES = {
   target: {
     type: "string",
   },
+  showVisited: {
+    type: "boolean",
+  },
   label: {
     type: "string",
   },

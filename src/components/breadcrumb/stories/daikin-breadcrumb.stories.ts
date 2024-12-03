@@ -1,5 +1,5 @@
 import { metadata } from "#storybook-framework";
-import { DAIKIN_BREADCRUMB_ARG_TYPES, type BreadcrumbStory } from "./common";
+import { DAIKIN_BREADCRUMB_ARG_TYPES, type Story } from "./common";
 
 export default {
   title: "Components/Breadcrumb",
@@ -8,4 +8,15 @@ export default {
   ...metadata,
 };
 
-export const Default: BreadcrumbStory = {};
+export const Default: Story = {
+  args: {
+    showVisited: false,
+  },
+};
+
+export const ShowVisited: Story = {
+  args: {
+    ...Default.args,
+    showVisited: true,
+  },
+};

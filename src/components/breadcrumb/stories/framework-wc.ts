@@ -5,8 +5,8 @@ import { html } from "lit";
 import type { DaikinBreadcrumbStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
-  render: () =>
-    html`<daikin-breadcrumb
+  render: ({ showVisited }) =>
+    html`<daikin-breadcrumb ?show-visited=${showVisited}
       ><daikin-breadcrumb-item href="https://dsv-rp.github.io/DDS"
         >Breadcrumb item 1</daikin-breadcrumb-item
       ><daikin-breadcrumb-item href="https://dsv-rp.github.io/DDS"

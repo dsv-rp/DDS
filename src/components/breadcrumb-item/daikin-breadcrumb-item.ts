@@ -66,6 +66,13 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: String, reflect: true })
   target: string | null = null;
 
+  /**
+   * Whether or not to change the color of visited links.
+   * This is specified by the system.
+   */
+  @property({ type: Boolean, reflect: true, attribute: "show-visited" })
+  showVisited = false;
+
   override render() {
     const disabled = this.disabled || this.variant === "current";
 
@@ -74,6 +81,7 @@ export class DaikinBreadcrumbItem extends LitElement {
           class="text-sm"
           href=${ifDefined(this.href ?? undefined)}
           ?disabled=${disabled}
+          ?show-visited=${this.showVisited}
           ><slot></slot
         ></daikin-link>`
       : html`<span

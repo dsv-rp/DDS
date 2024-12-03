@@ -11,9 +11,7 @@ export const ReactDaikinBreadcrumbItem = createComponent({
 });
 
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
-  component: ({ ...props }: DaikinBreadcrumbItemStoryArgs) => (
-    <ReactDaikinBreadcrumbItem {...props}>
-      Breadcrumb item
-    </ReactDaikinBreadcrumbItem>
+  component: ({ label, ...props }: DaikinBreadcrumbItemStoryArgs) => (
+    <ReactDaikinBreadcrumbItem {...props}>{label}</ReactDaikinBreadcrumbItem>
   ),
 };
