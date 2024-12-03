@@ -7,14 +7,12 @@ import type { DaikinBreadcrumbItemStoryArgs } from "./common";
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   title: "Components/Breadcrumb",
   tags: ["autodocs"],
-  render: ({ href, target, variant, disabled }) => html`
-    <daikin-breadcrumb-item
+  render: ({ href, target, variant, disabled }) =>
+    html`<daikin-breadcrumb-item
       href=${ifDefined(href)}
       target=${ifDefined(target)}
       variant=${variant}
       ?disabled=${disabled}
-    >
-      Breadcrumb item
-    </daikin-breadcrumb-item>
-  `,
+      >Breadcrumb item</daikin-breadcrumb-item
+    > `,
 };

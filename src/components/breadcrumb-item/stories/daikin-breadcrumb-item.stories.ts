@@ -11,7 +11,7 @@ export default {
 export const Default: Story = {
   args: {
     variant: "normal",
-    href: "#",
+    href: "https://dsv-rp.github.io/DDS",
     disabled: false,
   },
 };

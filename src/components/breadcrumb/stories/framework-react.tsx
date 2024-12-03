@@ -14,19 +14,19 @@ const ReactDaikinBreadcrumb = createComponent({
 export const metadata: Meta<DaikinBreadcrumbStoryArgs> = {
   component: ({ ...props }: DaikinBreadcrumbStoryArgs) => (
     <ReactDaikinBreadcrumb {...props}>
-      <ReactDaikinBreadcrumbItem href="#">
+      <ReactDaikinBreadcrumbItem href="https://dsv-rp.github.io/DDS">
         Breadcrumb item 1
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="#">
+      <ReactDaikinBreadcrumbItem href="https://dsv-rp.github.io/DDS">
         Breadcrumb item 2
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="#">
+      <ReactDaikinBreadcrumbItem href="https://dsv-rp.github.io/DDS">
         Breadcrumb item 3
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="#">
+      <ReactDaikinBreadcrumbItem href="https://dsv-rp.github.io/DDS">
         Breadcrumb item 4
       </ReactDaikinBreadcrumbItem>
-      <ReactDaikinBreadcrumbItem href="#">
+      <ReactDaikinBreadcrumbItem href="https://dsv-rp.github.io/DDS">
         Breadcrumb item 5
       </ReactDaikinBreadcrumbItem>
     </ReactDaikinBreadcrumb>
