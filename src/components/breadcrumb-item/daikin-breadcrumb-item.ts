@@ -20,8 +20,8 @@ import "../link/daikin-link";
  *
  * ```html
  * <!-- See `daikin-breadcrumb` component for complete example. -->
- * <daikin-breadcrumb-item href="#">
- *   Breadcrumb Item 1
+ * <daikin-breadcrumb-item href="https://www.example.com">
+ *   Breadcrumb item
  * </daikin-breadcrumb-item>
  * ```
  */
@@ -33,7 +33,7 @@ export class DaikinBreadcrumbItem extends LitElement {
     :host::after {
       content: "/";
       color: #414141; /* system-element-text-primary */
-      margin: 0 var(--breadcrumb-gap, 0);
+      margin: 0 0.5rem;
       font-size: 0.875rem;
       line-height: 1.25rem;
       display: var(--breadcrumb-separator-display, none);

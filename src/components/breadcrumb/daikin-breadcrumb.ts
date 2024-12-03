@@ -15,15 +15,16 @@ import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/breadcrumb/index.js";
+ * import "@daikin-oss/design-system-web-components/components/breadcrumb-item/index.js";
  * ```
  *
  * ```html
  * <daikin-breadcrumb>
- *  <daikin-breadcrumb-item href="#">
- *   Breadcrumb Item 1
+ *  <daikin-breadcrumb-item href="https://www.example.com/1">
+ *   Breadcrumb item 1
  *  </daikin-breadcrumb-item>
- *  <daikin-breadcrumb-item href="#">
- *   Breadcrumb Item 2
+ *  <daikin-breadcrumb-item href="https://www.example.com/2">
+ *   Breadcrumb item 2
  *  </daikin-breadcrumb-item>
  * </daikin-breadcrumb>
  * ```
@@ -40,12 +41,10 @@ export class DaikinBreadcrumb extends LitElement {
 
     ::slotted(daikin-breadcrumb-item) {
       --breadcrumb-separator-display: inline;
-      --breadcrumb-gap: 0.5rem;
     }
 
     ::slotted(daikin-breadcrumb-item:last-child) {
       --breadcrumb-separator-display: none;
-      --breadcrumb-gap: 0;
     }
   `;
 
