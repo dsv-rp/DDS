@@ -7,7 +7,8 @@ import tailwindStyles from "../../tailwind.css?inline";
 const LINK_CLASS_NAME = cva([
   "font-daikinSerif",
   "relative",
-  "underline",
+  "border-b",
+  "border-b-current",
 
   "link-enabled:text-system-state-link-active",
   "link-enabled:hover:text-system-state-link-hover",
@@ -90,11 +91,11 @@ export class DaikinLink extends LitElement {
       href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
       target=${ifDefined(this.target ?? undefined)}
       aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
-      ><span class="inline-flex mr-[0.125rem] align-middle">
+      ><span class="inline-flex mr-[0.125rem] align-sub">
         <slot name="left-icon" class="icon-size-4"
           ><span class="-mr-[0.125rem]"></span></slot></span
       ><slot></slot
-      ><span class="inline-flex ml-[0.125rem] align-middle"
+      ><span class="inline-flex ml-[0.125rem] align-sub"
         ><slot name="right-icon" class="icon-size-4"
           ><span class="-ml-[0.125rem]"></span></slot></span
     ></a>`;
