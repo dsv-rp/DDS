@@ -9,11 +9,13 @@ import type { DAIKIN_LINK_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_LINK_ARG_TYPES>;
 
-const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-link--default", args);
+const getPageURL = (story: "default" | "with-sentence", args: StoryArgs = {}) =>
+  getStorybookIframeURL(`components-link--${story}`, args);
 
 // FIXME: VRT is not implemented for `:visited` styles, as it will require `launchPersistentContext` which cannot be done with containers.
 describeEach(["default", "exist"] as const, (sentence) => {
+  const story = sentence === "default" ? "default" : "with-sentence";
+
   describeEach(["none", "left", "right"] as const, (icon) => {
     const baseArgs = {
       ...(icon === "right" && {
@@ -22,9 +24,8 @@ describeEach(["default", "exist"] as const, (sentence) => {
       ...(icon === "left" && {
         leftIcon: "positive",
       }),
-      withSentence: sentence === "exist",
     };
-    const baseURL = getPageURL(baseArgs);
+    const baseURL = getPageURL(story, baseArgs);
 
     test("base", async ({ page }) => {
       await page.goto(baseURL);
@@ -89,7 +90,7 @@ describeEach(["default", "exist"] as const, (sentence) => {
     test("disabled", async ({ page }) => {
       // load page with disabled=true
       await page.goto(
-        getPageURL({
+        getPageURL(story, {
           ...baseArgs,
           disabled: true,
         })

@@ -2,7 +2,6 @@ import { DaikinTextField } from "#package/components/text-field/daikin-text-fiel
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
-import "../../../storybook-tailwind.css";
 import { ReactDaikinIcon } from "../../icon/stories/framework-react";
 import type { DaikinTextFieldStoryArgs } from "./common";
 
