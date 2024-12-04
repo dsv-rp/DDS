@@ -28,7 +28,7 @@ const cvaButton = cva(
     "w-full",
     "h-full",
     "min-h-12",
-    "bg-ddt-color-background-theme",
+    "bg-ddt-color-common-background-default",
     "p-3",
     "border",
     "border-[--color-base]",

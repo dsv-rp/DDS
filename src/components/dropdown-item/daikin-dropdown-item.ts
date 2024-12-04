@@ -11,7 +11,7 @@ const cvaOption = cva(
     "w-full",
     "min-h-12",
     "text-ddt-color-common-text-primary",
-    "bg-ddt-dropdown-color-background",
+    "bg-ddt-color-common-background-default",
     "p-3",
     "font-daikinSerif",
     "leading-5",

@@ -37,7 +37,7 @@ const cvaInput = cva(
 
     "disabled:var-color-ddt-color-common-disabled/color-base",
     "disabled:text-ddt-color-common-disabled",
-    "disabled:bg-ddt-color-background-theme",
+    "disabled:bg-ddt-color-common-background-default",
     "disabled:placeholder:text-ddt-color-common-disabled",
   ],
   {

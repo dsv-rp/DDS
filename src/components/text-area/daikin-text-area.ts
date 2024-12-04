@@ -34,7 +34,7 @@ const cvaTextArea = cva(
 
     "disabled:var-color-ddt-color-common-disabled/color-base",
     "disabled:text-ddt-color-common-disabled",
-    "disabled:bg-ddt-color-background-theme",
+    "disabled:bg-color-common-background-default",
     "disabled:placeholder:text-ddt-color-common-disabled",
   ],
   {
