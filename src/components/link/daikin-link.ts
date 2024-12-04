@@ -17,7 +17,7 @@ const LINK_CLASS_NAME = cva([
   "link-enabled:text-ddt-color-link-text-default",
   "link-enabled:hover:text-ddt-color-link-text-hover",
   "link-enabled:hover:bg-ddt-color-common-surface-brand-hover",
-  "link-enabled:active:text-ddt-color-blue-110",
+  "link-enabled:active:text-ddt-color-link-text-press",
   "link-disabled:text-ddt-color-common-disabled",
 
   "focus-visible:outline-none",

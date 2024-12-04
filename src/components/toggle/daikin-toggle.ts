@@ -36,7 +36,7 @@ const TOGGLE_CLASS_NAME = cva([
   "before:transition",
   "before:duration-300",
   "before:checked:translate-x-6",
-  "enabled:before:bg-ddt-color-background-theme",
+  "enabled:before:bg-ddt-color-common-background-default",
   "disabled:before:bg-ddt-color-common-surface-hover",
 ])();
 
