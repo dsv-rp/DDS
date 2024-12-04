@@ -10,12 +10,12 @@ import type { DAIKIN_TOOLTIP_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TOOLTIP_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-tooltip--light", args);
+  getStorybookIframeURL("components-tooltip--default", args);
 
-describeEach(["light", "dark"] as const, (variant) => {
+describeEach(["default", "inverse"] as const, (color) => {
   describeEach(["top", "bottom", "left", "right"] as const, (placement) => {
     const baseURL = getPageURL({
-      variant,
+      color,
       placement,
       hasSlot: false,
       hasFocusableTrigger: false,

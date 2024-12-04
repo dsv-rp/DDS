@@ -6,38 +6,42 @@ import { guard } from "lit/directives/guard.js";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 import { reDispatch } from "../../utils/re-dispatch";
 
 const cvaTooltip = cva(
   [
-    "floating-unready:hidden",
-    "absolute",
     "left-[--floating-x,0]",
     "top-[--floating-y,0]",
-    "justify-center",
-    "items-center",
     "w-max",
-    "p-3",
     "border",
     "border-solid",
     "rounded",
-    "text-sm",
     "font-daikinSerif",
-    "font-normal",
-    "not-italic",
-    "leading-5",
+    "absolute",
+    "floating-unready:hidden",
   ],
   {
     variants: {
-      variant: {
-        light: ["border-daikinNeutral-800", "bg-white/90", "text-black"],
-        dark: ["border-transparent", "bg-daikinNeutral-800/90", "text-white"],
+      color: {
+        default: [
+          "text-system-element-text-primary",
+          "bg-system-background-base",
+          "border-system-state-neutral-active",
+        ],
+        inverse: [
+          "text-system-element-text-inverse",
+          "bg-system-background-inverse",
+          "border-transparent",
+        ],
       },
     },
   }
 );
 
 const DEFAULT_TOOLTIP_SPACING = "20px";
+
+type TooltipVariantProps = MergeVariantProps<typeof cvaTooltip>;
 
 /**
  * A tooltip component is used to show brief information when a user interacts with an element.
@@ -92,6 +96,13 @@ export class DaikinTooltip extends LitElement {
 
       --dds-tooltip-spacing: ${unsafeCSS(DEFAULT_TOOLTIP_SPACING)};
     }
+
+    #tooltip {
+      width: max-content;
+      padding: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
   `;
 
   /**
@@ -104,7 +115,7 @@ export class DaikinTooltip extends LitElement {
    * Specifies the tooltip theme.
    */
   @property({ type: String, reflect: true })
-  variant: "light" | "dark" = "light";
+  color: TooltipVariantProps["color"] = "default";
 
   /**
    * Whether the tooltip is open.
@@ -140,13 +151,28 @@ export class DaikinTooltip extends LitElement {
 
   private _hostStyles = isClient ? window.getComputedStyle(this) : null;
 
+  private _ignoreFocusIn = false;
+
   private _handleClick(event: PointerEvent) {
     if (this.trigger === "click") {
       // Prevent the tooltip from closing via the Popover feature.
       event.preventDefault();
 
       this.open = !this.open;
+      this._ignoreFocusIn = false;
     }
+  }
+
+  private _handleFocusIn() {
+    if (this._ignoreFocusIn) {
+      return;
+    }
+
+    this.open = true;
+  }
+
+  private _handleFocusOut() {
+    this.open = false;
   }
 
   private _handleMouseEnter() {
@@ -155,18 +181,20 @@ export class DaikinTooltip extends LitElement {
     }
   }
 
+  private _handleMouseDown() {
+    this._ignoreFocusIn = true;
+  }
+
   private _handleMouseLeave() {
     if (this.trigger === "hover") {
       this.open = false;
     }
+
+    this._ignoreFocusIn = false;
   }
 
-  private _handleFocusIn() {
-    this.open = true;
-  }
-
-  private _handleFocusOut() {
-    this.open = false;
+  private _handleBeforeToggle(event: ToggleEvent) {
+    reDispatch(this, event, new ToggleEvent("beforetoggle", event));
   }
 
   private _handleToggle(event: ToggleEvent) {
@@ -184,7 +212,9 @@ export class DaikinTooltip extends LitElement {
 
     // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
     /* eslint-disable lit-a11y/click-events-have-key-events */
-    return html`<div class="relative inline-block">
+    return html`<div
+      class="relative inline-block text-system-element-text-primary font-daikinSerif"
+    >
       <div
         id="trigger"
         aria-labelledby="trigger"
@@ -193,20 +223,20 @@ export class DaikinTooltip extends LitElement {
       >
         <slot
           @click=${this._handleClick}
-          @mouseenter=${this._handleMouseEnter}
-          @mouseleave=${this._handleMouseLeave}
           @focusin=${this._handleFocusIn}
           @focusout=${this._handleFocusOut}
+          @mousedown=${this._handleMouseDown}
+          @mouseenter=${this._handleMouseEnter}
+          @mouseleave=${this._handleMouseLeave}
         ></slot>
       </div>
       <span
         id="tooltip"
         role="tooltip"
         aria-labelledby="tooltip"
-        class=${cvaTooltip({ variant: this.variant })}
-        popover=${this.popoverValue}
-        @beforetoggle=${(event: ToggleEvent) =>
-          reDispatch(this, event, new ToggleEvent("beforetoggle", event))}
+        class=${cvaTooltip({ color: this.color })}
+        .popover=${this.popoverValue}
+        @beforetoggle=${this._handleBeforeToggle}
         @toggle=${this._handleToggle}
         ${this._autoUpdateController.refFloating()}
       >
