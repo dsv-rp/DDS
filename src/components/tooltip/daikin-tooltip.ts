@@ -11,23 +11,15 @@ import { reDispatch } from "../../utils/re-dispatch";
 
 const cvaTooltip = cva(
   [
-    "floating-unready:hidden",
-    "absolute",
     "left-[--floating-x,0]",
     "top-[--floating-y,0]",
-    "justify-center",
-    "items-center",
     "w-max",
-    "min-w-[10.5rem]",
-    "p-3",
     "border",
     "border-solid",
     "rounded",
-    "text-sm",
     "font-daikinSerif",
-    "font-normal",
-    "not-italic",
-    "leading-5",
+    "absolute",
+    "floating-unready:hidden",
   ],
   {
     variants: {
@@ -103,6 +95,13 @@ export class DaikinTooltip extends LitElement {
       display: inline-block;
 
       --dds-tooltip-spacing: ${unsafeCSS(DEFAULT_TOOLTIP_SPACING)};
+    }
+
+    #tooltip {
+      width: max-content;
+      padding: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
     }
   `;
 
