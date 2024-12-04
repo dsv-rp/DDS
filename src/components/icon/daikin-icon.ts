@@ -17,8 +17,8 @@ const cvaIcon = cva(["block"], {
   variants: {
     icon: iconClassMap,
     color: {
-      black: ["text-ddt-background-overlay"],
-      white: ["text-ddt-text-inverse"],
+      black: ["text-ddt-color-common-background-overlay"],
+      white: ["text-ddt-color-common-text-inverse"],
       default: ["text-[--default-color]"],
       current: [], // uses `currentColor`
     },

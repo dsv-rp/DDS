@@ -29,19 +29,19 @@ const defaultSort = <T>(a: T, b: T, key: keyof T) =>
 const cvaRow = cva(
   [
     "border-b",
-    "border-b-ddt-divider",
+    "border-b-ddt-color-divider",
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-ddt-border-focus",
+    "focus-visible:outline-ddt-color-common-border-focus",
   ],
   {
     variants: {
       selected: {
-        false: ["hover:bg-ddt-surface-hover"],
+        false: ["hover:bg-ddt-color-common-surface-hover"],
         true: [
-          "bg-ddt-surface-selected-default",
-          "hover:bg-ddt-surface-selected-hover",
+          "bg-ddt-color-common-surface-selected-default",
+          "hover:bg-ddt-color-common-surface-selected-hover",
         ],
       },
     },

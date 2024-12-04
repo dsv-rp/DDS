@@ -14,7 +14,7 @@ const cvaContainer = cva(
   [
     "flex",
     "box-border",
-    "bg-ddt-background-default",
+    "bg-ddt-color-background-theme",
     "overflow-hidden",
     "font-daikinSerif",
   ],
@@ -53,7 +53,7 @@ const cvaIconContainer = cva(
     "w-[2.75rem]",
 
     "after:size-6",
-    "after:text-ddt-background-default",
+    "after:text-ddt-color-background-theme",
   ],
   {
     variants: {

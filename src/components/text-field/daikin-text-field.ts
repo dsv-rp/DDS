@@ -20,7 +20,7 @@ const cvaInput = cva(
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
-    "placeholder:text-ddt-text-secondary",
+    "placeholder:text-ddt-color-common-text-secondary",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
@@ -30,24 +30,24 @@ const cvaInput = cva(
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:text-ddt-text-primary",
-    "enabled:hover:bg-ddt-surface-hover",
-    "enabled:active:bg-ddt-surface-press",
+    "enabled:text-ddt-color-common-text-primary",
+    "enabled:hover:bg-ddt-color-common-surface-hover",
+    "enabled:active:bg-ddt-color-common-surface-press",
     "focus-visible:outline-2",
 
-    "disabled:var-color-ddt-common-disabled/color-base",
-    "disabled:text-ddt-common-disabled",
-    "disabled:bg-ddt-background-default",
-    "disabled:placeholder:text-ddt-common-disabled",
+    "disabled:var-color-ddt-color-common-disabled/color-base",
+    "disabled:text-ddt-color-common-disabled",
+    "disabled:bg-ddt-color-background-theme",
+    "disabled:placeholder:text-ddt-color-common-disabled",
   ],
   {
     variants: {
       error: {
         false: [
-          "enabled:var-color-ddt-common-neutral-default/color-base",
-          "focus-visible:var-color-ddt-border-focus/color-state-focus",
+          "enabled:var-color-ddt-color-common-neutral-default/color-base",
+          "focus-visible:var-color-ddt-color-common-border-focus/color-state-focus",
         ],
-        true: ["enabled:var-color-ddt-common-danger/color-base"],
+        true: ["enabled:var-color-ddt-color-common-danger-default/color-base"],
       },
       leftIcon: {
         false: ["pl-4"],
@@ -71,8 +71,8 @@ const cvaIcon = cva(
       },
 
       disabled: {
-        false: ["text-ddt-text-primary"],
-        true: ["text-ddt-common-disabled"],
+        false: ["text-ddt-color-common-text-primary"],
+        true: ["text-ddt-color-common-disabled"],
       },
     },
   }

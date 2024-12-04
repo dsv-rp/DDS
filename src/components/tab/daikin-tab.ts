@@ -26,9 +26,9 @@ const cvaTab = cva(
     "focus-visible:before:z-[1]",
     "focus-visible:before:border",
     "focus-visible:before:border-2",
-    "focus-visible:before:border-ddt-border-focus",
+    "focus-visible:before:border-ddt-color-common-border-focus",
 
-    "disabled:text-ddt-common-disabled",
+    "disabled:text-ddt-color-common-disabled",
 
     "after:absolute",
     "after:inset-0",
@@ -38,25 +38,25 @@ const cvaTab = cva(
     variants: {
       active: {
         false: [
-          "enabled:text-ddt-common-neutral-default",
-          "enabled:hover:text-ddt-common-neutral-primary-hover",
-          "enabled:hover:bg-ddt-surface-hover",
-          "enabled:active:text-ddt-common-neutral-primary-press",
-          "enabled:active:bg-ddt-surface-press",
+          "enabled:text-ddt-color-common-neutral-default",
+          "enabled:hover:text-ddt-color-common-neutral-hover",
+          "enabled:hover:bg-ddt-color-common-surface-hover",
+          "enabled:active:text-ddt-color-common-neutral-press",
+          "enabled:active:bg-ddt-color-common-surface-press",
 
           "after:h-[1px]",
-          "after:bg-ddt-divider",
+          "after:bg-ddt-color-divider",
         ],
         true: [
           "font-bold",
-          "enabled:text-ddt-common-brand",
-          "enabled:hover:bg-ddt-common-brand-secondary-hover",
-          "enabled:active:bg-ddt-common-brand-secondary-press",
+          "enabled:text-ddt-color-common-brand-default",
+          "enabled:hover:bg-ddt-color-common-surface-brand-hover",
+          "enabled:active:bg-ddt-color-common-surface-brand-press",
 
           "after:h-1",
 
-          "enabled:after:bg-ddt-common-brand",
-          "disabled:after:bg-ddt-common-disabled",
+          "enabled:after:bg-ddt-color-common-brand-default",
+          "disabled:after:bg-ddt-color-common-disabled",
         ],
       },
     },

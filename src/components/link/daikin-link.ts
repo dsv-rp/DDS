@@ -14,11 +14,11 @@ const LINK_CLASS_NAME = cva([
   "rounded-[1px]",
   "relative",
 
-  "link-enabled:text-ddt-link-primary-default",
-  "link-enabled:hover:text-ddt-link-primary-hover",
-  "link-enabled:hover:bg-ddt-common-brand-secondary-hover",
-  "link-enabled:active:text-ddt-link-primary-press",
-  "link-disabled:text-ddt-common-disabled",
+  "link-enabled:text-ddt-color-link-text-default",
+  "link-enabled:hover:text-ddt-color-link-text-hover",
+  "link-enabled:hover:bg-ddt-color-common-surface-brand-hover",
+  "link-enabled:active:text-ddt-color-blue-110",
+  "link-disabled:text-ddt-color-common-disabled",
 
   "focus-visible:outline-none",
   "focus-visible:before:block",
@@ -26,7 +26,7 @@ const LINK_CLASS_NAME = cva([
   "focus-visible:before:absolute",
   "focus-visible:before:inset-[-1px]",
   "focus-visible:before:outline",
-  "focus-visible:before:outline-ddt-border-focus",
+  "focus-visible:before:outline-ddt-color-common-border-focus",
   "focus-visible:before:outline-2",
 
   "after:h-[1px]",

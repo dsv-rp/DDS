@@ -18,11 +18,14 @@ const cvaBar = cva(
   {
     variants: {
       variant: {
-        inprogress: ["after:w-[--bar-width]", "after:bg-ddt-common-brand"],
+        inprogress: [
+          "after:w-[--bar-width]",
+          "after:bg-ddt-color-common-brand-default",
+        ],
         completed: ["after:w-full", "after:bg-daikinGreen-500"],
         indeterminate: [
           "after:w-1/2",
-          "after:bg-ddt-common-brand",
+          "after:bg-ddt-color-common-brand-default",
           "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
         ],
         error: ["after:w-full", "after:bg-daikinRed-500"],

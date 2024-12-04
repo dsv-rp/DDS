@@ -16,24 +16,24 @@ const RADIO_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-offset-2",
-  "focus-visible:outline-ddt-border-focus",
+  "focus-visible:outline-ddt-color-common-border-focus",
 
   "unchecked:border-2",
-  "enabled:unchecked:border-ddt-common-neutral-default",
-  "enabled:unchecked:hover:bg-ddt-surface-hover",
-  "enabled:unchecked:active:bg-ddt-surface-press",
+  "enabled:unchecked:border-ddt-color-common-neutral-default",
+  "enabled:unchecked:hover:bg-ddt-color-common-surface-hover",
+  "enabled:unchecked:active:bg-ddt-color-common-surface-press",
   "checked:border-[5px]",
-  "enabled:checked:border-ddt-common-brand",
-  "enabled:checked:group-hover:border-ddt-common-brand-primary-hover",
-  "enabled:checked:group-active:border-ddt-common-brand-primary-press",
-  "disabled:border-ddt-common-disabled",
+  "enabled:checked:border-ddt-color-common-brand-default",
+  "enabled:checked:group-hover:border-ddt-color-common-brand-hover",
+  "enabled:checked:group-active:border-ddt-color-common-brand-press",
+  "disabled:border-ddt-color-common-disabled",
 ])();
 
 const cvaLabel = cva(["pr-2"], {
   variants: {
     disabled: {
-      false: ["text-ddt-text-primary"],
-      true: ["text-ddt-common-disabled"],
+      false: ["text-ddt-color-common-text-primary"],
+      true: ["text-ddt-color-common-disabled"],
     },
   },
 });

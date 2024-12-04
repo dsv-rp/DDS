@@ -12,7 +12,7 @@ const cvaContainer = cva(
     "flex-col",
     "gap-1",
     "w-full",
-    "text-ddt-text-primary",
+    "text-ddt-color-common-text-primary",
     "pt-1",
     "border-t-[0.25rem]",
     "font-daikinSerif",
@@ -20,9 +20,9 @@ const cvaContainer = cva(
   {
     variants: {
       status: {
-        unfinished: ["border-ddt-common-disabled"],
-        inprogress: ["border-ddt-common-brand"],
-        finished: ["border-ddt-common-brand"],
+        unfinished: ["border-ddt-color-common-disabled"],
+        inprogress: ["border-ddt-color-common-brand-default"],
+        finished: ["border-ddt-color-common-brand-default"],
       },
     },
   }
@@ -84,7 +84,7 @@ export class DaikinProgressIndicatorItem extends LitElement {
         ${this.status === "finished"
           ? html`
               <span
-                class="size-4 i-daikin-status-success text-ddt-common-brand"
+                class="size-4 i-daikin-status-success text-ddt-color-common-brand-default"
                 aria-label="Completed"
               ></span>
             `
