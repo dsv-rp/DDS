@@ -151,45 +151,21 @@ export class DaikinTooltip extends LitElement {
 
   private _hostStyles = isClient ? window.getComputedStyle(this) : null;
 
-  private _ignoreCloseOnClick = false;
-
-  private _ignoreToggle = false;
-
-  // private _handleBlur() {
-  //   console.log("blur");
-
-  //   this._isMouseDown = false;
-  // }
+  private _ignoreFocusIn = false;
 
   private _handleClick(event: PointerEvent) {
-    console.log("click");
     if (this.trigger === "click") {
       // Prevent the tooltip from closing via the Popover feature.
       event.preventDefault();
-      this._ignoreToggle = true;
 
-      setTimeout(() => {
-        console.log("click end", this.open);
-        this._ignoreToggle = false;
-      }, 0);
-
-      // console.log(this._ignoreCloseOnClick);
-
-      if (!this._ignoreCloseOnClick || !this.open) {
-        console.log("open");
-
-        this.open = !this.open;
-      }
-
-      this._ignoreCloseOnClick = false;
-
-      console.log("click", this.open);
+      this.open = !this.open;
+      this._ignoreFocusIn = false;
     }
   }
 
   private _handleFocusIn() {
-    if (this.trigger === "click") {
-      this._ignoreCloseOnClick = true;
+    if (this._ignoreFocusIn) {
+      return;
     }
 
     this.open = true;
@@ -197,13 +173,7 @@ export class DaikinTooltip extends LitElement {
 
   private _handleFocusOut() {
     this.open = false;
-    this._ignoreCloseOnClick = false;
-    console.log("focusout", this.open);
   }
-
-  // private _handleMouseDown() {
-  //   this._isMouseDown = true;
-  // }
 
   private _handleMouseEnter() {
     if (this.trigger === "hover") {
@@ -211,35 +181,25 @@ export class DaikinTooltip extends LitElement {
     }
   }
 
+  private _handleMouseDown() {
+    this._ignoreFocusIn = true;
+  }
+
   private _handleMouseLeave() {
     if (this.trigger === "hover") {
       this.open = false;
     }
+
+    this._ignoreFocusIn = false;
   }
 
-  // private _handleMouseOut() {
-  //   this._isMouseDown = false;
-  // }
-
   private _handleBeforeToggle(event: ToggleEvent) {
-    if (this._ignoreToggle) {
-      event.preventDefault();
-      return;
-    }
     reDispatch(this, event, new ToggleEvent("beforetoggle", event));
-
-    console.log("beforetoggle", this.open);
   }
 
   private _handleToggle(event: ToggleEvent) {
-    if (this._ignoreToggle) {
-      event.preventDefault();
-      return;
-    }
-
     if (reDispatch(this, event, new ToggleEvent("toggle", event))) {
       this.open = event.newState === "open";
-      console.log("toggle", this.open);
     }
   }
 
@@ -265,6 +225,7 @@ export class DaikinTooltip extends LitElement {
           @click=${this._handleClick}
           @focusin=${this._handleFocusIn}
           @focusout=${this._handleFocusOut}
+          @mousedown=${this._handleMouseDown}
           @mouseenter=${this._handleMouseEnter}
           @mouseleave=${this._handleMouseLeave}
         ></slot>
