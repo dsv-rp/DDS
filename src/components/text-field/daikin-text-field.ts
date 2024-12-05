@@ -11,6 +11,7 @@ const cvaInput = cva(
     "items-center",
     "w-full",
     "h-full",
+    "bg-ddt-color-common-background-default",
     "relative",
     "px-2",
     "rounded",
