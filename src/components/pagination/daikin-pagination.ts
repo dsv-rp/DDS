@@ -90,7 +90,7 @@ const cvaChevronButton = cva([
   "enabled:hover:bg-ddt-color-common-surface-neutral-hover",
   "enabled:hover:text-ddt-color-common-neutral-press",
   "enabled:active:bg-ddt-color-common-surface-neutral-press",
-  "enabled:active:text-[#313131]",
+  "enabled:active:text-ddt-color-common-neutral-press",
   "disabled:!text-ddt-color-common-disabled",
   "focus-visible:outline",
   "focus-visible:outline-2",
