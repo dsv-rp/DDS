@@ -1,4 +1,3 @@
-import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
