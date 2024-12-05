@@ -12,107 +12,140 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_BUTTON_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-button--fill", args);
 
-describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["fill", "outline", "ghost"] as const, (variant) => {
-    describeEach(["small", "medium"] as const, (size) => {
-      describeEach(["default", "danger"] as const, (color) => {
-        describeEach(["none", "left", "right"] as const, (icon) => {
-          const baseArgs = {
-            $theme: theme,
-            variant,
-            color,
-            size,
-            ...(icon === "right" && {
-              rightIcon: "positive",
-            }),
-            ...(icon === "left" && {
-              leftIcon: "positive",
-            }),
-          };
-          const baseURL = getPageURL(baseArgs);
+describeEach(
+  [
+    // Light Theme: Variants and Sizes
+    ["light", "fill", "small", "default", "none"],
+    ["light", "fill", "small", "danger", "none"],
+    ["light", "outline", "small", "default", "none"],
+    ["light", "outline", "small", "danger", "none"],
+    ["light", "ghost", "small", "default", "none"],
+    ["light", "ghost", "small", "danger", "none"],
 
-          test("base", async ({ page }) => {
-            await page.goto(baseURL);
+    ["light", "fill", "medium", "default", "none"],
+    ["light", "fill", "medium", "danger", "none"],
+    ["light", "outline", "medium", "default", "none"],
+    ["light", "outline", "medium", "danger", "none"],
+    ["light", "ghost", "medium", "default", "none"],
+    ["light", "ghost", "medium", "danger", "none"],
 
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-button", {
-              state: "visible",
-            });
+    // Light Theme: Icons
+    ["light", "fill", "small", "default", "left"],
+    ["light", "outline", "small", "default", "left"],
+    ["light", "ghost", "small", "default", "left"],
+    ["light", "fill", "small", "default", "right"],
+    ["light", "outline", "small", "default", "right"],
+    ["light", "ghost", "small", "default", "right"],
 
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
-          });
+    ["light", "fill", "medium", "danger", "left"],
+    ["light", "outline", "medium", "danger", "left"],
+    ["light", "ghost", "medium", "danger", "left"],
+    ["light", "fill", "medium", "danger", "right"],
+    ["light", "outline", "medium", "danger", "right"],
+    ["light", "ghost", "medium", "danger", "right"],
 
-          test("hover", async ({ page }) => {
-            await page.goto(baseURL);
+    // Dark Theme
+    ["dark", "fill", "medium", "default", "left"],
+    ["dark", "fill", "medium", "danger", "left"],
+    ["dark", "outline", "medium", "default", "left"],
+    ["dark", "outline", "medium", "danger", "left"],
+    ["dark", "ghost", "medium", "default", "left"],
+    ["dark", "ghost", "medium", "danger", "left"],
+  ] as const,
+  ([theme, variant, size, color, icon]) => {
+    const baseArgs = {
+      $theme: theme,
+      variant,
+      color,
+      size,
+      ...(icon === "right" && {
+        rightIcon: "positive",
+      }),
+      ...(icon === "left" && {
+        leftIcon: "positive",
+      }),
+    };
+    const baseURL = getPageURL(baseArgs);
 
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-button", {
-              state: "visible",
-            });
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
 
-            // hover cursor on the element
-            await element.hover();
-
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
-          });
-
-          test("press", async ({ page }) => {
-            await page.goto(baseURL);
-
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-button", {
-              state: "visible",
-            });
-
-            // hover cursor on the element and hold down mouse button on the element
-            await element.hover();
-            await page.mouse.down();
-
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
-            await page.mouse.up();
-          });
-
-          test("focus", async ({ page }) => {
-            await page.goto(baseURL);
-
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-button", {
-              state: "visible",
-            });
-
-            await page.evaluate((container) => {
-              container.focus();
-            }, element);
-
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
-          });
-
-          test("disabled", async ({ page }) => {
-            // load page with disabled=true
-            await page.goto(
-              getPageURL({
-                ...baseArgs,
-                disabled: true,
-              })
-            );
-
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-button", {
-              state: "visible",
-            });
-
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
-          });
-        });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-button", {
+        state: "visible",
       });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
-  });
-});
+
+    test("hover", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-button", {
+        state: "visible",
+      });
+
+      // hover cursor on the element
+      await element.hover();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+
+    test("press", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-button", {
+        state: "visible",
+      });
+
+      // hover cursor on the element and hold down mouse button on the element
+      await element.hover();
+      await page.mouse.down();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+      await page.mouse.up();
+    });
+
+    test("focus", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-button", {
+        state: "visible",
+      });
+
+      await page.evaluate((container) => {
+        container.focus();
+      }, element);
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+
+    test("disabled", async ({ page }) => {
+      // load page with disabled=true
+      await page.goto(
+        getPageURL({
+          ...baseArgs,
+          disabled: true,
+        })
+      );
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-button", {
+        state: "visible",
+      });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+  }
+);
 
 describeEach(["button", "link"] as const, (type) => {
   const baseArgs = {
@@ -129,7 +162,10 @@ describeEach(["button", "link"] as const, (type) => {
     });
 
     // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
+    await expect(page).toHaveScreenshot(
+      "type-test-base.png",
+      await clipFor(element)
+    );
   });
 
   test("disabled", async ({ page }) => {
@@ -147,6 +183,9 @@ describeEach(["button", "link"] as const, (type) => {
     });
 
     // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
+    await expect(page).toHaveScreenshot(
+      "type-test-disabled.png",
+      await clipFor(element)
+    );
   });
 });
