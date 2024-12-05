@@ -136,7 +136,7 @@ export default {
 
       // Sets icon size.
       matchUtilities(
-        { "icon-size": (value) => ({ "--dds-icon-size": `${value}` }) },
+        { "icon-size": (value) => ({ "--ddc-icon-size": `${value}` }) },
         { values: theme("width"), supportsNegativeValues: false }
       );
     }),

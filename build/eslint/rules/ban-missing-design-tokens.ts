@@ -41,7 +41,9 @@ export const banMissingDesignTokensRule: Rule.RuleModule = {
         return lastBegin;
       };
 
-      for (const match of content.matchAll(/\bddt-([A-Za-z\d-]+)/g)) {
+      for (const match of content.matchAll(
+        /(?:--dds-|\bddt-)([A-Za-z\d-]+)/g
+      )) {
         const item = match[1];
         if (allowedTokenSet.has(item)) {
           continue;
