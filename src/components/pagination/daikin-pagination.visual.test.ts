@@ -12,33 +12,25 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_PAGINATION_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-pagination--default", args);
 
-describeEach(["default", "ellipsis"], (variant) => {
-  const baseURL = getPageURL({
-    total: variant === "default" ? 7 : 15,
-    window: 7,
-    current: 1,
-  });
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["default", "ellipsis"], (variant) => {
+    const baseArgs = {
+      $theme: theme,
+      total: variant === "default" ? 7 : 15,
+      window: 7,
+      current: 1,
+    };
+    const baseURL = getPageURL(baseArgs);
 
-  const activePage2Url = getPageURL({
-    total: variant === "default" ? 7 : 15,
-    window: 7,
-    current: 2,
-  });
+    const activePage2Args = {
+      $theme: theme,
+      total: variant === "default" ? 7 : 15,
+      window: 7,
+      current: 2,
+    };
+    const activePage2Url = getPageURL(activePage2Args);
 
-  test("base", async ({ page }) => {
-    await page.goto(baseURL);
-
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
-    });
-
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
-
-  if (variant === "ellipsis") {
-    test("hover dropdown", async ({ page }) => {
+    test("base", async ({ page }) => {
       await page.goto(baseURL);
 
       // wait for element to be visible
@@ -46,13 +38,41 @@ describeEach(["default", "ellipsis"], (variant) => {
         state: "visible",
       });
 
-      await page.getByLabel("Expand the omitted pages.").first().hover();
-
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    test("focus dropdown", async ({ page }) => {
+    if (variant === "ellipsis") {
+      test("hover dropdown", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-pagination", {
+          state: "visible",
+        });
+
+        await page.getByLabel("Expand the omitted pages.").first().hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+
+      test("focus dropdown", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-pagination", {
+          state: "visible",
+        });
+
+        await page.getByLabel("Expand the omitted pages.").focus();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+    }
+
+    test("hover page", async ({ page }) => {
       await page.goto(baseURL);
 
       // wait for element to be visible
@@ -60,122 +80,162 @@ describeEach(["default", "ellipsis"], (variant) => {
         state: "visible",
       });
 
-      await page.getByLabel("Expand the omitted pages.").focus();
+      await page.getByLabel("3").first().hover();
 
       // take screenshot and check for diffs
       await expect(page).toHaveScreenshot(await clipFor(element));
     });
-  }
 
-  test("hover page", async ({ page }) => {
-    await page.goto(baseURL);
+    test("hover active page", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
+
+      await page.getByLabel("1").first().hover();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    await page.getByLabel("3").first().hover();
+    test("focus page", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("hover active page", async ({ page }) => {
-    await page.goto(baseURL);
+      await page.getByLabel("3").first().focus();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    await page.getByLabel("1").first().hover();
+    test("focus active page", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("focus page", async ({ page }) => {
-    await page.goto(baseURL);
+      await page.getByLabel("1").first().focus();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    await page.getByLabel("3").first().focus();
+    test("press page", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("focus active page", async ({ page }) => {
-    await page.goto(baseURL);
+      // hover cursor on the element and hold down mouse button on the element
+      const pageItem = page.getByLabel("3").first();
+      await pageItem.hover();
+      await page.mouse.down();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+
+      await page.mouse.up();
     });
 
-    await page.getByLabel("1").first().focus();
+    test("press active page", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("hover left chevron", async ({ page }) => {
-    await page.goto(activePage2Url);
+      // hover cursor on the element and hold down mouse button on the element
+      const pageItem = page.getByLabel("1").first();
+      await pageItem.hover();
+      await page.mouse.down();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+
+      await page.mouse.up();
     });
 
-    await page.getByLabel("Go to the previous page.").hover();
+    test("hover left chevron", async ({ page }) => {
+      await page.goto(activePage2Url);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("focus left chevron", async ({ page }) => {
-    await page.goto(activePage2Url);
+      await page.getByLabel("Go to the previous page.").hover();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    await page.getByLabel("Go to the previous page.").focus();
+    test("focus left chevron", async ({ page }) => {
+      await page.goto(activePage2Url);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("hover right chevron", async ({ page }) => {
-    await page.goto(activePage2Url);
+      await page.getByLabel("Go to the previous page.").focus();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    await page.getByLabel("Go to the next page.").hover();
+    test("press left chevron", async ({ page }) => {
+      await page.goto(activePage2Url);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
 
-  test("focus right chevron", async ({ page }) => {
-    await page.goto(activePage2Url);
+      await page.getByLabel("Go to the previous page.").hover();
+      await page.mouse.down();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-pagination", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+      await page.mouse.up();
     });
 
-    await page.getByLabel("Go to the next page.").focus();
+    test("hover right chevron", async ({ page }) => {
+      await page.goto(activePage2Url);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
+
+      await page.getByLabel("Go to the next page.").hover();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
+
+    test("focus right chevron", async ({ page }) => {
+      await page.goto(activePage2Url);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-pagination", {
+        state: "visible",
+      });
+
+      await page.getByLabel("Go to the next page.").focus();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+    });
   });
 });
