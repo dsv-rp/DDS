@@ -35,7 +35,6 @@ const cvaHeaderCell = cva(
 
           "after:flex-none",
           "after:size-6",
-          "after:text-ddt-color-common-text-primary",
           "after:i-daikin-sort",
         ],
       },
