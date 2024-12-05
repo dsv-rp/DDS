@@ -2,7 +2,6 @@ import { DaikinTextArea } from "#package/components/text-area/daikin-text-area";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
-import "../../../storybook-tailwind.css";
 import type { DaikinTextAreaStoryArgs } from "./common";
 
 export const ReactDaikinTextArea = createComponent({

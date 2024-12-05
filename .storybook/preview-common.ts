@@ -4,6 +4,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import "@fontsource/roboto/900.css";
+import "../src/storybook-tailwind.css";
 import "./preview-common.css";
 
 // @ts-expect-error shadow-dom-testing-library (wrongly) uses `process` so we have to provide a mock.
