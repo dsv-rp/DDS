@@ -19,8 +19,9 @@ const preview: Preview = {
     backgrounds: {
       default: "light",
       values: [
-        { name: "light", value: "var(--sb-background/*light*/)" },
-        { name: "dark", value: "var(--sb-background/*dark*/)" },
+        // The content of `/*...*/` in the `value`s below will be used as a value of the `<html>`'s `data-color-scheme` attribute.
+        { name: "light", value: "var(--sb-background,#fff/*light*/)" },
+        { name: "dark", value: "var(--sb-background,#212121/*dark*/)" },
       ],
     },
     controls: {
@@ -48,6 +49,7 @@ const preview: Preview = {
       toolbar: {
         title: "Theme",
         icon: "circlehollow",
+        // The values below will be used as a value of the `<html>`'s `data-theme` attribute.
         items: ["DKN", "AAF"],
         // Change title based on selected value
         dynamicTitle: true,
@@ -62,13 +64,16 @@ const preview: Preview = {
       const [{ theme: userTheme }] = useGlobals();
       const theme = sp.get("theme-override") ?? (userTheme as string);
 
-      const background = (context.globals.backgrounds ||
-        context.parameters.backgrounds) as {
-        value: string;
-      };
+      const background = (context.globals.backgrounds ??
+        (context.parameters.backgrounds as { values: { value: string }[] })
+          .values[0]) as
+        | {
+            value: string;
+          }
+        | undefined;
       const colorScheme =
         sp.get("color-scheme-override") ??
-        /\/\*(\w+)\*\//.exec(background.value)?.[1] ??
+        /\/\*(\w+)\*\//.exec(background?.value ?? "")?.[1] ??
         "light";
 
       document.documentElement.dataset.theme = theme;
