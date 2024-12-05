@@ -20,8 +20,10 @@ const RADIO_CLASS_NAME = cva([
 
   "unchecked:border-2",
   "enabled:unchecked:border-ddt-color-common-neutral-default",
-  "enabled:unchecked:hover:bg-ddt-color-common-surface-hover",
-  "enabled:unchecked:active:bg-ddt-color-common-surface-press",
+  "enabled:unchecked:group-hover:border-ddt-color-common-neutral-hover",
+  "enabled:unchecked:group-active:border-ddt-color-common-neutral-press",
+  "enabled:unchecked:group-hover:bg-ddt-color-common-surface-neutral-hover",
+  "enabled:unchecked:group-active:bg-ddt-color-common-surface-neutral-press",
   "checked:border-[5px]",
   "enabled:checked:border-ddt-color-common-brand-default",
   "enabled:checked:group-hover:border-ddt-color-common-brand-hover",
