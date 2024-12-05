@@ -1,5 +1,5 @@
+import designTokens from "@daikin-oss/dds-tokens/json/daikin/Light/tokens.json" with { type: "json" };
 import type { AST, Rule } from "eslint";
-import designTokens from "../../design-tokens.json" with { type: "json" };
 
 export const banMissingDesignTokensRule: Rule.RuleModule = {
   meta: {

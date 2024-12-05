@@ -1,5 +1,5 @@
+import designTokens from "@daikin-oss/dds-tokens/json/daikin/Light/tokens.json" with { type: "json" };
 import plugin from "tailwindcss/plugin";
-import designTokens from "../design-tokens.json" with { type: "json" };
 
 type TokenType =
   | "border"

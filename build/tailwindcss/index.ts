@@ -3,7 +3,6 @@ import { iconsPlugin } from "@egoist/tailwindcss-icons";
 import { env } from "node:process";
 import type { Config } from "tailwindcss";
 import plugin from "tailwindcss/plugin";
-import { colorTokens } from "./color-tokens.json";
 import { loadIcons } from "./icons";
 import { tokensPlugin } from "./tokens";
 import { flattenColorPalette, toColorValue } from "./utils";
@@ -25,9 +24,6 @@ export default {
   ],
   theme: {
     extend: {
-      colors: {
-        system: colorTokens,
-      },
       boxShadow: {
         notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
         dropdown: "0px 0px 8px 0px #00000033",
