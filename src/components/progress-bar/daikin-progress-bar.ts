@@ -7,7 +7,7 @@ import type { MergeVariantProps } from "../../type-utils";
 const cvaBar = cva(
   [
     "w-full",
-    "bg-daikinNeutral-200",
+    "bg-ddt-color-common-disabled",
     "overflow-hidden",
     "relative",
     "after:block",
@@ -22,13 +22,13 @@ const cvaBar = cva(
           "after:w-[--bar-width]",
           "after:bg-ddt-color-common-brand-default",
         ],
-        completed: ["after:w-full", "after:bg-daikinGreen-500"],
+        completed: ["after:w-full", "after:bg-ddt-color-common-success"],
         indeterminate: [
           "after:w-1/2",
           "after:bg-ddt-color-common-brand-default",
           "after:animate-[progress-bar-indeterminate_1200ms_linear_infinite]",
         ],
-        error: ["after:w-full", "after:bg-daikinRed-500"],
+        error: ["after:w-full", "after:bg-ddt-color-common-danger-default"],
       },
       size: {
         medium: ["h-1"],
@@ -39,20 +39,27 @@ const cvaBar = cva(
 );
 
 const cvaBarContainer = cva(
-  ["flex", "justify-between", "items-center", "leading-5", "font-bold"],
+  [
+    "flex",
+    "justify-between",
+    "items-center",
+    "text-ddt-color-common-text-primary",
+    "leading-5",
+    "font-bold",
+  ],
   {
     variants: {
       variant: {
         inprogress: [],
         completed: [
           "after:size-4",
-          "after:text-daikinGreen-500",
+          "after:bg-ddt-color-common-success",
           "after:i-daikin-status-positive",
         ],
         indeterminate: [],
         error: [
           "after:size-4",
-          "after:text-daikinRed-500",
+          "after:text-ddt-color-common-danger-default",
           "after:i-daikin-status-error",
         ],
       },
@@ -63,10 +70,10 @@ const cvaBarContainer = cva(
 const cvaHelper = cva(["text-sm"], {
   variants: {
     variant: {
-      inprogress: [],
-      completed: [],
-      indeterminate: [],
-      error: ["text-daikinRed-500", "font-bold"],
+      inprogress: ["text-ddt-color-common-text-primary"],
+      completed: ["text-ddt-color-common-text-primary"],
+      indeterminate: ["text-ddt-color-common-text-primary"],
+      error: ["text-ddt-color-common-danger-default", "font-bold"],
     },
     visible: {
       false: ["hidden"],
