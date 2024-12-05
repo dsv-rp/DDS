@@ -9,6 +9,7 @@ const cvaTextArea = cva(
   [
     "w-full",
     "h-full",
+    "bg-ddt-color-common-background-default",
     "px-4",
     "py-3",
     "rounded",
