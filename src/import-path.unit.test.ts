@@ -13,9 +13,6 @@ it("the package can be resolved", ({ expect }) => {
     require.resolve("@daikin-oss/design-system-web-components/index.js")
   ).not.toThrow();
   expect(() =>
-    require.resolve("@daikin-oss/design-system-web-components/colors.js")
-  ).not.toThrow();
-  expect(() =>
     require.resolve(
       "@daikin-oss/design-system-web-components/components/index.js"
     )
@@ -34,9 +31,6 @@ it("the package can be resolved", ({ expect }) => {
   // Without extensions
   expect(() =>
     require.resolve("@daikin-oss/design-system-web-components/index")
-  ).not.toThrow();
-  expect(() =>
-    require.resolve("@daikin-oss/design-system-web-components/colors")
   ).not.toThrow();
   expect(() =>
     require.resolve(
@@ -72,33 +66,5 @@ it("the package can be resolved", ({ expect }) => {
   ).toThrow();
   expect(() =>
     require.resolve("@daikin-oss/design-system-web-components/dist/index")
-  ).toThrow();
-  expect(() =>
-    require.resolve("@daikin-oss/design-system-web-components/dist/colors.js")
-  ).toThrow();
-  expect(() =>
-    require.resolve("@daikin-oss/design-system-web-components/dist/colors")
-  ).toThrow();
-
-  // Error - Invalid import path - Filesystem paths are not import paths
-  expect(() =>
-    require.resolve(
-      "@daikin-oss/design-system-web-components/dist/cjs/colors.cjs"
-    )
-  ).toThrow();
-  expect(() =>
-    require.resolve(
-      "@daikin-oss/design-system-web-components/dist/cjs-dev/colors.cjs"
-    )
-  ).toThrow();
-  expect(() =>
-    require.resolve(
-      "@daikin-oss/design-system-web-components/dist/es/colors.js"
-    )
-  ).toThrow();
-  expect(() =>
-    require.resolve(
-      "@daikin-oss/design-system-web-components/dist/es-dev/colors.js"
-    )
   ).toThrow();
 });

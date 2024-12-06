@@ -16,21 +16,21 @@ const INNER_CN = cva([
   "focus-visible:before:outline",
   "focus-visible:before:outline-2",
   "focus-visible:before:-outline-offset-2",
-  "focus-visible:before:outline-system-state-focus",
+  "focus-visible:before:outline-ddt-color-common-border-focus",
 
   // For buttons and links
-  "link-enabled:before:group-hover:[&:not(:active)]:bg-system-background-surface-hover",
-  "link-enabled:before:active:bg-system-background-surface-press",
+  "link-enabled:before:group-hover:[&:not(:active)]:bg-ddt-color-common-surface-hover",
+  "link-enabled:before:active:bg-ddt-color-common-surface-press",
 
   // For text
-  "[&:not(a,button)]:before:group-hover:bg-system-background-surface-hover",
+  "[&:not(a,button)]:before:group-hover:bg-ddt-color-common-surface-hover",
 ])();
 
 const cvaContent = cva(["block", "pl-2", "pr-3", "text-left"], {
   variants: {
     disabled: {
-      false: ["text-system-element-text-primary"],
-      true: ["text-system-state-disabled"],
+      false: ["text-ddt-color-common-text-primary"],
+      true: ["text-ddt-color-common-disabled"],
     },
   },
 });
@@ -42,8 +42,8 @@ const cvaIcon = cva(["icon-size-6"], {
       right: ["pointer-events-none"],
     },
     disabled: {
-      false: ["text-system-element-text-primary"],
-      true: ["text-system-state-disabled"],
+      false: ["text-ddt-color-common-text-primary"],
+      true: ["text-ddt-color-common-disabled"],
     },
   },
 });
