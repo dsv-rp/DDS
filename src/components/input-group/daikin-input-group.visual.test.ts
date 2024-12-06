@@ -46,7 +46,7 @@ describeEach(["light", "dark"] as const, (theme) => {
 
               const snapshotName =
                 content !== "TextArea"
-                  ? `${content}-${state}-${required}-${error}.png`
+                  ? `${theme}-${content}-${state}-${required}-${error}.png`
                   : null;
 
               const testScreenshot = async (
