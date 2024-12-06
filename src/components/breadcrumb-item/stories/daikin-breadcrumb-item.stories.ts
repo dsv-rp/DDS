@@ -8,22 +8,25 @@ export default {
   ...metadata,
 };
 
-export const Normal: Story = {
+export const Default: Story = {
   args: {
     variant: "normal",
-    href: "#",
-    target: "_self",
+    href: "https://dsv-rp.github.io/DDS",
     disabled: false,
-    trailingSlash: true,
+    label: "Breadcrumb item",
   },
 };
 
-export const Ellipsis: Story = {
+export const Disabled: Story = {
   args: {
-    variant: "ellipsis",
-    href: "#",
-    target: "_self",
-    disabled: false,
-    trailingSlash: true,
+    ...Default.args,
+    disabled: true,
+  },
+};
+
+export const Current: Story = {
+  args: {
+    ...Default.args,
+    variant: "current",
   },
 };
