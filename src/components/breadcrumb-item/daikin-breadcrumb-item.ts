@@ -84,11 +84,12 @@ export class DaikinBreadcrumbItem extends LitElement {
           ?show-visited=${this.showVisited}
           ><slot></slot
         ></daikin-link>`
-      : html`<span
+      : html`<a
           class="text-sm font-daikinSerif text-system-element-text-primary"
+          aria-disabled="true"
           aria-current="true"
           ><slot></slot
-        ></span>`;
+        ></a>`;
   }
 }
 
