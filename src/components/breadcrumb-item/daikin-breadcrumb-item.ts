@@ -68,7 +68,7 @@ export class DaikinBreadcrumbItem extends LitElement {
 
   /**
    * Whether or not to change the color of visited links.
-   * This is specified by the system.
+   * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: Boolean, reflect: true, attribute: "show-visited" })
   showVisited = false;
