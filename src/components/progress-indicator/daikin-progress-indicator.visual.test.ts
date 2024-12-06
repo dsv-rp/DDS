@@ -1,5 +1,6 @@
 import {
   clipFor,
+  describeEach,
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
@@ -13,14 +14,22 @@ type StoryArgs = InferStorybookArgTypes<
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-progress-indicator--default", args);
 
-test("base", async ({ page }) => {
-  await page.goto(getPageURL());
+describeEach(["light", "dark"] as const, (theme) => {
+  const baseArgs = {
+    $theme: theme,
+    currentItem: 1,
+  };
+  const baseURL = getPageURL(baseArgs);
 
-  // wait for element to be visible
-  const element = await page.waitForSelector("daikin-progress-indicator", {
-    state: "visible",
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-progress-indicator", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
-
-  // take screenshot and check for diffs
-  await expect(page).toHaveScreenshot(await clipFor(element));
 });
