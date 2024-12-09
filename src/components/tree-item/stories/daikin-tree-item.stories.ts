@@ -1,7 +1,7 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_TREE_ITEM_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -11,9 +11,9 @@ export default {
   ...metadata,
 };
 
-export const Button: Story = {
+export const Default: Story = {
   args: {
-    type: "button",
+    value: "value",
     selected: false,
     disabled: false,
     label: "Tree item",
@@ -23,8 +23,7 @@ export const Button: Story = {
     const root = canvasElement.getElementsByTagName("daikin-tree-item")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerInput = getByShadowRole(root, "button");
-    await expect(queryByShadowRole(root, "link")).not.toBeInTheDocument();
+    const innerInput = getByShadowText(root, args.label);
     await expect(args.onClick).toHaveBeenCalledTimes(0);
 
     // should react if inner button clicked
@@ -35,31 +34,16 @@ export const Button: Story = {
   }),
 };
 
-export const Link: Story = {
+export const Selected: Story = {
   args: {
-    ...Button.args,
-    type: "link",
-    href: "#",
-  },
-  play: definePlay(async ({ canvasElement }) => {
-    const root = canvasElement.getElementsByTagName("daikin-tree-item")[0];
-    await expect(root).toBeInTheDocument();
-
-    await expect(getByShadowRole(root, "link")).toBeInTheDocument();
-    await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
-  }),
-};
-
-export const ButtonSelected: Story = {
-  args: {
-    ...Button.args,
+    ...Default.args,
     selected: true,
   },
 };
 
-export const ButtonDisabled: Story = {
+export const Disabled: Story = {
   args: {
-    ...Button.args,
+    ...Default.args,
     disabled: true,
     onClick: fn(),
   },
@@ -67,7 +51,7 @@ export const ButtonDisabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-tree-item")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerInput = getByShadowRole(root, "button");
+    const innerInput = getByShadowText(root, args.label);
     await expect(args.onClick).toHaveBeenCalledTimes(0);
 
     // should not react if inner button clicked
@@ -75,21 +59,5 @@ export const ButtonDisabled: Story = {
       await userEvent.click(innerInput);
       await expect(args.onClick).toHaveBeenCalledTimes(0);
     });
-  }),
-};
-
-export const LinkDisabled: Story = {
-  args: {
-    ...Button.args,
-    type: "link",
-    href: "#",
-    disabled: true,
-  },
-  play: definePlay(async ({ canvasElement }) => {
-    const root = canvasElement.getElementsByTagName("daikin-tree-item")[0];
-    await expect(root).toBeInTheDocument();
-
-    await expect(getByShadowRole(root, "link")).toBeInTheDocument();
-    await expect(queryByShadowRole(root, "button")).not.toBeInTheDocument();
   }),
 };

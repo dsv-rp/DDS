@@ -9,11 +9,7 @@ export interface DaikinTreeItemStoryArgs
 }
 
 export const DAIKIN_TREE_ITEM_ARG_TYPES = {
-  type: {
-    control: "radio",
-    options: ["button", "link"],
-  },
-  href: {
+  value: {
     type: "string",
   },
   selected: {

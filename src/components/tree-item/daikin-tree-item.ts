@@ -25,11 +25,6 @@ export const cvaTreeChildren = cva(
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
     "focus-visible:outline-system-state-focus",
-
-    "link-enabled:bg-[--color-base]",
-    "link-enabled:hover:bg-[--color-hover]",
-    "link-enabled:active:bg-[--color-active]",
-    "link-disabled:text-system-state-disabled",
   ],
   {
     variants: {
@@ -107,21 +102,6 @@ export class DaikinTreeItem extends LitElement {
   value: string = "";
 
   /**
-   * Type of the tree item.
-   * If `"link"` is specified, the tree item will be rendered as an `<a>` element.
-   */
-  @property({ type: String })
-  type: "button" | "link" = "button";
-
-  /**
-   * Link `href`.
-   * Only used if the `type` is `"link"`.
-   * If omitted with `type="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
-   */
-  @property({ type: String })
-  href: string | null = null;
-
-  /**
    * Whether the tree item is disabled.
    */
   @property({ type: Boolean, reflect: true })
@@ -146,7 +126,7 @@ export class DaikinTreeItem extends LitElement {
   @property({ type: Number, attribute: false })
   level: number = 0;
 
-  @query("a,button")
+  @query("div")
   private readonly _focusableElement!: HTMLAnchorElement | HTMLButtonElement;
 
   private _handleKeyDown(event: KeyboardEvent) {
@@ -180,44 +160,23 @@ export class DaikinTreeItem extends LitElement {
   }
 
   override render() {
-    const itemCN = cvaTreeChildren({
-      disabled: this.disabled,
-      selected: this.selected && !this.disabled,
-      icon: false,
-      open: false,
-    });
-
-    const disabled =
-      this.disabled || (this.type === "link" && this.href == null);
-    const item =
-      this.type === "link"
-        ? html`<a
-            href=${ifDefined(!disabled ? (this.href ?? undefined) : undefined)}
-            role=${ifDefined(disabled ? "link" : undefined)}
-            aria-disabled=${ifDefined(disabled ? "true" : undefined)}
-            class=${itemCN}
-            @keydown=${this._handleKeyDown}
-          >
-            <slot></slot>
-          </a>`
-        : html`<button
-            type="button"
-            class=${itemCN}
-            ?disabled=${disabled}
-            @click=${() => emitTreeSelect(this)}
-            @keydown=${this._handleKeyDown}
-          >
-            <slot></slot>
-          </button>`;
-
     // eslint-disable-next-line lit-a11y/accessible-name -- The accessible name of the `treeitem` will be calculated from the slot content.
     return html`<div
+      class=${cvaTreeChildren({
+        disabled: this.disabled,
+        selected: this.selected && !this.disabled,
+        icon: false,
+        open: false,
+      })}
       role="treeitem"
       aria-disabled=${this.disabled}
       aria-selected=${this.selected && !this.disabled}
+      tabindex=${ifDefined(!this.disabled ? 0 : undefined)}
       style=${`--level:${this.level}`}
+      @click=${() => emitTreeSelect(this)}
+      @keydown=${this._handleKeyDown}
     >
-      ${item}
+      <slot></slot>
     </div>`;
   }
 
