@@ -59,7 +59,7 @@ export class DaikinTreeSection extends LitElement {
   `;
 
   /**
-   * Value of the tree item.
+   * Value of the tree section.
    */
   @property({ type: String })
   value: string = "";
