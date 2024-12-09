@@ -1,7 +1,10 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
+import {
+  getAllByShadowRole,
+  getByShadowText,
+} from "shadow-dom-testing-library";
 import { DAIKIN_TREE_SECTION_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -27,7 +30,8 @@ export const Default: Story = {
     await expect(root).toHaveAttribute("open");
     await expect(getByShadowText(root, "Tree item")).toBeVisible();
 
-    const innerButton = getByShadowRole(root, "button", { name: "Tree label" });
+    const innerButton = getAllByShadowRole(root, "treeitem")[0]
+      .children[0] as HTMLElement;
 
     await expect(innerButton).toBeInTheDocument();
 
@@ -39,6 +43,7 @@ export const Default: Story = {
 
     await step("Try to keyboard navigation", async () => {
       innerButton.focus();
+
       await userEvent.keyboard("[Space]");
       await expect(getByShadowText(root, "Tree item")).toBeVisible();
       await expect(args.onToggle).toHaveBeenCalledTimes(2);
@@ -63,9 +68,11 @@ export const Disabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-tree-section")[0];
     await expect(root).toBeInTheDocument();
 
-    await expect(
-      getByShadowRole(root, "button", { name: "Tree label" })
-    ).toHaveAttribute("disabled");
+    const innerButton = getAllByShadowRole(root, "treeitem")[0]
+      .children[0] as HTMLElement;
+
+    await expect(root).toHaveAttribute("disabled");
+    await userEvent.click(innerButton);
     await expect(args.onToggle).toHaveBeenCalledTimes(0);
   }),
 };
@@ -84,7 +91,8 @@ export const CancelToggleEvent: Story = {
     await expect(root).toHaveAttribute("open");
     await expect(getByShadowText(root, "Tree item")).toBeVisible();
 
-    const innerButton = getByShadowRole(root, "button", { name: "Tree label" });
+    const innerButton = getAllByShadowRole(root, "treeitem")[0]
+      .children[0] as HTMLElement;
 
     await expect(innerButton).toBeInTheDocument();
 

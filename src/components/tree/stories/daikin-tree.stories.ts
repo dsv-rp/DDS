@@ -2,7 +2,10 @@ import type { DaikinTreeSection } from "#package/components/tree-section";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, userEvent } from "@storybook/test";
-import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
+import {
+  getAllByShadowRole,
+  getByShadowText,
+} from "shadow-dom-testing-library";
 import { DAIKIN_TREE_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -23,12 +26,12 @@ export const Default: Story = {
     const firstTarget = (root.shadowRoot
       ?.querySelector("slot")
       ?.assignedElements({ flatten: true }) ?? [])[0] as HTMLElement;
+    const firstInnerButton = getAllByShadowRole(root, "treeitem")[0]
+      .children[0] as HTMLElement;
 
     await step("Try to click inner section label", async () => {
       await expect(firstTarget).toHaveAttribute("open");
-      await userEvent.click(
-        getByShadowRole(root, "button", { name: "Tree section 1" })
-      );
+      await userEvent.click(firstInnerButton);
 
       await expect(firstTarget).not.toHaveAttribute("open");
     });
@@ -36,7 +39,7 @@ export const Default: Story = {
     await step(
       "Pressing the Arrow Down button will move to the next focusable content",
       async () => {
-        firstTarget.focus();
+        firstInnerButton.focus();
         await userEvent.keyboard("[ArrowDown]");
 
         await expect(

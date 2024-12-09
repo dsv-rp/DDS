@@ -5,6 +5,7 @@ import {
   query,
   queryAssignedElements,
 } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
@@ -111,8 +112,8 @@ export class DaikinTreeSection extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section" })
   private readonly _sections!: readonly DaikinTreeSection[];
 
-  @query("button")
-  private readonly _button!: HTMLButtonElement | null;
+  @query("div[tabindex='0']")
+  private readonly _div!: HTMLElement | null;
 
   private get _open(): boolean {
     return this.open && !this.disabled;
@@ -136,6 +137,7 @@ export class DaikinTreeSection extends LitElement {
 
   private _handleClick(): void {
     if (
+      !this.disabled &&
       this.dispatchEvent(
         new Event("toggle", {
           cancelable: true,
@@ -162,9 +164,13 @@ export class DaikinTreeSection extends LitElement {
       return;
     }
 
-    if (this.selectable && ["Enter", " "].includes(event.key)) {
+    if (!this.disabled && ["Enter", " "].includes(event.key)) {
       event.preventDefault();
-      emitTreeSelect(this);
+      this._handleClick();
+
+      if (this.selectable) {
+        emitTreeSelect(this);
+      }
 
       return;
     }
@@ -225,21 +231,20 @@ export class DaikinTreeSection extends LitElement {
       aria-disabled=${this.disabled}
       aria-selected=${this._selected}
     >
-      <button
-        type="button"
-        ?disabled=${this.disabled}
+      <div
         class=${cvaTreeChildren({
           selected: this._selected,
           disabled: this.disabled,
           icon: true,
           open: this._open,
         })}
+        tabindex=${ifDefined(!this.disabled ? 0 : undefined)}
         style=${`--level:${this.level}`}
         @click=${this._handleClick}
         @keydown=${this._handleKeyDown}
       >
         <slot name="label"></slot>
-      </button>
+      </div>
       <div role="group" ?hidden=${!this._open}>
         <slot
           @slotchange=${this._handleSlotChange}
@@ -272,7 +277,7 @@ export class DaikinTreeSection extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._button?.focus(options);
+    this._div?.focus(options);
   }
 
   /**
@@ -284,7 +289,6 @@ export class DaikinTreeSection extends LitElement {
    * @private
    */
   focusLastItem(options?: FocusOptions): void {
-    // console.log(this._children);
     const child =
       this._open && this._children.findLast((element) => !element.disabled);
 
