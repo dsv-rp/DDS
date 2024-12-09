@@ -17,11 +17,9 @@ export const cvaTreeChildren = cva(
     "items-center",
     "w-full",
     "min-h-12",
-    "bg-[--color-base]",
     "py-3",
     "pr-4",
     "pl-[calc((var(--level)+1)*1rem)]",
-    "cursor-pointer",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -31,7 +29,7 @@ export const cvaTreeChildren = cva(
   {
     variants: {
       disabled: {
-        false: ["hover:bg-[--color-base]", "active:bg-[--color-base]"],
+        false: ["bg-[--color-base]", "cursor-pointer"],
         true: ["text-system-state-disabled"],
       },
       selected: {
@@ -133,6 +131,13 @@ export class DaikinTreeItem extends LitElement {
 
   private _handleKeyDown(event: KeyboardEvent) {
     if (!isSimpleKeyEvent(event)) {
+      return;
+    }
+
+    if (!this.disabled && ["Enter", " "].includes(event.key)) {
+      event.preventDefault();
+      emitTreeSelect(this);
+
       return;
     }
 
