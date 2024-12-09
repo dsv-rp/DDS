@@ -129,7 +129,7 @@ export class DaikinTreeItem extends LitElement {
   level: number = 0;
 
   @query("div")
-  private readonly _focusableElement!: HTMLAnchorElement | HTMLButtonElement;
+  private readonly _div!: HTMLElement;
 
   private _handleKeyDown(event: KeyboardEvent) {
     if (!isSimpleKeyEvent(event)) {
@@ -197,7 +197,7 @@ export class DaikinTreeItem extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._focusableElement.focus(options);
+    this._div.focus(options);
   }
 
   /**
@@ -208,7 +208,7 @@ export class DaikinTreeItem extends LitElement {
    * @private
    */
   focusLastItem(options?: FocusOptions): void {
-    this._focusableElement.focus(options);
+    this._div.focus(options);
   }
 
   /**
