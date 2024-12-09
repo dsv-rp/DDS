@@ -12,15 +12,7 @@ export const Default: Story = {
   args: {
     variant: "normal",
     href: "https://dsv-rp.github.io/DDS",
-    disabled: false,
     label: "Breadcrumb item",
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    ...Default.args,
-    disabled: true,
   },
 };
 

@@ -55,12 +55,6 @@ export class DaikinBreadcrumbItem extends LitElement {
   variant: "normal" | "current" = "normal";
 
   /**
-   * Specify whether the link should be disabled.
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
    * Specify the link target.
    */
   @property({ type: String, reflect: true })
@@ -74,13 +68,10 @@ export class DaikinBreadcrumbItem extends LitElement {
   showVisited = false;
 
   override render() {
-    const disabled = this.disabled || this.variant === "current";
-
     return this.variant === "normal"
       ? html`<daikin-link
           class="text-sm"
           href=${ifDefined(this.href ?? undefined)}
-          ?disabled=${disabled}
           ?show-visited=${this.showVisited}
           ><slot></slot
         ></daikin-link>`

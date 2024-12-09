@@ -15,7 +15,7 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-breadcrumb-item--default", args);
 
 describeEach(["normal"], () => {
-  const baseURL = getPageURL({});
+  const baseURL = getPageURL();
 
   test("base", async ({ page }) => {
     await page.goto(baseURL);
@@ -76,18 +76,6 @@ describeEach(["normal"], () => {
       }
       a.focus();
     }, element);
-
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
-
-  test("disabled", async ({ page }) => {
-    await page.goto(getPageURL({ disabled: true }));
-
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-breadcrumb-item", {
-      state: "visible",
-    });
 
     // take screenshot and check for diffs
     await expect(page).toHaveScreenshot(await clipFor(element));

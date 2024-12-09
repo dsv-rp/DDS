@@ -15,9 +15,6 @@ export const DAIKIN_BREADCRUMB_ITEM_ARG_TYPES = {
     control: "radio",
     options: ["normal", "current"],
   },
-  disabled: {
-    type: "boolean",
-  },
   target: {
     type: "string",
   },
