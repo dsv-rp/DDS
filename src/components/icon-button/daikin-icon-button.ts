@@ -35,7 +35,7 @@ const cvaIconButton = cva(
         default: [
           "link-enabled:var-color-ddt-color-common-brand-default/color-primary",
           "link-enabled:hover:var-color-ddt-color-common-brand-hover/color-primary",
-          "link-enabled:hover:var-color-ddt-color-common-surface-hover/color-secondary",
+          "link-enabled:hover:var-color-ddt-color-common-surface-brand-hover/color-secondary",
           "link-enabled:active:var-color-ddt-color-common-brand-press/color-primary",
           "link-enabled:active:var-color-ddt-color-common-surface-brand-press/color-secondary",
         ],
