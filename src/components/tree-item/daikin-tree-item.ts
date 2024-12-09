@@ -17,9 +17,11 @@ export const cvaTreeChildren = cva(
     "items-center",
     "w-full",
     "min-h-12",
+    "bg-[--color-base]",
     "py-3",
     "pr-4",
     "pl-[calc((var(--level)+1)*1rem)]",
+    "cursor-pointer",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -29,19 +31,19 @@ export const cvaTreeChildren = cva(
   {
     variants: {
       disabled: {
-        false: ["hover:bg-[--color-hover]", "active:bg-[--color-active]"],
+        false: ["hover:bg-[--color-base]", "active:bg-[--color-base]"],
         true: ["text-system-state-disabled"],
       },
       selected: {
         false: [
           "var-color-transparent/color-base",
-          "var-color-system-background-surface-hover/color-hover",
-          "var-color-system-background-surface-press/color-active",
+          "hover:var-color-system-background-surface-hover/color-base",
+          "active:var-color-system-background-surface-press/color-base",
         ],
         true: [
           "var-color-system-background-surface-selected/color-base",
-          "var-color-system-background-surface-selectedHover/color-hover",
-          "var-color-system-background-surface-selectedActive/color-active",
+          "hover:var-color-system-background-surface-selectedHover/color-base",
+          "active:var-color-system-background-surface-selectedActive/color-base",
         ],
       },
       icon: {

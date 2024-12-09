@@ -5,6 +5,7 @@ import {
   query,
   queryAssignedElements,
 } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
@@ -225,20 +226,21 @@ export class DaikinTreeSection extends LitElement {
       aria-disabled=${this.disabled}
       aria-selected=${this._selected}
     >
-      <button
-        type="button"
+      <span
         ?disabled=${this.disabled}
         class=${cvaTreeChildren({
           selected: this._selected,
+          disabled: this.disabled,
           icon: true,
           open: this._open,
         })}
+        tabindex=${ifDefined(!this.disabled ? 0 : undefined)}
         style=${`--level:${this.level}`}
         @click=${this._handleClick}
         @keydown=${this._handleKeyDown}
       >
         <slot name="label"></slot>
-      </button>
+      </span>
       <div role="group" ?hidden=${!this._open}>
         <slot
           @slotchange=${this._handleSlotChange}
