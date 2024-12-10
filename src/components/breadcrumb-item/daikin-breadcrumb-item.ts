@@ -1,45 +1,8 @@
-import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
-
-const cvaLink = cva(
-  [
-    "h-8",
-    "font-normal",
-    "not-italic",
-    "leading-8",
-    "text-sm",
-    "text-daikinBlue-500",
-    "outline-none",
-    "font-daikinSerif",
-  ],
-  {
-    variants: {
-      variant: {
-        normal: [
-          "hover:text-daikinBlue-300",
-          "active:text-daikinNeutral-800",
-          "focus-visible:text-daikinBlue-700",
-        ],
-        ellipsis: ["hover:text-daikinBlue-300"],
-      },
-      disabled: {
-        true: [
-          "!text-daikinNeutral-800",
-          "pointer-events-none",
-          "cursor-default",
-          "focus-visible:!text-daikinNeutral-800",
-        ],
-        false: [],
-      },
-    },
-  }
-);
-
-type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
+import "../link/daikin-link";
 
 /**
  * The `daikin-breadcrumb-item` is a component used to represent each item of the breadcrumb list, and is used as a child element of the `daikin-breadcrumb` component.
@@ -57,8 +20,8 @@ type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
  *
  * ```html
  * <!-- See `daikin-breadcrumb` component for complete example. -->
- * <daikin-breadcrumb-item href="#">
- *   Breadcrumb Item 1
+ * <daikin-breadcrumb-item href="https://www.example.com">
+ *   Breadcrumb item
  * </daikin-breadcrumb-item>
  * ```
  */
@@ -66,24 +29,13 @@ type LinkVariantProps = MergeVariantProps<typeof cvaLink>;
 export class DaikinBreadcrumbItem extends LitElement {
   static override styles = css`
     ${unsafeCSS(tailwindStyles)}
-
-    :host {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      flex-shrink: 0;
-    }
-
-    :host([hidden]) {
-      display: none;
-    }
   `;
 
   /**
-   * Specify link href
+   * Specify link href.
    */
   @property({ type: String, reflect: true })
-  href = "";
+  href: string | null = null;
 
   /**
    * Specifies the display content.
@@ -91,65 +43,58 @@ export class DaikinBreadcrumbItem extends LitElement {
    * Set automatically by `daikin-breadcrumb`.
    */
   @property({ type: String, reflect: true })
-  variant: LinkVariantProps["variant"] = "normal";
+  variant: "normal" | "current" = "normal";
 
   /**
-   * Specify whether the link should be disabled
-   */
-  @property({ type: Boolean, reflect: true })
-  disabled = false;
-
-  /**
-   * Specify the link target
+   * Specify the link target.
    */
   @property({ type: String, reflect: true })
   target: string | null = null;
 
   /**
-   * Whether the slash after the link should shown.
+   * Whether or not to change the color of visited links.
    * Set automatically by `daikin-breadcrumb`.
    */
-  @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
-  trailingSlash = false;
+  @property({ type: Boolean, reflect: true, attribute: "show-visited" })
+  showVisited = false;
 
   /**
-   * Whether the item is the last one.
-   * When set to `true`, the item will also be considered to be the current page and the link will be disabled.
-   * Automatically set by `daikin-breadcrumb` component.
+   * _Internal use._
+   * Whether or not to display the divider on the right.
+   * Set automatically by `daikin-breadcrumb`.
+   *
+   * @private
    */
-  @property({ type: Boolean, reflect: true })
-  last = false;
+  @property({ type: Boolean, reflect: true, attribute: "append-divider" })
+  appendDivider = false;
 
   override render() {
-    const slash = this.trailingSlash
-      ? html`<span
-          class="text-daikinNeutral-800 font-daikinSerif"
-          aria-hidden="true"
-        >
-          /
-        </span>`
-      : null;
+    // To prevent unnecessary whitespace from being included, we use formatting that does not include whitespace between tags.
+    const link =
+      this.variant === "normal"
+        ? html`<daikin-link
+            class="text-sm"
+            href=${ifDefined(this.href ?? undefined)}
+            ?show-visited=${this.showVisited}
+            ><slot></slot
+          ></daikin-link>`
+        : html`<a
+            class="text-sm font-daikinSerif text-system-element-text-primary"
+            aria-disabled="true"
+            aria-current="true"
+            role="link"
+            ><slot></slot
+          ></a>`;
 
-    const isDisabled = this.last || this.disabled;
-    return html`
-      ${this.variant === "normal"
-        ? html`<a
-            class=${cvaLink({ variant: this.variant, disabled: isDisabled })}
-            href=${ifDefined((!isDisabled && this.href) || undefined)}
-            target=${
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-              ifDefined(this.target) as any
-            }
-            aria-disabled=${ifDefined(isDisabled || undefined)}
-            aria-current=${ifDefined(this.last || undefined)}
-          >
-            <slot></slot>
-          </a>`
-        : html`<span class=${cvaLink(this)} aria-label="…">
-            <span>. . .</span>
-          </span> `}
-      ${slash}
-    `;
+    const divider = this.appendDivider
+      ? html`<span
+          class="text-system-element-text-primary mx-2 text-sm"
+          aria-hidden="true"
+          >/</span
+        >`
+      : nothing;
+
+    return html`<div class="inline" role="listitem">${link}${divider}</div>`;
   }
 }
 
