@@ -20,10 +20,11 @@
 }
 
 :root:not(.no-bg)[data-color-scheme="dark"] {
-  --sb-background: #333;
+  --sb-background: #212121;
 }
 
 /* Theme Tokens */
+/* See `.storybook/preview.tsx` for `data-theme` and `data-color-scheme` */
 
 :root[data-theme="DKN"][data-color-scheme="light"] {
   @include dds-tokens.daikin-Light-variables;
