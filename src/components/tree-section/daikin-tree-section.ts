@@ -2,10 +2,10 @@ import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
-  query,
   queryAssignedElements,
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import { cvaTreeChildren, type DaikinTreeItem } from "../tree-item";
@@ -112,8 +112,7 @@ export class DaikinTreeSection extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section" })
   private readonly _sections!: readonly DaikinTreeSection[];
 
-  @query("div[tabindex='0']")
-  private readonly _div!: HTMLElement | null;
+  private readonly _focusableRef: Ref<HTMLElement> = createRef();
 
   private get _open(): boolean {
     return this.open && !this.disabled;
@@ -232,6 +231,7 @@ export class DaikinTreeSection extends LitElement {
       aria-selected=${this._selected}
     >
       <div
+        ${ref(this._focusableRef)}
         class=${cvaTreeChildren({
           selected: this._selected,
           disabled: this.disabled,
@@ -277,7 +277,7 @@ export class DaikinTreeSection extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._div?.focus(options);
+    this._focusableRef.value?.focus(options);
   }
 
   /**

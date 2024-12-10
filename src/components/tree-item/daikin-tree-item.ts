@@ -1,7 +1,9 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import type { Ref } from "lit/directives/ref.js";
+import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import {
@@ -126,8 +128,7 @@ export class DaikinTreeItem extends LitElement {
   @property({ type: Number, attribute: false })
   level: number = 0;
 
-  @query("div")
-  private readonly _div!: HTMLElement;
+  private readonly _focusableRef: Ref<HTMLElement> = createRef();
 
   private _handleKeyDown(event: KeyboardEvent) {
     if (!isSimpleKeyEvent(event)) {
@@ -169,6 +170,7 @@ export class DaikinTreeItem extends LitElement {
   override render() {
     // eslint-disable-next-line lit-a11y/accessible-name -- The accessible name of the `treeitem` will be calculated from the slot content.
     return html`<div
+      ${ref(this._focusableRef)}
       class=${cvaTreeChildren({
         disabled: this.disabled,
         selected: this.selected && !this.disabled,
@@ -202,7 +204,7 @@ export class DaikinTreeItem extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._div.focus(options);
+    this._focusableRef.value?.focus(options);
   }
 
   /**
@@ -213,7 +215,7 @@ export class DaikinTreeItem extends LitElement {
    * @private
    */
   focusLastItem(options?: FocusOptions): void {
-    this._div.focus(options);
+    this._focusableRef.value?.focus(options);
   }
 
   /**
