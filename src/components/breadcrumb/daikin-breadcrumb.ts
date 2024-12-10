@@ -68,7 +68,7 @@ export class DaikinBreadcrumb extends LitElement {
   }
 
   override render() {
-    return html`<nav class="inline-block">
+    return html`<nav class="inline-block" aria-label="Breadcrumbs">
       <div class="inline-block" role="list">
         <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
