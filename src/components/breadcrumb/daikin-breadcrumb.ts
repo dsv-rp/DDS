@@ -57,9 +57,11 @@ export class DaikinBreadcrumb extends LitElement {
     const items = this._items;
 
     items.forEach((item, index) => {
-      item.variant = index === items.length - 1 ? "current" : "normal";
+      const isLast = index === items.length - 1;
+
+      item.variant = isLast ? "current" : "normal";
       item.showVisited = this.showVisited;
-      item.showDivider = index < items.length - 1;
+      item.appendDivider = !isLast;
     });
   }
 

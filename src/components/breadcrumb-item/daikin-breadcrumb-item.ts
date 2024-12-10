@@ -65,10 +65,11 @@ export class DaikinBreadcrumbItem extends LitElement {
    *
    * @private
    */
-  @property({ type: Boolean, reflect: true, attribute: "show-divider" })
-  showDivider = false;
+  @property({ type: Boolean, reflect: true, attribute: "append-divider" })
+  appendDivider = false;
 
   override render() {
+    // To prevent unnecessary whitespace from being included, we use formatting that does not include whitespace between tags.
     const link =
       this.variant === "normal"
         ? html`<daikin-link
@@ -81,10 +82,11 @@ export class DaikinBreadcrumbItem extends LitElement {
             class="text-sm font-daikinSerif text-system-element-text-primary"
             aria-disabled="true"
             aria-current="true"
+            role="link"
             ><slot></slot
           ></a>`;
 
-    const divider = this.showDivider
+    const divider = this.appendDivider
       ? html`<span
           class="text-system-element-text-primary mx-2 text-sm"
           aria-hidden="true"
