@@ -36,7 +36,7 @@ export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
  * If you try to use an icon that does not exist, a blank space will be displayed.
  * In the development build, warnings will be displayed in the console, so please check there if you encounter any unexpected behavior.
  *
- * @cssprop [--dds-icon-size] - Icon size. If a value other than "current" is set for the `size` property, it will be overwritten automatically. This may be set by the parent component such as `daikin-icon-button`.
+ * @cssprop [--ddc-icon-size] - Icon size. If a value other than "current" is set for the `size` property, it will be overwritten automatically. This may be set by the parent component such as `daikin-icon-button`.
  *
  * @example
  *
@@ -55,24 +55,24 @@ export class DaikinIcon extends LitElement {
 
     :host {
       display: inline-block;
-      width: var(--dds-icon-size, 100%);
-      height: var(--dds-icon-size, 100%);
+      width: var(--ddc-icon-size, 100%);
+      height: var(--ddc-icon-size, 100%);
     }
 
     :host([size="s"]) {
-      --dds-icon-size: 12px;
+      --ddc-icon-size: 12px;
     }
 
     :host([size="m"]) {
-      --dds-icon-size: 16px;
+      --ddc-icon-size: 16px;
     }
 
     :host([size="l"]) {
-      --dds-icon-size: 20px;
+      --ddc-icon-size: 20px;
     }
 
     :host([size="xl"]) {
-      --dds-icon-size: 24px;
+      --ddc-icon-size: 24px;
     }
   `;
 
@@ -90,7 +90,7 @@ export class DaikinIcon extends LitElement {
 
   /**
    * Specify the size of the icon.
-   * If "current" is set, `--dds-icon-size` CSS variable will be used. `--dds-icon-size` may be set by the parent component such as `daikin-icon-button`.
+   * If "current" is set, `--ddc-icon-size` CSS variable will be used. `--ddc-icon-size` may be set by the parent component such as `daikin-icon-button`.
    */
   @property({ type: String, reflect: true })
   size: "s" | "m" | "l" | "xl" | "current" = "current";

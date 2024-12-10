@@ -1,4 +1,3 @@
-import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import {
@@ -154,8 +153,6 @@ export class DaikinInputGroup extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --input-group-border-color-error: ${unsafeCSS(colorFeedbackNegative)};
-
       display: block;
       width: 100%;
     }

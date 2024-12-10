@@ -16,6 +16,7 @@
     "dist-ssr",
     "storybook-static",
     "test-results",
+    "*.tsbuildinfo",
     "*.log",
     "*.log*",
     "*.tsbuildinfo",
