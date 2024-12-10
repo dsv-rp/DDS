@@ -25,11 +25,11 @@ const cvaContainer = cva(
         inline: [],
       },
       status: {
-        positive: ["border-ddt-color-feedback-positive"],
-        negative: ["border-ddt-color-feedback-negative"],
-        warning: ["border-ddt-color-feedback-warning"],
-        alarm: ["border-ddt-color-feedback-alarm"],
-        information: ["border-ddt-color-feedback-information"],
+        positive: ["border-ddt-color-common-success"],
+        negative: ["border-ddt-color-common-danger-default"],
+        warning: ["border-ddt-color-common-warning"],
+        alarm: ["border-ddt-color-common-alarm"],
+        information: ["border-ddt-color-common-information"],
       },
     },
     defaultVariants: {
@@ -54,20 +54,20 @@ const cvaIconContainer = cva(
     variants: {
       status: {
         positive: [
-          "bg-ddt-color-feedback-positive",
+          "bg-ddt-color-common-success",
           "after:i-daikin-status-positive",
         ],
         negative: [
-          "bg-ddt-color-feedback-negative",
+          "bg-ddt-color-common-danger-default",
           "after:i-daikin-status-negative",
         ],
         warning: [
-          "bg-ddt-color-feedback-warning",
+          "bg-ddt-color-common-warning",
           "after:i-daikin-status-warning",
         ],
-        alarm: ["bg-ddt-color-feedback-alarm", "after:i-daikin-status-alarm"],
+        alarm: ["bg-ddt-color-common-alarm", "after:i-daikin-status-alarm"],
         information: [
-          "bg-ddt-color-feedback-information",
+          "bg-ddt-color-common-information",
           "after:i-daikin-status-information",
         ],
       },
