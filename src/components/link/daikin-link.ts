@@ -14,12 +14,12 @@ const LINK_CLASS_NAME = cva([
   "rounded-[1px]",
   "relative",
 
-  "link-enabled:text-system-state-link-active",
-  "link-enabled:hover:text-system-state-link-hover",
-  "link-enabled:hover:bg-system-state-link-surface-hover",
-  "link-enabled:active:text-system-state-link-press",
-  "link-enabled:active:bg-system-state-link-surface-press",
-  "link-disabled:text-system-state-disabled",
+  "link-enabled:text-ddt-color-link-text-default",
+  "link-enabled:hover:text-ddt-color-link-text-hover",
+  "link-enabled:hover:bg-ddt-color-common-surface-brand-hover",
+  "link-enabled:active:text-ddt-color-link-text-press",
+  "link-enabled:active:bg-ddt-color-common-surface-brand-press",
+  "link-disabled:text-ddt-color-common-disabled",
 
   "focus-visible:outline-none",
   "focus-visible:before:block",
@@ -27,7 +27,7 @@ const LINK_CLASS_NAME = cva([
   "focus-visible:before:absolute",
   "focus-visible:before:inset-[-1px]",
   "focus-visible:before:outline",
-  "focus-visible:before:outline-system-state-focus",
+  "focus-visible:before:outline-ddt-color-common-border-focus",
   "focus-visible:before:outline-2",
 
   "after:h-[1px]",
@@ -65,17 +65,17 @@ export class DaikinLink extends LitElement {
     }
 
     :host([show-visited]:not([disabled])) a:visited {
-      color: #5c2365; /* system-state-link-visited-active */
+      color: var(--dds-color-link-text-visited-default);
     }
 
     :host([show-visited]:not([disabled])) a:visited:hover {
-      color: #4a1c51; /* system-state-link-visited-hover */
-      background-color: #f0ddf3; /* system-state-link-visited-surface-hover */
+      color: var(--dds-color-link-text-visited-hover);
+      background-color: var(--dds-color-link-surface-visited-hover);
     }
 
     :host([show-visited]:not([disabled])) a:visited:active {
-      color: #37153d; /* system-state-link-visited-press */
-      background-color: #e1bbe8; /* system-state-link-visited-surface-press */
+      color: var(--dds-color-link-text-visited-press);
+      background-color: var(--dds-color-link-surface-visited-press);
     }
   `;
 

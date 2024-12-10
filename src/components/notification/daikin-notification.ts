@@ -6,7 +6,13 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
 const cvaContainer = cva(
-  ["flex", "box-border", "bg-white", "overflow-hidden", "font-daikinSerif"],
+  [
+    "flex",
+    "box-border",
+    "bg-ddt-color-common-background-default",
+    "overflow-hidden",
+    "font-daikinSerif",
+  ],
   {
     variants: {
       variant: {
@@ -19,11 +25,11 @@ const cvaContainer = cva(
         inline: [],
       },
       status: {
-        positive: ["border-system-state-feedback-success"],
-        negative: ["border-system-state-feedback-negative"],
-        warning: ["border-system-state-feedback-warning"],
-        alarm: ["border-system-state-feedback-alarm"],
-        information: ["border-system-state-feedback-information"],
+        positive: ["border-ddt-color-feedback-positive"],
+        negative: ["border-ddt-color-feedback-negative"],
+        warning: ["border-ddt-color-feedback-warning"],
+        alarm: ["border-ddt-color-feedback-alarm"],
+        information: ["border-ddt-color-feedback-information"],
       },
     },
     defaultVariants: {
@@ -42,29 +48,26 @@ const cvaIconContainer = cva(
     "w-[2.75rem]",
 
     "after:size-6",
-    "after:text-white",
+    "after:text-ddt-color-common-background-default",
   ],
   {
     variants: {
       status: {
         positive: [
-          "bg-system-state-feedback-success",
+          "bg-ddt-color-feedback-positive",
           "after:i-daikin-status-positive",
         ],
         negative: [
-          "bg-system-state-feedback-negative",
+          "bg-ddt-color-feedback-negative",
           "after:i-daikin-status-negative",
         ],
         warning: [
-          "bg-system-state-feedback-warning",
+          "bg-ddt-color-feedback-warning",
           "after:i-daikin-status-warning",
         ],
-        alarm: [
-          "bg-system-state-feedback-alarm",
-          "after:i-daikin-status-alarm",
-        ],
+        alarm: ["bg-ddt-color-feedback-alarm", "after:i-daikin-status-alarm"],
         information: [
-          "bg-system-state-feedback-information",
+          "bg-ddt-color-feedback-information",
           "after:i-daikin-status-information",
         ],
       },
