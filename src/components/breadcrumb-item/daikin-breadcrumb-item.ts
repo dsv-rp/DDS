@@ -1,4 +1,4 @@
-import { css, html, LitElement, unsafeCSS } from "lit";
+import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -29,15 +29,6 @@ import "../link/daikin-link";
 export class DaikinBreadcrumbItem extends LitElement {
   static override styles = css`
     ${unsafeCSS(tailwindStyles)}
-
-    :host::after {
-      content: "/";
-      color: #414141; /* system-element-text-primary */
-      margin: 0 0.5rem;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
-      display: var(--breadcrumb-separator-display, none);
-    }
   `;
 
   /**
@@ -67,20 +58,41 @@ export class DaikinBreadcrumbItem extends LitElement {
   @property({ type: Boolean, reflect: true, attribute: "show-visited" })
   showVisited = false;
 
+  /**
+   * _Internal use._
+   * Whether or not to display the divider on the right.
+   * Set automatically by `daikin-breadcrumb`.
+   *
+   * @private
+   */
+  @property({ type: Boolean, reflect: true, attribute: "show-divider" })
+  showDivider = false;
+
   override render() {
-    return this.variant === "normal"
-      ? html`<daikin-link
-          class="text-sm"
-          href=${ifDefined(this.href ?? undefined)}
-          ?show-visited=${this.showVisited}
-          ><slot></slot
-        ></daikin-link>`
-      : html`<a
-          class="text-sm font-daikinSerif text-system-element-text-primary"
-          aria-disabled="true"
-          aria-current="true"
-          ><slot></slot
-        ></a>`;
+    const link =
+      this.variant === "normal"
+        ? html`<daikin-link
+            class="text-sm"
+            href=${ifDefined(this.href ?? undefined)}
+            ?show-visited=${this.showVisited}
+            ><slot></slot
+          ></daikin-link>`
+        : html`<a
+            class="text-sm font-daikinSerif text-system-element-text-primary"
+            aria-disabled="true"
+            aria-current="true"
+            ><slot></slot
+          ></a>`;
+
+    const divider = this.showDivider
+      ? html`<span
+          class="text-system-element-text-primary mx-2 text-sm"
+          aria-hidden="true"
+          >/</span
+        >`
+      : nothing;
+
+    return html`<div class="inline" role="listitem">${link}${divider}</div>`;
   }
 }
 

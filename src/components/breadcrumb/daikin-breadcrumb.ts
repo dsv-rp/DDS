@@ -42,14 +42,6 @@ export class DaikinBreadcrumb extends LitElement {
       padding-top: 0.25rem;
       padding-bottom: 0.25rem;
     }
-
-    ::slotted(daikin-breadcrumb-item) {
-      --breadcrumb-separator-display: inline;
-    }
-
-    ::slotted(daikin-breadcrumb-item:last-child) {
-      --breadcrumb-separator-display: none;
-    }
   `;
 
   /**
@@ -67,6 +59,7 @@ export class DaikinBreadcrumb extends LitElement {
     items.forEach((item, index) => {
       item.variant = index === items.length - 1 ? "current" : "normal";
       item.showVisited = this.showVisited;
+      item.showDivider = index < items.length - 1;
     });
   }
 
@@ -75,7 +68,11 @@ export class DaikinBreadcrumb extends LitElement {
   }
 
   override render() {
-    return html`<slot @slotchange=${this._handleSlotChange}></slot>`;
+    return html`<nav class="inline-block">
+      <div class="inline-block" role="list">
+        <slot @slotchange=${this._handleSlotChange}></slot>
+      </div>
+    </nav>`;
   }
 
   protected override firstUpdated(): void {
