@@ -81,11 +81,11 @@ describeEach(
   }
 );
 
-describeEach(["none", "error"] as const, (textareaOverflowError) => {
+describeEach(["none", "error"] as const, (textareaLimitExceedError) => {
   const baseURL = getPageURL({
     content: "TextArea",
-    ...(textareaOverflowError === "error" && {
-      textareaOverflowError: "The number of characters exceeds the limit",
+    ...(textareaLimitExceedError === "error" && {
+      textareaLimitExceedError: "The number of characters exceeds the limit",
     }),
     textareaMaxCount: 3,
   });

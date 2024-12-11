@@ -44,7 +44,7 @@ const cvaHelper = cva(
           "before:i-daikin-status-error",
           "before:flex-none",
         ],
-        textareaOverflowError: [
+        textareaLimitExceedError: [
           "text-system-state-error-active",
           "font-bold",
           "before:size-4",
@@ -201,20 +201,24 @@ export class DaikinInputGroup extends LitElement {
   disabled = false;
 
   /**
-   * Maximum value to display on the counter. When `null`, the counter will be hidden.
+   * The maximum number of characters that can be input into the text area.
+   * If set, a counter will be displayed at the bottom of the text area.
+   * Users can enter more characters than the limit, but in that case the counter will turn red and an error message will be displayed (if specified) to indicate that the limit has been exceeded.
    */
   @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
   textareaMaxCount: number | null = null;
 
   /**
-   * Maximum value to display on the counter. When `null`, the counter will be hidden.
+   * An error message displayed when the number of characters in the text area exceeds the limit (optional).
+   * When the number of characters in the text area exceeds the limit, this is displayed below the label by overriding `helper` and `error`.
+   * Only used when a text area is assigned to a slot and `textareaMaxCount` is set.
    */
   @property({
     type: String,
     reflect: true,
-    attribute: "textarea-overflow-error",
+    attribute: "textarea-limit-exceed-error",
   })
-  textareaOverflowError: string | null = null;
+  textareaLimitExceedError: string | null = null;
 
   @queryAssignedElements({ selector: "daikin-text-area" })
   private readonly _textareas!: readonly DaikinTextArea[];
@@ -228,7 +232,7 @@ export class DaikinInputGroup extends LitElement {
   @state()
   private _textareaCount: number | null = null;
 
-  get textareaCounterOverflow(): boolean {
+  get textareaLimitExceeded(): boolean {
     return (
       this.textareaMaxCount != null &&
       this._textareaCount != null &&
@@ -260,10 +264,10 @@ export class DaikinInputGroup extends LitElement {
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
     const helperType =
-      this.textareaCounterOverflow &&
-      !!this.textareaOverflowError &&
+      this.textareaLimitExceeded &&
+      !!this.textareaLimitExceedError &&
       !this.disabled
-        ? "textareaOverflowError"
+        ? "textareaLimitExceedError"
         : this.error && !this.disabled
           ? "error"
           : this.helper
@@ -276,7 +280,7 @@ export class DaikinInputGroup extends LitElement {
       helper: this.helper,
       helperDisabled: this.helper,
       error: this.error,
-      textareaOverflowError: this.textareaOverflowError,
+      textareaLimitExceedError: this.textareaLimitExceedError,
       none: "",
     }[helperType];
 
@@ -307,17 +311,16 @@ export class DaikinInputGroup extends LitElement {
           @input=${this._handleInput}
         ></slot>
         ${this.textareaMaxCount != null && this._textareaCount != null
-          ? html`<span
+          ? html`<span>
               class=${cvaCounter({
                 variant: this.disabled
                   ? "disabled"
-                  : this.textareaCounterOverflow
+                  : this.textareaLimitExceeded
                     ? "error"
                     : "normal",
               })}
-            >
-              <span>${this._textareaCount}/${this.textareaMaxCount}</span>
-            </span>`
+              >${this._textareaCount}/${this.textareaMaxCount}</span
+            >`
           : nothing}
       </label>
     </fieldset>`;

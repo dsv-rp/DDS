@@ -205,7 +205,7 @@ export class DaikinTextArea extends LitElement {
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError =
       !inputGroup.disabled &&
-      (!!inputGroup.error || !!inputGroup.textareaCounterOverflow);
+      (!!inputGroup.error || !!inputGroup.textareaLimitExceeded);
     this.disabled = !!inputGroup.disabled;
     this.required = !!inputGroup.required;
     this.error = isError;

@@ -1,5 +1,5 @@
 ---
-"@daikin-oss/design-system-web-components": minor
+"@daikin-oss/design-system-web-components": patch
 ---
 
-Text Area: Update appearance. (DDS-1290)
+Text Area: Updated appearance. (DDS-1290)

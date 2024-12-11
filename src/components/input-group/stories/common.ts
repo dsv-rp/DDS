@@ -29,7 +29,7 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   textareaMaxCount: {
     type: "number",
   },
-  textareaOverflowError: {
+  textareaLimitExceedError: {
     type: "string",
   },
   content: {
