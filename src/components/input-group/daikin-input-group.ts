@@ -311,7 +311,7 @@ export class DaikinInputGroup extends LitElement {
           @input=${this._handleInput}
         ></slot>
         ${this.textareaMaxCount != null && this._textareaCount != null
-          ? html`<span>
+          ? html`<span
               class=${cvaCounter({
                 variant: this.disabled
                   ? "disabled"
