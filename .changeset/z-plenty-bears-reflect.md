@@ -23,3 +23,4 @@ Table: Replaced colors with design tokens (brings dark mode support).
 Text Area: Replaced colors with design tokens (brings dark mode support).
 Text Field: Replaced colors with design tokens (brings dark mode support).
 Toggle: Replaced colors with design tokens (brings dark mode support).
+Tree: Replaced colors with design tokens (brings dark mode support).
