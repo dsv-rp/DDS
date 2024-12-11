@@ -1,5 +1,11 @@
 # @daikin-oss/design-system-web-components
 
+## 0.7.0
+
+### Minor Changes
+
+- [#73](https://github.com/dsv-rp/DDS/pull/73) [`18a71f6`](https://github.com/dsv-rp/DDS/commit/18a71f6a86fd4bc1cf04172b0e646a657048cd42) Thanks [@poetrainy](https://github.com/poetrainy)! - Tree: Initial Implementation.
+
 ## 0.6.0
 
 ### Minor Changes
