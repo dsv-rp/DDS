@@ -284,7 +284,7 @@ export class DaikinTabs extends LitElement {
   override render() {
     return html`
       <div
-        class="flex flex-nowrap w-full p-[3px] overflow-auto relative before:absolute before:h-[1px] before:inset-[3px] before:top-auto before:bg-system-element-divider-secondary"
+        class="flex flex-nowrap w-full p-[3px] overflow-auto relative before:absolute before:h-[1px] before:inset-[3px] before:top-auto before:bg-ddt-color-divider"
         role="tablist"
         @click=${this._handleTabClick}
         @keydown=${this._handleKeyDown}

@@ -17,7 +17,7 @@ const cvaSummary = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-system-state-focus",
+    "focus-visible:outline-ddt-color-common-border-focus",
 
     "after:size-6",
     "after:transition-all",
@@ -32,12 +32,12 @@ const cvaSummary = cva(
       disabled: {
         false: [
           "cursor-pointer",
-          "hover:bg-system-background-surface-hover",
-          "active:bg-system-background-surface-press",
+          "hover:bg-ddt-color-common-surface-hover",
+          "active:bg-ddt-color-common-surface-press",
         ],
         true: [
-          "text-system-state-disabled",
-          "after:text-system-state-disabled",
+          "text-ddt-color-common-disabled",
+          "after:text-ddt-color-common-disabled",
         ],
       },
     },
@@ -101,7 +101,7 @@ export class DaikinAccordionItem extends LitElement {
       display: var(--divider-top-display, none);
       width: 100%;
       height: 1px;
-      background: #828282; /* system-element-divider-primary */
+      background: var(--dds-color-divider);
       position: absolute;
       top: 0;
     }
@@ -111,7 +111,7 @@ export class DaikinAccordionItem extends LitElement {
       display: var(--divider-bottom-display, none);
       width: 100%;
       height: 1px;
-      background: #828282; /* system-element-divider-primary */
+      background: var(--dds-color-divider);
       position: absolute;
       bottom: 0;
     }
@@ -224,7 +224,7 @@ export class DaikinAccordionItem extends LitElement {
     const open = !this.disabled && this.open;
 
     return html`<details
-      class="w-full text-system-element-text-primary font-daikinSerif overflow-clip"
+      class="w-full text-ddt-color-common-text-primary font-daikinSerif overflow-clip"
       ?open=${detailsOpen}
       ?data-open=${open}
       aria-disabled=${this.disabled}

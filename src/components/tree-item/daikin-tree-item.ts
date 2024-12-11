@@ -26,24 +26,28 @@ export const cvaTreeChildren = cva(
     "focus-visible:outline",
     "focus-visible:outline-2",
     "focus-visible:-outline-offset-2",
-    "focus-visible:outline-system-state-focus",
+    "focus-visible:outline-ddt-color-common-border-focus",
   ],
   {
     variants: {
       disabled: {
-        false: ["bg-[--color-base]", "cursor-pointer"],
-        true: ["text-system-state-disabled"],
+        false: [
+          "text-ddt-color-common-text-primary",
+          "bg-[--color-base]",
+          "cursor-pointer",
+        ],
+        true: ["text-ddt-color-common-disabled"],
       },
       selected: {
         false: [
           "var-color-transparent/color-base",
-          "hover:var-color-system-background-surface-hover/color-base",
-          "active:var-color-system-background-surface-press/color-base",
+          "hover:var-color-ddt-color-common-surface-hover/color-base",
+          "active:var-color-ddt-color-common-surface-press/color-base",
         ],
         true: [
-          "var-color-system-background-surface-selected/color-base",
-          "hover:var-color-system-background-surface-selectedHover/color-base",
-          "active:var-color-system-background-surface-selectedActive/color-base",
+          "var-color-ddt-color-common-surface-selected-default/color-base",
+          "hover:var-color-ddt-color-common-surface-selected-hover/color-base",
+          "active:var-color-ddt-color-common-surface-selected-press/color-base",
         ],
       },
       icon: {

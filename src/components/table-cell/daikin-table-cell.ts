@@ -14,7 +14,7 @@ const cvaCell = cva(
     "min-h-12",
     "px-4",
     "py-3",
-    "text-system-element-text-primary",
+    "text-ddt-color-common-text-primary",
   ],
   {
     variants: {
@@ -73,7 +73,7 @@ export class DaikinTableCell extends LitElement {
       <slot></slot>
       <slot
         name="subtitle"
-        class="text-system-element-text-secondary text-xs"
+        class="text-ddt-color-common-text-secondary text-xs"
       ></slot>
     </span>`;
   }

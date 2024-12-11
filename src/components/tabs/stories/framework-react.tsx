@@ -41,7 +41,10 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
           </ReactDaikinTab>
         );
       })}
-      <ReactDaikinTabPanels slot="panels" className="flex-1 overflow-hidden">
+      <ReactDaikinTabPanels
+        slot="panels"
+        className="text-ddt-color-common-text-primary flex-1 overflow-hidden"
+      >
         {tabs.map((tab) => {
           const [label, value] = parseTab(tab);
           return (
