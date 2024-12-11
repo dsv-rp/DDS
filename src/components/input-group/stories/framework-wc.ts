@@ -19,6 +19,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
     error,
     disabled,
     textareaMaxCount,
+    textareaLimitExceedError,
     content,
   }) => html`
     <div style="width:360px;">
@@ -29,6 +30,7 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         error=${ifDefined(error)}
         ?disabled=${disabled}
         textarea-max-count=${ifDefined(textareaMaxCount)}
+        textarea-limit-exceed-error=${ifDefined(textareaLimitExceedError)}
       >
         ${content === "Dropdown"
           ? html`<daikin-dropdown placeholder="Choose an Option">
