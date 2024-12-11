@@ -104,6 +104,9 @@ module.exports = defineConfig({
 
       addVariant("unchecked", ["&:not(:checked)"]);
 
+      addVariant("link-enabled", ["&:is(:any-link, :enabled)"]); // Matches to <a> with href and <button>
+      addVariant("link-disabled", ["&:not(:any-link, :enabled)"]); // Matches to <a> without href, <span>, and <button disabled>
+
       matchVariant("part", (value) => `&::part(${value})`);
 
       addVariant("floating-unready", ["&:not([data-floating-ready])"]);
