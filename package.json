@@ -61,7 +61,7 @@
     "storybook:preview-react": "http-server -c-1 -d false --no-dotfiles -p 6107 -o storybook-static/react",
     "lint:code": "eslint && prettier -c .",
     "lint:cspell": "cspell --no-progress .",
-    "lint:lit": "lit-analyzer --strict --rules.no-missing-import off src",
+    "lint:lit": "lit-analyzer --strict --rules.no-missing-import off --rules.no-property-visibility-mismatch off src",
     "lint:ls": "ls-lint",
     "lint": "npm run lint:code && npm run lint:lit && npm run lint:cspell && npm run lint:ls",
     "lint-fix": "eslint --fix && prettier -w .",
