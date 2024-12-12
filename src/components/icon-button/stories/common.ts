@@ -1,5 +1,5 @@
-import { iconList, type IconType } from "#package/components/icon";
 import type { DaikinIconButton } from "#package/components/icon-button/daikin-icon-button";
+import { iconList, type IconType } from "#package/components/icon/daikin-icon";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
