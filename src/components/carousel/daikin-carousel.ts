@@ -293,7 +293,7 @@ export class DaikinCarousel extends LitElement {
           <span class=${cvaButton({ position: "left" })}></span>
         </daikin-icon-button>
         <div
-          class=${`w-[calc(100%-80px)] overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-system-state-focus`}
+          class=${`w-[calc(100%-5rem)] overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-system-state-focus`}
           aria-live="polite"
           role="list"
           tabindex="0"
