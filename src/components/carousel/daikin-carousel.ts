@@ -343,6 +343,7 @@ export class DaikinCarousel extends LitElement {
                   active: this.currentIndex === index,
                 })}
                 aria-label="Slide ${index + 1}"
+                aria-selected=${`${this.currentIndex === index}` as const}
                 tabindex=${this.currentIndex === index ? 0 : -1}
                 @click=${() => this._handleClick(index)}
               ></button>`
