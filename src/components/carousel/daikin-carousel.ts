@@ -81,6 +81,8 @@ const cvaIndicator = cva(
  *
  * @slot - A slot for carousel items. Place `daikin-carousel-item` elements here.
  *
+ * @csspart carousel-items-container - Customize the part that corresponds to the container element of the slot.
+ *
  * @example
  *
  * ```html
