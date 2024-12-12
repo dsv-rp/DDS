@@ -3,6 +3,8 @@ export * from "./accordion-item";
 export * from "./breadcrumb";
 export * from "./breadcrumb-item";
 export * from "./button";
+export * from "./carousel";
+export * from "./carousel-item";
 export * from "./checkbox";
 export * from "./dropdown";
 export * from "./dropdown-item";
