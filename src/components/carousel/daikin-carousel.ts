@@ -178,10 +178,6 @@ export class DaikinCarousel extends LitElement {
   private _handleClick(index: number) {
     this._emitSelect("indicator", this.currentIndex, index);
 
-    if (this.animation === "manual") {
-      return;
-    }
-
     this.currentIndex = index;
   }
 
@@ -253,10 +249,6 @@ export class DaikinCarousel extends LitElement {
       this.currentIndex,
       newCurrentIndex
     );
-
-    if (this.animation === "manual") {
-      return;
-    }
 
     this.currentIndex = newCurrentIndex;
   }
