@@ -6,6 +6,7 @@ import {
   queryAssignedElements,
   state,
 } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -312,7 +313,12 @@ export class DaikinCarousel extends LitElement {
         >
           <div
             class="flex w-[--default-width] transition-transform translate-x-[--translate-x-width] duration-[--translate-transition-duration]"
-            style=${`--default-width:calc(100% * ${this._itemLength}); --translate-x-width:calc(-1 * 100% / ${this._itemLength} * ${this.currentIndex});`}
+            part="carousel-items-container"
+            style=${ifDefined(
+              this.animation === "slide"
+                ? `--default-width:calc(100% * ${this._itemLength}); --translate-x-width:calc(-1 * 100% / ${this._itemLength} * ${this.currentIndex});`
+                : undefined
+            )}
           >
             <slot></slot>
           </div>
