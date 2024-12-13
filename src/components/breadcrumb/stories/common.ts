@@ -7,11 +7,9 @@ export type DaikinBreadcrumbStoryArgs = Required<
 >;
 
 export const DAIKIN_BREADCRUMB_ARG_TYPES = {
-  trailingSlash: { type: "boolean" },
-  overflow: {
-    control: "radio",
-    options: ["visible", "ellipsis"],
+  showVisited: {
+    type: "boolean",
   },
 } as const satisfies Meta<DaikinBreadcrumbStoryArgs>["argTypes"];
 
-export type BreadcrumbStory = StoryObj<DaikinBreadcrumbStoryArgs>;
+export type Story = StoryObj<DaikinBreadcrumbStoryArgs>;
