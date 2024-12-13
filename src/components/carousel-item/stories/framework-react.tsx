@@ -18,7 +18,7 @@ export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
   component: ({ ...props }: DaikinCarouselItemStoryArgs) => (
     <ReactDaikinCarouselItem {...props}>
       <div className="flex justify-center items-center w-full h-[400px] text-system-element-text-primary bg-system-state-disabled">
-        Carousel item
+        {props.label}
       </div>
     </ReactDaikinCarouselItem>
   ),
