@@ -29,6 +29,7 @@ tablist
 tabpanel
 textbox
 progressbar
+treeitem
 radiogroup
 combobox
 listitem
