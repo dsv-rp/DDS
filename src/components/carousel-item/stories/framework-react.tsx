@@ -17,7 +17,7 @@ export const ReactDaikinCarouselItem = createComponent({
 export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
   component: ({ ...props }: DaikinCarouselItemStoryArgs) => (
     <ReactDaikinCarouselItem {...props}>
-      <div className="flex justify-center items-center w-full h-[400px] text-system-element-text-primary bg-system-state-disabled">
+      <div className="flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled">
         {props.label}
       </div>
     </ReactDaikinCarouselItem>

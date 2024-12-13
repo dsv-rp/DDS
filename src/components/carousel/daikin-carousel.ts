@@ -41,15 +41,15 @@ const cvaIndicator = cva(
     "m-1",
     "rounded-full",
     "transition",
-    "bg-system-state-neutral-active",
+    "bg-ddt-color-common-neutral-default",
     "relative",
 
-    "hover:bg-system-state-neutral-hover",
-    "active:bg-system-state-neutral-press",
+    "hover:bg-ddt-color-common-neutral-hover",
+    "active:bg-ddt-color-common-neutral-press",
     "focus-visible:after:outline",
     "focus-visible:after:outline-1",
     "focus-visible:after:outline-offset-1",
-    "focus-visible:after:outline-system-state-focus",
+    "focus-visible:after:outline-ddt-color-common-border-focus",
   ],
   {
     variants: {
@@ -58,7 +58,7 @@ const cvaIndicator = cva(
         true: [
           "after:block",
           "after:size-4",
-          "after:bg-system-brand-primary",
+          "after:bg-ddt-color-common-brand-default",
           "after:absolute",
           "after:rounded-full",
         ],
@@ -295,7 +295,7 @@ export class DaikinCarousel extends LitElement {
           <span class=${cvaButton({ position: "left" })}></span>
         </daikin-icon-button>
         <div
-          class=${`w-full overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-system-state-focus`}
+          class=${`w-full overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ddt-color-common-border-focus`}
           aria-live="polite"
           role="list"
           tabindex="0"

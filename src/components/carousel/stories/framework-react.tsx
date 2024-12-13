@@ -27,7 +27,7 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
       <ReactDaikinCarousel {...props}>
         {[...Array(5).keys()].map((item) => (
           <ReactDaikinCarouselItem key={item} onCarouselClick={onCarouselClick}>
-            <div className="flex justify-center items-center w-full h-[400px] bg-system-state-disabled">
+            <div className="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled">
               Carousel item {item + 1}
             </div>
           </ReactDaikinCarouselItem>

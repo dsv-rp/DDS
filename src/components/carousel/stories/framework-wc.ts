@@ -31,7 +31,7 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
           (item) =>
             html`<daikin-carousel-item @carousel-click=${onCarouselClick}>
               <div
-                class="flex justify-center items-center w-full h-[400px] bg-system-state-disabled"
+                class="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled"
               >
                 Carousel item ${item + 1}
               </div>
