@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-Icon Button: Updated appearance. (DDS-1650)
+Icon Button: Fixed the issue where the size could not be changed. (DDS-1650)
