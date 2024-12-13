@@ -1,8 +1,3 @@
-import {
-  colorFeedbackNegative,
-  colorFeedbackPositive,
-  colorFeedbackWarning,
-} from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
@@ -24,11 +19,11 @@ const cvaContainer = cva(
         inline: [],
       },
       status: {
-        positive: ["border-[--colorFeedbackPositive]"],
-        negative: ["border-[--colorFeedbackNegative]"],
-        warning: ["border-[--colorFeedbackWarning]"],
-        alarm: ["border-[--colorFeedbackAlarm]"],
-        information: ["border-[--colorFeedbackInformation]"],
+        positive: ["border-system-state-feedback-success"],
+        negative: ["border-system-state-feedback-negative"],
+        warning: ["border-system-state-feedback-warning"],
+        alarm: ["border-system-state-feedback-alarm"],
+        information: ["border-system-state-feedback-information"],
       },
     },
     defaultVariants: {
@@ -53,20 +48,23 @@ const cvaIconContainer = cva(
     variants: {
       status: {
         positive: [
-          "bg-[--colorFeedbackPositive]",
+          "bg-system-state-feedback-success",
           "after:i-daikin-status-positive",
         ],
         negative: [
-          "bg-[--colorFeedbackNegative]",
+          "bg-system-state-feedback-negative",
           "after:i-daikin-status-negative",
         ],
         warning: [
-          "bg-[--colorFeedbackWarning]",
+          "bg-system-state-feedback-warning",
           "after:i-daikin-status-warning",
         ],
-        alarm: ["bg-[--colorFeedbackAlarm]", "after:i-daikin-status-alarm"],
+        alarm: [
+          "bg-system-state-feedback-alarm",
+          "after:i-daikin-status-alarm",
+        ],
         information: [
-          "bg-[--colorFeedbackInformation]",
+          "bg-system-state-feedback-information",
           "after:i-daikin-status-information",
         ],
       },
@@ -132,12 +130,6 @@ export class DaikinNotification extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --colorFeedbackPositive: ${unsafeCSS(colorFeedbackPositive)};
-      --colorFeedbackWarning: ${unsafeCSS(colorFeedbackWarning)};
-      --colorFeedbackNegative: ${unsafeCSS(colorFeedbackNegative)};
-      --colorFeedbackAlarm: #f68c54;
-      --colorFeedbackInformation: #0097e0;
-
       display: block;
     }
 

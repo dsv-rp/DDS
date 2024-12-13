@@ -1,18 +1,15 @@
-const fs = require("node:fs");
-const path = require("node:path");
+import type { IconsPluginOptions } from "@egoist/tailwindcss-icons";
+import fs from "node:fs";
+import path from "node:path";
 
-/**
- * @typedef {Required<Required<import("@egoist/tailwindcss-icons").IconsPluginOptions>["collections"]>[string]} IconSet
- * @typedef {Required<IconSet>["icons"][string]} IconData
- */
+export type IconSet = Required<
+  Required<IconsPluginOptions>["collections"]
+>[string];
 
-/**
- * @param {string} filename
- * @param {string} content
- * @returns {IconData}
- */
-function parseSVG(filename, content) {
-  const match = content.match(/^<svg [^>]*viewBox="([^"]+)"/);
+export type IconData = Required<IconSet>["icons"][string];
+
+function parseSVG(filename: string, content: string): IconData {
+  const match = /^<svg [^>]*viewBox="([^"]+)"/.exec(content);
   if (!match) {
     throw new Error(`SVG viewBox missing in ${filename}`);
   }
@@ -21,7 +18,7 @@ function parseSVG(filename, content) {
     .split(/\s+/)
     .map((value) => Number(value));
 
-  let body = content.match(/^<svg [^>]+>([\s\S]+)<\/svg>\s*/)?.[1].trim();
+  let body = /^<svg [^>]+>([\s\S]+)<\/svg>\s*/.exec(content)?.[1].trim();
   if (!body) {
     throw new Error(`SVG body missing in ${filename}`);
   }
@@ -38,13 +35,8 @@ function parseSVG(filename, content) {
   };
 }
 
-/**
- * @param {string} dir
- * @returns {Record<string, IconData>}
- */
-function loadIcons(dir) {
-  /** @type {[string, IconData][]} */
-  const icons = [];
+export function loadIcons(dir: string): Record<string, IconData> {
+  const icons: [string, IconData][] = [];
 
   const filenames = fs.readdirSync(dir).sort();
   for (const filename of filenames) {
@@ -63,5 +55,3 @@ function loadIcons(dir) {
 
   return Object.fromEntries(icons);
 }
-
-module.exports = { loadIcons };

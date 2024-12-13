@@ -54,10 +54,10 @@
       "disabled": "#BFBFBF",
       "focus": "#0081C0",
       "feedback": {
-        "success": "#008F7E",
-        "negative": "#D80C18",
-        "warning": "#B88700",
-        "alarm": "#E46B08",
+        "success": "#13CE66",
+        "negative": "#FF4949",
+        "warning": "#FFCC3D",
+        "alarm": "#F68C54",
         "information": "#0097E0"
       },
       "link": {
@@ -65,7 +65,8 @@
         "hover": "#005077",
         "press": "#004160",
         "surface": {
-          "hover": "#DDF3FC"
+          "hover": "#DDF3FC",
+          "press": "#BBE7F9"
         }
       },
       "visited": {
@@ -73,7 +74,8 @@
         "hover": "#4A1C51",
         "press": "#37153D",
         "surface": {
-          "hover": "#F0DDF3"
+          "hover": "#F0DDF3",
+          "press": "#E1BBE8"
         }
       }
     }
