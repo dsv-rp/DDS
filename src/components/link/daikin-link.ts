@@ -18,6 +18,7 @@ const LINK_CLASS_NAME = cva([
   "link-enabled:hover:text-system-state-link-hover",
   "link-enabled:hover:bg-system-state-link-surface-hover",
   "link-enabled:active:text-system-state-link-press",
+  "link-enabled:active:bg-system-state-link-surface-press",
   "link-disabled:text-system-state-disabled",
 
   "focus-visible:outline-none",
@@ -64,19 +65,17 @@ export class DaikinLink extends LitElement {
     }
 
     :host([show-visited]:not([disabled])) a:visited {
-      color: #5c2365; /* system-state-visited-active */
+      color: #5c2365; /* system-state-link-visited-active */
     }
 
-    :host([show-visited]:not([disabled])) a:hover:visited {
-      color: #4a1c51; /* system-state-visited-hover */
+    :host([show-visited]:not([disabled])) a:visited:hover {
+      color: #4a1c51; /* system-state-link-visited-hover */
+      background-color: #f0ddf3; /* system-state-link-visited-surface-hover */
     }
 
-    :host([show-visited]:not([disabled])) a:hover:visited {
-      background-color: #f0ddf3; /* system-state-visited-hover */
-    }
-
-    :host([show-visited]:not([disabled])) a:active:visited {
-      color: #37153d; /* system-state-visited-press */
+    :host([show-visited]:not([disabled])) a:visited:active {
+      color: #37153d; /* system-state-link-visited-press */
+      background-color: #e1bbe8; /* system-state-link-visited-surface-press */
     }
   `;
 
