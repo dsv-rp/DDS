@@ -281,8 +281,9 @@ export class DaikinCarousel extends LitElement {
       class="flex justify-center items-center flex-col gap-8 w-full"
       style=${`--translate-transition-duration:${this.duration}ms;`}
     >
-      <div class="flex justify-center items-center gap-4 w-full">
+      <div class="flex justify-center items-center w-full relative">
         <daikin-icon-button
+          class="absolute left-0"
           variant=${this.controlButtonVariant}
           color="neutral"
           button-aria-label="Prev"
@@ -292,8 +293,19 @@ export class DaikinCarousel extends LitElement {
         >
           <span class=${cvaButton({ position: "left" })}></span>
         </daikin-icon-button>
+        <daikin-icon-button
+          class="absolute right-0"
+          variant=${this.controlButtonVariant}
+          color="neutral"
+          button-aria-label="Next"
+          ?disabled=${this.currentIndex >= this._itemLength - 1}
+          @click=${() => this._animation(1)}
+          ${ref(this._nextButton)}
+        >
+          <span class=${cvaButton({ position: "right" })}></span>
+        </daikin-icon-button>
         <div
-          class=${`w-[calc(100%-5rem)] overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-system-state-focus`}
+          class=${`w-[calc(100%-6rem)] overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-system-state-focus`}
           aria-live="polite"
           role="list"
           tabindex="0"
@@ -317,16 +329,6 @@ export class DaikinCarousel extends LitElement {
             <slot></slot>
           </div>
         </div>
-        <daikin-icon-button
-          variant=${this.controlButtonVariant}
-          color="neutral"
-          button-aria-label="Next"
-          ?disabled=${this.currentIndex >= this._itemLength - 1}
-          @click=${() => this._animation(1)}
-          ${ref(this._nextButton)}
-        >
-          <span class=${cvaButton({ position: "right" })}></span>
-        </daikin-icon-button>
       </div>
       <div class="flex gap-3">
         <div
