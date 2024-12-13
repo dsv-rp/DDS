@@ -1,13 +1,17 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { reDispatch } from "../../utils/re-dispatch";
 
 /**
  * The carousel item component is a child element within the `daikin-carousel` component.
  *
  * Hierarchy:
  * - `daikin-carousel` > `daikin-carousel-item`
+ *
+ * @fires carousel-click - It fires when clicked on with daikin-carousel-item. Normally, daikin-carousel-item does not receive focus directly. Also, when there is a click operation on the item part of daikin-carousel, it fires with the displayed daikin-carousel-item.
  *
  * @slot - A slot for carousel item content.
  *
@@ -45,12 +49,17 @@ export class DaikinCarouselItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   active = false;
 
+  private readonly _clickableRef: Ref<HTMLElement> = createRef();
+
   override render() {
     return html`<div
+      ${ref(this._clickableRef)}
       class="flex-none size-wit overflow-hidden"
       role="listitem"
       aria-label=${this.label}
       aria-hidden=${ifDefined(!this.active || undefined)}
+      @click=${(event: PointerEvent) =>
+        reDispatch(this, event, new Event("carousel-click", event))}
     >
       <slot></slot>
     </div>`;
@@ -60,7 +69,7 @@ export class DaikinCarouselItem extends LitElement {
    * Clicks on the inner item.
    */
   override click(): void {
-    this.dispatchEvent(new Event("carousel-click"));
+    this._clickableRef.value?.click();
   }
 }
 declare global {

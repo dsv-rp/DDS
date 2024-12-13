@@ -159,7 +159,9 @@ export class DaikinCarousel extends LitElement {
   private _nextButton = createRef<HTMLButtonElement>();
   private _indicatorButtons = createRef<HTMLElement>();
 
-  private _emitCarouselClick() {
+  private _emitCarouselClick(event: Event) {
+    event.preventDefault();
+
     this._items[this.currentIndex].click();
   }
 
@@ -183,7 +185,7 @@ export class DaikinCarousel extends LitElement {
 
   private _handleKeydownCarousel(event: KeyboardEvent) {
     if ([" ", "Enter"].includes(event.key)) {
-      this._emitCarouselClick();
+      this._emitCarouselClick(event);
     }
   }
 
@@ -297,7 +299,7 @@ export class DaikinCarousel extends LitElement {
           aria-live="polite"
           role="list"
           tabindex="0"
-          @click=${() => this._emitCarouselClick()}
+          @click=${this._emitCarouselClick}
           @keydown=${this._handleKeydownCarousel}
           @touchstart=${this._handleTouchstart}
           @touchmove=${this._handleTouchmove}
