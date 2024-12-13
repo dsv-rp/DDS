@@ -3,6 +3,10 @@ import type { DaikinLink } from "#package/components/link/daikin-link";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
+export interface DaikinLinkLocalParameters {
+  withSentence?: boolean;
+}
+
 export interface DaikinLinkStoryArgs
   extends Required<ElementProps<DaikinLink>> {
   label: string;

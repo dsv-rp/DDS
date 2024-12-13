@@ -52,7 +52,7 @@ type TooltipVariantProps = MergeVariantProps<typeof cvaTooltip>;
  * @slot - A slot for the element to which the tooltip is attached (the trigger element).
  * @slot description - A slot for the tooltip description content.
  *
- * @cssprop [--dds-tooltip-spacing=20px] - Spacing between the tooltip and the trigger
+ * @cssprop [--ddc-tooltip-spacing=20px] - Spacing between the tooltip and the trigger
  *
  * @example
  *
@@ -81,7 +81,7 @@ export class DaikinTooltip extends LitElement {
     }
 
     window.CSS.registerProperty({
-      name: "--dds-tooltip-spacing",
+      name: "--ddc-tooltip-spacing",
       syntax: "<length>",
       inherits: true,
       initialValue: "0px",
@@ -94,7 +94,7 @@ export class DaikinTooltip extends LitElement {
     :host {
       display: inline-block;
 
-      --dds-tooltip-spacing: ${unsafeCSS(DEFAULT_TOOLTIP_SPACING)};
+      --ddc-tooltip-spacing: ${unsafeCSS(DEFAULT_TOOLTIP_SPACING)};
     }
 
     #tooltip {
@@ -205,7 +205,7 @@ export class DaikinTooltip extends LitElement {
 
   override render() {
     const spacing = parseInt(
-      this._hostStyles?.getPropertyValue("--dds-tooltip-spacing") ||
+      this._hostStyles?.getPropertyValue("--ddc-tooltip-spacing") ||
         DEFAULT_TOOLTIP_SPACING,
       10
     );

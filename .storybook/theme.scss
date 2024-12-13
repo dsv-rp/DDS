@@ -1,0 +1,44 @@
+@use "@daikin-oss/dds-tokens/scss/mixins" as dds-tokens;
+
+/* Fonts */
+
+@import "@fontsource/roboto/100.css";
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
+@import "@fontsource/roboto/900.css";
+@import "../src/storybook-tailwind.css";
+
+/* Background Color */
+
+:root.no-bg {
+  --sb-background: transparent !important;
+}
+
+:root:not(.no-bg)[data-color-scheme="light"] {
+  --sb-background: #fff;
+}
+
+:root:not(.no-bg)[data-color-scheme="dark"] {
+  --sb-background: #212121;
+}
+
+/* Theme Tokens */
+/* See `.storybook/preview.tsx` for `data-theme` and `data-color-scheme` */
+
+:root[data-theme="DKN"][data-color-scheme="light"] {
+  @include dds-tokens.daikin-Light-variables;
+}
+
+:root[data-theme="DKN"][data-color-scheme="dark"] {
+  @include dds-tokens.daikin-Dark-variables;
+}
+
+:root[data-theme="AAF"][data-color-scheme="light"] {
+  @include dds-tokens.aaf-Light-variables;
+}
+
+:root[data-theme="AAF"][data-color-scheme="dark"] {
+  @include dds-tokens.aaf-Light-variables;
+}

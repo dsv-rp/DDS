@@ -1,4 +1,3 @@
-import { colorFeedbackNegative } from "@daikin-oss/dds-tokens/js/daikin/Light/variables.js";
 import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
@@ -41,10 +40,6 @@ export class DaikinProgressIndicator extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      --progress-indicator-border-color-error: ${unsafeCSS(
-        colorFeedbackNegative
-      )};
-
       display: block;
       width: 100%;
     }
