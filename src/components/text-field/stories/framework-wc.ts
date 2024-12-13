@@ -3,7 +3,6 @@ import "#package/components/text-field/daikin-text-field";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../../storybook-tailwind.css";
 import type { DaikinTextFieldStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTextFieldStoryArgs> = {

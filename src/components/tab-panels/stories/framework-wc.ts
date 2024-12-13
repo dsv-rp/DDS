@@ -1,7 +1,6 @@
 import "#package/components/tab-panels/daikin-tab-panels";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import "../../../storybook-tailwind.css";
 import type { DaikinTabPanelsStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTabPanelsStoryArgs> = {
