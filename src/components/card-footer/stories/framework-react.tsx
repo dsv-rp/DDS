@@ -15,14 +15,16 @@ export const ReactDaikinCardFooter = createComponent({
 
 export const metadata: Meta<DaikinCardFooterStoryArgs> = {
   component: ({ ...props }: DaikinCardFooterStoryArgs) => (
-    <ReactDaikinCardFooter {...props}>
-      {props.actionType === "button" ? (
-        <ReactDaikinButton size="small">Button</ReactDaikinButton>
-      ) : (
-        <ReactDaikinLink href="https://dsv-rp.github.io/DDS">
-          Link
-        </ReactDaikinLink>
-      )}
-    </ReactDaikinCardFooter>
+    <div style={{ width: 248 }}>
+      <ReactDaikinCardFooter {...props}>
+        {props.actionType === "button" ? (
+          <ReactDaikinButton size="small">Button</ReactDaikinButton>
+        ) : (
+          <ReactDaikinLink href="https://dsv-rp.github.io/DDS">
+            Link
+          </ReactDaikinLink>
+        )}
+      </ReactDaikinCardFooter>
+    </div>
   ),
 };

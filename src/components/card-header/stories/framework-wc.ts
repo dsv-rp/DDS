@@ -9,17 +9,19 @@ export const metadata: Meta<DaikinCardHeaderStoryArgs> = {
   title: "Components/CardHeader",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-card-header>
-      ${args.leftIcon
-        ? html`<daikin-icon
-            slot="left-icon"
-            icon=${args.leftIcon}
-            size="xl"
-            color="current"
-          ></daikin-icon>`
-        : nothing}
-      <span>${args.label}</span>
-      <span slot="description">${args.description}</span>
-    </daikin-card-header>
+    <div style="width: 248px">
+      <daikin-card-header>
+        ${args.leftIcon
+          ? html`<daikin-icon
+              slot="left-icon"
+              icon=${args.leftIcon}
+              size="xl"
+              color="current"
+            ></daikin-icon>`
+          : nothing}
+        <span>${args.label}</span>
+        <span slot="description">${args.description}</span>
+      </daikin-card-header>
+    </div>
   `,
 };

@@ -11,14 +11,16 @@ export const metadata: Meta<DaikinCardFooterStoryArgs> = {
   title: "Components/CardTitle",
   tags: ["autodocs"],
   render: (args) => html`
-    <daikin-card-footer>
-      ${args.actionType === "button"
-        ? html`<daikin-button size="small" color="default">
-            Button
-          </daikin-button>`
-        : html`<daikin-link href="https://dsv-rp.github.io/DDS">
-            Link
-          </daikin-link>`}
-    </daikin-card-footer>
+    <div style="width: 248px">
+      <daikin-card-footer>
+        ${args.actionType === "button"
+          ? html`<daikin-button size="small" color="default">
+              Button
+            </daikin-button>`
+          : html`<daikin-link href="https://dsv-rp.github.io/DDS">
+              Link
+            </daikin-link>`}
+      </daikin-card-footer>
+    </div>
   `,
 };

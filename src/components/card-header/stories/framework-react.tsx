@@ -19,17 +19,19 @@ export const metadata: Meta<DaikinCardHeaderStoryArgs> = {
     leftIcon,
     ...props
   }: DaikinCardHeaderStoryArgs) => (
-    <ReactDaikinCardHeader {...props}>
-      {leftIcon ? (
-        <ReactDaikinIcon
-          slot="left-icon"
-          icon={leftIcon}
-          size="xl"
-          color="current"
-        />
-      ) : null}
-      <span>{label}</span>
-      <span slot="description">{description}</span>
-    </ReactDaikinCardHeader>
+    <div style={{ width: 248 }}>
+      <ReactDaikinCardHeader {...props}>
+        {leftIcon ? (
+          <ReactDaikinIcon
+            slot="left-icon"
+            icon={leftIcon}
+            size="xl"
+            color="current"
+          />
+        ) : null}
+        <span>{label}</span>
+        <span slot="description">{description}</span>
+      </ReactDaikinCardHeader>
+    </div>
   ),
 };
