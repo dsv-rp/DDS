@@ -16,8 +16,8 @@ const getPageURL = (story: "default" | "with-sentence", args: StoryArgs = {}) =>
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["default", "exist"] as const, (sentence) => {
     const story = sentence === "default" ? "default" : "with-sentence";
-    const selector =
-      sentence === "exist" ? "p[data-testid='link-container']" : "daikin-link";
+    const containerSelector =
+      sentence === "exist" ? "p[data-testid='link-container']" : null;
 
     describeEach(["none", "left", "right"] as const, (icon) => {
       const baseArgs = {
@@ -35,19 +35,31 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector(selector, {
+        const container = containerSelector
+          ? await page.waitForSelector(containerSelector, {
+              state: "visible",
+            })
+          : null;
+        const element = await page.waitForSelector("daikin-link", {
           state: "visible",
         });
 
         // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+        await expect(page).toHaveScreenshot(
+          await clipFor(container ?? element)
+        );
       });
 
       test("hover", async ({ page }) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector(selector, {
+        const container = containerSelector
+          ? await page.waitForSelector(containerSelector, {
+              state: "visible",
+            })
+          : null;
+        const element = await page.waitForSelector("daikin-link", {
           state: "visible",
         });
 
@@ -55,14 +67,21 @@ describeEach(["light", "dark"] as const, (theme) => {
         await element.hover();
 
         // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+        await expect(page).toHaveScreenshot(
+          await clipFor(container ?? element)
+        );
       });
 
       test("press", async ({ page }) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector(selector, {
+        const container = containerSelector
+          ? await page.waitForSelector(containerSelector, {
+              state: "visible",
+            })
+          : null;
+        const element = await page.waitForSelector("daikin-link", {
           state: "visible",
         });
 
@@ -71,7 +90,9 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.mouse.down();
 
         // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+        await expect(page).toHaveScreenshot(
+          await clipFor(container ?? element)
+        );
         await page.mouse.up();
       });
 
@@ -79,7 +100,12 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector(selector, {
+        const container = containerSelector
+          ? await page.waitForSelector(containerSelector, {
+              state: "visible",
+            })
+          : null;
+        const element = await page.waitForSelector("daikin-link", {
           state: "visible",
         });
 
@@ -88,7 +114,9 @@ describeEach(["light", "dark"] as const, (theme) => {
         }, element);
 
         // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+        await expect(page).toHaveScreenshot(
+          await clipFor(container ?? element)
+        );
       });
 
       test("disabled", async ({ page }) => {
@@ -101,12 +129,19 @@ describeEach(["light", "dark"] as const, (theme) => {
         );
 
         // wait for element to be visible
-        const element = await page.waitForSelector(selector, {
+        const container = containerSelector
+          ? await page.waitForSelector(containerSelector, {
+              state: "visible",
+            })
+          : null;
+        const element = await page.waitForSelector("daikin-link", {
           state: "visible",
         });
 
         // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+        await expect(page).toHaveScreenshot(
+          await clipFor(container ?? element)
+        );
       });
     });
   });
