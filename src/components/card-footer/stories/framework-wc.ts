@@ -13,12 +13,12 @@ export const metadata: Meta<DaikinCardFooterStoryArgs> = {
   render: (args) => html`
     <daikin-card-footer>
       ${args.actionType === "button"
-        ? html`<daikin-button size="small" color="default"
-            >Button</daikin-button
-          >`
-        : html`<daikin-link href="https://dsv-rp.github.io/DDS"
-            >Link</daikin-link
-          >`}
+        ? html`<daikin-button size="small" color="default">
+            Button
+          </daikin-button>`
+        : html`<daikin-link href="https://dsv-rp.github.io/DDS">
+            Link
+          </daikin-link>`}
     </daikin-card-footer>
   `,
 };

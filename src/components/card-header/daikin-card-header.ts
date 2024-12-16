@@ -26,17 +26,18 @@ const cvaDescription = cva([
  * Hierarchy:
  * - `daikin-card` > `daikin-card-header`
  *
- * @slot icon - A slot for card header icon. Place a `daikin-icon` element here.
- * @slot label - A slot for card header text content. Place a text here.
- * @slot link - A slot for card header link. Place a link element here.
- * @slot action - A slot for card header button. Place a `daikin-button` element here.
+ * @slot left-icon - A slot for card header icon. Place a `daikin-icon` element here.
+ * @slot - A slot for card title content. Place header title content here.
+ * @slot description - A slot for card header description. Place a description content here.
  *
  * @example
  *
  * ```html
  * <!-- See `daikin-card` component for complete example. -->
  * <daikin-card-header>
- *  <span slot="label">Card Header</span>
+ *   <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current"></daikin-icon>
+ *   <span>Label Title</span>
+ *   <span slot="description">Description</span>
  * </daikin-card-header>
  * ```
  */

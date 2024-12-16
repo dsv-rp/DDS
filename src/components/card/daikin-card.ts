@@ -12,10 +12,6 @@ const cvaContainer = cva(
         true: ["border", "border-solid", "border-[#CECECE]"],
         false: [],
       },
-      fill: {
-        true: [],
-        false: [],
-      },
     },
   }
 );
@@ -25,16 +21,25 @@ const cvaContainer = cva(
  *
  * Hierarchy:
  * - `daikin-card` > `daikin-card-header`
+ * - `daikin-card` > `daikin-card-footer`
  *
- * @slot header - A slot for card header. Place `daikin-card-header` elements here.
+ * @slot - A slot for card header, body, card footer. Place `daikin-card-header`, custom body content, `daikin-card-footer` here in order.
  *
  * @example
  *
  * ```html
- * <daikin-card>
+ * <daikin-card outline="true">
  *  <daikin-card-header slot="header">
- *   <span slot="label">Card Header</span>
+ *   <daikin-card-header>
+ *      <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current"></daikin-icon>
+ *      <span>Label Title</span>
+ *      <span slot="description">Description</span>
+ *    </daikin-card-header>
  *  </daikin-card-header>
+ *  <div>body content</div>
+ *  <daikin-card-footer>
+ *    <daikin-button size="small">Button</daikin-button>
+ *  </daikin-card-footer>
  * </daikin-card>
  * ```
  */
@@ -45,7 +50,6 @@ export class DaikinCard extends LitElement {
 
     :host {
       display: flex;
-      align-items: center;
       width: fit-content;
     }
   `;
