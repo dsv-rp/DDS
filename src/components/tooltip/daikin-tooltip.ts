@@ -25,12 +25,12 @@ const cvaTooltip = cva(
     variants: {
       color: {
         default: [
-          "text-system-element-text-primary",
-          "bg-system-background-base",
-          "border-system-state-neutral-active",
+          "text-ddt-color-common-text-primary",
+          "bg-ddt-color-common-background-default",
+          "border-ddt-color-common-neutral-default",
         ],
         inverse: [
-          "text-system-element-text-inverse",
+          "text-ddt-color-common-text-inverse",
           "bg-system-background-inverse",
           "border-transparent",
         ],
@@ -213,7 +213,7 @@ export class DaikinTooltip extends LitElement {
     // `aria-labelledby` in the tooltip is only for suppressing linting issues. I don't think it's harmful.
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div
-      class="relative inline-block text-system-element-text-primary font-daikinSerif"
+      class="relative inline-block text-ddt-color-common-text-primary font-daikinSerif"
     >
       <div
         id="trigger"
