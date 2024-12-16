@@ -12,12 +12,12 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_CARD_HEADER_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-card-header--default", args);
 
-describeEach(["icon", "description", "all"], (structure) => {
+describeEach(["icon", "description", "both"], (structure) => {
   const baseURL = getPageURL({
     label: "Label Title",
     description:
-      structure === "description" || structure === "all" ? "Description" : "",
-    leftIcon: structure === "icon" || structure === "all" ? "alarm" : "",
+      structure === "description" || structure === "both" ? "Description" : "",
+    leftIcon: structure === "icon" || structure === "both" ? "alarm" : "",
   });
 
   test("base", async ({ page }) => {
