@@ -1,11 +1,9 @@
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
+import { css, html, LitElement, unsafeCSS } from "lit";
 import {
   customElement,
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
-
-import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
@@ -21,15 +19,16 @@ import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/breadcrumb/index.js";
+ * import "@daikin-oss/design-system-web-components/components/breadcrumb-item/index.js";
  * ```
  *
  * ```html
  * <daikin-breadcrumb>
- *  <daikin-breadcrumb-item href="#">
- *   Breadcrumb Item 1
+ *  <daikin-breadcrumb-item href="https://www.example.com/1">
+ *   Breadcrumb item 1
  *  </daikin-breadcrumb-item>
- *  <daikin-breadcrumb-item href="#">
- *   Breadcrumb Item 2
+ *  <daikin-breadcrumb-item href="https://www.example.com/2">
+ *   Breadcrumb item 2
  *  </daikin-breadcrumb-item>
  * </daikin-breadcrumb>
  * ```
@@ -40,124 +39,46 @@ export class DaikinBreadcrumb extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: flex;
-      align-items: center;
+      padding-top: 0.25rem;
+      padding-bottom: 0.25rem;
     }
   `;
 
-  private resizeObserver = new ResizeObserver(() => {
-    this._omit();
-  });
-
-  // get daikin-breadcrumb-item from shadow root
-  @queryAssignedElements()
-  private _slottedDaikinBreadCrumbItems!: Array<DaikinBreadcrumbItem>;
-
-  // get div element from daikin-breadcrumb
-  private _divWrapRef: Ref<HTMLDivElement> = createRef();
-
   /**
-   * Whether the last breadcrumb item should have trailing slash.
+   * Whether or not to change the color of visited links.
    */
-  @property({ type: Boolean, reflect: true, attribute: "trailing-slash" })
-  trailingSlash = false;
+  @property({ type: Boolean, reflect: true, attribute: "show-visited" })
+  showVisited = false;
 
-  /**
-   * Specifies overflow.
-   * If `ellipsis`, some breadcrumb items will be omitted when the total width exceeds the container width.
-   */
-  @property({ type: String, reflect: true })
-  overflow: "visible" | "ellipsis" = "visible";
-
-  private _expandedContentWidth: number = 0;
-
-  private omitted: boolean = false;
-
-  get _isEllipsis() {
-    return this.overflow === "ellipsis";
-  }
-
-  private _omit() {
-    // remove items and add omission if daikin-breadcrumb is to long
-    const shouldOmit =
-      this._isEllipsis && this.offsetWidth < this._expandedContentWidth;
-    if (this.omitted === shouldOmit) {
-      return;
-    }
-    this.omitted = shouldOmit;
-
-    const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
-    for (const [index, item] of daikinBreadCrumbItems.entries()) {
-      let mode = "normal";
-      if (shouldOmit) {
-        if (index === 0 || index >= daikinBreadCrumbItems.length - 2) {
-          continue;
-        } else if (index === 1) {
-          mode = "ellipsis";
-        } else {
-          mode = "hidden";
-        }
-      }
-      item.hidden = mode === "hidden";
-      item.variant = mode === "ellipsis" ? "ellipsis" : "normal";
-    }
-  }
+  @queryAssignedElements({ selector: "daikin-breadcrumb-item" })
+  private readonly _items!: readonly DaikinBreadcrumbItem[];
 
   private _updateBreadcrumbs() {
-    const daikinBreadCrumbItems = this._slottedDaikinBreadCrumbItems;
-    for (const [index, item] of daikinBreadCrumbItems.entries()) {
-      const isLast = index === daikinBreadCrumbItems.length - 1;
-      item.trailingSlash = !isLast || this.trailingSlash;
-      item.last = isLast;
-    }
+    const items = this._items;
+
+    items.forEach((item, index) => {
+      const isLast = index === items.length - 1;
+
+      item.variant = isLast ? "current" : "normal";
+      item.showVisited = this.showVisited;
+      item.appendDivider = !isLast;
+    });
   }
 
-  private _handleChange() {
+  private _handleSlotChange() {
     this._updateBreadcrumbs();
-  }
-
-  private _handleResizeObserver() {
-    if (this._isEllipsis) {
-      this.resizeObserver.observe(this);
-    } else {
-      this.resizeObserver.disconnect();
-    }
   }
 
   override render() {
-    return html`
-      <div class="flex gap-2" ${ref(this._divWrapRef)}>
-        <slot @slotchange=${this._handleChange}></slot>
+    return html`<nav class="inline-block" aria-label="Breadcrumbs">
+      <div class="inline-block" role="list">
+        <slot @slotchange=${this._handleSlotChange}></slot>
       </div>
-    `;
+    </nav>`;
   }
 
-  override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("trailingSlash")) {
-      this._updateBreadcrumbs();
-    }
-    if (changedProperties.has("overflow")) {
-      this._omit();
-      this._handleResizeObserver();
-    }
-  }
-
-  override firstUpdated(): void {
+  protected override firstUpdated(): void {
     this._updateBreadcrumbs();
-    this._omit();
-    this._handleResizeObserver();
-
-    this.updateComplete
-      .then(() => {
-        const divElement = this._divWrapRef.value;
-        if (!divElement) {
-          return;
-        }
-        this._expandedContentWidth = divElement.offsetWidth;
-      })
-      .catch(() => {
-        // do nothing
-      });
   }
 }
 

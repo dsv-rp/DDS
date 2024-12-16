@@ -5,34 +5,22 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const LINK_CLASS_NAME = cva([
-  "flex",
-  "justify-center",
-  "items-center",
-  "gap-0.5",
-  "size-fit",
   "font-daikinSerif",
-  "rounded-[1px]",
   "relative",
+  "border-b",
+  "border-b-current",
 
   "link-enabled:text-system-state-link-active",
   "link-enabled:hover:text-system-state-link-hover",
   "link-enabled:hover:bg-system-state-link-surface-hover",
   "link-enabled:active:text-system-state-link-press",
+  "link-enabled:active:bg-system-state-link-surface-press",
   "link-disabled:text-system-state-disabled",
 
-  "focus-visible:outline-none",
-  "focus-visible:before:block",
-  "focus-visible:before:rounded-none",
-  "focus-visible:before:absolute",
-  "focus-visible:before:inset-[-1px]",
-  "focus-visible:before:outline",
-  "focus-visible:before:outline-system-state-focus",
-  "focus-visible:before:outline-2",
-
-  "after:h-[1px]",
-  "after:absolute",
-  "after:inset-[auto_0_0_0]",
-  "after:bg-current",
+  "focus-visible:outline",
+  "focus-visible:outline-2",
+  "focus-visible:outline-system-state-focus",
+  "focus-visible:outline-offset-1",
 ])();
 
 /**
@@ -57,26 +45,18 @@ export class DaikinLink extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
-    :host {
-      display: block;
-      width: fit-content;
-      height: fit-content;
-    }
-
     :host([show-visited]:not([disabled])) a:visited {
-      color: #5c2365; /* system-state-visited-active */
+      color: #5c2365; /* system-state-link-visited-active */
     }
 
-    :host([show-visited]:not([disabled])) a:hover:visited {
-      color: #4a1c51; /* system-state-visited-hover */
+    :host([show-visited]:not([disabled])) a:visited:hover {
+      color: #4a1c51; /* system-state-link-visited-hover */
+      background-color: #f0ddf3; /* system-state-link-visited-surface-hover */
     }
 
-    :host([show-visited]:not([disabled])) a:hover:visited {
-      background-color: #f0ddf3; /* system-state-visited-hover */
-    }
-
-    :host([show-visited]:not([disabled])) a:active:visited {
-      color: #37153d; /* system-state-visited-press */
+    :host([show-visited]:not([disabled])) a:visited:active {
+      color: #37153d; /* system-state-link-visited-press */
+      background-color: #e1bbe8; /* system-state-link-visited-surface-press */
     }
   `;
 
@@ -105,18 +85,19 @@ export class DaikinLink extends LitElement {
   showVisited = false;
 
   override render() {
-    return html`
-      <a
-        class=${LINK_CLASS_NAME}
-        href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
-        target=${ifDefined(this.target ?? undefined)}
-        aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
-      >
-        <slot name="left-icon" class="icon-size-4"></slot>
-        <slot></slot>
-        <slot name="right-icon" class="icon-size-4"></slot>
-      </a>
-    `;
+    return html`<a
+      class=${LINK_CLASS_NAME}
+      href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
+      target=${ifDefined(this.target ?? undefined)}
+      aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+      ><span class="inline-flex mr-[0.125rem] align-sub">
+        <slot name="left-icon" class="icon-size-4"
+          ><span class="-mr-[0.125rem]"></span></slot></span
+      ><slot></slot
+      ><span class="inline-flex ml-[0.125rem] align-sub"
+        ><slot name="right-icon" class="icon-size-4"
+          ><span class="-ml-[0.125rem]"></span></slot></span
+    ></a>`;
   }
 }
 

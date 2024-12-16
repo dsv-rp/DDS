@@ -1,0 +1,83 @@
+{
+  "colorTokens": {
+    "brand": {
+      "primary": "#0097E0",
+      "secondary": "#54C3F1"
+    },
+    "element": {
+      "text": {
+        "primary": "#414141",
+        "secondary": "#616161",
+        "inverse": "#FFFFFF"
+      },
+      "divider": {
+        "primary": "#828282",
+        "secondary": "#CECECE"
+      },
+      "empty": "#CECECE"
+    },
+    "background": {
+      "base": "#FFFFFF",
+      "surface": {
+        "hover": "#F2F2F2",
+        "press": "#EBEBEB",
+        "selected": "#DDF3FC",
+        "selectedHover": "#BBE7F9",
+        "selectedActive": "#98DBF7"
+      },
+      "blanket": "rgba(0, 0, 0, 0.5)"
+    },
+    "state": {
+      "primary": {
+        "active": "#0097E0",
+        "hover": "#0081C0",
+        "press": "#00689A",
+        "surface": {
+          "hover": "#DDF3FC",
+          "press": "#BBE7F9"
+        }
+      },
+      "error": {
+        "active": "#D80C18",
+        "hover": "#B90A15",
+        "press": "#9A0911",
+        "surface": {
+          "hover": "#FDD9DB",
+          "press": "#FBB3B7"
+        }
+      },
+      "neutral": {
+        "active": "#616161",
+        "hover": "#515151",
+        "press": "#414141"
+      },
+      "disabled": "#BFBFBF",
+      "focus": "#0081C0",
+      "feedback": {
+        "success": "#13CE66",
+        "negative": "#FF4949",
+        "warning": "#FFCC3D",
+        "alarm": "#F68C54",
+        "information": "#0097E0"
+      },
+      "link": {
+        "active": "#00689A",
+        "hover": "#005077",
+        "press": "#004160",
+        "surface": {
+          "hover": "#DDF3FC",
+          "press": "#BBE7F9"
+        }
+      },
+      "visited": {
+        "active": "#5C2365",
+        "hover": "#4A1C51",
+        "press": "#37153D",
+        "surface": {
+          "hover": "#F0DDF3",
+          "press": "#E1BBE8"
+        }
+      }
+    }
+  }
+}
