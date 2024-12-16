@@ -9,99 +9,103 @@ import type { DAIKIN_LINK_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_LINK_ARG_TYPES>;
 
-const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-link--default", args);
+const getPageURL = (story: "default" | "with-sentence", args: StoryArgs = {}) =>
+  getStorybookIframeURL(`components-link--${story}`, args);
 
 // FIXME: VRT is not implemented for `:visited` styles, as it will require `launchPersistentContext` which cannot be done with containers.
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["none", "left", "right"] as const, (icon) => {
-    const baseArgs = {
-      $theme: theme,
-      ...(icon === "right" && {
-        rightIcon: "positive",
-      }),
-      ...(icon === "left" && {
-        leftIcon: "positive",
-      }),
-    };
-    const baseURL = getPageURL(baseArgs);
+  describeEach(["default", "exist"] as const, (sentence) => {
+    const story = sentence === "default" ? "default" : "with-sentence";
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+    describeEach(["none", "left", "right"] as const, (icon) => {
+      const baseArgs = {
+        $theme: theme,
+        ...(icon === "right" && {
+          rightIcon: "positive",
+        }),
+        ...(icon === "left" && {
+          leftIcon: "positive",
+        }),
+      };
+      const baseURL = getPageURL(story, baseArgs);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link", {
-        state: "visible",
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-link", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
+      test("hover", async ({ page }) => {
+        await page.goto(baseURL);
 
-    test("hover", async ({ page }) => {
-      await page.goto(baseURL);
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-link", {
+          state: "visible",
+        });
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link", {
-        state: "visible",
+        // hover cursor on the element
+        await element.hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      // hover cursor on the element
-      await element.hover();
+      test("press", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-link", {
+          state: "visible",
+        });
 
-    test("press", async ({ page }) => {
-      await page.goto(baseURL);
+        // hover cursor on the element and hold down mouse button on the element
+        await element.hover();
+        await page.mouse.down();
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link", {
-        state: "visible",
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+        await page.mouse.up();
       });
 
-      // hover cursor on the element and hold down mouse button on the element
-      await element.hover();
-      await page.mouse.down();
+      test("focus", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-      await page.mouse.up();
-    });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-link", {
+          state: "visible",
+        });
 
-    test("focus", async ({ page }) => {
-      await page.goto(baseURL);
+        await page.evaluate((container) => {
+          container.focus();
+        }, element);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link", {
-        state: "visible",
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      await page.evaluate((container) => {
-        container.focus();
-      }, element);
+      test("disabled", async ({ page }) => {
+        // load page with disabled=true
+        await page.goto(
+          getPageURL(story, {
+            ...baseArgs,
+            disabled: true,
+          })
+        );
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-link", {
+          state: "visible",
+        });
 
-    test("disabled", async ({ page }) => {
-      // load page with disabled=true
-      await page.goto(
-        getPageURL({
-          ...baseArgs,
-          disabled: true,
-        })
-      );
-
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-link", {
-        state: "visible",
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });

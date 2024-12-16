@@ -5,14 +5,10 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const LINK_CLASS_NAME = cva([
-  "flex",
-  "justify-center",
-  "items-center",
-  "gap-0.5",
-  "size-fit",
   "font-daikinSerif",
-  "rounded-[1px]",
   "relative",
+  "border-b",
+  "border-b-current",
 
   "link-enabled:text-ddt-color-link-text-default",
   "link-enabled:hover:text-ddt-color-link-text-hover",
@@ -21,19 +17,10 @@ const LINK_CLASS_NAME = cva([
   "link-enabled:active:bg-ddt-color-common-surface-brand-press",
   "link-disabled:text-ddt-color-common-disabled",
 
-  "focus-visible:outline-none",
-  "focus-visible:before:block",
-  "focus-visible:before:rounded-none",
-  "focus-visible:before:absolute",
-  "focus-visible:before:inset-[-1px]",
-  "focus-visible:before:outline",
-  "focus-visible:before:outline-ddt-color-common-border-focus",
-  "focus-visible:before:outline-2",
-
-  "after:h-[1px]",
-  "after:absolute",
-  "after:inset-[auto_0_0_0]",
-  "after:bg-current",
+  "focus-visible:outline",
+  "focus-visible:outline-2",
+  "focus-visible:outline-ddt-color-common-border-focus",
+  "focus-visible:outline-offset-1",
 ])();
 
 /**
@@ -57,12 +44,6 @@ const LINK_CLASS_NAME = cva([
 export class DaikinLink extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
-
-    :host {
-      display: block;
-      width: fit-content;
-      height: fit-content;
-    }
 
     :host([show-visited]:not([disabled])) a:visited {
       color: var(--dds-color-link-text-visited-default);
@@ -104,18 +85,19 @@ export class DaikinLink extends LitElement {
   showVisited = false;
 
   override render() {
-    return html`
-      <a
-        class=${LINK_CLASS_NAME}
-        href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
-        target=${ifDefined(this.target ?? undefined)}
-        aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
-      >
-        <slot name="left-icon" class="icon-size-4"></slot>
-        <slot></slot>
-        <slot name="right-icon" class="icon-size-4"></slot>
-      </a>
-    `;
+    return html`<a
+      class=${LINK_CLASS_NAME}
+      href=${ifDefined(this.disabled ? undefined : (this.href ?? undefined))}
+      target=${ifDefined(this.target ?? undefined)}
+      aria-disabled=${ifDefined(this.disabled ? "true" : undefined)}
+      ><span class="inline-flex mr-[0.125rem] align-sub">
+        <slot name="left-icon" class="icon-size-4"
+          ><span class="-mr-[0.125rem]"></span></slot></span
+      ><slot></slot
+      ><span class="inline-flex ml-[0.125rem] align-sub"
+        ><slot name="right-icon" class="icon-size-4"
+          ><span class="-ml-[0.125rem]"></span></slot></span
+    ></a>`;
   }
 }
 
