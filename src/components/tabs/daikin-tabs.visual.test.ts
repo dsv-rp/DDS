@@ -14,28 +14,32 @@ const getPageURL = (
   args: StoryArgs = {}
 ) => getStorybookIframeURL(`components-tabs--${base}`, args);
 
-describeEach(["default", "single", "scrollable"] as const, (base) => {
-  const targetTabs = {
-    default: ["foo", "baz"],
-    single: ["foo"],
-    scrollable: ["tab1", "tab10", "tab20"],
-  }[base];
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["default", "single", "scrollable"] as const, (base) => {
+    const targetTabs = {
+      default: ["foo", "baz"],
+      single: ["foo"],
+      scrollable: ["tab1", "tab10", "tab20"],
+    }[base];
 
-  describeEach(targetTabs, (selectedTab) => {
-    const baseURL = getPageURL(base, {
-      value: selectedTab,
-    });
+    describeEach(targetTabs, (selectedTab) => {
+      const baseArgs = {
+        $theme: theme,
+        value: selectedTab,
+      };
+      const baseURL = getPageURL(base, baseArgs);
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-tabs", {
-        state: "visible",
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-tabs", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });
