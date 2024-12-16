@@ -1,5 +1,29 @@
 # @daikin-oss/design-system-web-components
 
+## 0.7.0
+
+### Minor Changes
+
+- [#104](https://github.com/dsv-rp/DDS/pull/104) [`c01e66d`](https://github.com/dsv-rp/DDS/commit/c01e66d51936cb04d46e5daf7ca6239ca85826ba) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Breadcrumb: The `trailing-slash` and `overflow` attributes have been removed. (DDS-1642)
+  **BREAKING CHANGE** Breadcrumb Item: The `trailing-slash` attribute has been removed. (DDS-1642)
+  **BREAKING CHANGE** Breadcrumb Item: The `ellipsis` value of the `variant` attribute has been removed. In addition, the `current` value has been added. (DDS-1642)
+  Breadcrumb: The `show-visited` attribute has been added. (DDS-1642)
+  Breadcrumb: Updated appearance. (DDS-1642)
+  Breadcrumb Item: The `show-visited` attribute has been added. (DDS-1642)
+  Breadcrumb Item: Updated appearance. (DDS-1642)
+
+- [#105](https://github.com/dsv-rp/DDS/pull/105) [`63cf888`](https://github.com/dsv-rp/DDS/commit/63cf8884649d46837e4012b9d85913dd7bf0cd5f) Thanks [@yodas7](https://github.com/yodas7)! - **BREAKING CHANGE** The `@daikin-oss/design-system-web-components` package now requires `@daikin-oss/dds-tokens` package as a peer dependency.
+  **BREAKING CHANGE** The `colors.js` file, which exported colors, has been removed. Please use `@daikin-oss/dds-tokens` instead.
+  **BREAKING CHANGE** Icon, Tooltip: Changed the prefix for CSS custom properties to `--ddc-` from `--dds-` to avoid conflicts.
+
+- [#73](https://github.com/dsv-rp/DDS/pull/73) [`18a71f6`](https://github.com/dsv-rp/DDS/commit/18a71f6a86fd4bc1cf04172b0e646a657048cd42) Thanks [@poetrainy](https://github.com/poetrainy)! - Tree: Initial Implementation.
+
+### Patch Changes
+
+- [#110](https://github.com/dsv-rp/DDS/pull/110) [`5d5db6b`](https://github.com/dsv-rp/DDS/commit/5d5db6b2990aae84511f5c4e721d101dc7887153) Thanks [@poetrainy](https://github.com/poetrainy)! - Icon Button: Fixed the issue where the size could not be changed. (DDS-1650)
+
+- [#103](https://github.com/dsv-rp/DDS/pull/103) [`12fcb40`](https://github.com/dsv-rp/DDS/commit/12fcb406567c1a436f3ac39887096e91d63130da) Thanks [@poetrainy](https://github.com/poetrainy)! - Link: Fixed underline not shown correctly with line breaks.
+
 ## 0.6.0
 
 ### Minor Changes
