@@ -12,8 +12,7 @@ const cvaIconButton = cva(
     "inline-flex",
     "justify-center",
     "items-center",
-    "w-8",
-    "h-8",
+    "size-full",
     "font-daikinSerif",
     "font-bold",
     "rounded",
@@ -103,6 +102,8 @@ export class DaikinIconButton extends LitElement {
 
     :host {
       display: inline-block;
+      width: 2rem;
+      height: 2rem;
     }
   `;
 
