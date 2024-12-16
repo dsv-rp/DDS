@@ -16,6 +16,8 @@ const getPageURL = (story: "default" | "with-sentence", args: StoryArgs = {}) =>
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["default", "exist"] as const, (sentence) => {
     const story = sentence === "default" ? "default" : "with-sentence";
+    const selector =
+      sentence === "exist" ? "p[data-testid='link-container']" : "daikin-link";
 
     describeEach(["none", "left", "right"] as const, (icon) => {
       const baseArgs = {
@@ -33,7 +35,7 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-link", {
+        const element = await page.waitForSelector(selector, {
           state: "visible",
         });
 
@@ -45,7 +47,7 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-link", {
+        const element = await page.waitForSelector(selector, {
           state: "visible",
         });
 
@@ -60,7 +62,7 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-link", {
+        const element = await page.waitForSelector(selector, {
           state: "visible",
         });
 
@@ -77,7 +79,7 @@ describeEach(["light", "dark"] as const, (theme) => {
         await page.goto(baseURL);
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-link", {
+        const element = await page.waitForSelector(selector, {
           state: "visible",
         });
 
@@ -99,7 +101,7 @@ describeEach(["light", "dark"] as const, (theme) => {
         );
 
         // wait for element to be visible
-        const element = await page.waitForSelector("daikin-link", {
+        const element = await page.waitForSelector(selector, {
           state: "visible",
         });
 
