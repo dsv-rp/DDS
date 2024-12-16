@@ -18,8 +18,8 @@ export const metadata: Meta<DaikinCardFooterStoryArgs> = {
               Button
             </daikin-button>`
           : html`<daikin-link href="https://dsv-rp.github.io/DDS"
-              >Link
-            </daikin-link>`}
+              >Link</daikin-link
+            >`}
       </daikin-card-footer>
     </div>
   `,
