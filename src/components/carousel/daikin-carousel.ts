@@ -334,6 +334,7 @@ export class DaikinCarousel extends LitElement {
         <div
           ${ref(this._indicatorButtons)}
           class="flex items-center gap-4"
+          role="tablist"
           @keydown=${this._handleKeydownIndicator}
         >
           ${repeat(
@@ -346,6 +347,7 @@ export class DaikinCarousel extends LitElement {
                 })}
                 aria-label="Slide ${index + 1}"
                 aria-selected=${`${this.currentIndex === index}` as const}
+                role="tab"
                 tabindex=${this.currentIndex === index ? 0 : -1}
                 @click=${() => this._handleClick(index)}
               ></button>`

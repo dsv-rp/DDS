@@ -42,7 +42,7 @@ export const Default: Story = {
       "Should be displayed fifth contents if you press the fifth indicator. Also, should be disabled next button if you showed the last content",
       async () => {
         await userEvent.click(
-          getByShadowRole(root, "button", {
+          getByShadowRole(root, "tab", {
             name: "Slide 5",
           })
         );
@@ -74,7 +74,7 @@ export const Default: Story = {
       "Should be disabled prev button if you showed the first content",
       async () => {
         await userEvent.click(
-          getByShadowRole(root, "button", {
+          getByShadowRole(root, "tab", {
             name: "Slide 1",
           })
         );
