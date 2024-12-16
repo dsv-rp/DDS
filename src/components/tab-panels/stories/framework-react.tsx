@@ -2,7 +2,6 @@ import { DaikinTabPanels } from "#package/components/tab-panels/daikin-tab-panel
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React, { Fragment } from "react";
-import "../../../storybook-tailwind.css";
 import type { DaikinTabPanelsStoryArgs } from "./common";
 
 export const ReactDaikinTabPanels = createComponent({

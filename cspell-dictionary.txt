@@ -5,6 +5,7 @@ daikin
 defu
 dotfiles
 fontsource
+jiti
 lightningcss
 picocolors
 roboto
@@ -63,6 +64,8 @@ cssprop
 # Misc.
 FOUC
 linkify
+quasis
 retargeted
+rgba
 textareas
 classfield
