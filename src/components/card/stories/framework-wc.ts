@@ -1,5 +1,5 @@
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import type { DaikinCardStoryArgs } from "./common";
 
 import "#package/components/button/daikin-button";
@@ -14,20 +14,19 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
   render: (args) => html`
     <daikin-card .outline=${args.outline}>
       <daikin-card-header>
-        <daikin-icon
-          slot="left-icon"
-          icon="alarm"
-          size="xl"
-          color="current"
-        ></daikin-icon
-        >>
-        <span slot="label">Card Header</span>
+        <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current">
+        </daikin-icon>
+        <span>Label Title</span>
+        <span slot="description">Description</span>
       </daikin-card-header>
-      ${args.withBody && html`<div style="height: 173px; width: 248px"></div>`}
-      ${args.withFooter &&
-      html`<daikin-card-footer>
-        <daikin-button size="small">Button</daikin-button>
-      </daikin-card-footer>`}
+      ${args.withBody
+        ? html`<div style="height: 173px; width: 248px"></div>`
+        : nothing}
+      ${args.withFooter
+        ? html`<daikin-card-footer>
+            <daikin-button size="small">Button</daikin-button>
+          </daikin-card-footer>`
+        : nothing}
     </daikin-card>
   `,
 };

@@ -10,7 +10,10 @@ export interface DaikinCardHeaderStoryArgs
   leftIcon: IconType | null;
 }
 
-export const DAIKIN_CARD_HEADER_ARG_TYPES =
-  {} as const satisfies Meta<DaikinCardHeaderStoryArgs>["argTypes"];
+export const DAIKIN_CARD_HEADER_ARG_TYPES = {
+  label: { type: "string" },
+  description: { type: "string" },
+  leftIcon: { type: "string" },
+} as const satisfies Meta<DaikinCardHeaderStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinCardHeaderStoryArgs>;

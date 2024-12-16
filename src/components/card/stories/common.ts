@@ -10,6 +10,8 @@ export interface DaikinCardStoryArgs
 
 export const DAIKIN_CARD_ARG_TYPES = {
   outline: { type: "boolean" },
+  withBody: { type: "boolean" },
+  withFooter: { type: "boolean" },
 } as const satisfies Meta<DaikinCardStoryArgs>["argTypes"];
 
 export type CardStory = StoryObj<DaikinCardStoryArgs>;

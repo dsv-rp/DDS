@@ -8,7 +8,7 @@ export default {
   ...metadata,
 };
 
-export const Normal: Story = {
+export const Default: Story = {
   args: {
     actionType: "button",
   },
