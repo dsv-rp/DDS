@@ -17,8 +17,8 @@ export const metadata: Meta<DaikinCardFooterStoryArgs> = {
           ? html`<daikin-button size="small" color="default">
               Button
             </daikin-button>`
-          : html`<daikin-link href="https://dsv-rp.github.io/DDS">
-              Link
+          : html`<daikin-link href="https://dsv-rp.github.io/DDS"
+              >Link
             </daikin-link>`}
       </daikin-card-footer>
     </div>
