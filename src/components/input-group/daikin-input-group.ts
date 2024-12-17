@@ -263,7 +263,7 @@ export class DaikinInputGroup extends LitElement {
   override render() {
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
-    const helperTextVariant: () => HelperType = () => {
+    const helperTextVariant: HelperType = (() => {
       if (
         this.textareaLimitExceeded &&
         !!this.textareaLimitExceedError &&
@@ -279,7 +279,7 @@ export class DaikinInputGroup extends LitElement {
       } else {
         return "none";
       }
-    };
+    })();
 
     const helperText = {
       helper: this.helper,
@@ -287,7 +287,7 @@ export class DaikinInputGroup extends LitElement {
       error: this.error,
       textareaLimitExceedError: this.textareaLimitExceedError,
       none: "",
-    }[helperTextVariant()];
+    }[helperTextVariant];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label
@@ -306,8 +306,8 @@ export class DaikinInputGroup extends LitElement {
             : nothing}
         </div>
         <span
-          class=${cvaHelper({ type: helperTextVariant() })}
-          aria-live=${helperTextVariant() === "error" ? "polite" : "off"}
+          class=${cvaHelper({ type: helperTextVariant })}
+          aria-live=${helperTextVariant === "error" ? "polite" : "off"}
         >
           ${helperText}
         </span>
