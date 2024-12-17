@@ -5,17 +5,19 @@ import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTitle = cva([
-  "text-[#414141]",
+  "text-ddt-color-common-text-primary",
   "font-daikinSerif",
   "text-base",
+  "leading-[1.3]",
   "not-italic",
   "font-bold",
 ]);
 
 const cvaDescription = cva([
-  "text-[#616161]",
+  "text-ddt-color-common-text-secondary",
   "font-daikinSerif",
-  "text-[14px]",
+  "text-sm",
+  "leading-normal",
   "not-italic",
   "font-normal",
 ]);
@@ -54,7 +56,7 @@ export class DaikinCardHeader extends LitElement {
 
   override render() {
     return html` <div class="flex w-full gap-1">
-      <slot name="left-icon"></slot>
+      <slot name="left-icon" class="text-ddt-color-common-text-primary"></slot>
       <div class="flex flex-col pt-0.5 gap-[1px]">
         <slot class=${cvaTitle()}></slot>
         <slot name="description" class=${cvaDescription()}></slot>

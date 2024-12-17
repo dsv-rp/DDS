@@ -5,11 +5,18 @@ import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaContainer = cva(
-  ["flex", "rounded-lg", "bg-white", "p-4", "gap-4", "flex-col"],
+  [
+    "flex",
+    "rounded-lg",
+    "bg-ddt-color-common-background-default",
+    "p-4",
+    "gap-4",
+    "flex-col",
+  ],
   {
     variants: {
       outline: {
-        true: ["border", "border-solid", "border-[#CECECE]"],
+        true: ["border", "border-solid", "border-ddt-color-divider"],
         false: [],
       },
     },

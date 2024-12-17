@@ -12,24 +12,28 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_CARD_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-card--default", args);
 
-describeEach(["outline", "ghost"], (outline) => {
-  describeEach(["body", "footer", "both"] as const, (structure) => {
-    const baseURL = getPageURL({
-      outline: outline === "outline",
-      withBody: structure === "body" || structure === "both",
-      withFooter: structure === "footer" || structure === "both",
-    });
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["outline", "ghost"], (outline) => {
+    describeEach(["body", "footer", "both"] as const, (structure) => {
+      const baseArgs = {
+        $theme: theme,
+        outline: outline === "outline",
+        withBody: structure === "body" || structure === "both",
+        withFooter: structure === "footer" || structure === "both",
+      };
+      const baseURL = getPageURL(baseArgs);
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-card", {
-        state: "visible",
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-card", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });
