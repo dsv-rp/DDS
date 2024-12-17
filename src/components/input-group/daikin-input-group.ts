@@ -44,7 +44,7 @@ const cvaHelper = cva(
           "before:flex-none",
         ],
         textareaLimitExceedError: [
-          "text-system-state-error-active",
+          "text-ddt-color-common-danger-default",
           "font-bold",
           "before:size-4",
           "before:i-daikin-status-error",
