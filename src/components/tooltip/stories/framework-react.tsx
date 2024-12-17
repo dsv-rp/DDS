@@ -11,8 +11,8 @@ const ReactDaikinTooltip = createComponent({
   tagName: "daikin-tooltip",
   elementClass: DaikinTooltip,
   events: {
-    onClick: "click",
     onBeforeToggle: "beforetoggle",
+    onClick: "click",
     onToggle: "toggle",
   },
 });
