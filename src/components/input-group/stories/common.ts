@@ -29,6 +29,9 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   textareaMaxCount: {
     type: "number",
   },
+  textareaLimitExceedError: {
+    type: "string",
+  },
   content: {
     control: "radio",
     options: ["Dropdown", "RadioGroup", "Select", "TextArea", "TextField"],
