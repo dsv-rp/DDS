@@ -12,23 +12,27 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABLE_CELL_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-table-cell--default", args);
 
-describeEach(["left", "right", "center"] as const, (alignment) => {
-  describeEach(["subtitle", "none"] as const, (subtitle) => {
-    const baseURL = getPageURL({
-      alignment,
-      ...(subtitle === "subtitle" && { subtitle: "Table cell subtitle" }),
-    });
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["left", "right", "center"] as const, (alignment) => {
+    describeEach(["subtitle", "none"] as const, (subtitle) => {
+      const baseArgs = {
+        $theme: theme,
+        alignment,
+        ...(subtitle === "subtitle" && { subtitle: "Table cell subtitle" }),
+      };
+      const baseURL = getPageURL(baseArgs);
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-table-cell", {
-        state: "visible",
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-table-cell", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });

@@ -28,7 +28,7 @@ const cvaButton = cva(
     "w-full",
     "h-full",
     "min-h-12",
-    "bg-white",
+    "bg-ddt-color-common-background-default",
     "p-3",
     "border",
     "border-[--color-base]",
@@ -45,8 +45,8 @@ const cvaButton = cva(
     "focus-visible:outline-2",
     "focus-visible:outline-[--color-focus]",
 
-    "disabled:text-system-state-disabled",
-    "disabled:border-system-state-disabled",
+    "disabled:text-ddt-color-common-disabled",
+    "disabled:border-ddt-color-common-disabled",
 
     "after:i-daikin-dropdown-chevron-down",
     "after:w-6",
@@ -57,31 +57,31 @@ const cvaButton = cva(
     "after:bottom-0",
     "after:right-3",
 
-    "enabled:after:text-system-element-text-primary",
-    "disabled:after:text-system-state-disabled",
+    "enabled:after:text-ddt-color-common-text-primary",
+    "disabled:after:text-ddt-color-common-disabled",
   ],
   {
     variants: {
       open: {
         false: [
-          "enabled:hover:bg-system-background-surface-hover",
-          "enabled:active:bg-system-background-surface-press",
+          "enabled:hover:bg-ddt-color-common-surface-hover",
+          "enabled:active:bg-ddt-color-common-surface-press",
         ],
-        true: ["enabled:bg-system-background-surface-press"],
+        true: ["enabled:bg-ddt-color-common-surface-press"],
       },
       error: {
         false: [
-          "var-color-system-state-neutral-active/color-base",
-          "var-color-system-state-focus/color-focus",
+          "var-color-ddt-color-common-neutral-default/color-base",
+          "var-color-ddt-color-common-border-focus/color-focus",
         ],
         true: [
-          "var-color-system-state-error-active/color-base",
-          "var-color-system-state-error-active/color-focus",
+          "var-color-ddt-color-common-danger-default/color-base",
+          "var-color-ddt-color-common-danger-default/color-focus",
         ],
       },
       placeholder: {
-        false: ["text-system-element-text-primary"],
-        true: ["text-system-element-text-secondary"],
+        false: ["text-ddt-color-common-text-primary"],
+        true: ["text-ddt-color-common-text-secondary"],
       },
     },
   }

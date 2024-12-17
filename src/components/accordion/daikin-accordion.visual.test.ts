@@ -1,6 +1,7 @@
 import {
   type InferStorybookArgTypes,
   clipFor,
+  describeEach,
   getStorybookIframeURL,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
@@ -11,15 +12,17 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_ACCORDION_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-accordion--default", args);
 
-test("base", async ({ page }) => {
-  const baseURL = getPageURL();
-  await page.goto(baseURL);
+describeEach(["light", "dark"] as const, (theme) => {
+  test("base", async ({ page }) => {
+    const baseURL = getPageURL({ $theme: theme });
+    await page.goto(baseURL);
 
-  // wait for element to be visible
-  const element = await page.waitForSelector("daikin-accordion", {
-    state: "visible",
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-accordion", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
-
-  // take screenshot and check for diffs
-  await expect(page).toHaveScreenshot(await clipFor(element));
 });

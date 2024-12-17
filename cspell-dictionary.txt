@@ -5,6 +5,7 @@ daikin
 defu
 dotfiles
 fontsource
+jiti
 lightningcss
 picocolors
 roboto
@@ -29,6 +30,7 @@ tablist
 tabpanel
 textbox
 progressbar
+treeitem
 radiogroup
 combobox
 listitem
@@ -62,6 +64,8 @@ cssprop
 # Misc.
 FOUC
 linkify
+quasis
 retargeted
+rgba
 textareas
 classfield

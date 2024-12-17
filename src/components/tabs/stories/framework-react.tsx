@@ -3,7 +3,6 @@ import { DaikinTabs } from "#package/components/tabs/daikin-tabs";
 import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
-import "../../../storybook-tailwind.css";
 import { ReactDaikinTabPanels } from "../../tab-panels/stories/framework-react";
 import { ReactDaikinTab } from "../../tab/stories/framework-react";
 import { parseTab, type DaikinTabsStoryArgs } from "./common";
@@ -41,7 +40,10 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
           </ReactDaikinTab>
         );
       })}
-      <ReactDaikinTabPanels slot="panels" className="flex-1 overflow-hidden">
+      <ReactDaikinTabPanels
+        slot="panels"
+        className="text-ddt-color-common-text-primary flex-1 overflow-hidden"
+      >
         {tabs.map((tab) => {
           const [label, value] = parseTab(tab);
           return (
