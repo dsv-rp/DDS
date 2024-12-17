@@ -7,6 +7,7 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
@@ -65,6 +66,8 @@ const cvaCounter = cva(["text-sm", "font-bold", "ml-auto"], {
     },
   },
 });
+
+type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
 
 /**
  * The input group component serves as a wrapper for an input control component (full list below), providing additional elements such as label text, helper text, or a counter.
@@ -260,18 +263,23 @@ export class DaikinInputGroup extends LitElement {
   override render() {
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
-    const helperType =
-      this.textareaLimitExceeded &&
-      !!this.textareaLimitExceedError &&
-      !this.disabled
-        ? "textareaLimitExceedError"
-        : this.error && !this.disabled
-          ? "error"
-          : this.helper
-            ? this.disabled
-              ? "helperDisabled"
-              : "helper"
-            : "none";
+    const helperTextVariant: () => HelperType = () => {
+      if (
+        this.textareaLimitExceeded &&
+        !!this.textareaLimitExceedError &&
+        !this.disabled
+      ) {
+        return "textareaLimitExceedError";
+      } else if (!!this.error && !this.disabled) {
+        return "error";
+      } else if (!!this.helper && this.disabled) {
+        return "helperDisabled";
+      } else if (this.helper) {
+        return "helper";
+      } else {
+        return "none";
+      }
+    };
 
     const helperText = {
       helper: this.helper,
@@ -279,7 +287,7 @@ export class DaikinInputGroup extends LitElement {
       error: this.error,
       textareaLimitExceedError: this.textareaLimitExceedError,
       none: "",
-    }[helperType];
+    }[helperTextVariant()];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label
@@ -298,8 +306,8 @@ export class DaikinInputGroup extends LitElement {
             : nothing}
         </div>
         <span
-          class=${cvaHelper({ type: helperType })}
-          aria-live=${helperType === "error" ? "polite" : "off"}
+          class=${cvaHelper({ type: helperTextVariant() })}
+          aria-live=${helperTextVariant() === "error" ? "polite" : "off"}
         >
           ${helperText}
         </span>
