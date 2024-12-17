@@ -9,7 +9,14 @@ This project is an implementation of the Daikin Design Kit using Web Components.
 Start by installing the package:
 
 ```sh
-npm install @daikin-oss/design-system-web-components
+npm install @daikin-oss/design-system-web-components @daikin-oss/dds-tokens
+```
+
+To deploy the necessary CSS variables, import the CSS or SCSS from the `@daikin-oss/dds-tokens` package:
+For details, please check the [dds-tokens repository](https://github.com/dsv-rp/dds-tokens?tab=readme-ov-file#readme).
+
+```js
+import "@daikin-oss/dds-tokens/css/daikin/Light/variables.css";
 ```
 
 You can then import necessary components in your bundle (the .js extension is optional):
@@ -17,8 +24,6 @@ You can then import necessary components in your bundle (the .js extension is op
 ```js
 import "@daikin-oss/design-system-web-components/components/button/index.js";
 ```
-
-By default, out-of-the-box, the styles are for Daikin brand in light mode.
 
 ### Fonts
 
@@ -77,7 +82,7 @@ Reference the CSS in HTML:
 ```html
 <link
   rel="stylesheet"
-  href="node_modules/@daikin-oss/dds-tokens/build/css/DKN/Dark/buttons.css"
+  href="node_modules/@daikin-oss/dds-tokens/build/css/DKN/Dark/variables.css"
   media="(prefers-color-scheme: dark)"
 />
 ```
@@ -85,7 +90,7 @@ Reference the CSS in HTML:
 Using CSS `@import` with `prefers-color-scheme`:
 
 ```css
-@import "@daikin-oss/dds-tokens/css/daikin/Dark/buttons.css"
+@import "@daikin-oss/dds-tokens/css/daikin/Dark/variables.css"
   (prefers-color-scheme: dark);
 ```
 
@@ -96,12 +101,12 @@ Reference the CSS in HTML:
 ```html
 <link
   rel="stylesheet"
-  href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css"
+  href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/variables.css"
   media="(prefers-color-scheme: light)"
 />
 <link
   rel="stylesheet"
-  href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/buttons.css"
+  href="node_modules/@daikin-oss/dds-tokens/build/css/AAF/Dark/variables.css"
   media="(prefers-color-scheme: dark)"
 />
 ```
@@ -109,9 +114,9 @@ Reference the CSS in HTML:
 Using CSS `@import` with `prefers-color-scheme`:
 
 ```css
-@import "@daikin-oss/dds-tokens/css/aaf/Light/buttons.css"
+@import "@daikin-oss/dds-tokens/css/aaf/Light/variables.css"
   (prefers-color-scheme: light);
-@import "@daikin-oss/dds-tokens/css/aaf/Dark/buttons.css"
+@import "@daikin-oss/dds-tokens/css/aaf/Dark/variables.css"
   (prefers-color-scheme: dark);
 ```
 
@@ -219,27 +224,39 @@ If you encounter an `Unknown word` error, add the word to the `cspell-dictionary
 
 ### Design Tokens
 
-_We are looking for a more efficient way to import tokens._
+We manage and use design tokens to ensure consistency in our design system.
 
-1. **Source of Truth**: The `tokens` we use is the foundation of our design styles and was grabbed from https://github.com/dsv-rp/dds-tokens/tree/main.
+1. **Source of Truth**:
+   The tokens we use is the foundation of our design styles and was grabbed from https://github.com/dsv-rp/dds-tokens.
+   These design tokens are deployed as CSS variables.
 
-2. **Using in Components**: For the most part, we use the js variables to apply as the default style:
+2. **Usage in Components**:
+   The components make use of design tokens by referencing CSS variables.
+   Since they are integrated with Tailwind CSS, they are mostly used as utility classes, but in some cases they are directly referenced using `var()`.
 
-```javascript
-import {
-  buttonColorBackgroundPrimaryActive
-} from '@daikin-oss/dds-tokens/js/daikin/Light/variables.js';
+```ts
+@customElement("daikin-link")
+export class DaikinLink extends LitElement {
+  static override readonly styles = css`
+    ${unsafeCSS(tailwindStyles)}
 
-class DaikinButton extends LitElement implements DaikinButtonProps {
-  static styles = css`
-    :host {
-      --defaultButtonColorBackgroundPrimaryActive: ${unsafeCSS(
-        buttonColorBackgroundPrimaryActive
-      )};
+    :host([show-visited]:not([disabled])) a:visited {
+      /* HERE */
+      color: var(--dds-color-link-text-visited-default);
     }
   `;
 
-  /* ...rest of the code */
+  override render() {
+    /* AND HERE (`text-ddt-*` classes) */
+    return html`
+      <a
+        class="text-ddt-color-link-text-default hover:text-ddt-color-link-text-hover"
+        href="https://www.example.com/"
+      >
+        ...
+      </a>
+    `;
+  }
 }
 ```
 

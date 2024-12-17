@@ -1,24 +1,18 @@
+import "#package/components/breadcrumb-item/daikin-breadcrumb-item";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import type { DaikinBreadcrumbItemStoryArgs } from "./common";
-
-import "#package/components/breadcrumb-item/daikin-breadcrumb-item";
 import { ifDefined } from "lit/directives/if-defined.js";
+import type { DaikinBreadcrumbItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinBreadcrumbItemStoryArgs> = {
   title: "Components/Breadcrumb",
   tags: ["autodocs"],
-  render: (args) => html`
-    <daikin-breadcrumb-item
-      href=${args.href}
-      target=${
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-        ifDefined(args.target) as any
-      }
-      variant=${args.variant}
-      ?disabled=${args.disabled}
-      ?trailing-slash=${args.trailingSlash}
-      >Breadcrumb Item 1</daikin-breadcrumb-item
-    >
-  `,
+  render: ({ href, target, variant, showVisited, label }) =>
+    html`<daikin-breadcrumb-item
+      href=${ifDefined(href)}
+      target=${ifDefined(target)}
+      variant=${variant}
+      ?show-visited=${showVisited}
+      >${label}</daikin-breadcrumb-item
+    >`,
 };

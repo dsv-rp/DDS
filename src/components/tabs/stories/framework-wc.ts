@@ -4,7 +4,6 @@ import "#package/components/tabs/daikin-tabs";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
-import "../../../storybook-tailwind.css";
 import { parseTab, type DaikinTabsStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTabsStoryArgs> = {
@@ -19,10 +18,10 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
       @beforechange=${onBeforeChange}
       @change=${onChange}
     >
-      <!-- 
+      <!--
         Tab.
         We can use 'w-fit' in the daikin-tab class to make the width of the daikin-tab fit the content inside
-        You can check this example in 'Single'. 
+        You can check this example in 'Single'.
       -->
       ${tabs.map((tab) => {
         const [label, value, disabled] = parseTab(tab);
@@ -35,7 +34,10 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
         </daikin-tab>`;
       })}
       <!-- Tab panels. Here, we use "flex-1 overflow-hidden" to limit panel height. -->
-      <daikin-tab-panels slot="panels" class="flex-1 overflow-hidden">
+      <daikin-tab-panels
+        slot="panels"
+        class="text-ddt-color-common-text-primary flex-1 overflow-hidden"
+      >
         ${tabs.map((tab) => {
           const [label, value] = parseTab(tab);
           // Individual panels. Here, we use "h-full overflow-auto" to make panel scrollable.

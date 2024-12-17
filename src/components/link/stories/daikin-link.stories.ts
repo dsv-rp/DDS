@@ -3,7 +3,11 @@ import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, userEvent } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
-import { DAIKIN_LINK_ARG_TYPES, type Story } from "./common";
+import {
+  DAIKIN_LINK_ARG_TYPES,
+  type DaikinLinkLocalParameters,
+  type Story,
+} from "./common";
 
 // The default export must have a static `title` property starting from Storybook v7.
 // See https://storybook.js.org/docs/writing-stories#default-export.
@@ -54,4 +58,17 @@ export const Disabled: Story = {
       await userEvent.click(innerLink);
     });
   }),
+};
+
+export const WithSentence: Story = {
+  args: {
+    ...Default.args,
+    label:
+      "even links within sentences will respond correctly to line breaks and other elements,",
+  },
+  parameters: {
+    _ddsLocal: {
+      withSentence: true,
+    } satisfies DaikinLinkLocalParameters,
+  },
 };
