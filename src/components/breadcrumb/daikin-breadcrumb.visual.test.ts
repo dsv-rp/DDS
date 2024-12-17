@@ -1,5 +1,6 @@
 import {
   clipFor,
+  describeEach,
   getStorybookIframeURL,
   type InferStorybookArgTypes,
 } from "#tests/visual";
@@ -11,14 +12,17 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_BREADCRUMB_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-breadcrumb--default", args);
 
-test("base", async ({ page }) => {
-  await page.goto(getPageURL());
+describeEach(["light", "dark"] as const, (theme) => {
+  test("base", async ({ page }) => {
+    const baseArgs = { $theme: theme, showVisited: false };
+    await page.goto(getPageURL(baseArgs));
 
-  // wait for element to be visible
-  const element = await page.waitForSelector("daikin-breadcrumb", {
-    state: "visible",
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-breadcrumb", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
-
-  // take screenshot and check for diffs
-  await expect(page).toHaveScreenshot(await clipFor(element));
 });

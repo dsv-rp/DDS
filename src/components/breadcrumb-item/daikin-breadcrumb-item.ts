@@ -79,7 +79,7 @@ export class DaikinBreadcrumbItem extends LitElement {
             ><slot></slot
           ></daikin-link>`
         : html`<a
-            class="text-sm font-daikinSerif text-system-element-text-primary"
+            class="text-sm font-daikinSerif text-ddt-color-common-text-primary"
             aria-disabled="true"
             aria-current="true"
             role="link"
@@ -88,7 +88,7 @@ export class DaikinBreadcrumbItem extends LitElement {
 
     const divider = this.appendDivider
       ? html`<span
-          class="text-system-element-text-primary mx-2 text-sm"
+          class="text-ddt-color-common-text-primary mx-2 text-sm"
           aria-hidden="true"
           >/</span
         >`

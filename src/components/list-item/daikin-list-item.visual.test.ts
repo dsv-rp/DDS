@@ -12,94 +12,97 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_LIST_ITEM_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-list-item--button", args);
 
-describeEach(["exist", "none"] as const, (leftIcon) => {
-  describeEach(["exist", "none"] as const, (rightIcon) => {
-    describeEach(["checkbox", "none"] as const, (slot) => {
-      const baseArgs = {
-        ...(leftIcon === "exist" && { leftIcon: "positive" }),
-        ...(rightIcon === "exist" && { rightIcon: "chevron-right" }),
-        action: slot === "checkbox",
-        type: slot === "checkbox" ? "text" : "button",
-      };
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["exist", "none"] as const, (leftIcon) => {
+    describeEach(["exist", "none"] as const, (rightIcon) => {
+      describeEach(["checkbox", "none"] as const, (slot) => {
+        const baseArgs = {
+          $theme: theme,
+          ...(leftIcon === "exist" && { leftIcon: "positive" }),
+          ...(rightIcon === "exist" && { rightIcon: "chevron-right" }),
+          action: slot === "checkbox",
+          type: slot === "checkbox" ? "text" : "button",
+        };
 
-      const baseURL = getPageURL(baseArgs);
+        const baseURL = getPageURL(baseArgs);
 
-      test("base", async ({ page }) => {
-        await page.goto(baseURL);
+        test("base", async ({ page }) => {
+          await page.goto(baseURL);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-list-item", {
-          state: "visible",
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-list-item", {
+            state: "visible",
+          });
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
+        test("hover", async ({ page }) => {
+          await page.goto(baseURL);
 
-      test("hover", async ({ page }) => {
-        await page.goto(baseURL);
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-list-item", {
+            state: "visible",
+          });
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-list-item", {
-          state: "visible",
+          // hover cursor on the element
+          await element.hover();
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
 
-        // hover cursor on the element
-        await element.hover();
+        test("press", async ({ page }) => {
+          await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-list-item", {
+            state: "visible",
+          });
 
-      test("press", async ({ page }) => {
-        await page.goto(baseURL);
+          // hover cursor on the element and hold down mouse button on the element
+          await element.hover();
+          await page.mouse.down();
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-list-item", {
-          state: "visible",
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
+          await page.mouse.up();
         });
 
-        // hover cursor on the element and hold down mouse button on the element
-        await element.hover();
-        await page.mouse.down();
+        test("focus", async ({ page }) => {
+          await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-        await page.mouse.up();
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-list-item", {
+            state: "visible",
+          });
 
-      test("focus", async ({ page }) => {
-        await page.goto(baseURL);
+          // we have to use keyboard to focus on element to make `:focus-visible` work.
+          await element.focus();
+          await page.keyboard.press("Tab");
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-list-item", {
-          state: "visible",
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
 
-        // we have to use keyboard to focus on element to make `:focus-visible` work.
-        await element.focus();
-        await page.keyboard.press("Tab");
+        test("disabled", async ({ page }) => {
+          // load page with disabled=true
+          await page.goto(
+            getPageURL({
+              ...baseArgs,
+              disabled: true,
+            })
+          );
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-list-item", {
+            state: "visible",
+          });
 
-      test("disabled", async ({ page }) => {
-        // load page with disabled=true
-        await page.goto(
-          getPageURL({
-            ...baseArgs,
-            disabled: true,
-          })
-        );
-
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-list-item", {
-          state: "visible",
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
       });
     });
   });
