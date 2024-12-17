@@ -14,88 +14,90 @@ type StoryArgs = InferStorybookArgTypes<
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-breadcrumb-item--default", args);
 
-describeEach(["normal"], () => {
-  const baseURL = getPageURL();
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["normal"] as const, (variant) => {
+    const baseArgs = { $theme: theme, variant };
+    const baseURL = getPageURL(baseArgs);
 
-  test("base", async ({ page }) => {
-    await page.goto(baseURL);
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-breadcrumb-item", {
-      state: "visible",
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-breadcrumb-item", {
+        state: "visible",
+      });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+    test("hover", async ({ page }) => {
+      await page.goto(baseURL);
 
-  test("hover", async ({ page }) => {
-    await page.goto(baseURL);
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-breadcrumb-item", {
+        state: "visible",
+      });
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-breadcrumb-item", {
-      state: "visible",
+      // hover cursor on the element
+      await element.hover();
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
 
-    // hover cursor on the element
-    await element.hover();
+    test("press", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-breadcrumb-item", {
+        state: "visible",
+      });
 
-  test("press", async ({ page }) => {
-    await page.goto(baseURL);
+      // hover cursor on the element and hold down mouse button on the element
+      await element.hover();
+      await page.mouse.down();
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-breadcrumb-item", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
+      await page.mouse.up();
     });
 
-    // hover cursor on the element and hold down mouse button on the element
-    await element.hover();
-    await page.mouse.down();
+    test("focus", async ({ page }) => {
+      await page.goto(baseURL);
 
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-    await page.mouse.up();
-  });
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-breadcrumb-item", {
+        state: "visible",
+      });
 
-  test("focus", async ({ page }) => {
-    await page.goto(baseURL);
+      await page.evaluate((container) => {
+        const a = container.shadowRoot?.querySelector("a");
+        if (!a) {
+          return;
+        }
+        a.focus();
+      }, element);
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-breadcrumb-item", {
-      state: "visible",
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
-
-    await page.evaluate((container) => {
-      const a = container.shadowRoot?.querySelector("a");
-      if (!a) {
-        return;
-      }
-      a.focus();
-    }, element);
-
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
-  });
-});
-
-describeEach(["current"] as const, (variant) => {
-  const baseURL = getPageURL({
-    variant,
   });
 
-  test("base", async ({ page }) => {
-    await page.goto(baseURL);
+  describeEach(["current"] as const, (variant) => {
+    const baseArgs = { $theme: theme, variant };
+    const baseURL = getPageURL(baseArgs);
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-breadcrumb-item", {
-      state: "visible",
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-breadcrumb-item", {
+        state: "visible",
+      });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
-
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });

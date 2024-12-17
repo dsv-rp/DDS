@@ -12,18 +12,25 @@ type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TREE_ARG_TYPES>;
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-tree--default", args);
 
-describeEach(["normal", "selectable"] as const, (selectable) => {
-  test("base", async ({ page }) => {
-    await page.goto(
-      getPageURL({ selectable: selectable === "selectable", selected: "1" })
-    );
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["normal", "selectable"] as const, (selectable) => {
+    const baseArgs = {
+      $theme: theme,
+      selectable: selectable === "selectable",
+      selected: "1",
+    };
+    const baseURL = getPageURL(baseArgs);
 
-    // wait for element to be visible
-    const element = await page.waitForSelector("daikin-tree", {
-      state: "visible",
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
+
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-tree", {
+        state: "visible",
+      });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
-
-    // take screenshot and check for diffs
-    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });

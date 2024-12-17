@@ -27,91 +27,94 @@ const base = async (page: Page, baseURL: string) => {
   await expect(page).toHaveScreenshot(await clipFor(element));
 };
 
-describeEach(["open", "close"] as const, (state) => {
-  describeEach(["normal", "error"] as const, (error) => {
-    const baseArgs = {
-      open: state === "open",
-      error: error === "error",
-      value: "value1",
-    };
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["open", "close"] as const, (state) => {
+    describeEach(["normal", "error"] as const, (error) => {
+      const baseArgs = {
+        $theme: theme,
+        open: state === "open",
+        error: error === "error",
+        value: "value1",
+      };
 
-    const baseURL = getPageURL(baseArgs);
+      const baseURL = getPageURL(baseArgs);
 
-    test("base", async ({ page }) => {
-      await base(page, baseURL);
-    });
-
-    test("hover", async ({ page }) => {
-      await page.goto(baseURL);
-      // wait for element to be visible
-      const element = await page.waitForSelector(
-        `div[data-testid="vrt-container"]`,
-        {
-          state: "visible",
-        }
-      );
-      const button = await element.waitForSelector("button", {
-        state: "visible",
+      test("base", async ({ page }) => {
+        await base(page, baseURL);
       });
 
-      // hover cursor on the element
-      await button.hover();
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
-
-    test("active", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector(
-        `div[data-testid="vrt-container"]`,
-        {
+      test("hover", async ({ page }) => {
+        await page.goto(baseURL);
+        // wait for element to be visible
+        const element = await page.waitForSelector(
+          `div[data-testid="vrt-container"]`,
+          {
+            state: "visible",
+          }
+        );
+        const button = await element.waitForSelector("button", {
           state: "visible",
-        }
-      );
-      const button = await element.waitForSelector("button", {
-        state: "visible",
+        });
+
+        // hover cursor on the element
+        await button.hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
 
-      // hover cursor on the element
-      await button.hover();
-      await page.mouse.down();
+      test("active", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-      await page.mouse.up();
-    });
-
-    test("focus", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-      const element = await page.waitForSelector(
-        `div[data-testid="vrt-container"]`,
-        {
+        // wait for element to be visible
+        const element = await page.waitForSelector(
+          `div[data-testid="vrt-container"]`,
+          {
+            state: "visible",
+          }
+        );
+        const button = await element.waitForSelector("button", {
           state: "visible",
-        }
-      );
-      const button = await element.waitForSelector("button", {
-        state: "visible",
+        });
+
+        // hover cursor on the element
+        await button.hover();
+        await page.mouse.down();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+        await page.mouse.up();
       });
 
-      await page.evaluate((container) => {
-        container.focus();
-      }, button);
+      test("focus", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-    });
+        // wait for element to be visible
+        const element = await page.waitForSelector(
+          `div[data-testid="vrt-container"]`,
+          {
+            state: "visible",
+          }
+        );
+        const button = await element.waitForSelector("button", {
+          state: "visible",
+        });
 
-    test("disabled", async ({ page }) => {
-      await base(page, getPageURL({ ...baseArgs, disabled: true }));
-    });
+        await page.evaluate((container) => {
+          container.focus();
+        }, button);
 
-    test("unselected", async ({ page }) => {
-      await base(page, getPageURL({ ...baseArgs, value: undefined }));
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+
+      test("disabled", async ({ page }) => {
+        await base(page, getPageURL({ ...baseArgs, disabled: true }));
+      });
+
+      test("unselected", async ({ page }) => {
+        await base(page, getPageURL({ ...baseArgs, value: undefined }));
+      });
     });
   });
 });

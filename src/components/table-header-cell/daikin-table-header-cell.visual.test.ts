@@ -14,73 +14,89 @@ type StoryArgs = InferStorybookArgTypes<
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-table-header-cell--default", args);
 
-describeEach(["left", "right", "center"] as const, (alignment) => {
-  describeEach(["default", "sortable"] as const, (sortable) => {
-    describeEach(["exist", "none"] as const, (leftIcon) => {
-      const baseURL = getPageURL({
-        alignment,
-        sortable: sortable === "sortable",
-        leftIcon: leftIcon === "exist" ? "positive" : undefined,
-      });
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["left", "right", "center"] as const, (alignment) => {
+    describeEach(["default", "sortable"] as const, (sortable) => {
+      describeEach(["exist", "none"] as const, (leftIcon) => {
+        const baseArgs = {
+          $theme: theme,
+          alignment,
+          sortable: sortable === "sortable",
+          leftIcon: leftIcon === "exist" ? "positive" : undefined,
+        };
+        const baseURL = getPageURL(baseArgs);
 
-      test("base", async ({ page }) => {
-        await page.goto(baseURL);
+        test("base", async ({ page }) => {
+          await page.goto(baseURL);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-table-header-cell", {
-          state: "visible",
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            "daikin-table-header-cell",
+            {
+              state: "visible",
+            }
+          );
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
+        test("hover", async ({ page }) => {
+          await page.goto(baseURL);
 
-      test("hover", async ({ page }) => {
-        await page.goto(baseURL);
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            "daikin-table-header-cell",
+            {
+              state: "visible",
+            }
+          );
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-table-header-cell", {
-          state: "visible",
+          // hover cursor on the element
+          await element.hover();
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
 
-        // hover cursor on the element
-        await element.hover();
+        test("press", async ({ page }) => {
+          await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            "daikin-table-header-cell",
+            {
+              state: "visible",
+            }
+          );
 
-      test("press", async ({ page }) => {
-        await page.goto(baseURL);
+          // hover cursor on the element and hold down mouse button on the element
+          await element.hover();
+          await page.mouse.down();
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-table-header-cell", {
-          state: "visible",
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
+          await page.mouse.up();
         });
 
-        // hover cursor on the element and hold down mouse button on the element
-        await element.hover();
-        await page.mouse.down();
+        test("focus", async ({ page }) => {
+          await page.goto(baseURL);
 
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-        await page.mouse.up();
-      });
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            "daikin-table-header-cell",
+            {
+              state: "visible",
+            }
+          );
 
-      test("focus", async ({ page }) => {
-        await page.goto(baseURL);
+          await page.evaluate((container) => {
+            container.focus();
+          }, element);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-table-header-cell", {
-          state: "visible",
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
-
-        await page.evaluate((container) => {
-          container.focus();
-        }, element);
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
       });
     });
   });

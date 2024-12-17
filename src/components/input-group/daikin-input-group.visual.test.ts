@@ -20,66 +20,73 @@ const innerContent = {
   TextArea: "daikin-text-area",
 };
 
-describeEach(
-  ["Dropdown", "RadioGroup", "Select", "TextField", "TextArea"] as const,
-  (content) => {
-    describeEach(["enabled", "disabled"] as const, (state) => {
-      describeEach(["optional", "required"] as const, (required) => {
-        describeEach(["normal", "error"] as const, (error) => {
-          describeEach(["visible", "hidden"] as const, (counter) => {
-            const baseURL = getPageURL({
-              content,
-              disabled: state === "disabled",
-              ...(error === "error" && {
-                error: "Error Text",
-              }),
-              ...(required === "required" && {
-                required: "Required",
-              }),
-              ...(counter === "visible" && {
-                textareaMaxCount: 100,
-              }),
-            });
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(
+    ["Dropdown", "RadioGroup", "Select", "TextField", "TextArea"] as const,
+    (content) => {
+      describeEach(["enabled", "disabled"] as const, (state) => {
+        describeEach(["optional", "required"] as const, (required) => {
+          describeEach(["normal", "error"] as const, (error) => {
+            describeEach(["visible", "hidden"] as const, (counter) => {
+              const baseArgs = {
+                $theme: theme,
+                content,
+                disabled: state === "disabled",
+                ...(error === "error" && {
+                  error: "Error Text",
+                }),
+                ...(required === "required" && {
+                  required: "Required",
+                }),
+                ...(counter === "visible" && {
+                  textareaMaxCount: 100,
+                }),
+              };
+              const baseURL = getPageURL(baseArgs);
 
-            const snapshotName =
-              content !== "TextArea"
-                ? `${content}-${state}-${required}-${error}.png`
-                : null;
+              const snapshotName =
+                content !== "TextArea"
+                  ? `${theme}-${content}-${state}-${required}-${error}.png`
+                  : null;
 
-            const testScreenshot = async (
-              page: Page,
-              element: ElementHandle<HTMLElement>
-            ): Promise<void> => {
-              if (snapshotName) {
-                await expect(page).toHaveScreenshot(
-                  snapshotName,
-                  await clipFor(element)
+              const testScreenshot = async (
+                page: Page,
+                element: ElementHandle<HTMLElement>
+              ): Promise<void> => {
+                if (snapshotName) {
+                  await expect(page).toHaveScreenshot(
+                    snapshotName,
+                    await clipFor(element)
+                  );
+                } else {
+                  await expect(page).toHaveScreenshot(await clipFor(element));
+                }
+              };
+
+              test("base", async ({ page }) => {
+                await page.goto(baseURL);
+
+                // wait for element to be visible
+                const element = await page.waitForSelector(
+                  "daikin-input-group",
+                  {
+                    state: "visible",
+                  }
                 );
-              } else {
-                await expect(page).toHaveScreenshot(await clipFor(element));
-              }
-            };
+                await page.waitForSelector(innerContent[content], {
+                  state: "visible",
+                });
 
-            test("base", async ({ page }) => {
-              await page.goto(baseURL);
-
-              // wait for element to be visible
-              const element = await page.waitForSelector("daikin-input-group", {
-                state: "visible",
+                // take screenshot and check for diffs
+                await testScreenshot(page, element);
               });
-              await page.waitForSelector(innerContent[content], {
-                state: "visible",
-              });
-
-              // take screenshot and check for diffs
-              await testScreenshot(page, element);
             });
           });
         });
       });
-    });
-  }
-);
+    }
+  );
+});
 
 describeEach(["none", "error"] as const, (textareaLimitExceedError) => {
   const baseURL = getPageURL({
