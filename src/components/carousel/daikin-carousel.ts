@@ -167,19 +167,17 @@ export class DaikinCarousel extends LitElement {
 
   private _emitSelect(
     operation: "prev" | "next" | "indicator",
-    beforeCurrentIndex: number,
-    newCurrentIndex: number
+    beforeCurrentIndex: number
   ) {
     this.dispatchEvent(
       new CustomEvent("select", {
-        detail: { operation, beforeCurrentIndex, newCurrentIndex },
+        detail: { operation, beforeCurrentIndex },
       })
     );
   }
 
   private _handleClick(index: number) {
-    this._emitSelect("indicator", this.currentIndex, index);
-
+    this._emitSelect("indicator", this.currentIndex);
     this.currentIndex = index;
   }
 
@@ -245,14 +243,8 @@ export class DaikinCarousel extends LitElement {
       return;
     }
 
-    const newCurrentIndex = this.currentIndex + moveOffset;
-    this._emitSelect(
-      moveOffset === 1 ? "next" : "prev",
-      this.currentIndex,
-      newCurrentIndex
-    );
-
-    this.currentIndex = newCurrentIndex;
+    this._emitSelect(moveOffset === 1 ? "next" : "prev", this.currentIndex);
+    this.currentIndex = this.currentIndex + moveOffset;
   }
 
   private _swipe() {
