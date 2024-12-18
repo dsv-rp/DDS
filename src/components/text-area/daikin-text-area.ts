@@ -9,6 +9,7 @@ const cvaTextArea = cva(
   [
     "w-full",
     "h-full",
+    "bg-ddt-color-common-background-default",
     "px-4",
     "py-3",
     "rounded",
@@ -17,7 +18,7 @@ const cvaTextArea = cva(
     "outline-[--color-border]",
     "outline-0",
     "-outline-offset-2",
-    "placeholder:text-system-element-text-secondary",
+    "placeholder:text-ddt-color-common-text-secondary",
 
     // Define `--color-border` as a CSS variable that references `--color-state-focus` and `--color-base` in that order.
     // `--color-base` indicates the color of the border when the element is normal, hovered, or disabled.
@@ -27,24 +28,24 @@ const cvaTextArea = cva(
 
     // Update `--color-base` depending on the state.
     // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
-    "enabled:text-system-element-text-primary",
-    "enabled:hover:bg-system-background-surface-hover",
-    "enabled:active:bg-system-background-surface-press",
+    "enabled:text-ddt-color-common-text-primary",
+    "enabled:hover:bg-ddt-color-common-surface-hover",
+    "enabled:active:bg-ddt-color-common-surface-press",
     "focus-visible:outline-2",
 
-    "disabled:var-color-system-state-disabled/color-base",
-    "disabled:text-system-state-disabled",
-    "disabled:bg-white",
-    "disabled:placeholder:text-system-state-disabled",
+    "disabled:var-color-ddt-color-common-disabled/color-base",
+    "disabled:text-ddt-color-common-disabled",
+    "disabled:bg-color-common-background-default",
+    "disabled:placeholder:text-ddt-color-common-disabled",
   ],
   {
     variants: {
       error: {
         false: [
-          "enabled:var-color-system-state-neutral-active/color-base",
-          "focus-visible:var-color-system-state-focus/color-state-focus",
+          "enabled:var-color-ddt-color-common-neutral-default/color-base",
+          "focus-visible:var-color-ddt-color-common-border-focus/color-state-focus",
         ],
-        true: ["enabled:var-color-system-state-error-active/color-base"],
+        true: ["enabled:var-color-ddt-color-common-danger-default/color-base"],
       },
       resize: {
         false: ["resize-none"],

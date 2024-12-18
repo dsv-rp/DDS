@@ -20,7 +20,10 @@ export const metadata: Meta<DaikinLinkStoryArgs> = {
 
       if (local?.withSentence) {
         return (
-          <p className="w-[400px] p-0 m-0 font-daikinSerif">
+          <p
+            data-testid="link-container"
+            className="w-[400px] text-ddt-color-common-text-primary p-0 m-0 font-daikinSerif"
+          >
             Here, we are using a long sentence. If you use the link component,{" "}
             <Story /> and will work.
           </p>

@@ -34,7 +34,10 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
         </daikin-tab>`;
       })}
       <!-- Tab panels. Here, we use "flex-1 overflow-hidden" to limit panel height. -->
-      <daikin-tab-panels slot="panels" class="flex-1 overflow-hidden">
+      <daikin-tab-panels
+        slot="panels"
+        class="text-ddt-color-common-text-primary flex-1 overflow-hidden"
+      >
         ${tabs.map((tab) => {
           const [label, value] = parseTab(tab);
           // Individual panels. Here, we use "h-full overflow-auto" to make panel scrollable.
