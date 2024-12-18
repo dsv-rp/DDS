@@ -94,8 +94,7 @@ export class DaikinButton extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: flex;
-      width: max-content;
+      display: inline-block;
     }
 
     :host([size="small"]) {
