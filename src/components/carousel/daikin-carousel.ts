@@ -176,7 +176,7 @@ export class DaikinCarousel extends LitElement {
     );
   }
 
-  private _handleClick(index: number) {
+  private _handleClickIndicator(index: number) {
     this._emitSelect("indicator", this.currentIndex);
     this.currentIndex = index;
   }
@@ -199,16 +199,9 @@ export class DaikinCarousel extends LitElement {
       return;
     }
 
-    const buttons = this._indicatorButtons.value
-      ? [...this._indicatorButtons.value.querySelectorAll("button")]
-      : undefined;
-    const activeButtonIndex = buttons?.findIndex(
-      (button) => button.getAttribute("tabIndex") === "0"
-    );
-
-    if (!buttons || activeButtonIndex === undefined) {
-      return;
-    }
+    const buttons = [
+      ...(this._indicatorButtons.value?.querySelectorAll("button") ?? []),
+    ];
 
     this._animation(moveOffset);
     buttons[this.currentIndex].focus();
@@ -341,7 +334,7 @@ export class DaikinCarousel extends LitElement {
                 aria-selected=${`${this.currentIndex === index}` as const}
                 role="tab"
                 tabindex=${this.currentIndex === index ? 0 : -1}
-                @click=${() => this._handleClick(index)}
+                @click=${() => this._handleClickIndicator(index)}
               ></button>`
           )}
         </div>
