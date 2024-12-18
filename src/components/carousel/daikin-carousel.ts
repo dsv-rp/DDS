@@ -33,40 +33,30 @@ const cvaButton = cva(
   }
 );
 
-const cvaIndicator = cva(
-  [
-    "flex",
-    "justify-center",
-    "items-center",
-    "size-3",
-    "m-1",
-    "rounded-full",
-    "transition",
-    "bg-ddt-color-common-neutral-default",
-    "relative",
+const INDICATOR_CLASS_NAME = cva([
+  "flex",
+  "justify-center",
+  "items-center",
+  "size-3",
+  "m-1",
+  "rounded-full",
+  "transition",
+  "bg-ddt-color-common-neutral-default",
+  "relative",
 
-    "hover:bg-ddt-color-common-neutral-hover",
-    "active:bg-ddt-color-common-neutral-press",
-    "focus-visible:after:outline",
-    "focus-visible:after:outline-1",
-    "focus-visible:after:outline-offset-1",
-    "focus-visible:after:outline-ddt-color-common-border-focus",
-  ],
-  {
-    variants: {
-      active: {
-        false: [],
-        true: [
-          "after:block",
-          "after:size-4",
-          "after:bg-ddt-color-common-brand-default",
-          "after:absolute",
-          "after:rounded-full",
-        ],
-      },
-    },
-  }
-);
+  "hover:bg-ddt-color-common-neutral-hover",
+  "active:bg-ddt-color-common-neutral-press",
+
+  "aria-[selected=true]:after:block",
+  "aria-[selected=true]:after:size-4",
+  "aria-[selected=true]:after:bg-ddt-color-common-brand-default",
+  "aria-[selected=true]:after:absolute",
+  "aria-[selected=true]:after:rounded-full",
+  "aria-[selected=true]:focus-visible:after:outline",
+  "aria-[selected=true]:focus-visible:after:outline-1",
+  "aria-[selected=true]:focus-visible:after:outline-offset-1",
+  "aria-[selected=true]:focus-visible:after:outline-ddt-color-common-border-focus",
+])();
 
 /**
  * A carousel is a component that displays multiple pieces of information by sliding left and right within a fixed height area.
@@ -332,9 +322,7 @@ export class DaikinCarousel extends LitElement {
             (_, index) => index,
             (_, index) =>
               html`<button
-                class=${cvaIndicator({
-                  active: this.currentIndex === index,
-                })}
+                class=${INDICATOR_CLASS_NAME}
                 aria-label="Slide ${index + 1}"
                 aria-selected=${`${this.currentIndex === index}` as const}
                 role="tab"
