@@ -22,7 +22,7 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
         <ReactDaikinIcon
           slot="left-icon"
           icon="alarm"
-          size="xl"
+          size="current"
           color="current"
         />
         <span>Label Title</span>
