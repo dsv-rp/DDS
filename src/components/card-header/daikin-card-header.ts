@@ -40,7 +40,7 @@ const cvaDescription = cva([
  * <daikin-card-header>
  *   <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current"></daikin-icon>
  *   <span slot="description">Description</span>
- *   <span>Label Title</span>
+ *   <span>Card Title</span>
  * </daikin-card-header>
  * ```
  */
