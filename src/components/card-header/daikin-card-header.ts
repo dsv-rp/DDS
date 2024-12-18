@@ -56,7 +56,7 @@ export class DaikinCardHeader extends LitElement {
   `;
 
   override render() {
-    return html` <div class="flex w-full gap-1">
+    return html`<div class="flex w-full gap-1">
       <slot
         name="left-icon"
         class="flex-none icon-size-6 text-ddt-color-common-text-primary"

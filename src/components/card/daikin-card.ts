@@ -68,7 +68,7 @@ export class DaikinCard extends LitElement {
   outline = false;
 
   override render() {
-    return html` <div
+    return html`<div
       class=${cvaContainer({
         outline: this.outline,
       })}

@@ -25,7 +25,7 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
           size="current"
           color="current"
         />
-        <span>Label Title</span>
+        <span>Card Title</span>
         <span slot="description">Description</span>
       </ReactDaikinCardHeader>
       {props.withBody && (

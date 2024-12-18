@@ -35,7 +35,7 @@ export class DaikinCardFooter extends LitElement {
   `;
 
   override render() {
-    return html` <slot></slot> `;
+    return html`<slot></slot>`;
   }
 }
 

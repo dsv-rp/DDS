@@ -16,7 +16,7 @@ describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["icon", "description", "both"], (structure) => {
     const baseArgs = {
       $theme: theme,
-      label: "Label Title",
+      label: "Card Title",
       description:
         structure === "description" || structure === "both"
           ? "Description"

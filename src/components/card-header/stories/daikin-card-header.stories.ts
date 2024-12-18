@@ -10,7 +10,7 @@ export default {
 
 export const Default: Story = {
   args: {
-    label: "Label Title",
+    label: "Card Title",
     description: "Description",
     leftIcon: "alarm",
   },

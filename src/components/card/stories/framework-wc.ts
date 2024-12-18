@@ -15,7 +15,7 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
       <daikin-card-header>
         <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current">
         </daikin-icon>
-        <span>Label Title</span>
+        <span>Card Title</span>
         <span slot="description">Description</span>
       </daikin-card-header>
       ${args.withBody
