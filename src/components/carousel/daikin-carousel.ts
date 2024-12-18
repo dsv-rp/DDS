@@ -178,8 +178,10 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _handleClickIndicator(index: number) {
-    this._emitSelect("indicator", this.currentIndex);
+    const beforeCurrentIndex = this.currentIndex;
+
     this.currentIndex = index;
+    this._emitSelect("indicator", beforeCurrentIndex);
   }
 
   private _handleKeydownCarousel(event: KeyboardEvent) {
@@ -204,7 +206,7 @@ export class DaikinCarousel extends LitElement {
       ...(this._indicatorButtons.value?.querySelectorAll("button") ?? []),
     ];
 
-    this._animation(moveOffset);
+    this._changeVisibleItem(moveOffset);
     buttons[this.currentIndex].focus();
   }
 
@@ -229,7 +231,7 @@ export class DaikinCarousel extends LitElement {
     this._swipe();
   }
 
-  private _animation(moveOffset: 1 | -1) {
+  private _changeVisibleItem(moveOffset: 1 | -1) {
     if (
       (moveOffset === -1 && this.currentIndex <= 0) ||
       (moveOffset === 1 && this.currentIndex >= this._itemLength - 1)
@@ -237,8 +239,10 @@ export class DaikinCarousel extends LitElement {
       return;
     }
 
-    this._emitSelect(moveOffset === 1 ? "next" : "prev", this.currentIndex);
+    const beforeCurrentIndex = this.currentIndex;
+
     this.currentIndex = this.currentIndex + moveOffset;
+    this._emitSelect(moveOffset === 1 ? "next" : "prev", beforeCurrentIndex);
   }
 
   private _swipe() {
@@ -259,7 +263,7 @@ export class DaikinCarousel extends LitElement {
       return;
     }
 
-    this._animation(Math.sign(result) as 1 | -1);
+    this._changeVisibleItem(Math.sign(result) as 1 | -1);
 
     resetCoordinate();
   }
@@ -276,7 +280,7 @@ export class DaikinCarousel extends LitElement {
           color="neutral"
           button-aria-label="Prev"
           ?disabled=${this.currentIndex <= 0}
-          @click=${() => this._animation(-1)}
+          @click=${() => this._changeVisibleItem(-1)}
         >
           <span class=${cvaButton({ position: "left" })}></span>
         </daikin-icon-button>
@@ -311,7 +315,7 @@ export class DaikinCarousel extends LitElement {
           color="neutral"
           button-aria-label="Next"
           ?disabled=${this.currentIndex >= this._itemLength - 1}
-          @click=${() => this._animation(1)}
+          @click=${() => this._changeVisibleItem(1)}
         >
           <span class=${cvaButton({ position: "right" })}></span>
         </daikin-icon-button>
