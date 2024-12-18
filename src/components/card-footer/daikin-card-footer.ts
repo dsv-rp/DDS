@@ -1,6 +1,5 @@
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement } from "lit/decorators.js";
-
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -30,15 +29,13 @@ export class DaikinCardFooter extends LitElement {
     :host {
       display: flex;
       align-items: center;
+      width: 100%;
+      justify-content: flex-end;
     }
   `;
 
   override render() {
-    return html`
-      <div class="flex w-full justify-end">
-        <slot></slot>
-      </div>
-    `;
+    return html` <slot></slot> `;
   }
 }
 

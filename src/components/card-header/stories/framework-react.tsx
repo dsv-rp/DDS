@@ -19,18 +19,18 @@ export const metadata: Meta<DaikinCardHeaderStoryArgs> = {
     leftIcon,
     ...props
   }: DaikinCardHeaderStoryArgs) => (
-    <div style={{ width: 248 }}>
+    <div style={{ width: "248px" }}>
       <ReactDaikinCardHeader {...props}>
         {leftIcon ? (
           <ReactDaikinIcon
             slot="left-icon"
             icon={leftIcon}
-            size="xl"
+            size="current"
             color="current"
           />
         ) : null}
         <span>{label}</span>
-        <span slot="description">{description}</span>
+        {description ? <span slot="description">{description}</span> : null}
       </ReactDaikinCardHeader>
     </div>
   ),

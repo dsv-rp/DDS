@@ -1,9 +1,8 @@
+import "#package/components/card-header/daikin-card-header";
+import "#package/components/icon/daikin-icon";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
 import type { DaikinCardHeaderStoryArgs } from "./common";
-
-import "#package/components/card-header/daikin-card-header";
-import "#package/components/icon/daikin-icon";
 
 export const metadata: Meta<DaikinCardHeaderStoryArgs> = {
   title: "Components/CardHeader",
@@ -15,12 +14,14 @@ export const metadata: Meta<DaikinCardHeaderStoryArgs> = {
           ? html`<daikin-icon
               slot="left-icon"
               icon=${args.leftIcon}
-              size="xl"
+              size="current"
               color="current"
             ></daikin-icon>`
           : nothing}
         <span>${args.label}</span>
-        <span slot="description">${args.description}</span>
+        ${args.description
+          ? html`<span slot="description">${args.description}</span>`
+          : nothing}
       </daikin-card-header>
     </div>
   `,

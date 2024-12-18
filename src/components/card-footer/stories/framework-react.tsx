@@ -15,7 +15,7 @@ export const ReactDaikinCardFooter = createComponent({
 
 export const metadata: Meta<DaikinCardFooterStoryArgs> = {
   component: ({ ...props }: DaikinCardFooterStoryArgs) => (
-    <div style={{ width: 248 }}>
+    <div style={{ width: "248px" }}>
       <ReactDaikinCardFooter {...props}>
         {props.actionType === "button" ? (
           <ReactDaikinButton size="small">Button</ReactDaikinButton>

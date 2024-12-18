@@ -28,7 +28,9 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
         <span>Label Title</span>
         <span slot="description">Description</span>
       </ReactDaikinCardHeader>
-      {props.withBody && <div style={{ height: 173, width: 248 }}></div>}
+      {props.withBody && (
+        <div style={{ height: "173px", width: "248px" }}></div>
+      )}
       {props.withFooter && (
         <ReactDaikinCardFooter>
           <ReactDaikinButton size="small">Button</ReactDaikinButton>

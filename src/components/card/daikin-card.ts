@@ -1,22 +1,21 @@
+import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-
-import { cva } from "class-variance-authority";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaContainer = cva(
   [
     "flex",
+    "flex-col",
+    "gap-4",
+    "p-4",
     "rounded-lg",
     "bg-ddt-color-common-background-default",
-    "p-4",
-    "gap-4",
-    "flex-col",
   ],
   {
     variants: {
       outline: {
-        true: ["border", "border-solid", "border-ddt-color-divider"],
+        true: ["border", "border-ddt-color-divider"],
         false: [],
       },
     },
@@ -35,18 +34,19 @@ const cvaContainer = cva(
  * @example
  *
  * ```html
- * <daikin-card outline="true">
- *  <daikin-card-header slot="header">
+ * <daikin-card outline>
  *   <daikin-card-header>
- *      <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current"></daikin-icon>
- *      <span>Label Title</span>
- *      <span slot="description">Description</span>
- *    </daikin-card-header>
- *  </daikin-card-header>
- *  <div>body content</div>
- *  <daikin-card-footer>
- *    <daikin-button size="small">Button</daikin-button>
- *  </daikin-card-footer>
+ *     <daikin-card-header>
+ *       <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current"></daikin-icon>
+ *       <span slot="description">Description</span>
+ *       <span>Card Title</span>
+ *       <span slot="description">Description</span>
+ *     </daikin-card-header>
+ *   </daikin-card-header>
+ *   <p>Card body.</p>
+ *   <daikin-card-footer>
+ *     <daikin-button size="small">Button</daikin-button>
+ *   </daikin-card-footer>
  * </daikin-card>
  * ```
  */
@@ -62,7 +62,7 @@ export class DaikinCard extends LitElement {
   `;
 
   /**
-   * Specify the body border to visual or hidden.
+   * Specify whether the card border to be visible or not.
    */
   @property({ type: Boolean, reflect: true })
   outline = false;
