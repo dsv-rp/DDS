@@ -10,6 +10,7 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { isSimilarToClick } from "../../utils/is-similar-to-click";
 import type { DaikinCarouselItem } from "../carousel-item/daikin-carousel-item";
 import "../icon-button/daikin-icon-button";
 
@@ -182,7 +183,7 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _handleKeydownCarousel(event: KeyboardEvent) {
-    if ([" ", "Enter"].includes(event.key)) {
+    if (isSimilarToClick(event.key)) {
       this._emitCarouselClick(event);
     }
   }
