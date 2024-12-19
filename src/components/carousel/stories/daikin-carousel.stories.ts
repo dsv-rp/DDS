@@ -19,7 +19,6 @@ export const Default: Story = {
     controlButtonVariant: "ghost",
     allowSwipe: false,
     onClick: fn(),
-    onKeyDown: fn(),
     onSelect: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -84,18 +83,6 @@ export const Default: Story = {
             name: "Previous",
           })
         ).toHaveAttribute("disabled");
-      }
-    );
-
-    await step(
-      "Should be emitted carousel-click event if you clicked carousel item",
-      async () => {
-        const item = root.shadowRoot?.querySelector(
-          "div[role='list']"
-        ) as HTMLElement;
-
-        await userEvent.click(item);
-        await expect(args.onClick).toHaveBeenCalledTimes(1);
       }
     );
   }),

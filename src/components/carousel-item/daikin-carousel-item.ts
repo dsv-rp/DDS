@@ -1,7 +1,10 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
-import { createRef, ref, type Ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -46,11 +49,11 @@ export class DaikinCarouselItem extends LitElement {
   @property({ type: Boolean, attribute: false })
   active = false;
 
-  private readonly _clickableRef: Ref<HTMLElement> = createRef();
+  @queryAssignedElements({ selector: "*" })
+  private readonly _inners!: readonly HTMLElement[];
 
   override render() {
     return html`<div
-      ${ref(this._clickableRef)}
       class="flex-none overflow-hidden"
       role="listitem"
       aria-label=${this.label}
@@ -61,17 +64,10 @@ export class DaikinCarouselItem extends LitElement {
   }
 
   /**
-   * Clicks on the inner item.
-   */
-  override click(): void {
-    this._clickableRef.value?.click();
-  }
-
-  /**
    * Presses on the inner item.
    */
-  keydown(): void {
-    this._clickableRef.value?.click();
+  containerKeydown(): void {
+    this._inners[0].click();
   }
 }
 declare global {

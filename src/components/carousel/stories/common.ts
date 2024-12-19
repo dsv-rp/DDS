@@ -5,7 +5,6 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export interface DaikinCarouselStoryArgs
   extends Required<ElementProps<DaikinCarousel>> {
   onClick: () => void;
-  onKeyDown: () => void;
   onSelect: () => void;
 }
 
@@ -28,9 +27,6 @@ export const DAIKIN_CAROUSEL_ARG_TYPES = {
     type: "boolean",
   },
   onClick: {
-    name: "",
-  },
-  onKeyDown: {
     name: "",
   },
   onSelect: {

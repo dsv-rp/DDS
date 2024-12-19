@@ -165,17 +165,11 @@ export class DaikinCarousel extends LitElement {
     this._emitSelect("indicator", beforeCurrentIndex);
   }
 
-  private _handleClickCarousel(event: Event) {
-    event.preventDefault();
-
-    this._items[this.currentIndex].click();
-  }
-
   private _handleKeydownCarousel(event: KeyboardEvent) {
     if (isSimilarToClick(event.key)) {
       event.preventDefault();
 
-      this._items[this.currentIndex].keydown();
+      this._items[this.currentIndex].containerKeydown();
     }
   }
 
@@ -279,7 +273,6 @@ export class DaikinCarousel extends LitElement {
           aria-live="polite"
           role="list"
           tabindex="0"
-          @click=${this._handleClickCarousel}
           @keydown=${this._handleKeydownCarousel}
           @mousedown=${this._handleMousedown}
           @mouseup=${this._handleMouseup}
