@@ -1,1 +1,1 @@
-export * from ".//daikin-card-footer";
+export * from "./daikin-card-footer";
