@@ -90,7 +90,7 @@ export class DaikinProgressIndicator extends LitElement {
 
   override render() {
     return html`<div
-      class="flex justify-stretch items-start w-full font-daikinSerif"
+      class="flex justify-stretch items-start gap-2 w-full font-daikinSerif"
       role="list"
     >
       <slot @slotchange=${this._handleSlotChange}></slot>
