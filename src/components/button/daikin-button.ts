@@ -18,6 +18,7 @@ const cvaButton = cva(
     "px-3",
     "tracking-wide",
     "text-nowrap",
+    "leading-[130%]",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -57,7 +58,7 @@ const cvaButton = cva(
       },
       size: {
         small: ["text-sm"],
-        medium: ["text-sm"],
+        medium: [],
       },
     },
   }
@@ -93,7 +94,7 @@ export class DaikinButton extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: inline-block;
+      display: inline-flex;
     }
 
     :host([size="small"]) {
