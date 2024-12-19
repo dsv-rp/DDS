@@ -9,9 +9,6 @@ export const ReactDaikinCarouselItem = createComponent({
   tagName: "daikin-carousel-item",
   elementClass: DaikinCarouselItem,
   react: React,
-  events: {
-    onCarouselClick: "carousel-click",
-  },
 });
 
 export const metadata: Meta<DaikinCarouselItemStoryArgs> = {

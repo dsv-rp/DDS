@@ -11,7 +11,8 @@ const ReactDaikinCarousel = createComponent({
   elementClass: DaikinCarousel,
   react: React,
   events: {
-    onCarouselClick: "carousel-click",
+    onClick: "click",
+    onKeyDown: "keydown",
     onSelect: "select" as EventName<
       CustomEvent<{
         beforeCurrentIndex: number;
@@ -22,14 +23,18 @@ const ReactDaikinCarousel = createComponent({
 });
 
 export const metadata: Meta<DaikinCarouselStoryArgs> = {
-  component: ({ onCarouselClick, ...props }: DaikinCarouselStoryArgs) => (
+  component: ({ onClick, onKeyDown, ...props }: DaikinCarouselStoryArgs) => (
     <div className="w-[640px]">
       <ReactDaikinCarousel {...props}>
         {[...Array(5).keys()].map((item) => (
-          <ReactDaikinCarouselItem key={item} onCarouselClick={onCarouselClick}>
-            <div className="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled">
+          <ReactDaikinCarouselItem
+            key={item}
+            onClick={onClick}
+            onKeyDown={onKeyDown}
+          >
+            <button className="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled">
               Carousel item {item + 1}
-            </div>
+            </button>
           </ReactDaikinCarouselItem>
         ))}
       </ReactDaikinCarousel>

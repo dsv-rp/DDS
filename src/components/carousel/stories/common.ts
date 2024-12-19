@@ -4,7 +4,8 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinCarouselStoryArgs
   extends Required<ElementProps<DaikinCarousel>> {
-  onCarouselClick: () => void;
+  onClick: () => void;
+  onKeyDown: () => void;
   onSelect: () => void;
 }
 
@@ -26,10 +27,13 @@ export const DAIKIN_CAROUSEL_ARG_TYPES = {
   allowSwipe: {
     type: "boolean",
   },
-  onSelect: {
+  onClick: {
     name: "",
   },
-  onCarouselClick: {
+  onKeyDown: {
+    name: "",
+  },
+  onSelect: {
     name: "",
   },
 } satisfies Meta<DaikinCarouselStoryArgs>["argTypes"];

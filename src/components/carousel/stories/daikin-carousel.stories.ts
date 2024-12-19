@@ -18,8 +18,9 @@ export const Default: Story = {
     currentIndex: 0,
     controlButtonVariant: "ghost",
     allowSwipe: false,
+    onClick: fn(),
+    onKeyDown: fn(),
     onSelect: fn(),
-    onCarouselClick: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-carousel")[0];
@@ -62,7 +63,7 @@ export const Default: Story = {
       async () => {
         await userEvent.click(
           getByShadowRole(root, "button", {
-            name: "Prev",
+            name: "Previous",
           })
         );
         await expect(root.getAttribute("current-index")).toBe("3");
@@ -80,7 +81,7 @@ export const Default: Story = {
         );
         await expect(
           getByShadowRole(root, "button", {
-            name: "Prev",
+            name: "Previous",
           })
         ).toHaveAttribute("disabled");
       }
@@ -90,10 +91,11 @@ export const Default: Story = {
       "Should be emitted carousel-click event if you clicked carousel item",
       async () => {
         const item = root.shadowRoot?.querySelector(
-          "div[tabindex]"
+          "div[role='list']"
         ) as HTMLElement;
+
         await userEvent.click(item);
-        await expect(args.onCarouselClick).toHaveBeenCalledTimes(1);
+        await expect(args.onClick).toHaveBeenCalledTimes(1);
       }
     );
   }),

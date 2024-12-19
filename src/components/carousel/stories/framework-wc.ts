@@ -13,7 +13,8 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
     currentIndex,
     allowSwipe,
     controlButtonVariant,
-    onCarouselClick,
+    onClick,
+    onKeyDown,
     onSelect,
   }) => html`
     <div class="w-[640px]">
@@ -29,12 +30,12 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
           [...Array(5).keys()],
           (item) => item,
           (item) =>
-            html`<daikin-carousel-item @carousel-click=${onCarouselClick}>
-              <div
+            html`<daikin-carousel-item @click=${onClick} @keydown=${onKeyDown}>
+              <button
                 class="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled"
               >
                 Carousel item ${item + 1}
-              </div>
+              </button>
             </daikin-carousel-item>`
         )}
       </daikin-carousel>

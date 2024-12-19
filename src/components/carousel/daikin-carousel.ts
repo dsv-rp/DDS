@@ -138,23 +138,14 @@ export class DaikinCarousel extends LitElement {
   private readonly _items!: readonly DaikinCarouselItem[];
 
   @state()
-  private _itemLength: number = 0;
+  private _itemCount: number = 0;
 
-  @state()
   private _swipeStartX: number | null = null;
-
-  @state()
   private _swipeEndX: number | null = null;
 
   private _prevButton = createRef<HTMLButtonElement>();
   private _nextButton = createRef<HTMLButtonElement>();
-  private _indicatorButtons = createRef<HTMLElement>();
-
-  private _emitCarouselClick(event: Event) {
-    event.preventDefault();
-
-    this._items[this.currentIndex].click();
-  }
+  private _indicatorButtonsContainer = createRef<HTMLElement>();
 
   private _emitSelect(
     operation: "prev" | "next" | "indicator",
@@ -174,9 +165,17 @@ export class DaikinCarousel extends LitElement {
     this._emitSelect("indicator", beforeCurrentIndex);
   }
 
+  private _handleClickCarousel(event: Event) {
+    event.preventDefault();
+
+    this._items[this.currentIndex].click();
+  }
+
   private _handleKeydownCarousel(event: KeyboardEvent) {
     if (isSimilarToClick(event.key)) {
-      this._emitCarouselClick(event);
+      event.preventDefault();
+
+      this._items[this.currentIndex].keydown();
     }
   }
 
@@ -193,7 +192,8 @@ export class DaikinCarousel extends LitElement {
     }
 
     const buttons = [
-      ...(this._indicatorButtons.value?.querySelectorAll("button") ?? []),
+      ...(this._indicatorButtonsContainer.value?.querySelectorAll("button") ??
+        []),
     ];
 
     this._changeVisibleItem(moveOffset);
@@ -224,7 +224,7 @@ export class DaikinCarousel extends LitElement {
   private _changeVisibleItem(moveOffset: 1 | -1) {
     if (
       (moveOffset === -1 && this.currentIndex <= 0) ||
-      (moveOffset === 1 && this.currentIndex >= this._itemLength - 1)
+      (moveOffset === 1 && this.currentIndex >= this._itemCount - 1)
     ) {
       return;
     }
@@ -268,7 +268,7 @@ export class DaikinCarousel extends LitElement {
           ${ref(this._prevButton)}
           variant=${this.controlButtonVariant}
           color="neutral"
-          button-aria-label="Prev"
+          button-aria-label="Previous"
           ?disabled=${this.currentIndex <= 0}
           @click=${() => this._changeVisibleItem(-1)}
         >
@@ -279,7 +279,7 @@ export class DaikinCarousel extends LitElement {
           aria-live="polite"
           role="list"
           tabindex="0"
-          @click=${this._emitCarouselClick}
+          @click=${this._handleClickCarousel}
           @keydown=${this._handleKeydownCarousel}
           @mousedown=${this._handleMousedown}
           @mouseup=${this._handleMouseup}
@@ -292,7 +292,7 @@ export class DaikinCarousel extends LitElement {
             part="carousel-items-container"
             style=${ifDefined(
               this.animation === "slide"
-                ? `--default-width:calc(100% * ${this._itemLength}); --translate-x-width:calc(-1 * 100% / ${this._itemLength} * ${this.currentIndex});`
+                ? `--default-width:calc(100% * ${this._itemCount}); --translate-x-width:calc(-1 * 100% / ${this._itemCount} * ${this.currentIndex});`
                 : undefined
             )}
           >
@@ -304,7 +304,7 @@ export class DaikinCarousel extends LitElement {
           variant=${this.controlButtonVariant}
           color="neutral"
           button-aria-label="Next"
-          ?disabled=${this.currentIndex >= this._itemLength - 1}
+          ?disabled=${this.currentIndex >= this._itemCount - 1}
           @click=${() => this._changeVisibleItem(1)}
         >
           <span class=${cvaButton({ position: "right" })}></span>
@@ -312,7 +312,7 @@ export class DaikinCarousel extends LitElement {
       </div>
       <div class="flex gap-3">
         <div
-          ${ref(this._indicatorButtons)}
+          ${ref(this._indicatorButtonsContainer)}
           class="flex items-center gap-4"
           role="tablist"
           @keydown=${this._handleKeydownIndicator}
@@ -324,7 +324,7 @@ export class DaikinCarousel extends LitElement {
               html`<button
                 class=${INDICATOR_CLASS_NAME}
                 aria-label="Slide ${index + 1}"
-                aria-selected=${`${this.currentIndex === index}` as const}
+                aria-selected=${this.currentIndex === index}
                 role="tab"
                 tabindex=${this.currentIndex === index ? 0 : -1}
                 @click=${() => this._handleClickIndicator(index)}
@@ -336,12 +336,14 @@ export class DaikinCarousel extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._itemLength = this._items.length;
+    this._itemCount = this._items.length;
   }
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("currentIndex")) {
-      this._items.forEach((item, i) => (item.active = i === this.currentIndex));
+      for (const [index, item] of this._items.entries()) {
+        item.active = index === this.currentIndex;
+      }
     }
   }
 }
