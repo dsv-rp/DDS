@@ -1,0 +1,23 @@
+import { DaikinCarouselItem } from "#package/components/carousel-item/daikin-carousel-item";
+import { createComponent } from "@lit/react";
+import type { Meta } from "@storybook/react";
+import React from "react";
+import "../../../storybook-tailwind.css";
+import type { DaikinCarouselItemStoryArgs } from "./common";
+import { CAROUSEL_ITEM_STYLE } from "./framework-wc";
+
+export const ReactDaikinCarouselItem = createComponent({
+  tagName: "daikin-carousel-item",
+  elementClass: DaikinCarouselItem,
+  react: React,
+});
+
+export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
+  component: ({ ...props }: DaikinCarouselItemStoryArgs) => (
+    <ReactDaikinCarouselItem {...props}>
+      <a href="https://dsv-rp.github.io/DDS" className={CAROUSEL_ITEM_STYLE}>
+        {props.label}
+      </a>
+    </ReactDaikinCarouselItem>
+  ),
+};
