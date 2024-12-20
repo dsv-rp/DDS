@@ -73,7 +73,7 @@ export class DaikinCard extends LitElement {
         outline: this.outline,
       })}
     >
-      <slot></slot>
+      <slot class="text-ddt-color-common-text-primary"></slot>
     </div>`;
   }
 }
