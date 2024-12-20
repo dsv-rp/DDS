@@ -4,15 +4,10 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinCarouselStoryArgs
   extends Required<ElementProps<DaikinCarousel>> {
-  onClick: () => void;
   onSelect: () => void;
 }
 
 export const DAIKIN_CAROUSEL_ARG_TYPES = {
-  animation: {
-    control: { type: "radio" },
-    options: ["slide", "manual"],
-  },
   duration: {
     type: "number",
   },
@@ -25,9 +20,6 @@ export const DAIKIN_CAROUSEL_ARG_TYPES = {
   },
   allowSwipe: {
     type: "boolean",
-  },
-  onClick: {
-    name: "",
   },
   onSelect: {
     name: "",

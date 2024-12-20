@@ -4,6 +4,7 @@ import type { Meta } from "@storybook/react";
 import React from "react";
 import "../../../storybook-tailwind.css";
 import type { DaikinCarouselItemStoryArgs } from "./common";
+import { CAROUSEL_ITEM_STYLE } from "./framework-wc";
 
 export const ReactDaikinCarouselItem = createComponent({
   tagName: "daikin-carousel-item",
@@ -14,9 +15,9 @@ export const ReactDaikinCarouselItem = createComponent({
 export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
   component: ({ ...props }: DaikinCarouselItemStoryArgs) => (
     <ReactDaikinCarouselItem {...props}>
-      <div className="flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled">
+      <a href="https://dsv-rp.github.io/DDS" className={CAROUSEL_ITEM_STYLE}>
         {props.label}
-      </div>
+      </a>
     </ReactDaikinCarouselItem>
   ),
 };

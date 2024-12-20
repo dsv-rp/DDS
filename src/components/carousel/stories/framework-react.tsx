@@ -5,13 +5,13 @@ import React from "react";
 import "../../../storybook-tailwind.css";
 import { ReactDaikinCarouselItem } from "../../carousel-item/stories/framework-react";
 import type { DaikinCarouselStoryArgs } from "./common";
+import { CAROUSEL_ITEM_STYLE } from "./framework-wc";
 
 const ReactDaikinCarousel = createComponent({
   tagName: "daikin-carousel",
   elementClass: DaikinCarousel,
   react: React,
   events: {
-    onClick: "click",
     onSelect: "select" as EventName<
       CustomEvent<{
         beforeCurrentIndex: number;
@@ -22,17 +22,17 @@ const ReactDaikinCarousel = createComponent({
 });
 
 export const metadata: Meta<DaikinCarouselStoryArgs> = {
-  component: ({ onClick, ...props }: DaikinCarouselStoryArgs) => (
+  component: ({ ...props }: DaikinCarouselStoryArgs) => (
     <div className="w-[640px]">
       <ReactDaikinCarousel {...props}>
         {[...Array(5).keys()].map((item) => (
           <ReactDaikinCarouselItem key={item}>
-            <button
-              className="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled"
-              onClick={onClick}
+            <a
+              href="https://dsv-rp.github.io/DDS"
+              className={CAROUSEL_ITEM_STYLE}
             >
               Carousel item {item + 1}
-            </button>
+            </a>
           </ReactDaikinCarouselItem>
         ))}
       </ReactDaikinCarousel>

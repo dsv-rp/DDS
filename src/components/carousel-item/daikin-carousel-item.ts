@@ -4,7 +4,6 @@ import {
   property,
   queryAssignedElements,
 } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -57,7 +56,7 @@ export class DaikinCarouselItem extends LitElement {
       class="flex-none overflow-hidden"
       role="listitem"
       aria-label=${this.label}
-      aria-hidden=${ifDefined(!this.active || undefined)}
+      aria-hidden=${!this.active}
     >
       <slot tabindex="-1"></slot>
     </div>`;

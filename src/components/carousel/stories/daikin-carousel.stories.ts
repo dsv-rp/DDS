@@ -13,12 +13,10 @@ export default {
 
 export const Default: Story = {
   args: {
-    animation: "slide",
     duration: 600,
     currentIndex: 0,
     controlButtonVariant: "ghost",
     allowSwipe: false,
-    onClick: fn(),
     onSelect: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {

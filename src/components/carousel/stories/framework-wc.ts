@@ -6,19 +6,19 @@ import { repeat } from "lit/directives/repeat.js";
 import "../../../storybook-tailwind.css";
 import type { DaikinCarouselStoryArgs } from "./common";
 
+export const CAROUSEL_ITEM_STYLE =
+  "flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
+
 export const metadata: Meta<DaikinCarouselStoryArgs> = {
   render: ({
-    animation,
     duration,
     currentIndex,
     allowSwipe,
     controlButtonVariant,
-    onClick,
     onSelect,
   }) => html`
     <div class="w-[640px]">
       <daikin-carousel
-        animation=${animation}
         duration=${duration}
         current-index=${currentIndex}
         control-button-variant=${controlButtonVariant}
@@ -29,13 +29,13 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
           [...Array(5).keys()],
           (item) => item,
           (item) =>
-            html`<daikin-carousel-item label=${`Carousel item ${item + 1}`}>
-              <button
-                class="flex justify-center items-center w-full h-[400px] bg-ddt-color-common-disabled"
-                @click=${onClick}
+            html`<daikin-carousel-item>
+              <a
+                href="https://dsv-rp.github.io/DDS"
+                class=${CAROUSEL_ITEM_STYLE}
               >
                 Carousel item ${item + 1}
-              </button>
+              </a>
             </daikin-carousel-item>`
         )}
       </daikin-carousel>

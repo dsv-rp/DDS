@@ -6,7 +6,6 @@ import {
   queryAssignedElements,
   state,
 } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -95,15 +94,6 @@ export class DaikinCarousel extends LitElement {
       position: relative;
     }
   `;
-
-  /**
-   * Specify the animation mode for the transition.
-   *
-   * - slide (default): A slide animation will be displayed.
-   * - manual: No animation is displayed. Users can add animation as they wish.
-   */
-  @property({ type: String, reflect: true })
-  animation: "slide" | "manual" = "slide";
 
   /**
    * Specify the interval for the slide animation.
@@ -281,13 +271,9 @@ export class DaikinCarousel extends LitElement {
           @touchend=${this._handleTouchend}
         >
           <div
-            class="flex w-[--default-width] transition-transform translate-x-[--translate-x-width] duration-[--translate-transition-duration]"
+            class="flex w-[calc(100%*var(--total))] transition-transform translate-x-[calc(-100%*var(--current)/var(--total))] duration-[--translate-transition-duration]"
             part="carousel-items-container"
-            style=${ifDefined(
-              this.animation === "slide"
-                ? `--default-width:calc(100% * ${this._itemCount}); --translate-x-width:calc(-1 * 100% / ${this._itemCount} * ${this.currentIndex});`
-                : undefined
-            )}
+            style=${`--total:${this._itemCount};--current:${this.currentIndex};`}
           >
             <slot></slot>
           </div>
