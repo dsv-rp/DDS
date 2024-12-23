@@ -108,7 +108,7 @@ export class DaikinCarousel extends LitElement {
 
   /**
    * Specify the interval for the slide animation.
-   * This is only used when animation=“slide”.
+   * This is only used when animation="slide".
    */
   @property({ type: Number, reflect: true })
   duration = 600;
@@ -130,7 +130,7 @@ export class DaikinCarousel extends LitElement {
   controlButtonVariant: "ghost" | "fill" = "ghost";
 
   /**
-   * Whether or not to allow content to be moved by swiping
+   * Whether or not to allow content to be moved by swiping.
    */
   @property({ type: Boolean, reflect: true, attribute: "allow-swipe" })
   allowSwipe: boolean = false;
