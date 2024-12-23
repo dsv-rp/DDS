@@ -71,8 +71,6 @@ const INDICATOR_CLASS_NAME = cva([
  *
  * @slot - A slot for carousel items. Place `daikin-carousel-item` elements here.
  *
- * @csspart carousel-items-container - Customize the part that corresponds to the container element of the slot.
- *
  * @example
  *
  * ```html
@@ -272,7 +270,6 @@ export class DaikinCarousel extends LitElement {
         >
           <div
             class="flex w-[calc(100%*var(--total))] transition-transform translate-x-[calc(-100%*var(--current)/var(--total))] duration-[--translate-transition-duration]"
-            part="carousel-items-container"
             style=${`--total:${this._itemCount};--current:${this.currentIndex};`}
           >
             <slot></slot>
