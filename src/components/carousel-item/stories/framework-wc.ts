@@ -9,7 +9,7 @@ export const CAROUSEL_ITEM_STYLE =
 
 export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
   render: ({ label }) =>
-    html`<daikin-carousel-item label=${label}>
+    html`<daikin-carousel-item>
       <a href="https://dsv-rp.github.io/DDS" class=${CAROUSEL_ITEM_STYLE}>
         ${label}
       </a>

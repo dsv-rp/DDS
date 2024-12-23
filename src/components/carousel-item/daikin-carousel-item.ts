@@ -1,9 +1,6 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
+import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -32,10 +29,13 @@ export class DaikinCarouselItem extends LitElement {
   `;
 
   /**
+   * _Internal use._
    * Item's aria label.
-   * It is used for reading aloud using aria-live.
+   * Controlled by `daikin-carousel`.
+   *
+   * @private
    */
-  @property({ type: String, reflect: true })
+  @property({ type: String, attribute: false })
   label = "";
 
   /**
@@ -48,25 +48,15 @@ export class DaikinCarouselItem extends LitElement {
   @property({ type: Boolean, attribute: false })
   active = false;
 
-  @queryAssignedElements({ selector: "*" })
-  private readonly _inners!: readonly HTMLElement[];
-
   override render() {
     return html`<div
       class="flex-none overflow-hidden"
-      role="listitem"
+      role="tabpanel"
       aria-label=${this.label}
       aria-hidden=${!this.active}
     >
-      <slot tabindex="-1"></slot>
+      <slot tabindex=${ifDefined(!this.active ? -1 : undefined)}></slot>
     </div>`;
-  }
-
-  /**
-   * Presses on the inner item.
-   */
-  containerKeydown(): void {
-    this._inners[0].click();
   }
 }
 declare global {

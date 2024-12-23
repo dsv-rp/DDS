@@ -9,7 +9,6 @@ import {
 import { createRef, ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { isSimilarToClick } from "../../utils/is-similar-to-click";
 import type { DaikinCarouselItem } from "../carousel-item/daikin-carousel-item";
 import "../icon-button/daikin-icon-button";
 
@@ -31,6 +30,20 @@ const cvaButton = cva(
     },
   }
 );
+
+const cvaItem = cva(["w-full", "overflow-clip", "relative"], {
+  variants: {
+    isItemFocus: {
+      false: [],
+      true: [
+        "outline",
+        "outline-2",
+        "outline-offset-2",
+        "outline-ddt-color-common-border-focus",
+      ],
+    },
+  },
+});
 
 const INDICATOR_CLASS_NAME = cva([
   "flex",
@@ -128,6 +141,9 @@ export class DaikinCarousel extends LitElement {
   @state()
   private _itemCount: number = 0;
 
+  @state()
+  private _isItemFocus = false;
+
   private _swipeStartX: number | null = null;
   private _swipeEndX: number | null = null;
 
@@ -153,12 +169,12 @@ export class DaikinCarousel extends LitElement {
     this._emitSelect("indicator", beforeCurrentIndex);
   }
 
-  private _handleKeydownCarousel(event: KeyboardEvent) {
-    if (isSimilarToClick(event.key)) {
-      event.preventDefault();
+  private _handleFocusin() {
+    this._isItemFocus = true;
+  }
 
-      this._items[this.currentIndex].containerKeydown();
-    }
+  private _handleFocusout() {
+    this._isItemFocus = false;
   }
 
   private _handleKeydownIndicator(event: KeyboardEvent): void {
@@ -257,11 +273,8 @@ export class DaikinCarousel extends LitElement {
           <span class=${cvaButton({ position: "left" })}></span>
         </daikin-icon-button>
         <div
-          class="w-full overflow-clip relative focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ddt-color-common-border-focus"
+          class=${cvaItem({ isItemFocus: this._isItemFocus })}
           aria-live="polite"
-          role="list"
-          tabindex="0"
-          @keydown=${this._handleKeydownCarousel}
           @mousedown=${this._handleMousedown}
           @mouseup=${this._handleMouseup}
           @touchstart=${this._handleTouchstart}
@@ -272,7 +285,10 @@ export class DaikinCarousel extends LitElement {
             class="flex w-[calc(100%*var(--total))] transition-transform translate-x-[calc(-100%*var(--current)/var(--total))] duration-[--translate-transition-duration]"
             style=${`--total:${this._itemCount};--current:${this.currentIndex};`}
           >
-            <slot></slot>
+            <slot
+              @focusin=${this._handleFocusin}
+              @focusout=${this._handleFocusout}
+            ></slot>
           </div>
         </div>
         <daikin-icon-button
@@ -312,7 +328,12 @@ export class DaikinCarousel extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._itemCount = this._items.length;
+    const items = this._items;
+    this._itemCount = items.length;
+
+    for (const [index, item] of items.entries()) {
+      item.label = `${index + 1} of ${this._itemCount}`;
+    }
   }
 
   protected override updated(changedProperties: PropertyValues): void {
