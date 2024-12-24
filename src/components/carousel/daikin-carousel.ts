@@ -199,34 +199,18 @@ export class DaikinCarousel extends LitElement {
     this._updateItemActive();
   }
 
-  private _handleMousedown(e: MouseEvent) {
-    this._swipeStartX = e.pageX;
+  private _handleTouchstart(event: TouchEvent) {
+    this._swipeStartX = event.touches[0].pageX;
     this._isSwipe = true;
   }
 
-  private _handleMouseup(e: MouseEvent) {
-    this._swipeEndX = e.pageX;
-    this._isSwipe = false;
-
-    this._onSwipeEnd();
-    this._swipeX = 0;
-  }
-
-  private _handleTouchstart(e: TouchEvent) {
-    this._swipeStartX = e.touches[0].pageX;
-    this._isSwipe = true;
-  }
-
-  private _handleTouchmove(e: TouchEvent) {
-    this._swipeEndX = e.changedTouches[0].pageX;
+  private _handleTouchmove(event: TouchEvent) {
+    this._swipeEndX = event.changedTouches[0].pageX;
     this._swipeX = this._swipeStartX - this._swipeEndX;
   }
 
   private _handleTouchend() {
-    this._isSwipe = false;
-
     this._onSwipeEnd();
-    this._swipeX = 0;
   }
 
   private _moveBy(moveOffset: 1 | -1) {
@@ -244,15 +228,16 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _onSwipeEnd() {
-    const result = this._swipeStartX - this._swipeEndX;
+    this._isSwipe = false;
 
     // If the interval between touch operations is extremely short,
     // it is determined to be an erroneous operation and the process is terminated.
-    if (Math.abs(result) < 10) {
+    if (Math.abs(this._swipeX) < 10) {
       return;
     }
 
-    this._moveBy(Math.sign(result) as 1 | -1);
+    this._moveBy(Math.sign(this._swipeX) as 1 | -1);
+    this._swipeX = 0;
   }
 
   private _updateCounter() {
@@ -290,8 +275,6 @@ export class DaikinCarousel extends LitElement {
         <div
           class="w-full overflow-clip relative focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ddt-color-common-border-focus"
           aria-live="polite"
-          @mousedown=${this._handleMousedown}
-          @mouseup=${this._handleMouseup}
           @touchstart=${this._handleTouchstart}
           @touchmove=${this._handleTouchmove}
           @touchend=${this._handleTouchend}
