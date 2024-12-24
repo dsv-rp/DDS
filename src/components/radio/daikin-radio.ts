@@ -135,10 +135,19 @@ export class DaikinRadio extends LitElement {
     this._internals.setFormValue(this.checked ? this.value : null);
   }
 
-  private _handleClick(event: MouseEvent) {
+  private _handleClick(event: PointerEvent) {
     if (this.disabled) {
       event.preventDefault();
     }
+  }
+
+  private _handleInputClick(event: PointerEvent) {
+    this._handleClick(event);
+  }
+
+  private _handleLabelClick(event: PointerEvent) {
+    event.stopPropagation();
+    this._handleClick(event);
   }
 
   private _handleChange(event: Event) {
@@ -153,9 +162,10 @@ export class DaikinRadio extends LitElement {
   }
 
   override render() {
-    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+    return html`<div class="group flex gap-2 items-center font-daikinSerif">
       <span class="p-2">
         <input
+          id="radio"
           class=${RADIO_CLASS_NAME}
           type="radio"
           name=${this.name}
@@ -163,20 +173,27 @@ export class DaikinRadio extends LitElement {
           aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
           ?disabled=${this.disabled}
           .checked=${this.checked}
-          @click=${this._handleClick}
+          @click=${this._handleInputClick}
           @change=${this._handleChange}
           tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
         />
       </span>
-      <span
-        class=${cvaLabel({
-          disabled: this.disabled,
-        })}
-        ?hidden=${this.labelPosition === "hidden"}
-      >
-        ${this.label}
-      </span>
-    </label>`;
+      ${this.label && this.labelPosition !== "hidden"
+        ? html`<label
+            for="radio"
+            @click=${this._handleLabelClick}
+            @keydown=${this._handleLabelClick}
+          >
+            <span
+              class=${cvaLabel({
+                disabled: this.disabled,
+              })}
+            >
+              ${this.label}
+            </span>
+          </label>`
+        : nothing}
+    </div>`;
   }
 
   override updated(changedProperties: Map<string, unknown>) {
