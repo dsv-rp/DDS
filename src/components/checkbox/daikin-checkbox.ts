@@ -163,6 +163,15 @@ export class DaikinCheckbox extends LitElement {
     }
   }
 
+  private _handleInputClick(event: PointerEvent) {
+    this._handleClick(event);
+  }
+
+  private _handleLabelClick(event: PointerEvent) {
+    event.stopPropagation();
+    this._handleClick(event);
+  }
+
   private _handleChange(event: Event) {
     this.checkState = (event.target as HTMLInputElement).checked
       ? "checked"
@@ -172,9 +181,10 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
-    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+    return html`<div class="group flex gap-2 items-center font-daikinSerif">
       <span class="p-2">
         <input
+          id="checkbox"
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
@@ -184,18 +194,25 @@ export class DaikinCheckbox extends LitElement {
           .checked=${this.checked}
           ?disabled=${this.disabled}
           @change=${this._handleChange}
-          @click=${this._handleClick}
+          @click=${this._handleInputClick}
         />
       </span>
-      <span
-        class=${cvaLabel({
-          disabled: this.disabled,
-        })}
-        ?hidden=${this.labelPosition === "hidden"}
-      >
-        ${this.label}
-      </span>
-    </label>`;
+      ${this.label && this.labelPosition !== "hidden"
+        ? html`<label
+            for="checkbox"
+            @click=${this._handleLabelClick}
+            @keydown=${this._handleLabelClick}
+          >
+            <span
+              class=${cvaLabel({
+                disabled: this.disabled,
+              })}
+            >
+              ${this.label}
+            </span>
+          </label>`
+        : nothing}
+    </div>`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {
