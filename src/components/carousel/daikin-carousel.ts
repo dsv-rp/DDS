@@ -210,7 +210,16 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _handleTouchend() {
-    this._onSwipeEnd();
+    this._isSwipe = false;
+
+    // If the interval between touch operations is extremely short,
+    // it is determined to be an erroneous operation and the process is terminated.
+    if (Math.abs(this._swipeX) < 10) {
+      return;
+    }
+
+    this._moveBy(Math.sign(this._swipeX) as 1 | -1);
+    this._swipeX = 0;
   }
 
   private _moveBy(moveOffset: 1 | -1) {
@@ -225,19 +234,6 @@ export class DaikinCarousel extends LitElement {
 
     this.currentIndex = this.currentIndex + moveOffset;
     this._emitSelect(moveOffset === 1 ? "next" : "prev", beforeCurrentIndex);
-  }
-
-  private _onSwipeEnd() {
-    this._isSwipe = false;
-
-    // If the interval between touch operations is extremely short,
-    // it is determined to be an erroneous operation and the process is terminated.
-    if (Math.abs(this._swipeX) < 10) {
-      return;
-    }
-
-    this._moveBy(Math.sign(this._swipeX) as 1 | -1);
-    this._swipeX = 0;
   }
 
   private _updateCounter() {
@@ -259,7 +255,7 @@ export class DaikinCarousel extends LitElement {
   override render() {
     return html`<div
       class="flex justify-center items-center flex-col gap-8"
-      style=${`--translate-transition-duration:${this.duration}ms;`}
+      style=${`--total:${this._itemCount};--current:${this.currentIndex};--swipe-x:${this._swipeX}px;--translate-transition-duration:${this.duration}ms;`}
     >
       <div class="flex justify-center items-center w-full gap-4">
         <daikin-icon-button
@@ -279,10 +275,7 @@ export class DaikinCarousel extends LitElement {
           @touchmove=${this._handleTouchmove}
           @touchend=${this._handleTouchend}
         >
-          <div
-            class=${cvaItems({ isSwipe: this._isSwipe })}
-            style=${`--total:${this._itemCount};--current:${this.currentIndex};--swipe-x:${this._swipeX}px`}
-          >
+          <div class=${cvaItems({ isSwipe: this._isSwipe })}>
             <slot @slotchange=${this._handleSlotchange}></slot>
           </div>
         </div>
