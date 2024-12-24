@@ -7,6 +7,9 @@ export interface DaikinCarouselItemStoryArgs
   label: string;
 }
 
+export const CAROUSEL_ITEM_STYLE =
+  "flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
+
 export const DAIKIN_CAROUSEL_ITEM_ARG_TYPES = {
   label: {
     type: "string",

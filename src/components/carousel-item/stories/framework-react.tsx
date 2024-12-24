@@ -3,8 +3,10 @@ import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import "../../../storybook-tailwind.css";
-import type { DaikinCarouselItemStoryArgs } from "./common";
-import { CAROUSEL_ITEM_STYLE } from "./framework-wc";
+import {
+  CAROUSEL_ITEM_STYLE,
+  type DaikinCarouselItemStoryArgs,
+} from "./common";
 
 export const ReactDaikinCarouselItem = createComponent({
   tagName: "daikin-carousel-item",

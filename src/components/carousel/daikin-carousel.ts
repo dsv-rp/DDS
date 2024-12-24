@@ -23,27 +23,13 @@ const cvaButton = cva(
   ],
   {
     variants: {
-      position: {
-        left: ["i-daikin-chevron-left"],
-        right: ["i-daikin-chevron-right"],
+      intent: {
+        previous: ["i-daikin-chevron-left"],
+        next: ["i-daikin-chevron-right"],
       },
     },
   }
 );
-
-const cvaItem = cva(["w-full", "overflow-clip", "relative"], {
-  variants: {
-    isItemFocus: {
-      false: [],
-      true: [
-        "outline",
-        "outline-2",
-        "outline-offset-2",
-        "outline-ddt-color-common-border-focus",
-      ],
-    },
-  },
-});
 
 const INDICATOR_CLASS_NAME = cva([
   "flex",
@@ -59,23 +45,21 @@ const INDICATOR_CLASS_NAME = cva([
   "hover:bg-ddt-color-common-neutral-hover",
   "active:bg-ddt-color-common-neutral-press",
 
-  "aria-[selected=true]:after:block",
-  "aria-[selected=true]:after:size-4",
-  "aria-[selected=true]:after:bg-ddt-color-common-brand-default",
-  "aria-[selected=true]:after:absolute",
-  "aria-[selected=true]:after:rounded-full",
-  "aria-[selected=true]:focus-visible:after:outline",
-  "aria-[selected=true]:focus-visible:after:outline-1",
-  "aria-[selected=true]:focus-visible:after:outline-offset-1",
-  "aria-[selected=true]:focus-visible:after:outline-ddt-color-common-border-focus",
+  "aria-selected:after:block",
+  "aria-selected:after:size-4",
+  "aria-selected:after:bg-ddt-color-common-brand-default",
+  "aria-selected:after:absolute",
+  "aria-selected:after:rounded-full",
+  "aria-selected:focus-visible:after:outline",
+  "aria-selected:focus-visible:after:outline-1",
+  "aria-selected:focus-visible:after:outline-offset-1",
+  "aria-selected:focus-visible:after:outline-ddt-color-common-border-focus",
 ])();
 
 /**
  * A carousel is a component that displays multiple pieces of information by sliding left and right within a fixed height area.
  *
  * The carousel component can be operated in several ways (Control, Indicator, and Swipe), but it is not possible to hide all of these, as this would prevent the user from being able to operate the carousel component.
- *
- * If you set the animation attribute to `manual`, the default slide animation will be removed and the current-index attribute will no longer be updated automatically. When using this, please combine it with the select event and have the user update the current-index attribute.
  *
  * Hierarchy:
  * - `daikin-carousel` > `daikin-carousel-item`
@@ -108,7 +92,6 @@ export class DaikinCarousel extends LitElement {
 
   /**
    * Specify the interval for the slide animation.
-   * This is only used when animation="slide".
    */
   @property({ type: Number, reflect: true })
   duration = 600;
@@ -141,9 +124,6 @@ export class DaikinCarousel extends LitElement {
   @state()
   private _itemCount: number = 0;
 
-  @state()
-  private _isItemFocus = false;
-
   private _swipeStartX: number | null = null;
   private _swipeEndX: number | null = null;
 
@@ -169,14 +149,6 @@ export class DaikinCarousel extends LitElement {
     this._emitSelect("indicator", beforeCurrentIndex);
   }
 
-  private _handleFocusin() {
-    this._isItemFocus = true;
-  }
-
-  private _handleFocusout() {
-    this._isItemFocus = false;
-  }
-
   private _handleKeydownIndicator(event: KeyboardEvent): void {
     const moveOffset = (
       {
@@ -194,7 +166,7 @@ export class DaikinCarousel extends LitElement {
         []),
     ];
 
-    this._changeVisibleItem(moveOffset);
+    this._moveBy(moveOffset);
     buttons[this.currentIndex].focus();
   }
 
@@ -204,7 +176,13 @@ export class DaikinCarousel extends LitElement {
 
   private _handleMouseup(e: MouseEvent) {
     this._swipeEndX = e.pageX;
-    this._swipe();
+    this._onSwipeEnd();
+  }
+
+  private _handleSlotchange() {
+    this._updateCounter();
+    this._updateItemLabel();
+    this._updateItemActive();
   }
 
   private _handleTouchstart(e: TouchEvent) {
@@ -216,10 +194,10 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _handleTouchend() {
-    this._swipe();
+    this._onSwipeEnd();
   }
 
-  private _changeVisibleItem(moveOffset: 1 | -1) {
+  private _moveBy(moveOffset: 1 | -1) {
     if (
       (moveOffset === -1 && this.currentIndex <= 0) ||
       (moveOffset === 1 && this.currentIndex >= this._itemCount - 1)
@@ -233,7 +211,7 @@ export class DaikinCarousel extends LitElement {
     this._emitSelect(moveOffset === 1 ? "next" : "prev", beforeCurrentIndex);
   }
 
-  private _swipe() {
+  private _onSwipeEnd() {
     const resetCoordinate = () => {
       this._swipeStartX = null;
       this._swipeEndX = null;
@@ -251,9 +229,25 @@ export class DaikinCarousel extends LitElement {
       return;
     }
 
-    this._changeVisibleItem(Math.sign(result) as 1 | -1);
+    this._moveBy(Math.sign(result) as 1 | -1);
 
     resetCoordinate();
+  }
+
+  private _updateCounter() {
+    this._itemCount = this._items.length;
+  }
+
+  private _updateItemLabel() {
+    for (const [index, item] of this._items.entries()) {
+      item.label = `${index + 1} of ${this._itemCount}`;
+    }
+  }
+
+  private _updateItemActive() {
+    for (const [index, item] of this._items.entries()) {
+      item.active = index === this.currentIndex;
+    }
   }
 
   override render() {
@@ -268,12 +262,12 @@ export class DaikinCarousel extends LitElement {
           color="neutral"
           button-aria-label="Previous"
           ?disabled=${this.currentIndex <= 0}
-          @click=${() => this._changeVisibleItem(-1)}
+          @click=${() => this._moveBy(-1)}
         >
-          <span class=${cvaButton({ position: "left" })}></span>
+          <span class=${cvaButton({ intent: "previous" })}></span>
         </daikin-icon-button>
         <div
-          class=${cvaItem({ isItemFocus: this._isItemFocus })}
+          class="w-full overflow-clip relative focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ddt-color-common-border-focus"
           aria-live="polite"
           @mousedown=${this._handleMousedown}
           @mouseup=${this._handleMouseup}
@@ -285,10 +279,7 @@ export class DaikinCarousel extends LitElement {
             class="flex w-[calc(100%*var(--total))] transition-transform translate-x-[calc(-100%*var(--current)/var(--total))] duration-[--translate-transition-duration]"
             style=${`--total:${this._itemCount};--current:${this.currentIndex};`}
           >
-            <slot
-              @focusin=${this._handleFocusin}
-              @focusout=${this._handleFocusout}
-            ></slot>
+            <slot @slotchange=${this._handleSlotchange}></slot>
           </div>
         </div>
         <daikin-icon-button
@@ -297,9 +288,9 @@ export class DaikinCarousel extends LitElement {
           color="neutral"
           button-aria-label="Next"
           ?disabled=${this.currentIndex >= this._itemCount - 1}
-          @click=${() => this._changeVisibleItem(1)}
+          @click=${() => this._moveBy(1)}
         >
-          <span class=${cvaButton({ position: "right" })}></span>
+          <span class=${cvaButton({ intent: "next" })}></span>
         </daikin-icon-button>
       </div>
       <div class="flex gap-3">
@@ -328,19 +319,13 @@ export class DaikinCarousel extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    const items = this._items;
-    this._itemCount = items.length;
-
-    for (const [index, item] of items.entries()) {
-      item.label = `${index + 1} of ${this._itemCount}`;
-    }
+    this._updateCounter();
+    this._updateItemLabel();
   }
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("currentIndex")) {
-      for (const [index, item] of this._items.entries()) {
-        item.active = index === this.currentIndex;
-      }
+      this._updateItemActive();
     }
   }
 }

@@ -4,10 +4,7 @@ import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import { repeat } from "lit/directives/repeat.js";
 import "../../../storybook-tailwind.css";
-import type { DaikinCarouselStoryArgs } from "./common";
-
-export const CAROUSEL_ITEM_STYLE =
-  "flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
+import { CAROUSEL_ITEM_STYLE, type DaikinCarouselStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinCarouselStoryArgs> = {
   render: ({
