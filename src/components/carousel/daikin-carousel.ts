@@ -56,6 +56,23 @@ const INDICATOR_CLASS_NAME = cva([
   "aria-selected:focus-visible:after:outline-ddt-color-common-border-focus",
 ])();
 
+const cvaItems = cva(
+  [
+    "flex",
+    "w-[calc(100%*var(--total))]",
+    "transition-transform",
+    "translate-x-[calc(-100%*var(--current)/var(--total)-var(--swipe-x))]",
+  ],
+  {
+    variants: {
+      isSwipe: {
+        false: ["duration-[--translate-transition-duration]"],
+        true: ["ease-linear", "duration-100"],
+      },
+    },
+  }
+);
+
 /**
  * A carousel is a component that displays multiple pieces of information by sliding left and right within a fixed height area.
  *
@@ -124,8 +141,14 @@ export class DaikinCarousel extends LitElement {
   @state()
   private _itemCount: number = 0;
 
-  private _swipeStartX: number | null = null;
-  private _swipeEndX: number | null = null;
+  @state()
+  private _isSwipe = false;
+
+  @state()
+  private _swipeX = 0;
+
+  private _swipeStartX = 0;
+  private _swipeEndX = 0;
 
   private _prevButton = createRef<HTMLButtonElement>();
   private _nextButton = createRef<HTMLButtonElement>();
@@ -170,31 +193,40 @@ export class DaikinCarousel extends LitElement {
     buttons[this.currentIndex].focus();
   }
 
-  private _handleMousedown(e: MouseEvent) {
-    this._swipeStartX = e.pageX;
-  }
-
-  private _handleMouseup(e: MouseEvent) {
-    this._swipeEndX = e.pageX;
-    this._onSwipeEnd();
-  }
-
   private _handleSlotchange() {
     this._updateCounter();
     this._updateItemLabel();
     this._updateItemActive();
   }
 
+  private _handleMousedown(e: MouseEvent) {
+    this._swipeStartX = e.pageX;
+    this._isSwipe = true;
+  }
+
+  private _handleMouseup(e: MouseEvent) {
+    this._swipeEndX = e.pageX;
+    this._isSwipe = false;
+
+    this._onSwipeEnd();
+    this._swipeX = 0;
+  }
+
   private _handleTouchstart(e: TouchEvent) {
     this._swipeStartX = e.touches[0].pageX;
+    this._isSwipe = true;
   }
 
   private _handleTouchmove(e: TouchEvent) {
     this._swipeEndX = e.changedTouches[0].pageX;
+    this._swipeX = this._swipeStartX - this._swipeEndX;
   }
 
   private _handleTouchend() {
+    this._isSwipe = false;
+
     this._onSwipeEnd();
+    this._swipeX = 0;
   }
 
   private _moveBy(moveOffset: 1 | -1) {
@@ -212,15 +244,6 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _onSwipeEnd() {
-    const resetCoordinate = () => {
-      this._swipeStartX = null;
-      this._swipeEndX = null;
-    };
-
-    if (this._swipeStartX === null || this._swipeEndX === null) {
-      return;
-    }
-
     const result = this._swipeStartX - this._swipeEndX;
 
     // If the interval between touch operations is extremely short,
@@ -230,8 +253,6 @@ export class DaikinCarousel extends LitElement {
     }
 
     this._moveBy(Math.sign(result) as 1 | -1);
-
-    resetCoordinate();
   }
 
   private _updateCounter() {
@@ -276,8 +297,8 @@ export class DaikinCarousel extends LitElement {
           @touchend=${this._handleTouchend}
         >
           <div
-            class="flex w-[calc(100%*var(--total))] transition-transform translate-x-[calc(-100%*var(--current)/var(--total))] duration-[--translate-transition-duration]"
-            style=${`--total:${this._itemCount};--current:${this.currentIndex};`}
+            class=${cvaItems({ isSwipe: this._isSwipe })}
+            style=${`--total:${this._itemCount};--current:${this.currentIndex};--swipe-x:${this._swipeX}px`}
           >
             <slot @slotchange=${this._handleSlotchange}></slot>
           </div>
