@@ -13,7 +13,6 @@ export default {
 
 export const Default: Story = {
   args: {
-    duration: 600,
     currentIndex: 0,
     controlButtonVariant: "ghost",
     allowSwipe: false,

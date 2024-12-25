@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinCarouselStoryArgs
   extends Required<ElementProps<DaikinCarousel>> {
+  duration: number;
   onSelect: () => void;
 }
 

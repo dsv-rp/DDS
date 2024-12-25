@@ -12,6 +12,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinCarouselItem } from "../carousel-item/daikin-carousel-item";
 import "../icon-button/daikin-icon-button";
 
+const DEFAULT_TRANSITION_DURATION = "600ms";
 const SWIPE_MIN_OFFSET_X = 10;
 
 const cvaButton = cva(
@@ -68,7 +69,7 @@ const cvaItems = cva(
   {
     variants: {
       swiping: {
-        false: ["duration-[--translate-transition-duration]"],
+        false: ["duration-[--ddc-transition-duration]"],
         true: ["ease-linear", "duration-100"],
       },
     },
@@ -86,6 +87,8 @@ const cvaItems = cva(
  * @fires select - If an item in the carousel is selected in some way, the method used to select it, the index number of the item displayed before it, and the index number of the item currently displayed are passed.
  *
  * @slot - A slot for carousel items. Place `daikin-carousel-item` elements here.
+ *
+ * @cssprop [--ddc-transition-duration=600ms] - Specify the interval for the slide animation.
  *
  * @example
  *
@@ -106,14 +109,10 @@ export class DaikinCarousel extends LitElement {
       display: block;
       width: 100%;
       position: relative;
+
+      --ddc-transition-duration: ${unsafeCSS(DEFAULT_TRANSITION_DURATION)};
     }
   `;
-
-  /**
-   * Specify the interval for the slide animation.
-   */
-  @property({ type: Number, reflect: true })
-  duration = 600;
 
   /**
    * The index number of the content currently being displayed.
@@ -252,7 +251,7 @@ export class DaikinCarousel extends LitElement {
   override render() {
     return html`<div
       class="flex justify-center items-center flex-col gap-8"
-      style=${`--total:${this._itemCount};--current:${this.currentIndex};--swipe-x:${this._swipeOffsetX}px;--translate-transition-duration:${this.duration}ms;`}
+      style=${`--total:${this._itemCount};--current:${this.currentIndex};--swipe-x:${this._swipeOffsetX}px;`}
     >
       <div class="flex justify-center items-center w-full gap-4">
         <daikin-icon-button
