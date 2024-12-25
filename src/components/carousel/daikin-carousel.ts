@@ -13,7 +13,6 @@ import type { DaikinCarouselItem } from "../carousel-item/daikin-carousel-item";
 import "../icon-button/daikin-icon-button";
 
 const DEFAULT_TRANSITION_DURATION = "600ms";
-const SWIPE_MIN_OFFSET_X = 10;
 
 const cvaButton = cva(
   [
@@ -58,23 +57,6 @@ const INDICATOR_CLASS_NAME = cva([
   "aria-selected:focus-visible:after:outline-offset-1",
   "aria-selected:focus-visible:after:outline-ddt-color-common-border-focus",
 ])();
-
-const cvaItems = cva(
-  [
-    "flex",
-    "w-[calc(100%*var(--total))]",
-    "transition-transform",
-    "translate-x-[calc(-100%*var(--current)/var(--total)-var(--swipe-x))]",
-  ],
-  {
-    variants: {
-      swiping: {
-        false: ["duration-[--ddc-transition-duration]"],
-        true: ["ease-linear", "duration-100"],
-      },
-    },
-  }
-);
 
 /**
  * A carousel is a component that displays multiple pieces of information by sliding left and right within a fixed height area.
@@ -142,15 +124,6 @@ export class DaikinCarousel extends LitElement {
   @state()
   private _itemCount: number = 0;
 
-  @state()
-  private _swiping = false;
-
-  @state()
-  private _swipeOffsetX = 0;
-
-  private _swipeStartX = 0;
-  private _swipeEndX = 0;
-
   private _prevButton = createRef<HTMLButtonElement>();
   private _nextButton = createRef<HTMLButtonElement>();
   private _indicatorButtonsContainer = createRef<HTMLElement>();
@@ -205,29 +178,6 @@ export class DaikinCarousel extends LitElement {
     this._updateItemActive();
   }
 
-  private _handleTouchstart(event: TouchEvent) {
-    this._swipeStartX = event.touches[0].pageX;
-    this._swiping = true;
-  }
-
-  private _handleTouchmove(event: TouchEvent) {
-    this._swipeEndX = event.changedTouches[0].pageX;
-    this._swipeOffsetX = this._swipeStartX - this._swipeEndX;
-  }
-
-  private _handleTouchend() {
-    this._swiping = false;
-
-    // If the interval between touch operations is extremely short,
-    // it is determined to be an erroneous operation and the process is terminated.
-    if (Math.abs(this._swipeOffsetX) < SWIPE_MIN_OFFSET_X) {
-      return;
-    }
-
-    this._moveBy(Math.sign(this._swipeOffsetX) as 1 | -1);
-    this._swipeOffsetX = 0;
-  }
-
   private _moveBy(moveOffset: 1 | -1) {
     const newIndex = this.currentIndex + moveOffset;
     if (
@@ -251,7 +201,7 @@ export class DaikinCarousel extends LitElement {
   override render() {
     return html`<div
       class="flex justify-center items-center flex-col gap-8"
-      style=${`--total:${this._itemCount};--current:${this.currentIndex};--swipe-x:${this._swipeOffsetX}px;`}
+      style=${`--total:${this._itemCount};--current:${this.currentIndex};`}
     >
       <div class="flex justify-center items-center w-full gap-4">
         <daikin-icon-button
@@ -267,11 +217,10 @@ export class DaikinCarousel extends LitElement {
         <div
           class="w-full overflow-clip relative focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-ddt-color-common-border-focus"
           aria-live="polite"
-          @touchstart=${this._handleTouchstart}
-          @touchmove=${this._handleTouchmove}
-          @touchend=${this._handleTouchend}
         >
-          <div class=${cvaItems({ swiping: this._swiping })}>
+          <div
+            class="flex w-[calc(100%*var(--total))] transition-transform translate-x-[calc(-100%*var(--current)/var(--total))] duration-[--ddc-transition-duration]"
+          >
             <slot @slotchange=${this._handleSlotchange}></slot>
           </div>
         </div>
