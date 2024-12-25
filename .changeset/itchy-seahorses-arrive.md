@@ -1,5 +1,5 @@
 ---
-"@daikin-oss/design-system-web-components": patch
+"@daikin-oss/design-system-web-components": minor
 ---
 
-Added Carousel Component. (DDS-1296)
+Carousel: Initial Implementation. (DDS-1296)
