@@ -21,9 +21,16 @@ const ReactDaikinCarousel = createComponent({
 });
 
 export const metadata: Meta<DaikinCarouselStoryArgs> = {
-  component: ({ ...props }: DaikinCarouselStoryArgs) => (
+  component: ({ duration, ...props }: DaikinCarouselStoryArgs) => (
     <div className="w-[640px]">
-      <ReactDaikinCarousel {...props}>
+      <ReactDaikinCarousel
+        {...props}
+        {...((duration as number | null) != null && {
+          style: {
+            ["--ddc-transition-duration" as string]: `${duration}ms`,
+          },
+        })}
+      >
         {[...Array(5).keys()].map((item) => (
           <ReactDaikinCarouselItem key={item}>
             <a
