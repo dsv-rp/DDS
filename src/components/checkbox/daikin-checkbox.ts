@@ -161,15 +161,12 @@ export class DaikinCheckbox extends LitElement {
     if (this.disabled) {
       event.preventDefault();
     }
-  }
 
-  private _handleInputClick(event: PointerEvent) {
-    this._handleClick(event);
-  }
-
-  private _handleLabelClick(event: PointerEvent) {
-    event.stopPropagation();
-    this._handleClick(event);
+    // Prevent click event from being emitted twice.
+    // https://stackoverflow.com/q/24501497
+    if ((event.target as HTMLElement | null)?.tagName !== "INPUT") {
+      event.stopPropagation();
+    }
   }
 
   private _handleChange(event: Event) {
@@ -181,38 +178,34 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
-    return html`<div class="group flex gap-2 items-center font-daikinSerif">
+    // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
+    // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
+    return html`<label
+      class="group flex gap-2 items-center font-daikinSerif"
+      @click=${this._handleClick}
+    >
       <span class="p-2">
         <input
-          id="checkbox"
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
           aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
-          .value=${this.value}
-          .indeterminate=${this.checkState === "indeterminate"}
-          .checked=${this.checked}
           ?disabled=${this.disabled}
+          .checked=${this.checked}
+          .indeterminate=${this.checkState === "indeterminate"}
+          .value=${this.value}
           @change=${this._handleChange}
-          @click=${this._handleInputClick}
         />
       </span>
-      ${this.label && this.labelPosition !== "hidden"
-        ? html`<label
-            for="checkbox"
-            @click=${this._handleLabelClick}
-            @keydown=${this._handleLabelClick}
-          >
-            <span
-              class=${cvaLabel({
-                disabled: this.disabled,
-              })}
-            >
-              ${this.label}
-            </span>
-          </label>`
-        : nothing}
-    </div>`;
+      <span
+        class=${cvaLabel({
+          disabled: this.disabled,
+        })}
+        ?hidden=${this.labelPosition === "hidden"}
+      >
+        ${this.label}
+      </span>
+    </label>`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {
