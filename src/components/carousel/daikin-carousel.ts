@@ -180,10 +180,7 @@ export class DaikinCarousel extends LitElement {
 
   private _moveBy(moveOffset: 1 | -1) {
     const newIndex = this.currentIndex + moveOffset;
-    if (
-      (newIndex < 0 && moveOffset === -1) ||
-      (newIndex >= this._itemCount && moveOffset === 1)
-    ) {
+    if (newIndex < 0 || newIndex >= this._itemCount) {
       return;
     }
 
