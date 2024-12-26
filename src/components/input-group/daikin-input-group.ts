@@ -7,6 +7,7 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
@@ -30,7 +31,7 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
 });
 
 const cvaHelper = cva(
-  ["flex", "gap-1", "items-center", "leading-5", "text-sm"],
+  ["flex", "gap-1", "items-center", "min-h-5", "leading-5", "text-sm"],
   {
     variants: {
       type: {
@@ -41,6 +42,14 @@ const cvaHelper = cva(
           "font-bold",
           "before:size-4",
           "before:i-daikin-status-error",
+          "before:flex-none",
+        ],
+        textareaLimitExceedError: [
+          "text-ddt-color-common-danger-default",
+          "font-bold",
+          "before:size-4",
+          "before:i-daikin-status-error",
+          "before:flex-none",
         ],
         none: ["hidden"],
       },
@@ -48,23 +57,17 @@ const cvaHelper = cva(
   }
 );
 
-const cvaCounter = cva(["text-sm", "font-bold"], {
+const cvaCounter = cva(["text-sm", "font-bold", "ml-auto"], {
   variants: {
-    disabled: {
-      false: ["text-ddt-color-common-text-secondary"],
-      true: ["text-ddt-color-common-disabled"],
+    variant: {
+      normal: ["text-ddt-color-common-text-secondary"],
+      disabled: ["text-ddt-color-common-disabled"],
+      error: ["text-ddt-color-common-danger-default"],
     },
   },
 });
 
-const cvaCounterValueLength = cva([], {
-  variants: {
-    error: {
-      false: [],
-      true: ["text-ddt-color-common-danger-default"],
-    },
-  },
-});
+type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
 
 /**
  * The input group component serves as a wrapper for an input control component (full list below), providing additional elements such as label text, helper text, or a counter.
@@ -198,10 +201,24 @@ export class DaikinInputGroup extends LitElement {
   disabled = false;
 
   /**
-   * Maximum value to display on the counter. When `null`, the counter will be hidden.
+   * The maximum number of characters that can be input into the text area.
+   * If set, a counter will be displayed at the bottom of the text area.
+   * Users can enter more characters than the limit, but in that case the counter will turn red and an error message will be displayed (if specified) to indicate that the limit has been exceeded.
    */
   @property({ type: Number, reflect: true, attribute: "textarea-max-count" })
   textareaMaxCount: number | null = null;
+
+  /**
+   * An error message displayed when the number of characters in the text area exceeds the limit (optional).
+   * When the number of characters in the text area exceeds the limit, this is displayed below the label by overriding `helper` and `error`.
+   * Only used when a text area is assigned to a slot and `textareaMaxCount` is set.
+   */
+  @property({
+    type: String,
+    reflect: true,
+    attribute: "textarea-limit-exceed-error",
+  })
+  textareaLimitExceedError: string | null = null;
 
   @queryAssignedElements({ selector: "daikin-text-area" })
   private readonly _textareas!: readonly DaikinTextArea[];
@@ -214,6 +231,14 @@ export class DaikinInputGroup extends LitElement {
 
   @state()
   private _textareaCount: number | null = null;
+
+  get textareaLimitExceeded(): boolean {
+    return (
+      this.textareaMaxCount != null &&
+      this._textareaCount != null &&
+      this.textareaMaxCount < this._textareaCount
+    );
+  }
 
   private _handleSlotChange(): void {
     this._reflectSlotProperties();
@@ -238,55 +263,51 @@ export class DaikinInputGroup extends LitElement {
   override render() {
     // Priority: Error -> Helper -> None
     // The error text is not displayed when disabled.
-    const helperType =
-      this.error && !this.disabled
-        ? "error"
-        : this.helper
-          ? this.disabled
-            ? "helperDisabled"
-            : "helper"
-          : "none";
+    const helperTextVariant: HelperType = (() => {
+      if (
+        this.textareaLimitExceeded &&
+        !!this.textareaLimitExceedError &&
+        !this.disabled
+      ) {
+        return "textareaLimitExceedError";
+      } else if (!!this.error && !this.disabled) {
+        return "error";
+      } else if (!!this.helper && this.disabled) {
+        return "helperDisabled";
+      } else if (this.helper) {
+        return "helper";
+      } else {
+        return "none";
+      }
+    })();
 
     const helperText = {
-      error: this.error,
       helper: this.helper,
       helperDisabled: this.helper,
+      error: this.error,
+      textareaLimitExceedError: this.textareaLimitExceedError,
       none: "",
-    }[helperType];
+    }[helperTextVariant];
 
     return html`<fieldset class="content" ?disabled=${this.disabled}>
       <label
         class="flex flex-col justify-center gap-2 w-full text-ddt-color-common-text-primary font-daikinSerif"
       >
-        <div class="flex justify-between items-center gap-2">
-          <div class="flex items-center gap-1 font-bold">
-            ${this.label
-              ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
-                  ${this.label}
-                </span>`
-              : nothing}
-            ${this.required && !this.disabled
-              ? html`<span class="text-ddt-color-common-danger-default text-xs">
-                  ${this.required}
-                </span>`
-              : nothing}
-          </div>
-          ${this.textareaMaxCount != null && this._textareaCount != null
-            ? html`
-                <span class=${cvaCounter({ disabled: this.disabled })}>
-                  <span
-                    class=${cvaCounterValueLength({
-                      error: this.textareaMaxCount < this._textareaCount,
-                    })}
-                    >${this._textareaCount}</span
-                  ><span>/</span><span>${this.textareaMaxCount}</span>
-                </span>
-              `
+        <div class="flex items-center gap-1 font-bold">
+          ${this.label
+            ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
+                ${this.label}
+              </span>`
+            : nothing}
+          ${this.required && !this.disabled
+            ? html`<span class="text-ddt-color-common-danger-default text-xs">
+                ${this.required}
+              </span>`
             : nothing}
         </div>
         <span
-          class=${cvaHelper({ type: helperType })}
-          aria-live=${helperType === "error" ? "polite" : "off"}
+          class=${cvaHelper({ type: helperTextVariant })}
+          aria-live=${helperTextVariant === "error" ? "polite" : "off"}
         >
           ${helperText}
         </span>
@@ -294,6 +315,18 @@ export class DaikinInputGroup extends LitElement {
           @slotchange=${this._handleSlotChange}
           @input=${this._handleInput}
         ></slot>
+        ${this.textareaMaxCount != null && this._textareaCount != null
+          ? html`<span
+              class=${cvaCounter({
+                variant: this.disabled
+                  ? "disabled"
+                  : this.textareaLimitExceeded
+                    ? "error"
+                    : "normal",
+              })}
+              >${this._textareaCount}/${this.textareaMaxCount}</span
+            >`
+          : nothing}
       </label>
     </fieldset>`;
   }
