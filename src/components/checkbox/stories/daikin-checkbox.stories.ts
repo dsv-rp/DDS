@@ -47,6 +47,7 @@ export const Default: Story = {
       await userEvent.click(innerCheckbox);
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
+      await expect(args.onClick).toHaveBeenCalledOnce();
       await expect(innerCheckbox).toBeChecked();
     });
 
@@ -55,6 +56,7 @@ export const Default: Story = {
       await userEvent.click(label);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
       await expect(args.onChange).toHaveLastReturnedWith({ checked: false });
+      await expect(args.onClick).toHaveBeenCalledTimes(2);
       await expect(innerCheckbox).not.toBeChecked();
     });
 

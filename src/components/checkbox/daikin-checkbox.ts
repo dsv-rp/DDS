@@ -161,6 +161,12 @@ export class DaikinCheckbox extends LitElement {
     if (this.disabled) {
       event.preventDefault();
     }
+
+    // Prevent click event from being emitted twice.
+    // https://stackoverflow.com/q/24501497
+    if ((event.target as HTMLElement | null)?.tagName !== "INPUT") {
+      event.stopPropagation();
+    }
   }
 
   private _handleChange(event: Event) {
@@ -172,19 +178,23 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
-    return html`<label class="group flex gap-2 items-center font-daikinSerif">
+    // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
+    // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
+    return html`<label
+      class="group flex gap-2 items-center font-daikinSerif"
+      @click=${this._handleClick}
+    >
       <span class="p-2">
         <input
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
           aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
-          .value=${this.value}
-          .indeterminate=${this.checkState === "indeterminate"}
-          .checked=${this.checked}
           ?disabled=${this.disabled}
+          .checked=${this.checked}
+          .indeterminate=${this.checkState === "indeterminate"}
+          .value=${this.value}
           @change=${this._handleChange}
-          @click=${this._handleClick}
         />
       </span>
       <span
