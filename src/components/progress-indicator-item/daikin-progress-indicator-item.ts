@@ -13,9 +13,10 @@ const cvaContainer = cva(
     "gap-1",
     "w-full",
     "text-ddt-color-common-text-primary",
-    "pt-1",
+    "pt-2",
     "border-t-[0.25rem]",
     "font-daikinSerif",
+    "leading-[130%]",
   ],
   {
     variants: {
@@ -73,24 +74,23 @@ export class DaikinProgressIndicatorItem extends LitElement {
 
   override render() {
     return html`<div
-      class=${cvaContainer({
-        status: this.status,
-      })}
+      class=${cvaContainer({ status: this.status })}
       role="listitem"
       aria-current=${ifDefined(this.current ? "step" : undefined)}
     >
-      <div class="flex items-center gap-2 font-bold leading-5">
+      <div class="flex justify-between gap-1 font-bold">
         <slot></slot>
         ${this.status === "finished"
           ? html`
               <span
-                class="size-4 i-daikin-status-success text-ddt-color-common-brand-default"
+                role="img"
+                class="flex-none size-4 i-daikin-status-positive text-ddt-color-common-brand-default"
                 aria-label="Completed"
               ></span>
             `
           : nothing}
       </div>
-      <slot name="description" class="text-sm leading-[1.1rem]"></slot>
+      <slot name="description" class="text-sm"></slot>
     </div>`;
   }
 }
