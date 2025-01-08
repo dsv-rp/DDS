@@ -19,26 +19,23 @@ const indexMap = {
 };
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["ghost", "fill"] as const, (controlButtonVariant) => {
-    describeEach(["first", "second", "last"] as const, (currentIndex) => {
-      const baseArgs = {
-        $theme: theme,
-        controlButtonVariant,
-        currentIndex: indexMap[currentIndex],
-      };
-      const baseURL = getPageURL(baseArgs);
+  describeEach(["first", "second", "last"] as const, (currentIndex) => {
+    const baseArgs = {
+      $theme: theme,
+      currentIndex: indexMap[currentIndex],
+    };
+    const baseURL = getPageURL(baseArgs);
 
-      test("base", async ({ page }) => {
-        await page.goto(baseURL);
+    test("base", async ({ page }) => {
+      await page.goto(baseURL);
 
-        // wait for element to be visible
-        const element = await page.waitForSelector("daikin-carousel", {
-          state: "visible",
-        });
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
+      // wait for element to be visible
+      const element = await page.waitForSelector("daikin-carousel", {
+        state: "visible",
       });
+
+      // take screenshot and check for diffs
+      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });

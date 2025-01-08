@@ -8,17 +8,10 @@ import "../../../storybook-tailwind.css";
 import { CAROUSEL_ITEM_STYLE, type DaikinCarouselStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinCarouselStoryArgs> = {
-  render: ({
-    duration,
-    currentIndex,
-    allowSwipe,
-    controlButtonVariant,
-    onSelect,
-  }) => html`
+  render: ({ duration, currentIndex, allowSwipe, onSelect }) => html`
     <div class="w-[640px]">
       <daikin-carousel
         current-index=${currentIndex}
-        control-button-variant=${controlButtonVariant}
         ?allow-swipe=${allowSwipe}
         @select=${onSelect}
         style=${ifDefined(

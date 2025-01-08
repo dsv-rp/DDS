@@ -18,10 +18,6 @@ export const DAIKIN_CAROUSEL_ARG_TYPES = {
   currentIndex: {
     type: "number",
   },
-  controlButtonVariant: {
-    control: { type: "radio" },
-    options: ["ghost", "fill"],
-  },
   allowSwipe: {
     type: "boolean",
   },

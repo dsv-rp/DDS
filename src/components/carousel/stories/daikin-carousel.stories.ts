@@ -14,7 +14,6 @@ export default {
 export const Default: Story = {
   args: {
     currentIndex: 0,
-    controlButtonVariant: "ghost",
     allowSwipe: false,
     onSelect: fn(),
   },

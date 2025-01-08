@@ -103,16 +103,6 @@ export class DaikinCarousel extends LitElement {
   currentIndex = 0;
 
   /**
-   * Specify the variant of the control button.
-   */
-  @property({
-    type: String,
-    reflect: true,
-    attribute: "control-button-variant",
-  })
-  controlButtonVariant: "ghost" | "fill" = "ghost";
-
-  /**
    * Whether or not to allow content to be moved by swiping.
    */
   @property({ type: Boolean, reflect: true, attribute: "allow-swipe" })
@@ -203,7 +193,7 @@ export class DaikinCarousel extends LitElement {
       <div class="flex justify-center items-center w-full gap-4">
         <daikin-icon-button
           ${ref(this._prevButton)}
-          variant=${this.controlButtonVariant}
+          variant="ghost"
           color="neutral"
           button-aria-label="Previous"
           ?disabled=${this.currentIndex <= 0}
@@ -223,7 +213,7 @@ export class DaikinCarousel extends LitElement {
         </div>
         <daikin-icon-button
           ${ref(this._nextButton)}
-          variant=${this.controlButtonVariant}
+          variant="ghost"
           color="neutral"
           button-aria-label="Next"
           ?disabled=${this.currentIndex >= this._itemCount - 1}
