@@ -36,10 +36,6 @@
       "class": "i-daikin-arrow-up",
       "color": "#414141"
     },
-    "success": {
-      "class": "i-daikin-status-success",
-      "color": "#0097E0"
-    },
     "error": {
       "class": "i-daikin-status-error",
       "color": "#FF4949"
