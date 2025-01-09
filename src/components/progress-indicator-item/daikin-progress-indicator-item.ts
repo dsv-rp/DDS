@@ -19,7 +19,7 @@ const cvaContainer = cva(
   {
     variants: {
       status: {
-        unfinished: ["border-ddt-color-common-disabled"],
+        unfinished: ["border-ddt-color-common-border-empty"],
         inprogress: ["border-ddt-color-common-brand-default"],
         finished: ["border-ddt-color-common-brand-default"],
       },
