@@ -1,7 +1,7 @@
 import type { DaikinAccordionItem } from "#package/components/accordion-item";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, userEvent } from "@storybook/test";
+import { expect, userEvent, waitFor } from "@storybook/test";
 import { getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_ACCORDION_ARG_TYPES, type Story } from "./common";
 
@@ -13,10 +13,25 @@ export default {
 };
 
 export const Default: Story = {
+  args: {
+    value: ["value2"],
+    type: "multiple",
+  },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-accordion")[0];
     await expect(root).toBeInTheDocument();
-    await expect(root).not.toHaveAttribute("open");
+
+    await step("Try to click", async () => {
+      const items = root.getElementsByTagName("daikin-accordion-item");
+
+      await userEvent.click(getByShadowText(root, "Accordion summary 1"));
+      await waitFor(() => expect(items[0]).toHaveAttribute("open"), {
+        timeout: 500,
+      });
+      await expect(items[1]).toHaveAttribute("open");
+    });
+
+    await userEvent.click(getByShadowText(root, "Accordion summary 2"));
 
     await step("Try to keyboard navigation", async () => {
       root.getElementsByTagName("daikin-accordion-item")[0].focus();
@@ -52,5 +67,38 @@ export const Default: Story = {
 
       (document.activeElement as DaikinAccordionItem).blur();
     });
+  }),
+};
+
+export const Single: Story = {
+  args: {
+    ...Default.args,
+    type: "single",
+  },
+  play: definePlay(async ({ canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-accordion")[0];
+    await expect(root).toBeInTheDocument();
+
+    await step("Try to click", async () => {
+      const items = root.getElementsByTagName("daikin-accordion-item");
+
+      await userEvent.click(getByShadowText(root, "Accordion summary 1"));
+      await waitFor(() => expect(items[0]).toHaveAttribute("open"), {
+        timeout: 500,
+      });
+      await waitFor(() => expect(items[1]).not.toHaveAttribute("open"), {
+        timeout: 500,
+      });
+
+      await userEvent.click(getByShadowText(root, "Accordion summary 2"));
+      await waitFor(() => expect(items[0]).not.toHaveAttribute("open"), {
+        timeout: 500,
+      });
+      await waitFor(() => expect(items[1]).toHaveAttribute("open"), {
+        timeout: 500,
+      });
+    });
+
+    await userEvent.click(getByShadowText(root, "Accordion summary 1"));
   }),
 };

@@ -1,6 +1,6 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
-import { expect, userEvent, waitFor } from "@storybook/test";
+import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { DAIKIN_ACCORDION_ITEM_ARG_TYPES, type Story } from "./common";
 
@@ -15,8 +15,9 @@ export const Default: Story = {
   args: {
     open: false,
     disabled: false,
+    onOpen: fn(),
   },
-  play: definePlay(async ({ canvasElement, step }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-accordion-item")[0];
     await expect(root).toBeInTheDocument();
 
@@ -33,15 +34,12 @@ export const Default: Story = {
 
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
-      await expect(innerDetails).toHaveAttribute("open");
-      await expect(getByShadowText(root, "Accordion content")).toBeVisible();
+      await expect(args.onOpen).toHaveBeenCalledTimes(1);
     });
 
     await step("Try to keyboard navigation", async () => {
       await userEvent.type(innerSummary, "[Space]");
-      await waitFor(() => expect(innerDetails).not.toHaveAttribute("open"), {
-        timeout: 500,
-      });
+      await expect(args.onOpen).toHaveBeenCalledTimes(2);
     });
   }),
 };

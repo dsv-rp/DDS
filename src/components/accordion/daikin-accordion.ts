@@ -1,5 +1,9 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, queryAssignedElements } from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-item";
 
@@ -54,6 +58,20 @@ export class DaikinAccordion extends LitElement {
     }
   `;
 
+  /**
+   * The value that accordion is selecting.
+   */
+  @property({ type: Array, attribute: false })
+  value: string[] = [];
+
+  /**
+   * Whether the accordion opens one at a time or multiple at a time.
+   * - `single`: Only one will open.
+   * - `multiple` (default): Open multiple at the same time.
+   */
+  @property({ type: String, reflect: true })
+  type: "single" | "multiple" = "multiple";
+
   @queryAssignedElements({ selector: "daikin-accordion-item" })
   private readonly _items!: readonly DaikinAccordionItem[];
 
@@ -81,10 +99,54 @@ export class DaikinAccordion extends LitElement {
     nextItem.focus();
   }
 
+  private _handleOpen(event: Event) {
+    const newValue = (event.target as DaikinAccordionItem).value;
+
+    if (this.type === "single") {
+      this.value = this.value.find((value) => value === newValue)
+        ? []
+        : [newValue];
+    } else {
+      this.value = this.value.find((value) => value === newValue)
+        ? this.value.filter((value) => value != newValue)
+        : [...this.value, newValue];
+    }
+
+    this._reflectItemOpen();
+  }
+
+  private _reflectItemOpen() {
+    if (this.type === "single" && this.value.length > 1) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'value' property: ${JSON.stringify(this.value)}. 'onlyOpen=true', but more than one value is specified.`
+        );
+      }
+    }
+
+    for (const item of this._items) {
+      item.open = this.value.includes(item.value);
+    }
+  }
+
   override render() {
     return html`<div class="w-full">
-      <slot @accordion-move-focus=${this._handleMoveFocus}></slot>
+      <slot
+        @accordion-move-focus=${this._handleMoveFocus}
+        @open=${this._handleOpen}
+        @slotchange=${this._reflectItemOpen}
+      ></slot>
     </div>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("onlyOpen")) {
+      if (this.type === "single") {
+        this.value = [];
+
+        this._reflectItemOpen();
+      }
+    }
   }
 }
 
