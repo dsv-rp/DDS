@@ -14,7 +14,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["light", "dark"] as const, (theme) => {
   test("base", async ({ page }) => {
-    const baseArgs = { $theme: theme, type: "multiple" };
+    const baseArgs = { $theme: theme, exclusive: false };
     const baseURL = getPageURL(baseArgs);
     await page.goto(baseURL);
 

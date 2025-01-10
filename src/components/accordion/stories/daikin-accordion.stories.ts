@@ -15,7 +15,7 @@ export default {
 export const Default: Story = {
   args: {
     value: ["value2"],
-    type: "multiple",
+    exclusive: false,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-accordion")[0];
@@ -73,7 +73,7 @@ export const Default: Story = {
 export const Single: Story = {
   args: {
     ...Default.args,
-    type: "single",
+    exclusive: true,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-accordion")[0];

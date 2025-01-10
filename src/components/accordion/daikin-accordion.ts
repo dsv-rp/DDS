@@ -65,12 +65,10 @@ export class DaikinAccordion extends LitElement {
   value: string[] = [];
 
   /**
-   * Whether the accordion opens one at a time or multiple at a time.
-   * - `single`: Only one will open.
-   * - `multiple` (default): Open multiple at the same time.
+   * Whether or not to limit the number of accordions that can be opened at the same time to one.
    */
-  @property({ type: String, reflect: true })
-  type: "single" | "multiple" = "multiple";
+  @property({ type: Boolean, reflect: true })
+  exclusive = false;
 
   @queryAssignedElements({ selector: "daikin-accordion-item" })
   private readonly _items!: readonly DaikinAccordionItem[];
@@ -102,7 +100,7 @@ export class DaikinAccordion extends LitElement {
   private _handleOpen(event: Event) {
     const newValue = (event.target as DaikinAccordionItem).value;
 
-    if (this.type === "single") {
+    if (this.exclusive) {
       this.value = this.value.find((value) => value === newValue)
         ? []
         : [newValue];
@@ -116,10 +114,10 @@ export class DaikinAccordion extends LitElement {
   }
 
   private _reflectItemOpen() {
-    if (this.type === "single" && this.value.length > 1) {
+    if (this.exclusive && this.value.length > 1) {
       if (import.meta.env.DEV) {
         console.warn(
-          `Invalid 'value' property: ${JSON.stringify(this.value)}. 'onlyOpen=true', but more than one value is specified.`
+          `Invalid 'value' property: ${JSON.stringify(this.value)}. Only one value can be specified when exclusive is set.`
         );
       }
     }
@@ -141,7 +139,7 @@ export class DaikinAccordion extends LitElement {
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("onlyOpen")) {
-      if (this.type === "single") {
+      if (this.exclusive) {
         this.value = [];
 
         this._reflectItemOpen();

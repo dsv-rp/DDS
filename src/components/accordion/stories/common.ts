@@ -8,9 +8,8 @@ export const DAIKIN_ACCORDION_ARG_TYPES = {
   value: {
     control: "object",
   },
-  type: {
-    control: "radio",
-    options: ["single", "multiple"],
+  exclusive: {
+    type: "boolean",
   },
 } satisfies Meta<DaikinAccordionStoryArgs>["argTypes"];
 
