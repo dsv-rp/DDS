@@ -18,7 +18,7 @@ export const Default: Story = {
     closable: true,
     timestamp: false,
     slotTitle: "Toast title",
-    slotDescription: "Toast Description",
+    slotDescription: "Toast description",
     slotAction: false,
     onClose: fn(),
   },
