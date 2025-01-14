@@ -15,7 +15,7 @@ export const Default: Story = {
   args: {
     open: false,
     disabled: false,
-    onOpen: fn(),
+    onToggle: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-accordion-item")[0];
@@ -34,12 +34,12 @@ export const Default: Story = {
 
     await step("Try to click inner summary", async () => {
       await userEvent.click(innerSummary);
-      await expect(args.onOpen).toHaveBeenCalledTimes(1);
+      await expect(args.onToggle).toHaveBeenCalledTimes(1);
     });
 
     await step("Try to keyboard navigation", async () => {
       await userEvent.type(innerSummary, "[Space]");
-      await expect(args.onOpen).toHaveBeenCalledTimes(2);
+      await expect(args.onToggle).toHaveBeenCalledTimes(2);
     });
   }),
 };

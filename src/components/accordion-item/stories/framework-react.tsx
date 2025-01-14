@@ -9,7 +9,7 @@ export const ReactDaikinAccordionItem = createComponent({
   elementClass: DaikinAccordionItem,
   react: React,
   events: {
-    onOpen: "open",
+    onToggle: "toggle",
   },
 });
 

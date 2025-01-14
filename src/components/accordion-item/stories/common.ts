@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinAccordionItemStoryArgs
   extends Required<ElementProps<DaikinAccordionItem>> {
-  onOpen: () => void;
+  onToggle: () => void;
 }
 
 export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
@@ -17,7 +17,7 @@ export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
   disabled: {
     type: "boolean",
   },
-  onOpen: {
+  onToggle: {
     name: "",
   },
 } satisfies Meta<DaikinAccordionItemStoryArgs>["argTypes"];
