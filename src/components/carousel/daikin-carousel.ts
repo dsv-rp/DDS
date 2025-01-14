@@ -38,7 +38,7 @@ const INDICATOR_CLASS_NAME = cva([
   "justify-center",
   "items-center",
   "size-3",
-  "m-1",
+  "m-0.5",
   "rounded-full",
   "transition",
   "bg-ddt-color-common-neutral-default",
