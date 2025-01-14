@@ -70,7 +70,7 @@ export const Default: Story = {
   }),
 };
 
-export const Single: Story = {
+export const Exclusive: Story = {
   args: {
     ...Default.args,
     exclusive: true,
