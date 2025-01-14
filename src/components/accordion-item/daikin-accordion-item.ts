@@ -64,7 +64,7 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * Hierarchy:
  * - `daikin-accordion` > `daikin-accordion-item`
  *
- * @fires open - Fired when summary is clicked. Used in daikin-accordion.
+ * @fires toggle - Fires when the summary is clicked. Used by `daikin-accordion`.
  *
  * @slot - A slot for the accordion item content.
  * @slot summary - A slot for the accordion item summary content.
@@ -189,7 +189,7 @@ export class DaikinAccordionItem extends LitElement {
       return;
     }
 
-    this.dispatchEvent(new Event("open", event));
+    this.dispatchEvent(new Event("toggle", event));
   }
 
   private _handleKeyDown(event: KeyboardEvent) {

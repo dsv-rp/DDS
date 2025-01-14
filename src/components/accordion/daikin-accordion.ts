@@ -59,13 +59,15 @@ export class DaikinAccordion extends LitElement {
   `;
 
   /**
-   * The value that accordion is selecting.
+   * A list of the values of the open items.
+   * If `exclusive` is true, the number of elements is 0 or 1.
    */
   @property({ type: Array, attribute: false })
   value: string[] = [];
 
   /**
-   * Whether or not to limit the number of accordions that can be opened at the same time to one.
+   * Whether or not to make the accordion exclusive.
+   * If true, the number of items that can be open at once is limited to one.
    */
   @property({ type: Boolean, reflect: true })
   exclusive = false;
@@ -97,17 +99,16 @@ export class DaikinAccordion extends LitElement {
     nextItem.focus();
   }
 
-  private _handleOpen(event: Event) {
-    const newValue = (event.target as DaikinAccordionItem).value;
+  private _handleToggle(event: Event) {
+    const targetValue = (event.target as DaikinAccordionItem).value;
+    const opened = !(event.target as DaikinAccordionItem).open;
 
     if (this.exclusive) {
-      this.value = this.value.find((value) => value === newValue)
-        ? []
-        : [newValue];
+      this.value = opened ? [targetValue] : [];
     } else {
-      this.value = this.value.find((value) => value === newValue)
-        ? this.value.filter((value) => value != newValue)
-        : [...this.value, newValue];
+      this.value = opened
+        ? [...this.value, targetValue]
+        : this.value.filter((value) => value != targetValue);
     }
 
     this._reflectItemOpen();
@@ -131,7 +132,7 @@ export class DaikinAccordion extends LitElement {
     return html`<div class="w-full">
       <slot
         @accordion-move-focus=${this._handleMoveFocus}
-        @open=${this._handleOpen}
+        @toggle=${this._handleToggle}
         @slotchange=${this._reflectItemOpen}
       ></slot>
     </div>`;
