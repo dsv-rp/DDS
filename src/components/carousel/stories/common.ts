@@ -18,9 +18,6 @@ export const DAIKIN_CAROUSEL_ARG_TYPES = {
   currentIndex: {
     type: "number",
   },
-  allowSwipe: {
-    type: "boolean",
-  },
   onSelect: {
     name: "",
   },

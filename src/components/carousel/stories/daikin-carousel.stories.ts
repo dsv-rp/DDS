@@ -14,7 +14,6 @@ export default {
 export const Default: Story = {
   args: {
     currentIndex: 0,
-    allowSwipe: false,
     onSelect: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {

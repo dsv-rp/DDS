@@ -102,12 +102,6 @@ export class DaikinCarousel extends LitElement {
   @property({ type: Number, reflect: true, attribute: "current-index" })
   currentIndex = 0;
 
-  /**
-   * Whether or not to allow content to be moved by swiping.
-   */
-  @property({ type: Boolean, reflect: true, attribute: "allow-swipe" })
-  allowSwipe: boolean = false;
-
   @queryAssignedElements({ selector: "daikin-carousel-item" })
   private readonly _items!: readonly DaikinCarouselItem[];
 
