@@ -15,6 +15,7 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-toast-notification--default", args);
 
 const base = async (page: Page, baseURL: string) => {
+  await page.clock.setFixedTime(new Date("2025-01-15T00:00:00+09:00"));
   await page.goto(baseURL);
 
   // wait for element to be visible
