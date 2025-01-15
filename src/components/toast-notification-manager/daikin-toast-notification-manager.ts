@@ -47,13 +47,13 @@ const formatName = (str: string) => str.replaceAll(" ", "_");
  *
  * @fires close - A custom event emitted when a user clicks the close button. Even if this is fired, the toast inside the slot will not be deleted from the component side, so you will need to delete it yourself.
  *
- * @slot A slot for toasts. Place `daikin-toast` elements here.
+ * @slot A slot for toasts. Place `daikin-toast-notification` elements here.
  *
  * @example
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/toast-notification-manager/index.js";
- * import "@daikin-oss/design-system-web-components/components/toast/index.js";
+ * import "@daikin-oss/design-system-web-components/components/toast-notification/index.js";
  * ```
  *
  * ```html
