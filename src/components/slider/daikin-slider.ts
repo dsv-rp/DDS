@@ -2,6 +2,7 @@ import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import { getValueAndProgressFromCoordinate } from "./slider-utils";
 
 const cvaSliderThumb = cva(
   [
@@ -151,6 +152,7 @@ export class DaikinSlider extends LitElement {
     this.progress = ((valueCalc - step) / ((max - min) / step)) * 100;
   }
 
+  // This function will triggered when click the slider bar area.
   private _handleClick(event: MouseEvent) {
     event.preventDefault();
     const sliderRef = this._slider.getBoundingClientRect();
@@ -159,10 +161,15 @@ export class DaikinSlider extends LitElement {
       0,
       Math.min(event.clientX - sliderRef.left, sliderRef.width)
     );
-    this.progress = (newLeft / (sliderRef.width / step)) * 100;
-    this._updateValue(newLeft / sliderRef.width);
+    const [value, progress] = getValueAndProgressFromCoordinate(
+      this,
+      newLeft / (sliderRef.width / step)
+    );
+    this.progress = progress;
+    this.value = value;
   }
 
+  // This function will triggered when the slider thumb button be focused and click keyboard arrow key.
   private _handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
     const min = parseFloat(this.min);
@@ -190,6 +197,7 @@ export class DaikinSlider extends LitElement {
     this.value = `${clampedValue}`;
   }
 
+  // This function will triggered when the slider thumb button start dragging.
   private _startDrag(event: MouseEvent) {
     event.preventDefault();
     const sliderRef = this._slider.getBoundingClientRect();
@@ -200,7 +208,12 @@ export class DaikinSlider extends LitElement {
         0,
         Math.min(event.clientX - sliderRef.left, sliderRef.width)
       );
-      this._updateValue(newLeft / (sliderRef.width / step));
+      const [value, progress] = getValueAndProgressFromCoordinate(
+        this,
+        newLeft / (sliderRef.width / step)
+      );
+      this.progress = progress;
+      this.value = value;
     };
 
     const stopDrag = () => {
@@ -210,25 +223,6 @@ export class DaikinSlider extends LitElement {
 
     document.addEventListener("mousemove", onDrag);
     document.addEventListener("mouseup", stopDrag);
-  }
-
-  private _updateValue(ratio: number) {
-    this.progress = ratio * 100;
-    const min = parseFloat(this.min);
-    const max = parseFloat(this.max);
-    const step = parseFloat(this.step);
-
-    const decimals = this.step.includes(".")
-      ? this.step.split(".")[1].length
-      : 0;
-
-    const rawValue = ratio * (max - min) + min;
-    const steppedValue = Math.round(rawValue / step) * step;
-    const clampedValue = Math.max(
-      min,
-      Math.min(max, parseFloat(steppedValue.toFixed(decimals)))
-    );
-    this.value = `${clampedValue}`;
   }
 
   override render() {
