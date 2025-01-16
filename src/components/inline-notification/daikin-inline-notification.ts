@@ -1,14 +1,14 @@
 import { LitElement, css, html, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { formatDate } from "../../utils/format";
-import { reDispatch } from "../../utils/re-dispatch";
 import {
   cvaContainer,
   cvaContent,
   cvaTimestamp,
-  type ToastNotificationVariantProps,
-} from "../toast-notification/daikin-toast-notification";
+  formatDate,
+} from "../../utils/notification-common";
+import { reDispatch } from "../../utils/re-dispatch";
+import type { ToastNotificationVariantProps } from "../toast-notification";
 
 /**
  * The inline-notification component is a UI element used to inform users about important updates, alerts, or messages within an application.
@@ -52,10 +52,10 @@ export class DaikinInlineNotification extends LitElement {
   status: ToastNotificationVariantProps["status"] = "positive";
 
   /**
-   * Display in single or multiple lines.
+   * Specifies how to arrange the elements.
    */
   @property({ type: String })
-  line: ToastNotificationVariantProps["line"] = "single";
+  layout: ToastNotificationVariantProps["layout"] = "horizontal";
 
   /**
    * Specify the inline-notification's open state.
@@ -83,7 +83,9 @@ export class DaikinInlineNotification extends LitElement {
     reDispatch(this, event, new Event("close", event));
   }
 
-  private _timestamp = formatDate(new Date().toLocaleDateString());
+  private _timestamp = formatDate(
+    new Date().toLocaleDateString(undefined, { dateStyle: "medium" })
+  );
 
   override render() {
     return this.open
@@ -91,13 +93,13 @@ export class DaikinInlineNotification extends LitElement {
           class=${cvaContainer({ variant: "inline", status: this.status })}
           role="status"
         >
-          <div class=${cvaContent({ line: this.line })}>
+          <div class=${cvaContent({ layout: this.layout })}>
             <slot class="font-bold whitespace-nowrap" name="title"></slot>
             <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
               <slot name="description"></slot>
             </p>
             ${this.timestamp
-              ? html`<span class=${cvaTimestamp({ line: this.line })}
+              ? html`<span class=${cvaTimestamp({ layout: this.layout })}
                   >${this._timestamp}</span
                 >`
               : nothing}

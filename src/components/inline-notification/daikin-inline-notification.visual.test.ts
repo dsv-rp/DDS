@@ -28,14 +28,14 @@ const base = async (page: Page, baseURL: string) => {
 };
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["single", "multiple"] as const, (line) => {
+  describeEach(["horizontal", "vertical"] as const, (layout) => {
     describeEach(["not-closable", "closable"] as const, (closable) => {
       describeEach(["none", "timestamp"] as const, (timestamp) => {
         describeEach(["none", "action"] as const, (action) => {
           const baseArgs = {
             $theme: theme,
             status: "positive",
-            line,
+            layout,
             closable: closable === "closable",
             timestamp: timestamp === "timestamp",
             slotAction: action === "action",
@@ -58,7 +58,7 @@ describeEach(["light", "dark"] as const, (theme) => {
       const baseArgs = {
         $theme: theme,
         status,
-        line: "single",
+        layout: "horizontal",
         closable: true,
         timestamp: false,
         slotAction: false,

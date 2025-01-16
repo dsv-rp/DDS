@@ -8,7 +8,7 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
   render: ({
     name,
     status,
-    line,
+    layout,
     closable,
     timestamp,
     slotTitle,
@@ -19,7 +19,7 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
     <daikin-toast-notification
       name=${name}
       status=${status}
-      line=${line}
+      layout=${layout}
       ?closable=${closable}
       ?timestamp=${timestamp}
       @close=${onClose}

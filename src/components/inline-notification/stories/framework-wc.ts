@@ -8,7 +8,7 @@ export const metadata: Meta<DaikinInlineNotificationStoryArgs> = {
   render: ({
     open,
     status,
-    line,
+    layout,
     closable,
     timestamp,
     slotTitle,
@@ -17,7 +17,7 @@ export const metadata: Meta<DaikinInlineNotificationStoryArgs> = {
     onClose,
   }) => html`
     <daikin-inline-notification
-      line=${line}
+      layout=${layout}
       status=${status}
       ?open=${open}
       ?closable=${closable}

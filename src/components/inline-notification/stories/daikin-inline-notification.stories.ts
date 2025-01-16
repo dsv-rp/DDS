@@ -12,7 +12,7 @@ export default {
 export const Default: Story = {
   args: {
     status: "positive",
-    line: "single",
+    layout: "horizontal",
     open: true,
     closable: true,
     timestamp: false,

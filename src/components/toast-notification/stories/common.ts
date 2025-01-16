@@ -18,9 +18,9 @@ export const DAIKIN_TOAST_NOTIFICATION_ARG_TYPES = {
     control: "radio",
     options: ["positive", "negative", "warning", "alarm", "information"],
   },
-  line: {
+  layout: {
     control: "radio",
-    options: ["single", "multiple"],
+    options: ["horizontal", "vertical"],
   },
   closable: {
     type: "boolean",

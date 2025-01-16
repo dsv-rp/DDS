@@ -15,9 +15,9 @@ export const DAIKIN_INLINE_NOTIFICATION_ARG_TYPES = {
     control: "radio",
     options: ["positive", "negative", "warning", "alarm", "information"],
   },
-  line: {
+  layout: {
     control: "radio",
-    options: ["single", "multiple"],
+    options: ["horizontal", "vertical"],
   },
   open: {
     type: "boolean",

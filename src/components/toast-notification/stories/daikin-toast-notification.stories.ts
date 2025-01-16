@@ -14,7 +14,7 @@ export default {
 export const Default: Story = {
   args: {
     status: "positive",
-    line: "single",
+    layout: "horizontal",
     closable: true,
     timestamp: false,
     slotTitle: "Toast title",
