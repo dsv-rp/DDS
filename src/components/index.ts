@@ -22,6 +22,7 @@ export * from "./progress-indicator";
 export * from "./progress-indicator-item";
 export * from "./radio";
 export * from "./select";
+export * from "./slider";
 export * from "./tab";
 export * from "./tab-panels";
 export * from "./table";

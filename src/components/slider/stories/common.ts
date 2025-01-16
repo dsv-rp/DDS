@@ -5,6 +5,7 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 export interface DaikinSliderStoryArgs
   extends Required<ElementProps<DaikinSlider>> {
   onChange: (event: Event) => void;
+  onInput: (event: Event) => void;
 }
 
 export const DAIKIN_SLIDER_ARG_TYPES = {
@@ -28,6 +29,7 @@ export const DAIKIN_SLIDER_ARG_TYPES = {
   },
   // Hide event listeners
   onChange: { name: "" },
+  onInput: { name: "" },
 } as const satisfies Meta<DaikinSliderStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinSliderStoryArgs>;

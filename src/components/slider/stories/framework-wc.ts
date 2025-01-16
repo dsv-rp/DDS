@@ -1,25 +1,19 @@
-import "#package/components/checkbox/daikin-checkbox";
+import "#package/components/slider/daikin-slider";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import type { DaikinCheckboxStoryArgs } from "./common";
+import type { DaikinSliderStoryArgs } from "./common";
 
-export const metadata: Meta<DaikinCheckboxStoryArgs> = {
-  render: ({
-    disabled,
-    checkState,
-    label,
-    labelPosition,
-    onChange,
-    onClick,
-  }) => html`
-    <daikin-checkbox
+export const metadata: Meta<DaikinSliderStoryArgs> = {
+  render: ({ disabled, min, max, value, step, onChange, onInput }) => html`
+    <daikin-slider
       ?disabled=${disabled}
-      check-state=${checkState}
-      label=${label}
-      label-position=${labelPosition}
+      min=${min}
+      max=${max}
+      value=${value}
+      step=${step}
       @change=${onChange}
-      @click=${onClick}
+      @input=${onInput}
     >
-    </daikin-checkbox>
+    </daikin-slider>
   `,
 };

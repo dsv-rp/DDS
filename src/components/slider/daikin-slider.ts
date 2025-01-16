@@ -54,20 +54,21 @@ const cvaSliderTrack = cva(
 );
 
 /**
- * The checkbox component is a UI element that allows users to select one or more options from a list of choices.
- * It functions similarly to the HTML `<input type="checkbox">` tag, enabling users to toggle the selection of each option independently.
- * This component is ideal for cases where multiple selections are allowed or required.
+ * The slider component is a UI element that reflect a range of values along a bar.
+ * It functions similarly to the HTML `<input type="range">` tag, enabling users to specify a numeric value which must be no less than a given min value, and no more than max value.
+ * This component is ideal for cases where user want specify a value and the precise is not considered important.
  *
- * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="checkbox">` element.
+ * @fires change - A retargeted event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="range">` element.
+ * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
  *
  * @example
  *
  * ```js
- * import "@daikin-oss/design-system-web-components/components/checkbox/index.js";
+ * import "@daikin-oss/design-system-web-components/components/slider/index.js";
  * ```
  *
  * ```html
- * <daikin-checkbox label="Checkbox label" name="name" value="value"></daikin-checkbox>
+ * <daikin-slider name="name" value="1" min="1" max="100" step="1"></daikin-slider>
  * ```
  */
 @customElement("daikin-slider")
@@ -82,31 +83,31 @@ export class DaikinSlider extends LitElement {
   `;
 
   /**
-   * The form name, submitted as a name/value pair when submitting the form.
+   * The lowest value in the range of permitted values.
    */
   @property({ type: String, reflect: true })
   min = "1";
 
   /**
-   * The form value, submitted as a name/value pair when submitting the form.
+   * The greatest value in the range of permitted values.
    */
   @property({ type: String, reflect: true })
   max = "100";
 
   /**
-   * The form value, submitted as a name/value pair when submitting the form.
+   * The step attribute is a number that specifies the granularity that the value must adhere to.
    */
   @property({ type: String, reflect: true })
   step = "1";
 
   /**
-   * Value for the slider.
+   * The form name, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   name = "";
 
   /**
-   * Value for the slider.
+   * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
   value = "1";
@@ -127,6 +128,16 @@ export class DaikinSlider extends LitElement {
 
   // define _internals to let the slider can be used in a form
   private _internals = this.attachInternals();
+
+  private _handleChange(event: Event) {
+    this._updateFormValue();
+    this.dispatchEvent(new Event("change", event));
+  }
+
+  private _handleInput(event: Event) {
+    this._updateFormValue();
+    this.dispatchEvent(new Event("input", event));
+  }
 
   private _updateFormValue() {
     this._internals.setFormValue(!this.disabled ? this.value : null);
@@ -256,6 +267,8 @@ export class DaikinSlider extends LitElement {
           .step=${this.step}
           ?disabled=${this.disabled}
           .value=${this.value}
+          @change=${this._handleChange}
+          @input=${this._handleInput}
         />
       </div>
     `;

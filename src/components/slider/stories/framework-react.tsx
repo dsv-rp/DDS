@@ -10,6 +10,7 @@ export const ReactDaikinSlider = createComponent({
   elementClass: DaikinSlider,
   events: {
     onChange: "change",
+    onInput: "input",
   },
 });
 
