@@ -6,15 +6,15 @@ import { repeat } from "lit/directives/repeat.js";
 import type { DaikinAccordionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionStoryArgs> = {
-  render: ({ value, exclusive }) => html`
+  render: ({ active, exclusive }) => html`
     <div style="width:360px;">
-      <daikin-accordion .value=${value} ?exclusive=${exclusive}>
+      <daikin-accordion .active=${active} ?exclusive=${exclusive}>
         ${repeat(
           [...Array(5).keys()],
           (index) => index,
           (index) =>
             html`<daikin-accordion-item
-              value=${`value${index + 1}`}
+              name=${`value${index + 1}`}
               ?disabled=${[2, 3].includes(index)}
             >
               <span slot="summary">${`Accordion summary ${index + 1}`}</span>

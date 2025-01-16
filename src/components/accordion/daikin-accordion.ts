@@ -63,7 +63,7 @@ export class DaikinAccordion extends LitElement {
    * If `exclusive` is true, the number of elements is 0 or 1.
    */
   @property({ type: Array, attribute: false })
-  value: string[] = [];
+  active: string[] = [];
 
   /**
    * Whether or not to make the accordion exclusive.
@@ -100,31 +100,31 @@ export class DaikinAccordion extends LitElement {
   }
 
   private _handleToggle(event: Event) {
-    const targetValue = (event.target as DaikinAccordionItem).value;
+    const targetValue = (event.target as DaikinAccordionItem).name;
     const opened = !(event.target as DaikinAccordionItem).open;
 
     if (this.exclusive) {
-      this.value = opened ? [targetValue] : [];
+      this.active = opened ? [targetValue] : [];
     } else {
-      this.value = opened
-        ? [...this.value, targetValue]
-        : this.value.filter((value) => value != targetValue);
+      this.active = opened
+        ? [...this.active, targetValue]
+        : this.active.filter((active) => active != targetValue);
     }
 
     this._reflectItemOpen();
   }
 
   private _reflectItemOpen() {
-    if (this.exclusive && this.value.length > 1) {
+    if (this.exclusive && this.active.length > 1) {
       if (import.meta.env.DEV) {
         console.warn(
-          `Invalid 'value' property: ${JSON.stringify(this.value)}. Only one value can be specified when exclusive is set.`
+          `Invalid 'active' property: ${JSON.stringify(this.active)}. Only one active can be specified when exclusive is set.`
         );
       }
     }
 
     for (const item of this._items) {
-      item.open = this.value.includes(item.value);
+      item.open = this.active.includes(item.name);
     }
   }
 
@@ -141,7 +141,7 @@ export class DaikinAccordion extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("onlyOpen")) {
       if (this.exclusive) {
-        this.value = [];
+        this.active = [];
 
         this._reflectItemOpen();
       }

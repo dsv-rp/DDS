@@ -125,7 +125,7 @@ export class DaikinAccordionItem extends LitElement {
    * Value of the accordion item.
    */
   @property({ type: String, reflect: true })
-  value = "";
+  name = "";
 
   /**
    * Whether the accordion item is open.

@@ -21,7 +21,7 @@ export const metadata: Meta<DaikinAccordionStoryArgs> = {
       <ReactDaikinAccordion {...props}>
         {[...Array(5).keys()].map((index) => (
           <ReactDaikinAccordionItem
-            value={`value${index + 1}`}
+            name={`value${index + 1}`}
             disabled={[2, 3].includes(index)}
           >
             <span slot="summary">{`Accordion summary ${index + 1}`}</span>

@@ -8,7 +8,7 @@ export interface DaikinAccordionItemStoryArgs
 }
 
 export const DAIKIN_ACCORDION_ITEM_ARG_TYPES = {
-  value: {
+  name: {
     type: "string",
   },
   open: {
