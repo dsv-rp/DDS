@@ -1,5 +1,20 @@
 # @daikin-oss/design-system-web-components
 
+## 0.8.0
+
+### Minor Changes
+
+- [#109](https://github.com/dsv-rp/DDS/pull/109) [`f08378f`](https://github.com/dsv-rp/DDS/commit/f08378f746e93529d10ce40f9075e4e783b7e7dc) Thanks [@poetrainy](https://github.com/poetrainy)! - Carousel: Initial Implementation. (DDS-1296)
+
+### Patch Changes
+
+- [#118](https://github.com/dsv-rp/DDS/pull/118) [`b3c90a8`](https://github.com/dsv-rp/DDS/commit/b3c90a8f69b1144e9631c258b7b96bc792e8b7f2) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Bar: Updated appearance.
+
+- [#113](https://github.com/dsv-rp/DDS/pull/113) [`d379004`](https://github.com/dsv-rp/DDS/commit/d3790049271f9a7c120991335428a48f229bab65) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Checkbox: Fixed an issue where clicking the label triggers click event twice. (DDS-1679)
+  Radio Button: Fixed an issue where clicking the label triggers click event twice. (DDS-1679)
+
+- [#115](https://github.com/dsv-rp/DDS/pull/115) [`91b8fe9`](https://github.com/dsv-rp/DDS/commit/91b8fe94b3262bd6197428e66192d7b9555b1d09) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Indicator: Updated appearance.
+
 ## 0.7.0
 
 ### Minor Changes
