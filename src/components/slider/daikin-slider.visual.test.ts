@@ -5,102 +5,107 @@ import {
   type InferStorybookArgTypes,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_CHECKBOX_ARG_TYPES } from "./stories/common";
+import type { DAIKIN_SLIDER_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_CHECKBOX_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_SLIDER_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-checkbox--default", args);
+  getStorybookIframeURL("components-slider--default", args);
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["right", "hidden"] as const, (labelPosition) => {
-    describeEach(
-      ["unchecked", "indeterminate", "checked"] as const,
-      (checkState) => {
-        const baseArgs = {
-          $theme: theme,
-          checkState,
-          labelPosition,
-        };
+  const baseArgs = {
+    $theme: theme,
+    min: "1",
+    max: "10",
+    step: "1",
+    value: "5",
+  };
 
-        const baseURL = getPageURL(baseArgs);
+  const baseURL = getPageURL(baseArgs);
 
-        test("base", async ({ page }) => {
-          await page.goto(baseURL);
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
-            state: "visible",
-          });
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-slider", {
+      state: "visible",
+    });
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
-        });
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
 
-        test("hover", async ({ page }) => {
-          await page.goto(baseURL);
+  test("hover", async ({ page }) => {
+    await page.goto(baseURL);
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
-            state: "visible",
-          });
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-slider", {
+      state: "visible",
+    });
 
-          // hover cursor on the element
-          await element.hover();
+    const sliderThumb = await page.waitForSelector("span[tabindex='0']", {
+      state: "visible",
+    });
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
-        });
+    // hover cursor on the element
+    await sliderThumb.hover();
 
-        test("press", async ({ page }) => {
-          await page.goto(baseURL);
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
-            state: "visible",
-          });
+  test("press", async ({ page }) => {
+    await page.goto(baseURL);
 
-          // hover cursor on the element and hold down mouse button on the element
-          await element.hover();
-          await page.mouse.down();
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-slider", {
+      state: "visible",
+    });
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
-          await page.mouse.up();
-        });
+    const sliderThumb = await page.waitForSelector("span[tabindex='0']", {
+      state: "visible",
+    });
 
-        test("focus", async ({ page }) => {
-          await page.goto(baseURL);
+    // hover cursor on the element and hold down mouse button on the element
+    await sliderThumb.hover();
+    await page.mouse.down();
 
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
-            state: "visible",
-          });
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+    await page.mouse.up();
+  });
 
-          await page.evaluate((container) => {
-            const checkbox = container.shadowRoot?.querySelector("input");
-            if (!checkbox) {
-              return;
-            }
-            checkbox.focus();
-          }, element);
+  test("focus", async ({ page }) => {
+    await page.goto(baseURL);
 
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
-        });
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-slider", {
+      state: "visible",
+    });
 
-        test("disabled", async ({ page }) => {
-          await page.goto(getPageURL({ ...baseArgs, disabled: true }));
-
-          // wait for element to be visible
-          const element = await page.waitForSelector("daikin-checkbox", {
-            state: "visible",
-          });
-
-          // take screenshot and check for diffs
-          await expect(page).toHaveScreenshot(await clipFor(element));
-        });
+    await page.evaluate((container) => {
+      const slider = container.shadowRoot?.querySelector(
+        "span[tabindex='0']"
+      ) as HTMLElement | undefined;
+      if (!slider) {
+        return;
       }
-    );
+      slider.focus();
+    }, element);
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
+  test("disabled", async ({ page }) => {
+    await page.goto(getPageURL({ ...baseArgs, disabled: true }));
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-slider", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });
