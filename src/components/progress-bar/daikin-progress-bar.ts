@@ -7,7 +7,7 @@ import type { MergeVariantProps } from "../../type-utils";
 const cvaBar = cva(
   [
     "w-full",
-    "bg-ddt-color-common-disabled",
+    "bg-ddt-color-common-border-empty",
     "overflow-hidden",
     "relative",
     "after:block",
@@ -44,7 +44,7 @@ const cvaBarContainer = cva(
     "justify-between",
     "items-center",
     "text-ddt-color-common-text-primary",
-    "leading-5",
+    "leading-[130%]",
     "font-bold",
   ],
   {
@@ -67,7 +67,7 @@ const cvaBarContainer = cva(
   }
 );
 
-const cvaHelper = cva(["text-sm"], {
+const cvaHelper = cva(["text-sm", "leading-[130%]"], {
   variants: {
     variant: {
       inprogress: ["text-ddt-color-common-text-primary"],
