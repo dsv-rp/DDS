@@ -16,13 +16,15 @@ const cvaPageButton = cva(
     "justify-center",
     "min-w-12",
     "min-h-12",
+    "p-1",
     "font-daikinSerif",
     "text-base",
     "not-italic",
     "leading-6",
+    "bg-clip-content",
     "focus-visible:outline",
     "focus-visible:outline-2",
-    "focus-visible:outline-offset-1",
+    "focus-visible:outline-offset-[-2px]",
     "focus-visible:outline-ddt-color-common-border-focus",
   ],
   {
@@ -40,7 +42,7 @@ const cvaPageButton = cva(
           "after:content-['']",
           "after:h-1",
           "after:absolute",
-          "after:inset-0",
+          "after:inset-1",
           "after:top-auto",
         ],
         false: [
@@ -94,7 +96,7 @@ const cvaChevronButton = cva([
   "disabled:!text-ddt-color-common-disabled",
   "focus-visible:outline",
   "focus-visible:outline-2",
-  "focus-visible:outline-offset-1",
+  "focus-visible:outline-offset-[-2px]",
   "focus-visible:outline-ddt-color-common-border-focus",
 ]);
 
@@ -165,7 +167,7 @@ export class DaikinPagination extends LitElement {
       this.window
     );
     return html`
-      <div aria-label="Pagination" class="inline-flex gap-1">
+      <div aria-label="Pagination" class="inline-flex">
         <button
           class=${cvaChevron}
           type="button"
