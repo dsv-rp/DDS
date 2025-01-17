@@ -238,6 +238,11 @@ export class DaikinSlider extends LitElement {
           ?disabled=${this.disabled}
           tabindex="0"
           style="left: ${this.progress}%"
+          role="slider"
+          aria-valuenow=${this.value}
+          aria-valuemin=${this.min}
+          aria-valuemax=${this.max}
+          aria-label="slider"
           @mousedown=${this._startDrag}
           @keydown=${this._handleKeyDown}
         >
