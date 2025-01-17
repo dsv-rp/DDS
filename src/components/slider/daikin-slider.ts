@@ -2,7 +2,10 @@ import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
 import { customElement, property, query, state } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import { getValueAndProgressFromCoordinate } from "./slider-utils";
+import {
+  getValueAndProgressFromCoordinate,
+  getValueAndProgressFromKeyboard,
+} from "./slider-utils";
 
 const cvaSliderThumb = cva(
   [
@@ -148,22 +151,15 @@ export class DaikinSlider extends LitElement {
     const valueCalc = parseFloat(this.value);
     const min = parseFloat(this.min);
     const max = parseFloat(this.max);
-    const step = parseFloat(this.step);
-    this.progress = ((valueCalc - step) / ((max - min) / step)) * 100;
+    this.progress = ((valueCalc - min) / (max - min)) * 100;
   }
 
   // This function will triggered when click the slider bar area.
   private _handleClick(event: MouseEvent) {
     event.preventDefault();
-    const sliderRef = this._slider.getBoundingClientRect();
-    const step = parseFloat(this.step);
-    const newLeft = Math.max(
-      0,
-      Math.min(event.clientX - sliderRef.left, sliderRef.width)
-    );
     const [value, progress] = getValueAndProgressFromCoordinate(
       this,
-      newLeft / (sliderRef.width / step)
+      this.getThumbFraction(event)
     );
     this.progress = progress;
     this.value = value;
@@ -172,10 +168,7 @@ export class DaikinSlider extends LitElement {
   // This function will triggered when the slider thumb button be focused and click keyboard arrow key.
   private _handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
-    const min = parseFloat(this.min);
-    const max = parseFloat(this.max);
     const step = parseFloat(this.step);
-    const value = parseFloat(this.value);
     const moveOffset = {
       ArrowRight: step,
       ArrowDown: -step,
@@ -185,32 +178,29 @@ export class DaikinSlider extends LitElement {
     if (!moveOffset) {
       return;
     }
+    const [value, progress] = getValueAndProgressFromKeyboard(this, moveOffset);
+    this.progress = progress;
+    this.value = value;
+  }
 
-    const decimals = this.step.includes(".")
-      ? this.step.split(".")[1].length
-      : 0;
-    const clampedValue = Math.max(
-      min,
-      Math.min(max, parseFloat((value + moveOffset).toFixed(decimals)))
+  // Get the position of the current thumb icon as a fraction of the entire slider bar.
+  private getThumbFraction(event: MouseEvent) {
+    const sliderRef = this._slider.getBoundingClientRect();
+    const newLeft = Math.max(
+      0,
+      Math.min(event.clientX - sliderRef.left, sliderRef.width)
     );
-    this.progress = ((clampedValue - step) / (max + min)) * 100;
-    this.value = `${clampedValue}`;
+    return newLeft / sliderRef.width;
   }
 
   // This function will triggered when the slider thumb button start dragging.
   private _startDrag(event: MouseEvent) {
     event.preventDefault();
-    const sliderRef = this._slider.getBoundingClientRect();
-    const step = parseFloat(this.step);
 
     const onDrag = (event: MouseEvent) => {
-      const newLeft = Math.max(
-        0,
-        Math.min(event.clientX - sliderRef.left, sliderRef.width)
-      );
       const [value, progress] = getValueAndProgressFromCoordinate(
         this,
-        newLeft / (sliderRef.width / step)
+        this.getThumbFraction(event)
       );
       this.progress = progress;
       this.value = value;
