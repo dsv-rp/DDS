@@ -7,7 +7,6 @@ import {
   cvaTimestamp,
   formatDate,
 } from "../../utils/notification-common";
-import { reDispatch } from "../../utils/re-dispatch";
 import type { ToastNotificationVariantProps } from "../toast-notification";
 
 /**
@@ -78,9 +77,9 @@ export class DaikinInlineNotification extends LitElement {
   /**
    * Call the event registered in "close".
    */
-  private _handleClickClose(event: Event) {
+  private _handleClickClose() {
     this.open = false;
-    reDispatch(this, event, new Event("close", event));
+    this.dispatchEvent(new Event("close"));
   }
 
   private _timestamp = formatDate(

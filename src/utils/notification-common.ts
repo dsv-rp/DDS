@@ -10,6 +10,8 @@ export const formatDate = (str: string) =>
     .map((number: string) => (number.length === 1 ? `0${number}` : number))
     .join("/");
 
+export const formatName = (str: string) => str.replace(/[^A-Za-z0-9_-]/g, "_");
+
 export const cvaContainer = cva(
   [
     "flex",

@@ -9,6 +9,7 @@ import {
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import { formatName } from "../../utils/notification-common";
 import type { DaikinToastNotification } from "../toast-notification/daikin-toast-notification";
 
 const CONTAINER_TRANSITION_DURATION = "--container-transition-duration";
@@ -39,8 +40,6 @@ const cvaContainer = cva(
 export type ToastPositionType = MergeVariantProps<
   typeof cvaContainer
 >["position"];
-
-const formatName = (str: string) => str.replaceAll(" ", "_");
 
 /**
  * The toast manager component manages the display of toasts. It supports display position, stacking, display/delete animations, etc.

@@ -7,8 +7,8 @@ import {
   cvaContent,
   cvaTimestamp,
   formatDate,
+  formatName,
 } from "../../utils/notification-common";
-import { reDispatch } from "../../utils/re-dispatch";
 import "../icon-button/daikin-icon-button";
 
 export type ToastNotificationVariantProps = MergeVariantProps<
@@ -85,7 +85,7 @@ export class DaikinToastNotification extends LitElement {
    * Call the event registered in "close".
    */
   private _handleClickClose(event: Event) {
-    reDispatch(this, event, new Event("close", event));
+    this.dispatchEvent(new Event("close", event));
   }
 
   private _timestamp = formatDate(
@@ -93,7 +93,7 @@ export class DaikinToastNotification extends LitElement {
   );
 
   override render() {
-    const formattedName = this.name.replaceAll(" ", "_");
+    const formattedName = formatName(this.name);
 
     return html`<aside
       class=${cvaContainer({ variant: "toast", status: this.status })}
