@@ -9,8 +9,8 @@ import type { DAIKIN_DROPDOWN_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ARG_TYPES>;
 
-const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-dropdown--default", args);
+const getPageURL = (args: StoryArgs = {}, story: string = "default") =>
+  getStorybookIframeURL(`components-dropdown--${story}`, args);
 
 const base = async (page: Page, baseURL: string) => {
   await page.goto(baseURL);
@@ -34,7 +34,6 @@ describeEach(["light", "dark"] as const, (theme) => {
         $theme: theme,
         open: state === "open",
         error: error === "error",
-        value: "value1",
       };
 
       const baseURL = getPageURL(baseArgs);
@@ -113,17 +112,48 @@ describeEach(["light", "dark"] as const, (theme) => {
       });
 
       test("unselected", async ({ page }) => {
-        await base(page, getPageURL({ ...baseArgs, value: undefined }));
+        await base(page, getPageURL(baseArgs, "error"));
       });
     });
   });
 });
 
-describeEach(["default", "many"] as const, (option) => {
-  const baseURL = getPageURL({
-    open: true,
-    option,
+describeEach(["multiple"] as const, () => {
+  describeEach(["light", "dark"] as const, (theme) => {
+    describeEach(["open", "close"] as const, (state) => {
+      describeEach(["none", "single", "many"] as const, (value) => {
+        const baseArgs = {
+          $theme: theme,
+          open: state === "open",
+          __vrtMultipleValue__: value,
+        };
+
+        const baseURL = getPageURL(baseArgs, "multiple");
+
+        test("base", async ({ page }) => {
+          await base(page, baseURL);
+        });
+
+        test("disabled", async ({ page }) => {
+          await base(
+            page,
+            getPageURL({ ...baseArgs, disabled: true }, "multiple")
+          );
+        });
+      });
+    });
   });
+});
+
+describeEach(["single", "many"] as const, (option) => {
+  const baseURL = getPageURL(
+    {
+      open: true,
+      error: false,
+      option,
+    },
+    "error"
+  );
 
   test("base", async ({ page }) => {
     await base(page, baseURL);

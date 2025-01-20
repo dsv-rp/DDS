@@ -17,6 +17,9 @@ export const DAIKIN_DROPDOWN_ITEM_ARG_TYPES = {
   selected: {
     type: "boolean",
   },
+  selectable: {
+    type: "boolean",
+  },
 } satisfies Meta<DaikinDropdownItemStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinDropdownItemStoryArgs>;

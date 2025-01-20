@@ -14,6 +14,7 @@ import {
   state,
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { createRef, ref } from "lit/directives/ref.js";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -144,8 +145,7 @@ export class DaikinDropdown extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Form value of the dropdown.
-   * `null` if not selected.
+   * Form value of the multiple.
    */
   @property({ type: String, reflect: true })
   value: string | null = null;
@@ -180,6 +180,22 @@ export class DaikinDropdown extends LitElement {
   @property({ type: Boolean, reflect: true })
   open = false;
 
+  /**
+   * Whether the dropdown menu is supports multiple selections.
+   */
+  @property({ type: Boolean, reflect: true })
+  multiple = false;
+
+  @property({ type: Array, attribute: false })
+  selectedOptions: string[] = [];
+
+  /**
+   * When multiple selections, the maximum number of values to display without omission.
+   * If `null`, it is not omitted.
+   */
+  @property({ type: Number, reflect: true, attribute: "max-view-label" })
+  maxViewLabel: number | null = null;
+
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private readonly _items!: readonly DaikinDropdownItem[];
 
@@ -193,11 +209,13 @@ export class DaikinDropdown extends LitElement {
   @state()
   private _label: string | null = null;
 
-  @state()
-  private _hasSelectedItem = false;
+  private get _selectionLabels(): string[] {
+    const items = this._items;
 
-  @state()
-  private _selectedItemLabel = "";
+    return this.selectedOptions.map(
+      (value) => items.find((item) => item.value === value)?.textContent ?? ""
+    );
+  }
 
   private _autoUpdateController = new FloatingUIAutoUpdateController(this);
 
@@ -212,32 +230,10 @@ export class DaikinDropdown extends LitElement {
    */
   private _lastFocusedItem: DaikinDropdownItem | null = null;
 
-  private _updateFormValue() {
-    this._internals.setFormValue(this.value);
-  }
+  private _dropdownRef = createRef<HTMLDivElement>();
 
   private _onClickOutside(): void {
     this.open = false;
-  }
-
-  private _reflectItemsAndLabel(): void {
-    const items = this._items;
-
-    const selectedItem = items.find((item) => item.value === this.value);
-    for (const item of items) {
-      item.selected = item === selectedItem;
-    }
-
-    this._hasSelectedItem = !!selectedItem;
-    this._selectedItemLabel = selectedItem?.textContent ?? "";
-  }
-
-  private _handleClick(): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.open = !this.open;
   }
 
   private _searchItem(prefix: string): void {
@@ -267,16 +263,6 @@ export class DaikinDropdown extends LitElement {
       // Change the item that is focused after the dropdown opens, then open the dropdown.
       this._lastFocusedItem = nextItem;
       this.open = true;
-    }
-  }
-
-  private _handleKeyDownEscape() {
-    if (this.open) {
-      // Close
-      this.open = false;
-    } else {
-      // Clear selection
-      this.value = null;
     }
   }
 
@@ -318,6 +304,40 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
+  private _updateFormValue() {
+    this._internals.setFormValue(JSON.stringify(this.value));
+  }
+
+  private _updateItemsSelectable(): void {
+    for (const item of this._items) {
+      item.selectable = this.multiple;
+    }
+  }
+
+  private _updateSelectedOptionsValue(value: string | null) {
+    if (!value) {
+      // Clear option.
+      const removeOption = this.selectedOptions.pop();
+      this.selectedOptions = this.selectedOptions.filter(
+        (option) => option != removeOption
+      );
+
+      return;
+    }
+
+    this.selectedOptions = this.selectedOptions.includes(value)
+      ? this.selectedOptions.filter((option) => option != value)
+      : [...this.selectedOptions, value];
+  }
+
+  private _handleClick(): void {
+    if (this.disabled) {
+      return;
+    }
+
+    this.open = !this.open;
+  }
+
   private _handleKeyDown(event: KeyboardEvent): void {
     const printableCharacter = event.key.trim().length === 1 ? event.key : null;
     if (printableCharacter) {
@@ -348,22 +368,17 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
-  /**
-   * Handle `select` event from `daikin-dropdown-item`.
-   */
-  private _handleSelect(event: Event): void {
-    const target = event.target as DaikinDropdownItem | null;
-    if (!target || !this._items.includes(target)) {
-      return;
+  private _handleKeyDownEscape() {
+    if (this.open) {
+      // Close
+      this.open = false;
+    } else if (!this.value) {
+      // Clear selection
+      this._updateSelectedOptionsValue(null);
+    } else {
+      // Clear selection
+      this.value = null;
     }
-
-    this._hasSelectedItem = true;
-    this._selectedItemLabel = target.textContent ?? "";
-
-    this.value = target.value;
-    this.open = false;
-
-    this.dispatchEvent(new Event("change"));
   }
 
   /**
@@ -393,14 +408,40 @@ export class DaikinDropdown extends LitElement {
     item?.focus();
   }
 
+  /**
+   * Handle `select` event from `daikin-dropdown-item`.
+   */
+  private _handleSelect(event: Event): void {
+    const target = event.target as DaikinDropdownItem;
+
+    // If `target.value` is the same as `this.value` in multiple selection,
+    // it cannot be detected by the changedProperties of the update method, so `selectedOptions` is updated here as an exception.
+    if (this.multiple && this.value === target.value) {
+      this._updateSelectedOptionsValue(target.value);
+    }
+
+    this.value = target.value;
+
+    if (!this.multiple) {
+      this.open = false;
+    }
+
+    this.dispatchEvent(new Event("change"));
+  }
+
+  private _handleSlotChange() {
+    this._updateItemsSelectable();
+  }
+
   override render() {
     return html`<div class="w-full relative" @keydown=${this._handleKeyDown}>
       <button
+        ${ref(this._dropdownRef)}
         type="button"
         class=${cvaButton({
           open: this.open,
           error: this.error,
-          placeholder: !this._hasSelectedItem,
+          placeholder: !this.selectedOptions.length,
         })}
         ?disabled=${this.disabled}
         role="combobox"
@@ -413,18 +454,24 @@ export class DaikinDropdown extends LitElement {
         @click=${this._handleClick}
         ${this._autoUpdateController.refReference()}
       >
-        ${this._hasSelectedItem ? this._selectedItemLabel : this.placeholder}
+        ${this.selectedOptions.length
+          ? this.multiple &&
+            this.selectedOptions.length > (this.maxViewLabel ?? 0)
+            ? `${this.selectedOptions.length} items selected`
+            : this._selectionLabels.join(", ")
+          : this.placeholder}
       </button>
       <div
         id="dropdown-items"
         popover
-        class="floating-unready:hidden absolute left-[--floating-x,0] top-[--floating-y,0] min-w-[--floating-width] max-h-[12.5rem] overflow-y-auto opacity-1 transition-[opacity] rounded shadow-dropdown"
+        class="floating-unready:hidden absolute left-[--floating-x,0] top-[--floating-y,0] min-w-[--floating-width] max-h-[12.5rem] border border-ddt-color-divider overflow-y-auto opacity-1 transition-[opacity] rounded"
         aria-label=${ifDefined(this._label ?? undefined)}
         role="listbox"
         @floating-ready=${this._handleFloatingReady}
         ${this._autoUpdateController.refFloating()}
       >
         <slot
+          @slotchange=${this._handleSlotChange}
           @select=${this._handleSelect}
           @focusin=${this._handleFocusIn}
         ></slot>
@@ -448,10 +495,21 @@ export class DaikinDropdown extends LitElement {
     this._button?.focus(options);
   }
 
+  protected override firstUpdated(): void {
+    if (
+      !!this.selectedOptions.length &&
+      (!this.value || !this.selectedOptions.includes(this.value))
+    ) {
+      this.value = this.selectedOptions.at(-1) ?? null;
+    } else if (!!this.value && !this.selectedOptions.length) {
+      this.selectedOptions = [this.value];
+    }
+  }
+
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("value")) {
       this._updateFormValue();
-      this._reflectItemsAndLabel();
+      this._updateSelectedOptionsValue(this.value);
     }
 
     if (changedProperties.has("open") || changedProperties.has("disabled")) {
@@ -464,6 +522,18 @@ export class DaikinDropdown extends LitElement {
       if (changedProperties.get("open") && !this.open && !this.disabled) {
         this.focus();
       }
+    }
+
+    if (changedProperties.has("selectedOptions")) {
+      const items = this._items;
+
+      for (const item of items) {
+        item.selected = this.selectedOptions.includes(item.value);
+      }
+    }
+
+    if (changedProperties.has("multiple")) {
+      this._updateItemsSelectable();
     }
   }
 
