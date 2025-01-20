@@ -112,19 +112,12 @@ export class DaikinDropdownItem extends LitElement {
   @state()
   private _checked = false;
 
-  private _handleClick(): void {
+  private _handleClick(event: PointerEvent): void {
     if (this.disabled) {
       return;
     }
 
-    this.dispatchEvent(
-      new CustomEvent("select", {
-        bubbles: true,
-        detail: {
-          checked: true,
-        },
-      })
-    );
+    this.dispatchEvent(new Event("select", event));
   }
 
   private _handleChange(event: Event): void {
