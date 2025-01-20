@@ -1,4 +1,4 @@
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
+import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -7,7 +7,7 @@ import {
   cvaContent,
   cvaTimestamp,
   formatDate,
-  formatName,
+  TOAST_DURATION,
 } from "../../utils/notification-common";
 import "../icon-button/daikin-icon-button";
 
@@ -91,12 +91,10 @@ export class DaikinToastNotification extends LitElement {
   private _timestamp = formatDate(new Date());
 
   override render() {
-    const formattedName = formatName(this.name);
-
     return html`<aside
       class=${cvaContainer({ variant: "toast", status: this.status })}
       role="alert"
-      style=${`transform:translateX(var(--${formattedName}-move-offset-x,0)) translateY(var(--${formattedName}-move-offset-y,0));opacity:var(--${formattedName}-opacity,1);pointer-events:var(--${formattedName}-pointer-events,auto);transition-duration:var(--${formattedName}-transition-duration,200ms);`}
+      style=${`transform:translateX(var(--move-offset-x,0)) translateY(var(--move-offset-y,0));opacity:var(--opacity,1);pointer-events:var(--pointer-events,auto);transition-duration:var(--transition-duration,${TOAST_DURATION}ms);`}
     >
       <div class=${cvaContent({ layout: this.layout })}>
         <slot class="font-bold whitespace-nowrap" name="title"></slot>

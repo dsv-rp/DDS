@@ -1,5 +1,5 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
   customElement,
   property,
@@ -9,17 +9,15 @@ import {
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import { formatName } from "../../utils/notification-common";
+import { TOAST_DURATION } from "../../utils/notification-common";
 import type { DaikinToastNotification } from "../toast-notification/daikin-toast-notification";
 
 const CONTAINER_TRANSITION_DURATION = "--container-transition-duration";
 const CONTAINER_MOVE_OFFSET_Y = "--container-move-offset-y";
 
 const TOAST_MOVE_OFFSET_X = "24px";
-const TOAST_MOVE_OFFSET_Y_TOP = "-80px";
-const TOAST_MOVE_OFFSET_Y_BOTTOM = "80px";
-
-const CLOSE_EVENT_DURATION = 200;
+const TOAST_MOVE_OFFSET_Y_TOP_SIGN = -1;
+const TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN = 1;
 
 const cvaContainer = cva(
   ["flex", "flex-col", "gap-2", "w-max", "fixed", "transition-transform"],
@@ -99,7 +97,10 @@ export class DaikinToastManager extends LitElement {
   private readonly _items!: readonly DaikinToastNotification[];
 
   @state()
-  private _beforeSortedItems: readonly DaikinToastNotification[] = [];
+  private _beforeItems: readonly DaikinToastNotification[] = [];
+
+  @state()
+  _newItem: DaikinToastNotification | null = null;
 
   private _containerRef = createRef<HTMLElement>();
 
@@ -110,48 +111,43 @@ export class DaikinToastManager extends LitElement {
   private _close(target: DaikinToastNotification) {
     const items = this._items;
     const targetIndex = items.findIndex((item) => item === target);
-    const formattedName = formatName(target.name);
     const afterItems = items.filter((_, index) =>
       this._positionY === "top" ? index > targetIndex : index < targetIndex
     );
 
     for (const item of items) {
-      item.style.removeProperty(
-        `--${formatName(item.name)}-transition-duration`
-      );
+      item.style.removeProperty(`--transition-duration`);
     }
 
-    target.style.setProperty(
-      `--${formattedName}-move-offset-x`,
-      TOAST_MOVE_OFFSET_X
-    );
-    target.style.setProperty(`--${formattedName}-opacity`, "0");
-    target.style.setProperty(`--${formattedName}-pointer-events`, "none");
+    target.style.setProperty(`--move-offset-x`, TOAST_MOVE_OFFSET_X);
+    target.style.setProperty(`--opacity`, "0");
+    target.style.setProperty(`--pointer-events`, "none");
 
     for (const item of afterItems) {
+      const height = item.clientHeight;
       item.style.setProperty(
-        `--${formatName(item.name)}-move-offset-y`,
-        this._positionY === "top"
-          ? TOAST_MOVE_OFFSET_Y_TOP
-          : TOAST_MOVE_OFFSET_Y_BOTTOM
+        `--move-offset-y`,
+        `calc(0.5rem + ${
+          height *
+          (this._positionY === "top"
+            ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
+            : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN)
+        }px)`
       );
     }
 
     setTimeout(() => {
       for (const item of this._items) {
-        item.style.setProperty(
-          `--${formatName(item.name)}-transition-duration`,
-          "0"
-        );
+        item.style.setProperty(`--transition-duration`, "0");
       }
 
       this.dispatchEvent(
         new CustomEvent("close", { detail: { name: target.name } })
       );
       for (const item of this._items) {
-        item.style.removeProperty(`--${formatName(item.name)}-move-offset-y`);
+        item.style.removeProperty(`--move-offset-y`);
       }
-    }, CLOSE_EVENT_DURATION);
+    }, TOAST_DURATION);
   }
 
   private _handleClose(event: Event) {
@@ -162,34 +158,12 @@ export class DaikinToastManager extends LitElement {
 
   private _handleSlotchange() {
     const items = this._items;
-    const container = this._containerRef.value;
-    const newItems = items.filter(
-      (item) =>
-        !this._beforeSortedItems.find((beforeItem) => item === beforeItem)
-    );
-    if (newItems.length != 1 || !container) {
-      return;
-    }
 
-    this._beforeSortedItems = items;
-    const newItem = newItems[0];
-
-    container.style.setProperty(CONTAINER_TRANSITION_DURATION, "0");
-    container.style.setProperty(
-      CONTAINER_MOVE_OFFSET_Y,
-      this._positionY === "top"
-        ? TOAST_MOVE_OFFSET_Y_TOP
-        : TOAST_MOVE_OFFSET_Y_BOTTOM
-    );
-    newItem.style.setProperty(`--${formatName(newItem.name)}-opacity`, "0");
-
-    setTimeout(() => {
-      container.style.removeProperty(CONTAINER_TRANSITION_DURATION);
-      container.style.removeProperty(CONTAINER_MOVE_OFFSET_Y);
-      newItem.style.removeProperty(`--${formatName(newItem.name)}-opacity`);
-
-      this._removeToast(newItem);
-    }, 0);
+    this._newItem =
+      items.find(
+        (item) => !this._beforeItems.find((beforeItem) => item === beforeItem)
+      ) ?? null;
+    this._beforeItems = items;
   }
 
   private _removeToast(target: DaikinToastNotification) {
@@ -210,13 +184,45 @@ export class DaikinToastManager extends LitElement {
     return html`<div
       ${ref(this._containerRef)}
       class=${cvaContainer({ position: this.position })}
-      style=${`transform:translateY(var(${CONTAINER_MOVE_OFFSET_Y},0));transition-duration:var(${CONTAINER_TRANSITION_DURATION},200ms);`}
+      style=${`transform:translateY(var(${CONTAINER_MOVE_OFFSET_Y},0));transition-duration:var(${CONTAINER_TRANSITION_DURATION},${TOAST_DURATION}ms);`}
     >
       <slot
         @close=${this._handleClose}
         @slotchange=${this._handleSlotchange}
       ></slot>
     </div>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("_newItem") && !!this._newItem) {
+      const container = this._containerRef.value;
+      const newItem = this._newItem;
+
+      if (!container) {
+        return;
+      }
+
+      newItem.style.setProperty(`--opacity`, "0");
+      container.style.setProperty(CONTAINER_TRANSITION_DURATION, "0");
+      container.style.setProperty(
+        CONTAINER_MOVE_OFFSET_Y,
+        `calc(0.5rem + ${
+          newItem.clientHeight *
+          (this._positionY === "top"
+            ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
+            : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN)
+        }px)`
+      );
+
+      setTimeout(() => {
+        container.style.removeProperty(CONTAINER_TRANSITION_DURATION);
+        container.style.removeProperty(CONTAINER_MOVE_OFFSET_Y);
+        newItem.style.removeProperty(`--opacity`);
+
+        this._removeToast(newItem);
+        this._newItem = null;
+      }, 0);
+    }
   }
 }
 

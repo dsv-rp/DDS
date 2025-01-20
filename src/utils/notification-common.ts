@@ -1,10 +1,10 @@
 import { cva } from "class-variance-authority";
 
+export const TOAST_DURATION = 200;
+
 export function formatDate(date: Date): string {
   return date.toLocaleDateString(undefined, { dateStyle: "medium" });
 }
-
-export const formatName = (str: string) => str.replace(/[^A-Za-z0-9_-]/g, "_");
 
 export const cvaContainer = cva(
   [
