@@ -2,7 +2,7 @@ import type { DaikinDropdown } from "#package/components/dropdown";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
 import { PointerEventsCheckLevel } from "@testing-library/user-event";
-import { getByShadowRole } from "shadow-dom-testing-library";
+import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { definePlay } from "../../../storybook/define-play";
 import { DAIKIN_DROPDOWN_ARG_TYPES, type Story } from "./common";
 
@@ -27,7 +27,10 @@ export const Default: Story = {
     disabled: false,
     required: false,
     error: false,
+    multiple: false,
     option: "default",
+    value: "value1",
+    selectedOptions: ["value1"],
     onClick: fn(eventPayloadTransformer),
     onChange: fn(eventPayloadTransformer),
   },
@@ -47,8 +50,6 @@ export const Default: Story = {
     });
 
     await step("Selecting a dropdown will reflect the value", async () => {
-      await expect(root).not.toHaveAttribute("value");
-
       await expect(document.activeElement?.textContent).toBe("Dropdown item 1");
       await userEvent.keyboard("[ArrowDown]");
       await expect(document.activeElement?.textContent).toBe("Dropdown item 2");
@@ -65,6 +66,7 @@ export const Default: Story = {
 
     await step("Try to keyboard navigation", async () => {
       dropdown.focus();
+      await userEvent.keyboard("[Escape]");
 
       await userEvent.keyboard("[ArrowDown]");
       await expect(document.activeElement?.textContent).toBe("Dropdown item 1");
@@ -94,10 +96,8 @@ export const Default: Story = {
 
     await step("Try to keyboard navigation", async () => {
       dropdown.focus();
-      await expect(root).toHaveAttribute("value", "value1");
 
       await userEvent.keyboard("[Escape]");
-      await expect(root).not.toHaveAttribute("value");
     });
 
     dropdown.blur();
@@ -107,6 +107,7 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
+    value: null,
     disabled: true,
     onClick: fn(eventPayloadTransformer),
     onChange: fn(eventPayloadTransformer),
@@ -128,6 +129,7 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
+    value: null,
     error: true,
   },
 };
@@ -135,6 +137,7 @@ export const Error: Story = {
 export const SingleItem: Story = {
   args: {
     ...Default.args,
+    value: null,
     option: "single",
   },
 };
@@ -142,6 +145,82 @@ export const SingleItem: Story = {
 export const ManyItems: Story = {
   args: {
     ...Default.args,
+    value: null,
     option: "many",
   },
+};
+
+export const Multiple: Story = {
+  args: {
+    ...Default.args,
+    value: null,
+    placeholder: "Choose Options",
+    multiple: true,
+    maxViewLabel: 3,
+    option: "many",
+    selectedOptions: [],
+    onClick: fn(eventPayloadTransformer),
+    onChange: fn(eventPayloadTransformer),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-dropdown")[0];
+    await expect(root).toBeInTheDocument();
+    await expect(root).not.toHaveAttribute("open");
+    const dropdown = getByShadowRole(root, "combobox");
+
+    // should not react if inner button clicked
+    await step("Try to click inner button", async () => {
+      await userEvent.click(dropdown);
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
+
+      await expect(root).toHaveAttribute("open");
+    });
+
+    await step("Selecting a dropdown will reflect the value", async () => {
+      await userEvent.keyboard("[ArrowDown]");
+      await userEvent.keyboard("[Enter]");
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[Enter]");
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[Enter]");
+
+      await expect(args.onChange).toHaveBeenCalledTimes(3);
+      await expect(args.onChange).toHaveLastReturnedWith({
+        value: "value20",
+      });
+      await expect(
+        getByShadowText(
+          root,
+          "Dropdown item 2, Dropdown item 1, Dropdown item 20"
+        )
+      ).toBeInTheDocument();
+    });
+
+    await step("Selecting a dropdown will reflect the value", async () => {
+      await userEvent.keyboard("[ArrowUp]");
+      await userEvent.keyboard("[Enter]");
+
+      await expect(args.onChange).toHaveBeenCalledTimes(4);
+      await expect(
+        getByShadowText(root, "4 items selected")
+      ).toBeInTheDocument();
+    });
+
+    await step("", async () => {
+      dropdown.focus();
+      await userEvent.keyboard("[Escape]");
+      await expect(root).not.toHaveAttribute("open");
+      await userEvent.keyboard("[Escape]");
+      getByShadowText(
+        root,
+        "Dropdown item 2, Dropdown item 1, Dropdown item 20"
+      );
+      await userEvent.keyboard("[Escape]");
+      getByShadowText(root, "Dropdown item 2, Dropdown item 1");
+      await userEvent.keyboard("[Escape]");
+      await userEvent.keyboard("[Escape]");
+      await expect(getByShadowText(root, "Choose Options")).toBeInTheDocument();
+    });
+    dropdown.blur();
+  }),
 };
