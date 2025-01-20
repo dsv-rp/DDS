@@ -82,9 +82,7 @@ export class DaikinInlineNotification extends LitElement {
     this.dispatchEvent(new Event("close"));
   }
 
-  private _timestamp = formatDate(
-    new Date().toLocaleDateString(undefined, { dateStyle: "medium" })
-  );
+  private _timestamp = formatDate(new Date());
 
   override render() {
     return this.open

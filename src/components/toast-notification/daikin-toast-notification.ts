@@ -88,9 +88,7 @@ export class DaikinToastNotification extends LitElement {
     this.dispatchEvent(new Event("close", event));
   }
 
-  private _timestamp = formatDate(
-    new Date().toLocaleDateString(undefined, { dateStyle: "medium" })
-  );
+  private _timestamp = formatDate(new Date());
 
   override render() {
     const formattedName = formatName(this.name);
