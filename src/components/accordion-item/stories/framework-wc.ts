@@ -4,8 +4,13 @@ import { html } from "lit";
 import type { DaikinAccordionItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionItemStoryArgs> = {
-  render: ({ open, disabled }) => html`
-    <daikin-accordion-item ?open=${open} ?disabled=${disabled}>
+  render: ({ name, open, disabled, onToggle }) => html`
+    <daikin-accordion-item
+      name=${name}
+      ?open=${open}
+      ?disabled=${disabled}
+      @toggle=${onToggle}
+    >
       <span slot="summary">Accordion summary</span>
       <span>Accordion content</span>
     </daikin-accordion-item>

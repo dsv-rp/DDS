@@ -14,7 +14,8 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["light", "dark"] as const, (theme) => {
   test("base", async ({ page }) => {
-    const baseURL = getPageURL({ $theme: theme });
+    const baseArgs = { $theme: theme, exclusive: false };
+    const baseURL = getPageURL(baseArgs);
     await page.goto(baseURL);
 
     // wait for element to be visible

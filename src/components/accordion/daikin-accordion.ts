@@ -1,5 +1,9 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, queryAssignedElements } from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-item";
 
@@ -54,6 +58,20 @@ export class DaikinAccordion extends LitElement {
     }
   `;
 
+  /**
+   * A list of the values of the open items.
+   * If `exclusive` is true, the number of elements is 0 or 1.
+   */
+  @property({ type: Array, attribute: false })
+  active: string[] = [];
+
+  /**
+   * Whether or not to make the accordion exclusive.
+   * If true, the number of items that can be open at once is limited to one.
+   */
+  @property({ type: Boolean, reflect: true })
+  exclusive = false;
+
   @queryAssignedElements({ selector: "daikin-accordion-item" })
   private readonly _items!: readonly DaikinAccordionItem[];
 
@@ -81,10 +99,53 @@ export class DaikinAccordion extends LitElement {
     nextItem.focus();
   }
 
+  private _handleToggle(event: Event) {
+    const targetValue = (event.target as DaikinAccordionItem).name;
+    const opened = !(event.target as DaikinAccordionItem).open;
+
+    if (this.exclusive) {
+      this.active = opened ? [targetValue] : [];
+    } else {
+      this.active = opened
+        ? [...this.active, targetValue]
+        : this.active.filter((active) => active != targetValue);
+    }
+
+    this._reflectItemOpen();
+  }
+
+  private _reflectItemOpen() {
+    if (this.exclusive && this.active.length > 1) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'active' property: ${JSON.stringify(this.active)}. Only one active can be specified when exclusive is set.`
+        );
+      }
+    }
+
+    for (const item of this._items) {
+      item.open = this.active.includes(item.name);
+    }
+  }
+
   override render() {
     return html`<div class="w-full">
-      <slot @accordion-move-focus=${this._handleMoveFocus}></slot>
+      <slot
+        @accordion-move-focus=${this._handleMoveFocus}
+        @toggle=${this._handleToggle}
+        @slotchange=${this._reflectItemOpen}
+      ></slot>
     </div>`;
+  }
+
+  protected override updated(changedProperties: PropertyValues): void {
+    if (changedProperties.has("onlyOpen")) {
+      if (this.exclusive) {
+        this.active = [];
+
+        this._reflectItemOpen();
+      }
+    }
   }
 }
 
