@@ -38,6 +38,14 @@ describe("test parsedToFloat function", () => {
     expect(step).toEqual(0.010001);
     expect(value).toEqual(50);
   });
+
+  it("min: '1'; max: '100'; step: '1'; value: '200'", ({ expect }) => {
+    const [min, max, step, value] = parsedToFloat("1", "100", "2", "200");
+    expect(min).toEqual(1);
+    expect(max).toEqual(100);
+    expect(step).toEqual(2);
+    expect(value).toEqual(100);
+  });
 });
 
 describe("test getValueAndProgressFromCoordinate function", () => {

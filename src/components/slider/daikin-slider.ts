@@ -133,30 +133,38 @@ export class DaikinSlider extends LitElement {
   // define _internals to let the slider can be used in a form
   private _internals = this.attachInternals();
 
-  private _handleChange(event: Event) {
-    this._updateFormValue();
-    this.dispatchEvent(new Event("change", event));
-  }
-
-  private _handleInput(event: Event) {
-    this._updateFormValue();
-    this.dispatchEvent(new Event("input", event));
-  }
-
   private _updateFormValue() {
-    this._internals.setFormValue(!this.disabled ? this.value : null);
+    if (this.disabled) {
+      return;
+    }
+    this._internals.setFormValue(this.value);
+    this.dispatchEvent(
+      new Event("change", {
+        bubbles: true,
+        composed: true,
+      })
+    );
+    this.dispatchEvent(
+      new Event("input", {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   private _updateProgressFromValue() {
-    const valueCalc = parseFloat(this.value);
     const min = parseFloat(this.min);
     const max = parseFloat(this.max);
+    const valueCalc = Math.max(min, Math.min(parseFloat(this.value), max));
     this.progress = ((valueCalc - min) / (max - min)) * 100;
   }
 
   // This function will triggered when click the slider bar area.
   private _handleClick(event: MouseEvent) {
     event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
     const [value, progress] = getValueAndProgressFromCoordinate(
       this,
       this.getThumbFraction(event)
@@ -168,6 +176,9 @@ export class DaikinSlider extends LitElement {
   // This function will triggered when the slider thumb button be focused and click keyboard arrow key.
   private _handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
     const step = parseFloat(this.step);
     const moveOffset = {
       ArrowRight: step,
@@ -196,6 +207,9 @@ export class DaikinSlider extends LitElement {
   // This function will triggered when the slider thumb button start dragging.
   private _startDrag(event: MouseEvent) {
     event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
 
     const onDrag = (event: MouseEvent) => {
       const [value, progress] = getValueAndProgressFromCoordinate(
@@ -236,7 +250,7 @@ export class DaikinSlider extends LitElement {
         <span
           class=${cvaSliderThumb({ disabled: this.disabled })}
           ?disabled=${this.disabled}
-          tabindex="0"
+          tabindex=${this.disabled ? -1 : 0}
           style="left: ${this.progress}%"
           role="slider"
           aria-valuenow=${this.value}
@@ -256,8 +270,6 @@ export class DaikinSlider extends LitElement {
           .step=${this.step}
           ?disabled=${this.disabled}
           .value=${this.value}
-          @change=${this._handleChange}
-          @input=${this._handleInput}
         />
       </div>
     `;

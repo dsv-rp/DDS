@@ -19,7 +19,12 @@ export function parsedToFloat(
   const maxFloat = parseFloat(max);
   const stepFloat = parseFloat(step);
   const valueFloat = parseFloat(value);
-  return [minFloat, maxFloat, stepFloat, valueFloat];
+  return [
+    minFloat,
+    maxFloat,
+    stepFloat,
+    Math.max(minFloat, Math.min(valueFloat, maxFloat)),
+  ];
 }
 
 /**
