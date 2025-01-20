@@ -1,0 +1,73 @@
+import {
+  clipFor,
+  describeEach,
+  getStorybookIframeURL,
+  type InferStorybookArgTypes,
+} from "#tests/visual";
+import { expect, test, type Page } from "@playwright/test";
+import type { DAIKIN_INLINE_NOTIFICATION_ARG_TYPES } from "./stories/common";
+
+type StoryArgs = InferStorybookArgTypes<
+  typeof DAIKIN_INLINE_NOTIFICATION_ARG_TYPES
+>;
+
+const getPageURL = (args: StoryArgs = {}) =>
+  getStorybookIframeURL("components-inline-notification--default", args);
+
+const base = async (page: Page, baseURL: string) => {
+  await page.clock.setFixedTime(new Date("2025-01-15T00:00:00+09:00"));
+  await page.goto(baseURL);
+
+  // wait for element to be visible
+  const element = await page.waitForSelector("daikin-inline-notification", {
+    state: "visible",
+  });
+
+  // take screenshot and check for diffs
+  await expect(page).toHaveScreenshot(await clipFor(element));
+};
+
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["horizontal", "vertical"] as const, (layout) => {
+    describeEach(["not-closable", "closable"] as const, (closable) => {
+      describeEach(["none", "timestamp"] as const, (timestamp) => {
+        describeEach(["none", "action"] as const, (action) => {
+          const baseArgs = {
+            $theme: theme,
+            status: "positive",
+            layout,
+            closable: closable === "closable",
+            timestamp: timestamp === "timestamp",
+            slotAction: action === "action",
+          };
+          const baseURL = getPageURL(baseArgs);
+
+          test("base", async ({ page }) => {
+            await base(page, baseURL);
+          });
+        });
+      });
+    });
+  });
+});
+
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(
+    ["positive", "negative", "warning", "alarm", "information"] as const,
+    (status) => {
+      const baseArgs = {
+        $theme: theme,
+        status,
+        layout: "horizontal",
+        closable: true,
+        timestamp: false,
+        slotAction: false,
+      };
+      const baseURL = getPageURL(baseArgs);
+
+      test("base", async ({ page }) => {
+        await base(page, baseURL);
+      });
+    }
+  );
+});
