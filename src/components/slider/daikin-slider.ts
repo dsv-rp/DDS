@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import {
   getValueAndProgressFromCoordinate,
@@ -124,9 +124,6 @@ export class DaikinSlider extends LitElement {
 
   static readonly formAssociated = true;
 
-  @state()
-  private progress = 1;
-
   @query("#slider")
   private readonly _slider!: HTMLElement;
 
@@ -156,7 +153,7 @@ export class DaikinSlider extends LitElement {
     const min = parseFloat(this.min);
     const max = parseFloat(this.max);
     const valueCalc = Math.max(min, Math.min(parseFloat(this.value), max));
-    this.progress = ((valueCalc - min) / (max - min)) * 100;
+    return ((valueCalc - min) / (max - min)) * 100;
   }
 
   // This function will triggered when click the slider bar area.
@@ -165,11 +162,10 @@ export class DaikinSlider extends LitElement {
     if (this.disabled) {
       return;
     }
-    const [value, progress] = getValueAndProgressFromCoordinate(
+    const value = getValueAndProgressFromCoordinate(
       this,
       this.getThumbFraction(event)
     );
-    this.progress = progress;
     this.value = value;
   }
 
@@ -189,8 +185,7 @@ export class DaikinSlider extends LitElement {
     if (!moveOffset) {
       return;
     }
-    const [value, progress] = getValueAndProgressFromKeyboard(this, moveOffset);
-    this.progress = progress;
+    const value = getValueAndProgressFromKeyboard(this, moveOffset);
     this.value = value;
   }
 
@@ -212,11 +207,10 @@ export class DaikinSlider extends LitElement {
     }
 
     const onDrag = (event: MouseEvent) => {
-      const [value, progress] = getValueAndProgressFromCoordinate(
+      const value = getValueAndProgressFromCoordinate(
         this,
         this.getThumbFraction(event)
       );
-      this.progress = progress;
       this.value = value;
     };
 
@@ -230,6 +224,7 @@ export class DaikinSlider extends LitElement {
   }
 
   override render() {
+    const progress = this._updateProgressFromValue();
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <div
@@ -244,14 +239,14 @@ export class DaikinSlider extends LitElement {
         </span>
         <span
           class=${cvaSliderTrack({ disabled: this.disabled })}
-          style="width: ${this.progress}%"
+          style="width: ${progress}%"
         >
         </span>
         <span
           class=${cvaSliderThumb({ disabled: this.disabled })}
           ?disabled=${this.disabled}
           tabindex=${this.disabled ? -1 : 0}
-          style="left: ${this.progress}%"
+          style="left: ${progress}%"
           role="slider"
           aria-valuenow=${this.value}
           aria-valuemin=${this.min}
@@ -279,7 +274,6 @@ export class DaikinSlider extends LitElement {
     if (!changedProperties.has("value")) {
       return;
     }
-    this._updateProgressFromValue();
     this._updateFormValue();
   }
 }

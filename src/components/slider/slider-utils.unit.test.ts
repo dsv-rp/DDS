@@ -54,9 +54,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "100";
     slider.step = "1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 0.5);
+    const value = getValueAndProgressFromCoordinate(slider, 0.5);
     expect(value).toEqual("50");
-    expect(progress).toEqual(50);
   });
 
   it("min: '0'; max: '100'; step: '1'; leftDistance: 0", ({ expect }) => {
@@ -64,9 +63,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "100";
     slider.step = "1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 0);
+    const value = getValueAndProgressFromCoordinate(slider, 0);
     expect(value).toEqual("0");
-    expect(progress).toEqual(0);
   });
 
   it("min: '1'; max: '100'; step: '1'; leftDistance: 0", ({ expect }) => {
@@ -74,9 +72,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "1";
     slider.max = "100";
     slider.step = "1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 0);
+    const value = getValueAndProgressFromCoordinate(slider, 0);
     expect(value).toEqual("1");
-    expect(progress).toEqual(0);
   });
 
   it("min: '1'; max: '100'; step: '1'; leftDistance: 1", ({ expect }) => {
@@ -84,9 +81,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "1";
     slider.max = "100";
     slider.step = "1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 1);
+    const value = getValueAndProgressFromCoordinate(slider, 1);
     expect(value).toEqual("100");
-    expect(progress).toEqual(100);
   });
 
   it("min: '0'; max: '10'; step: '1'; leftDistance: 0.2", ({ expect }) => {
@@ -94,9 +90,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "10";
     slider.step = "1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 0.2);
+    const value = getValueAndProgressFromCoordinate(slider, 0.2);
     expect(value).toEqual("2");
-    expect(progress).toEqual(20);
   });
 
   it("min: '0'; max: '10'; step: '0.1'; leftDistance: 0.2", ({ expect }) => {
@@ -104,9 +99,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "10";
     slider.step = "0.1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 0.2);
+    const value = getValueAndProgressFromCoordinate(slider, 0.2);
     expect(value).toEqual("2");
-    expect(progress).toEqual(20);
   });
 
   it("min: '0'; max: '10'; step: '0.1'; leftDistance: 0.21", ({ expect }) => {
@@ -114,9 +108,8 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "10";
     slider.step = "0.1";
-    const [value, progress] = getValueAndProgressFromCoordinate(slider, 0.21);
+    const value = getValueAndProgressFromCoordinate(slider, 0.21);
     expect(value).toEqual("2.1");
-    expect(progress).toBeCloseTo(21, 2);
   });
 });
 
@@ -128,9 +121,8 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "4";
     slider.step = "1";
 
-    const [value, progress] = getValueAndProgressFromKeyboard(slider, 1);
+    const value = getValueAndProgressFromKeyboard(slider, 1);
     expect(value).toEqual("5");
-    expect(progress).toEqual(50);
   });
 
   it("min: '0'; max: '10'; step: '1'; value: '6'", ({ expect }) => {
@@ -140,9 +132,8 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "6";
     slider.step = "1";
 
-    const [value, progress] = getValueAndProgressFromKeyboard(slider, -1);
+    const value = getValueAndProgressFromKeyboard(slider, -1);
     expect(value).toEqual("5");
-    expect(progress).toEqual(50);
   });
 
   it("min: '1'; max: '10'; step: '1'; value: '1'", ({ expect }) => {
@@ -152,9 +143,8 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "1";
     slider.step = "1";
 
-    const [value, progress] = getValueAndProgressFromKeyboard(slider, -1);
+    const value = getValueAndProgressFromKeyboard(slider, -1);
     expect(value).toEqual("1");
-    expect(progress).toEqual(0);
   });
 
   it("min: '1'; max: '10'; step: '1'; value: '10'", ({ expect }) => {
@@ -164,9 +154,8 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "10";
     slider.step = "1";
 
-    const [value, progress] = getValueAndProgressFromKeyboard(slider, 1);
+    const value = getValueAndProgressFromKeyboard(slider, 1);
     expect(value).toEqual("10");
-    expect(progress).toEqual(100);
   });
 
   it("min: '1'; max: '10'; step: '1'; value: '8'", ({ expect }) => {
@@ -176,8 +165,7 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "8";
     slider.step = "1";
 
-    const [value, progress] = getValueAndProgressFromKeyboard(slider, 1);
+    const value = getValueAndProgressFromKeyboard(slider, 1);
     expect(value).toEqual("9");
-    expect(progress).toEqual(88.88888888888889);
   });
 });

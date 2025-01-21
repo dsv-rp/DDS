@@ -32,12 +32,12 @@ export function parsedToFloat(
  *
  * @param slider The daikin-slider instance.
  * @param leftDistance The thumb's distance percentage of all slider width.
- * @returns An array of a string current value and a number progress percentage.
+ * @returns Current value.
  */
 export function getValueAndProgressFromCoordinate(
   slider: DaikinSlider,
   leftDistance: number
-): [string, number] {
+): string {
   const [minFloat, maxFloat, stepFloat] = parsedToFloat(
     slider.min,
     slider.max,
@@ -54,10 +54,7 @@ export function getValueAndProgressFromCoordinate(
     minFloat,
     Math.min(maxFloat, parseFloat(steppedValue.toFixed(decimals)))
   );
-  return [
-    `${clampedValue}`,
-    ((clampedValue - minFloat) / (maxFloat - minFloat)) * 100,
-  ];
+  return `${clampedValue}`;
 }
 
 /**
@@ -65,12 +62,12 @@ export function getValueAndProgressFromCoordinate(
  *
  * @param slider The daikin-slider instance.
  * @param moveOffset The number of thumb icon's move offset.
- * @returns An array of a string current value and a number progress percentage.
+ * @returns Current value.
  */
 export function getValueAndProgressFromKeyboard(
   slider: DaikinSlider,
   moveOffset: number
-): [string, number] {
+): string {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [minFloat, maxFloat, _, valueFloat] = parsedToFloat(
     slider.min,
@@ -86,8 +83,5 @@ export function getValueAndProgressFromKeyboard(
     minFloat,
     Math.min(maxFloat, parseFloat((valueFloat + moveOffset).toFixed(decimals)))
   );
-  return [
-    `${clampedValue}`,
-    ((clampedValue - minFloat) / (maxFloat - minFloat)) * 100,
-  ];
+  return `${clampedValue}`;
 }
