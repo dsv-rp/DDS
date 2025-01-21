@@ -177,6 +177,14 @@ export class DaikinSlider extends LitElement {
     if (this.disabled) {
       return;
     }
+    if (event.key === "Home") {
+      this.value = this.min;
+      return;
+    }
+    if (event.key === "End") {
+      this.value = this.max;
+      return;
+    }
     const step = parseFloat(this.step);
     const moveOffset = {
       ArrowRight: step,

@@ -98,6 +98,26 @@ export const Default: Story = {
       await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
     });
 
+    await step("Move the slider thumb to last with keyboard", async () => {
+      thumb.focus();
+      await userEvent.keyboard("[End]");
+      await expect(root.value).toEqual("10");
+      await expect(args.onChange).toHaveBeenCalledTimes(9);
+      await expect(args.onChange).toHaveLastReturnedWith({ value: "10" });
+      await expect(args.onInput).toHaveBeenCalledTimes(9);
+      await expect(args.onInput).toHaveLastReturnedWith({ value: "10" });
+    });
+
+    await step("Move the slider thumb to begin with keyboard", async () => {
+      thumb.focus();
+      await userEvent.keyboard("[Home]");
+      await expect(root.value).toEqual("1");
+      await expect(args.onChange).toHaveBeenCalledTimes(10);
+      await expect(args.onChange).toHaveLastReturnedWith({ value: "1" });
+      await expect(args.onInput).toHaveBeenCalledTimes(10);
+      await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
+    });
+
     // Test click slider bar directly
     await step("Directly click the slider bar to choice value", async () => {
       const sliderRect = slider.getBoundingClientRect();
@@ -108,9 +128,9 @@ export const Default: Story = {
       });
       await userEvent.click(root);
       await expect(root.value).toEqual("5");
-      await expect(args.onChange).toHaveBeenCalledTimes(9);
+      await expect(args.onChange).toHaveBeenCalledTimes(11);
       await expect(args.onChange).toHaveLastReturnedWith({ value: "5" });
-      await expect(args.onInput).toHaveBeenCalledTimes(9);
+      await expect(args.onInput).toHaveBeenCalledTimes(11);
       await expect(args.onInput).toHaveLastReturnedWith({ value: "5" });
     });
   }),
