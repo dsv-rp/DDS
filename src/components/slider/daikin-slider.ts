@@ -1,6 +1,8 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { customElement, property } from "lit/decorators.js";
+import type { Ref } from "lit/directives/ref.js";
+import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import {
   getValueAndProgressFromCoordinate,
@@ -124,8 +126,7 @@ export class DaikinSlider extends LitElement {
 
   static readonly formAssociated = true;
 
-  @query("#slider")
-  private readonly _slider!: HTMLElement;
+  private _sliderRef: Ref<HTMLElement> = createRef();
 
   // define _internals to let the slider can be used in a form
   private _internals = this.attachInternals();
@@ -162,10 +163,11 @@ export class DaikinSlider extends LitElement {
     if (this.disabled) {
       return;
     }
-    const value = getValueAndProgressFromCoordinate(
-      this,
-      this.getThumbFraction(event)
-    );
+    const leftDistance = this.getThumbFraction(event);
+    if (leftDistance == null) {
+      return;
+    }
+    const value = getValueAndProgressFromCoordinate(this, leftDistance);
     this.value = value;
   }
 
@@ -191,7 +193,10 @@ export class DaikinSlider extends LitElement {
 
   // Get the position of the current thumb icon as a fraction of the entire slider bar.
   private getThumbFraction(event: MouseEvent) {
-    const sliderRef = this._slider.getBoundingClientRect();
+    const sliderRef = this._sliderRef.value?.getBoundingClientRect();
+    if (sliderRef == null) {
+      return;
+    }
     const newLeft = Math.max(
       0,
       Math.min(event.clientX - sliderRef.left, sliderRef.width)
@@ -207,10 +212,11 @@ export class DaikinSlider extends LitElement {
     }
 
     const onDrag = (event: MouseEvent) => {
-      const value = getValueAndProgressFromCoordinate(
-        this,
-        this.getThumbFraction(event)
-      );
+      const leftDistance = this.getThumbFraction(event);
+      if (leftDistance == null) {
+        return;
+      }
+      const value = getValueAndProgressFromCoordinate(this, leftDistance);
       this.value = value;
     };
 
@@ -229,6 +235,7 @@ export class DaikinSlider extends LitElement {
     return html`
       <div
         id="slider"
+        ${ref(this._sliderRef)}
         class=${cvaSlider({ disabled: this.disabled })}
         @mousedown=${this._startDrag}
         @click=${this._handleClick}
