@@ -244,7 +244,6 @@ export class DaikinSlider extends LitElement {
         </span>
         <span
           class=${cvaSliderThumb({ disabled: this.disabled })}
-          ?disabled=${this.disabled}
           tabindex=${this.disabled ? -1 : 0}
           style="left: ${progress}%"
           role="slider"
@@ -255,17 +254,17 @@ export class DaikinSlider extends LitElement {
           @mousedown=${this._startDrag}
           @keydown=${this._handleKeyDown}
         >
+          <input
+            class="absolute"
+            type="hidden"
+            name=${this.name}
+            min=${this.min}
+            max=${this.max}
+            .step=${this.step}
+            ?disabled=${this.disabled}
+            .value=${this.value}
+          />
         </span>
-        <input
-          class="absolute"
-          type="hidden"
-          name=${this.name}
-          min=${this.min}
-          max=${this.max}
-          .step=${this.step}
-          ?disabled=${this.disabled}
-          .value=${this.value}
-        />
       </div>
     `;
   }
