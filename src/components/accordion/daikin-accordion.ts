@@ -1,4 +1,4 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import { LitElement, css, html, unsafeCSS } from "lit";
 import {
   customElement,
   property,
@@ -136,16 +136,6 @@ export class DaikinAccordion extends LitElement {
         @slotchange=${this._reflectItemOpen}
       ></slot>
     </div>`;
-  }
-
-  protected override updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has("onlyOpen")) {
-      if (this.exclusive) {
-        this.active = [];
-
-        this._reflectItemOpen();
-      }
-    }
   }
 }
 
