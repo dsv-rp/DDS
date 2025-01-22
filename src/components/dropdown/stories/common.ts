@@ -34,7 +34,7 @@ export const DAIKIN_DROPDOWN_ARG_TYPES = {
   multiple: {
     type: "boolean",
   },
-  maxViewLabel: {
+  maxLabels: {
     type: "number",
   },
   selectedOptions: {

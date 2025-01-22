@@ -1,9 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS } from "lit";
+import { customElement, property, query } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimilarToClick } from "../../utils/is-similar-to-click";
-import type { DaikinCheckbox } from "../checkbox";
 import "../checkbox/daikin-checkbox";
 
 const cvaOption = cva(
@@ -106,11 +105,8 @@ export class DaikinDropdownItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   selectable = false;
 
-  @query("button,div")
-  private _focusableElements!: HTMLButtonElement | HTMLDivElement | null;
-
-  @state()
-  private _checked = false;
+  @query("button,span[role=option]")
+  private _focusableElement!: HTMLElement | null;
 
   private _handleClick(event: PointerEvent): void {
     if (this.disabled) {
@@ -122,16 +118,7 @@ export class DaikinDropdownItem extends LitElement {
 
   private _handleChange(event: Event): void {
     event.preventDefault();
-    const target = event.target as DaikinCheckbox;
-
-    this.dispatchEvent(
-      new CustomEvent("select", {
-        bubbles: true,
-        detail: {
-          checked: target.checkState === "checked",
-        },
-      })
-    );
+    this._emitSelect();
   }
 
   private _handleContainerClick() {
@@ -151,14 +138,9 @@ export class DaikinDropdownItem extends LitElement {
   }
 
   private _emitSelect(): void {
-    this._checked = !this._checked;
-
     this.dispatchEvent(
       new CustomEvent("select", {
         bubbles: true,
-        detail: {
-          checked: this._checked,
-        },
       })
     );
   }
@@ -171,17 +153,17 @@ export class DaikinDropdownItem extends LitElement {
     });
 
     return this.selectable
-      ? html`<div
+      ? html`<span
           class=${OPTION_CLASS_NAME}
           data-value=${this.value}
           role="option"
           aria-selected=${this.selected}
           tabindex="-1"
-          ?disabled=${this.disabled}
+          aria-disabled=${this.disabled}
           @click=${this._handleContainerClick}
           @keydown=${this._handleContainerKeydown}
         >
-          <div class="flex items-center gap-2.5">
+          <span class="flex items-center gap-2.5">
             <daikin-checkbox
               check-state=${this.selected ? "checked" : "unchecked"}
               label-position="hidden"
@@ -191,8 +173,8 @@ export class DaikinDropdownItem extends LitElement {
               @change=${this._handleChange}
             ></daikin-checkbox>
             <slot></slot>
-          </div>
-        </div>`
+          </span>
+        </span>`
       : html`<button
           type="button"
           class=${OPTION_CLASS_NAME}
@@ -208,13 +190,7 @@ export class DaikinDropdownItem extends LitElement {
   }
 
   override focus(options?: FocusOptions): void {
-    this._focusableElements?.focus(options);
-  }
-
-  protected override updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has("selected")) {
-      this._checked = this.selected;
-    }
+    this._focusableElement?.focus(options);
   }
 }
 

@@ -156,7 +156,7 @@ export const Multiple: Story = {
     value: null,
     placeholder: "Choose Options",
     multiple: true,
-    maxViewLabel: 3,
+    maxLabels: 3,
     option: "many",
     selectedOptions: [],
     onClick: fn(eventPayloadTransformer),

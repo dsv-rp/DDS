@@ -193,8 +193,8 @@ export class DaikinDropdown extends LitElement {
    * When multiple selections, the maximum number of values to display without omission.
    * If `null`, it is not omitted.
    */
-  @property({ type: Number, reflect: true, attribute: "max-view-label" })
-  maxViewLabel: number | null = null;
+  @property({ type: Number, reflect: true, attribute: "max-labels" })
+  maxLabels: number | null = null;
 
   @queryAssignedElements({ selector: "daikin-dropdown-item" })
   private readonly _items!: readonly DaikinDropdownItem[];
@@ -455,8 +455,7 @@ export class DaikinDropdown extends LitElement {
         ${this._autoUpdateController.refReference()}
       >
         ${this.selectedOptions.length
-          ? this.multiple &&
-            this.selectedOptions.length > (this.maxViewLabel ?? 0)
+          ? this.multiple && this.selectedOptions.length > (this.maxLabels ?? 0)
             ? `${this.selectedOptions.length} items selected`
             : this._selectionLabels.join(", ")
           : this.placeholder}

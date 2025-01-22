@@ -28,7 +28,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
     disabled,
     required,
     error,
-    maxViewLabel,
+    maxLabels,
     option,
     __vrtMultipleValue__,
     onChange,
@@ -41,7 +41,7 @@ export const metadata: Meta<DaikinDropdownStoryArgs> = {
           ? vrtMultipleValue[__vrtMultipleValue__]
           : selectedOptions}
         placeholder=${placeholder}
-        max-view-label=${ifDefined(maxViewLabel ?? undefined)}
+        max-labels=${ifDefined(maxLabels ?? undefined)}
         ?multiple=${multiple}
         ?open=${open}
         ?disabled=${disabled}
