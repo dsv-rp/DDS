@@ -4,10 +4,7 @@ import { customElement, property } from "lit/decorators.js";
 import type { Ref } from "lit/directives/ref.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import {
-  getValueAndProgressFromCoordinate,
-  getValueAndProgressFromKeyboard,
-} from "./slider-utils";
+import { getValueByKeydown, getValueFromRatio } from "./slider-utils";
 
 const cvaSliderThumb = cva(
   [
@@ -150,11 +147,11 @@ export class DaikinSlider extends LitElement {
     );
   }
 
-  private _updateProgressFromValue() {
+  private get _progress(): number {
     const min = parseFloat(this.min);
     const max = parseFloat(this.max);
-    const valueCalc = Math.max(min, Math.min(parseFloat(this.value), max));
-    return ((valueCalc - min) / (max - min)) * 100;
+    const clampedValue = Math.max(min, Math.min(parseFloat(this.value), max));
+    return ((clampedValue - min) / (max - min)) * 100;
   }
 
   // This function will triggered when click the slider bar area.
@@ -163,11 +160,11 @@ export class DaikinSlider extends LitElement {
     if (this.disabled) {
       return;
     }
-    const leftDistance = this.getThumbFraction(event);
+    const leftDistance = this.calcMousePositionRatio(event);
     if (leftDistance == null) {
       return;
     }
-    const value = getValueAndProgressFromCoordinate(this, leftDistance);
+    const value = getValueFromRatio(this, leftDistance);
     this.value = value;
   }
 
@@ -177,30 +174,20 @@ export class DaikinSlider extends LitElement {
     if (this.disabled) {
       return;
     }
-    if (event.key === "Home") {
-      this.value = this.min;
+    const value = getValueByKeydown(this, event.key);
+    if (value == null) {
       return;
     }
-    if (event.key === "End") {
-      this.value = this.max;
-      return;
-    }
-    const step = parseFloat(this.step);
-    const moveOffset = {
-      ArrowRight: step,
-      ArrowDown: -step,
-      ArrowLeft: -step,
-      ArrowUp: step,
-    }[event.key];
-    if (!moveOffset) {
-      return;
-    }
-    const value = getValueAndProgressFromKeyboard(this, moveOffset);
     this.value = value;
   }
 
-  // Get the position of the current thumb icon as a fraction of the entire slider bar.
-  private getThumbFraction(event: MouseEvent) {
+  /**
+   * Returns the normalized position of the mouse on the slider, within the range 0 to 1.
+   *
+   * @param event A MouseEvent.
+   * @returns The mouse's X coordinate normalized to a range of 0 to 1. The left end and beyond of the slider is 0, and the right end and beyond is 1.
+   */
+  private calcMousePositionRatio(event: MouseEvent): number | undefined {
     const sliderRef = this._sliderRef.value?.getBoundingClientRect();
     if (sliderRef == null) {
       return;
@@ -220,11 +207,11 @@ export class DaikinSlider extends LitElement {
     }
 
     const onDrag = (event: MouseEvent) => {
-      const leftDistance = this.getThumbFraction(event);
+      const leftDistance = this.calcMousePositionRatio(event);
       if (leftDistance == null) {
         return;
       }
-      const value = getValueAndProgressFromCoordinate(this, leftDistance);
+      const value = getValueFromRatio(this, leftDistance);
       this.value = value;
     };
 
@@ -238,7 +225,7 @@ export class DaikinSlider extends LitElement {
   }
 
   override render() {
-    const progress = this._updateProgressFromValue();
+    const progress = this._progress;
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <div

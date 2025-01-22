@@ -31,13 +31,10 @@ export function parsedToFloat(
  * Get the current value and track bar's progress percentage from the distance to the left.
  *
  * @param slider The daikin-slider instance.
- * @param leftDistance The thumb's distance percentage of all slider width.
+ * @param ratio The ratio of the slider value (0-1).
  * @returns Current value.
  */
-export function getValueAndProgressFromCoordinate(
-  slider: DaikinSlider,
-  leftDistance: number
-): string {
+export function getValueFromRatio(slider: DaikinSlider, ratio: number): string {
   const [minFloat, maxFloat, stepFloat] = parsedToFloat(
     slider.min,
     slider.max,
@@ -48,7 +45,7 @@ export function getValueAndProgressFromCoordinate(
     ? slider.step.split(".")[1].length
     : 0;
 
-  const rawValue = leftDistance * (maxFloat - minFloat) + minFloat;
+  const rawValue = ratio * (maxFloat - minFloat) + minFloat;
   const steppedValue = Math.round(rawValue / stepFloat) * stepFloat;
   const clampedValue = Math.max(
     minFloat,
@@ -64,12 +61,27 @@ export function getValueAndProgressFromCoordinate(
  * @param moveOffset The number of thumb icon's move offset.
  * @returns Current value.
  */
-export function getValueAndProgressFromKeyboard(
+export function getValueByKeydown(
   slider: DaikinSlider,
-  moveOffset: number
-): string {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [minFloat, maxFloat, _, valueFloat] = parsedToFloat(
+  key: string
+): string | undefined {
+  if (key === "Home") {
+    return slider.min;
+  }
+  if (key === "End") {
+    return slider.max;
+  }
+  const step = parseFloat(slider.step);
+  const moveOffset = {
+    ArrowRight: step,
+    ArrowDown: -step,
+    ArrowLeft: -step,
+    ArrowUp: step,
+  }[key];
+  if (!moveOffset) {
+    return;
+  }
+  const [minFloat, maxFloat, , valueFloat] = parsedToFloat(
     slider.min,
     slider.max,
     slider.step,

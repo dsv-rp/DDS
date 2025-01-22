@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
 import { DaikinSlider } from "./daikin-slider";
 import {
-  getValueAndProgressFromCoordinate,
-  getValueAndProgressFromKeyboard,
+  getValueByKeydown,
+  getValueFromRatio,
   parsedToFloat,
 } from "./slider-utils";
 
@@ -48,13 +48,13 @@ describe("test parsedToFloat function", () => {
   });
 });
 
-describe("test getValueAndProgressFromCoordinate function", () => {
+describe("test getValueFromRatio function", () => {
   it("min: '0'; max: '100'; step: '1'; leftDistance: 0.5", ({ expect }) => {
     const slider = new DaikinSlider();
     slider.min = "0";
     slider.max = "100";
     slider.step = "1";
-    const value = getValueAndProgressFromCoordinate(slider, 0.5);
+    const value = getValueFromRatio(slider, 0.5);
     expect(value).toEqual("50");
   });
 
@@ -63,7 +63,7 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "100";
     slider.step = "1";
-    const value = getValueAndProgressFromCoordinate(slider, 0);
+    const value = getValueFromRatio(slider, 0);
     expect(value).toEqual("0");
   });
 
@@ -72,7 +72,7 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "1";
     slider.max = "100";
     slider.step = "1";
-    const value = getValueAndProgressFromCoordinate(slider, 0);
+    const value = getValueFromRatio(slider, 0);
     expect(value).toEqual("1");
   });
 
@@ -81,7 +81,7 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "1";
     slider.max = "100";
     slider.step = "1";
-    const value = getValueAndProgressFromCoordinate(slider, 1);
+    const value = getValueFromRatio(slider, 1);
     expect(value).toEqual("100");
   });
 
@@ -90,7 +90,7 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "10";
     slider.step = "1";
-    const value = getValueAndProgressFromCoordinate(slider, 0.2);
+    const value = getValueFromRatio(slider, 0.2);
     expect(value).toEqual("2");
   });
 
@@ -99,7 +99,7 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "10";
     slider.step = "0.1";
-    const value = getValueAndProgressFromCoordinate(slider, 0.2);
+    const value = getValueFromRatio(slider, 0.2);
     expect(value).toEqual("2");
   });
 
@@ -108,12 +108,12 @@ describe("test getValueAndProgressFromCoordinate function", () => {
     slider.min = "0";
     slider.max = "10";
     slider.step = "0.1";
-    const value = getValueAndProgressFromCoordinate(slider, 0.21);
+    const value = getValueFromRatio(slider, 0.21);
     expect(value).toEqual("2.1");
   });
 });
 
-describe("test getValueAndProgressFromKeyboard function", () => {
+describe("test getValueByKeydown function", () => {
   it("min: '0'; max: '10'; step: '1'; value: '4'", ({ expect }) => {
     const slider = new DaikinSlider();
     slider.min = "0";
@@ -121,7 +121,7 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "4";
     slider.step = "1";
 
-    const value = getValueAndProgressFromKeyboard(slider, 1);
+    const value = getValueByKeydown(slider, "ArrowRight");
     expect(value).toEqual("5");
   });
 
@@ -132,7 +132,7 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "6";
     slider.step = "1";
 
-    const value = getValueAndProgressFromKeyboard(slider, -1);
+    const value = getValueByKeydown(slider, "ArrowLeft");
     expect(value).toEqual("5");
   });
 
@@ -143,7 +143,7 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "1";
     slider.step = "1";
 
-    const value = getValueAndProgressFromKeyboard(slider, -1);
+    const value = getValueByKeydown(slider, "ArrowDown");
     expect(value).toEqual("1");
   });
 
@@ -154,7 +154,7 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "10";
     slider.step = "1";
 
-    const value = getValueAndProgressFromKeyboard(slider, 1);
+    const value = getValueByKeydown(slider, "ArrowUp");
     expect(value).toEqual("10");
   });
 
@@ -165,7 +165,7 @@ describe("test getValueAndProgressFromKeyboard function", () => {
     slider.value = "8";
     slider.step = "1";
 
-    const value = getValueAndProgressFromKeyboard(slider, 1);
+    const value = getValueByKeydown(slider, "ArrowRight");
     expect(value).toEqual("9");
   });
 });
