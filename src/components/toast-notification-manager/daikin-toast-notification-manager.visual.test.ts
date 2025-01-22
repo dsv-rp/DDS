@@ -5,9 +5,11 @@ import {
   type InferStorybookArgTypes,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_TOAST_MANAGER_ARG_TYPES } from "./stories/common";
+import type { DAIKIN_TOAST_NOTIFICATION_MANAGER_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TOAST_MANAGER_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<
+  typeof DAIKIN_TOAST_NOTIFICATION_MANAGER_ARG_TYPES
+>;
 
 const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-toast-notification-manager--default", args);
@@ -35,7 +37,7 @@ describeEach(["light", "dark"] as const, (theme) => {
 
         // wait for element to be visible
         const element = await page.waitForSelector(
-          "daikin-toast-notification-container",
+          "sb-toast-notification-container",
           {
             state: "visible",
           }

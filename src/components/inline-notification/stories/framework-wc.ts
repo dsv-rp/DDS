@@ -6,7 +6,6 @@ import type { DaikinInlineNotificationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinInlineNotificationStoryArgs> = {
   render: ({
-    open,
     status,
     layout,
     closable,
@@ -19,7 +18,6 @@ export const metadata: Meta<DaikinInlineNotificationStoryArgs> = {
     <daikin-inline-notification
       layout=${layout}
       status=${status}
-      ?open=${open}
       ?closable=${closable}
       ?timestamp=${timestamp}
       @close=${onClose}

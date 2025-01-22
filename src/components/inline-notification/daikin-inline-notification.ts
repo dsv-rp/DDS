@@ -10,7 +10,7 @@ import {
 import type { ToastNotificationVariantProps } from "../toast-notification";
 
 /**
- * The inline-notification component is a UI element used to inform users about important updates, alerts, or messages within an application.
+ * The inline notification component is a UI element used to inform users about important updates, alerts, or messages within an application.
  *
  * Alerts appear within the content of the application, usually embedded directly within a page or section.
  * Alerts are more persistent and are used to highlight important information or status updates that should remain visible to the user until they are acknowledged or the issue is resolved.
@@ -42,10 +42,14 @@ export class DaikinInlineNotification extends LitElement {
       display: block;
       width: 100%;
     }
+
+    :host([hidden]) {
+      display: none;
+    }
   `;
 
   /**
-   * Status of inline-notification.
+   * Status of the notification.
    */
   @property({ type: String })
   status: ToastNotificationVariantProps["status"] = "positive";
@@ -55,12 +59,6 @@ export class DaikinInlineNotification extends LitElement {
    */
   @property({ type: String })
   layout: ToastNotificationVariantProps["layout"] = "horizontal";
-
-  /**
-   * Specify the inline-notification's open state.
-   */
-  @property({ type: Boolean, reflect: true })
-  open = false;
 
   /**
    * Whether to display the close button.
@@ -78,45 +76,43 @@ export class DaikinInlineNotification extends LitElement {
    * Call the event registered in "close".
    */
   private _handleClickClose() {
-    this.open = false;
+    this.hidden = true;
     this.dispatchEvent(new Event("close"));
   }
 
   private _timestamp = formatDate(new Date());
 
   override render() {
-    return this.open
-      ? html`<aside
-          class=${cvaContainer({ variant: "inline", status: this.status })}
-          role="status"
-        >
-          <div class=${cvaContent({ layout: this.layout })}>
-            <slot class="font-bold whitespace-nowrap" name="title"></slot>
-            <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
-              <slot name="description"></slot>
-            </p>
-            ${this.timestamp
-              ? html`<span class=${cvaTimestamp({ layout: this.layout })}
-                  >${this._timestamp}</span
-                >`
-              : nothing}
-          </div>
-          <slot name="action" class="flex-none"></slot>
-          ${this.closable
-            ? html`
-                <daikin-icon-button
-                  variant="ghost"
-                  button-aria-label="Close"
-                  @click=${this._handleClickClose}
-                >
-                  <span
-                    class="flex size-6 text-ddt-color-common-text-secondary relative i-daikin-cross"
-                  ></span>
-                </daikin-icon-button>
-              `
-            : nothing}
-        </aside>`
-      : nothing;
+    return html`<aside
+      class=${cvaContainer({ variant: "inline", status: this.status })}
+      role="status"
+    >
+      <div class=${cvaContent({ layout: this.layout })}>
+        <slot class="font-bold whitespace-nowrap" name="title"></slot>
+        <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
+          <slot name="description"></slot>
+        </p>
+        ${this.timestamp
+          ? html`<span class=${cvaTimestamp({ layout: this.layout })}
+              >${this._timestamp}</span
+            >`
+          : nothing}
+      </div>
+      <slot name="action" class="flex-none"></slot>
+      ${this.closable
+        ? html`
+            <daikin-icon-button
+              variant="ghost"
+              button-aria-label="Close"
+              @click=${this._handleClickClose}
+            >
+              <span
+                class="flex size-6 text-ddt-color-common-text-secondary relative i-daikin-cross"
+              ></span>
+            </daikin-icon-button>
+          `
+        : nothing}
+    </aside>`;
   }
 }
 

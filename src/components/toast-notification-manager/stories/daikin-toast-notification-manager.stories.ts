@@ -1,13 +1,21 @@
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent, waitFor } from "@storybook/test";
-import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
-import { DAIKIN_TOAST_MANAGER_ARG_TYPES, type Story } from "./common";
+import {
+  getAllByShadowRole,
+  getByShadowRole,
+  getByShadowText,
+  queryByShadowText,
+} from "shadow-dom-testing-library";
+import {
+  DAIKIN_TOAST_NOTIFICATION_MANAGER_ARG_TYPES,
+  type Story,
+} from "./common";
 
 export default {
   title: "Components/Toast Notification Manager",
   tags: ["autodocs"],
-  argTypes: DAIKIN_TOAST_MANAGER_ARG_TYPES,
+  argTypes: DAIKIN_TOAST_NOTIFICATION_MANAGER_ARG_TYPES,
   ...metadata,
 };
 
@@ -25,9 +33,7 @@ export const AutomationClose: Story = {
     onClose: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
-    const root = canvasElement.getElementsByTagName(
-      "daikin-toast-notification-container"
-    )[0];
+    const root = canvasElement;
     await expect(root).toBeInTheDocument();
 
     const button = getByShadowRole(root, "button", {
@@ -39,26 +45,46 @@ export const AutomationClose: Story = {
       "Should disappear the toast when click the close button",
       async () => {
         await userEvent.click(button);
-        await userEvent.click(
-          getByShadowRole(root, "button", {
-            name: "Close",
-          })
+        await userEvent.click(button);
+        await userEvent.click(button);
+        await waitFor(() =>
+          expect(getByShadowText(root, "New toast 1")).toBeInTheDocument()
+        );
+        await waitFor(() =>
+          expect(getByShadowText(root, "New toast 2")).toBeInTheDocument()
+        );
+        await waitFor(() =>
+          expect(getByShadowText(root, "New toast 3")).toBeInTheDocument()
         );
 
+        await userEvent.click(
+          getAllByShadowRole(root, "button", {
+            name: "Close",
+          })[1]
+        );
+        await waitFor(() =>
+          expect(queryByShadowText(root, "New toast 2")).not.toBeInTheDocument()
+        );
         await waitFor(() => expect(args.onClose).toHaveBeenCalledTimes(1));
+
+        await userEvent.click(
+          getAllByShadowRole(root, "button", {
+            name: "Close",
+          })[0]
+        );
+        await waitFor(() =>
+          expect(queryByShadowText(root, "New toast 1")).not.toBeInTheDocument()
+        );
+        await waitFor(() => expect(args.onClose).toHaveBeenCalledTimes(2));
       }
     );
 
     await step(
       "Should disappear automatically the toast after a certain amount of time has passed",
       async () => {
-        await userEvent.click(button);
-        await waitFor(() =>
-          expect(getByShadowText(root, "New toast 2")).toBeInTheDocument()
-        );
         button.blur();
 
-        await waitFor(() => expect(args.onClose).toHaveBeenCalledTimes(2), {
+        await waitFor(() => expect(args.onClose).toHaveBeenCalledTimes(3), {
           timeout: 3300,
         });
       }

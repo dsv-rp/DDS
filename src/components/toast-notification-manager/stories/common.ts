@@ -1,7 +1,11 @@
 import "#package/components/button/daikin-button";
 import "#package/components/toast-notification-manager/daikin-toast-notification-manager";
-import type { ToastPositionType } from "#package/components/toast-notification-manager/daikin-toast-notification-manager";
+import type {
+  DaikinToastNotificationManager,
+  ToastPosition,
+} from "#package/components/toast-notification-manager/daikin-toast-notification-manager";
 import "#package/components/toast-notification/daikin-toast-notification";
+import type { DaikinToastNotification } from "#package/components/toast-notification/daikin-toast-notification";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { LitElement, html } from "lit";
@@ -9,12 +13,12 @@ import { customElement, property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
 
-export type ToastCloseEventType = CustomEvent<{ name: string }>;
+export type ToastCloseEvent = CustomEvent<{ target: DaikinToastNotification }>;
 
-@customElement("daikin-toast-notification-container")
-export class DaikinToastNotificationContainer extends LitElement {
+@customElement("sb-toast-notification-container")
+export class SBToastNotificationContainer extends LitElement {
   @property({ type: String, reflect: true })
-  position: ToastPositionType = "bottom-right";
+  position: ToastPosition = "bottom-right";
 
   @property({ type: Number, reflect: true })
   duration: number | null = null;
@@ -26,22 +30,24 @@ export class DaikinToastNotificationContainer extends LitElement {
   private _items: string[] = [];
 
   @state()
-  private _latestIndex = 0;
+  private _index = 0;
 
   get _positionY(): "top" | "bottom" {
     return this.position.startsWith("top") ? "top" : "bottom";
   }
 
   private _handleClick() {
+    const newIndex = this._index + 1;
+
     this._items =
       this._positionY === "top"
-        ? [`toast ${this._latestIndex + 1}`, ...this._items]
-        : [...this._items, `toast ${this._latestIndex + 1}`];
-    this._latestIndex++;
+        ? [`toast ${newIndex}`, ...this._items]
+        : [...this._items, `toast ${newIndex}`];
+    this._index = newIndex;
   }
 
-  private _handleClose(event: ToastCloseEventType) {
-    const name = event.detail.name;
+  private _handleClose(event: ToastCloseEvent) {
+    const name = event.detail.target.name;
 
     this._items = this._items.filter((item) => item != name);
     this.dispatchEvent(new Event("close"));
@@ -65,10 +71,8 @@ export class DaikinToastNotificationContainer extends LitElement {
           (item) =>
             html`<daikin-toast-notification
               name=${item}
-              variant="toast"
               status="positive"
               closable
-              open
               style="width:max-content;"
             >
               <span slot="title">${`New ${item}`}</span>
@@ -89,17 +93,17 @@ export class DaikinToastNotificationContainer extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "daikin-toast-notification-container": DaikinToastNotificationContainer;
+    "sb-toast-notification-container": SBToastNotificationContainer;
   }
 }
 
-export interface DaikinToastManagerStoryArgs
-  extends Required<ElementProps<DaikinToastNotificationContainer>> {
+export interface DaikinToastNotificationManagerStoryArgs
+  extends Required<ElementProps<DaikinToastNotificationManager>> {
   isVrt: boolean;
   onClose: () => void;
 }
 
-export const DAIKIN_TOAST_MANAGER_ARG_TYPES = {
+export const DAIKIN_TOAST_NOTIFICATION_MANAGER_ARG_TYPES = {
   position: {
     control: "radio",
     options: [
@@ -121,6 +125,6 @@ export const DAIKIN_TOAST_MANAGER_ARG_TYPES = {
   onClose: {
     name: "",
   },
-} satisfies Meta<DaikinToastManagerStoryArgs>["argTypes"];
+} satisfies Meta<DaikinToastNotificationManagerStoryArgs>["argTypes"];
 
-export type Story = StoryObj<DaikinToastManagerStoryArgs>;
+export type Story = StoryObj<DaikinToastNotificationManagerStoryArgs>;

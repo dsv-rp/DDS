@@ -13,7 +13,6 @@ export const Default: Story = {
   args: {
     status: "positive",
     layout: "horizontal",
-    open: true,
     closable: true,
     timestamp: false,
     slotTitle: "Inline title",

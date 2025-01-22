@@ -19,9 +19,6 @@ export const DAIKIN_INLINE_NOTIFICATION_ARG_TYPES = {
     control: "radio",
     options: ["horizontal", "vertical"],
   },
-  open: {
-    type: "boolean",
-  },
   closable: {
     type: "boolean",
   },

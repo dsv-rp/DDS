@@ -20,7 +20,16 @@ const TOAST_MOVE_OFFSET_Y_TOP_SIGN = -1;
 const TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN = 1;
 
 const cvaContainer = cva(
-  ["flex", "flex-col", "gap-2", "w-max", "fixed", "transition-transform"],
+  [
+    "flex",
+    "flex-col",
+    "gap-2",
+    "w-max",
+    "fixed",
+    "transition-transform",
+    "translate-y-[var(--container-move-offset-y,0)]",
+    "duration-[var(--container-transition-duration,200ms)]",
+  ],
   {
     variants: {
       position: {
@@ -35,12 +44,11 @@ const cvaContainer = cva(
   }
 );
 
-export type ToastPositionType = MergeVariantProps<
-  typeof cvaContainer
->["position"];
+export type ToastPosition = MergeVariantProps<typeof cvaContainer>["position"];
 
 /**
- * The toast manager component manages the display of toasts. It supports display position, stacking, display/delete animations, etc.
+ * The toast manager component manages the position and display state of notification toasts.
+ * Just place a notification toast in the slot and it will automatically be placed, stacked and animated.
  *
  * @fires close - A custom event emitted when a user clicks the close button. Even if this is fired, the toast inside the slot will not be deleted from the component side, so you will need to delete it yourself.
  *
@@ -71,7 +79,7 @@ export type ToastPositionType = MergeVariantProps<
  * ```
  */
 @customElement("daikin-toast-notification-manager")
-export class DaikinToastManager extends LitElement {
+export class DaikinToastNotificationManager extends LitElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -84,7 +92,7 @@ export class DaikinToastManager extends LitElement {
    * Specify where on the screen the toast will be displayed.
    */
   @property({ type: String, reflect: true })
-  position: ToastPositionType = "bottom-right";
+  position: ToastPosition = "bottom-right";
 
   /**
    * Specify how many seconds after the toast is displayed the close event should be fired (unit = ms).
@@ -116,17 +124,19 @@ export class DaikinToastManager extends LitElement {
     );
 
     for (const item of items) {
-      item.style.removeProperty(`--transition-duration`);
+      item.style.removeProperty("--transition-duration");
     }
 
-    target.style.setProperty(`--move-offset-x`, TOAST_MOVE_OFFSET_X);
-    target.style.setProperty(`--opacity`, "0");
-    target.style.setProperty(`--pointer-events`, "none");
+    target.hidden = true;
+
+    target.style.setProperty("--move-offset-x", TOAST_MOVE_OFFSET_X);
+    target.style.setProperty("--opacity", "0");
+    target.style.setProperty("--pointer-events", "none");
 
     for (const item of afterItems) {
       const height = item.clientHeight;
       item.style.setProperty(
-        `--move-offset-y`,
+        "--move-offset-y",
         `calc(0.5rem + ${
           height *
           (this._positionY === "top"
@@ -138,14 +148,12 @@ export class DaikinToastManager extends LitElement {
 
     setTimeout(() => {
       for (const item of this._items) {
-        item.style.setProperty(`--transition-duration`, "0");
+        item.style.setProperty("--transition-duration", "0");
       }
 
-      this.dispatchEvent(
-        new CustomEvent("close", { detail: { name: target.name } })
-      );
+      this.dispatchEvent(new CustomEvent("close", { detail: { target } }));
       for (const item of this._items) {
-        item.style.removeProperty(`--move-offset-y`);
+        item.style.removeProperty("--move-offset-y");
       }
     }, TOAST_DURATION);
   }
@@ -184,7 +192,6 @@ export class DaikinToastManager extends LitElement {
     return html`<div
       ${ref(this._containerRef)}
       class=${cvaContainer({ position: this.position })}
-      style=${`transform:translateY(var(${CONTAINER_MOVE_OFFSET_Y},0));transition-duration:var(${CONTAINER_TRANSITION_DURATION},${TOAST_DURATION}ms);`}
     >
       <slot
         @close=${this._handleClose}
@@ -228,6 +235,6 @@ export class DaikinToastManager extends LitElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "daikin-toast-notification-manager": DaikinToastManager;
+    "daikin-toast-notification-manager": DaikinToastNotificationManager;
   }
 }
