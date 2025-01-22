@@ -1,10 +1,9 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import { LitElement, css, html, unsafeCSS } from "lit";
 import {
   customElement,
   property,
   queryAssignedElements,
-  state,
 } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -104,11 +103,7 @@ export class DaikinToastNotificationManager extends LitElement {
   @queryAssignedElements({ selector: "daikin-toast-notification" })
   private readonly _items!: readonly DaikinToastNotification[];
 
-  @state()
-  private _beforeItems: readonly DaikinToastNotification[] = [];
-
-  @state()
-  _newItem: DaikinToastNotification | null = null;
+  private _knownItemSet: ReadonlySet<DaikinToastNotification> = new Set();
 
   private _containerRef = createRef<HTMLElement>();
 
@@ -164,14 +159,44 @@ export class DaikinToastNotificationManager extends LitElement {
     this._close(event.target as DaikinToastNotification);
   }
 
+  private _handleNewItem(newItem: DaikinToastNotification): void {
+    const container = this._containerRef.value;
+
+    if (!container) {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      newItem.style.setProperty("--opacity", "0");
+      container.style.setProperty(CONTAINER_TRANSITION_DURATION, "0");
+      container.style.setProperty(
+        CONTAINER_MOVE_OFFSET_Y,
+        `calc(0.5rem + ${
+          newItem.clientHeight *
+          (this._positionY === "top"
+            ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
+            : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN)
+        }px)`
+      );
+
+      requestAnimationFrame(() => {
+        container.style.removeProperty(CONTAINER_TRANSITION_DURATION);
+        container.style.removeProperty(CONTAINER_MOVE_OFFSET_Y);
+        newItem.style.removeProperty("--opacity");
+
+        this._removeToast(newItem);
+      });
+    });
+  }
+
   private _handleSlotchange() {
     const items = this._items;
 
-    this._newItem =
-      items.find(
-        (item) => !this._beforeItems.find((beforeItem) => item === beforeItem)
-      ) ?? null;
-    this._beforeItems = items;
+    const newItems = items.filter((item) => !this._knownItemSet.has(item));
+    this._knownItemSet = new Set(items);
+    for (const newItem of newItems) {
+      this._handleNewItem(newItem);
+    }
   }
 
   private _removeToast(target: DaikinToastNotification) {
@@ -198,38 +223,6 @@ export class DaikinToastNotificationManager extends LitElement {
         @slotchange=${this._handleSlotchange}
       ></slot>
     </div>`;
-  }
-
-  protected override updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has("_newItem") && !!this._newItem) {
-      const container = this._containerRef.value;
-      const newItem = this._newItem;
-
-      if (!container) {
-        return;
-      }
-
-      newItem.style.setProperty(`--opacity`, "0");
-      container.style.setProperty(CONTAINER_TRANSITION_DURATION, "0");
-      container.style.setProperty(
-        CONTAINER_MOVE_OFFSET_Y,
-        `calc(0.5rem + ${
-          newItem.clientHeight *
-          (this._positionY === "top"
-            ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
-            : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN)
-        }px)`
-      );
-
-      setTimeout(() => {
-        container.style.removeProperty(CONTAINER_TRANSITION_DURATION);
-        container.style.removeProperty(CONTAINER_MOVE_OFFSET_Y);
-        newItem.style.removeProperty(`--opacity`);
-
-        this._removeToast(newItem);
-        this._newItem = null;
-      }, 0);
-    }
   }
 }
 
