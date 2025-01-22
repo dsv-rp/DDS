@@ -18,18 +18,26 @@ const ReactDaikinToastNotificationManager = createComponent({
   },
 });
 
+const vrtItems = [...Array(3).keys()].map((item) => `toast ${item + 1}`);
+
 export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
   component: ({
     isVrt,
     onClose,
     ...props
   }: DaikinToastNotificationManagerStoryArgs) => {
-    const [index, setIndex] = useState<number>(isVrt ? 2 : 0);
-    const [items, setItems] = useState<string[]>([]);
-
     const positionY: "top" | "bottom" = props.position.startsWith("top")
       ? "top"
       : "bottom";
+
+    const [index, setIndex] = useState<number>(0);
+    const [items, setItems] = useState<string[]>([]);
+
+    const resultItems = isVrt
+      ? positionY === "top"
+        ? vrtItems.reverse()
+        : vrtItems
+      : items;
 
     const handleClick = () => {
       const newIndex = index + 1;
@@ -51,10 +59,9 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
 
     return (
       <div
+        data-testid="toast-notification-container"
         {...(isVrt && {
           style: {
-            display: "block",
-            width: "800px",
             height: "688px",
           },
         })}
@@ -63,7 +70,7 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
           View new toast
         </ReactDaikinButton>
         <ReactDaikinToastNotificationManager {...props} onClose={handleClose}>
-          {items.map((item) => (
+          {resultItems.map((item) => (
             <ReactDaikinToastNotification
               key={item}
               name={item}

@@ -37,7 +37,7 @@ describeEach(["light", "dark"] as const, (theme) => {
 
         // wait for element to be visible
         const element = await page.waitForSelector(
-          "sb-toast-notification-container",
+          "[data-testid='toast-notification-container']",
           {
             state: "visible",
           }
