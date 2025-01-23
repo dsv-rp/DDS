@@ -1,52 +1,6 @@
 import { describe, it } from "vitest";
 import { DaikinSlider } from "./daikin-slider";
-import {
-  getValueByKeydown,
-  getValueFromRatio,
-  parsedToFloat,
-} from "./slider-utils";
-
-describe("test parsedToFloat function", () => {
-  it("min: '1'; max: '100'; step: '1'; value: '50'", ({ expect }) => {
-    const [min, max, step, value] = parsedToFloat("1", "100", "2", "50");
-    expect(min).toEqual(1);
-    expect(max).toEqual(100);
-    expect(step).toEqual(2);
-    expect(value).toEqual(50);
-  });
-
-  it("min: '1'; max: '100'; step: '0.01'; value: '50'", ({ expect }) => {
-    const [min, max, step, value] = parsedToFloat("1", "100", "0.01", "50");
-    expect(min).toEqual(1);
-    expect(max).toEqual(100);
-    expect(step).toEqual(0.01);
-    expect(value).toEqual(50);
-  });
-
-  it("min: '1'; max: '100'; step: '0.01000'; value: '50'", ({ expect }) => {
-    const [min, max, step, value] = parsedToFloat("1", "100", "0.01", "50");
-    expect(min).toEqual(1);
-    expect(max).toEqual(100);
-    expect(step).toEqual(0.01);
-    expect(value).toEqual(50);
-  });
-
-  it("min: '1'; max: '100'; step: '0.010001'; value: '50'", ({ expect }) => {
-    const [min, max, step, value] = parsedToFloat("1", "100", "0.010001", "50");
-    expect(min).toEqual(1);
-    expect(max).toEqual(100);
-    expect(step).toEqual(0.010001);
-    expect(value).toEqual(50);
-  });
-
-  it("min: '1'; max: '100'; step: '1'; value: '200'", ({ expect }) => {
-    const [min, max, step, value] = parsedToFloat("1", "100", "2", "200");
-    expect(min).toEqual(1);
-    expect(max).toEqual(100);
-    expect(step).toEqual(2);
-    expect(value).toEqual(100);
-  });
-});
+import { getValueByKeydown, getValueFromRatio } from "./slider-utils";
 
 describe("test getValueFromRatio function", () => {
   it("min: '0'; max: '100'; step: '1'; leftDistance: 0.5", ({ expect }) => {
@@ -111,6 +65,28 @@ describe("test getValueFromRatio function", () => {
     const value = getValueFromRatio(slider, 0.21);
     expect(value).toEqual("2.1");
   });
+
+  it("min: '0'; max: '10'; step: '0.01000'; leftDistance: 0.5", ({
+    expect,
+  }) => {
+    const slider = new DaikinSlider();
+    slider.min = "0";
+    slider.max = "10";
+    slider.step = "0.01000";
+    const value = getValueFromRatio(slider, 0.5);
+    expect(value).toEqual("5");
+  });
+
+  it("min: '0'; max: '10'; step: '0.01001'; leftDistance: 0.5", ({
+    expect,
+  }) => {
+    const slider = new DaikinSlider();
+    slider.min = "0";
+    slider.max = "10";
+    slider.step = "0.01001";
+    const value = getValueFromRatio(slider, 0.5);
+    expect(value).toEqual("5.005");
+  });
 });
 
 describe("test getValueByKeydown function", () => {
@@ -167,5 +143,27 @@ describe("test getValueByKeydown function", () => {
 
     const value = getValueByKeydown(slider, "ArrowRight");
     expect(value).toEqual("9");
+  });
+
+  it("min: '1'; max: '10'; step: '0.01000'; value: '8'", ({ expect }) => {
+    const slider = new DaikinSlider();
+    slider.min = "1";
+    slider.max = "10";
+    slider.value = "8";
+    slider.step = "0.01000";
+
+    const value = getValueByKeydown(slider, "ArrowRight");
+    expect(value).toEqual("8.01");
+  });
+
+  it("min: '1'; max: '10'; step: '0.01001'; value: '8'", ({ expect }) => {
+    const slider = new DaikinSlider();
+    slider.min = "1";
+    slider.max = "10";
+    slider.value = "8";
+    slider.step = "0.01001";
+
+    const value = getValueByKeydown(slider, "ArrowRight");
+    expect(value).toEqual("8.01001");
   });
 });
