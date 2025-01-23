@@ -113,7 +113,7 @@ export class DaikinSlider extends LitElement {
    * The form value, submitted as a name/value pair when submitting the form.
    */
   @property({ type: String, reflect: true })
-  value = "1";
+  value = this.min;
 
   /**
    * Specify the slider disabled state.
