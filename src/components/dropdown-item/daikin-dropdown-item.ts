@@ -138,11 +138,7 @@ export class DaikinDropdownItem extends LitElement {
   }
 
   private _emitSelect(): void {
-    this.dispatchEvent(
-      new CustomEvent("select", {
-        bubbles: true,
-      })
-    );
+    this.dispatchEvent(new Event("select", { bubbles: true }));
   }
 
   override render() {
