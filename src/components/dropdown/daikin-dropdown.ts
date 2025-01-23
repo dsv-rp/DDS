@@ -314,8 +314,16 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
-  private _updateSelectedOptionsValue(value: string | null) {
-    if (!value) {
+  private _updateValue() {
+    this.value = this.selectedOptions.at(-1) ?? null;
+  }
+
+  private _updateSelectedOptions(isOverride = false) {
+    if (isOverride) {
+      this.selectedOptions = this.value ? [this.value] : [];
+    }
+
+    if (!this.value) {
       // Clear option.
       const removeOption = this.selectedOptions.pop();
       this.selectedOptions = this.selectedOptions.filter(
@@ -325,9 +333,9 @@ export class DaikinDropdown extends LitElement {
       return;
     }
 
-    this.selectedOptions = this.selectedOptions.includes(value)
-      ? this.selectedOptions.filter((option) => option != value)
-      : [...this.selectedOptions, value];
+    this.selectedOptions = this.selectedOptions.includes(this.value)
+      ? this.selectedOptions.filter((option) => option != this.value)
+      : [...this.selectedOptions, this.value];
   }
 
   private _handleClick(): void {
@@ -372,12 +380,10 @@ export class DaikinDropdown extends LitElement {
     if (this.open) {
       // Close
       this.open = false;
-    } else if (!this.value) {
-      // Clear selection
-      this._updateSelectedOptionsValue(null);
     } else {
       // Clear selection
       this.value = null;
+      this._updateSelectedOptions();
     }
   }
 
@@ -412,15 +418,8 @@ export class DaikinDropdown extends LitElement {
    * Handle `select` event from `daikin-dropdown-item`.
    */
   private _handleSelect(event: Event): void {
-    const target = event.target as DaikinDropdownItem;
-
-    // If `target.value` is the same as `this.value` in multiple selection,
-    // it cannot be detected by the changedProperties of the update method, so `selectedOptions` is updated here as an exception.
-    if (this.multiple && this.value === target.value) {
-      this._updateSelectedOptionsValue(target.value);
-    }
-
-    this.value = target.value;
+    this.value = (event.target as DaikinDropdownItem).value;
+    this._updateSelectedOptions();
 
     if (!this.multiple) {
       this.open = false;
@@ -499,16 +498,28 @@ export class DaikinDropdown extends LitElement {
       !!this.selectedOptions.length &&
       (!this.value || !this.selectedOptions.includes(this.value))
     ) {
-      this.value = this.selectedOptions.at(-1) ?? null;
+      this._updateValue();
     } else if (!!this.value && !this.selectedOptions.length) {
-      this.selectedOptions = [this.value];
+      this._updateSelectedOptions(true);
+    }
+  }
+
+  protected override willUpdate(changedProperties: PropertyValues): void {
+    const hasChangedValue = changedProperties.has("value");
+    const hasChangedSelectedOptions = changedProperties.has("selectedOptions");
+
+    if (hasChangedValue && !hasChangedSelectedOptions) {
+      this._updateSelectedOptions(true);
+    }
+
+    if (!hasChangedValue && hasChangedSelectedOptions) {
+      this._updateValue();
     }
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has("value")) {
       this._updateFormValue();
-      this._updateSelectedOptionsValue(this.value);
     }
 
     if (changedProperties.has("open") || changedProperties.has("disabled")) {
