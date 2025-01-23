@@ -121,6 +121,12 @@ export class DaikinSlider extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * The aria-label of the slider.
+   */
+  @property({ type: String, reflect: true, attribute: "slider-aria-label" })
+  sliderAriaLabel = "slider";
+
   static readonly formAssociated = true;
 
   private _sliderRef: Ref<HTMLElement> = createRef();
@@ -252,7 +258,7 @@ export class DaikinSlider extends LitElement {
           aria-valuenow=${this.value}
           aria-valuemin=${this.min}
           aria-valuemax=${this.max}
-          aria-label="slider"
+          aria-label=${this.sliderAriaLabel}
           @mousedown=${this._startDrag}
           @keydown=${this._handleKeyDown}
         >
