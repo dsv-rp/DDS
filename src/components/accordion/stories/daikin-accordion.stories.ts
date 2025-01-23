@@ -14,7 +14,7 @@ export default {
 
 export const Default: Story = {
   args: {
-    active: ["value2"],
+    openedItems: ["value2"],
     exclusive: false,
   },
   play: definePlay(async ({ canvasElement, step }) => {

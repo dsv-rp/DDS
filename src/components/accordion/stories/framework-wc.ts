@@ -6,9 +6,9 @@ import { repeat } from "lit/directives/repeat.js";
 import type { DaikinAccordionStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAccordionStoryArgs> = {
-  render: ({ active, exclusive }) => html`
+  render: ({ openedItems, exclusive }) => html`
     <div style="width:360px;">
-      <daikin-accordion .active=${active} ?exclusive=${exclusive}>
+      <daikin-accordion .openedItems=${openedItems} ?exclusive=${exclusive}>
         ${repeat(
           [...Array(5).keys()],
           (index) => index,
