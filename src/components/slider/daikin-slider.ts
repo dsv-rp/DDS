@@ -193,15 +193,18 @@ export class DaikinSlider extends LitElement {
    * @param event A MouseEvent.
    * @returns The mouse's X coordinate normalized to a range of 0 to 1. The left end and beyond of the slider is 0, and the right end and beyond is 1.
    */
-  private calcMousePositionRatio(event: MouseEvent): number | undefined {
+  private calcMousePositionRatio(
+    event: MouseEvent | TouchEvent
+  ): number | undefined {
     const sliderRef = this._sliderRef.value?.getBoundingClientRect();
     if (sliderRef == null) {
       return;
     }
-    const newLeft = Math.max(
-      0,
-      Math.min(event.clientX - sliderRef.left, sliderRef.width)
-    );
+    const left =
+      event instanceof MouseEvent
+        ? event.clientX - sliderRef.left
+        : event.targetTouches[0].clientX - sliderRef.left;
+    const newLeft = Math.max(0, Math.min(left, sliderRef.width));
     return newLeft / sliderRef.width;
   }
 
@@ -230,6 +233,31 @@ export class DaikinSlider extends LitElement {
     document.addEventListener("mouseup", stopDrag);
   }
 
+  // This function will triggered when the slider thumb button start dragging.
+  private _startTouch(event: TouchEvent) {
+    event.preventDefault();
+    if (this.disabled) {
+      return;
+    }
+
+    const onTouch = (event: TouchEvent) => {
+      const leftDistance = this.calcMousePositionRatio(event);
+      if (leftDistance == null) {
+        return;
+      }
+      const value = getValueFromRatio(this, leftDistance);
+      this.value = value;
+    };
+
+    const stopTouch = () => {
+      document.removeEventListener("touchmove", onTouch);
+      document.removeEventListener("touchend", stopTouch);
+    };
+
+    document.addEventListener("touchmove", onTouch);
+    document.addEventListener("touchend", stopTouch);
+  }
+
   override render() {
     const progress = this._progress;
     /* eslint-disable lit-a11y/click-events-have-key-events */
@@ -239,6 +267,7 @@ export class DaikinSlider extends LitElement {
         ${ref(this._sliderRef)}
         class=${cvaSlider({ disabled: this.disabled })}
         @mousedown=${this._startDrag}
+        @touchstart=${this._startTouch}
         @click=${this._handleClick}
       >
         <span

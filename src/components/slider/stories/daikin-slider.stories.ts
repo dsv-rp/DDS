@@ -133,6 +133,64 @@ export const Default: Story = {
       await expect(args.onInput).toHaveBeenCalledTimes(11);
       await expect(args.onInput).toHaveLastReturnedWith({ value: "5" });
     });
+
+    // Test drag slider thumb with touch
+    await step("Touch drag the slider thumb to most right", async () => {
+      await fireEvent.touchStart(thumb);
+      await fireEvent.touchMove(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: root.clientWidth,
+          }),
+        ],
+      });
+      await fireEvent.touchEnd(thumb);
+      await expect(root.value).toEqual("10");
+      await expect(args.onChange).toHaveBeenCalledTimes(12);
+      await expect(args.onChange).toHaveLastReturnedWith({ value: "10" });
+      await expect(args.onInput).toHaveBeenCalledTimes(12);
+      await expect(args.onInput).toHaveLastReturnedWith({ value: "10" });
+    });
+
+    await step("Touch drag the slider thumb to most left", async () => {
+      await fireEvent.touchStart(thumb);
+      await fireEvent.touchMove(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: 0,
+          }),
+        ],
+      });
+      await fireEvent.touchEnd(thumb);
+      await expect(root.value).toEqual("1");
+      await expect(args.onChange).toHaveBeenCalledTimes(13);
+      await expect(args.onChange).toHaveLastReturnedWith({ value: "1" });
+      await expect(args.onInput).toHaveBeenCalledTimes(13);
+      await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
+    });
+
+    await step("Touch drag slider thumb to value 5", async () => {
+      await fireEvent.touchStart(thumb);
+      await fireEvent.touchMove(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: (root.clientWidth * 4) / 9,
+          }),
+        ],
+      });
+      await fireEvent.touchEnd(thumb);
+      await expect(root.value).toEqual("5");
+      await expect(args.onChange).toHaveBeenCalledTimes(14);
+      await expect(args.onChange).toHaveLastReturnedWith({ value: "5" });
+      await expect(args.onInput).toHaveBeenCalledTimes(14);
+      await expect(args.onInput).toHaveLastReturnedWith({ value: "5" });
+    });
   }),
 };
 
