@@ -6,6 +6,11 @@ import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
 import { definePlay } from "../../../storybook/define-play";
 import { DAIKIN_DROPDOWN_ARG_TYPES, type Story } from "./common";
 
+const resetArgs = {
+  value: null,
+  selectedOptions: [],
+};
+
 export default {
   title: "Components/Dropdown",
   tags: ["autodocs"],
@@ -107,7 +112,7 @@ export const Default: Story = {
 export const Disabled: Story = {
   args: {
     ...Default.args,
-    value: null,
+    ...resetArgs,
     disabled: true,
     onClick: fn(eventPayloadTransformer),
     onChange: fn(eventPayloadTransformer),
@@ -129,7 +134,7 @@ export const Disabled: Story = {
 export const Error: Story = {
   args: {
     ...Default.args,
-    value: null,
+    ...resetArgs,
     error: true,
   },
 };
@@ -137,7 +142,7 @@ export const Error: Story = {
 export const SingleItem: Story = {
   args: {
     ...Default.args,
-    value: null,
+    ...resetArgs,
     option: "single",
   },
 };
@@ -145,7 +150,7 @@ export const SingleItem: Story = {
 export const ManyItems: Story = {
   args: {
     ...Default.args,
-    value: null,
+    ...resetArgs,
     option: "many",
   },
 };
@@ -153,12 +158,11 @@ export const ManyItems: Story = {
 export const Multiple: Story = {
   args: {
     ...Default.args,
-    value: null,
+    ...resetArgs,
     placeholder: "Choose Options",
     multiple: true,
     maxLabels: 3,
     option: "many",
-    selectedOptions: [],
     onClick: fn(eventPayloadTransformer),
     onChange: fn(eventPayloadTransformer),
   },

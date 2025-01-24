@@ -7,6 +7,12 @@ import {
 import { expect, test, type Page } from "@playwright/test";
 import type { DAIKIN_DROPDOWN_ARG_TYPES } from "./stories/common";
 
+export const valueMap = {
+  none: undefined,
+  single: "value1",
+  many: "value20",
+};
+
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_DROPDOWN_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}, story: string = "default") =>
@@ -112,7 +118,17 @@ describeEach(["light", "dark"] as const, (theme) => {
       });
 
       test("unselected", async ({ page }) => {
-        await base(page, getPageURL(baseArgs, "error"));
+        await base(
+          page,
+          getPageURL(
+            {
+              ...baseArgs,
+              value: undefined,
+              __vrtMultipleValue__: "none",
+            },
+            "error"
+          )
+        );
       });
     });
   });
@@ -125,6 +141,7 @@ describeEach(["multiple"] as const, () => {
         const baseArgs = {
           $theme: theme,
           open: state === "open",
+          value: valueMap[value],
           __vrtMultipleValue__: value,
         };
 
