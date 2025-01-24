@@ -36,7 +36,7 @@ export const Default: Story = {
     const thumb = getByShadowRole(root, "slider");
     await expect(thumb).toBeInTheDocument();
 
-    const slider = root.shadowRoot?.getElementById("slider") as HTMLElement;
+    const slider = root.shadowRoot?.querySelector("div") as HTMLElement;
     await expect(slider).toBeInTheDocument();
 
     // Test drag slider thumb with mouse
@@ -52,7 +52,7 @@ export const Default: Story = {
     });
 
     await step("Drag the slider thumb to most right", async () => {
-      await fireEvent.mouseDown(thumb);
+      await fireEvent.mouseDown(thumb, { clientX: (root.clientWidth * 2) / 9 });
       await fireEvent.mouseMove(thumb, { clientX: root.clientWidth });
       await fireEvent.mouseUp(thumb);
       await expect(root.value).toEqual("10");
@@ -63,7 +63,7 @@ export const Default: Story = {
     });
 
     await step("Drag the slider thumb to most left", async () => {
-      await fireEvent.mouseDown(thumb);
+      await fireEvent.mouseDown(thumb, { clientX: root.clientWidth });
       await fireEvent.mouseMove(thumb, { clientX: 0 });
       await fireEvent.mouseUp(thumb);
       await expect(root.value).toEqual("1");
@@ -126,7 +126,6 @@ export const Default: Story = {
         target: slider,
         coords: { x: sliderRect.width / 2, y: sliderRect.height / 2 },
       });
-      await userEvent.click(root);
       await expect(root.value).toEqual("5");
       await expect(args.onChange).toHaveBeenCalledTimes(11);
       await expect(args.onChange).toHaveLastReturnedWith({ value: "5" });
@@ -136,7 +135,15 @@ export const Default: Story = {
 
     // Test drag slider thumb with touch
     await step("Touch drag the slider thumb to most right", async () => {
-      await fireEvent.touchStart(thumb);
+      await fireEvent.touchStart(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: (root.clientWidth * 4) / 9,
+          }),
+        ],
+      });
       await fireEvent.touchMove(thumb, {
         targetTouches: [
           new Touch({
@@ -155,7 +162,15 @@ export const Default: Story = {
     });
 
     await step("Touch drag the slider thumb to most left", async () => {
-      await fireEvent.touchStart(thumb);
+      await fireEvent.touchStart(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: root.clientWidth,
+          }),
+        ],
+      });
       await fireEvent.touchMove(thumb, {
         targetTouches: [
           new Touch({
@@ -174,7 +189,15 @@ export const Default: Story = {
     });
 
     await step("Touch drag slider thumb to value 5", async () => {
-      await fireEvent.touchStart(thumb);
+      await fireEvent.touchStart(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: 0,
+          }),
+        ],
+      });
       await fireEvent.touchMove(thumb, {
         targetTouches: [
           new Touch({
@@ -208,7 +231,7 @@ export const Disabled: Story = {
     const thumb = getByShadowRole(root, "slider");
     await expect(thumb).toBeInTheDocument();
 
-    const slider = root.shadowRoot?.getElementById("slider") as HTMLElement;
+    const slider = root.shadowRoot?.querySelector("div") as HTMLElement;
     await expect(slider).toBeInTheDocument();
 
     // Test drag slider thumb with mouse

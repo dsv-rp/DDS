@@ -160,13 +160,22 @@ export class DaikinSlider extends LitElement {
     return ((clampedValue - min) / (max - min)) * 100;
   }
 
+  private _handleDrag = (event: MouseEvent | TouchEvent): void => {
+    const leftDistance = this._calcMousePositionRatio(event);
+    if (leftDistance == null) {
+      return;
+    }
+    const value = getValueFromRatio(this, leftDistance);
+    this.value = value;
+  };
+
   // This function will triggered when click the slider bar area.
   private _handleClick(event: MouseEvent) {
     event.preventDefault();
     if (this.disabled) {
       return;
     }
-    const leftDistance = this.calcMousePositionRatio(event);
+    const leftDistance = this._calcMousePositionRatio(event);
     if (leftDistance == null) {
       return;
     }
@@ -193,7 +202,7 @@ export class DaikinSlider extends LitElement {
    * @param event A MouseEvent.
    * @returns The mouse's X coordinate normalized to a range of 0 to 1. The left end and beyond of the slider is 0, and the right end and beyond is 1.
    */
-  private calcMousePositionRatio(
+  private _calcMousePositionRatio(
     event: MouseEvent | TouchEvent
   ): number | undefined {
     const sliderRef = this._sliderRef.value?.getBoundingClientRect();
@@ -215,22 +224,13 @@ export class DaikinSlider extends LitElement {
       return;
     }
 
-    const onDrag = (event: MouseEvent) => {
-      const leftDistance = this.calcMousePositionRatio(event);
-      if (leftDistance == null) {
-        return;
-      }
-      const value = getValueFromRatio(this, leftDistance);
-      this.value = value;
-    };
-
-    const stopDrag = () => {
-      document.removeEventListener("mousemove", onDrag);
+    const stopDrag = (): void => {
+      document.removeEventListener("mousemove", this._handleDrag);
       document.removeEventListener("mouseup", stopDrag);
     };
-
-    document.addEventListener("mousemove", onDrag);
+    document.addEventListener("mousemove", this._handleDrag);
     document.addEventListener("mouseup", stopDrag);
+    this._handleDrag(event);
   }
 
   // This function will triggered when the slider thumb button start dragging.
@@ -240,22 +240,13 @@ export class DaikinSlider extends LitElement {
       return;
     }
 
-    const onTouch = (event: TouchEvent) => {
-      const leftDistance = this.calcMousePositionRatio(event);
-      if (leftDistance == null) {
-        return;
-      }
-      const value = getValueFromRatio(this, leftDistance);
-      this.value = value;
-    };
-
-    const stopTouch = () => {
-      document.removeEventListener("touchmove", onTouch);
+    const stopTouch = (): void => {
+      document.removeEventListener("touchmove", this._handleDrag);
       document.removeEventListener("touchend", stopTouch);
     };
-
-    document.addEventListener("touchmove", onTouch);
+    document.addEventListener("touchmove", this._handleDrag);
     document.addEventListener("touchend", stopTouch);
+    this._handleDrag(event);
   }
 
   override render() {
@@ -263,7 +254,6 @@ export class DaikinSlider extends LitElement {
     /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`
       <div
-        id="slider"
         ${ref(this._sliderRef)}
         class=${cvaSlider({ disabled: this.disabled })}
         @mousedown=${this._startDrag}
@@ -288,19 +278,10 @@ export class DaikinSlider extends LitElement {
           aria-valuemin=${this.min}
           aria-valuemax=${this.max}
           aria-label=${this.sliderAriaLabel}
+          aria-disabled=${this.disabled}
           @mousedown=${this._startDrag}
           @keydown=${this._handleKeyDown}
         >
-          <input
-            class="absolute"
-            type="hidden"
-            name=${this.name}
-            min=${this.min}
-            max=${this.max}
-            .step=${this.step}
-            ?disabled=${this.disabled}
-            .value=${this.value}
-          />
         </span>
       </div>
     `;
