@@ -115,8 +115,8 @@ export class DaikinAccordion extends LitElement {
   }
 
   private _reflectItemOpen() {
-    if (this.exclusive && this.openedItems.length > 1) {
-      if (import.meta.env.DEV) {
+    if (import.meta.env.DEV) {
+      if (this.exclusive && this.openedItems.length > 1) {
         console.warn(
           `Invalid 'openedItems' property: ${JSON.stringify(this.openedItems)}. Only one active can be specified when exclusive is set.`
         );
