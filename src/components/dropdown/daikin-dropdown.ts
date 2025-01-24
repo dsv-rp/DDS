@@ -333,9 +333,11 @@ export class DaikinDropdown extends LitElement {
       return;
     }
 
-    this.selectedOptions = this.selectedOptions.includes(this.value)
-      ? this.selectedOptions.filter((option) => option != this.value)
-      : [...this.selectedOptions, this.value];
+    this.selectedOptions = this.multiple
+      ? this.selectedOptions.includes(this.value)
+        ? this.selectedOptions.filter((option) => option != this.value)
+        : [...this.selectedOptions, this.value]
+      : [this.value];
   }
 
   private _handleClick(): void {
