@@ -1,6 +1,27 @@
 import { describe, it } from "vitest";
 import { DaikinSlider } from "./daikin-slider";
-import { getValueByKeydown, getValueFromRatio } from "./slider-utils";
+import {
+  formatValue,
+  getValueByKeydown,
+  getValueFromRatio,
+} from "./slider-utils";
+
+describe("test formatValue function", () => {
+  it("value: '1.000001'; step: '100'", ({ expect }) => {
+    const value = formatValue(1.000001, "0.2");
+    expect(value).toEqual("1");
+  });
+
+  it("value: '1.001'; step: '0.002'", ({ expect }) => {
+    const value = formatValue(1.001, "0.002");
+    expect(value).toEqual("1.001");
+  });
+
+  it("value: '1.00001'; step: '0.02000'", ({ expect }) => {
+    const value = formatValue(1.00001, "0.02000");
+    expect(value).toEqual("1");
+  });
+});
 
 describe("test getValueFromRatio function", () => {
   it("min: '0'; max: '100'; step: '1'; leftDistance: 0.5", ({ expect }) => {
