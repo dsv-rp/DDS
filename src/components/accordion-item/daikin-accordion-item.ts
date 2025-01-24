@@ -122,7 +122,7 @@ export class DaikinAccordionItem extends LitElement {
   private _contentRef = createRef<HTMLElement>();
 
   /**
-   * Value of the accordion item.
+   * A unique name for the accordion item within the accordion.
    */
   @property({ type: String, reflect: true })
   name = "";

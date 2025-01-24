@@ -59,7 +59,7 @@ export class DaikinAccordion extends LitElement {
   `;
 
   /**
-   * A list of the values of the open items.
+   * A list of the names of the open items.
    * If `exclusive` is true, the number of elements is 0 or 1.
    */
   @property({ type: Array, attribute: false })
