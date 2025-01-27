@@ -8,7 +8,7 @@ import {
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
-import { TOAST_DURATION } from "../../utils/notification-common";
+import { TOAST_ANIMATION_DURATION } from "../../utils/notification-common";
 import type { DaikinToastNotification } from "../toast-notification/daikin-toast-notification";
 
 const CONTAINER_TRANSITION_DURATION = "--container-transition-duration";
@@ -49,7 +49,7 @@ export type ToastPosition = MergeVariantProps<typeof cvaContainer>["position"];
  * The toast manager component manages the position and display state of notification toasts.
  * Just place a notification toast in the slot and it will automatically be placed, stacked and animated.
  *
- * @fires close - A custom event emitted when a user clicks the close button. Even if this is fired, the toast inside the slot will not be deleted from the component side, so you will need to delete it yourself.
+ * @fires close - A custom event emitted when a user clicks the close button. The toast manager does not remove toast elements, so you will need to remove the relevant toast element after receiving this event.
  *
  * @slot A slot for toasts. Place `daikin-toast-notification` elements here.
  *
@@ -150,7 +150,7 @@ export class DaikinToastNotificationManager extends LitElement {
       for (const item of this._items) {
         item.style.removeProperty("--move-offset-y");
       }
-    }, TOAST_DURATION);
+    }, TOAST_ANIMATION_DURATION);
   }
 
   private _handleClose(event: Event) {
@@ -166,6 +166,8 @@ export class DaikinToastNotificationManager extends LitElement {
       return;
     }
 
+    // First, lower the position of the container by the height of the new toast in order to perform the lifting animation.
+    // Since the slot is not yet filled with elements at this point, we delay the process using RAF.
     requestAnimationFrame(() => {
       newItem.style.setProperty("--opacity", "0");
       container.style.setProperty(CONTAINER_TRANSITION_DURATION, "0");
@@ -179,12 +181,14 @@ export class DaikinToastNotificationManager extends LitElement {
         }px)`
       );
 
+      // Next, restore the position to perform the lifting animation.
+      // We delay it with RAF because we need to complete the current render to start the transition.
       requestAnimationFrame(() => {
         container.style.removeProperty(CONTAINER_TRANSITION_DURATION);
         container.style.removeProperty(CONTAINER_MOVE_OFFSET_Y);
         newItem.style.removeProperty("--opacity");
 
-        this._removeToast(newItem);
+        this._scheduleRemoveToast(newItem);
       });
     });
   }
@@ -199,7 +203,7 @@ export class DaikinToastNotificationManager extends LitElement {
     }
   }
 
-  private _removeToast(target: DaikinToastNotification) {
+  private _scheduleRemoveToast(target: DaikinToastNotification) {
     if (this.duration === null) {
       return;
     }

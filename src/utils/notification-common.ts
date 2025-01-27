@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
 
-export const TOAST_DURATION = 200;
+/** The duration of the animation in the appearance and disappearance of the toast (in msec). */
+export const TOAST_ANIMATION_DURATION = 200;
 
 export function formatDate(date: Date): string {
   return date.toLocaleDateString(undefined, { dateStyle: "medium" });

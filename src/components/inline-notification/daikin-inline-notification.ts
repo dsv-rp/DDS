@@ -12,13 +12,13 @@ import type { ToastNotificationVariantProps } from "../toast-notification";
 /**
  * The inline notification component is a UI element used to inform users about important updates, alerts, or messages within an application.
  *
- * Alerts appear within the content of the application, usually embedded directly within a page or section.
- * Alerts are more persistent and are used to highlight important information or status updates that should remain visible to the user until they are acknowledged or the issue is resolved.
+ * An inline notification appears within the content of the application, usually embedded directly within a page or section.
+ * Inline notification is more persistent than toast notification and are used to highlight important information or status updates that should remain visible to the user until they are acknowledged or the issue is resolved.
  *
  * @fires close - A custom event emitted when a user clicks the close button.
  *
- * @slot title - A slot for the inline-notification title content.
- * @slot description - A slot for the inline-notification description content.
+ * @slot title - A slot for the title content.
+ * @slot description - A slot for the description content.
  *
  * @example
  *
@@ -73,15 +73,11 @@ export class DaikinInlineNotification extends LitElement {
   timestamp: Date | null = null;
 
   /**
-   * Call the event registered in "close".
+   * Emits a "close" event and sets `this.hidden` to true.
    */
   private _handleClickClose() {
     this.hidden = true;
     this.dispatchEvent(new Event("close"));
-  }
-
-  private get _timestamp(): string | null {
-    return this.timestamp ? formatDate(this.timestamp) : null;
   }
 
   override render() {
@@ -94,9 +90,9 @@ export class DaikinInlineNotification extends LitElement {
         <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
           <slot name="description"></slot>
         </p>
-        ${this._timestamp
+        ${this.timestamp
           ? html`<span class=${cvaTimestamp({ layout: this.layout })}
-              >${this._timestamp}</span
+              >${formatDate(this.timestamp)}</span
             >`
           : nothing}
       </div>
