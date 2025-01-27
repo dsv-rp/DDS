@@ -200,7 +200,7 @@ export class DaikinToastNotificationManager extends LitElement {
   }
 
   private _removeToast(target: DaikinToastNotification) {
-    if (!this.duration) {
+    if (this.duration === null) {
       return;
     }
 
