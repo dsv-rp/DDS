@@ -64,6 +64,8 @@ const getContentOpenKeyframe = (content: HTMLElement) => ({
  * Hierarchy:
  * - `daikin-accordion` > `daikin-accordion-item`
  *
+ * @fires toggle - Fires when the summary is clicked. Used by `daikin-accordion`.
+ *
  * @slot - A slot for the accordion item content.
  * @slot summary - A slot for the accordion item summary content.
  *
@@ -120,8 +122,15 @@ export class DaikinAccordionItem extends LitElement {
   private _contentRef = createRef<HTMLElement>();
 
   /**
+   * A unique name for the accordion item within the accordion.
+   */
+  @property({ type: String, reflect: true })
+  name = "";
+
+  /**
    * Whether the accordion item is open.
    * Ignored if `disabled` is `true`.
+   * Controlled by `daikin-accordion`.
    */
   @property({ type: Boolean, reflect: true })
   open = false;
@@ -180,7 +189,7 @@ export class DaikinAccordionItem extends LitElement {
       return;
     }
 
-    this.open = !this.open;
+    this.dispatchEvent(new Event("toggle", event));
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
