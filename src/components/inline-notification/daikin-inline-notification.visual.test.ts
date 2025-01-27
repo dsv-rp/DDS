@@ -15,7 +15,6 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-inline-notification--default", args);
 
 const base = async (page: Page, baseURL: string) => {
-  await page.clock.setFixedTime(new Date("2025-01-15T00:00:00+09:00"));
   await page.goto(baseURL);
 
   // wait for element to be visible
@@ -37,8 +36,8 @@ describeEach(["light", "dark"] as const, (theme) => {
             status: "positive",
             layout,
             closable: closable === "closable",
-            timestamp: timestamp === "timestamp",
             slotAction: action === "action",
+            isVrt: timestamp === "timestamp",
           };
           const baseURL = getPageURL(baseArgs);
 
@@ -60,7 +59,6 @@ describeEach(["light", "dark"] as const, (theme) => {
         status,
         layout: "horizontal",
         closable: true,
-        timestamp: false,
         slotAction: false,
       };
       const baseURL = getPageURL(baseArgs);

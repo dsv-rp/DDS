@@ -14,7 +14,6 @@ export const Default: Story = {
     status: "positive",
     layout: "horizontal",
     closable: true,
-    timestamp: false,
     slotTitle: "Inline title",
     slotDescription: "Inline description",
     slotAction: false,

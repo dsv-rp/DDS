@@ -16,7 +16,6 @@ export const Default: Story = {
     status: "positive",
     layout: "horizontal",
     closable: true,
-    timestamp: false,
     slotTitle: "Toast title",
     slotDescription: "Toast description",
     slotAction: false,

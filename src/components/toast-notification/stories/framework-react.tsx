@@ -3,7 +3,7 @@ import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import { ReactDaikinButton } from "../../button/stories/framework-react";
-import type { DaikinToastNotificationStoryArgs } from "./common";
+import { vrtDate, type DaikinToastNotificationStoryArgs } from "./common";
 
 export const ReactDaikinToastNotification = createComponent({
   tagName: "daikin-toast-notification",
@@ -19,9 +19,13 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
     slotTitle,
     slotDescription,
     slotAction,
+    isVrt,
     ...props
   }: DaikinToastNotificationStoryArgs) => (
-    <ReactDaikinToastNotification {...props}>
+    <ReactDaikinToastNotification
+      {...props}
+      timestamp={isVrt ? vrtDate : props.timestamp}
+    >
       <span slot="title">{slotTitle}</span>
       <span slot="description">{slotDescription}</span>
       {slotAction && (

@@ -67,10 +67,10 @@ export class DaikinInlineNotification extends LitElement {
   closable = false;
 
   /**
-   * Whether to display the timestamp.
+   * The timestamp to display.
    */
-  @property({ type: Boolean, reflect: true })
-  timestamp = false;
+  @property({ type: Object, reflect: true, attribute: false })
+  timestamp: Date | null = null;
 
   /**
    * Call the event registered in "close".
@@ -80,7 +80,9 @@ export class DaikinInlineNotification extends LitElement {
     this.dispatchEvent(new Event("close"));
   }
 
-  private _timestamp = formatDate(new Date());
+  private get _timestamp(): string | null {
+    return this.timestamp ? formatDate(this.timestamp) : null;
+  }
 
   override render() {
     return html`<aside
@@ -92,7 +94,7 @@ export class DaikinInlineNotification extends LitElement {
         <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
           <slot name="description"></slot>
         </p>
-        ${this.timestamp
+        ${this._timestamp
           ? html`<span class=${cvaTimestamp({ layout: this.layout })}
               >${this._timestamp}</span
             >`

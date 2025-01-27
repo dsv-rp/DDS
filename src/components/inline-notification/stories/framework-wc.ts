@@ -2,7 +2,7 @@ import "#package/components/button/daikin-button";
 import "#package/components/inline-notification/daikin-inline-notification";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
-import type { DaikinInlineNotificationStoryArgs } from "./common";
+import { vrtDate, type DaikinInlineNotificationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinInlineNotificationStoryArgs> = {
   render: ({
@@ -13,13 +13,14 @@ export const metadata: Meta<DaikinInlineNotificationStoryArgs> = {
     slotTitle,
     slotDescription,
     slotAction,
+    isVrt,
     onClose,
   }) => html`
     <daikin-inline-notification
       layout=${layout}
       status=${status}
+      .timestamp=${isVrt ? vrtDate : timestamp}
       ?closable=${closable}
-      ?timestamp=${timestamp}
       @close=${onClose}
     >
       <span slot="title">${slotTitle}</span>
