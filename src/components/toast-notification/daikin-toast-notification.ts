@@ -7,6 +7,7 @@ import {
   cvaContent,
   cvaDescription,
   cvaTimestamp,
+  cvaTitle,
   formatDate,
   TOAST_ANIMATION_DURATION,
 } from "../../utils/notification-common";
@@ -95,10 +96,11 @@ export class DaikinToastNotification extends LitElement {
       style=${`transform:translateX(var(--move-offset-x,0)) translateY(var(--move-offset-y,0));opacity:var(--opacity,1);pointer-events:var(--pointer-events,auto);transition-duration:var(--transition-duration,${TOAST_ANIMATION_DURATION}ms);`}
     >
       <div class=${cvaContent({ layout: this.layout })}>
-        <slot class="font-bold whitespace-nowrap" name="title"></slot>
-        <p class=${cvaDescription({ layout: this.layout })}>
-          <slot name="description"></slot>
-        </p>
+        <slot class=${cvaTitle({ layout: this.layout })} name="title"></slot>
+        <slot
+          class=${cvaDescription({ layout: this.layout })}
+          name="description"
+        ></slot>
         ${this.timestamp
           ? html`<span class=${cvaTimestamp({ layout: this.layout })}
               >${formatDate(this.timestamp)}</span

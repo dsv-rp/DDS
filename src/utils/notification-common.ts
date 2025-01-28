@@ -75,18 +75,32 @@ export const cvaTimestamp = cva(
   {
     variants: {
       layout: {
-        horizontal: ["flex-grow", "text-right"],
+        horizontal: ["text-right"],
         vertical: [],
       },
     },
   }
 );
 
-export const cvaDescription = cva([], {
+export const cvaTitle = cva(["inline-block", "font-bold"], {
   variants: {
     layout: {
       vertical: [],
       horizontal: ["whitespace-nowrap", "overflow-hidden", "overflow-ellipsis"],
+    },
+  },
+});
+
+export const cvaDescription = cva(["inline-block"], {
+  variants: {
+    layout: {
+      vertical: [],
+      horizontal: [
+        "whitespace-nowrap",
+        "overflow-hidden",
+        "overflow-ellipsis",
+        "flex-1",
+      ],
     },
   },
 });

@@ -7,6 +7,14 @@ import {
 import { expect, test, type Page } from "@playwright/test";
 import type { DAIKIN_TOAST_NOTIFICATION_ARG_TYPES } from "./stories/common";
 
+const contentMap = {
+  shortTitle: "Short title",
+  shortDescription: "Short",
+  longTitle: "Long title Long title Long title",
+  longDescription:
+    "Long description Long description Long description Long description Long description",
+};
+
 type StoryArgs = InferStorybookArgTypes<
   typeof DAIKIN_TOAST_NOTIFICATION_ARG_TYPES
 >;
@@ -65,6 +73,29 @@ describeEach(["light", "dark"] as const, (theme) => {
 
       test("base", async ({ page }) => {
         await base(page, baseURL);
+      });
+    }
+  );
+});
+
+describeEach(["longTitle", "shortTitle"] as const, (title) => {
+  describeEach(
+    ["longDescription", "shortDescription"] as const,
+    (description) => {
+      describeEach(["horizontal", "vertical"] as const, (layout) => {
+        const baseArgs = {
+          layout,
+          closable: true,
+          isVrt: true,
+          slotTitle: contentMap[title],
+          slotDescription: contentMap[description],
+          slotAction: true,
+        };
+        const baseURL = getPageURL(baseArgs);
+
+        test("base", async ({ page }) => {
+          await base(page, baseURL);
+        });
       });
     }
   );

@@ -40,3 +40,10 @@ export const Default: Story = {
     );
   }),
 };
+
+export const HasTimestamp: Story = {
+  args: {
+    ...Default.args,
+    timestamp: new Date("2025-01-01"),
+  },
+};
