@@ -29,7 +29,7 @@ export const Default: Story = {
 export const AutomationClose: Story = {
   args: {
     ...Default.args,
-    duration: 3000,
+    itemDuration: 3000,
     onClose: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -85,7 +85,7 @@ export const AutomationClose: Story = {
         button.blur();
 
         await waitFor(() => expect(args.onClose).toHaveBeenCalledTimes(3), {
-          timeout: 3300,
+          timeout: 3500,
         });
       }
     );

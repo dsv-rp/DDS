@@ -25,6 +25,9 @@ export const DAIKIN_TOAST_NOTIFICATION_ARG_TYPES = {
     control: "radio",
     options: ["horizontal", "vertical"],
   },
+  duration: {
+    type: "number",
+  },
   closable: {
     type: "boolean",
   },

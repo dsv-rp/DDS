@@ -83,6 +83,13 @@ export class DaikinToastNotification extends LitElement {
   timestamp: Date | null = null;
 
   /**
+   * Specify how long to display the toast (in msec).
+   * If `null` is specified, the toast will not be automatically closed.
+   */
+  @property({ type: Number, reflect: true })
+  duration: number | null = null;
+
+  /**
    * Emits a "close" event.
    */
   private _handleClickClose(event: Event) {

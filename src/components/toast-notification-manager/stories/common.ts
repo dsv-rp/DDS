@@ -20,8 +20,8 @@ export class SBToastNotificationContainer extends LitElement {
   @property({ type: String, reflect: true })
   position: ToastPosition = "bottom-right";
 
-  @property({ type: Number, reflect: true })
-  duration: number | null = null;
+  @property({ type: Number, reflect: true, attribute: "item-duration" })
+  itemDuration: number | null = null;
 
   @property({ type: Boolean, attribute: "is-vrt" })
   isVrt: boolean = false;
@@ -62,7 +62,6 @@ export class SBToastNotificationContainer extends LitElement {
       <daikin-button @click=${this._handleClick}>View new toast</daikin-button>
       <daikin-toast-notification-manager
         position=${this.position}
-        duration=${ifDefined(this.duration ?? undefined)}
         @close=${this._handleClose}
       >
         ${repeat(
@@ -71,6 +70,7 @@ export class SBToastNotificationContainer extends LitElement {
           (item) =>
             html`<daikin-toast-notification
               name=${item}
+              duration=${ifDefined(this.itemDuration ?? undefined)}
               status="positive"
               closable
             >
@@ -98,6 +98,7 @@ declare global {
 
 export interface DaikinToastNotificationManagerStoryArgs
   extends Required<ElementProps<DaikinToastNotificationManager>> {
+  itemDuration: number;
   isVrt: boolean;
   onClose: () => void;
 }
@@ -114,7 +115,7 @@ export const DAIKIN_TOAST_NOTIFICATION_MANAGER_ARG_TYPES = {
       "bottom-right",
     ],
   },
-  duration: {
+  itemDuration: {
     type: "number",
   },
   isVrt: {

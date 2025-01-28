@@ -94,13 +94,6 @@ export class DaikinToastNotificationManager extends LitElement {
   @property({ type: String, reflect: true })
   position: ToastPosition = "bottom-right";
 
-  /**
-   * Specify how long to display the toast (in msec).
-   * If `null` is specified, the toast will not be automatically closed.
-   */
-  @property({ type: Number, reflect: true })
-  duration: number | null = null;
-
   @queryAssignedElements({ selector: "daikin-toast-notification" })
   private readonly _items!: readonly DaikinToastNotification[];
 
@@ -217,13 +210,13 @@ export class DaikinToastNotificationManager extends LitElement {
   }
 
   private _scheduleRemoveToast(target: DaikinToastNotification) {
-    if (this.duration === null) {
+    if (target.duration === null) {
       return;
     }
 
     setTimeout(() => {
       this._close(target);
-    }, this.duration);
+    }, target.duration);
   }
 
   override render() {

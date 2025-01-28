@@ -2,6 +2,7 @@ import "#package/components/button/daikin-button";
 import "#package/components/toast-notification/daikin-toast-notification";
 import type { Meta } from "@storybook/web-components";
 import { html, nothing } from "lit";
+import { ifDefined } from "lit/directives/if-defined.js";
 import { vrtDate, type DaikinToastNotificationStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
@@ -9,6 +10,7 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
     name,
     status,
     layout,
+    duration,
     closable,
     timestamp,
     slotTitle,
@@ -21,6 +23,7 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
       name=${name}
       status=${status}
       layout=${layout}
+      duration=${ifDefined(duration ?? undefined)}
       ?closable=${closable}
       .timestamp=${isVrt ? vrtDate : timestamp}
       @close=${onClose}

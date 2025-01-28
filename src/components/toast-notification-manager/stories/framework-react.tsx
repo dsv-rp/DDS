@@ -22,6 +22,7 @@ const vrtItems = [...Array(3).keys()].map((item) => `toast ${item + 1}`);
 
 export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
   component: ({
+    itemDuration,
     isVrt,
     onClose,
     ...props
@@ -75,6 +76,7 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
               key={item}
               name={item}
               status="positive"
+              duration={itemDuration}
               closable
             >
               <span slot="title">{`New ${item}`}</span>
