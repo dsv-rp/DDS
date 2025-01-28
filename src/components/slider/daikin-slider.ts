@@ -15,6 +15,7 @@ const cvaSliderThumb = cva(
     "w-4",
     "h-4",
     "rounded-full",
+    "left-[--slider-ratio]",
   ],
   {
     variants: {
@@ -45,7 +46,14 @@ const cvaSlider = cva(["w-full", "h-6", "relative"], {
 });
 
 const cvaSliderTrack = cva(
-  ["absolute", "top-1/2", "-translate-y-1/2", "left-0", "h-1"],
+  [
+    "absolute",
+    "top-1/2",
+    "-translate-y-1/2",
+    "left-0",
+    "h-1",
+    "w-[--slider-ratio]",
+  ],
   {
     variants: {
       disabled: {
@@ -57,9 +65,8 @@ const cvaSliderTrack = cva(
 );
 
 /**
- * The slider component is a UI element that reflect a range of values along a bar.
- * It functions similarly to the HTML `<input type="range">` tag, enabling users to specify a numeric value which must be no less than a given min value, and no more than max value.
- * This component is ideal for cases where user want specify a value and the precise is not considered important.
+ * The slider component is a control that allows users to input numerical values within a specific range intuitively.
+ * It functions similarly to the HTML `<input type="range">` tag, allows you to set the range of values.
  *
  * @fires change - A retargeted event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="range">` element.
  * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
@@ -86,13 +93,13 @@ export class DaikinSlider extends LitElement {
   `;
 
   /**
-   * The lowest value in the range of permitted values.
+   * The smallest value in the range of permitted values.
    */
   @property({ type: String, reflect: true })
   min = "1";
 
   /**
-   * The greatest value in the range of permitted values.
+   * The largest value in the range of permitted values.
    */
   @property({ type: String, reflect: true })
   max = "100";
@@ -110,7 +117,8 @@ export class DaikinSlider extends LitElement {
   name = "";
 
   /**
-   * The form value, submitted as a name/value pair when submitting the form.
+   * The current value of the slider.
+   * Also used as a form value.
    */
   @property({ type: String, reflect: true })
   value = this.min;
@@ -175,15 +183,15 @@ export class DaikinSlider extends LitElement {
     if (this.disabled) {
       return;
     }
-    const leftDistance = this._calcMousePositionRatio(event);
-    if (leftDistance == null) {
+    const ratio = this._calcMousePositionRatio(event);
+    if (ratio == null) {
       return;
     }
-    const value = getValueFromRatio(this, leftDistance);
+    const value = getValueFromRatio(this, ratio);
     this.value = value;
   }
 
-  // This function will triggered when the slider thumb button be focused and click keyboard arrow key.
+  // This function is called when an arrow key is pressed while the thumb is focused.
   private _handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
     if (this.disabled) {
@@ -197,7 +205,7 @@ export class DaikinSlider extends LitElement {
   }
 
   /**
-   * Returns the normalized position of the mouse on the slider, within the range 0 to 1.
+   * Returns a normalized value of the mouse position on the slider, in the range 0 to 1.
    *
    * @param event A MouseEvent.
    * @returns The mouse's X coordinate normalized to a range of 0 to 1. The left end and beyond of the slider is 0, and the right end and beyond is 1.
@@ -205,16 +213,16 @@ export class DaikinSlider extends LitElement {
   private _calcMousePositionRatio(
     event: MouseEvent | TouchEvent
   ): number | undefined {
-    const sliderRef = this._sliderRef.value?.getBoundingClientRect();
-    if (sliderRef == null) {
+    const box = this._sliderRef.value?.getBoundingClientRect();
+    if (box == null) {
       return;
     }
-    const left =
+    const x =
       event instanceof MouseEvent
-        ? event.clientX - sliderRef.left
-        : event.targetTouches[0].clientX - sliderRef.left;
-    const newLeft = Math.max(0, Math.min(left, sliderRef.width));
-    return newLeft / sliderRef.width;
+        ? event.clientX
+        : event.targetTouches[0].clientX;
+    const relativeX = x - box.left;
+    return Math.max(0, Math.min(relativeX / box.width, 1));
   }
 
   // This function will triggered when the slider thumb button start dragging.
@@ -256,6 +264,7 @@ export class DaikinSlider extends LitElement {
       <div
         ${ref(this._sliderRef)}
         class=${cvaSlider({ disabled: this.disabled })}
+        style="--slider-ratio:${progress}%"
         @mousedown=${this._startDrag}
         @touchstart=${this._startTouch}
         @click=${this._handleClick}
@@ -264,15 +273,10 @@ export class DaikinSlider extends LitElement {
           class="w-full absolute top-1/2 -translate-y-1/2 left-0 h-1 bg-ddt-color-common-border-empty"
         >
         </span>
-        <span
-          class=${cvaSliderTrack({ disabled: this.disabled })}
-          style="width: ${progress}%"
-        >
-        </span>
+        <span class=${cvaSliderTrack({ disabled: this.disabled })}> </span>
         <span
           class=${cvaSliderThumb({ disabled: this.disabled })}
           tabindex=${this.disabled ? -1 : 0}
-          style="left: ${progress}%"
           role="slider"
           aria-valuenow=${this.value}
           aria-valuemin=${this.min}
