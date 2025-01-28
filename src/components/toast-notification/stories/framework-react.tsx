@@ -25,6 +25,7 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
     <ReactDaikinToastNotification
       {...props}
       timestamp={isVrt ? vrtDate : props.timestamp}
+      style={{ width: "480px" }}
     >
       <span slot="title">{slotTitle}</span>
       <span slot="description">{slotDescription}</span>

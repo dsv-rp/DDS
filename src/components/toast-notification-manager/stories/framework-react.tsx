@@ -76,7 +76,6 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
               name={item}
               status="positive"
               closable
-              style={{ width: "max-content" }}
             >
               <span slot="title">{`New ${item}`}</span>
             </ReactDaikinToastNotification>

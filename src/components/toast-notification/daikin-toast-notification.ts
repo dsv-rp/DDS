@@ -5,6 +5,7 @@ import type { MergeVariantProps } from "../../type-utils";
 import {
   cvaContainer,
   cvaContent,
+  cvaDescription,
   cvaTimestamp,
   formatDate,
   TOAST_ANIMATION_DURATION,
@@ -46,7 +47,7 @@ export class DaikinToastNotification extends LitElement {
 
     :host {
       display: block;
-      width: 480px;
+      width: 100%;
     }
   `;
 
@@ -95,7 +96,7 @@ export class DaikinToastNotification extends LitElement {
     >
       <div class=${cvaContent({ layout: this.layout })}>
         <slot class="font-bold whitespace-nowrap" name="title"></slot>
-        <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <p class=${cvaDescription({ layout: this.layout })}>
           <slot name="description"></slot>
         </p>
         ${this.timestamp

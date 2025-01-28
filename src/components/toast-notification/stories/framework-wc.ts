@@ -24,6 +24,7 @@ export const metadata: Meta<DaikinToastNotificationStoryArgs> = {
       ?closable=${closable}
       .timestamp=${isVrt ? vrtDate : timestamp}
       @close=${onClose}
+      style="width:480px;"
     >
       <span slot="title">${slotTitle}</span>
       <span slot="description">${slotDescription}</span>

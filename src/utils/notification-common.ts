@@ -11,13 +11,11 @@ export const cvaContainer = cva(
   [
     "flex",
     "items-center",
-    "gap-4",
+    "gap-3",
     "w-full",
     "text-ddt-color-common-text-primary",
     "bg-ddt-color-common-background-default",
-    "py-4",
-    "pl-5",
-    "pr-4",
+    "p-4",
     "overflow-hidden",
     "font-daikinSerif",
     "transition",
@@ -61,7 +59,7 @@ export const cvaContainer = cva(
 export const cvaContent = cva(["flex", "flex-glow", "items-center", "w-full"], {
   variants: {
     layout: {
-      horizontal: ["gap-2", "overflow-hidden"],
+      horizontal: ["gap-3", "overflow-hidden"],
       vertical: ["items-stretch", "flex-col", "gap-1"],
     },
   },
@@ -83,3 +81,12 @@ export const cvaTimestamp = cva(
     },
   }
 );
+
+export const cvaDescription = cva([], {
+  variants: {
+    layout: {
+      vertical: [],
+      horizontal: ["whitespace-nowrap", "overflow-hidden", "overflow-ellipsis"],
+    },
+  },
+});

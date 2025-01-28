@@ -73,7 +73,6 @@ export class SBToastNotificationContainer extends LitElement {
               name=${item}
               status="positive"
               closable
-              style="width:max-content;"
             >
               <span slot="title">${`New ${item}`}</span>
             </daikin-toast-notification>`

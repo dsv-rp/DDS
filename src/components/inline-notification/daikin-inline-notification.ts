@@ -4,6 +4,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 import {
   cvaContainer,
   cvaContent,
+  cvaDescription,
   cvaTimestamp,
   formatDate,
 } from "../../utils/notification-common";
@@ -87,7 +88,7 @@ export class DaikinInlineNotification extends LitElement {
     >
       <div class=${cvaContent({ layout: this.layout })}>
         <slot class="font-bold whitespace-nowrap" name="title"></slot>
-        <p class="whitespace-nowrap overflow-hidden overflow-ellipsis">
+        <p class=${cvaDescription({ layout: this.layout })}>
           <slot name="description"></slot>
         </p>
         ${this.timestamp
