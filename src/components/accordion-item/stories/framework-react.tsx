@@ -8,6 +8,9 @@ export const ReactDaikinAccordionItem = createComponent({
   tagName: "daikin-accordion-item",
   elementClass: DaikinAccordionItem,
   react: React,
+  events: {
+    onToggle: "toggle",
+  },
 });
 
 export const metadata: Meta<DaikinAccordionItemStoryArgs> = {
