@@ -84,6 +84,7 @@ export class DaikinToastNotificationManager extends LitElement {
 
     :host {
       display: block;
+      width: max-content;
     }
   `;
 
@@ -94,8 +95,8 @@ export class DaikinToastNotificationManager extends LitElement {
   position: ToastPosition = "bottom-right";
 
   /**
-   * Specify how many seconds after the toast is displayed the close event should be fired (unit = ms).
-   * If `null`, there will be no automatic close event firing.
+   * Specify how long to display the toast (in msec).
+   * If `null` is specified, the toast will not be automatically closed.
    */
   @property({ type: Number, reflect: true })
   duration: number | null = null;
@@ -105,6 +106,8 @@ export class DaikinToastNotificationManager extends LitElement {
 
   private _knownItemSet: ReadonlySet<DaikinToastNotification> = new Set();
 
+  private _closedItemSet: WeakSet<DaikinToastNotification> = new WeakSet();
+
   private _containerRef = createRef<HTMLElement>();
 
   get _positionY(): "top" | "bottom" {
@@ -112,8 +115,18 @@ export class DaikinToastNotificationManager extends LitElement {
   }
 
   private _close(target: DaikinToastNotification) {
+    if (this._closedItemSet.has(target)) {
+      return;
+    }
+    this._closedItemSet.add(target);
+
     const items = this._items;
     const targetIndex = items.findIndex((item) => item === target);
+
+    if (targetIndex === -1) {
+      return;
+    }
+
     const afterItems = items.filter((_, index) =>
       this._positionY === "top" ? index > targetIndex : index < targetIndex
     );
@@ -209,10 +222,6 @@ export class DaikinToastNotificationManager extends LitElement {
     }
 
     setTimeout(() => {
-      if (!this._items.find((item) => item.name === target.name)) {
-        return;
-      }
-
       this._close(target);
     }, this.duration);
   }
