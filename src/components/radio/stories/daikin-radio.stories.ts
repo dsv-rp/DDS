@@ -47,6 +47,7 @@ export const Default: Story = {
       await userEvent.click(innerRadio);
       await expect(args.onChange).toHaveBeenCalledOnce();
       await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
+      await expect(args.onClick).toHaveBeenCalledOnce();
       await expect(innerRadio).toBeChecked();
       root.checked = false;
     });
@@ -56,6 +57,7 @@ export const Default: Story = {
       await userEvent.click(label);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
       await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
+      await expect(args.onClick).toHaveBeenCalledTimes(2);
       await expect(innerRadio).toBeChecked();
       root.checked = false;
     });

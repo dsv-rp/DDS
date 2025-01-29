@@ -9,18 +9,17 @@ import "../icon/daikin-icon";
 const cvaContainer = cva(
   [
     "flex",
-    "flex-col",
-    "gap-1",
+    "gap-2",
     "w-full",
     "text-ddt-color-common-text-primary",
-    "pt-1",
+    "pt-2",
     "border-t-[0.25rem]",
     "font-daikinSerif",
   ],
   {
     variants: {
       status: {
-        unfinished: ["border-ddt-color-common-disabled"],
+        unfinished: ["border-ddt-color-common-border-empty"],
         inprogress: ["border-ddt-color-common-brand-default"],
         finished: ["border-ddt-color-common-brand-default"],
       },
@@ -73,24 +72,23 @@ export class DaikinProgressIndicatorItem extends LitElement {
 
   override render() {
     return html`<div
-      class=${cvaContainer({
-        status: this.status,
-      })}
+      class=${cvaContainer({ status: this.status })}
       role="listitem"
       aria-current=${ifDefined(this.current ? "step" : undefined)}
     >
-      <div class="flex items-center gap-2 font-bold leading-5">
-        <slot></slot>
-        ${this.status === "finished"
-          ? html`
-              <span
-                class="size-4 i-daikin-status-success text-ddt-color-common-brand-default"
-                aria-label="Completed"
-              ></span>
-            `
-          : nothing}
+      <div class="flex flex-col gap-1 w-full">
+        <slot class="font-bold leading-[130%]"></slot>
+        <slot name="description" class="text-sm leading-[130%]"></slot>
       </div>
-      <slot name="description" class="text-sm leading-[1.1rem]"></slot>
+      ${this.status === "finished"
+        ? html`
+            <span
+              role="img"
+              class="flex-none size-4 i-daikin-status-positive text-ddt-color-common-brand-default"
+              aria-label="Completed"
+            ></span>
+          `
+        : nothing}
     </div>`;
   }
 }
