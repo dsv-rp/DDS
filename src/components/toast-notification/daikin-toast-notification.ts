@@ -23,6 +23,9 @@ export type ToastNotificationVariantProps = MergeVariantProps<
  * Toast notification displays a brief message that should appear temporarily at the edge of the screen, typically in the bottom or top corner.
  * Toast notification is ideal for conveying transient information that does not require user interaction, such as success messages, warnings, or alerts.
  *
+ * Hierarchy:
+ * - `daikin-toast-notification-manager` > `daikin-toast-notification`
+ *
  * @fires close - A custom event emitted when a user clicks the close button.
  *
  * @slot A slot for the toast notification description content.

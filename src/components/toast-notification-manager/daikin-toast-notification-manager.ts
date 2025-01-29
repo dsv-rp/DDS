@@ -49,6 +49,9 @@ export type ToastPosition = MergeVariantProps<typeof cvaContainer>["position"];
  * The toast manager component manages the position and display state of notification toasts.
  * Just place a notification toast in the slot and it will automatically be placed, stacked and animated.
  *
+ * Hierarchy:
+ * - `daikin-toast-notification-manager` > `daikin-toast-notification`
+ *
  * @fires close - A custom event emitted when a user clicks the close button. The toast manager does not remove toast elements, so you will need to remove the relevant toast element after receiving this event.
  *
  * @slot A slot for toasts. Place `daikin-toast-notification` elements here.
