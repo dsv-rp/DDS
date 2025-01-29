@@ -76,7 +76,7 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
               key={item}
               name={item}
               status="positive"
-              duration={itemDuration}
+              duration={itemDuration ?? null}
               closable
             >
               <span slot="title">{`New ${item}`}</span>

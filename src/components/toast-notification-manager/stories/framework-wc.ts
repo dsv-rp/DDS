@@ -9,7 +9,7 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
     html`<sb-toast-notification-container
       data-testid="toast-notification-container"
       position=${position}
-      item-duration=${ifDefined(itemDuration)}
+      item-duration=${ifDefined(itemDuration ?? undefined)}
       ?is-vrt=${isVrt}
       @close=${onClose}
     ></sb-toast-notification-container>`,

@@ -98,7 +98,7 @@ declare global {
 
 export interface DaikinToastNotificationManagerStoryArgs
   extends Required<ElementProps<DaikinToastNotificationManager>> {
-  itemDuration: number;
+  itemDuration: number | null;
   isVrt: boolean;
   onClose: () => void;
 }
