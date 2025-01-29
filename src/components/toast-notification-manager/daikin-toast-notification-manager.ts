@@ -103,8 +103,14 @@ export class DaikinToastNotificationManager extends LitElement {
 
   private _containerRef = createRef<HTMLElement>();
 
-  get _positionY(): "top" | "bottom" {
+  private get _positionY(): "top" | "bottom" {
     return this.position.startsWith("top") ? "top" : "bottom";
+  }
+
+  private get _sign(): 1 | -1 {
+    return this._positionY === "top"
+      ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
+      : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN;
   }
 
   private _close(target: DaikinToastNotification) {
@@ -135,15 +141,9 @@ export class DaikinToastNotificationManager extends LitElement {
     target.style.setProperty("--pointer-events", "none");
 
     for (const item of afterItems) {
-      const height = item.clientHeight;
       item.style.setProperty(
         "--move-offset-y",
-        `calc(0.5rem + ${
-          height *
-          (this._positionY === "top"
-            ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
-            : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN)
-        }px)`
+        `calc(${0.5 * this._sign}rem + ${item.clientHeight * this._sign}px)`
       );
     }
 
@@ -179,12 +179,7 @@ export class DaikinToastNotificationManager extends LitElement {
       container.style.setProperty(CONTAINER_TRANSITION_DURATION, "0");
       container.style.setProperty(
         CONTAINER_MOVE_OFFSET_Y,
-        `calc(0.5rem + ${
-          newItem.clientHeight *
-          (this._positionY === "top"
-            ? TOAST_MOVE_OFFSET_Y_TOP_SIGN
-            : TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN)
-        }px)`
+        `calc(${0.5 * this._sign}rem + ${newItem.clientHeight * this._sign}px)`
       );
 
       // Next, restore the position to perform the lifting animation.
