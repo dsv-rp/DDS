@@ -4,7 +4,13 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export type DaikinAccordionStoryArgs = Required<ElementProps<DaikinAccordion>>;
 
-export const DAIKIN_ACCORDION_ARG_TYPES =
-  {} satisfies Meta<DaikinAccordionStoryArgs>["argTypes"];
+export const DAIKIN_ACCORDION_ARG_TYPES = {
+  openedItems: {
+    control: "object",
+  },
+  exclusive: {
+    type: "boolean",
+  },
+} satisfies Meta<DaikinAccordionStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinAccordionStoryArgs>;
