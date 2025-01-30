@@ -22,9 +22,10 @@ const cvaSliderThumb = cva(
       disabled: {
         false: [
           "cursor-pointer",
-          "bg-ddt-color-common-brand-default",
-          "hover:bg-ddt-color-common-brand-hover",
-          "active:bg-ddt-color-common-brand-press",
+          "[&:not([data-dragging])]:bg-ddt-color-common-brand-default",
+          "[&:not([data-dragging])]:hover:bg-ddt-color-common-brand-hover",
+          "[&:not([data-dragging])]:active:bg-ddt-color-common-brand-press",
+          "data-[dragging]:bg-ddt-color-common-brand-press",
           "focus-visible:outline",
           "focus-visible:outline-2",
           "focus-visible:outline-offset-2",
@@ -35,15 +36,6 @@ const cvaSliderThumb = cva(
     },
   }
 );
-
-const cvaSlider = cva(["w-full", "h-6", "relative"], {
-  variants: {
-    disabled: {
-      false: ["cursor-pointer"],
-      true: ["pointer-events-none"],
-    },
-  },
-});
 
 const cvaSliderTrack = cva(
   [
@@ -139,6 +131,8 @@ export class DaikinSlider extends LitElement {
 
   private _sliderRef: Ref<HTMLElement> = createRef();
 
+  private _thumbRef: Ref<HTMLElement> = createRef();
+
   // define _internals to let the slider can be used in a form
   private _internals = this.attachInternals();
 
@@ -168,40 +162,27 @@ export class DaikinSlider extends LitElement {
     return ((clampedValue - min) / (max - min)) * 100;
   }
 
-  private _handleDrag = (event: MouseEvent | TouchEvent): void => {
+  private _handleDrag(event: MouseEvent | TouchEvent): void {
     const leftDistance = this._calcMousePositionRatio(event);
     if (leftDistance == null) {
       return;
     }
     const value = getValueFromRatio(this, leftDistance);
     this.value = value;
-  };
-
-  // This function will triggered when click the slider bar area.
-  private _handleClick(event: MouseEvent) {
-    event.preventDefault();
-    if (this.disabled) {
-      return;
-    }
-    const ratio = this._calcMousePositionRatio(event);
-    if (ratio == null) {
-      return;
-    }
-    const value = getValueFromRatio(this, ratio);
-    this.value = value;
   }
 
   // This function is called when an arrow key is pressed while the thumb is focused.
   private _handleKeyDown(event: KeyboardEvent) {
-    event.preventDefault();
     if (this.disabled) {
       return;
     }
+
     const value = getValueByKeydown(this, event.key);
     if (value == null) {
       return;
     }
     this.value = value;
+    event.preventDefault();
   }
 
   /**
@@ -232,12 +213,24 @@ export class DaikinSlider extends LitElement {
       return;
     }
 
-    const stopDrag = (): void => {
-      document.removeEventListener("mousemove", this._handleDrag);
-      document.removeEventListener("mouseup", stopDrag);
-    };
-    document.addEventListener("mousemove", this._handleDrag);
-    document.addEventListener("mouseup", stopDrag);
+    const controller = new AbortController();
+    const { signal } = controller;
+    this._thumbRef.value?.setAttribute("data-dragging", "");
+    document.addEventListener(
+      "mousemove",
+      (event): void => {
+        this._handleDrag(event);
+      },
+      { signal }
+    );
+    document.addEventListener(
+      "mouseup",
+      (): void => {
+        this._thumbRef.value?.removeAttribute("data-dragging");
+        controller.abort();
+      },
+      { once: true }
+    );
     this._handleDrag(event);
   }
 
@@ -248,33 +241,44 @@ export class DaikinSlider extends LitElement {
       return;
     }
 
-    const stopTouch = (): void => {
-      document.removeEventListener("touchmove", this._handleDrag);
-      document.removeEventListener("touchend", stopTouch);
-    };
-    document.addEventListener("touchmove", this._handleDrag);
-    document.addEventListener("touchend", stopTouch);
+    const controller = new AbortController();
+    const { signal } = controller;
+    this._thumbRef.value?.setAttribute("data-dragging", "");
+    document.addEventListener(
+      "touchmove",
+      (event): void => {
+        this._handleDrag(event);
+      },
+      { signal }
+    );
+    document.addEventListener(
+      "touchend",
+      (): void => {
+        this._thumbRef.value?.removeAttribute("data-dragging");
+        controller.abort();
+      },
+      { once: true }
+    );
     this._handleDrag(event);
   }
 
   override render() {
     const progress = this._progress;
-    /* eslint-disable lit-a11y/click-events-have-key-events */
+
     return html`
-      <div
+      <span
         ${ref(this._sliderRef)}
-        class=${cvaSlider({ disabled: this.disabled })}
+        class="w-full h-6 relative"
         style="--slider-ratio:${progress}%"
         @mousedown=${this._startDrag}
         @touchstart=${this._startTouch}
-        @click=${this._handleClick}
       >
         <span
           class="w-full absolute top-1/2 -translate-y-1/2 left-0 h-1 bg-ddt-color-common-border-empty"
-        >
-        </span>
-        <span class=${cvaSliderTrack({ disabled: this.disabled })}> </span>
+        ></span>
+        <span class=${cvaSliderTrack({ disabled: this.disabled })}></span>
         <span
+          ${ref(this._thumbRef)}
           class=${cvaSliderThumb({ disabled: this.disabled })}
           tabindex=${this.disabled ? -1 : 0}
           role="slider"
@@ -285,9 +289,8 @@ export class DaikinSlider extends LitElement {
           aria-disabled=${this.disabled}
           @mousedown=${this._startDrag}
           @keydown=${this._handleKeyDown}
-        >
-        </span>
-      </div>
+        ></span>
+      </span>
     `;
   }
 

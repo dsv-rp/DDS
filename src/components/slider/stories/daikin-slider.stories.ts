@@ -36,7 +36,7 @@ export const Default: Story = {
     const thumb = getByShadowRole(root, "slider");
     await expect(thumb).toBeInTheDocument();
 
-    const slider = root.shadowRoot?.querySelector("div") as HTMLElement;
+    const slider = thumb.parentElement as HTMLElement;
     await expect(slider).toBeInTheDocument();
 
     // Test drag slider thumb with mouse
@@ -231,7 +231,7 @@ export const Disabled: Story = {
     const thumb = getByShadowRole(root, "slider");
     await expect(thumb).toBeInTheDocument();
 
-    const slider = root.shadowRoot?.querySelector("div") as HTMLElement;
+    const slider = thumb.parentElement as HTMLElement;
     await expect(slider).toBeInTheDocument();
 
     // Test drag slider thumb with mouse
