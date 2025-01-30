@@ -152,9 +152,7 @@ export class DaikinToastNotificationManager extends LitElement {
       return;
     }
 
-    const afterItems = items.filter((_, index) =>
-      this._positionY === "top" ? index > targetIndex : index < targetIndex
-    );
+    const afterItems = items.filter((_, index) => index > targetIndex);
 
     for (const item of items) {
       item.style.removeProperty("--transition-duration");
