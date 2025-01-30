@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import type { Ref } from "lit/directives/ref.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -127,11 +127,12 @@ export class DaikinSlider extends LitElement {
   @property({ type: String, reflect: true, attribute: "slider-aria-label" })
   sliderAriaLabel = "slider";
 
+  @state()
+  private _dragging: boolean = false;
+
   static readonly formAssociated = true;
 
   private _sliderRef: Ref<HTMLElement> = createRef();
-
-  private _thumbRef: Ref<HTMLElement> = createRef();
 
   // define _internals to let the slider can be used in a form
   private _internals = this.attachInternals();
@@ -215,7 +216,7 @@ export class DaikinSlider extends LitElement {
 
     const controller = new AbortController();
     const { signal } = controller;
-    this._thumbRef.value?.setAttribute("data-dragging", "");
+    this._dragging = true;
     document.addEventListener(
       "mousemove",
       (event): void => {
@@ -226,7 +227,7 @@ export class DaikinSlider extends LitElement {
     document.addEventListener(
       "mouseup",
       (): void => {
-        this._thumbRef.value?.removeAttribute("data-dragging");
+        this._dragging = false;
         controller.abort();
       },
       { once: true }
@@ -243,7 +244,7 @@ export class DaikinSlider extends LitElement {
 
     const controller = new AbortController();
     const { signal } = controller;
-    this._thumbRef.value?.setAttribute("data-dragging", "");
+    this._dragging = true;
     document.addEventListener(
       "touchmove",
       (event): void => {
@@ -254,7 +255,7 @@ export class DaikinSlider extends LitElement {
     document.addEventListener(
       "touchend",
       (): void => {
-        this._thumbRef.value?.removeAttribute("data-dragging");
+        this._dragging = false;
         controller.abort();
       },
       { once: true }
@@ -278,10 +279,10 @@ export class DaikinSlider extends LitElement {
         ></span>
         <span class=${cvaSliderTrack({ disabled: this.disabled })}></span>
         <span
-          ${ref(this._thumbRef)}
           class=${cvaSliderThumb({ disabled: this.disabled })}
           tabindex=${this.disabled ? -1 : 0}
           role="slider"
+          ?data-dragging=${this._dragging}
           aria-valuenow=${this.value}
           aria-valuemin=${this.min}
           aria-valuemax=${this.max}
