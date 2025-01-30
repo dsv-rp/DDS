@@ -324,7 +324,7 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
-  private _updateValue() {
+  private _updateValueBySelectedOptions() {
     this.value = this.selectedOptions.at(-1) ?? null;
   }
 
@@ -333,37 +333,22 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _addSelection(value: string): void {
+    this.value = value;
+
     this.selectedOptions = this.multiple
       ? this.selectedOptions.includes(value)
-        ? this.selectedOptions
+        ? this.selectedOptions.filter((option) => option != value)
         : [...this.selectedOptions, value]
       : [value];
   }
 
   private _removeLastSelection(): void {
-    if (!this.multiple) {
+    if (this.multiple) {
+      this.selectedOptions = this.selectedOptions.slice(0, -1);
+    } else {
       this.value = null;
       this.selectedOptions = [];
-      return;
     }
-
-    const removeOption = this.selectedOptions.pop();
-    this.selectedOptions = this.selectedOptions.filter(
-      (option) => option != removeOption
-    );
-  }
-
-  private _updateSelectedOptions(isOverride = false) {
-    if (isOverride) {
-      this._updateSelectedOptionsByValue();
-    }
-
-    if (!this.value) {
-      this._removeLastSelection();
-      return;
-    }
-
-    this._addSelection(this.value);
   }
 
   private _handleClick(): void {
@@ -409,9 +394,7 @@ export class DaikinDropdown extends LitElement {
       // Close
       this.open = false;
     } else {
-      // Clear selection
-      this.value = null;
-      this._updateSelectedOptions();
+      this._removeLastSelection();
     }
   }
 
@@ -446,8 +429,7 @@ export class DaikinDropdown extends LitElement {
    * Handle `select` event from `daikin-dropdown-item`.
    */
   private _handleSelect(event: Event): void {
-    this.value = (event.target as DaikinDropdownItem).value;
-    this._updateSelectedOptions();
+    this._addSelection((event.target as DaikinDropdownItem).value);
 
     if (!this.multiple) {
       this.open = false;
@@ -526,9 +508,9 @@ export class DaikinDropdown extends LitElement {
       !!this.selectedOptions.length &&
       (!this.value || !this.selectedOptions.includes(this.value))
     ) {
-      this._updateValue();
+      this._updateValueBySelectedOptions();
     } else if (!!this.value && !this.selectedOptions.length) {
-      this._updateSelectedOptions(true);
+      this.selectedOptions = [this.value];
     }
   }
 
@@ -537,11 +519,11 @@ export class DaikinDropdown extends LitElement {
     const hasChangedSelectedOptions = changedProperties.has("selectedOptions");
 
     if (hasChangedValue && !hasChangedSelectedOptions) {
-      this._updateSelectedOptions(true);
+      this._updateSelectedOptionsByValue();
     }
 
     if (!hasChangedValue && hasChangedSelectedOptions) {
-      this._updateValue();
+      this._updateValueBySelectedOptions();
     }
   }
 
