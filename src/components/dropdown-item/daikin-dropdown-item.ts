@@ -142,7 +142,7 @@ export class DaikinDropdownItem extends LitElement {
   }
 
   override render() {
-    const OPTION_CLASS_NAME = cvaOption({
+    const optionClassName = cvaOption({
       selected: this.selected,
       disabled: this.disabled,
       multiple: this.selectable,
@@ -150,7 +150,7 @@ export class DaikinDropdownItem extends LitElement {
 
     return this.selectable
       ? html`<span
-          class=${OPTION_CLASS_NAME}
+          class=${optionClassName}
           data-value=${this.value}
           role="option"
           aria-selected=${this.selected}
@@ -173,7 +173,7 @@ export class DaikinDropdownItem extends LitElement {
         </span>`
       : html`<button
           type="button"
-          class=${OPTION_CLASS_NAME}
+          class=${optionClassName}
           data-value=${this.value}
           role="option"
           aria-selected=${this.selected}

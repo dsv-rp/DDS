@@ -145,7 +145,11 @@ export class DaikinDropdown extends LitElement {
   private _internals = this.attachInternals();
 
   /**
-   * Form value of the multiple.
+   * Form value of the dropdown.
+   * `null` if not selected.
+   *
+   * If `multiple` is `true`, please use `selectedOptions` instead.
+   * If multiple selection is enabled, the value set to this property will be one of the selected items, and it is not possible to predict which value will be set.
    */
   @property({ type: String, reflect: true })
   value: string | null = null;
@@ -186,12 +190,18 @@ export class DaikinDropdown extends LitElement {
   @property({ type: Boolean, reflect: true })
   multiple = false;
 
+  /**
+   * An array of `value` s for the currently selected option.
+   *
+   * This can be used regardless of the value of `multiple`, but if `multiple` is `true`, always use this instead of `value`.
+   * If `multiple` is `false`, the second and subsequent items will be deleted.
+   */
   @property({ type: Array, attribute: false })
   selectedOptions: string[] = [];
 
   /**
-   * When multiple selections, the maximum number of values to display without omission.
-   * If `null`, it is not omitted.
+   * Specifies the maximum number of items to display without omission in the label when `multiple` is `true`.
+   * Specify `null` to display all selected items without omission.
    */
   @property({ type: Number, reflect: true, attribute: "max-labels" })
   maxLabels: number | null = null;
@@ -318,26 +328,42 @@ export class DaikinDropdown extends LitElement {
     this.value = this.selectedOptions.at(-1) ?? null;
   }
 
-  private _updateSelectedOptions(isOverride = false) {
-    if (isOverride) {
-      this.selectedOptions = this.value ? [this.value] : [];
-    }
+  private _updateSelectedOptionsByValue(): void {
+    this.selectedOptions = this.value ? [this.value] : [];
+  }
 
-    if (!this.value) {
-      // Clear option.
-      const removeOption = this.selectedOptions.pop();
-      this.selectedOptions = this.selectedOptions.filter(
-        (option) => option != removeOption
-      );
+  private _addSelection(value: string): void {
+    this.selectedOptions = this.multiple
+      ? this.selectedOptions.includes(value)
+        ? this.selectedOptions
+        : [...this.selectedOptions, value]
+      : [value];
+  }
 
+  private _removeLastSelection(): void {
+    if (!this.multiple) {
+      this.value = null;
+      this.selectedOptions = [];
       return;
     }
 
-    this.selectedOptions = this.multiple
-      ? this.selectedOptions.includes(this.value)
-        ? this.selectedOptions.filter((option) => option != this.value)
-        : [...this.selectedOptions, this.value]
-      : [this.value];
+    const removeOption = this.selectedOptions.pop();
+    this.selectedOptions = this.selectedOptions.filter(
+      (option) => option != removeOption
+    );
+  }
+
+  private _updateSelectedOptions(isOverride = false) {
+    if (isOverride) {
+      this._updateSelectedOptionsByValue();
+    }
+
+    if (!this.value) {
+      this._removeLastSelection();
+      return;
+    }
+
+    this._addSelection(this.value);
   }
 
   private _handleClick(): void {
