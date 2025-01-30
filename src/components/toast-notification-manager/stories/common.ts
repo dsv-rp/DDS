@@ -32,17 +32,10 @@ export class SBToastNotificationContainer extends LitElement {
   @state()
   private _index = 0;
 
-  get _positionY(): "top" | "bottom" {
-    return this.position.startsWith("top") ? "top" : "bottom";
-  }
-
   private _handleClick() {
     const newIndex = this._index + 1;
 
-    this._items =
-      this._positionY === "top"
-        ? [`toast ${newIndex}`, ...this._items]
-        : [...this._items, `toast ${newIndex}`];
+    this._items = [...this._items, `toast ${newIndex}`];
     this._index = newIndex;
   }
 
@@ -83,9 +76,7 @@ export class SBToastNotificationContainer extends LitElement {
 
   protected override firstUpdated(): void {
     if (this.isVrt) {
-      const newItems = ["toast 1", "toast 2", "toast 3"];
-
-      this._items = this._positionY === "top" ? newItems.reverse() : newItems;
+      this._items = ["toast 1", "toast 2", "toast 3"];
     }
   }
 }

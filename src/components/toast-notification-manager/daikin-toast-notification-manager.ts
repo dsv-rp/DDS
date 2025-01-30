@@ -21,7 +21,6 @@ const TOAST_MOVE_OFFSET_Y_BOTTOM_SIGN = 1;
 const cvaContainer = cva(
   [
     "flex",
-    "flex-col",
     "gap-2",
     "w-max",
     "fixed",
@@ -32,12 +31,26 @@ const cvaContainer = cva(
   {
     variants: {
       position: {
-        top: ["items-center", "m-auto", "top-4", "left-0", "right-0"],
-        "top-left": ["items-start", "top-4", "left-4"],
-        "top-right": ["items-end", "top-4", "right-4"],
-        bottom: ["items-center", "m-auto", "bottom-4", "left-0", "right-0"],
-        "bottom-left": ["items-start", "bottom-4", "left-4"],
-        "bottom-right": ["items-end", "bottom-4", "right-4"],
+        top: [
+          "items-center",
+          "flex-col-reverse",
+          "m-auto",
+          "top-4",
+          "left-0",
+          "right-0",
+        ],
+        "top-left": ["items-start", "flex-col-reverse", "top-4", "left-4"],
+        "top-right": ["items-end", "flex-col-reverse", "top-4", "right-4"],
+        bottom: [
+          "items-center",
+          "flex-col",
+          "m-auto",
+          "bottom-4",
+          "left-0",
+          "right-0",
+        ],
+        "bottom-left": ["items-start", "flex-col", "bottom-4", "left-4"],
+        "bottom-right": ["items-end", "flex-col", "bottom-4", "right-4"],
       },
     },
   }

@@ -27,27 +27,13 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
     onClose,
     ...props
   }: DaikinToastNotificationManagerStoryArgs) => {
-    const positionY: "top" | "bottom" = props.position.startsWith("top")
-      ? "top"
-      : "bottom";
-
     const [index, setIndex] = useState<number>(0);
-    const [items, setItems] = useState<string[]>([]);
-
-    const resultItems = isVrt
-      ? positionY === "top"
-        ? vrtItems.reverse()
-        : vrtItems
-      : items;
+    const [items, setItems] = useState<string[]>(isVrt ? vrtItems : []);
 
     const handleClick = () => {
       const newIndex = index + 1;
 
-      setItems(
-        positionY === "top"
-          ? [`toast ${newIndex}`, ...items]
-          : [...items, `toast ${newIndex}`]
-      );
+      setItems([...items, `toast ${newIndex}`]);
       setIndex(newIndex);
     };
 
@@ -71,7 +57,7 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
           View new toast
         </ReactDaikinButton>
         <ReactDaikinToastNotificationManager {...props} onClose={handleClose}>
-          {resultItems.map((item) => (
+          {items.map((item: string) => (
             <ReactDaikinToastNotification
               key={item}
               name={item}
