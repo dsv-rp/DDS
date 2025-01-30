@@ -18,7 +18,9 @@ const ReactDaikinToastNotificationManager = createComponent({
   },
 });
 
-const vrtItems = [...Array(3).keys()].map((item) => `toast ${item + 1}`);
+const vrtItems = [...Array(3).keys()]
+  .map((item) => `toast ${item + 1}`)
+  .reverse();
 
 export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
   component: ({
