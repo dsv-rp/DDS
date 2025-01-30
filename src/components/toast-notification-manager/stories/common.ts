@@ -35,7 +35,7 @@ export class SBToastNotificationContainer extends LitElement {
   private _handleClick() {
     const newIndex = this._index + 1;
 
-    this._items = [...this._items, `toast ${newIndex}`];
+    this._items = [`toast ${newIndex}`, ...this._items];
     this._index = newIndex;
   }
 
@@ -76,7 +76,7 @@ export class SBToastNotificationContainer extends LitElement {
 
   protected override firstUpdated(): void {
     if (this.isVrt) {
-      this._items = ["toast 1", "toast 2", "toast 3"];
+      this._items = ["toast 3", "toast 2", "toast 1"];
     }
   }
 }

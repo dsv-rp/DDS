@@ -33,14 +33,14 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
     const handleClick = () => {
       const newIndex = index + 1;
 
-      setItems([...items, `toast ${newIndex}`]);
-      setIndex(newIndex);
+      setItems((items) => [`toast ${newIndex}`, ...items]);
+      setIndex(() => newIndex);
     };
 
     const handleClose = (event: ToastCloseEvent) => {
       const name = event.detail.target.name;
 
-      setItems(items.filter((item) => item != name));
+      setItems((items) => items.filter((item) => item != name));
       onClose();
     };
 

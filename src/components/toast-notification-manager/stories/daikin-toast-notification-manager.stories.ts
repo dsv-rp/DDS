@@ -73,7 +73,7 @@ export const AutomationClose: Story = {
           })[0]
         );
         await waitFor(() =>
-          expect(queryByShadowText(root, "New toast 1")).not.toBeInTheDocument()
+          expect(queryByShadowText(root, "New toast 3")).not.toBeInTheDocument()
         );
         await waitFor(() => expect(args.onClose).toHaveBeenCalledTimes(2));
       }
