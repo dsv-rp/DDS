@@ -68,7 +68,7 @@ export class DaikinToastNotification extends LitElement {
   status: ToastNotificationVariantProps["status"] = "positive";
 
   /**
-   * Specifies how to arrange the elements.
+   * Specify how to arrange the elements.
    */
   @property({ type: String })
   layout: ToastNotificationVariantProps["layout"] = "horizontal";
