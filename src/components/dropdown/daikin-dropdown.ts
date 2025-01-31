@@ -227,6 +227,8 @@ export class DaikinDropdown extends LitElement {
     );
   }
 
+  private _initialUpdateCompleted = false;
+
   private _autoUpdateController = new FloatingUIAutoUpdateController(this);
 
   private _clickOutsideController = new ClickOutsideController(
@@ -517,18 +519,21 @@ export class DaikinDropdown extends LitElement {
     this._button?.focus(options);
   }
 
-  protected override firstUpdated(): void {
-    if (
-      !!this.selectedOptions.length &&
-      (!this.value || !this.selectedOptions.includes(this.value))
-    ) {
-      this._updateValueBySelectedOptions();
-    } else if (!!this.value && !this.selectedOptions.length) {
-      this.selectedOptions = [this.value];
-    }
-  }
-
   protected override willUpdate(changedProperties: PropertyValues): void {
+    if (!this._initialUpdateCompleted) {
+      if (
+        !!this.selectedOptions.length &&
+        (!this.value || !this.selectedOptions.includes(this.value))
+      ) {
+        this._updateValueBySelectedOptions();
+      } else if (!!this.value && !this.selectedOptions.length) {
+        this.selectedOptions = [this.value];
+      }
+
+      this._initialUpdateCompleted = true;
+      return;
+    }
+
     const hasChangedValue = changedProperties.has("value");
     const hasChangedSelectedOptions = changedProperties.has("selectedOptions");
 
