@@ -332,7 +332,14 @@ export class DaikinDropdown extends LitElement {
     this.selectedOptions = this.value ? [this.value] : [];
   }
 
-  private _addSelection(value: string): void {
+  /**
+   * Handling for when an option is selected.
+   * If multiple selection is enabled, the specified option is added to or removed from the array of selected options.
+   * If multiple selection is disabled, the current value is set to the specified option. The selection is not cleared.
+   *
+   * @param value The value of selected option.
+   */
+  private _handleSelectOption(value: string): void {
     this.value = value;
 
     this.selectedOptions = this.multiple
@@ -342,6 +349,12 @@ export class DaikinDropdown extends LitElement {
       : [value];
   }
 
+  /**
+   * Removes the last selected option.
+   *
+   * If multiple selection is enabled, remove the last selected option and the array will eventually become empty.
+   * If multiple selection is disabled, directly empty the selected options.
+   */
   private _removeLastSelection(): void {
     if (this.multiple) {
       this.selectedOptions = this.selectedOptions.slice(0, -1);
@@ -430,7 +443,7 @@ export class DaikinDropdown extends LitElement {
    * Handle `select` event from `daikin-dropdown-item`.
    */
   private _handleSelect(event: Event): void {
-    this._addSelection((event.target as DaikinDropdownItem).value);
+    this._handleSelectOption((event.target as DaikinDropdownItem).value);
 
     if (!this.multiple) {
       this.open = false;
