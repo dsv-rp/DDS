@@ -35,7 +35,7 @@ export const cvaContainer = cva(
           "translate-y-[--move-offset-y,0]",
           "opacity-[--opacity,1]",
           "[pointer-events:var(--pointer-events,auto)]",
-          "[transition-duration:var(--transition-duration,var(--ddc-toast-animation-duration,0ms))]"
+          "[transition-duration:var(--transition-duration,var(--ddc-toast-animation-duration,0ms))]",
         ],
         inline: [],
       },
