@@ -4,9 +4,9 @@ import type { Meta } from "@storybook/react";
 import React, { useState } from "react";
 import { ReactDaikinButton } from "../../button/stories/framework-react";
 import { ReactDaikinToastNotification } from "../../toast-notification/stories/framework-react";
-import {
-  type DaikinToastNotificationManagerStoryArgs,
-  type ToastCloseEvent,
+import type {
+  DaikinToastNotificationManagerStoryArgs,
+  ToastCloseEvent,
 } from "./common";
 
 const ReactDaikinToastNotificationManager = createComponent({
