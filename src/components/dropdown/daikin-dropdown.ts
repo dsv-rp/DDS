@@ -345,9 +345,10 @@ export class DaikinDropdown extends LitElement {
   private _removeLastSelection(): void {
     if (this.multiple) {
       this.selectedOptions = this.selectedOptions.slice(0, -1);
+      this.value = this.selectedOptions.at(-1) ?? null;
     } else {
-      this.value = null;
       this.selectedOptions = [];
+      this.value = null;
     }
   }
 
