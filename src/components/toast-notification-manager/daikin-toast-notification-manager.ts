@@ -147,39 +147,35 @@ export class DaikinToastNotificationManager extends LitElement {
 
     const items = this._items;
     const targetIndex = items.findIndex((item) => item === target);
-
     if (targetIndex === -1) {
       return;
     }
 
-    const afterItems = items.filter((_, index) => index > targetIndex);
-
-    for (const item of items) {
+    // Start close animation
+    const moveOffsetY = `calc(${0.5 * this._sign}rem + ${target.clientHeight * this._sign}px)`;
+    for (const [index, item] of items.entries()) {
       item.style.removeProperty("--transition-duration");
-    }
 
-    target.hidden = true;
+      if (index > targetIndex) {
+        item.style.setProperty("--move-offset-y", moveOffsetY);
+      }
+    }
 
     target.style.setProperty("--move-offset-x", TOAST_MOVE_OFFSET_X);
     target.style.setProperty("--opacity", "0");
     target.style.setProperty("--pointer-events", "none");
 
-    for (const item of afterItems) {
-      item.style.setProperty(
-        "--move-offset-y",
-        `calc(${0.5 * this._sign}rem + ${item.clientHeight * this._sign}px)`
-      );
-    }
-
-    setTimeout(() => {
+    // Finish close animation
+    setTimeout((): void => {
       for (const item of this._items) {
         item.style.setProperty("--transition-duration", "0");
-      }
-
-      this.dispatchEvent(new CustomEvent("close", { detail: { target } }));
-      for (const item of this._items) {
         item.style.removeProperty("--move-offset-y");
       }
+
+      // Set `hidden` for convenience.
+      target.hidden = true;
+
+      this.dispatchEvent(new CustomEvent("close", { detail: { target } }));
     }, TOAST_ANIMATION_DURATION);
   }
 
