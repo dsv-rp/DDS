@@ -27,7 +27,16 @@ export const cvaContainer = cva(
   {
     variants: {
       variant: {
-        toast: ["rounded-lg", "border", "border-ddt-color-divider"],
+        toast: [
+          "rounded-lg",
+          "border",
+          "border-ddt-color-divider",
+          "translate-x-[--move-offset-x,0]",
+          "translate-y-[--move-offset-y,0]",
+          "opacity-[--opacity,1]",
+          "[pointer-events:var(--pointer-events,auto)]",
+          "[transition-duration:var(--transition-duration,var(--ddc-toast-animation-duration,0ms))]"
+        ],
         inline: [],
       },
       status: {

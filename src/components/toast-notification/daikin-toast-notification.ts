@@ -52,6 +52,8 @@ export class DaikinToastNotification extends LitElement {
     :host {
       display: block;
       width: 100%;
+
+      --ddc-toast-animation-duration: ${unsafeCSS(TOAST_ANIMATION_DURATION)}ms;
     }
   `;
 
@@ -103,7 +105,6 @@ export class DaikinToastNotification extends LitElement {
     return html`<aside
       class=${cvaContainer({ variant: "toast", status: this.status })}
       role="alert"
-      style=${`transform:translateX(var(--move-offset-x,0)) translateY(var(--move-offset-y,0));opacity:var(--opacity,1);pointer-events:var(--pointer-events,auto);transition-duration:var(--transition-duration,${TOAST_ANIMATION_DURATION}ms);`}
     >
       <div class=${cvaContent({ layout: this.layout })}>
         <slot class=${cvaTitle({ layout: this.layout })} name="title"></slot>
