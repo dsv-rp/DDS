@@ -1,7 +1,7 @@
 import { DaikinToastNotificationManager } from "#package/components/toast-notification-manager/daikin-toast-notification-manager";
 import { createComponent, type EventName } from "@lit/react";
 import type { Meta } from "@storybook/react";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { ReactDaikinButton } from "../../button/stories/framework-react";
 import { ReactDaikinToastNotification } from "../../toast-notification/stories/framework-react";
 import type {
@@ -18,9 +18,10 @@ const ReactDaikinToastNotificationManager = createComponent({
   },
 });
 
-const vrtItems = [...Array(3).keys()]
-  .map((item) => `toast ${item + 1}`)
-  .reverse();
+const VRT_ITEMS = Array.from(
+  new Array(3),
+  (_, index): [name: string, index: number] => [`toast ${index + 1}`, index + 1]
+).reverse();
 
 export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
   parameters: {
@@ -36,22 +37,24 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
     onClose,
     ...props
   }: DaikinToastNotificationManagerStoryArgs) => {
-    const [index, setIndex] = useState<number>(0);
-    const [items, setItems] = useState<string[]>(isVrt ? vrtItems : []);
+    const [items, setItems] = useState<[name: string, index: number][]>(
+      isVrt ? VRT_ITEMS : []
+    );
 
-    const handleClick = () => {
-      const newIndex = index + 1;
+    const handleClick = useCallback((): void => {
+      setItems((items) => {
+        const largestIndex = items[0]?.[1] ?? 0;
+        // Prepend new item.
+        return [[`toast ${largestIndex + 1}`, largestIndex + 1], ...items];
+      });
+    }, []);
 
-      setItems((items) => [`toast ${newIndex}`, ...items]);
-      setIndex(() => newIndex);
-    };
-
-    const handleClose = (event: ToastCloseEvent) => {
+    const handleClose = useCallback((event: ToastCloseEvent): void => {
       const name = event.detail.target.name;
 
-      setItems((items) => items.filter((item) => item != name));
+      setItems((items) => items.filter(([itemName]) => itemName != name));
       onClose();
-    };
+    }, []);
 
     return (
       <div
@@ -66,15 +69,15 @@ export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
           View new toast
         </ReactDaikinButton>
         <ReactDaikinToastNotificationManager {...props} onClose={handleClose}>
-          {items.map((item: string) => (
+          {items.map(([itemName]) => (
             <ReactDaikinToastNotification
-              key={item}
-              name={item}
+              key={itemName}
+              name={itemName}
               status="positive"
               duration={itemDuration ?? null}
               closable
             >
-              <span slot="title">{`New ${item}`}</span>
+              <span slot="title">{`New ${itemName}`}</span>
             </ReactDaikinToastNotification>
           ))}
         </ReactDaikinToastNotificationManager>
