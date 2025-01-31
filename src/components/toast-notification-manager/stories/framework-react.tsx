@@ -23,6 +23,13 @@ const vrtItems = [...Array(3).keys()]
   .reverse();
 
 export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
+  parameters: {
+    docs: {
+      source: {
+        code: "/* See example above. */",
+      },
+    },
+  },
   component: ({
     itemDuration,
     isVrt,

@@ -5,6 +5,13 @@ import "./common";
 import type { DaikinToastNotificationManagerStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinToastNotificationManagerStoryArgs> = {
+  parameters: {
+    docs: {
+      source: {
+        code: "<!-- See example above. -->",
+      },
+    },
+  },
   render: ({ position, itemDuration, onClose, isVrt }) =>
     html`<sb-toast-notification-container
       data-testid="toast-notification-container"
