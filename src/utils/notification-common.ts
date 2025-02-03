@@ -13,6 +13,7 @@ export const cvaContainer = cva(
     "items-center",
     "gap-3",
     "w-full",
+    "h-full",
     "text-ddt-color-common-text-primary",
     "bg-ddt-color-common-background-default",
     "p-4",

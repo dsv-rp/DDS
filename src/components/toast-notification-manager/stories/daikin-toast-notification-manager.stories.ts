@@ -26,7 +26,7 @@ export const Default: Story = {
   },
 };
 
-export const AutomationClose: Story = {
+export const CloseAutomatically: Story = {
   args: {
     ...Default.args,
     itemDuration: 3000,
