@@ -9,12 +9,12 @@ const cvaOption = cva(
   [
     "flex",
     "items-center",
-    "justify-between",
     "w-full",
     "min-h-12",
     "font-daikinSerif",
-    "leading-5",
+    "leading-[130%]",
     "text-left",
+    "relative",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -49,8 +49,8 @@ const cvaOption = cva(
         ],
       },
       multiple: {
-        false: ["p-3"],
-        true: ["p-2"],
+        false: ["justify-between", "p-3"],
+        true: ["justify-start", "gap-2", "p-2", "after:hidden"],
       },
     },
   }
@@ -117,6 +117,7 @@ export class DaikinDropdownItem extends LitElement {
     }
 
     this._emitSelect();
+    event.preventDefault();
   }
 
   private _handleChange(event: Event): void {
@@ -132,7 +133,7 @@ export class DaikinDropdownItem extends LitElement {
     this._emitSelect();
   }
 
-  private _handleMousedown(event: KeyboardEvent) {
+  private _handleMousedown(event: MouseEvent) {
     if (event.detail === 2) {
       // Prevent text selection on double click.
       event.preventDefault();
@@ -165,12 +166,13 @@ export class DaikinDropdownItem extends LitElement {
           <daikin-checkbox
             check-state=${this.selected ? "checked" : "unchecked"}
             label=${this.textContent ?? ""}
+            label-position="hidden"
             tabindex="-1"
             ?disabled=${this.disabled}
             @change=${this._handleChange}
           >
-            <slot></slot>
           </daikin-checkbox>
+          <slot></slot>
         </span>`
       : html`<button
           type="button"

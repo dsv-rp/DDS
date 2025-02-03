@@ -155,7 +155,7 @@ export const ManyItems: Story = {
   },
 };
 
-export const Multiple: Story = {
+export const MultipleSelection: Story = {
   args: {
     ...Default.args,
     ...resetArgs,
