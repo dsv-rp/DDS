@@ -35,6 +35,7 @@ const cvaOption = cva(
           "active:var-color-ddt-color-common-surface-selected-press/color-primary",
           "after:i-daikin-dropdown-check",
           "after:size-6",
+          "after:flex-none",
         ],
       },
       disabled: {
