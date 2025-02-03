@@ -49,6 +49,9 @@ describe("test getValueFromRatio function", () => {
     ["0", "10", "0.1", 0.21, "2.1"],
     ["0", "10", "0.01000", 0.5, "5"],
     ["0", "10", "0.01001", 0.5, "5.005"],
+    ["0", "9.9", "1", 1, "9.9"], // Max not aligned with step
+    ["0", "5.005", "0.01", 1, "5.005"], // Small step, trailing decimals
+    ["0", "10", "0.3", 0.999, "9.9"], // Near max with step mismatch
   ])(
     "min: %i; max: %s; step: %s; leftDistance: %i; result: %s",
     (
@@ -75,6 +78,9 @@ describe("test getValueByKeydown function", () => {
     ["1", "10", "1", "10", "ArrowUp", "10"],
     ["1", "10", "1", "8", "ArrowRight", "9"],
     ["1", "10", "0.01000", "8", "ArrowRight", "8.01"],
+    ["1", "10", "0.01001", "8", "ArrowRight", "8.01001"],
+    ["0", "10", "1", "5", "Home", "0"],
+    ["0", "10", "1", "5", "End", "10"],
     ["1", "10", "0.01001", "8", "ArrowRight", "8.01001"],
     ["0", "10", "1", "5", "Home", "0"],
     ["0", "10", "1", "5", "End", "10"],

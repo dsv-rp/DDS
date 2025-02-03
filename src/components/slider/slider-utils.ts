@@ -10,7 +10,7 @@ import type { DaikinSlider } from "./daikin-slider";
  */
 export function formatValue(value: number, step: string) {
   // Get the length of fractional part excluding trailing zeros.
-  const decimals = /\.(\d*?)0*$/.exec(step)?.[1].length ?? 0;
+  const decimals = /\.(\d*?)0*$/.exec(step)?.[1]?.length ?? 0;
   // Format the value.
   const formattedValue = value.toFixed(decimals);
   // Remove trailing zeros if the fractional part exists.
@@ -31,6 +31,9 @@ export function getValueFromRatio(slider: DaikinSlider, ratio: number): string {
   const rawValue = ratio * (maxFloat - minFloat) + minFloat;
   const steppedValue = Math.round(rawValue / stepFloat) * stepFloat;
   const clampedValue = Math.max(minFloat, Math.min(maxFloat, steppedValue));
+  if (clampedValue === minFloat || clampedValue === maxFloat) {
+    return `${clampedValue}`;
+  }
   return formatValue(clampedValue, slider.step);
 }
 
