@@ -59,6 +59,8 @@ export function getValueByKeydown(
     ArrowDown: -1,
     ArrowRight: 1,
     ArrowUp: 1,
+    PageDown: -10,
+    PageUp: 10,
   }[key];
   if (!offset) {
     return;

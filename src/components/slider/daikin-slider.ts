@@ -123,6 +123,7 @@ export class DaikinSlider extends LitElement {
 
   /**
    * The aria-label of the slider.
+   * You should specify this value based on the slider's use case, such as "air conditioner temperature".
    */
   @property({ type: String, reflect: true, attribute: "slider-aria-label" })
   sliderAriaLabel = "slider";
@@ -133,6 +134,8 @@ export class DaikinSlider extends LitElement {
   static readonly formAssociated = true;
 
   private _sliderRef: Ref<HTMLElement> = createRef();
+
+  private _thumbRef: Ref<HTMLElement> = createRef();
 
   // define _internals to let the slider can be used in a form
   private _internals = this.attachInternals();
@@ -232,6 +235,7 @@ export class DaikinSlider extends LitElement {
       },
       { once: true }
     );
+    this._thumbRef.value?.focus();
     this._handleDrag(event);
   }
 
@@ -260,6 +264,7 @@ export class DaikinSlider extends LitElement {
       },
       { once: true }
     );
+    this._thumbRef.value?.focus();
     this._handleDrag(event);
   }
 
@@ -279,6 +284,7 @@ export class DaikinSlider extends LitElement {
         ></span>
         <span class=${cvaSliderTrack({ disabled: this.disabled })}></span>
         <span
+          ${ref(this._thumbRef)}
           class=${cvaSliderThumb({ disabled: this.disabled })}
           tabindex=${this.disabled ? -1 : 0}
           role="slider"

@@ -41,7 +41,10 @@ export const Default: Story = {
 
     // Test drag slider thumb with mouse
     await step("Drag the slider thumb to value 3", async () => {
+      await expect(root).not.toHaveFocus();
       await fireEvent.mouseDown(thumb);
+      // When mouse down the slider it should be focused
+      await expect(root).toHaveFocus();
       await fireEvent.mouseMove(thumb, { clientX: (root.clientWidth * 2) / 9 });
       await fireEvent.mouseUp(thumb);
       await expect(root.value).toEqual("3");
@@ -98,7 +101,7 @@ export const Default: Story = {
       await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
     });
 
-    await step("Move the slider thumb to last with keyboard", async () => {
+    await step("Move the slider thumb to last with keyboard End", async () => {
       thumb.focus();
       await userEvent.keyboard("[End]");
       await expect(root.value).toEqual("10");
@@ -108,15 +111,44 @@ export const Default: Story = {
       await expect(args.onInput).toHaveLastReturnedWith({ value: "10" });
     });
 
-    await step("Move the slider thumb to begin with keyboard", async () => {
-      thumb.focus();
-      await userEvent.keyboard("[Home]");
-      await expect(root.value).toEqual("1");
-      await expect(args.onChange).toHaveBeenCalledTimes(10);
-      await expect(args.onChange).toHaveLastReturnedWith({ value: "1" });
-      await expect(args.onInput).toHaveBeenCalledTimes(10);
-      await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
-    });
+    await step(
+      "Move the slider thumb to begin with keyboard Home",
+      async () => {
+        thumb.focus();
+        await userEvent.keyboard("[Home]");
+        await expect(root.value).toEqual("1");
+        await expect(args.onChange).toHaveBeenCalledTimes(10);
+        await expect(args.onChange).toHaveLastReturnedWith({ value: "1" });
+        await expect(args.onInput).toHaveBeenCalledTimes(10);
+        await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
+      }
+    );
+
+    await step(
+      "Move the slider thumb to last with keyboard Page Down",
+      async () => {
+        thumb.focus();
+        await userEvent.keyboard("[PageUp]");
+        await expect(root.value).toEqual("10");
+        await expect(args.onChange).toHaveBeenCalledTimes(11);
+        await expect(args.onChange).toHaveLastReturnedWith({ value: "10" });
+        await expect(args.onInput).toHaveBeenCalledTimes(11);
+        await expect(args.onInput).toHaveLastReturnedWith({ value: "10" });
+      }
+    );
+
+    await step(
+      "Move the slider thumb to begin with keyboard Page Up",
+      async () => {
+        thumb.focus();
+        await userEvent.keyboard("[PageDown]");
+        await expect(root.value).toEqual("1");
+        await expect(args.onChange).toHaveBeenCalledTimes(12);
+        await expect(args.onChange).toHaveLastReturnedWith({ value: "1" });
+        await expect(args.onInput).toHaveBeenCalledTimes(12);
+        await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
+      }
+    );
 
     // Test click slider bar directly
     await step("Directly click the slider bar to choice value", async () => {
@@ -127,14 +159,16 @@ export const Default: Story = {
         coords: { x: sliderRect.width / 2, y: sliderRect.height / 2 },
       });
       await expect(root.value).toEqual("5");
-      await expect(args.onChange).toHaveBeenCalledTimes(11);
+      await expect(args.onChange).toHaveBeenCalledTimes(13);
       await expect(args.onChange).toHaveLastReturnedWith({ value: "5" });
-      await expect(args.onInput).toHaveBeenCalledTimes(11);
+      await expect(args.onInput).toHaveBeenCalledTimes(13);
       await expect(args.onInput).toHaveLastReturnedWith({ value: "5" });
     });
 
     // Test drag slider thumb with touch
+    root.blur();
     await step("Touch drag the slider thumb to most right", async () => {
+      await expect(root).not.toHaveFocus();
       await fireEvent.touchStart(thumb, {
         targetTouches: [
           new Touch({
@@ -144,6 +178,8 @@ export const Default: Story = {
           }),
         ],
       });
+      // When touch the slider it should be focused
+      await expect(root).toHaveFocus();
       await fireEvent.touchMove(thumb, {
         targetTouches: [
           new Touch({
@@ -155,9 +191,9 @@ export const Default: Story = {
       });
       await fireEvent.touchEnd(thumb);
       await expect(root.value).toEqual("10");
-      await expect(args.onChange).toHaveBeenCalledTimes(12);
+      await expect(args.onChange).toHaveBeenCalledTimes(14);
       await expect(args.onChange).toHaveLastReturnedWith({ value: "10" });
-      await expect(args.onInput).toHaveBeenCalledTimes(12);
+      await expect(args.onInput).toHaveBeenCalledTimes(14);
       await expect(args.onInput).toHaveLastReturnedWith({ value: "10" });
     });
 
@@ -182,9 +218,9 @@ export const Default: Story = {
       });
       await fireEvent.touchEnd(thumb);
       await expect(root.value).toEqual("1");
-      await expect(args.onChange).toHaveBeenCalledTimes(13);
+      await expect(args.onChange).toHaveBeenCalledTimes(15);
       await expect(args.onChange).toHaveLastReturnedWith({ value: "1" });
-      await expect(args.onInput).toHaveBeenCalledTimes(13);
+      await expect(args.onInput).toHaveBeenCalledTimes(15);
       await expect(args.onInput).toHaveLastReturnedWith({ value: "1" });
     });
 
@@ -209,9 +245,9 @@ export const Default: Story = {
       });
       await fireEvent.touchEnd(thumb);
       await expect(root.value).toEqual("5");
-      await expect(args.onChange).toHaveBeenCalledTimes(14);
+      await expect(args.onChange).toHaveBeenCalledTimes(16);
       await expect(args.onChange).toHaveLastReturnedWith({ value: "5" });
-      await expect(args.onInput).toHaveBeenCalledTimes(14);
+      await expect(args.onInput).toHaveBeenCalledTimes(16);
       await expect(args.onInput).toHaveLastReturnedWith({ value: "5" });
     });
   }),
@@ -278,5 +314,32 @@ export const Disabled: Story = {
         await expect(args.onInput).not.toHaveBeenCalledOnce();
       }
     );
+
+    await step("Touch drag the slider thumb when disabled", async () => {
+      await fireEvent.touchStart(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: (root.clientWidth * 4) / 9,
+          }),
+        ],
+      });
+      // When touch the slider it should be focused
+      await expect(root).not.toHaveFocus();
+      await fireEvent.touchMove(thumb, {
+        targetTouches: [
+          new Touch({
+            identifier: 1,
+            target: thumb,
+            clientX: root.clientWidth,
+          }),
+        ],
+      });
+      await fireEvent.touchEnd(thumb);
+      await expect(root.value).toEqual("1");
+      await expect(args.onChange).not.toHaveBeenCalledOnce();
+      await expect(args.onInput).not.toHaveBeenCalledOnce();
+    });
   }),
 };
