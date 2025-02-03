@@ -31,7 +31,7 @@ const cvaTooltip = cva(
         ],
         inverse: [
           "text-ddt-color-common-text-inverse",
-          "bg-[#212121]",
+          "bg-ddt-color-common-surface-inverse",
           "border-transparent",
         ],
       },
