@@ -14,6 +14,9 @@ const cvaTooltip = cva(
     "left-[--floating-x,0]",
     "top-[--floating-y,0]",
     "w-max",
+    "text-sm",
+    "p-2",
+    "leading-[130%]",
     "border",
     "border-solid",
     "rounded",
@@ -95,13 +98,6 @@ export class DaikinTooltip extends LitElement {
       display: inline-block;
 
       --ddc-tooltip-spacing: ${unsafeCSS(DEFAULT_TOOLTIP_SPACING)};
-    }
-
-    #tooltip {
-      width: max-content;
-      padding: 0.5rem;
-      font-size: 0.875rem;
-      line-height: 1.25rem;
     }
   `;
 
