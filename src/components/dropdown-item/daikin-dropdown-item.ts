@@ -109,11 +109,14 @@ export class DaikinDropdownItem extends LitElement {
   private _focusableElement!: HTMLElement | null;
 
   private _handleClick(event: PointerEvent): void {
-    if (this.disabled) {
+    if (
+      this.disabled ||
+      (event.target as HTMLElement).tagName === "DAIKIN-CHECKBOX"
+    ) {
       return;
     }
 
-    this.dispatchEvent(new Event("select", event));
+    this._emitSelect();
   }
 
   private _handleChange(event: Event): void {
@@ -121,20 +124,19 @@ export class DaikinDropdownItem extends LitElement {
     this._emitSelect();
   }
 
-  private _handleContainerClick() {
-    if (this.disabled) {
+  private _handleKeydown(event: KeyboardEvent) {
+    if (!isSimilarToClick(event.key) || this.disabled) {
       return;
     }
 
     this._emitSelect();
   }
 
-  private _handleContainerKeydown(event: KeyboardEvent) {
-    if (!isSimilarToClick(event.key) || this.disabled) {
-      return;
+  private _handleMousedown(event: KeyboardEvent) {
+    if (event.detail === 2) {
+      // Prevent text selection on double click.
+      event.preventDefault();
     }
-
-    this._emitSelect();
   }
 
   private _emitSelect(): void {
@@ -156,20 +158,19 @@ export class DaikinDropdownItem extends LitElement {
           aria-selected=${this.selected}
           tabindex="-1"
           aria-disabled=${this.disabled}
-          @click=${this._handleContainerClick}
-          @keydown=${this._handleContainerKeydown}
+          @click=${this._handleClick}
+          @keydown=${this._handleKeydown}
+          @mousedown=${this._handleMousedown}
         >
-          <span class="flex items-center gap-2.5">
-            <daikin-checkbox
-              check-state=${this.selected ? "checked" : "unchecked"}
-              label-position="hidden"
-              label=${this.textContent ?? ""}
-              tabindex="-1"
-              ?disabled=${this.disabled}
-              @change=${this._handleChange}
-            ></daikin-checkbox>
+          <daikin-checkbox
+            check-state=${this.selected ? "checked" : "unchecked"}
+            label=${this.textContent ?? ""}
+            tabindex="-1"
+            ?disabled=${this.disabled}
+            @change=${this._handleChange}
+          >
             <slot></slot>
-          </span>
+          </daikin-checkbox>
         </span>`
       : html`<button
           type="button"

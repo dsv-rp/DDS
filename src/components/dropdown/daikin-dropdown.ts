@@ -18,6 +18,7 @@ import { createRef, ref } from "lit/directives/ref.js";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
+import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import type { DaikinDropdownItem } from "../dropdown-item";
 import type { DaikinInputGroup } from "../input-group";
 
@@ -376,6 +377,10 @@ export class DaikinDropdown extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent): void {
+    if (!isSimpleKeyEvent(event)) {
+      return;
+    }
+
     const printableCharacter = event.key.trim().length === 1 ? event.key : null;
     if (printableCharacter) {
       event.preventDefault();
