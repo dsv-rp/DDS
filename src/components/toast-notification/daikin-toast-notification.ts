@@ -51,7 +51,6 @@ export class DaikinToastNotification extends LitElement {
 
     :host {
       display: block;
-      width: 100%;
 
       --ddc-toast-animation-duration: ${unsafeCSS(TOAST_ANIMATION_DURATION)}ms;
     }

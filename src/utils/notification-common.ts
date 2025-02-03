@@ -65,7 +65,7 @@ export const cvaContainer = cva(
   }
 );
 
-export const cvaContent = cva(["flex", "flex-glow", "items-center", "w-full"], {
+export const cvaContent = cva(["flex", "items-center", "w-full"], {
   variants: {
     layout: {
       horizontal: ["gap-3", "overflow-hidden"],
