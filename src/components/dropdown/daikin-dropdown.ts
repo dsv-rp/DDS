@@ -25,6 +25,7 @@ import type { DaikinInputGroup } from "../input-group";
 const cvaButton = cva(
   [
     "flex",
+    "justify-between",
     "items-center",
     "gap-2",
     "w-full",
@@ -38,7 +39,7 @@ const cvaButton = cva(
     "overflow-hidden",
     "font-daikinSerif",
     "text-left",
-    "leading-5",
+    "leading-[130%]",
     "relative",
     "outline",
     "outline-0",
@@ -51,13 +52,8 @@ const cvaButton = cva(
     "disabled:border-ddt-color-common-disabled",
 
     "after:i-daikin-dropdown-chevron-down",
-    "after:w-6",
-    "after:h-6",
-    "after:absolute",
-    "after:m-auto",
-    "after:top-0",
-    "after:bottom-0",
-    "after:right-3",
+    "after:size-6",
+    "after:flex-none",
 
     "enabled:after:text-ddt-color-common-text-primary",
     "disabled:after:text-ddt-color-common-disabled",
@@ -69,7 +65,10 @@ const cvaButton = cva(
           "enabled:hover:bg-ddt-color-common-surface-hover",
           "enabled:active:bg-ddt-color-common-surface-press",
         ],
-        true: ["enabled:bg-ddt-color-common-surface-press"],
+        true: [
+          "enabled:bg-ddt-color-common-surface-press",
+          "after:scale-y-[-1]",
+        ],
       },
       error: {
         false: [
