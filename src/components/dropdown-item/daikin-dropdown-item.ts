@@ -9,6 +9,7 @@ const cvaOption = cva(
   [
     "flex",
     "items-center",
+    "gap-1",
     "w-full",
     "min-h-12",
     "font-daikinSerif",

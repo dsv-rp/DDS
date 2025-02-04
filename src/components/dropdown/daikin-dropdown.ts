@@ -32,9 +32,9 @@ const cvaButton = cva(
     "h-full",
     "min-h-12",
     "bg-ddt-color-common-background-default",
-    "p-3",
-    "border",
-    "border-[--color-base]",
+    "py-3",
+    "pl-4",
+    "pr-3",
     "rounded",
     "overflow-hidden",
     "font-daikinSerif",
@@ -42,14 +42,15 @@ const cvaButton = cva(
     "leading-[130%]",
     "relative",
     "outline",
-    "outline-0",
-    "-outline-offset-2",
+    "outline-1",
+    "-outline-offset-1",
 
     "focus-visible:outline-2",
-    "focus-visible:outline-[--color-focus]",
+    "focus-visible:-outline-offset-2",
 
+    "enabled:outline-[--color-base]",
     "disabled:text-ddt-color-common-disabled",
-    "disabled:border-ddt-color-common-disabled",
+    "disabled:outline-ddt-color-common-disabled",
 
     "after:i-daikin-dropdown-chevron-down",
     "after:size-6",
@@ -73,12 +74,11 @@ const cvaButton = cva(
       error: {
         false: [
           "var-color-ddt-color-common-neutral-default/color-base",
-          "var-color-ddt-color-common-border-focus/color-focus",
+          "hover:var-color-ddt-color-common-neutral-hover/color-base",
+          "active:var-color-ddt-color-common-neutral-press/color-base",
+          "focus-visible:var-color-ddt-color-common-border-focus/color-base",
         ],
-        true: [
-          "var-color-ddt-color-common-danger-default/color-base",
-          "var-color-ddt-color-common-danger-default/color-focus",
-        ],
+        true: ["var-color-ddt-color-common-danger-default/color-base"],
       },
       placeholder: {
         false: ["text-ddt-color-common-text-primary"],
