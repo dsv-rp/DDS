@@ -123,8 +123,8 @@ export class DaikinDropdownItem extends LitElement {
   }
 
   private _handleChange(event: Event): void {
-    event.preventDefault();
     this._emitSelect();
+    event.preventDefault();
   }
 
   private _handleKeydown(event: KeyboardEvent) {
@@ -133,6 +133,7 @@ export class DaikinDropdownItem extends LitElement {
     }
 
     this._emitSelect();
+    event.preventDefault();
   }
 
   private _handleMousedown(event: MouseEvent) {
