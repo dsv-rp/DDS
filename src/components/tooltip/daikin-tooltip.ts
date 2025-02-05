@@ -147,23 +147,16 @@ export class DaikinTooltip extends LitElement {
 
   private _hostStyles = isClient ? window.getComputedStyle(this) : null;
 
-  private _ignoreFocusIn = false;
-
   private _handleClick(event: PointerEvent) {
     if (this.trigger === "click") {
       // Prevent the tooltip from closing via the Popover feature.
       event.preventDefault();
 
       this.open = !this.open;
-      this._ignoreFocusIn = false;
     }
   }
 
   private _handleFocusIn() {
-    if (this._ignoreFocusIn) {
-      return;
-    }
-
     this.open = true;
   }
 
@@ -177,16 +170,10 @@ export class DaikinTooltip extends LitElement {
     }
   }
 
-  private _handleMouseDown() {
-    this._ignoreFocusIn = true;
-  }
-
   private _handleMouseLeave() {
     if (this.trigger === "hover") {
       this.open = false;
     }
-
-    this._ignoreFocusIn = false;
   }
 
   private _handleBeforeToggle(event: ToggleEvent) {
@@ -221,7 +208,6 @@ export class DaikinTooltip extends LitElement {
           @click=${this._handleClick}
           @focusin=${this._handleFocusIn}
           @focusout=${this._handleFocusOut}
-          @mousedown=${this._handleMouseDown}
           @mouseenter=${this._handleMouseEnter}
           @mouseleave=${this._handleMouseLeave}
         ></slot>
