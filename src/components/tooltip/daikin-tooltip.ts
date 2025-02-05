@@ -54,7 +54,9 @@ type TooltipVariantProps = MergeVariantProps<typeof cvaTooltip>;
  * @slot - A slot for the element to which the tooltip is attached (the trigger element).
  * @slot description - A slot for the tooltip description content.
  *
- * @cssprop [--ddc-tooltip-spacing=20px] - Spacing between the tooltip and the trigger
+ * @cssprop [--ddc-tooltip-spacing=20px] - Spacing between the tooltip and the trigger.
+ *
+ * @csspart tooltip - Change the style of tooltips.
  *
  * @example
  *
@@ -215,6 +217,7 @@ export class DaikinTooltip extends LitElement {
         id="tooltip"
         role="tooltip"
         aria-labelledby="tooltip"
+        part="tooltip"
         class=${cvaTooltip({ color: this.color })}
         popover=${this.popoverValue}
         @beforetoggle=${this._handleBeforeToggle}
