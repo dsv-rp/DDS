@@ -168,7 +168,10 @@ export class DaikinDropdownItem extends LitElement {
         >
           <daikin-checkbox
             check-state=${this.selected ? "checked" : "unchecked"}
-            label=${this.textContent ?? ""}
+            label=${
+              /* FIXME: Stop using `textContent` to follow the updates to the text. Rather, we should change checkbox to accept a slot. */
+              this.textContent ?? ""
+            }
             label-position="hidden"
             tabindex="-1"
             ?disabled=${this.disabled}
