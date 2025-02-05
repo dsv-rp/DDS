@@ -18,7 +18,6 @@ const cvaTooltip = cva(
     "p-2",
     "leading-[130%]",
     "border",
-    "border-solid",
     "rounded",
     "font-daikinSerif",
     "absolute",
@@ -217,7 +216,7 @@ export class DaikinTooltip extends LitElement {
         role="tooltip"
         aria-labelledby="tooltip"
         class=${cvaTooltip({ color: this.color })}
-        .popover=${this.popoverValue}
+        popover=${this.popoverValue}
         @beforetoggle=${this._handleBeforeToggle}
         @toggle=${this._handleToggle}
         ${this._autoUpdateController.refFloating()}
