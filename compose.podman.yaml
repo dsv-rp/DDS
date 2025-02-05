@@ -2,7 +2,7 @@
 
 services:
   playwright:
-    image: mcr.microsoft.com/playwright:v1.46.1-jammy
+    image: mcr.microsoft.com/playwright:v1.50.1-noble
     ipc: host
     command:
       - /bin/bash
@@ -10,7 +10,7 @@ services:
       # We have to explicitly install the version of Playwright we want, or the latest (and may not compatible) version will be installed.
       # In the CI environment, this does not occur since `npm ci` is executed within the Playwright container.
       - |
-        npm i -g playwright@1.46.1
+        npm i -g playwright@1.50.1
         npx playwright run-server --port 55744
     ports:
       - 55744:55744

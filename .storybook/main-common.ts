@@ -50,7 +50,10 @@ export function viteFinal(config: InlineConfig): InlineConfig {
     // We have to pre-bundle all the dependencies since the page reload confuses Playwright.
     optimizeDeps: {
       ...config.optimizeDeps,
-      entries: [...(config.optimizeDeps?.entries ?? []), "src/index.ts"],
+      entries: [
+        ...((config.optimizeDeps?.entries ?? []) as string[]),
+        "src/index.ts",
+      ],
       include: [
         ...(config.optimizeDeps?.include ?? []),
         "@storybook/blocks",
