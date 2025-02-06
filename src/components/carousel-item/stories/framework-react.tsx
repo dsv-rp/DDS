@@ -15,11 +15,20 @@ export const ReactDaikinCarouselItem = createComponent({
 });
 
 export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
-  component: ({ label, ...props }: DaikinCarouselItemStoryArgs) => (
+  component: ({
+    image,
+    title,
+    description,
+    ...props
+  }: DaikinCarouselItemStoryArgs) => (
     <ReactDaikinCarouselItem {...props}>
-      <a href="https://dsv-rp.github.io/DDS" className={CAROUSEL_ITEM_STYLE}>
-        {label}
-      </a>
+      {image && (
+        <div slot="image" className={CAROUSEL_ITEM_STYLE}>
+          {image}
+        </div>
+      )}
+      {title && <span slot="title">{title}</span>}
+      {description && <span>{description}</span>}
     </ReactDaikinCarouselItem>
   ),
 };

@@ -24,12 +24,11 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
           (item) => item,
           (item) =>
             html`<daikin-carousel-item>
-              <a
-                href="https://dsv-rp.github.io/DDS"
-                class=${CAROUSEL_ITEM_STYLE}
-              >
-                Carousel item ${item + 1}
-              </a>
+              <div slot="image" class=${CAROUSEL_ITEM_STYLE}>
+                Carousel image ${item + 1}
+              </div>
+              <span slot="title">Carousel title ${item + 1}</span>
+              <span>Carousel description ${item + 1}</span>
             </daikin-carousel-item>`
         )}
       </daikin-carousel>

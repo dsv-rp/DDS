@@ -1,6 +1,5 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -9,7 +8,9 @@ import tailwindStyles from "../../tailwind.css?inline";
  * Hierarchy:
  * - `daikin-carousel` > `daikin-carousel-item`
  *
- * @slot - A slot for carousel item content.
+ * @slot - A slot for carousel description content.
+ * @slot image - A slot for carousel image content.
+ * @slot title - A slot for carousel title content.
  *
  * @example
  *
@@ -50,12 +51,16 @@ export class DaikinCarouselItem extends LitElement {
 
   override render() {
     return html`<div
-      class="flex-none overflow-hidden"
+      class="flex flex-col gap-3 flex-none text-ddt-color-common-text-primary font-daikinSerif overflow-hidden"
       role="tabpanel"
       aria-label=${this.label}
       aria-hidden=${!this.active}
     >
-      <slot tabindex=${ifDefined(!this.active ? -1 : undefined)}></slot>
+      <slot name="image"></slot>
+      <div class="flex flex-col gap-2">
+        <slot name="title" class="leading-[130%] font-bold"></slot>
+        <slot class="text-sm"></slot>
+      </div>
     </div>`;
   }
 }
