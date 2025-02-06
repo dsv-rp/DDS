@@ -1,13 +1,22 @@
 import type { DaikinSlider } from "./daikin-slider";
 
 /**
- * This function removes trailing zeros from the decimal part and deletes the decimal point if it becomes the last character.
+ * Returns a normalized numerical representation.
+ *
+ * - Removes trailing zeros from the decimal part.
+ * - Removes the decimal point if it becomes the last character.
+ * - Removes leading zeros from the integer part.
  *
  * @param str A numeric string.
  * @returns Formatted value.
  */
-export function cleanFloatString(str: string): string {
-  return str.replace(/(?<=\.\d*?)0+$/, "").replace(/\.$/, "");
+export function normalizeNumberString(str: string): string {
+  return (
+    str
+      .replace(/(?:\.0*|(?<=\.\d*?)0+)$/, "")
+      .replace(/^0+/, "")
+      .replace(/^(\.(?=\d))/, "0.") || "0"
+  );
 }
 
 /**
@@ -24,7 +33,7 @@ export function formatValue(value: number, step: string) {
   // Format the value.
   const formattedValue = value.toFixed(decimals);
   // Remove trailing zeros if the fractional part exists.
-  return decimals > 0 ? formattedValue.replace(/\.?0+$/, "") : formattedValue;
+  return normalizeNumberString(formattedValue);
 }
 
 /**
@@ -41,10 +50,10 @@ export function getValueFromRatio(slider: DaikinSlider, ratio: number): string {
   const rawValue = ratio * (maxFloat - minFloat) + minFloat;
   const steppedValue = Math.round(rawValue / stepFloat) * stepFloat;
   if (steppedValue <= minFloat) {
-    return cleanFloatString(slider.min);
+    return normalizeNumberString(slider.min);
   }
   if (steppedValue >= maxFloat) {
-    return cleanFloatString(slider.max);
+    return normalizeNumberString(slider.max);
   }
   return formatValue(steppedValue, slider.step);
 }

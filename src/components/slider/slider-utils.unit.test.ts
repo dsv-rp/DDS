@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { DaikinSlider } from "./daikin-slider";
 import {
-  cleanFloatString,
   formatValue,
   getValueByKeydown,
   getValueFromRatio,
+  normalizeNumberString,
 } from "./slider-utils";
 
-describe("test cleanFloatString function", () => {
+describe("test normalizeNumberString function", () => {
   it.each([
     ["1.1000", "1.1"],
     ["1.00", "1"],
@@ -21,8 +21,12 @@ describe("test cleanFloatString function", () => {
     ["0.0010", "0.001"],
     ["10.10010", "10.1001"],
     ["10.1001", "10.1001"],
+    ["10.1001", "10.1001"],
+    ["0", "0"],
+    ["001.0", "1"],
+    ["000100.0000", "100"],
   ])("str: %s; result: %s", (str: string, expected: string) => {
-    const result = cleanFloatString(str);
+    const result = normalizeNumberString(str);
     expect(result).toEqual(expected);
   });
 });
