@@ -2,7 +2,10 @@ import type { DaikinRadio } from "#package/components/radio/daikin-radio";
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
+import {
+  getAllByShadowText,
+  getByShadowRole,
+} from "shadow-dom-testing-library";
 import { DAIKIN_RADIO_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -37,7 +40,7 @@ export const Default: Story = {
     });
     await expect(innerRadio).toBeInTheDocument();
 
-    const label = getByShadowText(root, "Radio label");
+    const label = getAllByShadowText(root, "Radio label")[1];
     await expect(label).toBeInTheDocument();
 
     await expect(innerRadio).not.toBeChecked();
@@ -80,7 +83,7 @@ export const Disabled: Story = {
     });
     await expect(innerRadio).toBeInTheDocument();
 
-    const label = getByShadowText(root, "Radio label");
+    const label = getAllByShadowText(root, "Radio label")[1];
     await expect(label).toBeInTheDocument();
 
     await expect(innerRadio).not.toBeChecked();

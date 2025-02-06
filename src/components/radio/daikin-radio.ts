@@ -162,7 +162,7 @@ export class DaikinRadio extends LitElement {
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
-      class="group flex gap-2 items-center font-daikinSerif"
+      class="group flex gap-2 items-center size-full font-daikinSerif"
       @click=${this._handleClick}
     >
       <span class="p-2">

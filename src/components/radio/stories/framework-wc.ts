@@ -23,6 +23,7 @@ export const metadata: Meta<DaikinRadioStoryArgs> = {
       ?disabled=${disabled}
       @change=${onChange}
       @click=${onClick}
-    ></daikin-radio>
+      >${label}</daikin-radio
+    >
   `,
 };
