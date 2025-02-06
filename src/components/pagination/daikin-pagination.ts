@@ -107,6 +107,10 @@ const cvaChevronButton = cva([
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/pagination/index.js";
+ * ```
+ *
  * ```html
  * <daikin-pagination window="5" total="20" current="3"></daikin-pagination>
  * ```
