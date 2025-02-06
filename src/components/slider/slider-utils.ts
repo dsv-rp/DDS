@@ -13,9 +13,12 @@ import type { DaikinSlider } from "./daikin-slider";
 export function normalizeNumberString(str: string): string {
   return (
     str
+      // Remove trailing zeros and a decimal point from the decimal part.
       .replace(/(?:\.0*|(?<=\.\d*?)0+)$/, "")
-      .replace(/^0+/, "")
-      .replace(/^(\.(?=\d))/, "0.") || "0"
+      // Remove leading zeros from the integer part.
+      .replace(/(?<=-|^)0+(?=[1-9]|0\.|0)/, "")
+      // Convert -0 to 0.
+      .replace(/^-0$/, "0")
   );
 }
 

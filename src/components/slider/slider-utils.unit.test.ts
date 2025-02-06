@@ -21,10 +21,13 @@ describe("test normalizeNumberString function", () => {
     ["0.0010", "0.001"],
     ["10.10010", "10.1001"],
     ["10.1001", "10.1001"],
-    ["10.1001", "10.1001"],
     ["0", "0"],
+    ["-0", "0"],
+    ["-00.0", "0"],
     ["001.0", "1"],
+    ["-001.0", "-1"],
     ["000100.0000", "100"],
+    ["-000100.0000", "-100"],
   ])("str: %s; result: %s", (str: string, expected: string) => {
     const result = normalizeNumberString(str);
     expect(result).toEqual(expected);
