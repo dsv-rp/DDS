@@ -1,6 +1,16 @@
 import type { DaikinSlider } from "./daikin-slider";
 
 /**
+ * This function removes trailing zeros from the decimal part and deletes the decimal point if it becomes the last character.
+ *
+ * @param str A numeric string.
+ * @returns Formatted value.
+ */
+export function cleanFloatString(str: string): string {
+  return str.replace(/(?<=\.\d*?)0+$/, "").replace(/\.$/, "");
+}
+
+/**
  * This function is used to handle floating-point errors in calculations.
  * Ensuring that the number of decimal places matches the decimal places of the step value.
  *
@@ -30,11 +40,13 @@ export function getValueFromRatio(slider: DaikinSlider, ratio: number): string {
   const stepFloat = parseFloat(slider.step);
   const rawValue = ratio * (maxFloat - minFloat) + minFloat;
   const steppedValue = Math.round(rawValue / stepFloat) * stepFloat;
-  const clampedValue = Math.max(minFloat, Math.min(maxFloat, steppedValue));
-  if (clampedValue === minFloat || clampedValue === maxFloat) {
-    return `${clampedValue}`;
+  if (steppedValue <= minFloat) {
+    return cleanFloatString(slider.min);
   }
-  return formatValue(clampedValue, slider.step);
+  if (steppedValue >= maxFloat) {
+    return cleanFloatString(slider.max);
+  }
+  return formatValue(steppedValue, slider.step);
 }
 
 /**

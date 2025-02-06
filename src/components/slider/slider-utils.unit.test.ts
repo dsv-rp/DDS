@@ -1,10 +1,31 @@
 import { describe, expect, it } from "vitest";
 import { DaikinSlider } from "./daikin-slider";
 import {
+  cleanFloatString,
   formatValue,
   getValueByKeydown,
   getValueFromRatio,
 } from "./slider-utils";
+
+describe("test cleanFloatString function", () => {
+  it.each([
+    ["1.1000", "1.1"],
+    ["1.00", "1"],
+    ["0.0", "0"],
+    ["1.230", "1.23"],
+    ["1.0001", "1.0001"],
+    ["1.00010", "1.0001"],
+    ["1", "1"],
+    ["100", "100"],
+    ["0.001", "0.001"],
+    ["0.0010", "0.001"],
+    ["10.10010", "10.1001"],
+    ["10.1001", "10.1001"],
+  ])("str: %s; result: %s", (str: string, expected: string) => {
+    const result = cleanFloatString(str);
+    expect(result).toEqual(expected);
+  });
+});
 
 describe("test formatValue function", () => {
   it.each([
