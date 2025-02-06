@@ -21,7 +21,7 @@ export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
     description,
     ...props
   }: DaikinCarouselItemStoryArgs) => (
-    <ReactDaikinCarouselItem {...props}>
+    <ReactDaikinCarouselItem {...props} className="w-[544px]">
       {image && (
         <div slot="image" className={CAROUSEL_ITEM_STYLE}>
           {image}

@@ -33,12 +33,11 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
       >
         {[...Array(5).keys()].map((item) => (
           <ReactDaikinCarouselItem key={item}>
-            <a
-              href="https://dsv-rp.github.io/DDS"
-              className={CAROUSEL_ITEM_STYLE}
-            >
-              Carousel item {item + 1}
-            </a>
+            <div slot="image" className={CAROUSEL_ITEM_STYLE}>
+              Carousel image {item + 1}
+            </div>
+            <span slot="title">Carousel title {item + 1}</span>
+            <span>Carousel description {item + 1}</span>
           </ReactDaikinCarouselItem>
         ))}
       </ReactDaikinCarousel>
