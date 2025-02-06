@@ -171,7 +171,7 @@ export class DaikinPagination extends LitElement {
       this.window
     );
     return html`
-      <div aria-label="Pagination" class="inline-flex">
+      <div aria-label="Pagination" role="navigation" class="inline-flex">
         <button
           class=${cvaChevron}
           type="button"
