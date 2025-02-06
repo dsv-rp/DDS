@@ -5,6 +5,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaContainer = cva(
   [
+    "size-full",
     "flex",
     "flex-col",
     "gap-4",
@@ -56,8 +57,9 @@ export class DaikinCard extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: flex;
-      width: fit-content;
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   `;
 

@@ -61,7 +61,7 @@ export class DaikinCardHeader extends LitElement {
         name="left-icon"
         class="flex-none icon-size-6 text-ddt-color-common-text-primary"
       ></slot>
-      <div class="flex-1 flex flex-col pt-0.5 gap-[1px]">
+      <div class="flex-1 flex flex-col pt-0.5 gap-1">
         <slot class=${cvaTitle}></slot>
         <slot name="description" class=${cvaDescription}></slot>
       </div>
