@@ -31,18 +31,11 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-[130%]"], {
 });
 
 const cvaHelper = cva(
-  [
-    "flex",
-    "gap-1",
-    "items-center",
-    "text-ddt-color-common-text-secondary",
-    "leading-[130%]",
-    "text-sm",
-  ],
+  ["flex", "gap-1", "items-center", "leading-[130%]", "text-sm"],
   {
     variants: {
       type: {
-        helper: [],
+        helper: ["text-ddt-color-common-text-secondary"],
         helperDisabled: ["text-ddt-color-common-disabled"],
         error: [
           "text-ddt-color-common-danger-default",
