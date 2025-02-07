@@ -39,7 +39,7 @@ describeEach(["light", "dark"] as const, (theme) => {
       const element = await page.waitForSelector("daikin-accordion-item", {
         state: "visible",
       });
-      const summary = await element.waitForSelector("summary");
+      const summary = await element.waitForSelector("#summary");
 
       // hover cursor on the element
       await summary.hover();
@@ -55,7 +55,7 @@ describeEach(["light", "dark"] as const, (theme) => {
       const element = await page.waitForSelector("daikin-accordion-item", {
         state: "visible",
       });
-      const summary = await element.waitForSelector("summary");
+      const summary = await element.waitForSelector("#summary");
 
       // hover cursor on the element and hold down mouse button on the element
       await summary.hover();
@@ -73,7 +73,7 @@ describeEach(["light", "dark"] as const, (theme) => {
       const element = await page.waitForSelector("daikin-accordion-item", {
         state: "visible",
       });
-      const summary = await element.waitForSelector("summary");
+      const summary = await element.waitForSelector("#summary");
 
       await page.evaluate((container) => {
         container.focus();

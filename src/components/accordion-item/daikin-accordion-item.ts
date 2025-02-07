@@ -44,6 +44,15 @@ const cvaSummary = cva(
   }
 );
 
+const cvaContent = cva(["max-h-0"], {
+  variants: {
+    open: {
+      false: ["overflow-hidden"],
+      true: ["max-h-12"],
+    },
+  },
+});
+
 const animationOption = {
   duration: 250,
   easing: "ease-in-out",
@@ -53,7 +62,7 @@ const contentCloseKeyframe = {
   height: 0,
 };
 const getContentOpenKeyframe = (content: HTMLElement) => ({
-  height: `${content.offsetHeight}px`,
+  height: `${content.scrollHeight}px`,
 });
 
 /**
@@ -142,7 +151,7 @@ export class DaikinAccordionItem extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
-  @query("summary")
+  @query("#summary")
   private _summary!: HTMLElement | null;
 
   /**
@@ -193,6 +202,9 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
+    if (event.key === "Enter" || event.key === " ") {
+      this.dispatchEvent(new Event("toggle", event));
+    }
     const direction = (
       {
         ArrowDown: "down",
@@ -232,14 +244,16 @@ export class DaikinAccordionItem extends LitElement {
     const detailsOpen = !this.disabled && this._detailsOpen;
     const open = !this.disabled && this.open;
 
-    return html`<details
+    return html`<div
       class="w-full text-ddt-color-common-text-primary font-daikinSerif overflow-clip"
+      role="button"
       ?open=${detailsOpen}
       ?data-open=${open}
       aria-disabled=${this.disabled}
+      aria-expanded=${detailsOpen}
       @toggle=${this._handleToggle}
     >
-      <summary
+      <div
         id="summary"
         class=${cvaSummary({
           open,
@@ -250,10 +264,11 @@ export class DaikinAccordionItem extends LitElement {
         @keydown=${this._handleKeyDown}
       >
         <slot name="summary"></slot>
-      </summary>
+      </div>
       <div
         ${ref(this._contentRef)}
         role="region"
+        class=${cvaContent({ open: detailsOpen })}
         aria-labelledby="summary"
         ?hidden=${this.disabled}
       >
@@ -261,7 +276,7 @@ export class DaikinAccordionItem extends LitElement {
           <slot></slot>
         </div>
       </div>
-    </details>`;
+    </div>`;
   }
 
   protected override firstUpdated(): void {
