@@ -238,12 +238,20 @@ export class DaikinToastNotificationManager extends LitElement {
     return html`<div
       ${ref(this._containerRef)}
       class=${cvaContainer({ position: this.position })}
+      popover="manual"
     >
       <slot
         @close=${this._handleClose}
         @slotchange=${this._handleSlotchange}
       ></slot>
     </div>`;
+  }
+
+  protected override firstUpdated(): void {
+    const container = this._containerRef.value;
+    if (container) {
+      container.showPopover();
+    }
   }
 }
 
