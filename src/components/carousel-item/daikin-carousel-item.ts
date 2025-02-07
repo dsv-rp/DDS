@@ -8,9 +8,9 @@ import tailwindStyles from "../../tailwind.css?inline";
  * Hierarchy:
  * - `daikin-carousel` > `daikin-carousel-item`
  *
- * @slot - A slot for carousel description content.
- * @slot image - A slot for carousel image content.
+ * @slot - A slot for carousel image content.
  * @slot title - A slot for carousel title content.
+ * @slot description - A slot for carousel description content.
  *
  * @example
  *
@@ -56,10 +56,10 @@ export class DaikinCarouselItem extends LitElement {
       aria-label=${this.label}
       aria-hidden=${!this.active}
     >
-      <slot name="image"></slot>
+      <slot></slot>
       <div class="flex flex-col gap-2">
         <slot name="title" class="leading-[130%] font-bold"></slot>
-        <slot class="text-sm"></slot>
+        <slot name="description" class="text-sm"></slot>
       </div>
     </div>`;
   }

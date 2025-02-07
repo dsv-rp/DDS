@@ -24,11 +24,9 @@ export const metadata: Meta<DaikinCarouselStoryArgs> = {
           (item) => item,
           (item) =>
             html`<daikin-carousel-item>
-              <div slot="image" class=${CAROUSEL_ITEM_STYLE}>
-                Carousel image ${item + 1}
-              </div>
+              <div class=${CAROUSEL_ITEM_STYLE}>Carousel image ${item + 1}</div>
               <span slot="title">Carousel title ${item + 1}</span>
-              <span>Carousel description ${item + 1}</span>
+              <span slot="description">Carousel description ${item + 1}</span>
             </daikin-carousel-item>`
         )}
       </daikin-carousel>
