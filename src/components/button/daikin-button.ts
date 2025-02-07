@@ -161,7 +161,7 @@ export class DaikinButton extends LitElement {
     super();
 
     this.addEventListener("click", (event: MouseEvent): void => {
-      if (this.disabled || (this.type === "link" && this.href == undefined)) {
+      if (this.disabled || (this.type === "link" && this.href == null)) {
         event.stopImmediatePropagation();
       }
     });
