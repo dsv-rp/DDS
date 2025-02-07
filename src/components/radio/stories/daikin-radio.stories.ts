@@ -92,6 +92,7 @@ export const Disabled: Story = {
     await step("Try to click inner radio", async () => {
       await userEvent.click(innerRadio);
       await expect(args.onChange).not.toHaveBeenCalled();
+      await expect(args.onClick).not.toHaveBeenCalled();
       await expect(innerRadio).not.toBeChecked();
     });
 
@@ -99,6 +100,7 @@ export const Disabled: Story = {
     await step("Try to click label", async () => {
       await userEvent.click(label);
       await expect(args.onChange).not.toHaveBeenCalled();
+      await expect(args.onClick).not.toHaveBeenCalled();
       await expect(innerRadio).not.toBeChecked();
     });
   }),
