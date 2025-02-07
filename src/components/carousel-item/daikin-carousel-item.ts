@@ -1,6 +1,34 @@
+import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+  state,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+
+const cvaCarousel = cva(
+  [
+    "flex",
+    "flex-col",
+    "flex-none",
+    "text-ddt-color-common-text-primary",
+    "font-daikinSerif",
+    "overflow-hidden",
+  ],
+  {
+    variants: {
+      hasTextContents: {
+        false: [],
+        true: ["gap-3"],
+      },
+    },
+  }
+);
+
+const trimmedText = (elements: readonly HTMLElement[]) =>
+  elements.map(({ textContent }) => (textContent ?? "").trim()).join("");
 
 /**
  * The carousel item component is a child element within the `daikin-carousel` component.
@@ -49,17 +77,40 @@ export class DaikinCarouselItem extends LitElement {
   @property({ type: Boolean, attribute: false })
   active = false;
 
+  @queryAssignedElements({ slot: "title" })
+  private readonly _titles!: readonly HTMLElement[];
+
+  @queryAssignedElements({ slot: "description" })
+  private readonly _descriptions!: readonly HTMLElement[];
+
+  @state()
+  private _hasTextContents = false;
+
+  private _handleSlotChange() {
+    this._hasTextContents = !!(
+      trimmedText(this._titles) + trimmedText(this._descriptions)
+    ).length;
+  }
+
   override render() {
     return html`<div
-      class="flex flex-col gap-3 flex-none text-ddt-color-common-text-primary font-daikinSerif overflow-hidden"
+      class=${cvaCarousel({ hasTextContents: this._hasTextContents })}
       role="tabpanel"
       aria-label=${this.label}
       aria-hidden=${!this.active}
     >
       <slot></slot>
       <div class="flex flex-col gap-2">
-        <slot name="title" class="leading-[130%] font-bold"></slot>
-        <slot name="description" class="text-sm"></slot>
+        <slot
+          name="title"
+          class="leading-[130%] font-bold"
+          @slotchange=${this._handleSlotChange}
+        ></slot>
+        <slot
+          name="description"
+          class="text-sm"
+          @slotchange=${this._handleSlotChange}
+        ></slot>
       </div>
     </div>`;
   }
