@@ -1,5 +1,5 @@
 ---
-"@daikin-oss/design-system-web-components": patch
+"@daikin-oss/design-system-web-components": major
 ---
 
-Icon Button: Updated appearance. (DDS-1822)
+Icon: Remove upArrow icon. (DDS-1822)
