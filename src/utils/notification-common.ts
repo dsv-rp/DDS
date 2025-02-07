@@ -4,7 +4,19 @@ import { cva } from "class-variance-authority";
 export const TOAST_ANIMATION_DURATION = 200;
 
 export function formatDate(date: Date): string {
-  return date.toLocaleDateString(undefined, { dateStyle: "medium" });
+  const result = date.toLocaleDateString(undefined, {
+    dateStyle: "medium",
+  });
+
+  if (result === "Invalid Date") {
+    if (import.meta.env.DEV) {
+      console.warn(`Invalid 'timestamp' property: Invalid date.`);
+    }
+
+    return "";
+  }
+
+  return result;
 }
 
 export const cvaContainer = cva(
