@@ -24,6 +24,7 @@ const CHECKBOX_CLASS_NAME = cva([
   "before:m-auto",
   "before:inset-0",
   "checked:before:i-daikin-checkbox-checked",
+  "checked:before:size-3",
   "indeterminate:before:i-daikin-checkbox-indeterminate",
   "indeterminate:before:size-2.5",
 
@@ -61,11 +62,15 @@ const CHECKBOX_CLASS_NAME = cva([
   "disabled:indeterminate:bg-ddt-color-common-disabled",
 ])();
 
-const cvaLabel = cva(["pr-2"], {
+const cvaLabel = cva([], {
   variants: {
     disabled: {
       false: ["text-ddt-color-common-text-primary"],
       true: ["text-ddt-color-common-disabled"],
+    },
+    hidden: {
+      false: ["inline-block", "pr-2"],
+      true: [],
     },
   },
 });
@@ -139,6 +144,10 @@ export class DaikinCheckbox extends LitElement {
     return this.checkState === "checked";
   }
 
+  private get _labelHidden(): boolean {
+    return this.labelPosition === "hidden";
+  }
+
   /**
    * A property-only accessor for `checkState` provided for convenience.
    * _Getter_: Returns `true` when `checkState` is `"checked"`, and `false` otherwise.
@@ -181,7 +190,7 @@ export class DaikinCheckbox extends LitElement {
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
-      class="group flex gap-2 items-center font-daikinSerif"
+      class="group flex gap-2 items-center size-full font-daikinSerif"
       @click=${this._handleClick}
     >
       <span class="p-2">
@@ -189,7 +198,7 @@ export class DaikinCheckbox extends LitElement {
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
-          aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          aria-label=${this._labelHidden ? this.label : nothing}
           ?disabled=${this.disabled}
           .checked=${this.checked}
           .indeterminate=${this.checkState === "indeterminate"}
@@ -197,14 +206,15 @@ export class DaikinCheckbox extends LitElement {
           @change=${this._handleChange}
         />
       </span>
-      <span
+      <slot
         class=${cvaLabel({
           disabled: this.disabled,
+          hidden: this._labelHidden,
         })}
-        ?hidden=${this.labelPosition === "hidden"}
+        ?hidden=${this._labelHidden}
       >
         ${this.label}
-      </span>
+      </slot>
     </label>`;
   }
 
