@@ -8,7 +8,7 @@ const cvaContainer = cva(
     "flex",
     "flex-col",
     "gap-4",
-    "w-full",
+    "size-full",
     "p-4",
     "rounded-lg",
     "bg-ddt-color-common-background-default",
