@@ -5,10 +5,10 @@ import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaContainer = cva(
   [
-    "size-full",
     "flex",
     "flex-col",
     "gap-4",
+    "w-full",
     "p-4",
     "rounded-lg",
     "bg-ddt-color-common-background-default",
@@ -59,7 +59,6 @@ export class DaikinCard extends LitElement {
     :host {
       display: block;
       width: 100%;
-      height: 100%;
     }
   `;
 
