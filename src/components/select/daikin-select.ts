@@ -64,12 +64,18 @@ const cvaSelect = cva(
       error: {
         false: [
           "var-color-ddt-color-common-neutral-default/color-base",
+          "hover:var-color-ddt-color-common-neutral-hover/color-base",
+          "active:var-color-ddt-color-common-neutral-press/color-base",
           "var-color-ddt-color-common-border-focus/color-focus",
         ],
         true: [
           "var-color-ddt-color-common-danger-default/color-base",
           "var-color-ddt-color-common-danger-default/color-focus",
         ],
+      },
+      open: {
+        false: [],
+        true: ["after:scale-y-[-1]"],
       },
     },
   }
