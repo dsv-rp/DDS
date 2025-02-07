@@ -235,7 +235,7 @@ export class DaikinToastNotificationManager extends LitElement {
   }
 
   override render() {
-    return html`<div
+    return html`<aside
       ${ref(this._containerRef)}
       class=${cvaContainer({ position: this.position })}
       popover="manual"
@@ -244,7 +244,7 @@ export class DaikinToastNotificationManager extends LitElement {
         @close=${this._handleClose}
         @slotchange=${this._handleSlotchange}
       ></slot>
-    </div>`;
+    </aside>`;
   }
 
   protected override firstUpdated(): void {

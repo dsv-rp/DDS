@@ -101,7 +101,7 @@ export class DaikinToastNotification extends LitElement {
   }
 
   override render() {
-    return html`<aside
+    return html`<div
       class=${cvaContainer({ variant: "toast", status: this.status })}
       role="alert"
     >
@@ -129,7 +129,7 @@ export class DaikinToastNotification extends LitElement {
             ></span>
           </daikin-icon-button>`
         : nothing}
-    </aside>`;
+    </div>`;
   }
 }
 
