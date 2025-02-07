@@ -22,6 +22,7 @@ export const cvaTreeChildren = cva(
     "py-3",
     "pr-4",
     "pl-[calc((var(--level)+1)*1rem)]",
+    "leading-[130%]",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -57,6 +58,7 @@ export const cvaTreeChildren = cva(
           "before:size-5",
           "before:m-0.5",
           "before:transition-all",
+          "before:flex-none",
         ],
       },
       open: {
@@ -114,6 +116,15 @@ export class DaikinTreeItem extends LitElement {
   disabled: boolean = false;
 
   /**
+   * Whether or not to enable tree selection.
+   * Controlled by `daikin-tree` or `daikin-tree-section`.
+   *
+   * @private
+   */
+  @property({ type: Boolean, attribute: false })
+  selectable: boolean = false;
+
+  /**
    * Whether the tree item is selected.
    * Ignored if disabled.
    * Controlled by `daikin-tree` if its `selectable` is true.
@@ -133,6 +144,10 @@ export class DaikinTreeItem extends LitElement {
   level: number = 0;
 
   private readonly _focusableRef: Ref<HTMLElement> = createRef();
+
+  private get _selected(): boolean {
+    return this.selectable && this.selected && !this.disabled;
+  }
 
   private _handleKeyDown(event: KeyboardEvent) {
     if (!isSimpleKeyEvent(event)) {
@@ -177,13 +192,13 @@ export class DaikinTreeItem extends LitElement {
       ${ref(this._focusableRef)}
       class=${cvaTreeChildren({
         disabled: this.disabled,
-        selected: this.selected && !this.disabled,
+        selected: this._selected,
         icon: false,
         open: false,
       })}
       role="treeitem"
       aria-disabled=${this.disabled}
-      aria-selected=${this.selected && !this.disabled}
+      aria-selected=${this._selected}
       tabindex=${ifDefined(!this.disabled ? 0 : undefined)}
       style=${`--level:${this.level}`}
       @click=${() => emitTreeSelect(this)}

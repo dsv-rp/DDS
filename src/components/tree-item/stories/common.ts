@@ -9,6 +9,9 @@ export interface DaikinTreeItemStoryArgs
 }
 
 export const DAIKIN_TREE_ITEM_ARG_TYPES = {
+  label: {
+    type: "string",
+  },
   value: {
     type: "string",
   },
@@ -16,6 +19,9 @@ export const DAIKIN_TREE_ITEM_ARG_TYPES = {
     type: "boolean",
   },
   disabled: {
+    type: "boolean",
+  },
+  selectable: {
     type: "boolean",
   },
   // Hide event listeners

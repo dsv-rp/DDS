@@ -4,9 +4,10 @@ import { html } from "lit";
 import type { DaikinTreeItemStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTreeItemStoryArgs> = {
-  render: ({ value, selected, disabled, label, onClick }) => html`
+  render: ({ value, selected, selectable, disabled, label, onClick }) => html`
     <daikin-tree-item
       value=${value}
+      .selectable=${selectable}
       ?selected=${selected}
       ?disabled=${disabled}
       @click=${onClick}

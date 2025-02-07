@@ -109,9 +109,6 @@ export class DaikinTreeSection extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  @queryAssignedElements({ selector: "daikin-tree-section" })
-  private readonly _sections!: readonly DaikinTreeSection[];
-
   private readonly _focusableRef: Ref<HTMLElement> = createRef();
 
   private get _open(): boolean {
@@ -119,7 +116,7 @@ export class DaikinTreeSection extends LitElement {
   }
 
   private get _selected(): boolean {
-    return this.selected && !this.disabled;
+    return this.selectable && this.selected && !this.disabled;
   }
 
   private _updateChildrenLevel(): void {
@@ -128,9 +125,9 @@ export class DaikinTreeSection extends LitElement {
     }
   }
 
-  private _updateSections(): void {
-    this._sections.forEach((section) => {
-      section.selectable = this.selectable;
+  private _updateChildren(): void {
+    this._children.forEach((child) => {
+      child.selectable = this.selectable;
     });
   }
 
@@ -151,7 +148,7 @@ export class DaikinTreeSection extends LitElement {
 
   private _handleSlotChange(): void {
     this._updateChildrenLevel();
-    this._updateSections();
+    this._updateChildren();
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -267,7 +264,7 @@ export class DaikinTreeSection extends LitElement {
     }
 
     if (changedProperties.has("selectable")) {
-      this._updateSections();
+      this._updateChildren();
     }
   }
 

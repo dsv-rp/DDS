@@ -66,22 +66,19 @@ export class DaikinTree extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  @queryAssignedElements({ selector: "daikin-tree-section" })
-  private readonly _sections!: readonly DaikinTreeSection[];
-
   private _updateChildrenLevel(): void {
     this._children.forEach((child) => (child.level = 0));
   }
 
-  private _updateSections(): void {
-    this._sections.forEach((section) => {
-      section.selectable = this.selectable;
+  private _updateChildren(): void {
+    this._children.forEach((child) => {
+      child.selectable = this.selectable;
     });
   }
 
   private _handleSlotChange(): void {
     this._updateChildrenLevel();
-    this._updateSections();
+    this._updateChildren();
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -119,7 +116,7 @@ export class DaikinTree extends LitElement {
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selectable")) {
-      this._updateSections();
+      this._updateChildren();
     }
 
     if (changedProperties.has("selected") && this.selectable) {

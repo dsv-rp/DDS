@@ -16,7 +16,7 @@ export const metadata: Meta<DaikinTreeSectionStoryArgs> = {
   }) => html`
     <daikin-tree-section
       value=${value}
-      ?selectable=${selectable}
+      .selectable=${selectable}
       ?selected=${selected}
       ?disabled=${disabled}
       ?open=${open}

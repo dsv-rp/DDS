@@ -13,10 +13,11 @@ export default {
 
 export const Default: Story = {
   args: {
+    label: "Tree item",
     value: "value",
     selected: false,
+    selectable: false,
     disabled: false,
-    label: "Tree item",
     onClick: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -38,6 +39,7 @@ export const Selected: Story = {
   args: {
     ...Default.args,
     selected: true,
+    selectable: true,
   },
 };
 
