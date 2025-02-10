@@ -1,4 +1,3 @@
-import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
 import {
   customElement,
@@ -7,25 +6,6 @@ import {
   state,
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-
-const cvaCarousel = cva(
-  [
-    "flex",
-    "flex-col",
-    "flex-none",
-    "text-ddt-color-common-text-primary",
-    "font-daikinSerif",
-    "overflow-hidden",
-  ],
-  {
-    variants: {
-      hasTextContents: {
-        false: [],
-        true: ["gap-3"],
-      },
-    },
-  }
-);
 
 /**
  * The carousel item component is a child element within the `daikin-carousel` component.
@@ -89,13 +69,16 @@ export class DaikinCarouselItem extends LitElement {
 
   override render() {
     return html`<div
-      class=${cvaCarousel({ hasTextContents: this._hasTextContents })}
+      class="flex flex-col flex-none gap-3 text-ddt-color-common-text-primary font-daikinSerif overflow-hidden"
       role="tabpanel"
       aria-label=${this.label}
       aria-hidden=${!this.active}
     >
       <slot></slot>
-      <div class="flex flex-col gap-2" ?hidden=${this._hasTextContents}>
+      <div
+        class="visible:flex flex-col gap-2"
+        ?hidden=${!this._hasTextContents}
+      >
         <slot
           name="title"
           class="leading-[130%] font-bold"
