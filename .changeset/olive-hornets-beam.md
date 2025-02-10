@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": major
 ---
 
-Icon: Remove upArrow icon. (DDS-1822)
+**BREAKING CHANGE** Icon: Removed arrowUp icon. (DDS-1822)
