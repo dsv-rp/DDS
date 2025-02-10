@@ -83,6 +83,10 @@ export class DaikinInlineNotification extends LitElement {
   }
 
   override render() {
+    const formattedTimestamp = this.timestamp
+      ? formatDate(this.timestamp)
+      : null;
+
     return html`<aside
       class=${cvaContainer({ variant: "inline", status: this.status })}
       role="status"
@@ -93,9 +97,9 @@ export class DaikinInlineNotification extends LitElement {
           class=${cvaDescription({ layout: this.layout })}
           name="description"
         ></slot>
-        ${this.timestamp
+        ${formattedTimestamp
           ? html`<span class=${cvaTimestamp({ layout: this.layout })}
-              >${formatDate(this.timestamp)}</span
+              >${formattedTimestamp}</span
             >`
           : nothing}
       </div>

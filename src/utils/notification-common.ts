@@ -3,20 +3,18 @@ import { cva } from "class-variance-authority";
 /** The duration of the animation in the appearance and disappearance of the toast (in msec). */
 export const TOAST_ANIMATION_DURATION = 200;
 
-export function formatDate(date: Date): string {
-  const result = date.toLocaleDateString(undefined, {
-    dateStyle: "medium",
-  });
-
-  if (result === "Invalid Date") {
+export function formatDate(date: Date): string | null {
+  if (Number.isNaN(date.getTime())) {
     if (import.meta.env.DEV) {
-      console.warn(`Invalid 'timestamp' property: Invalid date.`);
+      console.warn("formatDate: Invalid Date object provided");
     }
 
-    return "";
+    return null;
   }
 
-  return result;
+  return date.toLocaleDateString(undefined, {
+    dateStyle: "medium",
+  });
 }
 
 export const cvaContainer = cva(
