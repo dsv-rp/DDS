@@ -29,13 +29,13 @@ const cvaInput = cva(
     "border",
     "border-[--color-border]",
 
-    // Update `--color-base` depending on the state.
-    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
     "enabled:text-ddt-color-common-text-primary",
     "enabled:hover:bg-ddt-color-common-surface-hover",
     "enabled:active:bg-ddt-color-common-surface-press",
     "focus-visible:outline-2",
 
+    // Update `--color-base` depending on the state.
+    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
     "disabled:var-color-ddt-color-common-disabled/color-base",
     "disabled:text-ddt-color-common-disabled",
     "disabled:bg-ddt-color-common-background-default",
