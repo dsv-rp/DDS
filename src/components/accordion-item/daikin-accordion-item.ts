@@ -202,9 +202,6 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   private _handleKeyDown(event: KeyboardEvent) {
-    if (event.key === "Enter" || event.key === " ") {
-      this.dispatchEvent(new Event("toggle", event));
-    }
     const direction = (
       {
         ArrowDown: "down",
@@ -228,48 +225,35 @@ export class DaikinAccordionItem extends LitElement {
     );
   }
 
-  // When using the in-page search, the `<details>` element may open without clicking on the `<summary>`.
-  // In order to handle such cases, it is necessary to respond to the "toggle" event.
-  private _handleToggle(event: ToggleEvent) {
-    event.preventDefault();
-    if (this.disabled) {
-      // Prevent the accordion item from opening with in-page searches when disabled.
-      return;
-    }
-
-    this.open = event.newState === "open";
-  }
-
   override render() {
     const detailsOpen = !this.disabled && this._detailsOpen;
     const open = !this.disabled && this.open;
 
     return html`<div
       class="w-full text-ddt-color-common-text-primary font-daikinSerif overflow-clip"
-      role="button"
-      ?open=${detailsOpen}
-      ?data-open=${open}
-      aria-disabled=${this.disabled}
-      aria-expanded=${detailsOpen}
-      @toggle=${this._handleToggle}
     >
-      <div
+      <button
         id="summary"
         class=${cvaSummary({
           open,
           disabled: this.disabled,
         })}
+        ?open=${detailsOpen}
+        ?data-open=${open}
+        aria-disabled=${this.disabled}
+        aria-expanded=${detailsOpen}
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
         @keydown=${this._handleKeyDown}
       >
         <slot name="summary"></slot>
-      </div>
+      </button>
       <div
         ${ref(this._contentRef)}
         role="region"
         class=${cvaContent({ open: detailsOpen })}
         aria-labelledby="summary"
+        aria-hidden=${!detailsOpen}
         ?hidden=${this.disabled}
       >
         <div class="pt-2 px-3 pb-3">
