@@ -27,9 +27,6 @@ const cvaCarousel = cva(
   }
 );
 
-const trimmedText = (elements: readonly HTMLElement[]) =>
-  elements.map(({ textContent }) => (textContent ?? "").trim()).join("");
-
 /**
  * The carousel item component is a child element within the `daikin-carousel` component.
  *
@@ -87,9 +84,7 @@ export class DaikinCarouselItem extends LitElement {
   private _hasTextContents = false;
 
   private _handleSlotChange() {
-    this._hasTextContents = !!(
-      trimmedText(this._titles) + trimmedText(this._descriptions)
-    ).length;
+    this._hasTextContents = !![...this._titles, ...this._descriptions].length;
   }
 
   override render() {
@@ -100,7 +95,7 @@ export class DaikinCarouselItem extends LitElement {
       aria-hidden=${!this.active}
     >
       <slot></slot>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2" ?hidden=${this._hasTextContents}>
         <slot
           name="title"
           class="leading-[130%] font-bold"
