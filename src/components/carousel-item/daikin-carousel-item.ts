@@ -13,9 +13,9 @@ import tailwindStyles from "../../tailwind.css?inline";
  * Hierarchy:
  * - `daikin-carousel` > `daikin-carousel-item`
  *
- * @slot - A slot for carousel image content.
- * @slot title - A slot for carousel title content.
- * @slot description - A slot for carousel description content.
+ * @slot - A slot for an image or slide.
+ * @slot title - A slot for title text.
+ * @slot description - A slot for description text.
  *
  * @example
  *
@@ -55,16 +55,17 @@ export class DaikinCarouselItem extends LitElement {
   active = false;
 
   @queryAssignedElements({ slot: "title" })
-  private readonly _titles!: readonly HTMLElement[];
+  private readonly _titleElements!: readonly HTMLElement[];
 
   @queryAssignedElements({ slot: "description" })
-  private readonly _descriptions!: readonly HTMLElement[];
+  private readonly _descriptionElements!: readonly HTMLElement[];
 
   @state()
   private _hasTextContents = false;
 
-  private _handleSlotChange() {
-    this._hasTextContents = !![...this._titles, ...this._descriptions].length;
+  private _handleFooterSlotChange() {
+    this._hasTextContents =
+      this._titleElements.length > 0 || this._descriptionElements.length > 0;
   }
 
   override render() {
@@ -82,12 +83,12 @@ export class DaikinCarouselItem extends LitElement {
         <slot
           name="title"
           class="leading-[130%] font-bold"
-          @slotchange=${this._handleSlotChange}
+          @slotchange=${this._handleFooterSlotChange}
         ></slot>
         <slot
           name="description"
           class="text-sm"
-          @slotchange=${this._handleSlotChange}
+          @slotchange=${this._handleFooterSlotChange}
         ></slot>
       </div>
     </div>`;
