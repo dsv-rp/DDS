@@ -20,6 +20,7 @@ import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-ite
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/accordion/index.js";
+ * import "@daikin-oss/design-system-web-components/components/accordion-item/index.js";
  * ```
  *
  * ```html
