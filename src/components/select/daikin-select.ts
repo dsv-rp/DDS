@@ -73,10 +73,6 @@ const cvaSelect = cva(
           "var-color-ddt-color-common-danger-default/color-focus",
         ],
       },
-      open: {
-        false: [],
-        true: ["after:scale-y-[-1]"],
-      },
     },
   }
 );
