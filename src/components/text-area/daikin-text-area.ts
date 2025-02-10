@@ -44,6 +44,8 @@ const cvaTextArea = cva(
       error: {
         false: [
           "enabled:var-color-ddt-color-common-neutral-default/color-base",
+          "enabled:hover:var-color-ddt-color-common-neutral-hover/color-base",
+          "enabled:active:var-color-ddt-color-common-neutral-press/color-base",
           "focus-visible:var-color-ddt-color-common-border-focus/color-state-focus",
         ],
         true: ["enabled:var-color-ddt-color-common-danger-default/color-base"],
