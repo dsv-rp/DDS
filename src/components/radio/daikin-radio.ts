@@ -39,7 +39,7 @@ const cvaLabel = cva([], {
     },
     hidden: {
       false: ["inline-block", "pr-2"],
-      true: [],
+      true: ["hidden"],
     },
   },
 });
