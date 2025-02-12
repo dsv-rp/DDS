@@ -16,7 +16,6 @@ export const Default: Story = {
     label: "Tree item",
     value: "value",
     selected: false,
-    selectable: false,
     disabled: false,
     onClick: fn(),
   },
@@ -39,7 +38,6 @@ export const Selected: Story = {
   args: {
     ...Default.args,
     selected: true,
-    selectable: true,
   },
 };
 

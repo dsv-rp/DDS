@@ -13,31 +13,28 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-tree-section--default", args);
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["default", "selectable"] as const, (selectable) => {
-    describeEach(["normal", "selected"] as const, (selected) => {
-      describeEach(["enabled", "disabled"] as const, (disabled) => {
-        describeEach(["open", "close"] as const, (open) => {
-          const baseArgs = {
-            $theme: theme,
-            label: "Tree section label",
-            disabled: disabled === "disabled",
-            open: open === "open",
-            selectable: selectable === "selectable",
-            selected: selected === "selected",
-          };
-          const baseURL = getPageURL(baseArgs);
+  describeEach(["normal", "selected"] as const, (selected) => {
+    describeEach(["enabled", "disabled"] as const, (disabled) => {
+      describeEach(["open", "close"] as const, (open) => {
+        const baseArgs = {
+          $theme: theme,
+          label: "Tree section label",
+          disabled: disabled === "disabled",
+          open: open === "open",
+          selected: selected === "selected",
+        };
+        const baseURL = getPageURL(baseArgs);
 
-          test("base", async ({ page }) => {
-            await page.goto(baseURL);
+        test("base", async ({ page }) => {
+          await page.goto(baseURL);
 
-            // wait for element to be visible
-            const element = await page.waitForSelector("daikin-tree-section", {
-              state: "visible",
-            });
-
-            // take screenshot and check for diffs
-            await expect(page).toHaveScreenshot(await clipFor(element));
+          // wait for element to be visible
+          const element = await page.waitForSelector("daikin-tree-section", {
+            state: "visible",
           });
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
         });
       });
     });

@@ -116,19 +116,8 @@ export class DaikinTreeItem extends LitElement {
   disabled: boolean = false;
 
   /**
-   * Whether or not to enable tree selection.
-   * Controlled by `daikin-tree` or `daikin-tree-section`.
-   *
-   * @private
-   */
-  @property({ type: Boolean, attribute: false })
-  selectable: boolean = false;
-
-  /**
    * Whether the tree item is selected.
-   * Ignored if disabled.
-   * Controlled by `daikin-tree` if its `selectable` is true.
-   * If the tree's `selected` is false, you can manually set this property to control the display of the selected state.
+   * Controlled by `daikin-tree`.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
@@ -146,7 +135,7 @@ export class DaikinTreeItem extends LitElement {
   private readonly _focusableRef: Ref<HTMLElement> = createRef();
 
   private get _selected(): boolean {
-    return this.selectable && this.selected && !this.disabled;
+    return this.selected && !this.disabled;
   }
 
   private _handleKeyDown(event: KeyboardEvent) {

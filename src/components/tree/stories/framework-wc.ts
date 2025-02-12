@@ -9,7 +9,10 @@ import type { DaikinTreeStoryArgs } from "./common";
 export const metadata: Meta<DaikinTreeStoryArgs> = {
   render: ({ selectable, selected }) => html`
     <div style="width:400px;">
-      <daikin-tree ?selectable=${selectable} selected=${ifDefined(selected)}>
+      <daikin-tree
+        ?selectable=${selectable}
+        selected=${ifDefined(selected ?? undefined)}
+      >
         <daikin-tree-section value="1" open>
           <span slot="label">Tree section 1</span>
           <daikin-tree-item value="1-1">Tree item 1-1</daikin-tree-item>
@@ -30,15 +33,15 @@ export const metadata: Meta<DaikinTreeStoryArgs> = {
         <daikin-tree-section value="3" disabled>
           <span slot="label">Tree section 3</span>
           <daikin-tree-item value="3-1" disabled>
-            Tree item 3-
+            Tree item 3-1
           </daikin-tree-item>
         </daikin-tree-section>
         <!-- 'open' is ignored when 'disabled' -->
         <daikin-tree-section value="4" disabled open>
           <span slot="label">Tree section 4</span>
-          <daikin-tree-item value="4-1" disabled
-            >Tree item 4-1</daikin-tree-item
-          >
+          <daikin-tree-item value="4-1" disabled>
+            Tree item 4-1
+          </daikin-tree-item>
         </daikin-tree-section>
         <daikin-tree-item value="5">Tree item 5</daikin-tree-item>
       </daikin-tree>

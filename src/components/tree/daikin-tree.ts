@@ -51,14 +51,13 @@ export class DaikinTree extends LitElement {
   /**
    * Whether or not to enable tree selection.
    * When enabled, tree sections and items can be selected by click, and the `selected` property of the `daikin-tree` and its descendants will be automatically controlled.
-   * Even if this is disabled, you can still set the `selected` property of sections and items yourself.
    */
   @property({ type: Boolean, reflect: true })
   selectable: boolean = false;
 
   /**
    * The value of the currently selected tree section or tree item.
-   * Only used if `selectable` is `true`.
+   * Even if `selectable=false`, you can still set this property yourself.
    */
   @property({ type: String, reflect: true })
   selected: string | null = null;
@@ -66,19 +65,8 @@ export class DaikinTree extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  private _updateChildrenLevel(): void {
-    this._children.forEach((child) => (child.level = 0));
-  }
-
-  private _updateChildren(): void {
-    this._children.forEach((child) => {
-      child.selectable = this.selectable;
-    });
-  }
-
   private _handleSlotChange(): void {
-    this._updateChildrenLevel();
-    this._updateChildren();
+    this._children.forEach((child) => (child.level = 0));
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -93,7 +81,6 @@ export class DaikinTree extends LitElement {
     }
 
     const target = event.target as DaikinTreeSection | DaikinTreeItem;
-
     this.selected = target.value;
   }
 
@@ -115,11 +102,7 @@ export class DaikinTree extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has("selectable")) {
-      this._updateChildren();
-    }
-
-    if (changedProperties.has("selected") && this.selectable) {
+    if (changedProperties.has("selected")) {
       // If the component is set to selectable, update the selection state of descendant sections and items.
       this.selectItem(this.selected);
     }

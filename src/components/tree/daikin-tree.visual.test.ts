@@ -14,23 +14,27 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["normal", "selectable"] as const, (selectable) => {
-    const baseArgs = {
-      $theme: theme,
-      selectable: selectable === "selectable",
-      selected: "1",
-    };
-    const baseURL = getPageURL(baseArgs);
+    describeEach(["none", "selected"] as const, (selected) => {
+      const baseArgs = {
+        $theme: theme,
+        selectable: selectable === "selectable",
+        ...(selected === "selected" && {
+          selected: "1",
+        }),
+      };
+      const baseURL = getPageURL(baseArgs);
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-tree", {
-        state: "visible",
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-tree", {
+          state: "visible",
+        });
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
       });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
     });
   });
 });
