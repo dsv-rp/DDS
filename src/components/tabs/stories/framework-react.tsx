@@ -35,6 +35,7 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
             value={value}
             disabled={disabled}
             {...(tabs.length === 1 && { class: "w-fit" })}
+            {...(tabs.length === 20 && { class: "whitespace-nowrap" })}
           >
             {label}
           </ReactDaikinTab>

@@ -6,18 +6,17 @@ import tailwindStyles from "../../tailwind.css?inline";
 const cvaTab = cva(
   [
     "flex",
-    "w-full",
-    "min-w-14",
-    "h-10",
+    "size-full",
+    "min-h-10",
     "items-center",
     "justify-center",
     "px-4",
     "pt-2",
     "pb-3",
+    "leading-5",
     "text-center",
     "font-daikinSerif",
     "tracking-wide",
-    "whitespace-nowrap",
     "relative",
 
     "focus-visible:outline-none",
