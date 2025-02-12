@@ -69,7 +69,12 @@ const cvaIcon = cva(["icon-size-6"], {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/list-item/index.js";
+ * ```
+ *
  * ```html
+ *
  * <daikin-list-item>List item label</daikin-list-item>
  * ```
  */
