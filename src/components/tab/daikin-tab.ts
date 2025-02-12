@@ -6,7 +6,7 @@ import tailwindStyles from "../../tailwind.css?inline";
 const cvaTab = cva(
   [
     "flex",
-    "size-full",
+    "h-full",
     "min-h-10",
     "items-center",
     "justify-center",
@@ -58,6 +58,10 @@ const cvaTab = cva(
           "disabled:after:bg-ddt-color-common-disabled",
         ],
       },
+      sizing: {
+        stretch: ["w-full"],
+        fit: ["w-fit", "whitespace-nowrap"],
+      },
     },
   }
 );
@@ -91,7 +95,14 @@ export class DaikinTab extends LitElement {
 
     :host {
       display: block;
+    }
+
+    :host([sizing="stretch"]) {
       width: 100%;
+    }
+
+    :host([sizing="fit"]) {
+      width: fit-content;
     }
   `;
 
@@ -107,6 +118,13 @@ export class DaikinTab extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Whether the tab width stretches or fits.
+   * Controlled by `daikin-tabs`.
+   */
+  @property({ type: String, reflect: true })
+  sizing: "stretch" | "fit" = "stretch";
 
   /**
    * Whether to show the active (selected) state.
@@ -140,7 +158,7 @@ export class DaikinTab extends LitElement {
   override render() {
     return html`
       <button
-        class=${cvaTab({ active: this.active })}
+        class=${cvaTab({ active: this.active, sizing: this.sizing })}
         ?disabled=${this.disabled}
         role="tab"
         aria-selected=${!this.disabled && this.active}

@@ -6,14 +6,15 @@ import { html } from "lit";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { parseTab, type DaikinTabsStoryArgs } from "./common";
 
-const tabStyleMap = {
-  1: "w-fit",
-  3: undefined,
-  20: "whitespace-nowrap",
-};
-
 export const metadata: Meta<DaikinTabsStoryArgs> = {
-  render: ({ value, tabs, onBeforeChange, onChange, scrollable }) => html`
+  render: ({
+    value,
+    sizing,
+    tabs,
+    onBeforeChange,
+    onChange,
+    scrollable,
+  }) => html`
     <daikin-tabs
       class=${ifDefined(
         scrollable
@@ -21,6 +22,7 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
           : undefined
       )}
       value=${value}
+      sizing=${sizing}
       @beforechange=${onBeforeChange}
       @change=${onChange}
     >
@@ -31,11 +33,7 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
       -->
       ${tabs.map((tab) => {
         const [label, value, disabled] = parseTab(tab);
-        return html`<daikin-tab
-          class=${ifDefined(tabStyleMap[tabs.length as 1 | 3 | 20])}
-          value=${value}
-          ?disabled=${disabled}
-        >
+        return html`<daikin-tab value=${value} ?disabled=${disabled}>
           ${label}
         </daikin-tab>`;
       })}

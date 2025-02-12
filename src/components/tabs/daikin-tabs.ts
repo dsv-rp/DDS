@@ -66,6 +66,12 @@ export class DaikinTabs extends LitElement {
   value: string = "";
 
   /**
+   * Whether the tab width stretches or fits.
+   */
+  @property({ type: String, reflect: true })
+  sizing: "stretch" | "fit" = "stretch";
+
+  /**
    * Tab(s) in the default slot.
    */
   @queryAssignedElements({ selector: "daikin-tab" })
@@ -164,6 +170,14 @@ export class DaikinTabs extends LitElement {
     }
 
     scrollIntoViewOnlyParent(selectedTab, "horizontal");
+  }
+
+  private _updateTabStyle(): void {
+    const tabs = this._tabs;
+
+    for (const tab of tabs) {
+      tab.sizing = this.sizing;
+    }
   }
 
   /**
@@ -296,12 +310,14 @@ export class DaikinTabs extends LitElement {
   }
 
   override updated(changedProperties: PropertyValues<this>) {
-    if (!changedProperties.has("value")) {
-      return;
+    if (changedProperties.has("value")) {
+      this._updateTabs();
+      this._updateTabPanels();
     }
 
-    this._updateTabs();
-    this._updateTabPanels();
+    if (changedProperties.has("sizing")) {
+      this._updateTabStyle();
+    }
   }
 }
 

@@ -30,13 +30,7 @@ export const metadata: Meta<DaikinTabsStoryArgs> = {
       {tabs.map((tab) => {
         const [label, value, disabled] = parseTab(tab);
         return (
-          <ReactDaikinTab
-            key={value}
-            value={value}
-            disabled={disabled}
-            {...(tabs.length === 1 && { class: "w-fit" })}
-            {...(tabs.length === 20 && { class: "whitespace-nowrap" })}
-          >
+          <ReactDaikinTab key={value} value={value} disabled={disabled}>
             {label}
           </ReactDaikinTab>
         );
