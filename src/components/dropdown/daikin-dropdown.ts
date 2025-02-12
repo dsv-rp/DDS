@@ -55,6 +55,7 @@ const cvaButton = cva(
     "after:i-daikin-dropdown-chevron-down",
     "after:size-6",
     "after:flex-none",
+    "after:ml-auto",
 
     "enabled:after:text-ddt-color-common-text-primary",
     "disabled:after:text-ddt-color-common-disabled",
