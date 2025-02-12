@@ -74,7 +74,6 @@ const cvaIcon = cva(["icon-size-6"], {
  * ```
  *
  * ```html
- *
  * <daikin-list-item>List item label</daikin-list-item>
  * ```
  */
