@@ -8,15 +8,15 @@ import type { DaikinProgressIndicatorStoryArgs } from "./common";
 export const metadata: Meta<DaikinProgressIndicatorStoryArgs> = {
   render: ({ currentItem }) => html`
     <daikin-progress-indicator current-item=${ifDefined(currentItem)}>
-      <daikin-progress-indicator-item status="finished">
+      <daikin-progress-indicator-item>
         Finished
         <span slot="description">Finished description</span>
       </daikin-progress-indicator-item>
-      <daikin-progress-indicator-item status="inprogress">
+      <daikin-progress-indicator-item>
         Inprogress
         <span slot="description">Inprogress description</span>
       </daikin-progress-indicator-item>
-      <daikin-progress-indicator-item status="unfinished">
+      <daikin-progress-indicator-item>
         Unfinished
         <span slot="description">Unfinished description</span>
       </daikin-progress-indicator-item>

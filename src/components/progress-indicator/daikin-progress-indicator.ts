@@ -49,17 +49,13 @@ export class DaikinProgressIndicator extends LitElement {
    * Specify the index number of the current location in the progress indicator.
    */
   @property({ type: Number, attribute: "current-item", reflect: true })
-  currentItem: number | null = null;
+  currentItem = 0;
 
   @queryAssignedElements({ selector: "daikin-progress-indicator-item" })
-  private readonly _items!: readonly DaikinProgressIndicatorItem[] | null;
+  private readonly _items!: readonly DaikinProgressIndicatorItem[];
 
   private _setCurrentItem() {
     const items = this._items;
-
-    if (!items || this.currentItem === null) {
-      return;
-    }
 
     if (items.length - 1 < this.currentItem) {
       if (import.meta.env.DEV) {
@@ -81,7 +77,15 @@ export class DaikinProgressIndicator extends LitElement {
       return;
     }
 
-    items.forEach((item, i) => (item.current = this.currentItem === i));
+    items.forEach((item, i) => {
+      if (this.currentItem === i) {
+        item.status = "inprogress";
+      } else if (this.currentItem > i) {
+        item.status = "finished";
+      } else {
+        item.status = "unfinished";
+      }
+    });
   }
 
   private _handleSlotChange() {
