@@ -3,7 +3,10 @@ import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
 import { ReactDaikinProgressIndicatorItem } from "../../progress-indicator-item/stories/framework-react";
-import type { DaikinProgressIndicatorStoryArgs } from "./common";
+import {
+  progressIndicatorLabel,
+  type DaikinProgressIndicatorStoryArgs,
+} from "./common";
 
 const ReactDaikinProgressIndicator = createComponent({
   tagName: "daikin-progress-indicator",
@@ -14,18 +17,16 @@ const ReactDaikinProgressIndicator = createComponent({
 export const metadata: Meta<DaikinProgressIndicatorStoryArgs> = {
   component: ({ ...props }: DaikinProgressIndicatorStoryArgs) => (
     <ReactDaikinProgressIndicator {...props}>
-      <ReactDaikinProgressIndicatorItem>
-        Finished
-        <span slot="description">Finished description</span>
-      </ReactDaikinProgressIndicatorItem>
-      <ReactDaikinProgressIndicatorItem>
-        Inprogress
-        <span slot="description">Inprogress description</span>
-      </ReactDaikinProgressIndicatorItem>
-      <ReactDaikinProgressIndicatorItem>
-        Unfinished
-        <span slot="description">Unfinished description</span>
-      </ReactDaikinProgressIndicatorItem>
+      {[...Array(3).keys()].map((index) => {
+        const label = progressIndicatorLabel(props.currentItem, index);
+
+        return (
+          <ReactDaikinProgressIndicatorItem key={index}>
+            {label}
+            <span slot="description">{`${label} description`}</span>
+          </ReactDaikinProgressIndicatorItem>
+        );
+      })}
     </ReactDaikinProgressIndicator>
   ),
 };
