@@ -1,38 +1,38 @@
-// import {
-//   clipFor,
-//   describeEach,
-//   getStorybookIframeURL,
-//   type InferStorybookArgTypes,
-// } from "#tests/visual";
-// import { expect, test } from "@playwright/test";
-// import type { DAIKIN_TABLE_CELL_ARG_TYPES } from "./stories/common";
+import {
+  clipFor,
+  describeEach,
+  getStorybookIframeURL,
+  type InferStorybookArgTypes,
+} from "#tests/visual";
+import { expect, test } from "@playwright/test";
+import type { DAIKIN_TABLE_CELL_ARG_TYPES } from "./stories/common";
 
-// type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABLE_CELL_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TABLE_CELL_ARG_TYPES>;
 
-// const getPageURL = (args: StoryArgs = {}) =>
-//   getStorybookIframeURL("components-table-cell--default", args);
+const getPageURL = (args: StoryArgs = {}) =>
+  getStorybookIframeURL("components-table-cell--default", args);
 
-// describeEach(["light", "dark"] as const, (theme) => {
-//   describeEach(["left", "right", "center"] as const, (alignment) => {
-//     describeEach(["subtitle", "none"] as const, (subtitle) => {
-//       const baseArgs = {
-//         $theme: theme,
-//         alignment,
-//         ...(subtitle === "subtitle" && { subtitle: "Table cell subtitle" }),
-//       };
-//       const baseURL = getPageURL(baseArgs);
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["left", "right", "center"] as const, (alignment) => {
+    describeEach(["subtitle", "none"] as const, (subtitle) => {
+      const baseArgs = {
+        $theme: theme,
+        alignment,
+        ...(subtitle === "subtitle" && { subtitle: "Table cell subtitle" }),
+      };
+      const baseURL = getPageURL(baseArgs);
 
-//       test("base", async ({ page }) => {
-//         await page.goto(baseURL);
+      test("base", async ({ page }) => {
+        await page.goto(baseURL);
 
-//         // wait for element to be visible
-//         const element = await page.waitForSelector("daikin-table-cell", {
-//           state: "visible",
-//         });
+        // wait for element to be visible
+        const element = await page.waitForSelector("daikin-table-cell", {
+          state: "visible",
+        });
 
-//         // take screenshot and check for diffs
-//         await expect(page).toHaveScreenshot(await clipFor(element));
-//       });
-//     });
-//   });
-// });
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(element));
+      });
+    });
+  });
+});

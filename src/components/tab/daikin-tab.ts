@@ -98,6 +98,10 @@ export class DaikinTab extends LitElement {
     :host([sizing="stretch"]) {
       width: 100%;
     }
+
+    :host([sizing="fit"]) {
+      width: fit-content;
+    }
   `;
 
   /**
