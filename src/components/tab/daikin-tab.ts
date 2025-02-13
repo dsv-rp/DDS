@@ -6,14 +6,13 @@ import tailwindStyles from "../../tailwind.css?inline";
 const cvaTab = cva(
   [
     "flex",
-    "h-full",
-    "min-h-10",
+    "size-full",
     "items-center",
     "justify-center",
     "px-4",
     "pt-2",
     "pb-3",
-    "leading-5",
+    "leading-[130%]",
     "text-center",
     "font-daikinSerif",
     "tracking-wide",
@@ -58,10 +57,6 @@ const cvaTab = cva(
           "disabled:after:bg-ddt-color-common-disabled",
         ],
       },
-      sizing: {
-        stretch: ["w-full"],
-        fit: ["w-fit", "whitespace-nowrap"],
-      },
     },
   }
 );
@@ -95,14 +90,13 @@ export class DaikinTab extends LitElement {
 
     :host {
       display: block;
+      white-space: nowrap;
+      min-width: fit-content;
+      height: 2.5rem;
     }
 
     :host([sizing="stretch"]) {
       width: 100%;
-    }
-
-    :host([sizing="fit"]) {
-      width: fit-content;
     }
   `;
 
@@ -158,7 +152,7 @@ export class DaikinTab extends LitElement {
   override render() {
     return html`
       <button
-        class=${cvaTab({ active: this.active, sizing: this.sizing })}
+        class=${cvaTab({ active: this.active })}
         ?disabled=${this.disabled}
         role="tab"
         aria-selected=${!this.disabled && this.active}
