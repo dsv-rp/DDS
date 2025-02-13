@@ -10,78 +10,91 @@ import type { DAIKIN_TOOLTIP_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TOOLTIP_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-tooltip--light", args);
+  getStorybookIframeURL("components-tooltip--default", args);
 
-describeEach(["light", "dark"] as const, (variant) => {
-  describeEach(["top", "bottom", "left", "right"] as const, (placement) => {
-    const baseURL = getPageURL({
-      variant,
-      placement,
-      hasSlot: false,
-      hasFocusableTrigger: false,
-      __vrtContainer__: true,
-    });
+describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["default", "inverse"] as const, (color) => {
+    describeEach(["top", "bottom", "left", "right"] as const, (placement) => {
+      const baseArgs = {
+        $theme: theme,
+        color,
+        placement,
+        hasSlot: false,
+        hasFocusableTrigger: false,
+        __vrtContainer__: true,
+      };
+      const baseURL = getPageURL(baseArgs);
 
-    test("center", async ({ page }) => {
-      await page.goto(baseURL);
+      test("center", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // wait for element to be visible
-      const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
-        state: "visible",
+        // wait for element to be visible
+        const viewArea = await page.waitForSelector(
+          '[data-testid="view-area"]',
+          {
+            state: "visible",
+          }
+        );
+
+        const triggerElement = await page.waitForSelector("daikin-tooltip", {
+          state: "visible",
+        });
+
+        await viewArea.evaluate((el) => el.scrollTo(350, 400));
+
+        // hover cursor on the element
+        await triggerElement.hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(viewArea));
       });
 
-      const triggerElement = await page.waitForSelector("daikin-tooltip", {
-        state: "visible",
+      test("leftTop", async ({ page }) => {
+        await page.goto(baseURL);
+
+        // wait for element to be visible
+        const viewArea = await page.waitForSelector(
+          '[data-testid="view-area"]',
+          {
+            state: "visible",
+          }
+        );
+
+        const triggerElement = await page.waitForSelector("daikin-tooltip", {
+          state: "visible",
+        });
+
+        await viewArea.evaluate((el) => el.scrollTo(700, 1400));
+
+        // hover cursor on the element
+        await triggerElement.hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(viewArea));
       });
 
-      await viewArea.evaluate((el) => el.scrollTo(350, 400));
+      test("rightBottom", async ({ page }) => {
+        await page.goto(baseURL);
 
-      // hover cursor on the element
-      await triggerElement.hover();
+        // wait for element to be visible
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(viewArea));
-    });
+        const viewArea = await page.waitForSelector(
+          '[data-testid="view-area"]',
+          {
+            state: "visible",
+          }
+        );
 
-    test("leftTop", async ({ page }) => {
-      await page.goto(baseURL);
+        const triggerElement = await page.waitForSelector("daikin-tooltip", {
+          state: "visible",
+        });
 
-      // wait for element to be visible
-      const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
-        state: "visible",
+        // hover cursor on the element
+        await triggerElement.hover();
+
+        // take screenshot and check for diffs
+        await expect(page).toHaveScreenshot(await clipFor(viewArea));
       });
-
-      const triggerElement = await page.waitForSelector("daikin-tooltip", {
-        state: "visible",
-      });
-
-      await viewArea.evaluate((el) => el.scrollTo(700, 1400));
-
-      // hover cursor on the element
-      await triggerElement.hover();
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(viewArea));
-    });
-
-    test("rightBottom", async ({ page }) => {
-      await page.goto(baseURL);
-
-      // wait for element to be visible
-
-      const viewArea = await page.waitForSelector('[data-testid="view-area"]', {
-        state: "visible",
-      });
-
-      const triggerElement = await page.waitForSelector("daikin-tooltip", {
-        state: "visible",
-      });
-
-      // hover cursor on the element
-      await triggerElement.hover();
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(viewArea));
     });
   });
 });
