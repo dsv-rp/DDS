@@ -6,23 +6,16 @@ import { html } from "lit";
 import type { DaikinRadioGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
-  render: ({ orientation, name, value, onChange, onClick }) => html`
-    <daikin-input-group
-      label="Label text"
-      helper="Helper text"
-      required="required"
+  render: ({ orientation, name, value, onChange, onClick }) =>
+    html`<daikin-radio-group
+      orientation=${orientation}
+      name=${name}
+      value=${value}
+      @change=${onChange}
+      @click=${onClick}
     >
-      <daikin-radio-group
-        orientation=${orientation}
-        name=${name}
-        value=${value}
-        @change=${onChange}
-        @click=${onClick}
-      >
-        <daikin-radio value="value1" label="Option1"></daikin-radio>
-        <daikin-radio value="value2" label="Option2"></daikin-radio>
-        <daikin-radio value="value3" label="Option3"></daikin-radio>
-      </daikin-radio-group>
-    </daikin-input-group>
-  `,
+      <daikin-radio value="value1" label="Option1"></daikin-radio>
+      <daikin-radio value="value2" label="Option2"></daikin-radio>
+      <daikin-radio value="value3" label="Option3"></daikin-radio>
+    </daikin-radio-group>`,
 };
