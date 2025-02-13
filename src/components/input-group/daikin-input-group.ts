@@ -21,7 +21,7 @@ type ControlElement =
   | DaikinTextField
   | DaikinTextArea;
 
-const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
+const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-[130%]"], {
   variants: {
     disabled: {
       false: [],
@@ -31,11 +31,11 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
 });
 
 const cvaHelper = cva(
-  ["flex", "gap-1", "items-center", "min-h-5", "leading-5", "text-sm"],
+  ["flex", "gap-1", "items-center", "leading-[130%]", "text-sm"],
   {
     variants: {
       type: {
-        helper: [],
+        helper: ["text-ddt-color-common-text-secondary"],
         helperDisabled: ["text-ddt-color-common-disabled"],
         error: [
           "text-ddt-color-common-danger-default",
@@ -293,7 +293,7 @@ export class DaikinInputGroup extends LitElement {
       <label
         class="flex flex-col justify-center gap-2 w-full text-ddt-color-common-text-primary font-daikinSerif"
       >
-        <div class="flex items-center gap-1 font-bold">
+        <div class="flex items-center flex-wrap gap-1 font-bold">
           ${this.label
             ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
                 ${this.label}
