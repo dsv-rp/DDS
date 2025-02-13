@@ -68,8 +68,6 @@ export class DaikinProgressIndicator extends LitElement {
           `Invalid 'current-item' property: ${this.currentItem}. The number of actual 'daikin-progress-indicator-item's exceeds the number of items.`
         );
       }
-
-      return;
     }
 
     if (this.currentItem < 0) {
@@ -78,8 +76,6 @@ export class DaikinProgressIndicator extends LitElement {
           `Invalid 'current-item' property: ${this.currentItem}. Negative values cannot be set.`
         );
       }
-
-      return;
     }
 
     items.forEach((item, i) => {
