@@ -10,7 +10,7 @@ export const TOOLTIP_SLOT_TEXT =
 export const metadata: Meta<DaikinTooltipStoryArgs> = {
   render: ({
     placement,
-    variant,
+    color,
     open,
     description,
     popoverValue,
@@ -32,7 +32,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
         >
           <daikin-tooltip
             placement=${placement}
-            variant=${variant}
+            color=${color}
             ?open=${open}
             description=${description}
             popover-value=${popoverValue}
