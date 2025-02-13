@@ -56,6 +56,7 @@ export function viteFinal(config: InlineConfig): InlineConfig {
       ],
       include: [
         ...(config.optimizeDeps?.include ?? []),
+        "@storybook/addon-interactions/preview",
         "@storybook/blocks",
         "@daikin-oss/dds-tokens/js/aaf/Dark/variables.js",
         "@daikin-oss/dds-tokens/js/aaf/Light/variables.js",
