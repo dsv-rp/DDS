@@ -19,6 +19,10 @@ import tailwindStyles from "../../tailwind.css?inline";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/carousel-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-carousel-item>Carousel item</daikin-carousel-item>
  * ```

@@ -74,6 +74,11 @@ const INDICATOR_CLASS_NAME = cva([
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/carousel/index.js";
+ * import "@daikin-oss/design-system-web-components/components/carousel-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-carousel>
  *   <daikin-carousel-item>Carousel item 1</daikin-carousel-item>
