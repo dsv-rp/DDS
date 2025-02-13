@@ -35,6 +35,10 @@ const cvaDescription = cva([
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/card-header/index.js";
+ * ```
+ *
  * ```html
  * <!-- See `daikin-card` component for complete example. -->
  * <daikin-card-header>

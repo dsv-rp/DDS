@@ -34,6 +34,12 @@ const cvaContainer = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/card/index.js";
+ * import "@daikin-oss/design-system-web-components/components/card-footer/index.js";
+ * import "@daikin-oss/design-system-web-components/components/card-header/index.js";
+ * ```
+ *
  * ```html
  * <daikin-card outline>
  *   <daikin-card-header>
