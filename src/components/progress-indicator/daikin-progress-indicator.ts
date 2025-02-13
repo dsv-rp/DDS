@@ -17,6 +17,11 @@ import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator/index.js";
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-progress-indicator>
  *   <daikin-progress-indicator-item state="unfinished">

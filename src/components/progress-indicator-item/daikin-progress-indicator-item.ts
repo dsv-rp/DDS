@@ -42,6 +42,10 @@ type ProgressIndicatorItemVariantProps = MergeVariantProps<typeof cvaContainer>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-progress-indicator-item state="unfinished">
  *   Progress indicator label
