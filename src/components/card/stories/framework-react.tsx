@@ -12,12 +12,14 @@ const ReactDaikinCard = createComponent({
   react: React,
   tagName: "daikin-card",
   elementClass: DaikinCard,
-  events: {},
 });
 
 export const metadata: Meta<DaikinCardStoryArgs> = {
-  component: ({ ...props }: DaikinCardStoryArgs) => (
-    <ReactDaikinCard {...props}>
+  component: ({ withBody, withFooter, ...props }: DaikinCardStoryArgs) => (
+    <ReactDaikinCard
+      {...props}
+      style={{ width: "max-content", height: "max-content" }}
+    >
       <ReactDaikinCardHeader>
         <ReactDaikinIcon
           slot="left-icon"
@@ -25,13 +27,11 @@ export const metadata: Meta<DaikinCardStoryArgs> = {
           size="current"
           color="current"
         />
-        <span>Card Title</span>
-        <span slot="description">Description</span>
+        <span>Card title</span>
+        <span slot="description">Card description</span>
       </ReactDaikinCardHeader>
-      {props.withBody && (
-        <div style={{ height: "173px", width: "248px" }}></div>
-      )}
-      {props.withFooter && (
+      {withBody && <div style={{ width: "248px", height: "173px" }}></div>}
+      {withFooter && (
         <ReactDaikinCardFooter>
           <ReactDaikinButton size="small">Button</ReactDaikinButton>
         </ReactDaikinCardFooter>
