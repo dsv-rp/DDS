@@ -18,9 +18,9 @@ export const DAIKIN_TOOLTIP_ARG_TYPES = {
     control: "radio",
     options: ["top", "bottom", "left", "right"],
   },
-  variant: {
+  color: {
     control: "radio",
-    options: ["light", "dark"],
+    options: ["default", "inverse"],
   },
   open: {
     type: "boolean",
