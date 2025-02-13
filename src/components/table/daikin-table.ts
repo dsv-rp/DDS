@@ -69,6 +69,12 @@ const cvaRow = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/table/index.js";
+ * import "@daikin-oss/design-system-web-components/components/table-cell/index.js";
+ * import "@daikin-oss/design-system-web-components/components/table-header-cell/index.js";
+ * ```
+ *
  * ```html
  * <daikin-table
  *   .headers="[
