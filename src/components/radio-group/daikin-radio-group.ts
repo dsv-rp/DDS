@@ -36,22 +36,17 @@ type RadioGroupProps = MergeVariantProps<typeof cvaRadioGroup>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/radio/index.js";
+ * import "@daikin-oss/design-system-web-components/components/radio-group/index.js";
+ * ```
+ *
  * ```html
  * <daikin-radio-group name="name">
  *   <daikin-radio value="value1" label="Option1"></daikin-radio>
  *   <daikin-radio value="value2" label="Option2"></daikin-radio>
  *   <daikin-radio value="value3" label="Option3"></daikin-radio>
  * </daikin-radio-group>
- * ```
- *
- * ```html
- * <daikin-input-group label="Label text" helper="Helper text">
- *   <daikin-radio-group name="name">
- *     <daikin-radio value="value1" label="Option1"></daikin-radio>
- *     <daikin-radio value="value2" label="Option2"></daikin-radio>
- *     <daikin-radio value="value3" label="Option3"></daikin-radio>
- *   </daikin-radio-group>
- * </daikin-input-group>
  * ```
  */
 @customElement("daikin-radio-group")
