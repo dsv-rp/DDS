@@ -89,6 +89,10 @@ const cvaSelect = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/select/index.js";
+ * ```
+ *
  * ```html
  * <daikin-select>
  *   <select name="select">
