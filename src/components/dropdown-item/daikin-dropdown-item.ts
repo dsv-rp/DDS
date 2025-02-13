@@ -70,6 +70,10 @@ const cvaOption = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-dropdown-item value="value">Dropdown item</daikin-dropdown-item>
  * ```

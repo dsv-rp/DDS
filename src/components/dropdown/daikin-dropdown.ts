@@ -118,6 +118,11 @@ const floatingPositionOptions: Partial<ComputePositionConfig> = {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/dropdown/index.js";
+ * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-dropdown label="Dropdown label">
  *   <daikin-dropdown-item value="value1">Dropdown item 1</daikin-dropdown-item>
