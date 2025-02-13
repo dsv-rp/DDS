@@ -15,14 +15,13 @@ const getPageURL = (args: StoryArgs = {}) =>
 describeEach(["horizontal", "vertical"], (orientation) => {
   const baseURL = getPageURL({
     orientation: orientation,
-    value: "value1",
   });
 
   test("base", async ({ page }) => {
     await page.goto(baseURL);
 
     // wait for element to be visible
-    const element = await page.waitForSelector("daikin-input-group", {
+    const element = await page.waitForSelector("daikin-radio-group", {
       state: "visible",
     });
 
