@@ -13,7 +13,7 @@ jobs:
   visual-regression:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.46.1-noble
+      image: mcr.microsoft.com/playwright:v1.46.1-jammy
 
     timeout-minutes: 10
 
@@ -60,7 +60,7 @@ jobs:
   visual-regression-test:
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.46.1-noble
+      image: mcr.microsoft.com/playwright:v1.46.1-jammy
 
     timeout-minutes: 20
 
