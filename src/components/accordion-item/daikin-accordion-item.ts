@@ -113,7 +113,7 @@ export class DaikinAccordionItem extends LitElement {
       width: 100%;
       height: 1px;
       background: var(--dds-color-divider);
-      position: absolute;
+      position: relative;
       top: 0;
     }
 
@@ -123,7 +123,7 @@ export class DaikinAccordionItem extends LitElement {
       width: 100%;
       height: 1px;
       background: var(--dds-color-divider);
-      position: absolute;
+      position: relative;
       bottom: 0;
     }
   `;
