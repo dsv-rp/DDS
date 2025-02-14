@@ -2,9 +2,10 @@ import type { DaikinProgressBar } from "#package/components/progress-bar/daikin-
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export type DaikinProgressBarStoryArgs = Required<
-  ElementProps<DaikinProgressBar>
->;
+export interface DaikinProgressBarStoryArgs
+  extends Required<ElementProps<DaikinProgressBar>> {
+  label: string;
+}
 
 export const DAIKIN_PROGRESS_BAR_ARG_TYPES = {
   value: {

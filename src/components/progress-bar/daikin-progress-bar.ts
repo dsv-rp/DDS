@@ -53,12 +53,14 @@ const cvaBarContainer = cva(
         inprogress: [],
         completed: [
           "after:size-4",
+          "after:flex-none",
           "after:bg-ddt-color-common-success",
           "after:i-daikin-status-positive",
         ],
         indeterminate: [],
         error: [
           "after:size-4",
+          "after:flex-none",
           "after:text-ddt-color-common-danger-default",
           "after:i-daikin-status-error",
         ],
