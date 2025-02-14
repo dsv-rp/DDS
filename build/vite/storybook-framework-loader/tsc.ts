@@ -1,13 +1,7 @@
-// We use TypeScript of web-component-analyzer's dependency to avoid compatibility issues.
-import { createRequire } from "module";
-import type { Program } from "../../../node_modules/web-component-analyzer/node_modules/typescript";
+import type { Program } from "typescript";
+import * as ts from "typescript";
 
-// We cannot use import as TypeScript of web-component-analyzer's dependency does not support ESM correctly.
-const require = createRequire(import.meta.url);
-export const ts =
-  require("../../../node_modules/web-component-analyzer/node_modules/typescript") as typeof import("../../../node_modules/web-component-analyzer/node_modules/typescript");
-
-export { type Program };
+export { ts, type Program };
 
 export function createTSProgram(
   projectDir: string,

@@ -19,6 +19,9 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
   ).toSorted();
 
   return {
+    server: {
+      allowedHosts: [".localhost"],
+    },
     build: {
       minify: false,
       emptyOutDir: !isDev,

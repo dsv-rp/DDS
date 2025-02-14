@@ -6,9 +6,9 @@
     "editorconfig.editorconfig",
     "esbenp.prettier-vscode",
     "github.vscode-github-actions",
+    "jackolope.lit-analyzer-plugin",
     "ms-azuretools.vscode-docker",
     "ms-playwright.playwright",
-    "runem.lit-plugin",
     "streetsidesoftware.code-spell-checker",
     "unifiedjs.vscode-mdx",
     "vitest.explorer"

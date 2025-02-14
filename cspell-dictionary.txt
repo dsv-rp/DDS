@@ -5,6 +5,7 @@ daikin
 defu
 dotfiles
 fontsource
+jackolope
 jiti
 lightningcss
 picocolors
