@@ -30,10 +30,10 @@ export const DAIKIN_TABLE_ARG_TYPES = {
     options: ["asc", "desc"],
   },
   sort: {
-    control: "object",
+    type: "string",
   },
   sortFunction: {
-    type: "string",
+    name: "",
   },
   hasSlot: {
     type: "boolean",

@@ -69,6 +69,12 @@ const cvaRow = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/table/index.js";
+ * import "@daikin-oss/design-system-web-components/components/table-cell/index.js";
+ * import "@daikin-oss/design-system-web-components/components/table-header-cell/index.js";
+ * ```
+ *
  * ```html
  * <daikin-table
  *   .headers="[
@@ -311,7 +317,7 @@ export class DaikinTable<
       );
 
     return html`<div class="flex flex-col gap-6 w-full font-daikinSerif">
-      <table class="w-full table-fixed">
+      <table class="w-full">
         <thead>
           <tr class="border-b border-b-ddt-color-divider">
             ${this.selectable

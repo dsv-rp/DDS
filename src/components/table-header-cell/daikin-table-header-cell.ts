@@ -61,6 +61,10 @@ type TableHeaderCellVariantProps = MergeVariantProps<typeof cvaHeaderCell>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/table-header-cell/index.js";
+ * ```
+ *
  * ```html
  * <daikin-table-header-cell slot="header:key">
  *   Table header cell label
