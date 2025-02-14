@@ -44,11 +44,11 @@ const cvaSummary = cva(
   }
 );
 
-const cvaContent = cva(["max-h-0"], {
+const cvaContent = cva([], {
   variants: {
     open: {
-      false: ["overflow-hidden"],
-      true: ["max-h-12"],
+      false: ["max-h-0", "overflow-hidden"],
+      true: [],
     },
   },
 });
@@ -113,8 +113,6 @@ export class DaikinAccordionItem extends LitElement {
       width: 100%;
       height: 1px;
       background: var(--dds-color-divider);
-      position: relative;
-      top: 0;
     }
 
     :host::after {
@@ -123,8 +121,6 @@ export class DaikinAccordionItem extends LitElement {
       width: 100%;
       height: 1px;
       background: var(--dds-color-divider);
-      position: relative;
-      bottom: 0;
     }
   `;
 
@@ -162,17 +158,17 @@ export class DaikinAccordionItem extends LitElement {
    * Treated as `false` if `disabled` is `true`.
    */
   @state()
-  private _detailsOpen = false;
+  private _animating = false;
 
   private _contentAnimate() {
     const content = this._contentRef.value;
-    if (!content || this.open === this._detailsOpen) {
+    if (!content || this.open === this._animating) {
       return;
     }
 
     if (this.open) {
       // Accordion is closed; open it.
-      this._detailsOpen = this.open;
+      this._animating = this.open;
       content.animate(
         [contentCloseKeyframe, getContentOpenKeyframe(content)],
         animationOption
@@ -186,7 +182,7 @@ export class DaikinAccordionItem extends LitElement {
 
       animation.onfinish = () => {
         // After the animation is finished, remove the open attribute from the details element. This is to allow the element to transition.
-        this._detailsOpen = this.open;
+        this._animating = this.open;
       };
     }
   }
@@ -225,7 +221,7 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   override render() {
-    const detailsOpen = !this.disabled && this._detailsOpen;
+    const detailsOpen = !this.disabled && (this._animating || this.open);
     const open = !this.disabled && this.open;
 
     return html`<div
@@ -238,10 +234,10 @@ export class DaikinAccordionItem extends LitElement {
           open,
           disabled: this.disabled,
         })}
-        ?open=${detailsOpen}
         ?data-open=${open}
-        aria-disabled=${this.disabled}
+        ?disabled=${this.disabled}
         aria-expanded=${detailsOpen}
+        aria-controls="content"
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
         @keydown=${this._handleKeyDown}
@@ -250,11 +246,11 @@ export class DaikinAccordionItem extends LitElement {
       </button>
       <div
         ${ref(this._contentRef)}
+        id="content"
         role="region"
         class=${cvaContent({ open: detailsOpen })}
         aria-labelledby="summary"
-        aria-hidden=${!detailsOpen}
-        ?hidden=${this.disabled}
+        ?hidden=${!detailsOpen}
       >
         <div class="pt-2 px-3 pb-3">
           <slot></slot>
@@ -264,7 +260,7 @@ export class DaikinAccordionItem extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._detailsOpen = this.open;
+    this._animating = this.open;
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
