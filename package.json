@@ -75,6 +75,9 @@
     "test:visual": "npm run test:visual-wc && npm run test:visual-react",
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
+  "browserslist": [
+    "last 2 versions and > 1%"
+  ],
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
     "class-variance-authority": "^0.7.1",
