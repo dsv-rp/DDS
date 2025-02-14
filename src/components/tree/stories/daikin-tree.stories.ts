@@ -189,3 +189,24 @@ export const Selectable: Story = {
     );
   }),
 };
+
+export const Manual: Story = {
+  args: {
+    ...Default.args,
+    selectable: false,
+    selected: "1",
+  },
+  play: definePlay(async ({ canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-tree")[0];
+    await expect(root).toBeInTheDocument();
+
+    await step(
+      "should not change the `value` even if you click on it",
+      async () => {
+        await expect(root).toHaveAttribute("selected", "1");
+        await userEvent.click(getByShadowText(root, "Tree section 2"));
+        await expect(root).toHaveAttribute("selected", "1");
+      }
+    );
+  }),
+};
