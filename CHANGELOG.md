@@ -1,5 +1,53 @@
 # @daikin-oss/design-system-web-components
 
+## 0.8.0
+
+### Minor Changes
+
+- [#98](https://github.com/dsv-rp/DDS/pull/98) [`b5d0822`](https://github.com/dsv-rp/DDS/commit/b5d08224b88151d9be875f3d2ccb195fe71ce9fe) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tooltip: The `variant` attribute has been replaced by the `color` attribute, which accepts `default` and `inverse` instead of `light` and `dark`.
+  Tooltip: Replaced colors with design tokens (brings dark mode support).
+  Tooltip: Update appearance.
+
+- [#109](https://github.com/dsv-rp/DDS/pull/109) [`f08378f`](https://github.com/dsv-rp/DDS/commit/f08378f746e93529d10ce40f9075e4e783b7e7dc) Thanks [@poetrainy](https://github.com/poetrainy)! - Carousel: Initial Implementation. (DDS-1296)
+
+- [#117](https://github.com/dsv-rp/DDS/pull/117) [`b45a524`](https://github.com/dsv-rp/DDS/commit/b45a524ed060a415621a4a57e1de8efb3925723b) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Accordion Item: The `open` attribute is now controlled by the parent `<daikin-accordion>` element.
+  Accordion: The `openedItems` and `exclusive` attributes have been added.
+  Accordion Item: The `name` attribute has been added.
+
+- [#130](https://github.com/dsv-rp/DDS/pull/130) [`80374c3`](https://github.com/dsv-rp/DDS/commit/80374c3e3330798ccc5385eacbb5b8c91a53d0dd) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - **BREAKING CHANGE** Icon: Removed arrowUp icon. (DDS-1822)
+
+### Patch Changes
+
+- [#119](https://github.com/dsv-rp/DDS/pull/119) [`1071b92`](https://github.com/dsv-rp/DDS/commit/1071b9250ed147f76ddf4bb402368897078c9d4b) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Notification: The notification component has been removed and split into inline notification and toast notification.
+  Toast Notification: Initial Implementation. (DDS-1172)
+  Inline Notification: Initial Implementation. (DDS-1362)
+
+- [#116](https://github.com/dsv-rp/DDS/pull/116) [`49fbc4b`](https://github.com/dsv-rp/DDS/commit/49fbc4bb39d3c1c39d0486f43cc9f9945fdbe794) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Pagination: Updated appearance.
+
+- [#128](https://github.com/dsv-rp/DDS/pull/128) [`9e27a56`](https://github.com/dsv-rp/DDS/commit/9e27a565eb2e2f6f9b6781645d6fb04640930a16) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Bar: Updated appearance. (DDS-1865)
+
+- [#118](https://github.com/dsv-rp/DDS/pull/118) [`b3c90a8`](https://github.com/dsv-rp/DDS/commit/b3c90a8f69b1144e9631c258b7b96bc792e8b7f2) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Bar: Updated appearance.
+
+- [#113](https://github.com/dsv-rp/DDS/pull/113) [`d379004`](https://github.com/dsv-rp/DDS/commit/d3790049271f9a7c120991335428a48f229bab65) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Checkbox: Fixed an issue where clicking the label triggers click event twice. (DDS-1679)
+  Radio Button: Fixed an issue where clicking the label triggers click event twice. (DDS-1679)
+
+- [#126](https://github.com/dsv-rp/DDS/pull/126) [`6f602fd`](https://github.com/dsv-rp/DDS/commit/6f602fd5c3fcab05fdb7d208d6a5aa298351a318) Thanks [@poetrainy](https://github.com/poetrainy)! - Radio Group: Updated appearance. (DDS-1860)
+  Radio: Added a slot to override the label. The behavior does not change if the slot is not used. (DDS-1860)
+  Radio: Fixed an issue where the size of the component could not be changed. (DDS-1860)
+
+- [#123](https://github.com/dsv-rp/DDS/pull/123) [`5f75fc5`](https://github.com/dsv-rp/DDS/commit/5f75fc5fa9207762744e55d079ccfbdc74413a36) Thanks [@poetrainy](https://github.com/poetrainy)! - Card: Fixed an issue where the size of the component could not be changed. (DDS-1871)
+  Card: Updated appearance. (DDS-1871)
+
+- [#127](https://github.com/dsv-rp/DDS/pull/127) [`146ce67`](https://github.com/dsv-rp/DDS/commit/146ce670de011022ae5fa70debea6bd5db436bcf) Thanks [@poetrainy](https://github.com/poetrainy)! - Select: Updated appearance. (DDS-1872)
+
+- [#131](https://github.com/dsv-rp/DDS/pull/131) [`cf6fa55`](https://github.com/dsv-rp/DDS/commit/cf6fa55a6f6b0700238fb031643fb4b50cf8d8a0) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Pagination: Updated appearance. (DDS-1845)
+  Pagination: Added ARIA role. (DDS-1845)
+
+- [#115](https://github.com/dsv-rp/DDS/pull/115) [`91b8fe9`](https://github.com/dsv-rp/DDS/commit/91b8fe94b3262bd6197428e66192d7b9555b1d09) Thanks [@poetrainy](https://github.com/poetrainy)! - Progress Indicator: Updated appearance.
+
+- [#129](https://github.com/dsv-rp/DDS/pull/129) [`9042252`](https://github.com/dsv-rp/DDS/commit/9042252d31641f7bd08bc4cc7f61634cff24b3d3) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Button: Set the maximum width by default. (DDS-1821)
+  Button: Fixed an issue where click events could be propagated through disabled links. (DDS-1821)
+
 ## 0.7.0
 
 ### Minor Changes
