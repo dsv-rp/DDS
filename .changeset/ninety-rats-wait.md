@@ -2,4 +2,4 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-Link: fix issues with the component in the Firefox browser. (DDS-1823)
+Link: Fixed an issue where the color was incorrect in Firefox. (DDS-1823)
