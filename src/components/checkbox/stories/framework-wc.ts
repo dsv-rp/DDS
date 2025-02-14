@@ -20,6 +20,7 @@ export const metadata: Meta<DaikinCheckboxStoryArgs> = {
       @change=${onChange}
       @click=${onClick}
     >
+      ${label}
     </daikin-checkbox>
   `,
 };

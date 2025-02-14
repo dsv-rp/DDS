@@ -2,7 +2,10 @@ import type { DaikinCheckbox } from "#package/components/checkbox/daikin-checkbo
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole, getByShadowText } from "shadow-dom-testing-library";
+import {
+  getAllByShadowText,
+  getByShadowRole,
+} from "shadow-dom-testing-library";
 import { DAIKIN_CHECKBOX_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -36,24 +39,20 @@ export const Default: Story = {
       name: "Checkbox label",
     });
     await expect(innerCheckbox).toBeInTheDocument();
-
-    const label = getByShadowText(root, "Checkbox label");
-    await expect(label).toBeInTheDocument();
-
     await expect(innerCheckbox).not.toBeChecked();
 
     // should react if inner checkbox clicked
     await step("Try to click inner checkbox", async () => {
       await userEvent.click(innerCheckbox);
-      await expect(args.onChange).toHaveBeenCalledOnce();
+      await expect(args.onChange).toHaveBeenCalledTimes(1);
       await expect(args.onChange).toHaveLastReturnedWith({ checked: true });
-      await expect(args.onClick).toHaveBeenCalledOnce();
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
       await expect(innerCheckbox).toBeChecked();
     });
 
     // should also react if label clicked
     await step("Try to click label", async () => {
-      await userEvent.click(label);
+      await userEvent.click(getAllByShadowText(root, "Checkbox label")[1]);
       await expect(args.onChange).toHaveBeenCalledTimes(2);
       await expect(args.onChange).toHaveLastReturnedWith({ checked: false });
       await expect(args.onClick).toHaveBeenCalledTimes(2);
@@ -79,10 +78,6 @@ export const Disabled: Story = {
       name: "Checkbox label",
     });
     await expect(innerCheckbox).toBeInTheDocument();
-
-    const label = getByShadowText(root, "Checkbox label");
-    await expect(label).toBeInTheDocument();
-
     await expect(innerCheckbox).not.toBeChecked();
 
     // should not react if inner checkbox clicked
@@ -94,7 +89,7 @@ export const Disabled: Story = {
 
     // also should not react if label clicked
     await step("Try to click label", async () => {
-      await userEvent.click(label);
+      await userEvent.click(getAllByShadowText(root, "Checkbox label")[1]);
       await expect(args.onChange).not.toHaveBeenCalled();
       await expect(innerCheckbox).not.toBeChecked();
     });
