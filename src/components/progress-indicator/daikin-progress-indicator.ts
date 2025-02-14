@@ -59,7 +59,7 @@ export class DaikinProgressIndicator extends LitElement {
   @queryAssignedElements({ selector: "daikin-progress-indicator-item" })
   private readonly _items!: readonly DaikinProgressIndicatorItem[];
 
-  private _setCurrentItem() {
+  private _updateCurrentItem() {
     const items = this._items;
 
     if (items.length - 1 < this.currentItem) {
@@ -90,7 +90,7 @@ export class DaikinProgressIndicator extends LitElement {
   }
 
   private _handleSlotChange() {
-    this._setCurrentItem();
+    this._updateCurrentItem();
   }
 
   override render() {
@@ -103,12 +103,12 @@ export class DaikinProgressIndicator extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._setCurrentItem();
+    this._updateCurrentItem();
   }
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("currentItem")) {
-      this._setCurrentItem();
+      this._updateCurrentItem();
     }
   }
 }
