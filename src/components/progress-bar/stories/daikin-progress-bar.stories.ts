@@ -15,6 +15,7 @@ export const Default: Story = {
     size: "medium",
     max: 100,
     helper: "Progress bar helper",
+    label: "Progress bar label",
   },
 };
 
