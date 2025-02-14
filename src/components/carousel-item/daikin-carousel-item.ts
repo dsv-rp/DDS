@@ -1,6 +1,10 @@
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { ifDefined } from "lit/directives/if-defined.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+  state,
+} from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -9,9 +13,15 @@ import tailwindStyles from "../../tailwind.css?inline";
  * Hierarchy:
  * - `daikin-carousel` > `daikin-carousel-item`
  *
- * @slot - A slot for carousel item content.
+ * @slot - A slot for an image or slide.
+ * @slot title - A slot for title text.
+ * @slot description - A slot for description text.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/carousel-item/index.js";
+ * ```
  *
  * ```html
  * <daikin-carousel-item>Carousel item</daikin-carousel-item>
@@ -48,14 +58,43 @@ export class DaikinCarouselItem extends LitElement {
   @property({ type: Boolean, attribute: false })
   active = false;
 
+  @queryAssignedElements({ slot: "title" })
+  private readonly _titleElements!: readonly HTMLElement[];
+
+  @queryAssignedElements({ slot: "description" })
+  private readonly _descriptionElements!: readonly HTMLElement[];
+
+  @state()
+  private _hasTextContents = false;
+
+  private _handleFooterSlotChange() {
+    this._hasTextContents =
+      this._titleElements.length > 0 || this._descriptionElements.length > 0;
+  }
+
   override render() {
     return html`<div
-      class="flex-none overflow-hidden"
+      class="flex flex-col flex-none gap-3 text-ddt-color-common-text-primary font-daikinSerif overflow-hidden"
       role="tabpanel"
       aria-label=${this.label}
       aria-hidden=${!this.active}
     >
-      <slot tabindex=${ifDefined(!this.active ? -1 : undefined)}></slot>
+      <slot></slot>
+      <div
+        class="visible:flex flex-col gap-2"
+        ?hidden=${!this._hasTextContents}
+      >
+        <slot
+          name="title"
+          class="leading-[130%] font-bold"
+          @slotchange=${this._handleFooterSlotChange}
+        ></slot>
+        <slot
+          name="description"
+          class="text-sm"
+          @slotchange=${this._handleFooterSlotChange}
+        ></slot>
+      </div>
     </div>`;
   }
 }
