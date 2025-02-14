@@ -17,6 +17,11 @@ import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator/index.js";
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-progress-indicator>
  *   <daikin-progress-indicator-item state="unfinished">
@@ -47,45 +52,30 @@ export class DaikinProgressIndicator extends LitElement {
 
   /**
    * Specify the index number of the current location in the progress indicator.
+   * If all items are waiting to be processed, enter `-1`. If all items have been completed, enter the total number of items.
    */
   @property({ type: Number, attribute: "current-item", reflect: true })
-  currentItem: number | null = null;
+  currentItem = 0;
 
   @queryAssignedElements({ selector: "daikin-progress-indicator-item" })
-  private readonly _items!: readonly DaikinProgressIndicatorItem[] | null;
+  private readonly _items!: readonly DaikinProgressIndicatorItem[];
 
-  private _setCurrentItem() {
+  private _updateCurrentItem() {
     const items = this._items;
 
-    if (!items || this.currentItem === null) {
-      return;
-    }
-
-    if (items.length - 1 < this.currentItem) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `Invalid 'current-item' property: ${this.currentItem}. The number of actual 'daikin-progress-indicator-item's exceeds the number of items.`
-        );
+    items.forEach((item, i) => {
+      if (this.currentItem === i) {
+        item.status = "inprogress";
+      } else if (this.currentItem > i) {
+        item.status = "finished";
+      } else {
+        item.status = "unfinished";
       }
-
-      return;
-    }
-
-    if (this.currentItem < 0) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `Invalid 'current-item' property: ${this.currentItem}. Negative values cannot be set.`
-        );
-      }
-
-      return;
-    }
-
-    items.forEach((item, i) => (item.current = this.currentItem === i));
+    });
   }
 
   private _handleSlotChange() {
-    this._setCurrentItem();
+    this._updateCurrentItem();
   }
 
   override render() {
@@ -98,12 +88,12 @@ export class DaikinProgressIndicator extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._setCurrentItem();
+    this._updateCurrentItem();
   }
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("currentItem")) {
-      this._setCurrentItem();
+      this._updateCurrentItem();
     }
   }
 }
