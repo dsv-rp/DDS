@@ -52,6 +52,7 @@ export class DaikinProgressIndicator extends LitElement {
 
   /**
    * Specify the index number of the current location in the progress indicator.
+   * If all items are waiting to be processed, enter `-1`. If all items have been completed, enter the total number of items.
    */
   @property({ type: Number, attribute: "current-item", reflect: true })
   currentItem = 0;
