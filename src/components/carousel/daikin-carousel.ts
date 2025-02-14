@@ -179,6 +179,28 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _updateItemActive() {
+    const items = this._items;
+
+    if (items.length - 1 < this.currentIndex) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'current-index' property: ${this.currentIndex}. The number of actual 'daikin-carousel-item's exceeds the number of items.`
+        );
+      }
+
+      return;
+    }
+
+    if (this.currentIndex < 0) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'current-item' property: ${this.currentIndex}. Negative values cannot be set.`
+        );
+      }
+
+      return;
+    }
+
     for (const [index, item] of this._items.entries()) {
       item.active = index === this.currentIndex;
     }
