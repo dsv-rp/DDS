@@ -34,6 +34,7 @@ export const Default: Story = {
   args: {
     tabs: ["Foo", "!Bar", "Baz"],
     value: "foo",
+    sizing: "stretch",
     onBeforeChange: fn(eventPayloadTransformerBeforeChange),
     onChange: fn(eventPayloadTransformerChange),
   },
@@ -212,10 +213,11 @@ export const Default: Story = {
   }),
 };
 
-export const Single: Story = {
+export const Fit: Story = {
   args: {
     tabs: ["Foo"],
     value: "foo",
+    sizing: "fit",
     onBeforeChange: fn(),
     onChange: fn(),
   },
@@ -225,6 +227,7 @@ export const Scrollable: Story = {
   args: {
     tabs: new Array(20).fill("").map((_, i) => `Tab ${i + 1}`),
     value: "tab1",
+    sizing: "fit",
     scrollable: true,
     onBeforeChange: fn(),
     onChange: fn(),
@@ -235,6 +238,7 @@ export const PreventBeforeChange: Story = {
   args: {
     tabs: ["Foo", "!Bar", "Baz"],
     value: "foo",
+    sizing: "stretch",
     onBeforeChange: (event: Event) => {
       event.preventDefault();
     },

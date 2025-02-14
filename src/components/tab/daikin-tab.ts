@@ -6,18 +6,16 @@ import tailwindStyles from "../../tailwind.css?inline";
 const cvaTab = cva(
   [
     "flex",
-    "w-full",
-    "min-w-14",
-    "h-10",
+    "size-full",
     "items-center",
     "justify-center",
     "px-4",
     "pt-2",
     "pb-3",
+    "leading-[130%]",
     "text-center",
     "font-daikinSerif",
     "tracking-wide",
-    "whitespace-nowrap",
     "relative",
 
     "focus-visible:outline-none",
@@ -92,7 +90,17 @@ export class DaikinTab extends LitElement {
 
     :host {
       display: block;
+      white-space: nowrap;
+      min-width: fit-content;
+      height: 2.5rem;
+    }
+
+    :host([sizing="stretch"]) {
       width: 100%;
+    }
+
+    :host([sizing="fit"]) {
+      width: fit-content;
     }
   `;
 
@@ -108,6 +116,13 @@ export class DaikinTab extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Whether the tab width stretches or fits.
+   * Controlled by `daikin-tabs`.
+   */
+  @property({ type: String, reflect: true })
+  sizing: "stretch" | "fit" = "stretch";
 
   /**
    * Whether to show the active (selected) state.
