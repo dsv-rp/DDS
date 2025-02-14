@@ -62,22 +62,6 @@ export class DaikinProgressIndicator extends LitElement {
   private _updateCurrentItem() {
     const items = this._items;
 
-    if (items.length - 1 < this.currentItem) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `Invalid 'current-item' property: ${this.currentItem}. The number of actual 'daikin-progress-indicator-item's exceeds the number of items.`
-        );
-      }
-    }
-
-    if (this.currentItem < 0) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `Invalid 'current-item' property: ${this.currentItem}. Negative values cannot be set.`
-        );
-      }
-    }
-
     items.forEach((item, i) => {
       if (this.currentItem === i) {
         item.status = "inprogress";
