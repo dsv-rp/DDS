@@ -64,6 +64,8 @@ const cvaSelect = cva(
       error: {
         false: [
           "var-color-ddt-color-common-neutral-default/color-base",
+          "hover:var-color-ddt-color-common-neutral-hover/color-base",
+          "active:var-color-ddt-color-common-neutral-press/color-base",
           "var-color-ddt-color-common-border-focus/color-focus",
         ],
         true: [
@@ -86,6 +88,10 @@ const cvaSelect = cva(
  * @slot - A slot for an HTML `<select>` element which may contain `<option>` and `<optgroup>`.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/select/index.js";
+ * ```
  *
  * ```html
  * <daikin-select>

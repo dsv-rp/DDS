@@ -34,10 +34,10 @@ const cvaPageButton = cva(
           "text-ddt-color-common-brand-default",
           "focus-visible:text-ddt-color-common-brand-default",
           "font-bold",
-          "hover:text-ddt-color-common-border-focus",
-          "hover:bg-ddt-color-common-surface-selected-default",
+          "hover:text-ddt-color-common-brand-hover",
+          "hover:bg-ddt-color-common-surface-brand-hover",
           "active:text-ddt-color-common-brand-press",
-          "active:bg-ddt-color-common-surface-selected-press",
+          "active:bg-ddt-color-common-surface-brand-press",
           "after:bg-ddt-color-common-brand-default",
           "after:content-['']",
           "after:h-1",
@@ -49,7 +49,7 @@ const cvaPageButton = cva(
           "font-normal",
           "text-ddt-color-common-neutral-default",
           "active:bg-ddt-color-common-surface-neutral-press",
-          "active:text-ddt-color-common-text-primary",
+          "active:text-ddt-color-common-neutral-press",
           "hover:bg-ddt-color-common-surface-neutral-hover",
           "hover:text-ddt-color-common-neutral-hover",
         ],
@@ -106,6 +106,10 @@ const cvaChevronButton = cva([
  * @fires change - Emitted when the current page number is changed.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/pagination/index.js";
+ * ```
  *
  * ```html
  * <daikin-pagination window="5" total="20" current="3"></daikin-pagination>
@@ -167,7 +171,11 @@ export class DaikinPagination extends LitElement {
       this.window
     );
     return html`
-      <div aria-label="Pagination" class="inline-flex">
+      <div
+        aria-label="Pagination"
+        role="navigation"
+        class="inline-flex flex-wrap"
+      >
         <button
           class=${cvaChevron}
           type="button"

@@ -75,6 +75,9 @@
     "test:visual": "npm run test:visual-wc && npm run test:visual-react",
     "test:visual-update": "npm run test:visual-wc -- --update-snapshots"
   },
+  "browserslist": [
+    "last 2 versions and > 1%"
+  ],
   "dependencies": {
     "@floating-ui/dom": "^1.6.12",
     "class-variance-authority": "^0.7.1",
@@ -85,7 +88,7 @@
     "@axe-core/playwright": "^4.10.1",
     "@changesets/changelog-github": "^0.5.0",
     "@changesets/cli": "^2.27.10",
-    "@daikin-oss/dds-tokens": "^0.3.0",
+    "@daikin-oss/dds-tokens": "^0.3.2",
     "@daikin-oss/tailwind": "^0.0.1",
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@eslint/js": "^9.15.0",
