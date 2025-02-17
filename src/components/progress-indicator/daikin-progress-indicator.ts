@@ -51,8 +51,8 @@ export class DaikinProgressIndicator extends LitElement {
   `;
 
   /**
-   * Specify the index number of the current location in the progress indicator.
-   * If all items are waiting to be processed, enter `-1`. If all items have been completed, enter the total number of items.
+   * Specify the index of the step that is currently in progress, starting from 0. This will automatically set the status of each step.
+   * To mark all steps as upcoming, specify a number less or equal to -1. To mark all steps as completed, specify a number greater than or equal to the number of steps.
    */
   @property({ type: Number, attribute: "current-item", reflect: true })
   currentItem = 0;
@@ -60,22 +60,21 @@ export class DaikinProgressIndicator extends LitElement {
   @queryAssignedElements({ selector: "daikin-progress-indicator-item" })
   private readonly _items!: readonly DaikinProgressIndicatorItem[];
 
-  private _updateCurrentItem() {
+  private _updateSteps() {
     const items = this._items;
 
     items.forEach((item, i) => {
-      if (this.currentItem === i) {
-        item.status = "inprogress";
-      } else if (this.currentItem > i) {
-        item.status = "finished";
-      } else {
-        item.status = "unfinished";
-      }
+      item.status =
+        i < this.currentItem
+          ? "finished"
+          : i === this.currentItem
+            ? "inprogress"
+            : "unfinished";
     });
   }
 
   private _handleSlotChange() {
-    this._updateCurrentItem();
+    this._updateSteps();
   }
 
   override render() {
@@ -88,12 +87,12 @@ export class DaikinProgressIndicator extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._updateCurrentItem();
+    this._updateSteps();
   }
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("currentItem")) {
-      this._updateCurrentItem();
+      this._updateSteps();
     }
   }
 }
