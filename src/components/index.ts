@@ -9,6 +9,7 @@ export * from "./card-header";
 export * from "./carousel";
 export * from "./carousel-item";
 export * from "./checkbox";
+export * from "./checkbox-group";
 export * from "./dropdown";
 export * from "./dropdown-item";
 export * from "./icon";
