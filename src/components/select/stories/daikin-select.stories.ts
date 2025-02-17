@@ -12,6 +12,7 @@ export const Default: Story = {
   args: {
     error: false,
     disabled: false,
+    required: false,
   },
 };
 
