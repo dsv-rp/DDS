@@ -183,7 +183,6 @@ export class DaikinAccordionItem extends LitElement {
           open,
           disabled: this.disabled,
         })}
-        ?data-open=${open}
         ?disabled=${this.disabled}
         aria-expanded=${open}
         aria-controls="content"
@@ -197,7 +196,7 @@ export class DaikinAccordionItem extends LitElement {
         ${ref(this._contentRef)}
         id="content"
         role="region"
-        class=${cvaContent({ open: open })}
+        class=${cvaContent({ open })}
         aria-labelledby="summary"
         ?hidden=${!open}
       >
