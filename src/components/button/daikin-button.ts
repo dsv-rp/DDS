@@ -95,6 +95,7 @@ export class DaikinButton extends LitElement {
 
     :host {
       display: inline-flex;
+      max-width: 100%;
     }
 
     :host([size="small"]) {
@@ -160,7 +161,7 @@ export class DaikinButton extends LitElement {
     super();
 
     this.addEventListener("click", (event: MouseEvent): void => {
-      if (this.disabled) {
+      if (this.disabled || (this.type === "link" && this.href == null)) {
         event.stopImmediatePropagation();
       }
     });
