@@ -10,7 +10,7 @@ const cvaOption = cva(
     "flex",
     "items-center",
     "gap-1",
-    "w-full",
+    "size-full",
     "min-h-12",
     "font-daikinSerif",
     "leading-[130%]",
@@ -52,7 +52,7 @@ const cvaOption = cva(
       },
       multiple: {
         false: ["justify-between", "p-3"],
-        true: ["justify-start", "gap-2", "p-2", "after:hidden"],
+        true: ["after:hidden"],
       },
     },
   }
@@ -171,18 +171,14 @@ export class DaikinDropdownItem extends LitElement {
           @mousedown=${this._handleMousedown}
         >
           <daikin-checkbox
+            class="size-full p-2"
             check-state=${this.selected ? "checked" : "unchecked"}
-            label=${
-              /* FIXME: Stop using `textContent` to follow the updates to the text. Rather, we should change checkbox to accept a slot. */
-              this.textContent ?? ""
-            }
-            label-position="hidden"
             tabindex="-1"
             ?disabled=${this.disabled}
             @change=${this._handleChange}
           >
+            <slot></slot>
           </daikin-checkbox>
-          <slot></slot>
         </span>`
       : html`<button
           type="button"
