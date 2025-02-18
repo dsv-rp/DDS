@@ -25,7 +25,6 @@ export default {
   theme: {
     extend: {
       boxShadow: {
-        notification: "0px -2px 19px 0px rgba(0, 0, 0, 0.1)",
         dropdown: "0px 0px 8px 0px #00000033",
       },
       keyframes: {
@@ -61,6 +60,8 @@ export default {
       addVariant("link-disabled", ["&:not(:any-link, :enabled)"]); // Matches to <a> without href, <span>, and <button disabled>
 
       addVariant("unchecked", ["&:not(:checked)"]);
+
+      addVariant("visible", ["&:not([hidden])"]);
 
       matchVariant("part", (value) => `&::part(${value})`);
 

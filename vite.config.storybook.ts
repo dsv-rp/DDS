@@ -25,6 +25,9 @@ stderr.write(
 );
 
 export default defineConfig({
+  server: {
+    allowedHosts: [".localhost", "host.containers.internal"],
+  },
   css: {
     preprocessorOptions: {
       scss: {
