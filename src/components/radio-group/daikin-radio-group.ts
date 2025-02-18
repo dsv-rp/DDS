@@ -12,11 +12,11 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-const cvaRadioGroup = cva(["size-full", "flex", "gap-2"], {
+const cvaRadioGroup = cva(["size-full", "flex"], {
   variants: {
     orientation: {
-      horizontal: ["flex-col"],
-      vertical: ["flex-row", "gap-3"],
+      horizontal: ["flex-row", "gap-3"],
+      vertical: ["flex-col", "gap-2"],
     },
   },
 });
@@ -66,7 +66,7 @@ export class DaikinRadioGroup extends LitElement {
    * Specify the radio group orientation
    */
   @property({ type: String })
-  orientation: RadioGroupProps["orientation"] = "horizontal";
+  orientation: RadioGroupProps["orientation"] = "vertical";
 
   /**
    * The form name.
