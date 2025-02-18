@@ -16,6 +16,6 @@ export const ReactDaikinCheckbox = createComponent({
 
 export const metadata: Meta<DaikinCheckboxStoryArgs> = {
   component: ({ ...props }: DaikinCheckboxStoryArgs) => (
-    <ReactDaikinCheckbox {...props} />
+    <ReactDaikinCheckbox {...props}>{props.label}</ReactDaikinCheckbox>
   ),
 };

@@ -31,11 +31,15 @@ const RADIO_CLASS_NAME = cva([
   "disabled:border-ddt-color-common-disabled",
 ])();
 
-const cvaLabel = cva(["pr-2"], {
+const cvaLabel = cva([], {
   variants: {
     disabled: {
       false: ["text-ddt-color-common-text-primary"],
       true: ["text-ddt-color-common-disabled"],
+    },
+    hidden: {
+      false: ["inline-block", "pr-2"],
+      true: ["hidden"],
     },
   },
 });
@@ -115,17 +119,13 @@ export class DaikinRadio extends LitElement {
   @property({ type: Boolean, attribute: false })
   skipTab = false;
 
-  static readonly formAssociated = true;
-
   @query("input")
   private _radio!: HTMLInputElement | null;
 
-  /**
-   * Focuses on the inner radio.
-   * @param options focus options
-   */
-  override focus(options?: FocusOptions): void {
-    this._radio?.focus(options);
+  static readonly formAssociated = true;
+
+  private get _labelHidden(): boolean {
+    return this.labelPosition === "hidden";
   }
 
   // Define internals to let the radio button can be used in a form.
@@ -162,7 +162,7 @@ export class DaikinRadio extends LitElement {
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
-      class="group flex gap-2 items-center font-daikinSerif"
+      class="group flex gap-2 items-center size-full font-daikinSerif"
       @click=${this._handleClick}
     >
       <span class="p-2">
@@ -170,7 +170,7 @@ export class DaikinRadio extends LitElement {
           class=${RADIO_CLASS_NAME}
           type="radio"
           name=${this.name}
-          aria-label=${this.labelPosition === "hidden" ? this.label : nothing}
+          aria-label=${this._labelHidden ? this.label : nothing}
           tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
           ?disabled=${this.disabled}
           .checked=${this.checked}
@@ -178,14 +178,15 @@ export class DaikinRadio extends LitElement {
           @change=${this._handleChange}
         />
       </span>
-      <span
+      <slot
         class=${cvaLabel({
           disabled: this.disabled,
+          hidden: this._labelHidden,
         })}
-        ?hidden=${this.labelPosition === "hidden"}
+        ?hidden=${this._labelHidden}
       >
         ${this.label}
-      </span>
+      </slot>
     </label>`;
   }
 
@@ -193,6 +194,14 @@ export class DaikinRadio extends LitElement {
     if (changedProperties.has("checked")) {
       this._updateFormValue();
     }
+  }
+
+  /**
+   * Focuses on the inner radio.
+   * @param options focus options
+   */
+  override focus(options?: FocusOptions): void {
+    this._radio?.focus(options);
   }
 }
 

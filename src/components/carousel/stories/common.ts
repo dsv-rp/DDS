@@ -9,7 +9,7 @@ export interface DaikinCarouselStoryArgs
 }
 
 export const CAROUSEL_ITEM_STYLE =
-  "flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
+  "flex justify-center items-center w-full h-[320px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
 
 export const DAIKIN_CAROUSEL_ARG_TYPES = {
   duration: {
