@@ -42,6 +42,10 @@ type TableCellVariantProps = MergeVariantProps<typeof cvaCell>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/table-cell/index.js";
+ * ```
+ *
  * ```html
  * <daikin-table-cell slot="cell:key:id">
  *   Table cell label
