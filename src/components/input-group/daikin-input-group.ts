@@ -8,6 +8,7 @@ import {
 } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import type { DaikinCheckboxGroup } from "../checkbox-group";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
@@ -17,6 +18,7 @@ import type { DaikinTextField } from "../text-field/daikin-text-field";
 type ControlElement =
   | DaikinDropdown
   | DaikinRadioGroup
+  | DaikinCheckboxGroup
   | DaikinSelect
   | DaikinTextField
   | DaikinTextArea;
@@ -116,6 +118,16 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  *   <daikin-radio-group value="Value of Radio Group">
  *     <daikin-radio value="Value of Radio Group" label="Option1"></daikin-radio>
  *   </daikin-radio-group>
+ * </daikin-input-group>
+ * ```
+ *
+ * With Checkbox Group:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-checkbox-group>
+ *     <daikin-checkbox name="Name of Checkbox Group" value="Value of Checkbox Group" label="Label Text"></daikin-checkbox>
+ *   </daikin-checkbox-group>
  * </daikin-input-group>
  * ```
  *
@@ -225,7 +237,7 @@ export class DaikinInputGroup extends LitElement {
 
   @queryAssignedElements({
     selector:
-      "daikin-dropdown,daikin-radio-group,daikin-select,daikin-text-field,daikin-text-area",
+      "daikin-dropdown,daikin-radio-group,daikin-checkbox-group,daikin-select,daikin-text-field,daikin-text-area",
   })
   private readonly _controls!: readonly ControlElement[];
 

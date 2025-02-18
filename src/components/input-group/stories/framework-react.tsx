@@ -2,6 +2,8 @@ import { DaikinInputGroup } from "#package/components/input-group/daikin-input-g
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinCheckboxGroup } from "../../checkbox-group/stories/framework-react";
+import { ReactDaikinCheckbox } from "../../checkbox/stories/framework-react";
 import { ReactDaikinDropdownItem } from "../../dropdown-item/stories/framework-react";
 import { ReactDaikinDropdown } from "../../dropdown/stories/framework-react";
 import { ReactDaikinRadioGroup } from "../../radio-group/stories/framework-react";
@@ -40,6 +42,25 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
             <ReactDaikinRadio value="value2" label="Option2"></ReactDaikinRadio>
             <ReactDaikinRadio value="value3" label="Option3"></ReactDaikinRadio>
           </ReactDaikinRadioGroup>
+        )}
+        {content === "CheckboxGroup" && (
+          <ReactDaikinCheckboxGroup>
+            <ReactDaikinCheckbox
+              name="name1"
+              value="value1"
+              label="Label Text 1"
+            ></ReactDaikinCheckbox>
+            <ReactDaikinCheckbox
+              name="name2"
+              value="value2"
+              label="Label Text 2"
+            ></ReactDaikinCheckbox>
+            <ReactDaikinCheckbox
+              name="name3"
+              value="value3"
+              label="Label Text 3"
+            ></ReactDaikinCheckbox>
+          </ReactDaikinCheckboxGroup>
         )}
         {content === "Select" && (
           <ReactDaikinSelect>

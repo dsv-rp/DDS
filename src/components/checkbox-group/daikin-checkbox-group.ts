@@ -6,11 +6,11 @@ import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 
-const cvaCheckboxGroup = cva(["size-full", "flex"], {
+const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
   variants: {
     orientation: {
-      horizontal: ["flex-col", "gap-2"],
-      vertical: ["flex-row", "gap-2"],
+      horizontal: ["flex-col"],
+      vertical: ["flex-row"],
     },
   },
 });
@@ -75,7 +75,6 @@ export class DaikinCheckboxGroup extends LitElement {
 
   override render() {
     return html`<fieldset
-      role="radiogroup"
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this._label as any)
