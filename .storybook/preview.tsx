@@ -37,7 +37,7 @@ const preview: Preview = {
           <Subtitle />
           <Description />
           <Primary />
-          <Controls />
+          <Controls sort="alpha" />
         </>
       ),
     },
