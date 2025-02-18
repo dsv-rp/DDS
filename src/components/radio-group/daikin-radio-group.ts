@@ -12,7 +12,7 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-const radioGroupCN = cva(["flex", "gap-2", "py-2", "pr-2"], {
+const cvaRadioGroup = cva(["size-full", "flex", "gap-2"], {
   variants: {
     orientation: {
       horizontal: ["flex-col"],
@@ -21,7 +21,7 @@ const radioGroupCN = cva(["flex", "gap-2", "py-2", "pr-2"], {
   },
 });
 
-type RadioGroupProps = MergeVariantProps<typeof radioGroupCN>;
+type RadioGroupProps = MergeVariantProps<typeof cvaRadioGroup>;
 
 /**
  * Radio groups are used to group multiple radio buttons so that make sure that only one will be selected in the group
@@ -36,22 +36,17 @@ type RadioGroupProps = MergeVariantProps<typeof radioGroupCN>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/radio/index.js";
+ * import "@daikin-oss/design-system-web-components/components/radio-group/index.js";
+ * ```
+ *
  * ```html
  * <daikin-radio-group name="name">
  *   <daikin-radio value="value1" label="Option1"></daikin-radio>
  *   <daikin-radio value="value2" label="Option2"></daikin-radio>
  *   <daikin-radio value="value3" label="Option3"></daikin-radio>
  * </daikin-radio-group>
- * ```
- *
- * ```html
- * <daikin-input-group label="Label text" helper="Helper text">
- *   <daikin-radio-group name="name">
- *     <daikin-radio value="value1" label="Option1"></daikin-radio>
- *     <daikin-radio value="value2" label="Option2"></daikin-radio>
- *     <daikin-radio value="value3" label="Option3"></daikin-radio>
- *   </daikin-radio-group>
- * </daikin-input-group>
  * ```
  */
 @customElement("daikin-radio-group")
@@ -180,8 +175,6 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   override render() {
-    const radioGroupClassName = radioGroupCN({ orientation: this.orientation });
-
     return html`<fieldset
       role="radiogroup"
       aria-label=${
@@ -195,7 +188,7 @@ export class DaikinRadioGroup extends LitElement {
       @keydown=${this._handleKeyDown}
     >
       <slot
-        class=${radioGroupClassName}
+        class=${cvaRadioGroup({ orientation: this.orientation })}
         @slotchange=${this._handleSlotChange}
         @change=${this._handleRadioChange}
       >

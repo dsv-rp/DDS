@@ -4,14 +4,13 @@ import { html } from "lit";
 import type { DaikinProgressBarStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinProgressBarStoryArgs> = {
-  render: ({ value, variant, size, max, helper }) => html`
-    <daikin-progress-bar
+  render: ({ value, variant, size, max, helper, label }) =>
+    html`<daikin-progress-bar
       value=${value}
       variant=${variant}
       size=${size}
       max=${max}
       helper=${helper}
-      >Progress bar label</daikin-progress-bar
-    >
-  `,
+      >${label}</daikin-progress-bar
+    >`,
 };
