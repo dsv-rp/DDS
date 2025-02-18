@@ -34,127 +34,102 @@ const base = async (page: Page, baseURL: string) => {
 };
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["open", "close"] as const, (state) => {
-    describeEach(["normal", "error"] as const, (error) => {
-      const baseArgs = {
-        $theme: theme,
-        open: state === "open",
-        error: error === "error",
-      };
-
-      const baseURL = getPageURL(baseArgs);
-
-      test("base", async ({ page }) => {
-        await base(page, baseURL);
-      });
-
-      test("hover", async ({ page }) => {
-        await page.goto(baseURL);
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          `div[data-testid="vrt-container"]`,
-          {
-            state: "visible",
-          }
-        );
-        const button = await element.waitForSelector("button", {
-          state: "visible",
-        });
-
-        // hover cursor on the element
-        await button.hover();
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
-
-      test("active", async ({ page }) => {
-        await page.goto(baseURL);
-
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          `div[data-testid="vrt-container"]`,
-          {
-            state: "visible",
-          }
-        );
-        const button = await element.waitForSelector("button", {
-          state: "visible",
-        });
-
-        // hover cursor on the element
-        await button.hover();
-        await page.mouse.down();
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-        await page.mouse.up();
-      });
-
-      test("focus", async ({ page }) => {
-        await page.goto(baseURL);
-
-        // wait for element to be visible
-        const element = await page.waitForSelector(
-          `div[data-testid="vrt-container"]`,
-          {
-            state: "visible",
-          }
-        );
-        const button = await element.waitForSelector("button", {
-          state: "visible",
-        });
-
-        await page.evaluate((container) => {
-          container.focus();
-        }, button);
-
-        // take screenshot and check for diffs
-        await expect(page).toHaveScreenshot(await clipFor(element));
-      });
-
-      test("disabled", async ({ page }) => {
-        await base(page, getPageURL({ ...baseArgs, disabled: true }));
-      });
-
-      test("unselected", async ({ page }) => {
-        await base(
-          page,
-          getPageURL(
-            {
-              ...baseArgs,
-              value: undefined,
-              __vrtMultipleValue__: "none",
-            },
-            "error"
-          )
-        );
-      });
-    });
-  });
-});
-
-describeEach(["multiple"] as const, () => {
-  describeEach(["light", "dark"] as const, (theme) => {
+  describeEach(["default", "multiple"] as const, (multiple) => {
     describeEach(["open", "close"] as const, (state) => {
-      describeEach(["none", "single", "many"] as const, (value) => {
+      describeEach(["normal", "error"] as const, (error) => {
         const baseArgs = {
           $theme: theme,
+          multiple: multiple === "multiple",
           open: state === "open",
-          value: valueMap[value],
-          __vrtMultipleValue__: value,
+          error: error === "error",
         };
 
-        const baseURL = getPageURL(baseArgs, "multiple");
+        const baseURL = getPageURL(baseArgs);
 
         test("base", async ({ page }) => {
           await base(page, baseURL);
         });
 
+        test("hover", async ({ page }) => {
+          await page.goto(baseURL);
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            `div[data-testid="vrt-container"]`,
+            {
+              state: "visible",
+            }
+          );
+          const button = await element.waitForSelector("button", {
+            state: "visible",
+          });
+
+          // hover cursor on the element
+          await button.hover();
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
+        });
+
+        test("active", async ({ page }) => {
+          await page.goto(baseURL);
+
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            `div[data-testid="vrt-container"]`,
+            {
+              state: "visible",
+            }
+          );
+          const button = await element.waitForSelector("button", {
+            state: "visible",
+          });
+
+          // hover cursor on the element
+          await button.hover();
+          await page.mouse.down();
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
+          await page.mouse.up();
+        });
+
+        test("focus", async ({ page }) => {
+          await page.goto(baseURL);
+
+          // wait for element to be visible
+          const element = await page.waitForSelector(
+            `div[data-testid="vrt-container"]`,
+            {
+              state: "visible",
+            }
+          );
+          const button = await element.waitForSelector("button", {
+            state: "visible",
+          });
+
+          await page.evaluate((container) => {
+            container.focus();
+          }, button);
+
+          // take screenshot and check for diffs
+          await expect(page).toHaveScreenshot(await clipFor(element));
+        });
+
         test("disabled", async ({ page }) => {
+          await base(page, getPageURL({ ...baseArgs, disabled: true }));
+        });
+
+        test("unselected", async ({ page }) => {
           await base(
             page,
-            getPageURL({ ...baseArgs, disabled: true }, "multiple")
+            getPageURL(
+              {
+                ...baseArgs,
+                value: undefined,
+                __vrtMultipleValue__: "none",
+              },
+              "error"
+            )
           );
         });
       });
