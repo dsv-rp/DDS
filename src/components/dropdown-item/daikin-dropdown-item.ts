@@ -171,7 +171,7 @@ export class DaikinDropdownItem extends LitElement {
           @mousedown=${this._handleMousedown}
         >
           <daikin-checkbox
-            class="size-full part-[checkbox]:p-2"
+            class="size-full part-[checkbox]:p-2 part-[checkbox]:cursor-pointer"
             check-state=${this.selected ? "checked" : "unchecked"}
             tabindex="-1"
             ?disabled=${this.disabled}
