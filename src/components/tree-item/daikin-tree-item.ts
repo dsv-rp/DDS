@@ -200,7 +200,6 @@ export class DaikinTreeItem extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("disabled")) {
       if (this.disabled) {
-        this.selectItem([]);
         emitTreeUnselect(this);
       }
     }
@@ -232,12 +231,8 @@ export class DaikinTreeItem extends LitElement {
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string[]): void {
-    if (this.disabled) {
-      return;
-    }
-
-    this.selected = value.includes(this.value);
+  selectItems(value: readonly string[]): void {
+    this.selected = !this.disabled && value.includes(this.value);
   }
 
   /**

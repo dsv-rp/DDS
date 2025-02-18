@@ -9,8 +9,10 @@ import type { DAIKIN_TREE_ARG_TYPES } from "./stories/common";
 
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_TREE_ARG_TYPES>;
 
-const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-tree--default", args);
+const getPageURL = (
+  args: StoryArgs = {},
+  story: "default" | "manual" = "default"
+) => getStorybookIframeURL(`components-tree--${story}`, args);
 
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["normal", "selectable"] as const, (selectable) => {
@@ -18,11 +20,11 @@ describeEach(["light", "dark"] as const, (theme) => {
       const baseArgs = {
         $theme: theme,
         selectable: selectable === "selectable",
-        ...(selected === "selected" && {
-          selected: "1",
-        }),
       };
-      const baseURL = getPageURL(baseArgs);
+      const baseURL = getPageURL(
+        baseArgs,
+        selected === "selected" ? "manual" : "default"
+      );
 
       test("base", async ({ page }) => {
         await page.goto(baseURL);

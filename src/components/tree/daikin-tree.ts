@@ -68,6 +68,7 @@ export class DaikinTree extends LitElement {
 
   private _handleSlotChange(): void {
     this._children.forEach((child) => (child.level = 0));
+    this.selectItems(this.selectedItems);
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -90,7 +91,7 @@ export class DaikinTree extends LitElement {
     }
     event.stopPropagation();
 
-    this.selectedItems = this.getSelectedItem();
+    this.selectedItems = this.getSelectedItems();
   }
 
   override render() {
@@ -107,18 +108,18 @@ export class DaikinTree extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("selectedItems")) {
       // Update the selection state of descendant sections and items.
-      this.selectItem(this.selectedItems);
+      this.selectItems(this.selectedItems);
     }
   }
 
   /**
-   * Calls `selectItem` for the tree sections and tree items of the child elements in the slot.
+   * Calls `selectItems` for the tree sections and tree items of the child elements in the slot.
    *
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string[]): void {
-    this._children.forEach((child) => child.selectItem(value));
+  selectItems(value: readonly string[]): void {
+    this._children.forEach((child) => child.selectItems(value));
   }
 
   /**
@@ -128,12 +129,11 @@ export class DaikinTree extends LitElement {
    * @returns The `value` of the selected section or item (if any). `null` if there is none.
    * @private
    */
-  getSelectedItem(): string[] {
-    const item =
-      this._children
-        .map((child) => child.getSelectedItem())
-        .find((item) => !!item) ?? null;
-    return item ? [item] : [];
+  getSelectedItems(): string[] {
+    const items = this._children
+      .flatMap((child) => child.getSelectedItem())
+      .filter((item) => !!item) as string[];
+    return items;
   }
 }
 

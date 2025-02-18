@@ -238,7 +238,6 @@ export class DaikinTreeSection extends LitElement {
 
     if (changedProperties.has("disabled")) {
       if (this.disabled) {
-        this.selectItem([]);
         emitTreeUnselect(this);
       }
     }
@@ -274,18 +273,17 @@ export class DaikinTreeSection extends LitElement {
 
   /**
    * Updates the selection state (`this.selected`) to true if the argument `value` matches `this.value`. Otherwise, sets it to false.
-   * In addition, calls `selectItem` for the tree sections and tree items of the child elements in the slot in the same way.
+   * In addition, calls `selectItems` for the tree sections and tree items of the child elements in the slot in the same way.
    *
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string[]): void {
-    if (this.disabled) {
-      return;
-    }
+  selectItems(value: readonly string[]): void {
+    this.selected = !this.disabled && value.includes(this.value);
 
-    this.selected = value.includes(this.value);
-    this._children.forEach((child) => child.selectItem(value));
+    if (!this.disabled) {
+      this._children.forEach((child) => child.selectItems(value));
+    }
   }
 
   /**
@@ -306,7 +304,7 @@ export class DaikinTreeSection extends LitElement {
 
     return (
       this._children
-        .map((child) => child.getSelectedItem())
+        .flatMap((child) => child.getSelectedItem())
         .find((item) => !!item) ?? null
     );
   }

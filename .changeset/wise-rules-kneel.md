@@ -1,7 +1,7 @@
 ---
-"@daikin-oss/design-system-web-components": patch
+"@daikin-oss/design-system-web-components": minor
 ---
 
-Tree: The management of the selected state has changed to use the `selected` attribute of `daikin-tree`. (DDS-1869)
-Tree: The `selected` property has been renamed to `selectedItems`.
+**BREAKING CHANGE** Tree: The selection status of the tree items is now managed by `selectedItems` property of `daikin-tree`. (DDS-1869)
+**BREAKING CHANGE** Tree: The `selected` property has been removed. Use `selectedItems` instead. (DDS-1869)
 Tree: Updated appearance. (DDS-1869)
