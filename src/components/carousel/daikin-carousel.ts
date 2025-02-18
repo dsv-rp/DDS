@@ -74,6 +74,11 @@ const INDICATOR_CLASS_NAME = cva([
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/carousel/index.js";
+ * import "@daikin-oss/design-system-web-components/components/carousel-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-carousel>
  *   <daikin-carousel-item>Carousel item 1</daikin-carousel-item>
@@ -174,6 +179,28 @@ export class DaikinCarousel extends LitElement {
   }
 
   private _updateItemActive() {
+    const items = this._items;
+
+    if (items.length - 1 < this.currentIndex) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'current-index' property: ${this.currentIndex}. The number of actual 'daikin-carousel-item's exceeds the number of items.`
+        );
+      }
+
+      return;
+    }
+
+    if (this.currentIndex < 0) {
+      if (import.meta.env.DEV) {
+        console.warn(
+          `Invalid 'current-item' property: ${this.currentIndex}. Negative values cannot be set.`
+        );
+      }
+
+      return;
+    }
+
     for (const [index, item] of this._items.entries()) {
       item.active = index === this.currentIndex;
     }
