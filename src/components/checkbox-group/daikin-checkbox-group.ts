@@ -9,8 +9,8 @@ import type { DaikinInputGroup } from "../input-group";
 const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
   variants: {
     orientation: {
-      horizontal: ["flex-col"],
-      vertical: ["flex-row"],
+      horizontal: ["flex-row"],
+      vertical: ["flex-col"],
     },
   },
 });
