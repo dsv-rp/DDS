@@ -84,7 +84,7 @@ const cvaLabel = cva([], {
  *
  * @slot - A slot for the checkbox label content.
  *
- * @csspart checkbox - Change the style of checkbox.
+ * @csspart label - Change the style of checkbox label.
  *
  * @example
  *
@@ -195,7 +195,7 @@ export class DaikinCheckbox extends LitElement {
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
       class="group flex gap-2 items-center size-full font-daikinSerif"
-      part="checkbox"
+      part="label"
       @click=${this._handleClick}
     >
       <span class="p-2">
