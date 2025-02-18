@@ -10,6 +10,8 @@ export default {
 
 export const Default: Story = {
   args: {
-    label: "Carousel item",
+    image: "Carousel image",
+    title: "Carousel title",
+    description: "Carousel description",
   },
 };
