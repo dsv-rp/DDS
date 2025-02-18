@@ -3,16 +3,12 @@ import "#package/components/tree-section/daikin-tree-section";
 import "#package/components/tree/daikin-tree";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinTreeStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinTreeStoryArgs> = {
-  render: ({ selectable, selected }) => html`
+  render: ({ selectable, selectedItems }) => html`
     <div style="width:400px;">
-      <daikin-tree
-        ?selectable=${selectable}
-        selected=${ifDefined(selected ?? undefined)}
-      >
+      <daikin-tree ?selectable=${selectable} .selectedItems=${selectedItems}>
         <daikin-tree-section value="1" open>
           <span slot="label">Tree section 1</span>
           <daikin-tree-item value="1-1">Tree item 1-1</daikin-tree-item>

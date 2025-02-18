@@ -51,16 +51,17 @@ export class DaikinTree extends LitElement {
   /**
    * Whether or not to enable tree selection.
    * When enabled, tree sections and items can be selected by click, and the `selected` property of the `daikin-tree` and its descendants will be automatically controlled.
+   * Even if this is disabled, you can still set the `selected` property yourself.
    */
   @property({ type: Boolean, reflect: true })
   selectable: boolean = false;
 
   /**
    * The value of the currently selected tree section or tree item.
-   * Even if `selectable=false`, you can still set this property yourself.
+   * Even if `selectable` is `false`, you can still set this property yourself.
    */
-  @property({ type: String, reflect: true })
-  selected: string | null = null;
+  @property({ type: Array, attribute: false })
+  selectedItems: string[] = [];
 
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
@@ -74,20 +75,22 @@ export class DaikinTree extends LitElement {
   }
 
   private _handleTreeSelect(event: Event): void {
-    event.stopPropagation();
-
     if (!this.selectable) {
       return;
     }
+    event.stopPropagation();
 
     const target = event.target as DaikinTreeSection | DaikinTreeItem;
-    this.selected = target.value;
+    this.selectedItems = [target.value];
   }
 
   private _handleTreeUnselect(event: Event): void {
+    if (!this.selectable) {
+      return;
+    }
     event.stopPropagation();
 
-    this.selected = this.getSelectedItem();
+    this.selectedItems = this.getSelectedItem();
   }
 
   override render() {
@@ -102,9 +105,9 @@ export class DaikinTree extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has("selected")) {
-      // If the component is set to selectable, update the selection state of descendant sections and items.
-      this.selectItem(this.selected);
+    if (changedProperties.has("selectedItems")) {
+      // Update the selection state of descendant sections and items.
+      this.selectItem(this.selectedItems);
     }
   }
 
@@ -114,7 +117,7 @@ export class DaikinTree extends LitElement {
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string | null): void {
+  selectItem(value: string[]): void {
     this._children.forEach((child) => child.selectItem(value));
   }
 
@@ -125,12 +128,12 @@ export class DaikinTree extends LitElement {
    * @returns The `value` of the selected section or item (if any). `null` if there is none.
    * @private
    */
-  getSelectedItem(): string | null {
-    return (
+  getSelectedItem(): string[] {
+    const item =
       this._children
         .map((child) => child.getSelectedItem())
-        .find((item) => !!item) ?? null
-    );
+        .find((item) => !!item) ?? null;
+    return item ? [item] : [];
   }
 }
 

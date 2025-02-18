@@ -238,7 +238,7 @@ export class DaikinTreeSection extends LitElement {
 
     if (changedProperties.has("disabled")) {
       if (this.disabled) {
-        this.selectItem(null);
+        this.selectItem([]);
         emitTreeUnselect(this);
       }
     }
@@ -279,12 +279,12 @@ export class DaikinTreeSection extends LitElement {
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string | null): void {
-    if (this.disabled && value != null) {
+  selectItem(value: string[]): void {
+    if (this.disabled) {
       return;
     }
 
-    this.selected = this.value === value;
+    this.selected = value.includes(this.value);
     this._children.forEach((child) => child.selectItem(value));
   }
 
