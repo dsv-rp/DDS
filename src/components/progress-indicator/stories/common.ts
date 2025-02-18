@@ -14,12 +14,6 @@ export const DAIKIN_PROGRESS_INDICATOR_ARG_TYPES = {
 
 export type Story = StoryObj<DaikinProgressIndicatorStoryArgs>;
 
-export const progressIndicatorLabelMap = {
-  finished: "Finished",
-  inprogress: "Inprogress",
-  unfinished: "Unfinished",
-};
-
 export const progressIndicatorLabel = (currentItem: number, index: number) => {
   if (currentItem === index) {
     return "Inprogress";
