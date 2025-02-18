@@ -1,5 +1,6 @@
 /* Docs: Set maximum width for long columns except descriptions. */
-#storybook-docs h1 + div table td:not(:last-child) {
+#storybook-docs h1 + div table td:not(:last-child):not(:has(code)),
+#storybook-docs h1 + div table td:not(:last-child) code {
   max-width: 14rem;
   overflow: auto;
 }

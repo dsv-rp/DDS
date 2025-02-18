@@ -10,18 +10,21 @@ import type { DaikinCardStoryArgs } from "./common";
 export const metadata: Meta<DaikinCardStoryArgs> = {
   title: "Components/Card",
   tags: ["autodocs"],
-  render: (args) => html`
-    <daikin-card .outline=${args.outline}>
+  render: ({ outline, withBody, withFooter }) => html`
+    <daikin-card
+      ?outline=${outline}
+      style="width: max-content; height: max-content;"
+    >
       <daikin-card-header>
         <daikin-icon slot="left-icon" icon="alarm" size="xl" color="current">
         </daikin-icon>
-        <span>Card Title</span>
-        <span slot="description">Description</span>
+        <span>Card title</span>
+        <span slot="description">Card description</span>
       </daikin-card-header>
-      ${args.withBody
-        ? html`<div style="height: 173px; width: 248px"></div>`
+      ${withBody
+        ? html`<div style="width: 248px; height: 173px;"></div>`
         : nothing}
-      ${args.withFooter
+      ${withFooter
         ? html`<daikin-card-footer>
             <daikin-button size="small">Button</daikin-button>
           </daikin-card-footer>`

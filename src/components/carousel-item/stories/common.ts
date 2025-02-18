@@ -4,14 +4,22 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinCarouselItemStoryArgs
   extends Required<ElementProps<DaikinCarouselItem>> {
-  label: string;
+  image: string;
+  title: string;
+  description: string;
 }
 
 export const CAROUSEL_ITEM_STYLE =
-  "flex justify-center items-center w-full h-[400px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
+  "flex justify-center items-center w-full h-[320px] text-ddt-color-common-text-primary bg-ddt-color-common-disabled";
 
 export const DAIKIN_CAROUSEL_ITEM_ARG_TYPES = {
-  label: {
+  image: {
+    type: "string",
+  },
+  title: {
+    type: "string",
+  },
+  description: {
     type: "string",
   },
 } satisfies Meta<DaikinCarouselItemStoryArgs>["argTypes"];
