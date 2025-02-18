@@ -11,9 +11,7 @@ const ReactDaikinProgressBar = createComponent({
 });
 
 export const metadata: Meta<DaikinProgressBarStoryArgs> = {
-  component: ({ ...props }: DaikinProgressBarStoryArgs) => (
-    <ReactDaikinProgressBar {...props}>
-      Progress bar label
-    </ReactDaikinProgressBar>
+  component: ({ label, ...props }: DaikinProgressBarStoryArgs) => (
+    <ReactDaikinProgressBar {...props}>{label}</ReactDaikinProgressBar>
   ),
 };

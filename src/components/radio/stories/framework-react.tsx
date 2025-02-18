@@ -16,6 +16,6 @@ export const ReactDaikinRadio = createComponent({
 
 export const metadata: Meta<DaikinRadioStoryArgs> = {
   component: ({ ...props }: DaikinRadioStoryArgs) => (
-    <ReactDaikinRadio {...props} />
+    <ReactDaikinRadio {...props}>{props.label}</ReactDaikinRadio>
   ),
 };

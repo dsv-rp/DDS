@@ -61,6 +61,8 @@ export default {
 
       addVariant("unchecked", ["&:not(:checked)"]);
 
+      addVariant("visible", ["&:not([hidden])"]);
+
       matchVariant("part", (value) => `&::part(${value})`);
 
       addVariant("floating-unready", ["&:not([data-floating-ready])"]);
