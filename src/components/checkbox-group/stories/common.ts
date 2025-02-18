@@ -1,26 +1,20 @@
-import type { DaikinRadioGroup } from "#package/components/radio-group/daikin-radio-group";
+import type { DaikinCheckboxGroup } from "#package/components/checkbox-group/daikin-checkbox-group";
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export interface DaikinRadioGroupStoryArgs
-  extends Required<ElementProps<DaikinRadioGroup>> {
+export interface DaikinCheckboxGroupStoryArgs
+  extends Required<ElementProps<DaikinCheckboxGroup>> {
   onChange: (event: Event) => void;
   onClick: (event: Event) => void;
 }
 
-export const DAIKIN_RADIO_GROUP_ARG_TYPES = {
+export const DAIKIN_CHECKBOX_GROUP_ARG_TYPES = {
   orientation: {
     control: {
       type: "radio",
     },
     options: ["horizontal", "vertical"],
   },
-  name: {
-    type: "string",
-  },
-  value: {
-    type: "string",
-  },
-} satisfies Meta<DaikinRadioGroupStoryArgs>["argTypes"];
+} satisfies Meta<DaikinCheckboxGroupStoryArgs>["argTypes"];
 
-export type Story = StoryObj<DaikinRadioGroupStoryArgs>;
+export type Story = StoryObj<DaikinCheckboxGroupStoryArgs>;

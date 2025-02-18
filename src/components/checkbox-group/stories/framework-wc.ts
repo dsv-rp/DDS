@@ -1,21 +1,27 @@
+import "#package/components/checkbox-group/daikin-checkbox-group";
+import "#package/components/checkbox/daikin-checkbox";
 import "#package/components/input-group/daikin-input-group";
-import "#package/components/radio-group/daikin-radio-group";
-import "#package/components/radio/daikin-radio";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
-import type { DaikinRadioGroupStoryArgs } from "./common";
+import type { DaikinCheckboxGroupStoryArgs } from "./common";
 
-export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
-  render: ({ orientation, name, value, onChange, onClick }) =>
-    html`<daikin-radio-group
-      orientation=${orientation}
-      name=${name}
-      value=${value}
-      @change=${onChange}
-      @click=${onClick}
-    >
-      <daikin-radio value="value1" label="Option1"></daikin-radio>
-      <daikin-radio value="value2" label="Option2"></daikin-radio>
-      <daikin-radio value="value3" label="Option3"></daikin-radio>
-    </daikin-radio-group>`,
+export const metadata: Meta<DaikinCheckboxGroupStoryArgs> = {
+  render: ({ orientation }) =>
+    html`<daikin-checkbox-group orientation=${orientation}>
+      <daikin-checkbox
+        name="name1"
+        value="value1"
+        label="Option1"
+      ></daikin-checkbox>
+      <daikin-checkbox
+        name="name2"
+        value="value2"
+        label="Option2"
+      ></daikin-checkbox>
+      <daikin-checkbox
+        name="name3"
+        value="value3"
+        label="Option3"
+      ></daikin-checkbox>
+    </daikin-checkbox-group>`,
 };
