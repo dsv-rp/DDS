@@ -66,6 +66,13 @@ export class DaikinTree extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
+  private _handleMouseDown(event: MouseEvent) {
+    if (event.detail === 2) {
+      // Prevent text selection on double click.
+      event.preventDefault();
+    }
+  }
+
   private _handleSlotChange(): void {
     this._children.forEach((child) => (child.level = 0));
     this.selectItems(this.selectedItems);
@@ -95,7 +102,7 @@ export class DaikinTree extends LitElement {
   }
 
   override render() {
-    return html`<div role="tree">
+    return html`<div role="tree" @mousedown=${this._handleMouseDown}>
       <slot
         @slotchange=${this._handleSlotChange}
         @tree-move-focus=${this._handleTreeMoveFocus}
