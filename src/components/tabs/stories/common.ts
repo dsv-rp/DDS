@@ -18,6 +18,10 @@ export const DAIKIN_TABS_ARG_TYPES = {
   value: {
     type: "string",
   },
+  sizing: {
+    control: "radio",
+    options: ["stretch", "fit"],
+  },
   // Hide event listeners
   onBeforeChange: { name: "" },
   onChange: { name: "" },

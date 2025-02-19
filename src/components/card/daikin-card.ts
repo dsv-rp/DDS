@@ -8,6 +8,7 @@ const cvaContainer = cva(
     "flex",
     "flex-col",
     "gap-4",
+    "size-full",
     "p-4",
     "rounded-lg",
     "bg-ddt-color-common-background-default",
@@ -33,6 +34,12 @@ const cvaContainer = cva(
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/card/index.js";
+ * import "@daikin-oss/design-system-web-components/components/card-footer/index.js";
+ * import "@daikin-oss/design-system-web-components/components/card-header/index.js";
+ * ```
+ *
  * ```html
  * <daikin-card outline>
  *   <daikin-card-header>
@@ -56,8 +63,8 @@ export class DaikinCard extends LitElement {
     ${unsafeCSS(tailwindStyles)}
 
     :host {
-      display: flex;
-      width: fit-content;
+      display: block;
+      width: 100%;
     }
   `;
 
