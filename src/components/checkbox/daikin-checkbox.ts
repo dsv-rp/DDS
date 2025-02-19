@@ -9,6 +9,7 @@ import {
 } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinCheckboxGroup } from "../checkbox-group/daikin-checkbox-group";
 
 const CHECKBOX_CLASS_NAME = cva([
   "block",
@@ -140,6 +141,13 @@ export class DaikinCheckbox extends LitElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Specify the checkbox disabled state.
+   * Controlled by `daikin-checkbox-group` when used within `daikin-checkbox-group`.
+   */
+  @property({ type: Boolean, reflect: true, attribute: "data-disabled" })
+  dataDisabled = false;
+
   get checked(): boolean {
     return this.checkState === "checked";
   }
@@ -187,6 +195,7 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
+    const disable = this.disabled || this.dataDisabled;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -198,8 +207,8 @@ export class DaikinCheckbox extends LitElement {
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
+          ?disabled=${disable}
           aria-label=${this._labelHidden ? this.label : nothing}
-          ?disabled=${this.disabled}
           .checked=${this.checked}
           .indeterminate=${this.checkState === "indeterminate"}
           .value=${this.value}
@@ -208,7 +217,7 @@ export class DaikinCheckbox extends LitElement {
       </span>
       <slot
         class=${cvaLabel({
-          disabled: this.disabled,
+          disabled: disable,
           hidden: this._labelHidden,
         })}
         ?hidden=${this._labelHidden}
@@ -222,6 +231,10 @@ export class DaikinCheckbox extends LitElement {
     if (changedProperties.has("checkState")) {
       this._updateFormValue();
     }
+  }
+
+  reflectInputGroup(inputGroup: DaikinCheckboxGroup): void {
+    this.dataDisabled = inputGroup.disabled;
   }
 }
 
