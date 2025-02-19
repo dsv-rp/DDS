@@ -118,22 +118,21 @@ export class DaikinTree extends LitElement {
    * @param value Tree item value.
    * @private
    */
-  selectItems(value: readonly string[]): void {
-    this._children.forEach((child) => child.selectItems(value));
+  selectItems(values: readonly string[]): void {
+    this._children.forEach((child) => child.selectItems(values));
   }
 
   /**
-   * Returns the `value` of the currently selected section or item.
-   * If nothing is selected, returns `null`.
+   * Returns an array of the `value` of the currently selected sections and items.
+   * If nothing is selected, returns `[]`.
    *
-   * @returns The `value` of the selected section or item (if any). `null` if there is none.
+   * @returns An array of the `value` of the selected sections and items (if any). `[]` if there is none.
    * @private
    */
   getSelectedItems(): string[] {
-    const items = this._children
-      .flatMap((child) => child.getSelectedItem())
-      .filter((item) => !!item) as string[];
-    return items;
+    return Array.from(
+      new Set(this._children.flatMap((child) => child.getSelectedItems()))
+    );
   }
 }
 

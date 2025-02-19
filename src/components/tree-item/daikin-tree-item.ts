@@ -231,18 +231,18 @@ export class DaikinTreeItem extends LitElement {
    * @param value Tree item value.
    * @private
    */
-  selectItems(value: readonly string[]): void {
-    this.selected = !this.disabled && value.includes(this.value);
+  selectItems(values: readonly string[]): void {
+    this.selected = !this.disabled && values.includes(this.value);
   }
 
   /**
-   * Returns `this.value` if selected, or `null` if not selected.
+   * Returns `[this.value]` if selected, or `[]` if not selected.
    *
-   * @returns `this.value` if selected. `null` if not selected.
+   * @returns `[this.value]` if selected. `[]` if not selected.
    * @private
    */
-  getSelectedItem(): string | null {
-    return !this.disabled && this.selected ? this.value : null;
+  getSelectedItems(): string[] {
+    return !this.disabled && this.selected ? [this.value] : [];
   }
 }
 
