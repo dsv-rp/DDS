@@ -13,7 +13,8 @@ export default {
 
 export const Default: Story = {
   args: {
-    orientation: "horizontal",
+    orientation: "vertical",
+    disabled: false,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-checkbox-group")[0];
@@ -45,9 +46,10 @@ export const Default: Story = {
   }),
 };
 
-export const Vertical: Story = {
+export const Horizontal: Story = {
   args: {
-    orientation: "vertical",
+    orientation: "horizontal",
+    disabled: false,
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-checkbox-group")[0];
@@ -74,6 +76,40 @@ export const Vertical: Story = {
       await userEvent.click(secondCheckbox);
       await expect(firstCheckbox).toBeChecked();
       await expect(secondCheckbox).toBeChecked();
+      await expect(thirdCheckbox).not.toBeChecked();
+    });
+  }),
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+  },
+  play: definePlay(async ({ canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-checkbox-group")[0];
+    await expect(root).toBeInTheDocument();
+    const firstCheckbox = getByShadowRole(root, "checkbox", {
+      name: "Label Text 1",
+    });
+    const secondCheckbox = getByShadowRole(root, "checkbox", {
+      name: "Label Text 2",
+    });
+    const thirdCheckbox = getByShadowRole(root, "checkbox", {
+      name: "Label Text 3",
+    });
+
+    // Checkboxes in checkbox group should be disabled
+    await expect(firstCheckbox).toBeDisabled();
+    await expect(secondCheckbox).toBeDisabled();
+    await expect(thirdCheckbox).toBeDisabled();
+    // The checkbox be clicked should be checked and the others should be unchecked
+    await step("Try to click all checkboxes", async () => {
+      await userEvent.click(firstCheckbox);
+      await userEvent.click(secondCheckbox);
+      await userEvent.click(thirdCheckbox);
+      await expect(firstCheckbox).not.toBeChecked();
+      await expect(secondCheckbox).not.toBeChecked();
       await expect(thirdCheckbox).not.toBeChecked();
     });
   }),

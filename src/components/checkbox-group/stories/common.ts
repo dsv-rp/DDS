@@ -13,6 +13,9 @@ export const DAIKIN_CHECKBOX_GROUP_ARG_TYPES = {
     },
     options: ["horizontal", "vertical"],
   },
+  disabled: {
+    type: "boolean",
+  },
 } satisfies Meta<DaikinCheckboxGroupStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinCheckboxGroupStoryArgs>;

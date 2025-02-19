@@ -1,10 +1,18 @@
 import { cva } from "class-variance-authority";
 import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import {
+  customElement,
+  property,
+  queryAssignedElements,
+  state,
+} from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
 import type { DaikinInputGroup } from "../input-group";
+
+type ControlElement = DaikinCheckbox;
 
 const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
   variants: {
@@ -65,11 +73,33 @@ export class DaikinCheckboxGroup extends LitElement {
   required = false;
 
   /**
+   * Whether the checkbox group is disabled.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
    */
   @state()
   private _label: string | null = null;
+
+  @queryAssignedElements({
+    selector: "daikin-checkbox",
+  })
+  private readonly _controls!: readonly ControlElement[];
+
+  private _reflectSlotProperties(): void {
+    for (const control of this._controls) {
+      control.reflectInputGroup(this);
+    }
+  }
+
+  private _handleSlotChange(): void {
+    this._reflectSlotProperties();
+  }
 
   override render() {
     return html`<fieldset
@@ -82,7 +112,10 @@ export class DaikinCheckboxGroup extends LitElement {
         ifDefined(this.required as any)
       }
     >
-      <slot class=${cvaCheckboxGroup({ orientation: this.orientation })}>
+      <slot
+        class=${cvaCheckboxGroup({ orientation: this.orientation })}
+        @slotchange=${this._handleSlotChange}
+      >
       </slot>
     </fieldset>`;
   }
@@ -90,6 +123,11 @@ export class DaikinCheckboxGroup extends LitElement {
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     this._label = inputGroup.label;
     this.required = !!inputGroup.required;
+    this.disabled = inputGroup.disabled;
+  }
+
+  override updated() {
+    this._reflectSlotProperties();
   }
 }
 
