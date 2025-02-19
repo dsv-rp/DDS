@@ -8,8 +8,8 @@ export const DAIKIN_TREE_ARG_TYPES = {
   selectable: {
     type: "boolean",
   },
-  selected: {
-    type: "string",
+  selectedItems: {
+    control: "object",
   },
 } satisfies Meta<DaikinTreeStoryArgs>["argTypes"];
 

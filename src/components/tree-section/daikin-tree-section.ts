@@ -72,19 +72,8 @@ export class DaikinTreeSection extends LitElement {
   disabled: boolean = false;
 
   /**
-   * Whether or not to enable tree selection.
-   * Controlled by `daikin-tree`.
-   *
-   * @private
-   */
-  @property({ type: Boolean, attribute: false })
-  selectable: boolean = false;
-
-  /**
    * Whether the tree item is selected.
-   * Ignored if disabled.
-   * Controlled by `daikin-tree` if its `selectable` is true.
-   * If the tree's `selected` is false, you can manually set this property to control the display of the selected state.
+   * Controlled by `daikin-tree`.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
@@ -109,9 +98,6 @@ export class DaikinTreeSection extends LitElement {
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  @queryAssignedElements({ selector: "daikin-tree-section" })
-  private readonly _sections!: readonly DaikinTreeSection[];
-
   private readonly _focusableRef: Ref<HTMLElement> = createRef();
 
   private get _open(): boolean {
@@ -126,12 +112,6 @@ export class DaikinTreeSection extends LitElement {
     for (const item of this._children) {
       item.level = this.level + 1;
     }
-  }
-
-  private _updateSections(): void {
-    this._sections.forEach((section) => {
-      section.selectable = this.selectable;
-    });
   }
 
   private _handleClick(): void {
@@ -151,7 +131,6 @@ export class DaikinTreeSection extends LitElement {
 
   private _handleSlotChange(): void {
     this._updateChildrenLevel();
-    this._updateSections();
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -167,9 +146,7 @@ export class DaikinTreeSection extends LitElement {
       event.preventDefault();
       this._handleClick();
 
-      if (this.selectable) {
-        emitTreeSelect(this);
-      }
+      emitTreeSelect(this);
 
       return;
     }
@@ -261,13 +238,8 @@ export class DaikinTreeSection extends LitElement {
 
     if (changedProperties.has("disabled")) {
       if (this.disabled) {
-        this.selectItem(null);
         emitTreeUnselect(this);
       }
-    }
-
-    if (changedProperties.has("selectable")) {
-      this._updateSections();
     }
   }
 
@@ -301,40 +273,36 @@ export class DaikinTreeSection extends LitElement {
 
   /**
    * Updates the selection state (`this.selected`) to true if the argument `value` matches `this.value`. Otherwise, sets it to false.
-   * In addition, calls `selectItem` for the tree sections and tree items of the child elements in the slot in the same way.
+   * In addition, calls `selectItems` for the tree sections and tree items of the child elements in the slot in the same way.
    *
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string | null): void {
-    if (this.disabled && value != null) {
-      return;
-    }
+  selectItems(values: readonly string[]): void {
+    this.selected = !this.disabled && values.includes(this.value);
 
-    this.selected = this.value === value;
-    this._children.forEach((child) => child.selectItem(value));
+    this._children.forEach((child) =>
+      child.selectItems(this.disabled ? [] : values)
+    );
   }
 
   /**
-   * Returns the `value` of the currently selected section or item.
-   * If nothing is selected, returns `null`.
+   * Returns an array of the `value` of the currently selected sections and items.
+   * If nothing is selected, returns `[]`.
    *
-   * @returns The `value` of the selected section or item (if any). `null` if there is none.
+   * @returns An array of the `value` of the currently selected sections and items (if any). `[]` if there is none.
    * @private
    */
-  getSelectedItem(): string | null {
+  getSelectedItems(): string[] {
     if (this.disabled) {
-      return null;
+      return [];
     }
 
-    if (this.selected) {
-      return this.value;
-    }
-
-    return (
-      this._children
-        .map((child) => child.getSelectedItem())
-        .find((item) => !!item) ?? null
+    return Array.from(
+      new Set([
+        ...(this.selected ? [this.value] : []),
+        ...this._children.flatMap((child) => child.getSelectedItems()),
+      ])
     );
   }
 }
