@@ -67,8 +67,8 @@ export class DaikinTree extends LitElement {
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
   private _handleMouseDown(event: MouseEvent) {
-    if (event.detail === 2) {
-      // Prevent text selection on double click.
+    if (event.detail >= 2) {
+      // Prevent text selection on double click, triple-click, and so on.
       event.preventDefault();
     }
   }
