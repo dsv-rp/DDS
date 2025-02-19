@@ -18,15 +18,13 @@ const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
 type CheckboxGroupProps = MergeVariantProps<typeof cvaCheckboxGroup>;
 
 /**
- * Checkbox groups are used to group multiple checkbox buttons so that make sure that only one will be selected in the group
+ * Checkbox groups are used to group multiple checkboxes.
  *
  * Hierarchies:
  * - `daikin-checkbox-group` > `daikin-checkbox`
  * - `daikin-input-group` > `daikin-checkbox-group` > `daikin-checkbox`
  *
- * @fires change - A custom event emitted when current checked checkbox changed.
- *
- * @slot - A slot for checkbox buttons. Place `daikin-checkbox` elements here.
+ * @slot - A slot for checkbox. Place `daikin-checkbox` elements here.
  *
  * @example
  *
@@ -36,10 +34,10 @@ type CheckboxGroupProps = MergeVariantProps<typeof cvaCheckboxGroup>;
  * ```
  *
  * ```html
- * <daikin-checkbox-group name="name">
- *   <daikin-checkbox value="value1" label="Option1"></daikin-checkbox>
- *   <daikin-checkbox value="value2" label="Option2"></daikin-checkbox>
- *   <daikin-checkbox value="value3" label="Option3"></daikin-checkbox>
+ * <daikin-checkbox-group>
+ *   <daikin-checkbox name="name1" value="value1" label="Label Text 1"></daikin-checkbox>
+ *   <daikin-checkbox name="name2" value="value2" label="Label Text 2"></daikin-checkbox>
+ *   <daikin-checkbox name="name3" value="value3" label="Label Text 3"></daikin-checkbox>
  * </daikin-checkbox-group>
  * ```
  */
@@ -57,7 +55,7 @@ export class DaikinCheckboxGroup extends LitElement {
    * Specify the checkbox group orientation
    */
   @property({ type: String })
-  orientation: CheckboxGroupProps["orientation"] = "horizontal";
+  orientation: CheckboxGroupProps["orientation"] = "vertical";
 
   /**
    * Whether the checkbox group is required.

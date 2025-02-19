@@ -2,11 +2,9 @@ import type { DaikinCheckboxGroup } from "#package/components/checkbox-group/dai
 import type { ElementProps } from "#storybook";
 import type { Meta, StoryObj } from "@storybook/web-components";
 
-export interface DaikinCheckboxGroupStoryArgs
-  extends Required<ElementProps<DaikinCheckboxGroup>> {
-  onChange: (event: Event) => void;
-  onClick: (event: Event) => void;
-}
+export type DaikinCheckboxGroupStoryArgs = Required<
+  ElementProps<DaikinCheckboxGroup>
+>;
 
 export const DAIKIN_CHECKBOX_GROUP_ARG_TYPES = {
   orientation: {

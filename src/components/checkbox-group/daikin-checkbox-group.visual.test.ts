@@ -5,12 +5,12 @@ import {
   type InferStorybookArgTypes,
 } from "#tests/visual";
 import { expect, test } from "@playwright/test";
-import type { DAIKIN_RADIO_GROUP_ARG_TYPES } from "./stories/common";
+import type { DAIKIN_CHECKBOX_GROUP_ARG_TYPES } from "./stories/common";
 
-type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_RADIO_GROUP_ARG_TYPES>;
+type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_CHECKBOX_GROUP_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-radio-group--default", args);
+  getStorybookIframeURL("components-checkbox-group--default", args);
 
 describeEach(["horizontal", "vertical"], (orientation) => {
   const baseURL = getPageURL({
@@ -21,7 +21,7 @@ describeEach(["horizontal", "vertical"], (orientation) => {
     await page.goto(baseURL);
 
     // wait for element to be visible
-    const element = await page.waitForSelector("daikin-radio-group", {
+    const element = await page.waitForSelector("daikin-checkbox-group", {
       state: "visible",
     });
 

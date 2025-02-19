@@ -9,10 +9,6 @@ export const ReactDaikinCheckboxGroup = createComponent({
   tagName: "daikin-checkbox-group",
   elementClass: DaikinCheckboxGroup,
   react: React,
-  events: {
-    onChange: "change",
-    onClick: "click",
-  },
 });
 
 export const metadata: Meta<DaikinCheckboxGroupStoryArgs> = {

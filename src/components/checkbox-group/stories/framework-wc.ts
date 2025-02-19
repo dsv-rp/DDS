@@ -11,17 +11,17 @@ export const metadata: Meta<DaikinCheckboxGroupStoryArgs> = {
       <daikin-checkbox
         name="name1"
         value="value1"
-        label="Option1"
+        label="Label Text 1"
       ></daikin-checkbox>
       <daikin-checkbox
         name="name2"
         value="value2"
-        label="Option2"
+        label="Label Text 2"
       ></daikin-checkbox>
       <daikin-checkbox
         name="name3"
         value="value3"
-        label="Option3"
+        label="Label Text 3"
       ></daikin-checkbox>
     </daikin-checkbox-group>`,
 };
