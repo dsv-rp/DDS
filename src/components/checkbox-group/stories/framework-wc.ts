@@ -6,8 +6,11 @@ import { html } from "lit";
 import type { DaikinCheckboxGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinCheckboxGroupStoryArgs> = {
-  render: ({ orientation }) =>
-    html`<daikin-checkbox-group orientation=${orientation}>
+  render: ({ orientation, disabled }) =>
+    html`<daikin-checkbox-group
+      orientation=${orientation}
+      ?disabled=${disabled}
+    >
       <daikin-checkbox
         name="name1"
         value="value1"

@@ -13,12 +13,25 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-checkbox-group--default", args);
 
 describeEach(["horizontal", "vertical"], (orientation) => {
-  const baseURL = getPageURL({
+  const baseArgs = {
     orientation: orientation,
-  });
+  };
+  const baseURL = getPageURL(baseArgs);
 
   test("base", async ({ page }) => {
     await page.goto(baseURL);
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-checkbox-group", {
+      state: "visible",
+    });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
+
+  test("disabled", async ({ page }) => {
+    await page.goto(getPageURL({ ...baseArgs, disabled: true }));
 
     // wait for element to be visible
     const element = await page.waitForSelector("daikin-checkbox-group", {
