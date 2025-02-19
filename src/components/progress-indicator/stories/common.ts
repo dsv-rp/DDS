@@ -13,13 +13,3 @@ export const DAIKIN_PROGRESS_INDICATOR_ARG_TYPES = {
 } satisfies Meta<DaikinProgressIndicatorStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinProgressIndicatorStoryArgs>;
-
-export const progressIndicatorLabel = (currentItem: number, index: number) => {
-  if (currentItem === index) {
-    return "Inprogress";
-  } else if (currentItem > index) {
-    return "Finished";
-  } else {
-    return "Unfinished";
-  }
-};

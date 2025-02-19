@@ -3,10 +3,7 @@ import "#package/components/progress-indicator/daikin-progress-indicator";
 import type { Meta } from "@storybook/web-components";
 import { html } from "lit";
 import { repeat } from "lit/directives/repeat.js";
-import {
-  progressIndicatorLabel,
-  type DaikinProgressIndicatorStoryArgs,
-} from "./common";
+import { type DaikinProgressIndicatorStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinProgressIndicatorStoryArgs> = {
   render: ({ currentItem }) =>
@@ -14,14 +11,13 @@ export const metadata: Meta<DaikinProgressIndicatorStoryArgs> = {
       ${repeat(
         [...Array(3).keys()],
         (index) => index,
-        (index) => {
-          const label = progressIndicatorLabel(currentItem, index);
-
-          return html`<daikin-progress-indicator-item>
-            ${label}
-            <span slot="description">${`${label} description`}</span>
-          </daikin-progress-indicator-item>`;
-        }
+        (index) =>
+          html`<daikin-progress-indicator-item>
+            ${`Progress indicator label ${index + 1}`}
+            <span slot="description">
+              ${`Progress indicator description ${index + 1}`}
+            </span>
+          </daikin-progress-indicator-item>`
       )}
     </daikin-progress-indicator>`,
 };
