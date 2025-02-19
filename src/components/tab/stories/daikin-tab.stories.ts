@@ -16,6 +16,7 @@ export const Default: Story = {
     active: false,
     disabled: false,
     label: "Tab label",
+    sizing: "stretch",
     onClick: fn(),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -74,6 +75,14 @@ export const Active: Story = {
   args: {
     ...Default.args,
     active: true,
+    onClick: fn(),
+  },
+};
+
+export const Fit: Story = {
+  args: {
+    ...Default.args,
+    sizing: "fit",
     onClick: fn(),
   },
 };
