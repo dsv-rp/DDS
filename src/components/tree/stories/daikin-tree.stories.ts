@@ -191,11 +191,11 @@ export const Selectable: Story = {
   }),
 };
 
-export const Manual: Story = {
+export const ManualSelection: Story = {
   args: {
     ...Default.args,
     selectable: false,
-    selectedItems: ["1"],
+    selectedItems: ["1", "2-2"],
   },
   play: definePlay(async ({ canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tree")[0];
@@ -204,9 +204,9 @@ export const Manual: Story = {
     await step(
       "should not change the `value` even if you click on it",
       async () => {
-        await expect(root).toHaveProperty("selectedItems", ["1"]);
+        await expect(root).toHaveProperty("selectedItems", ["1", "2-2"]);
         await userEvent.click(getByShadowText(root, "Tree section 2"));
-        await expect(root).toHaveProperty("selectedItems", ["1"]);
+        await expect(root).toHaveProperty("selectedItems", ["1", "2-2"]);
       }
     );
   }),
