@@ -23,7 +23,7 @@ type ControlElement =
   | DaikinTextField
   | DaikinTextArea;
 
-const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
+const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-[130%]"], {
   variants: {
     disabled: {
       false: [],
@@ -33,11 +33,11 @@ const cvaLabel = cva(["flex", "items-center", "font-bold", "leading-5"], {
 });
 
 const cvaHelper = cva(
-  ["flex", "gap-1", "items-center", "min-h-5", "leading-5", "text-sm"],
+  ["flex", "gap-1", "items-center", "leading-[130%]", "text-sm"],
   {
     variants: {
       type: {
-        helper: [],
+        helper: ["text-ddt-color-common-text-secondary"],
         helperDisabled: ["text-ddt-color-common-disabled"],
         error: [
           "text-ddt-color-common-danger-default",
@@ -92,8 +92,8 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  * <!-- Import the following as necessary. -->
  * import "@daikin-oss/design-system-web-components/components/dropdown/index.js";
  * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
- * import "@daikin-oss/design-system-web-components/components/radio-group/index.js";
  * import "@daikin-oss/design-system-web-components/components/radio/index.js";
+ * import "@daikin-oss/design-system-web-components/components/radio-group/index.js";
  * import "@daikin-oss/design-system-web-components/components/select/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
@@ -103,9 +103,15 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-dropdown value="Value of Dropdown">
- *     <daikin-dropdown-item value="Value of Dropdown Item">
+ *   <daikin-dropdown>
+ *     <daikin-dropdown-item value="value1">
  *       Dropdown item 1
+ *     </daikin-dropdown-item>
+ *     <daikin-dropdown-item value="value2">
+ *       Dropdown item 2
+ *     </daikin-dropdown-item>
+ *     <daikin-dropdown-item value="value3">
+ *       Dropdown item 3
  *     </daikin-dropdown-item>
  *   </daikin-dropdown>
  * </daikin-input-group>
@@ -115,8 +121,10 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  *
  * ```html
  * <daikin-input-group>
- *   <daikin-radio-group value="Value of Radio Group">
- *     <daikin-radio value="Value of Radio Group" label="Option1"></daikin-radio>
+ *   <daikin-radio-group>
+ *     <daikin-radio value="value1">Radio option 1</daikin-radio>
+ *     <daikin-radio value="value2">Radio option 2</daikin-radio>
+ *     <daikin-radio value="value3">Radio option 3</daikin-radio>
  *   </daikin-radio-group>
  * </daikin-input-group>
  * ```
@@ -305,7 +313,7 @@ export class DaikinInputGroup extends LitElement {
       <label
         class="flex flex-col justify-center gap-2 w-full text-ddt-color-common-text-primary font-daikinSerif"
       >
-        <div class="flex items-center gap-1 font-bold">
+        <div class="flex items-center flex-wrap gap-1 font-bold">
           ${this.label
             ? html`<span class=${cvaLabel({ disabled: this.disabled })}>
                 ${this.label}

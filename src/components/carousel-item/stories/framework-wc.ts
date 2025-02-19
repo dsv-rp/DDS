@@ -1,6 +1,6 @@
 import "#package/components/carousel-item/daikin-carousel-item";
 import type { Meta } from "@storybook/web-components";
-import { html } from "lit";
+import { html, nothing } from "lit";
 import "../../../storybook-tailwind.css";
 import {
   CAROUSEL_ITEM_STYLE,
@@ -8,10 +8,14 @@ import {
 } from "./common";
 
 export const metadata: Meta<DaikinCarouselItemStoryArgs> = {
-  render: ({ label }) =>
-    html`<daikin-carousel-item>
-      <a href="https://dsv-rp.github.io/DDS" class=${CAROUSEL_ITEM_STYLE}>
-        ${label}
-      </a>
+  render: ({ image, title, description }) =>
+    html`<daikin-carousel-item class="w-[544px]">
+      ${image
+        ? html`<div class=${CAROUSEL_ITEM_STYLE}>${image}</div>`
+        : nothing}
+      ${title ? html`<span slot="title">${title}</span>` : nothing}
+      ${description
+        ? html`<span slot="description">${description}</span>`
+        : nothing}
     </daikin-carousel-item>`,
 };

@@ -11,6 +11,11 @@ import { customElement } from "lit/decorators.js";
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/list/index.js";
+ * import "@daikin-oss/design-system-web-components/components/list-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-list>
  *   <daikin-list-item>List item label 1</daikin-list-item>

@@ -1,12 +1,10 @@
+import {
+  analyzeSourceFile,
+  transformAnalyzerResult,
+  type AnalyzerResult,
+} from "@jackolope/web-component-analyzer";
 import { existsSync } from "node:fs";
-import { createRequire } from "node:module";
-import type { AnalyzerResult } from "web-component-analyzer";
 import { ts, type Program } from "./tsc";
-
-// We cannot just `import` web-component-analyzer as this package does not support ESM correctly.
-const require = createRequire(import.meta.url);
-const { analyzeSourceFile, transformAnalyzerResult } =
-  require("web-component-analyzer") as typeof import("web-component-analyzer");
 
 export type ComponentAttributeMetadataMap = Record<
   string,
