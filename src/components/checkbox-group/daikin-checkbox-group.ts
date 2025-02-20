@@ -17,7 +17,7 @@ type ControlElement = DaikinCheckbox;
 const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
   variants: {
     orientation: {
-      horizontal: ["flex-row"],
+      horizontal: ["flex-row", "flex-wrap"],
       vertical: ["flex-col"],
     },
   },
@@ -103,6 +103,7 @@ export class DaikinCheckboxGroup extends LitElement {
 
   override render() {
     return html`<fieldset
+      class=${cvaCheckboxGroup({ orientation: this.orientation })}
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this._label as any)
@@ -116,11 +117,7 @@ export class DaikinCheckboxGroup extends LitElement {
         ifDefined(this.disabled as any)
       }
     >
-      <slot
-        class=${cvaCheckboxGroup({ orientation: this.orientation })}
-        @slotchange=${this._handleSlotChange}
-      >
-      </slot>
+      <slot @slotchange=${this._handleSlotChange}> </slot>
     </fieldset>`;
   }
 
