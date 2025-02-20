@@ -142,11 +142,13 @@ export class DaikinCheckbox extends LitElement {
   disabled = false;
 
   /**
-   * Specify the checkbox disabled state.
-   * Controlled by `daikin-checkbox-group` when used within `daikin-checkbox-group`.
+   * Specify the checkbox disabled state controlled by the parent component.
+   * Controlled by `daikin-checkbox-group`.
+   *
+   * @private
    */
-  @property({ type: Boolean, reflect: true, attribute: "data-disabled" })
-  dataDisabled = false;
+  @property({ type: Boolean, reflect: true, attribute: false })
+  disabledByParent = false;
 
   get checked(): boolean {
     return this.checkState === "checked";
@@ -195,7 +197,7 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
-    const disable = this.disabled || this.dataDisabled;
+    const disable = this.disabled || this.disabledByParent;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -233,8 +235,12 @@ export class DaikinCheckbox extends LitElement {
     }
   }
 
+  /**
+   * This function expose to `daikin-checkbox-group` and reflect it's attributes to `daikin-checkbox`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinCheckboxGroup): void {
-    this.dataDisabled = inputGroup.disabled;
+    this.disabledByParent = inputGroup.disabled;
   }
 }
 

@@ -111,6 +111,10 @@ export class DaikinCheckboxGroup extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.required as any)
       }
+      aria-disabled=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.disabled as any)
+      }
     >
       <slot
         class=${cvaCheckboxGroup({ orientation: this.orientation })}
@@ -120,6 +124,10 @@ export class DaikinCheckboxGroup extends LitElement {
     </fieldset>`;
   }
 
+  /**
+   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-checkbox-group`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     this._label = inputGroup.label;
     this.required = !!inputGroup.required;
