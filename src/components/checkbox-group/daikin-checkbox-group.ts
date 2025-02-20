@@ -115,7 +115,7 @@ export class DaikinCheckboxGroup extends LitElement {
         ifDefined(this.disabled as any)
       }
     >
-      <slot @slotchange=${this._handleSlotChange}> </slot>
+      <slot @slotchange=${this._handleSlotChange}></slot>
     </fieldset>`;
   }
 
