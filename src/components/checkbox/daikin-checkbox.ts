@@ -9,7 +9,6 @@ import {
 } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { DaikinCheckboxGroup } from "../checkbox-group/daikin-checkbox-group";
 
 const CHECKBOX_CLASS_NAME = cva([
   "block",
@@ -233,14 +232,6 @@ export class DaikinCheckbox extends LitElement {
     if (changedProperties.has("checkState")) {
       this._updateFormValue();
     }
-  }
-
-  /**
-   * This function expose to `daikin-checkbox-group` and reflect it's attributes to `daikin-checkbox`.
-   * @ignore
-   */
-  reflectInputGroup(inputGroup: DaikinCheckboxGroup): void {
-    this.disabledByParent = inputGroup.disabled;
   }
 }
 

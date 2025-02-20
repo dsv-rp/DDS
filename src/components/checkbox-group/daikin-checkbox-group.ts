@@ -12,8 +12,6 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
 import type { DaikinInputGroup } from "../input-group";
 
-type ControlElement = DaikinCheckbox;
-
 const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
   variants: {
     orientation: {
@@ -89,11 +87,11 @@ export class DaikinCheckboxGroup extends LitElement {
   @queryAssignedElements({
     selector: "daikin-checkbox",
   })
-  private readonly _controls!: readonly ControlElement[];
+  private readonly _checkboxes!: readonly DaikinCheckbox[];
 
   private _reflectSlotProperties(): void {
-    for (const control of this._controls) {
-      control.reflectInputGroup(this);
+    for (const checkbox of this._checkboxes) {
+      checkbox.disabledByParent = this.disabled;
     }
   }
 
