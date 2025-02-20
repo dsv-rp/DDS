@@ -24,6 +24,7 @@ export const Default: Story = {
     value: "value",
     disabled: false,
     selected: false,
+    selectable: false,
     onSelect: fn(eventPayloadTransformer),
   },
   play: definePlay(async ({ args, canvasElement, step }) => {
@@ -44,6 +45,13 @@ export const Default: Story = {
 
     option.blur();
   }),
+};
+
+export const Selectable: Story = {
+  args: {
+    ...Default.args,
+    selectable: true,
+  },
 };
 
 export const Disabled: Story = {
