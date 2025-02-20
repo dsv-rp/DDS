@@ -2,5 +2,5 @@
 "@daikin-oss/design-system-web-components": patch
 ---
 
-Radio Group: Fixed an issue where input group's disabled state can not be reflect to radio group. (DDS-1829)
-Radio Group: Fixed an overflow issue. (DDS-1829)
+Radio Group: Added support for reflecting the `disabled` property of the Input Gorup component. (DDS-1829)
+Radio Group: Elements now wrap rather than overflow when placed horizontally. (DDS-1829)

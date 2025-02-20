@@ -3,7 +3,6 @@ import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 
 const RADIO_CLASS_NAME = cva([
   "flex",
@@ -215,14 +214,6 @@ export class DaikinRadio extends LitElement {
    */
   override focus(options?: FocusOptions): void {
     this._radio?.focus(options);
-  }
-
-  /**
-   * This function expose to `daikin-radio-group` and reflect it's attributes to `daikin-radio`.
-   * @ignore
-   */
-  reflectInputGroup(inputGroup: DaikinRadioGroup): void {
-    this.disabledByParent = inputGroup.disabled;
   }
 }
 

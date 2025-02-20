@@ -12,8 +12,6 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-type ControlElement = DaikinRadio;
-
 const cvaRadioGroup = cva(["size-full", "flex"], {
   variants: {
     orientation: {
@@ -104,14 +102,9 @@ export class DaikinRadioGroup extends LitElement {
   @state()
   private _label: string | null = null;
 
-  @queryAssignedElements({
-    selector: "daikin-radio",
-  })
-  private readonly _controls!: readonly ControlElement[];
-
   private _reflectSlotProperties(): void {
-    for (const control of this._controls) {
-      control.reflectInputGroup(this);
+    for (const radio of this._radios) {
+      radio.disabledByParent = this.disabled;
     }
   }
 
