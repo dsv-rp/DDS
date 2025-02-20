@@ -12,9 +12,6 @@ export const DAIKIN_TREE_SECTION_ARG_TYPES = {
   label: {
     type: "string",
   },
-  selectable: {
-    type: "boolean",
-  },
   selected: {
     type: "boolean",
   },
