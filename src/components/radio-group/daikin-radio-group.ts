@@ -17,7 +17,7 @@ type ControlElement = DaikinRadio;
 const cvaRadioGroup = cva(["size-full", "flex"], {
   variants: {
     orientation: {
-      horizontal: ["flex-row", "gap-3"],
+      horizontal: ["flex-row", "gap-3", "flex-wrap"],
       vertical: ["flex-col", "gap-2"],
     },
   },
@@ -197,6 +197,7 @@ export class DaikinRadioGroup extends LitElement {
 
   override render() {
     return html`<fieldset
+      class=${cvaRadioGroup({ orientation: this.orientation })}
       role="radiogroup"
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
@@ -213,7 +214,6 @@ export class DaikinRadioGroup extends LitElement {
       @keydown=${this._handleKeyDown}
     >
       <slot
-        class=${cvaRadioGroup({ orientation: this.orientation })}
         @slotchange=${this._handleSlotChange}
         @change=${this._handleRadioChange}
       >
