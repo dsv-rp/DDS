@@ -21,7 +21,6 @@ describeEach(["light", "dark"] as const, (theme) => {
           label: "Tree section label",
           disabled: disabled === "disabled",
           open: open === "open",
-          selectable: selected === "selected",
           selected: selected === "selected",
         };
         const baseURL = getPageURL(baseArgs);
