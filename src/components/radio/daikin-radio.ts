@@ -3,6 +3,7 @@ import { css, html, LitElement, nothing, unsafeCSS } from "lit";
 import { customElement, property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import tailwindStyles from "../../tailwind.css?inline";
+import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 
 const RADIO_CLASS_NAME = cva([
   "flex",
@@ -115,6 +116,15 @@ export class DaikinRadio extends LitElement {
   disabled = false;
 
   /**
+   * Specify the radio disabled state controlled by the parent component.
+   * Controlled by `daikin-radio-group`.
+   *
+   * @private
+   */
+  @property({ type: Boolean, reflect: true, attribute: false })
+  disabledByParent = false;
+
+  /**
    * Whether the radio button can be focused.
    * Automatically set by `daikin-radio-group` component.
    */
@@ -161,6 +171,7 @@ export class DaikinRadio extends LitElement {
   }
 
   override render() {
+    const disable = this.disabled || this.disabledByParent;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -174,7 +185,7 @@ export class DaikinRadio extends LitElement {
           name=${this.name}
           aria-label=${this._labelHidden ? this.label : nothing}
           tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
-          ?disabled=${this.disabled}
+          ?disabled=${disable}
           .checked=${this.checked}
           .value=${this.value}
           @change=${this._handleChange}
@@ -182,7 +193,7 @@ export class DaikinRadio extends LitElement {
       </span>
       <slot
         class=${cvaLabel({
-          disabled: this.disabled,
+          disabled: disable,
           hidden: this._labelHidden,
         })}
         ?hidden=${this._labelHidden}
@@ -204,6 +215,14 @@ export class DaikinRadio extends LitElement {
    */
   override focus(options?: FocusOptions): void {
     this._radio?.focus(options);
+  }
+
+  /**
+   * This function expose to `daikin-radio-group` and reflect it's attributes to `daikin-radio`.
+   * @ignore
+   */
+  reflectInputGroup(inputGroup: DaikinRadioGroup): void {
+    this.disabledByParent = inputGroup.disabled;
   }
 }
 

@@ -15,6 +15,9 @@ export const DAIKIN_RADIO_GROUP_ARG_TYPES = {
     },
     options: ["horizontal", "vertical"],
   },
+  disabled: {
+    type: "boolean",
+  },
   name: {
     type: "string",
   },

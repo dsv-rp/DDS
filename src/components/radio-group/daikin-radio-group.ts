@@ -12,6 +12,8 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
+type ControlElement = DaikinRadio;
+
 const cvaRadioGroup = cva(["size-full", "flex"], {
   variants: {
     orientation: {
@@ -89,11 +91,29 @@ export class DaikinRadioGroup extends LitElement {
   required = false;
 
   /**
+   * Whether the radio group is disabled.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
    */
   @state()
   private _label: string | null = null;
+
+  @queryAssignedElements({
+    selector: "daikin-radio",
+  })
+  private readonly _controls!: readonly ControlElement[];
+
+  private _reflectSlotProperties(): void {
+    for (const control of this._controls) {
+      control.reflectInputGroup(this);
+    }
+  }
 
   private _updateRadios() {
     const radios = this._radios;
@@ -119,6 +139,7 @@ export class DaikinRadioGroup extends LitElement {
   };
 
   private _handleSlotChange(): void {
+    this._reflectSlotProperties();
     this._updateRadios();
   }
 
@@ -185,6 +206,10 @@ export class DaikinRadioGroup extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.required as any)
       }
+      aria-disabled=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.disabled as any)
+      }
       @keydown=${this._handleKeyDown}
     >
       <slot
@@ -197,14 +222,20 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
+    this._reflectSlotProperties();
     if (changedProperties.has("value") || changedProperties.has("name")) {
       this._updateRadios();
     }
   }
 
+  /**
+   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-radio-group`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     this._label = inputGroup.label;
     this.required = !!inputGroup.required;
+    this.disabled = inputGroup.disabled;
   }
 }
 
