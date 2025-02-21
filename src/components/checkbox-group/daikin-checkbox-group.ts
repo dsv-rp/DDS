@@ -12,11 +12,11 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
 import type { DaikinInputGroup } from "../input-group";
 
-const cvaCheckboxGroup = cva(["size-full", "flex", "gap-2"], {
+const cvaCheckboxGroup = cva(["size-full", "flex"], {
   variants: {
     orientation: {
-      horizontal: ["flex-row", "flex-wrap"],
-      vertical: ["flex-col"],
+      horizontal: ["flex-row", "flex-wrap", "gap-3"],
+      vertical: ["flex-col", "gap-2"],
     },
   },
 });
