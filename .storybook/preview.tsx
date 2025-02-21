@@ -88,6 +88,3 @@ const preview: Preview = {
 };
 
 export default preview;
-export const parameters = {
-  // ...其他配置...
-};

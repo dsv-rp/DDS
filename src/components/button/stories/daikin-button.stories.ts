@@ -248,5 +248,4 @@ const handleButtonClick = (context: {
   size: string;
 }) => {
   action("button-clicked")(context);
-  console.log("Button activated:", context);
 };
