@@ -38,7 +38,7 @@ const cvaLabel = cva([], {
       true: ["text-ddt-color-common-disabled"],
     },
     hidden: {
-      false: ["inline-block", "pr-2"],
+      false: ["inline-block"],
       true: ["hidden"],
     },
   },
