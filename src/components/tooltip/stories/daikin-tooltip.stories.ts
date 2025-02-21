@@ -23,57 +23,13 @@ export const Default: Story = {
     viewArea: "small",
     onToggle: fn(),
     onBeforeToggle: fn(),
+    __vrtContainer__: false,
   },
-  play: definePlay(async ({ canvasElement }) => {
+  play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
     await expect(root).toBeInTheDocument();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const trigger = root.shadowRoot!.getElementById("trigger")!;
-    await expect(trigger).toBeInTheDocument();
 
-    const tooltip = root.shadowRoot?.querySelector("#tooltip");
-    await expect(tooltip).toBeInTheDocument();
-    await expect(tooltip).not.toBeVisible();
-
-    // TODO (DDS-1269): hover function is not work well when using storybook test library
-    // await userEvent.hover(trigger);
-    // await expect(tooltip).toBeVisible();
-
-    // await userEvent.click(trigger);
-    // await expect(tooltip).not.toBeVisible();
-
-    // await userEvent.hover(trigger);
-    // await expect(tooltip).toBeVisible();
-
-    // await userEvent.unhover(trigger);
-    // await expect(tooltip).not.toBeVisible();
-  }),
-};
-
-export const Inverse: Story = {
-  args: {
-    ...Default.args,
-    color: "inverse",
-  },
-};
-
-export const SlotDescription: Story = {
-  args: {
-    ...Default.args,
-    hasSlot: true,
-  },
-};
-
-export const UseFocusableTrigger: Story = {
-  args: {
-    ...Default.args,
-    hasFocusableTrigger: true,
-    hasSlot: true,
-  },
-  play: definePlay(async ({ args, step, canvasElement }) => {
-    const root = canvasElement.getElementsByTagName("daikin-tooltip")[0];
-    await expect(root).toBeInTheDocument();
-    const trigger = getByShadowRole(root, "button", { name: "Focus me" });
+    const trigger = getByShadowRole(root, "button", { name: "Trigger" });
     const tooltip = queryByShadowRole(root, "tooltip");
 
     await expect(root).not.toHaveAttribute("open");
@@ -102,6 +58,20 @@ export const UseFocusableTrigger: Story = {
       await waitFor(() => expect(root).not.toHaveAttribute("open"));
     });
   }),
+};
+
+export const Inverse: Story = {
+  args: {
+    ...Default.args,
+    color: "inverse",
+  },
+};
+
+export const SlotDescription: Story = {
+  args: {
+    ...Default.args,
+    hasSlot: true,
+  },
 };
 
 export const FullSizeView: Story = {
