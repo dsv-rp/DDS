@@ -63,9 +63,9 @@ const cvaSelect = cva(
       },
       error: {
         false: [
-          "var-color-ddt-color-common-neutral-default/color-base",
-          "hover:var-color-ddt-color-common-neutral-hover/color-base",
-          "active:var-color-ddt-color-common-neutral-press/color-base",
+          "slotted-[select:enabled]:var-color-ddt-color-common-neutral-default/color-base",
+          "slotted-[select:enabled:hover]:var-color-ddt-color-common-neutral-hover/color-base",
+          "slotted-[select:enabled:active]:var-color-ddt-color-common-neutral-press/color-base",
           "var-color-ddt-color-common-border-focus/color-focus",
         ],
         true: [
