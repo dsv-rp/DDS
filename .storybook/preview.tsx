@@ -8,6 +8,7 @@ import {
 import { useGlobals } from "@storybook/preview-api";
 import type { Preview } from "@storybook/web-components";
 import "./docs.css";
+import "./style.css";
 import "./theme.scss";
 
 // @ts-expect-error shadow-dom-testing-library (wrongly) uses `process` so we have to provide a mock.
