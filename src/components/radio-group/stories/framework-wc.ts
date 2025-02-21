@@ -6,11 +6,12 @@ import { html } from "lit";
 import type { DaikinRadioGroupStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinRadioGroupStoryArgs> = {
-  render: ({ orientation, name, value, onChange, onClick }) =>
+  render: ({ orientation, disabled, name, value, onChange, onClick }) =>
     html`<daikin-radio-group
       orientation=${orientation}
       name=${name}
       value=${value}
+      ?disabled=${disabled}
       @change=${onChange}
       @click=${onClick}
     >
