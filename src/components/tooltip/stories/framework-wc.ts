@@ -39,7 +39,9 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
           @beforetoggle=${onBeforeToggle}
         >
           <daikin-icon-button button-aria-label="Trigger">
-            <span class="block size-6 i-daikin-status-information"></span>
+            <span
+              class="inline-block size-6 i-daikin-status-information"
+            ></span>
           </daikin-icon-button>
           ${hasSlot
             ? html`<span slot="description">${TOOLTIP_SLOT_TEXT}</span>`
