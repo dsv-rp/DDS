@@ -275,8 +275,8 @@ export class DaikinTextField extends LitElement {
   }
 
   /**
-   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-text-field`.
-   * @ignore
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
    */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
