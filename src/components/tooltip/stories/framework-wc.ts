@@ -22,8 +22,8 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
     onToggle,
     onBeforeToggle,
     __vrtContainer__,
-  }) => html`
-    <div
+  }) =>
+    html`<div
       data-testid="view-area"
       class=${cvaViewArea({ viewArea, isVrt: !!__vrtContainer__ })}
     >
@@ -46,8 +46,7 @@ export const metadata: Meta<DaikinTooltipStoryArgs> = {
             : nothing}
         </daikin-tooltip>
       </div>
-    </div>
-  `,
+    </div>`,
   parameters: {
     layout: "centered",
   },
