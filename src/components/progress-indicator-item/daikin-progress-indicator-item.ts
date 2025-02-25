@@ -42,6 +42,10 @@ type ProgressIndicatorItemVariantProps = MergeVariantProps<typeof cvaContainer>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-progress-indicator-item state="unfinished">
  *   Progress indicator label
@@ -62,19 +66,19 @@ export class DaikinProgressIndicatorItem extends LitElement {
   `;
 
   /**
-   * Status of the progress indicator item
+   * Status of the progress indicator item.
+   * Controlled by `daikin-progress-indicator`.
    */
   @property({ type: String, reflect: true })
   status: ProgressIndicatorItemVariantProps["status"] = "unfinished";
-
-  @property({ type: Boolean, reflect: true })
-  current: boolean = false;
 
   override render() {
     return html`<div
       class=${cvaContainer({ status: this.status })}
       role="listitem"
-      aria-current=${ifDefined(this.current ? "step" : undefined)}
+      aria-current=${ifDefined(
+        this.status === "inprogress" ? "step" : undefined
+      )}
     >
       <div class="flex flex-col gap-1 w-full">
         <slot class="font-bold leading-[130%]"></slot>
