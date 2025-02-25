@@ -444,6 +444,10 @@ export class DaikinDropdown extends LitElement {
     </div>`;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions): void {
     this._button?.focus(options);
   }
@@ -467,6 +471,10 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
+  /**
+   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-dropdown`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;

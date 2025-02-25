@@ -195,6 +195,10 @@ export class DaikinSelect extends LitElement {
     }
   }
 
+  /**
+   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-select`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;

@@ -12,11 +12,11 @@ import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-const cvaRadioGroup = cva(["size-full", "flex"], {
+const cvaRadioGroup = cva(["size-full", "flex", "gap-x-3", "gap-y-2"], {
   variants: {
     orientation: {
-      horizontal: ["flex-row", "gap-3", "flex-wrap"],
-      vertical: ["flex-col", "gap-2"],
+      horizontal: ["flex-row", "flex-wrap"],
+      vertical: ["flex-col"],
     },
   },
 });

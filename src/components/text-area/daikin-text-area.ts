@@ -205,6 +205,10 @@ export class DaikinTextArea extends LitElement {
     this._updateValue(this.value);
   }
 
+  /**
+   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-text-area`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError =
       !inputGroup.disabled &&

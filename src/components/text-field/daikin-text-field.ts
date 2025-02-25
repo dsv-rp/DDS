@@ -274,6 +274,10 @@ export class DaikinTextField extends LitElement {
     this._internals.setFormValue(this.value);
   }
 
+  /**
+   * This function expose to `daikin-input-group` and reflect it's attributes to `daikin-text-field`.
+   * @ignore
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;
