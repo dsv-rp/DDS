@@ -196,7 +196,7 @@ export class DaikinCheckbox extends LitElement {
   }
 
   override render() {
-    const disable = this.disabled || this.disabledByParent;
+    const disabled = this.disabled || this.disabledByParent;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -208,7 +208,7 @@ export class DaikinCheckbox extends LitElement {
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
-          ?disabled=${disable}
+          ?disabled=${disabled}
           aria-label=${this._labelHidden ? this.label : nothing}
           .checked=${this.checked}
           .indeterminate=${this.checkState === "indeterminate"}
@@ -218,7 +218,7 @@ export class DaikinCheckbox extends LitElement {
       </span>
       <slot
         class=${cvaLabel({
-          disabled: disable,
+          disabled,
           hidden: this._labelHidden,
         })}
         ?hidden=${this._labelHidden}

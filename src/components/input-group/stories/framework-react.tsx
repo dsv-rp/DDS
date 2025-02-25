@@ -48,17 +48,17 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
             <ReactDaikinCheckbox
               name="name1"
               value="value1"
-              label="Label Text 1"
+              label="Checkbox Item 1"
             ></ReactDaikinCheckbox>
             <ReactDaikinCheckbox
               name="name2"
               value="value2"
-              label="Label Text 2"
+              label="Checkbox Item 2"
             ></ReactDaikinCheckbox>
             <ReactDaikinCheckbox
               name="name3"
               value="value3"
-              label="Label Text 3"
+              label="Checkbox Item 3"
             ></ReactDaikinCheckbox>
           </ReactDaikinCheckboxGroup>
         )}

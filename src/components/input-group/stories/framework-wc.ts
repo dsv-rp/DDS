@@ -1,3 +1,5 @@
+import "#package/components/checkbox-group/daikin-checkbox-group";
+import "#package/components/checkbox/daikin-checkbox";
 import "#package/components/dropdown-item/daikin-dropdown-item";
 import "#package/components/dropdown/daikin-dropdown";
 import "#package/components/input-group/daikin-input-group";
@@ -57,17 +59,17 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
               <daikin-checkbox
                 name="name1"
                 value="value1"
-                label="Label Text 1"
+                label="Checkbox Item 1"
               ></daikin-checkbox>
               <daikin-checkbox
                 name="name2"
                 value="value2"
-                label="Label Text 2"
+                label="Checkbox Item 2"
               ></daikin-checkbox>
               <daikin-checkbox
                 name="name3"
                 value="value3"
-                label="Label Text 3"
+                label="Checkbox Item 3"
               ></daikin-checkbox>
             </daikin-checkbox-group>`
           : nothing}
