@@ -20,13 +20,13 @@ export const Default: Story = {
     const root = canvasElement.getElementsByTagName("daikin-checkbox-group")[0];
     await expect(root).toBeInTheDocument();
     const firstCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 1",
+      name: "Checkbox Item 1",
     });
     const secondCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 2",
+      name: "Checkbox Item 2",
     });
     const thirdCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 3",
+      name: "Checkbox Item 3",
     });
 
     // The checkbox be clicked should be checked and the others should be unchecked
@@ -55,13 +55,13 @@ export const Horizontal: Story = {
     const root = canvasElement.getElementsByTagName("daikin-checkbox-group")[0];
     await expect(root).toBeInTheDocument();
     const firstCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 1",
+      name: "Checkbox Item 1",
     });
     const secondCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 2",
+      name: "Checkbox Item 2",
     });
     const thirdCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 3",
+      name: "Checkbox Item 3",
     });
 
     // The checkbox be clicked should be checked and the others should be unchecked
@@ -90,13 +90,13 @@ export const Disabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-checkbox-group")[0];
     await expect(root).toBeInTheDocument();
     const firstCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 1",
+      name: "Checkbox Item 1",
     });
     const secondCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 2",
+      name: "Checkbox Item 2",
     });
     const thirdCheckbox = getByShadowRole(root, "checkbox", {
-      name: "Label Text 3",
+      name: "Checkbox Item 3",
     });
 
     // Checkboxes in checkbox group should be disabled
