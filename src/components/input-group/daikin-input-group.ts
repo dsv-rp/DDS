@@ -1,11 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property, queryAssignedElements, state } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
@@ -158,8 +154,8 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  * ```
  * ```
  */
-@customElement("daikin-input-group")
-export class DaikinInputGroup extends LitElement {
+@ddsElement("daikin-input-group")
+export class DaikinInputGroup extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

@@ -5,15 +5,15 @@ import {
   type ComputePositionConfig,
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
-  customElement,
   property,
   query,
   queryAssignedElements,
   state,
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -124,8 +124,8 @@ const floatingPositionOptions: Partial<ComputePositionConfig> = {
  * </daikin-dropdown>
  * ```
  */
-@customElement("daikin-dropdown")
-export class DaikinDropdown extends LitElement {
+@ddsElement("daikin-dropdown")
+export class DaikinDropdown extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

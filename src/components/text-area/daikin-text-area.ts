@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { type PropertyValues, css, html, unsafeCSS } from "lit";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
 
@@ -81,8 +82,8 @@ const cvaTextArea = cva(
  * <daikin-text-area name="name"></daikin-text-area>
  * ```
  */
-@customElement("daikin-text-area")
-export class DaikinTextArea extends LitElement {
+@ddsElement("daikin-text-area")
+export class DaikinTextArea extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

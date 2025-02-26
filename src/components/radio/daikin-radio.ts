@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, nothing, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const RADIO_CLASS_NAME = cva([
@@ -66,8 +67,8 @@ const cvaLabel = cva([], {
  *  <daikin-radio name="name" value="value" label="Radio button label"></daikin-radio>
  * ```
  */
-@customElement("daikin-radio")
-export class DaikinRadio extends LitElement {
+@ddsElement("daikin-radio")
+export class DaikinRadio extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
