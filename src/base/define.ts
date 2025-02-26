@@ -1,4 +1,4 @@
-import { DDSElement } from "./DDSElement";
+import { DDSElement } from "./dds-element";
 
 const currentVersion = DDSElement.version;
 

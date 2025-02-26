@@ -1,4 +1,4 @@
-import type { DDSElement } from "./DDSElement";
+import type { DDSElement } from "./dds-element";
 import { defineDDSElement } from "./define";
 
 export const ddsElement =

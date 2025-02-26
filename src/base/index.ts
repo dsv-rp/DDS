@@ -1,3 +1,3 @@
-export * from "./DDSElement";
+export * from "./dds-element";
 export * from "./decorators";
 export * from "./define";
