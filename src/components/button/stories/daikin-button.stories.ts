@@ -1,17 +1,19 @@
 import { definePlay } from "#storybook";
 // This will import either "./framework-wc" or "./framework-react". See `build/vite/storybook-framework-loader.ts`.
 import { metadata } from "#storybook-framework";
-import { action } from "@storybook/addon-actions";
+//import { action } from "@storybook/addon-actions";
 import { expect, fn, userEvent } from "@storybook/test";
 import type { StoryFn } from "@storybook/web-components";
 import type { TemplateResult } from "lit";
 import { html } from "lit";
 import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
+import { renderKitchenSink } from "../../../../.storybook/kitchen-sink";
 import {
   DAIKIN_BUTTON_ARG_TYPES,
   type DaikinButtonStoryArgs,
   type Story,
 } from "./common";
+
 // The default export must have a static `title` property starting from Storybook v7.
 // See https://storybook.js.org/docs/writing-stories#default-export.
 
@@ -174,6 +176,34 @@ export const LinkDisabled: Story = {
   }),
 };
 
+export const KitchenSink: StoryFn<DaikinButtonStoryArgs> = (): TemplateResult =>
+  renderKitchenSink(
+    [
+      ["color", ["default", "danger", "disabled"]],
+      ["variant", ["fill", "outline", "ghost"]],
+      ["type", ["button", "link", "submit", "reset"]],
+      ["size", ["medium", "small"]],
+    ] as const,
+
+    ({ color, variant, type, size }) => html`
+      <daikin-button
+        color=${color === "disabled" ? "default" : color}
+        variant=${variant}
+        type=${type}
+        size=${size}
+        href=${type === "link" ? "#" : " "}
+        ?disabled=${color === "disabled"}
+        @click=${() => console.log("Clicked:", { color, variant, type, size })}
+      >
+        ${[color, variant, type, size]
+          .filter(Boolean)
+          .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+          .join(" ")}
+      </daikin-button>
+    `
+  );
+
+/*
 //kitchen sink code
 const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 export const ButtonKitchen_Sink: StoryFn<
@@ -212,7 +242,7 @@ export const ButtonKitchen_Sink: StoryFn<
                             href=${TYPE === "link" ? "#" : " "}
                             ?disabled=${COLORS === "disabled" ? true : false}
                             @click=${COLORS !==
-                            "disabled" /* click event,when click set information to handleButtonClick function*/
+                            "disabled" /* click event,when click set information to handleButtonClick function
                               ? () =>
                                   handleButtonClick({
                                     color: COLORS,
@@ -249,3 +279,4 @@ const handleButtonClick = (context: {
 }) => {
   action("button-clicked")(context);
 };
+*/

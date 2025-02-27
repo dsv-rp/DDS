@@ -25,7 +25,7 @@ export const metadata: Meta<DaikinButtonStoryArgs> = {
       color=${color}
       href=${ifDefined(href ?? undefined)}
       type=${type}
-      button-role=${ifDefined(ifDefined(buttonRole))}
+      button-role=${ifDefined(buttonRole)}
       ?disabled=${disabled}
       @click=${onClick}
     >
