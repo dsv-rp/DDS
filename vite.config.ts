@@ -1,5 +1,6 @@
 import fg from "fast-glob";
 import { env } from "node:process";
+import macros from "unplugin-macros/vite";
 import { defineConfig, type UserConfig } from "vite";
 import { externalizeDeps } from "vite-plugin-externalize-deps";
 import { dtsWithFix } from "./build/vite/dts-with-fix";
@@ -39,6 +40,7 @@ export default defineConfig(async ({ mode }): Promise<UserConfig> => {
       },
     },
     plugins: [
+      macros(),
       externalizeDeps(),
       dtsWithFix({
         tsconfigPath: "tsconfig.lib.json",

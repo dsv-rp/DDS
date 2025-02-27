@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import { icons } from "./icons.json";
@@ -48,8 +49,8 @@ export type IconVariantProps = MergeVariantProps<typeof cvaIcon>;
  * <daikin-icon icon="information" color="black" size="m"></daikin-icon>
  * ```
  */
-@customElement("daikin-icon")
-export class DaikinIcon extends LitElement {
+@ddsElement("daikin-icon")
+export class DaikinIcon extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

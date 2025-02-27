@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -112,8 +113,8 @@ type ProgressBarVariantProps = MergeVariantProps<
  * </daikin-progress-bar>
  * ```
  */
-@customElement("daikin-progress-bar")
-export class DaikinProgressBar extends LitElement {
+@ddsElement("daikin-progress-bar")
+export class DaikinProgressBar extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

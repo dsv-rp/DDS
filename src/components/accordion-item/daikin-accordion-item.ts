@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaSummary = cva(
@@ -82,8 +83,8 @@ const cvaContent = cva(["grid", "duration-[250ms]", "ease-in-out"], {
  * </daikin-accordion-item>
  * ```
  */
-@customElement("daikin-accordion-item")
-export class DaikinAccordionItem extends LitElement {
+@ddsElement("daikin-accordion-item")
+export class DaikinAccordionItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

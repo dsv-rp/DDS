@@ -1,9 +1,11 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+
 import "../icon/daikin-icon";
 
 const cvaContainer = cva(
@@ -53,8 +55,8 @@ type ProgressIndicatorItemVariantProps = MergeVariantProps<typeof cvaContainer>;
  * </daikin-progress-indicator-item>
  * ```
  */
-@customElement("daikin-progress-indicator-item")
-export class DaikinProgressIndicatorItem extends LitElement {
+@ddsElement("daikin-progress-indicator-item")
+export class DaikinProgressIndicatorItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

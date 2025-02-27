@@ -235,8 +235,8 @@ We manage and use design tokens to ensure consistency in our design system.
    Since they are integrated with Tailwind CSS, they are mostly used as utility classes, but in some cases they are directly referenced using `var()`.
 
 ```ts
-@customElement("daikin-link")
-export class DaikinLink extends LitElement {
+@ddsElement("daikin-link")
+export class DaikinLink extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

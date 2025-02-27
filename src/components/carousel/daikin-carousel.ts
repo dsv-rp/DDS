@@ -1,15 +1,12 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements, state } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import { repeat } from "lit/directives/repeat.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinCarouselItem } from "../carousel-item/daikin-carousel-item";
+
 import "../icon-button/daikin-icon-button";
 
 const DEFAULT_TRANSITION_DURATION = "600ms";
@@ -87,8 +84,8 @@ const INDICATOR_CLASS_NAME = cva([
  * </daikin-carousel>
  * ```
  */
-@customElement("daikin-carousel")
-export class DaikinCarousel extends LitElement {
+@ddsElement("daikin-carousel")
+export class DaikinCarousel extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const INNER_CN = cva([
@@ -77,8 +78,8 @@ const cvaIcon = cva(["icon-size-6"], {
  * <daikin-list-item>List item label</daikin-list-item>
  * ```
  */
-@customElement("daikin-list-item")
-export class DaikinListItem extends LitElement {
+@ddsElement("daikin-list-item")
+export class DaikinListItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
   `;

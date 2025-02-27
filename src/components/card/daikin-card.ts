@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaContainer = cva(
@@ -57,8 +58,8 @@ const cvaContainer = cva(
  * </daikin-card>
  * ```
  */
-@customElement("daikin-card")
-export class DaikinCard extends LitElement {
+@ddsElement("daikin-card")
+export class DaikinCard extends DDSElement {
   static override styles = css`
     ${unsafeCSS(tailwindStyles)}
 

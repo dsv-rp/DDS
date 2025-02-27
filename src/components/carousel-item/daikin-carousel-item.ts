@@ -1,10 +1,6 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, queryAssignedElements, state } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -27,8 +23,8 @@ import tailwindStyles from "../../tailwind.css?inline";
  * <daikin-carousel-item>Carousel item</daikin-carousel-item>
  * ```
  */
-@customElement("daikin-carousel-item")
-export class DaikinCarouselItem extends LitElement {
+@ddsElement("daikin-carousel-item")
+export class DaikinCarouselItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

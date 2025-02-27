@@ -1,8 +1,9 @@
 import { flip, offset, shift } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
 import { guard } from "lit/directives/guard.js";
+import { DDSElement, ddsElement } from "../../base";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -77,8 +78,8 @@ type TooltipVariantProps = MergeVariantProps<typeof cvaTooltip>;
  * </daikin-tooltip>
  * ```
  */
-@customElement("daikin-tooltip")
-export class DaikinTooltip extends LitElement {
+@ddsElement("daikin-tooltip")
+export class DaikinTooltip extends DDSElement {
   static registerCSSCustomProperties(): void {
     if (!isClient) {
       return;
