@@ -123,6 +123,10 @@ export class DaikinDropdownItem extends LitElement {
     </button>`;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions): void {
     this._button?.focus(options);
   }
