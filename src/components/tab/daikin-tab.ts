@@ -20,7 +20,7 @@ const cvaTab = cva(
 
     "focus-visible:outline-none",
     "focus-visible:before:absolute",
-    "focus-visible:before:-inset-[3px]",
+    "focus-visible:before:-inset-1",
     "focus-visible:before:z-[1]",
     "focus-visible:before:border",
     "focus-visible:before:border-2",
