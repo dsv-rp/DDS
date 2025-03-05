@@ -206,6 +206,10 @@ export class DaikinTextArea extends DDSElement {
     this._updateValue(this.value);
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError =
       !inputGroup.disabled &&
