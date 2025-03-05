@@ -40,6 +40,10 @@
       "class": "i-daikin-cross",
       "color": null
     },
+    "profile": {
+      "class": "i-daikin-profile",
+      "color": null
+    },
     "chevron-up": {
       "class": "i-daikin-chevron-up",
       "color": null

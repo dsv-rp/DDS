@@ -1,5 +1,6 @@
 export * from "./accordion";
 export * from "./accordion-item";
+export * from "./avatar";
 export * from "./breadcrumb";
 export * from "./breadcrumb-item";
 export * from "./button";
