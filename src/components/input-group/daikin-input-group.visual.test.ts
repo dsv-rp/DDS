@@ -15,6 +15,7 @@ const getPageURL = (args: StoryArgs = {}) =>
 const innerContent = {
   Dropdown: "daikin-dropdown",
   RadioGroup: "daikin-radio-group",
+  CheckboxGroup: "daikin-checkbox-group",
   Select: "daikin-select",
   TextField: "daikin-text-field",
   TextArea: "daikin-text-area",
@@ -22,7 +23,14 @@ const innerContent = {
 
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(
-    ["Dropdown", "RadioGroup", "Select", "TextField", "TextArea"] as const,
+    [
+      "Dropdown",
+      "RadioGroup",
+      "CheckboxGroup",
+      "Select",
+      "TextField",
+      "TextArea",
+    ] as const,
     (content) => {
       describeEach(["enabled", "disabled"] as const, (state) => {
         describeEach(["optional", "required"] as const, (required) => {

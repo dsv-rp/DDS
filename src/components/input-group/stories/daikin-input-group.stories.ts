@@ -94,6 +94,13 @@ export const RadioGroup: Story = {
   },
 };
 
+export const CheckboxGroup: Story = {
+  args: {
+    ...Default.args,
+    content: "CheckboxGroup",
+  },
+};
+
 export const Select: Story = {
   args: {
     ...Default.args,
