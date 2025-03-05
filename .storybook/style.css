@@ -1,0 +1,53 @@
+/* Kitchen Sink */
+
+.kitchen-sink {
+  --level-indent: 2rem;
+  --grid-gap: 2rem;
+  --color-border: #e4e7eb;
+  --color-text-heading: #2d3748;
+  padding: 2rem 1rem;
+}
+
+.box-title {
+  color: #64748b;
+  font-weight: 600;
+  margin: 0;
+}
+
+.size-grid {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.size-grid[data-level] {
+  margin-left: calc(var(--level-indent) * (attr(data-level number) - 1));
+  border-left: 3px solid var(--color-border);
+  padding-left: var(--grid-gap);
+}
+
+.size-grid[data-level="2"] {
+  display: block;
+}
+.size-grid[data-level="3"] {
+  display: block;
+}
+.size-grid[data-level="4"] {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .size-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .size-grid[data-level="3"] {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .size-grid {
+    grid-template-columns: 1fr;
+  }
+}
