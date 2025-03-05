@@ -20,7 +20,7 @@ const LINK_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-ddt-color-common-border-focus",
-  "focus-visible:outline-offset-1",
+  "focus-visible:outline-offset-2",
 ])();
 
 /**

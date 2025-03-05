@@ -22,6 +22,7 @@ function eventPayloadTransformer(event: Event) {
 export const Default: Story = {
   args: {
     orientation: "vertical",
+    disabled: false,
     name: "name",
     value: "value1",
     onChange: fn(eventPayloadTransformer),
@@ -80,6 +81,7 @@ export const Default: Story = {
 export const Horizontal: Story = {
   args: {
     orientation: "horizontal",
+    disabled: false,
     name: "name",
     value: "value1",
     onChange: fn(eventPayloadTransformer),
@@ -130,6 +132,35 @@ export const Horizontal: Story = {
       await expect(firstRadio).toBeChecked();
       await expect(root.value).toEqual("value1");
       await expect(secondRadio).not.toBeChecked();
+      await expect(thirdRadio).not.toBeChecked();
+    });
+  }),
+};
+
+export const Disabled: Story = {
+  args: {
+    orientation: "vertical",
+    disabled: true,
+    name: "name",
+    value: "value1",
+    onChange: fn(eventPayloadTransformer),
+    onClick: fn(eventPayloadTransformer),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-radio-group")[0];
+    await expect(root).toBeInTheDocument();
+    await expect(root.value).toEqual("value1");
+    const firstRadio = getByShadowRole(root, "radio", { name: "Option1" });
+    const secondRadio = getByShadowRole(root, "radio", { name: "Option2" });
+    const thirdRadio = getByShadowRole(root, "radio", { name: "Option3" });
+
+    // The radio be clicked should be checked and the others should be unchecked
+    await step("Try to click second radio", async () => {
+      await userEvent.click(secondRadio);
+      await expect(args.onChange).not.toHaveBeenCalledOnce();
+      await expect(secondRadio).not.toBeChecked();
+      await expect(root.value).toEqual("value1");
+      await expect(firstRadio).toBeChecked();
       await expect(thirdRadio).not.toBeChecked();
     });
   }),
