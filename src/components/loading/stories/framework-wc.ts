@@ -4,13 +4,13 @@ import { html } from "lit";
 import { type DaikinLoadingStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinLoadingStoryArgs> = {
-  render: ({ size, variant, isVrt }) =>
+  render: ({ size, background, isVrt }) =>
     html`<div
       data-testid="vrt-container"
       class=${isVrt
         ? "size-fit p-1 bg-ddt-color-common-neutral-default"
         : "size-fit"}
     >
-      <daikin-loading size=${size} variant=${variant}></daikin-loading>
+      <daikin-loading size=${size} ?background=${background}></daikin-loading>
     </div>`,
 };

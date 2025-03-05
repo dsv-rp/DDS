@@ -14,11 +14,11 @@ const getPageURL = (args: StoryArgs = {}) =>
 
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["small", "medium"] as const, (size) => {
-    describeEach(["fill", "ghost"] as const, (variant) => {
+    describeEach(["transparent", "colored"] as const, (background) => {
       const baseArgs = {
         $theme: theme,
         size,
-        variant,
+        background: background === "colored",
         isVrt: true,
       };
 

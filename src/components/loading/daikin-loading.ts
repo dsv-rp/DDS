@@ -9,9 +9,9 @@ const cvaLoadingContainer = cva(["flex", "justify-center", "items-center"], {
       small: ["size-8"],
       medium: ["size-14"],
     },
-    variant: {
-      fill: ["bg-ddt-color-common-background-default", "rounded"],
-      ghost: ["bg-transparent"],
+    background: {
+      false: ["bg-transparent"],
+      true: ["bg-ddt-color-common-background-default", "rounded"],
     },
   },
 });
@@ -72,12 +72,15 @@ export class DaikinLoading extends LitElement {
   /**
    * Variant of the loading.
    */
-  @property({ type: String, reflect: true })
-  variant: "fill" | "ghost" = "ghost";
+  @property({ type: Boolean, reflect: true })
+  background = false;
 
   override render() {
     return html`<div
-      class=${cvaLoadingContainer({ size: this.size, variant: this.variant })}
+      class=${cvaLoadingContainer({
+        size: this.size,
+        background: this.background,
+      })}
       role="progressbar"
       aria-busy="true"
       aria-label="Loading"

@@ -11,7 +11,7 @@ export default {
 export const Default: Story = {
   args: {
     size: "medium",
-    variant: "ghost",
+    background: false,
   },
 };
 
@@ -25,6 +25,6 @@ export const Small: Story = {
 export const Fill: Story = {
   args: {
     ...Default.args,
-    variant: "fill",
+    background: true,
   },
 };

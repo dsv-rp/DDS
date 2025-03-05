@@ -12,9 +12,8 @@ export const DAIKIN_LOADING_ARG_TYPES = {
     control: "radio",
     options: ["small", "medium"],
   },
-  variant: {
-    control: "radio",
-    options: ["fill", "ghost"],
+  background: {
+    type: "boolean",
   },
   isVrt: {
     name: "",
