@@ -116,6 +116,11 @@ const floatingPositionOptions: Partial<ComputePositionConfig> = {
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/dropdown/index.js";
+ * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-dropdown label="Dropdown label">
  *   <daikin-dropdown-item value="value1">Dropdown item 1</daikin-dropdown-item>
@@ -444,6 +449,10 @@ export class DaikinDropdown extends LitElement {
     </div>`;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions): void {
     this._button?.focus(options);
   }
@@ -467,6 +476,10 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;

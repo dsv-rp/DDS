@@ -38,7 +38,7 @@ const cvaLabel = cva([], {
       true: ["text-ddt-color-common-disabled"],
     },
     hidden: {
-      false: ["inline-block", "pr-2"],
+      false: ["inline-block"],
       true: ["hidden"],
     },
   },
@@ -115,6 +115,15 @@ export class DaikinRadio extends LitElement {
   disabled = false;
 
   /**
+   * Specify the radio disabled state controlled by the parent component.
+   * Controlled by `daikin-radio-group`.
+   *
+   * @private
+   */
+  @property({ type: Boolean, reflect: true, attribute: false })
+  disabledByParent = false;
+
+  /**
    * Whether the radio button can be focused.
    * Automatically set by `daikin-radio-group` component.
    */
@@ -161,6 +170,7 @@ export class DaikinRadio extends LitElement {
   }
 
   override render() {
+    const disabled = this.disabled || this.disabledByParent;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -174,7 +184,7 @@ export class DaikinRadio extends LitElement {
           name=${this.name}
           aria-label=${this._labelHidden ? this.label : nothing}
           tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
-          ?disabled=${this.disabled}
+          ?disabled=${disabled}
           .checked=${this.checked}
           .value=${this.value}
           @change=${this._handleChange}
@@ -182,7 +192,7 @@ export class DaikinRadio extends LitElement {
       </span>
       <slot
         class=${cvaLabel({
-          disabled: this.disabled,
+          disabled,
           hidden: this._labelHidden,
         })}
         ?hidden=${this._labelHidden}
