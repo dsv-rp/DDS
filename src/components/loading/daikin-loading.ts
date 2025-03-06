@@ -3,18 +3,17 @@ import { css, html, LitElement, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
-const cvaLoadingContainer = cva(["flex", "justify-center", "items-center"], {
-  variants: {
-    size: {
-      small: ["size-8"],
-      medium: ["size-14"],
+const cvaLoadingContainer = cva(
+  ["flex", "justify-center", "items-center", "size-full"],
+  {
+    variants: {
+      background: {
+        false: ["bg-transparent"],
+        true: ["bg-ddt-color-common-background-default", "rounded"],
+      },
     },
-    background: {
-      false: ["bg-transparent"],
-      true: ["bg-ddt-color-common-background-default", "rounded"],
-    },
-  },
-});
+  }
+);
 
 const cvaLoading = cva(
   [
@@ -60,6 +59,16 @@ export class DaikinLoading extends LitElement {
       width: fit-content;
       height: fit-content;
     }
+
+    :host([size="small"]) {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    :host([size="medium"]) {
+      width: 3.5rem;
+      height: 3.5rem;
+    }
   `;
 
   /**
@@ -76,10 +85,7 @@ export class DaikinLoading extends LitElement {
 
   override render() {
     return html`<div
-      class=${cvaLoadingContainer({
-        size: this.size,
-        background: this.background,
-      })}
+      class=${cvaLoadingContainer({ background: this.background })}
       role="progressbar"
       aria-busy="true"
       aria-label="Loading"
