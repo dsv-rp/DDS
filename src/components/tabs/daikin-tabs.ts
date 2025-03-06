@@ -295,7 +295,7 @@ export class DaikinTabs extends DDSElement {
   override render() {
     return html`
       <div
-        class="flex flex-nowrap w-full p-[3px] overflow-auto relative before:absolute before:h-[1px] before:inset-[3px] before:top-auto before:bg-ddt-color-divider"
+        class="flex flex-nowrap w-full p-1 overflow-auto relative before:absolute before:h-[1px] before:inset-1 before:top-auto before:bg-ddt-color-divider"
         role="tablist"
         @click=${this._handleTabClick}
         @keydown=${this._handleKeyDown}
