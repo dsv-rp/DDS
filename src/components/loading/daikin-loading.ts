@@ -37,9 +37,8 @@ const cvaLoading = cva(
 );
 
 /**
- * The loading component is a component that can display a waiting animation. It can be used when communication is in progress.
- *
- * There are two variants available: one with a transparent background and one with a solid background. You can choose the one that is easier to see compared to the elements in the loading background.
+ * The loading component displays a spinner to indicate that a process is in progress.
+ * If the spinner is expected to blend into the background, set the background color. You can use the `background` attribute for such cases.
  *
  * @example
  *
