@@ -38,7 +38,7 @@ const clickOutsideDirective = createControllerDirective(
  * @example
  *
  * ```ts
- * class MyComponent extends LitElement {
+ * class MyComponent extends DDSElement {
  *   private _clickOutsideController = new ClickOutsideController(
  *     this,
  *     this._onClickOutside

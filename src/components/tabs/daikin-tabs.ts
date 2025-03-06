@@ -1,9 +1,6 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTabPanels } from "../tab-panels/daikin-tab-panels";
 import type { DaikinTab } from "../tab/daikin-tab";
@@ -48,8 +45,8 @@ import { scrollIntoViewOnlyParent } from "./scroller";
  * </daikin-tabs>
  * ```
  */
-@customElement("daikin-tabs")
-export class DaikinTabs extends LitElement {
+@ddsElement("daikin-tabs")
+export class DaikinTabs extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

@@ -1,5 +1,6 @@
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import {
   cvaContainer,
@@ -35,8 +36,8 @@ import type { ToastNotificationVariantProps } from "../toast-notification";
  * </daikin-inline-notification>
  * ```
  */
-@customElement("daikin-inline-notification")
-export class DaikinInlineNotification extends LitElement {
+@ddsElement("daikin-inline-notification")
+export class DaikinInlineNotification extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
