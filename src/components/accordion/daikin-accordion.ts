@@ -1,9 +1,6 @@
-import { LitElement, css, html, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { ddsElement, DDSElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-item";
 
@@ -40,8 +37,8 @@ import type { DaikinAccordionItem } from "../accordion-item/daikin-accordion-ite
  * </daikin-accordion>
  * ```
  */
-@customElement("daikin-accordion")
-export class DaikinAccordion extends LitElement {
+@ddsElement("daikin-accordion")
+export class DaikinAccordion extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

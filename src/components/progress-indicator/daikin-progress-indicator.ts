@@ -1,9 +1,6 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
 
@@ -39,8 +36,8 @@ import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
  * </daikin-progress-indicator>
  * ```
  */
-@customElement("daikin-progress-indicator")
-export class DaikinProgressIndicator extends LitElement {
+@ddsElement("daikin-progress-indicator")
+export class DaikinProgressIndicator extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

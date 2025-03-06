@@ -1,5 +1,6 @@
-import { css, html, LitElement, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import {
@@ -11,6 +12,7 @@ import {
   formatDate,
   TOAST_ANIMATION_DURATION,
 } from "../../utils/notification-common";
+
 import "../icon-button/daikin-icon-button";
 
 export type ToastNotificationVariantProps = MergeVariantProps<
@@ -44,8 +46,8 @@ export type ToastNotificationVariantProps = MergeVariantProps<
  * </daikin-toast-notification>
  * ```
  */
-@customElement("daikin-toast-notification")
-export class DaikinToastNotification extends LitElement {
+@ddsElement("daikin-toast-notification")
+export class DaikinToastNotification extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

@@ -1,9 +1,6 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTreeItem } from "../tree-item";
 import type { DaikinTreeSection } from "../tree-section";
@@ -38,8 +35,8 @@ import { handleTreeMoveFocusRoot, type TreeMoveFocusEvent } from "./common";
  * </daikin-tree>
  * ```
  */
-@customElement("daikin-tree")
-export class DaikinTree extends LitElement {
+@ddsElement("daikin-tree")
+export class DaikinTree extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

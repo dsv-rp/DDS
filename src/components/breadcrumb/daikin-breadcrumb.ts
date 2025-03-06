@@ -1,9 +1,6 @@
-import { css, html, LitElement, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-item";
 
@@ -33,8 +30,8 @@ import type { DaikinBreadcrumbItem } from "../breadcrumb-item/daikin-breadcrumb-
  * </daikin-breadcrumb>
  * ```
  */
-@customElement("daikin-breadcrumb")
-export class DaikinBreadcrumb extends LitElement {
+@ddsElement("daikin-breadcrumb")
+export class DaikinBreadcrumb extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

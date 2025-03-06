@@ -1,12 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
@@ -49,8 +45,8 @@ type RadioGroupProps = MergeVariantProps<typeof cvaRadioGroup>;
  * </daikin-radio-group>
  * ```
  */
-@customElement("daikin-radio-group")
-export class DaikinRadioGroup extends LitElement {
+@ddsElement("daikin-radio-group")
+export class DaikinRadioGroup extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

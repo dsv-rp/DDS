@@ -1,18 +1,13 @@
 import { cva } from "class-variance-authority";
-import {
-  LitElement,
-  css,
-  html,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS, type PropertyValues } from "lit";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
-import "../checkbox/daikin-checkbox";
 import type { DaikinCheckbox } from "../checkbox/daikin-checkbox";
+
+import "../checkbox/daikin-checkbox";
 import "../table-cell/daikin-table-cell";
 import "../table-header-cell/daikin-table-header-cell";
 
@@ -108,11 +103,11 @@ const cvaRow = cva(
  * </daikin-table>
  * ```
  */
-@customElement("daikin-table")
+@ddsElement("daikin-table")
 export class DaikinTable<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   T extends { id: string } = any,
-> extends LitElement {
+> extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
