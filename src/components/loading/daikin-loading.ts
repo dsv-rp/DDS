@@ -56,8 +56,6 @@ export class DaikinLoading extends LitElement {
 
     :host {
       display: block;
-      width: fit-content;
-      height: fit-content;
     }
 
     :host([size="small"]) {
