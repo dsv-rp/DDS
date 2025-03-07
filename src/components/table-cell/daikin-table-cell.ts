@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 
@@ -53,8 +54,8 @@ type TableCellVariantProps = MergeVariantProps<typeof cvaCell>;
  * </daikin-table-cell>
  * ```
  */
-@customElement("daikin-table-cell")
-export class DaikinTableCell extends LitElement {
+@ddsElement("daikin-table-cell")
+export class DaikinTableCell extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

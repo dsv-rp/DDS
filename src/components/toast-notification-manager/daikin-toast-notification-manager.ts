@@ -1,11 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import { TOAST_ANIMATION_DURATION } from "../../utils/notification-common";
@@ -103,8 +100,8 @@ export type ToastPosition = MergeVariantProps<typeof cvaContainer>["position"];
  * </daikin-toast-notification-manager>
  * ```
  */
-@customElement("daikin-toast-notification-manager")
-export class DaikinToastNotificationManager extends LitElement {
+@ddsElement("daikin-toast-notification-manager")
+export class DaikinToastNotificationManager extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

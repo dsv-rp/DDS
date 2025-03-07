@@ -1,9 +1,10 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { Ref } from "lit/directives/ref.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import {
@@ -93,8 +94,8 @@ export const cvaTreeChildren = cva(
  * <daikin-tree-item>Tree item</daikin-tree-item>
  * ```
  */
-@customElement("daikin-tree-item")
-export class DaikinTreeItem extends LitElement {
+@ddsElement("daikin-tree-item")
+export class DaikinTreeItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
