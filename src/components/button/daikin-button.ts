@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
@@ -97,8 +98,8 @@ type ButtonVariantProps = MergeVariantProps<typeof cvaButton | typeof cvaIcon>;
  * </daikin-button>
  * ```
  */
-@customElement("daikin-button")
-export class DaikinButton extends LitElement {
+@ddsElement("daikin-button")
+export class DaikinButton extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

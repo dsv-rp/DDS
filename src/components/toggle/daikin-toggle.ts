@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const TOGGLE_CLASS_NAME = cva([
@@ -58,8 +59,8 @@ const TOGGLE_CLASS_NAME = cva([
  * <daikin-toggle name="name" value="value"></daikin-toggle>
  * ```
  */
-@customElement("daikin-toggle")
-export class DaikinToggle extends LitElement {
+@ddsElement("daikin-toggle")
+export class DaikinToggle extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
