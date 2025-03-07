@@ -10,11 +10,20 @@ export interface DaikinRadioGroupStoryArgs
 
 export const DAIKIN_RADIO_GROUP_ARG_TYPES = {
   orientation: {
-    control: { type: "select" },
+    control: {
+      type: "radio",
+    },
     options: ["horizontal", "vertical"],
   },
-  name: { type: "string" },
-  value: { type: "string" },
+  disabled: {
+    type: "boolean",
+  },
+  name: {
+    type: "string",
+  },
+  value: {
+    type: "string",
+  },
 } satisfies Meta<DaikinRadioGroupStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinRadioGroupStoryArgs>;

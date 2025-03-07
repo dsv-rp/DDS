@@ -63,7 +63,9 @@ const cvaSelect = cva(
       },
       error: {
         false: [
-          "var-color-ddt-color-common-neutral-default/color-base",
+          "slotted-[select:enabled]:var-color-ddt-color-common-neutral-default/color-base",
+          "slotted-[select:enabled:hover]:var-color-ddt-color-common-neutral-hover/color-base",
+          "slotted-[select:enabled:active]:var-color-ddt-color-common-neutral-press/color-base",
           "var-color-ddt-color-common-border-focus/color-focus",
         ],
         true: [
@@ -86,6 +88,10 @@ const cvaSelect = cva(
  * @slot - A slot for an HTML `<select>` element which may contain `<option>` and `<optgroup>`.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/select/index.js";
+ * ```
  *
  * ```html
  * <daikin-select>
@@ -189,6 +195,10 @@ export class DaikinSelect extends LitElement {
     }
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;

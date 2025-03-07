@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property, query, state } from "lit/decorators.js";
+import { LitElement, css, html, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators.js";
 import { createRef, ref } from "lit/directives/ref.js";
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -44,16 +44,13 @@ const cvaSummary = cva(
   }
 );
 
-const animationOption = {
-  duration: 250,
-  easing: "ease-in-out",
-};
-
-const contentCloseKeyframe = {
-  height: 0,
-};
-const getContentOpenKeyframe = (content: HTMLElement) => ({
-  height: `${content.offsetHeight}px`,
+const cvaContent = cva(["grid", "duration-[250ms]", "ease-in-out"], {
+  variants: {
+    open: {
+      false: ["grid-rows-[0fr]"],
+      true: ["grid-rows-[1fr]"],
+    },
+  },
 });
 
 /**
@@ -104,8 +101,6 @@ export class DaikinAccordionItem extends LitElement {
       width: 100%;
       height: 1px;
       background: var(--dds-color-divider);
-      position: absolute;
-      top: 0;
     }
 
     :host::after {
@@ -114,10 +109,10 @@ export class DaikinAccordionItem extends LitElement {
       width: 100%;
       height: 1px;
       background: var(--dds-color-divider);
-      position: absolute;
-      bottom: 0;
     }
   `;
+
+  private _summaryRef = createRef<HTMLElement>();
 
   private _contentRef = createRef<HTMLElement>();
 
@@ -141,47 +136,6 @@ export class DaikinAccordionItem extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
-
-  @query("summary")
-  private _summary!: HTMLElement | null;
-
-  /**
-   * Actual presence of `open` attribute of the `<details>` element.
-   *
-   * The `<details>` element does not support animation on changing the `open` attribute.
-   * In other words, the content is hidden immediately when the `open` attribute is removed.
-   * To enable animation for an accordion, we need to run the animation while maintaining the `open` attribute, and then remove the `open` attribute at the end of the animation.
-   * Treated as `false` if `disabled` is `true`.
-   */
-  @state()
-  private _detailsOpen = false;
-
-  private _contentAnimate() {
-    const content = this._contentRef.value;
-    if (!content || this.open === this._detailsOpen) {
-      return;
-    }
-
-    if (this.open) {
-      // Accordion is closed; open it.
-      this._detailsOpen = this.open;
-      content.animate(
-        [contentCloseKeyframe, getContentOpenKeyframe(content)],
-        animationOption
-      );
-    } else {
-      // Accordion is opened; close it.
-      const animation = content.animate(
-        [getContentOpenKeyframe(content), contentCloseKeyframe],
-        animationOption
-      );
-
-      animation.onfinish = () => {
-        // After the animation is finished, remove the open attribute from the details element. This is to allow the element to transition.
-        this._detailsOpen = this.open;
-      };
-    }
-  }
 
   private _handleSummaryClick(event: PointerEvent) {
     event.preventDefault();
@@ -216,62 +170,43 @@ export class DaikinAccordionItem extends LitElement {
     );
   }
 
-  // When using the in-page search, the `<details>` element may open without clicking on the `<summary>`.
-  // In order to handle such cases, it is necessary to respond to the "toggle" event.
-  private _handleToggle(event: ToggleEvent) {
-    event.preventDefault();
-    if (this.disabled) {
-      // Prevent the accordion item from opening with in-page searches when disabled.
-      return;
-    }
-
-    this.open = event.newState === "open";
-  }
-
   override render() {
-    const detailsOpen = !this.disabled && this._detailsOpen;
     const open = !this.disabled && this.open;
 
-    return html`<details
+    return html`<div
       class="w-full text-ddt-color-common-text-primary font-daikinSerif overflow-clip"
-      ?open=${detailsOpen}
-      ?data-open=${open}
-      aria-disabled=${this.disabled}
-      @toggle=${this._handleToggle}
     >
-      <summary
+      <button
         id="summary"
+        ${ref(this._summaryRef)}
         class=${cvaSummary({
           open,
           disabled: this.disabled,
         })}
+        ?disabled=${this.disabled}
+        aria-expanded=${open}
+        aria-controls="content"
         tabindex=${this.disabled ? -1 : 0}
         @click=${this._handleSummaryClick}
         @keydown=${this._handleKeyDown}
       >
         <slot name="summary"></slot>
-      </summary>
+      </button>
       <div
         ${ref(this._contentRef)}
+        id="content"
         role="region"
+        class=${cvaContent({ open })}
         aria-labelledby="summary"
-        ?hidden=${this.disabled}
+        ?hidden=${!open}
       >
-        <div class="pt-2 px-3 pb-3">
-          <slot></slot>
+        <div class="overflow-hidden">
+          <div class="pt-2 px-3 pb-3">
+            <slot></slot>
+          </div>
         </div>
       </div>
-    </details>`;
-  }
-
-  protected override firstUpdated(): void {
-    this._detailsOpen = this.open;
-  }
-
-  protected override updated(changedProperties: PropertyValues<this>): void {
-    if (changedProperties.has("open")) {
-      this._contentAnimate();
-    }
+    </div>`;
   }
 
   /**
@@ -279,7 +214,7 @@ export class DaikinAccordionItem extends LitElement {
    * @param options focus options
    */
   override focus(options?: FocusOptions): void {
-    this._summary?.focus(options);
+    this._summaryRef.value?.focus(options);
   }
 }
 

@@ -23,7 +23,7 @@ export const Default: Story = {
 
     await expect(root).not.toHaveAttribute("open");
 
-    const innerDetails = getByShadowRole(root, "group");
+    const innerDetails = getByShadowRole(root, "button");
     const innerSummary = getByShadowText(root, "Accordion summary");
 
     await expect(innerSummary).toBeInTheDocument();
@@ -60,7 +60,7 @@ export const Disabled: Story = {
     const root = canvasElement.getElementsByTagName("daikin-accordion-item")[0];
     await expect(root).toBeInTheDocument();
 
-    const innerDetails = getByShadowRole(root, "group");
+    const innerDetails = getByShadowRole(root, "button");
     const innerSummary = getByShadowText(root, "Accordion summary");
 
     await expect(innerSummary).toBeInTheDocument();

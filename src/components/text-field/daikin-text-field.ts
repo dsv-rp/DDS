@@ -29,13 +29,13 @@ const cvaInput = cva(
     "border",
     "border-[--color-border]",
 
-    // Update `--color-base` depending on the state.
-    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
     "enabled:text-ddt-color-common-text-primary",
     "enabled:hover:bg-ddt-color-common-surface-hover",
     "enabled:active:bg-ddt-color-common-surface-press",
     "focus-visible:outline-2",
 
+    // Update `--color-base` depending on the state.
+    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
     "disabled:var-color-ddt-color-common-disabled/color-base",
     "disabled:text-ddt-color-common-disabled",
     "disabled:bg-ddt-color-common-background-default",
@@ -46,6 +46,8 @@ const cvaInput = cva(
       error: {
         false: [
           "enabled:var-color-ddt-color-common-neutral-default/color-base",
+          "enabled:hover:var-color-ddt-color-common-neutral-hover/color-base",
+          "enabled:active:var-color-ddt-color-common-neutral-press/color-base",
           "focus-visible:var-color-ddt-color-common-border-focus/color-state-focus",
         ],
         true: ["enabled:var-color-ddt-color-common-danger-default/color-base"],
@@ -272,6 +274,10 @@ export class DaikinTextField extends LitElement {
     this._internals.setFormValue(this.value);
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;
