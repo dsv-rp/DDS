@@ -22,7 +22,7 @@ export const Small: Story = {
   },
 };
 
-export const Fill: Story = {
+export const WithBackground: Story = {
   args: {
     ...Default.args,
     background: true,

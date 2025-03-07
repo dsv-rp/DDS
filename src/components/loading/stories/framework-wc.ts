@@ -7,7 +7,7 @@ export const metadata: Meta<DaikinLoadingStoryArgs> = {
   render: ({ size, background, isVrt }) =>
     html`<div
       data-testid="vrt-container"
-      class=${isVrt
+      class=${isVrt || background
         ? "size-fit p-1 bg-ddt-color-common-neutral-default"
         : "size-fit"}
     >
