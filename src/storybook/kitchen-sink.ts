@@ -1,4 +1,4 @@
-// storybook/kitchen-sink.ts
+//src/storybook/kitchen-sink.ts
 import { html, type TemplateResult } from "lit";
 import { html as shtml, unsafeStatic } from "lit/static-html.js";
 
