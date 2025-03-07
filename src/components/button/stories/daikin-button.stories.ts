@@ -5,7 +5,7 @@ import { expect, fn, userEvent } from "@storybook/test";
 import { getByShadowRole, queryByShadowRole } from "shadow-dom-testing-library";
 import {
   DAIKIN_BUTTON_ARG_TYPES,
-//  type DaikinButtonStoryArgs,
+  //  type DaikinButtonStoryArgs,
   type Story,
 } from "./common";
 
@@ -170,5 +170,3 @@ export const LinkDisabled: Story = {
     });
   }),
 };
-
-

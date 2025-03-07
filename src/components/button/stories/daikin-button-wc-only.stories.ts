@@ -40,7 +40,6 @@ export const KitchenSink: StoryFn = (): TemplateResult =>
         size=${size}
         href=${ifDefined(type === "link" ? "#" : undefined)}
         ?disabled=${color === "disabled"}
-
         @click=${color !== "disabled" //click event,when click set information to handleButtonClick function
           ? (e: Event) => {
               e.stopPropagation();
