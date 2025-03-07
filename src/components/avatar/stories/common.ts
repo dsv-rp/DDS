@@ -8,10 +8,6 @@ export interface DaikinAvatarStoryArgs
 }
 
 export const DAIKIN_AVATAR_ARG_TYPES = {
-  size: {
-    control: "radio",
-    options: ["small", "large"],
-  },
   type: {
     control: "radio",
     options: ["icon", "button", "link"],

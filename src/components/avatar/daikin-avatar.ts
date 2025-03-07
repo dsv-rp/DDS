@@ -12,6 +12,7 @@ const cvaWrapper = cva(
     "relative",
     "overflow-hidden",
     "box-border",
+    "size-full",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -20,10 +21,6 @@ const cvaWrapper = cva(
   ],
   {
     variants: {
-      size: {
-        large: ["h-[100px]", "w-[100px]"],
-        small: ["h-10", "w-10"],
-      },
       type: {
         button: [
           "enabled:bg-ddt-color-common-neutral-default",
@@ -83,26 +80,18 @@ export class DaikinAvatar extends LitElement {
       position: relative;
     }
 
-    :host([size="small"]) {
-      padding: 4px;
-    }
-
-    :host([size="large"]) {
-      padding: 10px;
+    :host {
+      padding: 0.25rem;
+      width: 3rem;
+      height: 3rem;
     }
   `;
-
-  /**
-   * Size of the avatar.
-   */
-  @property({ type: String, reflect: true })
-  size: AvatarVariantProps["size"] = "small";
 
   /**
    * Replace the wrapping element.
    */
   @property({ type: String, reflect: true })
-  type: "icon" | "button" | "link" = "icon";
+  type: AvatarVariantProps["type"] = "icon";
 
   /**
    * Link `href`.
@@ -146,7 +135,7 @@ export class DaikinAvatar extends LitElement {
     </daikin-icon>`;
     if (this.type === "icon") {
       return html`<span
-        class=${cvaWrapper({ size: this.size, type: "icon" })}
+        class=${cvaWrapper({ type: "icon" })}
         role="figure"
         aria-label=${ifDefined(this.alt ?? undefined)}
       >
@@ -154,7 +143,7 @@ export class DaikinAvatar extends LitElement {
       </span>`;
     } else if (this.type === "button") {
       return html`<button
-        class=${cvaWrapper({ size: this.size, type: "button" })}
+        class=${cvaWrapper({ type: "button" })}
         aria-label=${ifDefined(this.alt ?? undefined)}
         ?disabled=${this.disabled}
       >
@@ -163,7 +152,7 @@ export class DaikinAvatar extends LitElement {
     } else {
       const linkDisabled = this.disabled || this.href == null;
       return html`<a
-        class=${cvaWrapper({ size: this.size, type: "link" })}
+        class=${cvaWrapper({ type: "link" })}
         role=${ifDefined(linkDisabled ? "link" : undefined)}
         aria-label=${ifDefined(this.alt ?? undefined)}
         href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}

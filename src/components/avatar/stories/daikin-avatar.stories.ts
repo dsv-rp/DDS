@@ -14,9 +14,8 @@ export default {
   ...metadata,
 };
 
-export const Small: Story = {
+export const IconDefault: Story = {
   args: {
-    size: "small",
     type: "icon",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
@@ -29,7 +28,6 @@ export const Small: Story = {
 
 export const ButtonDefault: Story = {
   args: {
-    size: "small",
     type: "button",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
@@ -61,7 +59,6 @@ export const ButtonDefault: Story = {
 
 export const ButtonDisabled: Story = {
   args: {
-    size: "small",
     type: "button",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
@@ -93,7 +90,6 @@ export const ButtonDisabled: Story = {
 
 export const LinkDefault: Story = {
   args: {
-    size: "small",
     type: "link",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
@@ -125,7 +121,6 @@ export const LinkDefault: Story = {
 
 export const LinkDisabled: Story = {
   args: {
-    size: "small",
     type: "link",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",

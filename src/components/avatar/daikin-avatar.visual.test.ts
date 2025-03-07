@@ -10,93 +10,90 @@ import type { DAIKIN_AVATAR_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_AVATAR_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-avatar--small", args);
+  getStorybookIframeURL("components-avatar--icon-default", args);
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["small", "large"] as const, (size) => {
-    const baseArgs = {
-      $theme: theme,
-      size,
-      type: "button" as const,
-    };
-    const baseURL = getPageURL(baseArgs);
+  const baseArgs = {
+    $theme: theme,
+    type: "button" as const,
+  };
+  const baseURL = getPageURL(baseArgs);
 
-    test("base", async ({ page }) => {
-      await page.goto(baseURL);
+  test("base", async ({ page }) => {
+    await page.goto(baseURL);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-avatar", {
-        state: "visible",
-      });
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-avatar", {
+      state: "visible",
     });
 
-    test("hover", async ({ page }) => {
-      await page.goto(baseURL);
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-avatar", {
-        state: "visible",
-      });
+  test("hover", async ({ page }) => {
+    await page.goto(baseURL);
 
-      // hover cursor on the element
-      await element.hover();
-
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-avatar", {
+      state: "visible",
     });
 
-    test("press", async ({ page }) => {
-      await page.goto(baseURL);
+    // hover cursor on the element
+    await element.hover();
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-avatar", {
-        state: "visible",
-      });
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
 
-      // hover cursor on the element and hold down mouse button on the element
-      await element.hover();
-      await page.mouse.down();
+  test("press", async ({ page }) => {
+    await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
-      await page.mouse.up();
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-avatar", {
+      state: "visible",
     });
 
-    test("focus", async ({ page }) => {
-      await page.goto(baseURL);
+    // hover cursor on the element and hold down mouse button on the element
+    await element.hover();
+    await page.mouse.down();
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-avatar", {
-        state: "visible",
-      });
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+    await page.mouse.up();
+  });
 
-      await page.evaluate((container) => {
-        container.focus();
-      }, element);
+  test("focus", async ({ page }) => {
+    await page.goto(baseURL);
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-avatar", {
+      state: "visible",
     });
 
-    test("disabled", async ({ page }) => {
-      // load page with disabled=true
-      await page.goto(
-        getPageURL({
-          ...baseArgs,
-          disabled: true,
-        })
-      );
+    await page.evaluate((container) => {
+      container.focus();
+    }, element);
 
-      // wait for element to be visible
-      const element = await page.waitForSelector("daikin-avatar", {
-        state: "visible",
-      });
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
+  });
 
-      // take screenshot and check for diffs
-      await expect(page).toHaveScreenshot(await clipFor(element));
+  test("disabled", async ({ page }) => {
+    // load page with disabled=true
+    await page.goto(
+      getPageURL({
+        ...baseArgs,
+        disabled: true,
+      })
+    );
+
+    // wait for element to be visible
+    const element = await page.waitForSelector("daikin-avatar", {
+      state: "visible",
     });
+
+    // take screenshot and check for diffs
+    await expect(page).toHaveScreenshot(await clipFor(element));
   });
 });

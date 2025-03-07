@@ -5,9 +5,8 @@ import { ifDefined } from "lit/directives/if-defined.js";
 import type { DaikinAvatarStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinAvatarStoryArgs> = {
-  render: ({ size, type, disabled, href, alt, onClick }) => html`
+  render: ({ type, disabled, href, alt, onClick }) => html`
     <daikin-avatar
-      size=${size}
       type=${type}
       href=${ifDefined(href ?? undefined)}
       alt=${ifDefined(alt ?? undefined)}
