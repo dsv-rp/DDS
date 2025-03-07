@@ -12,7 +12,7 @@ export const DAIKIN_AVATAR_ARG_TYPES = {
     control: "radio",
     options: ["small", "large"],
   },
-  as: {
+  type: {
     control: "radio",
     options: ["icon", "button", "link"],
   },

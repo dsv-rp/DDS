@@ -24,17 +24,17 @@ const cvaWrapper = cva(
         large: ["h-[100px]", "w-[100px]"],
         small: ["h-10", "w-10"],
       },
-      as: {
+      type: {
         button: [
           "enabled:bg-ddt-color-common-neutral-default",
-          "[&>span]:enabled:text-ddt-color-common-surface-default",
+          "enabled:text-ddt-color-common-surface-default",
 
           "enabled:hover:bg-ddt-color-common-neutral-hover",
-          "[&>span]:enabled:hover:text-ddt-color-common-surface-hover",
+          "enabled:hover:text-ddt-color-common-surface-hover",
           "enabled:active:bg-ddt-color-common-neutral-press",
-          "[&>span]:enabled:active:text-ddt-color-common-surface-press",
+          "enabled:active:text-ddt-color-common-surface-press",
           "disabled:bg-ddt-color-common-disabled",
-          "[&>span]:disabled:text-ddt-color-common-surface-default",
+          "disabled:text-ddt-color-common-surface-default",
         ],
         icon: [
           "bg-ddt-color-common-neutral-default",
@@ -42,14 +42,14 @@ const cvaWrapper = cva(
         ],
         link: [
           "link-enabled:bg-ddt-color-common-neutral-default",
-          "[&>span]:link-enabled:text-ddt-color-common-surface-default",
+          "link-enabled:text-ddt-color-common-surface-default",
 
           "link-enabled:hover:bg-ddt-color-common-neutral-hover",
-          "[&>span]:link-enabled:hover:text-ddt-color-common-surface-hover",
+          "link-enabled:hover:text-ddt-color-common-surface-hover",
           "link-enabled:active:bg-ddt-color-common-neutral-press",
-          "[&>span]:link-enabled:active:text-ddt-color-common-surface-press",
+          "link-enabled:active:text-ddt-color-common-surface-press",
           "link-disabled:bg-ddt-color-common-disabled",
-          "[&>span]:link-disabled:text-ddt-color-common-surface-default",
+          "link-disabled:text-ddt-color-common-surface-default",
         ],
       },
     },
@@ -102,12 +102,12 @@ export class DaikinAvatar extends LitElement {
    * Replace the wrapping element.
    */
   @property({ type: String, reflect: true })
-  as: "icon" | "button" | "link" = "icon";
+  type: "icon" | "button" | "link" = "icon";
 
   /**
    * Link `href`.
-   * Only used if the `as` is `"link"`.
-   * If omitted with `as="link"`, the link will be treated as [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered as disabled state.
+   * Only used if the `type` is `"link"`.
+   * If omitted with `type="link"`, the link will be treated type [a placeholder link](https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-a-element:~:text=If%20the%20a%20element%20has%20no%20href%20attribute) and rendered type disabled state.
    */
   @property({ type: String, reflect: true })
   href: string | null = null;
@@ -131,11 +131,7 @@ export class DaikinAvatar extends LitElement {
     super();
 
     this.addEventListener("click", (event: MouseEvent): void => {
-      if (
-        this.disabled ||
-        (this.as === "link" && this.href == null) ||
-        this.as === "icon"
-      ) {
+      if (this.disabled || (this.type === "link" && this.href == null)) {
         event.stopImmediatePropagation();
       }
     });
@@ -148,17 +144,17 @@ export class DaikinAvatar extends LitElement {
       >
       </span>
     </daikin-icon>`;
-    if (this.as === "icon") {
-      return html`<div
-        class=${cvaWrapper({ size: this.size, as: "icon" })}
+    if (this.type === "icon") {
+      return html`<span
+        class=${cvaWrapper({ size: this.size, type: "icon" })}
         role="figure"
         aria-label=${ifDefined(this.alt ?? undefined)}
       >
         ${icon}
-      </div>`;
-    } else if (this.as === "button") {
+      </span>`;
+    } else if (this.type === "button") {
       return html`<button
-        class=${cvaWrapper({ size: this.size, as: "button" })}
+        class=${cvaWrapper({ size: this.size, type: "button" })}
         aria-label=${ifDefined(this.alt ?? undefined)}
         ?disabled=${this.disabled}
       >
@@ -167,7 +163,7 @@ export class DaikinAvatar extends LitElement {
     } else {
       const linkDisabled = this.disabled || this.href == null;
       return html`<a
-        class=${cvaWrapper({ size: this.size, as: "link" })}
+        class=${cvaWrapper({ size: this.size, type: "link" })}
         role=${ifDefined(linkDisabled ? "link" : undefined)}
         aria-label=${ifDefined(this.alt ?? undefined)}
         href=${ifDefined(!linkDisabled ? (this.href ?? undefined) : undefined)}

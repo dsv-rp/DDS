@@ -17,7 +17,7 @@ describeEach(["light", "dark"] as const, (theme) => {
     const baseArgs = {
       $theme: theme,
       size,
-      as: "button" as const,
+      type: "button" as const,
     };
     const baseURL = getPageURL(baseArgs);
 

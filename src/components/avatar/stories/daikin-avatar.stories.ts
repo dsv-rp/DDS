@@ -17,7 +17,7 @@ export default {
 export const Small: Story = {
   args: {
     size: "small",
-    as: "icon",
+    type: "icon",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
     disabled: false,
@@ -30,7 +30,7 @@ export const Small: Story = {
 export const ButtonDefault: Story = {
   args: {
     size: "small",
-    as: "button",
+    type: "button",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
     disabled: false,
@@ -62,7 +62,7 @@ export const ButtonDefault: Story = {
 export const ButtonDisabled: Story = {
   args: {
     size: "small",
-    as: "button",
+    type: "button",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
     disabled: true,
@@ -94,7 +94,7 @@ export const ButtonDisabled: Story = {
 export const LinkDefault: Story = {
   args: {
     size: "small",
-    as: "link",
+    type: "link",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
     disabled: false,
@@ -126,7 +126,7 @@ export const LinkDefault: Story = {
 export const LinkDisabled: Story = {
   args: {
     size: "small",
-    as: "link",
+    type: "link",
     alt: "avatar",
     href: "https://dsv-rp.github.io/DDS",
     disabled: true,
