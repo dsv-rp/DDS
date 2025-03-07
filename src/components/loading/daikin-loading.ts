@@ -18,12 +18,12 @@ const cvaLoadingContainer = cva(
 const cvaLoading = cva(
   [
     "block",
-    "border-l-ddt-color-common-brand-default",
+    "border-t-ddt-color-common-brand-default",
     "border-r-ddt-color-common-brand-default",
     "border-b-ddt-color-common-brand-default",
-    "border-t-transparent",
+    "border-l-transparent",
     "rounded-full",
-    "animate-[loading_800ms_ease_infinite]",
+    "animate-[loading_800ms_linear_infinite]",
   ],
   {
     variants: {
