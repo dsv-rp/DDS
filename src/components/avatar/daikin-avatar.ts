@@ -128,7 +128,7 @@ export class DaikinAvatar extends LitElement {
   override render() {
     const icon = html`
       <span
-        class="i-daikin-profile transform-[translate(-50%, -50%)]"
+        class="i-daikin-profile"
       >
       </span>
     </daikin-icon>`;
