@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const LINK_CLASS_NAME = cva([
@@ -20,7 +21,7 @@ const LINK_CLASS_NAME = cva([
   "focus-visible:outline",
   "focus-visible:outline-2",
   "focus-visible:outline-ddt-color-common-border-focus",
-  "focus-visible:outline-offset-1",
+  "focus-visible:outline-offset-2",
 ])();
 
 /**
@@ -40,8 +41,8 @@ const LINK_CLASS_NAME = cva([
  * </daikin-link>
  * ```
  */
-@customElement("daikin-link")
-export class DaikinLink extends LitElement {
+@ddsElement("daikin-link")
+export class DaikinLink extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

@@ -1,9 +1,6 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinTreeItem } from "../tree-item";
 import type { DaikinTreeSection } from "../tree-section";
@@ -38,8 +35,8 @@ import { handleTreeMoveFocusRoot, type TreeMoveFocusEvent } from "./common";
  * </daikin-tree>
  * ```
  */
-@customElement("daikin-tree")
-export class DaikinTree extends LitElement {
+@ddsElement("daikin-tree")
+export class DaikinTree extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -51,37 +48,31 @@ export class DaikinTree extends LitElement {
   /**
    * Whether or not to enable tree selection.
    * When enabled, tree sections and items can be selected by click, and the `selected` property of the `daikin-tree` and its descendants will be automatically controlled.
-   * Even if this is disabled, you can still set the `selected` property of sections and items yourself.
+   * Even if this is disabled, you can still set the `selected` property yourself.
    */
   @property({ type: Boolean, reflect: true })
   selectable: boolean = false;
 
   /**
    * The value of the currently selected tree section or tree item.
-   * Only used if `selectable` is `true`.
+   * Even if `selectable` is `false`, you can still set this property yourself.
    */
-  @property({ type: String, reflect: true })
-  selected: string | null = null;
+  @property({ type: Array, attribute: false })
+  selectedItems: string[] = [];
 
   @queryAssignedElements({ selector: "daikin-tree-section,daikin-tree-item" })
   private readonly _children!: readonly (DaikinTreeSection | DaikinTreeItem)[];
 
-  @queryAssignedElements({ selector: "daikin-tree-section" })
-  private readonly _sections!: readonly DaikinTreeSection[];
-
-  private _updateChildrenLevel(): void {
-    this._children.forEach((child) => (child.level = 0));
-  }
-
-  private _updateSections(): void {
-    this._sections.forEach((section) => {
-      section.selectable = this.selectable;
-    });
+  private _handleMouseDown(event: MouseEvent) {
+    if (event.detail >= 2) {
+      // Prevent text selection on double click, triple-click, and so on.
+      event.preventDefault();
+    }
   }
 
   private _handleSlotChange(): void {
-    this._updateChildrenLevel();
-    this._updateSections();
+    this._children.forEach((child) => (child.level = 0));
+    this.selectItems(this.selectedItems);
   }
 
   private _handleTreeMoveFocus(event: TreeMoveFocusEvent): void {
@@ -89,25 +80,26 @@ export class DaikinTree extends LitElement {
   }
 
   private _handleTreeSelect(event: Event): void {
-    event.stopPropagation();
-
     if (!this.selectable) {
       return;
     }
+    event.stopPropagation();
 
     const target = event.target as DaikinTreeSection | DaikinTreeItem;
-
-    this.selected = target.value;
+    this.selectedItems = [target.value];
   }
 
   private _handleTreeUnselect(event: Event): void {
+    if (!this.selectable) {
+      return;
+    }
     event.stopPropagation();
 
-    this.selected = this.getSelectedItem();
+    this.selectedItems = this.getSelectedItems();
   }
 
   override render() {
-    return html`<div role="tree">
+    return html`<div role="tree" @mousedown=${this._handleMouseDown}>
       <slot
         @slotchange=${this._handleSlotChange}
         @tree-move-focus=${this._handleTreeMoveFocus}
@@ -118,38 +110,32 @@ export class DaikinTree extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues): void {
-    if (changedProperties.has("selectable")) {
-      this._updateSections();
-    }
-
-    if (changedProperties.has("selected") && this.selectable) {
-      // If the component is set to selectable, update the selection state of descendant sections and items.
-      this.selectItem(this.selected);
+    if (changedProperties.has("selectedItems")) {
+      // Update the selection state of descendant sections and items.
+      this.selectItems(this.selectedItems);
     }
   }
 
   /**
-   * Calls `selectItem` for the tree sections and tree items of the child elements in the slot.
+   * Calls `selectItems` for the tree sections and tree items of the child elements in the slot.
    *
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string | null): void {
-    this._children.forEach((child) => child.selectItem(value));
+  selectItems(values: readonly string[]): void {
+    this._children.forEach((child) => child.selectItems(values));
   }
 
   /**
-   * Returns the `value` of the currently selected section or item.
-   * If nothing is selected, returns `null`.
+   * Returns an array of the `value` of the currently selected sections and items.
+   * If nothing is selected, returns `[]`.
    *
-   * @returns The `value` of the selected section or item (if any). `null` if there is none.
+   * @returns An array of the `value` of the selected sections and items (if any). `[]` if there is none.
    * @private
    */
-  getSelectedItem(): string | null {
-    return (
-      this._children
-        .map((child) => child.getSelectedItem())
-        .find((item) => !!item) ?? null
+  getSelectedItems(): string[] {
+    return Array.from(
+      new Set(this._children.flatMap((child) => child.getSelectedItems()))
     );
   }
 }

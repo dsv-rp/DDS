@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimilarToClick } from "../../utils/is-similar-to-click";
 import "../checkbox/daikin-checkbox";
@@ -78,8 +79,8 @@ const cvaOption = cva(
  * <daikin-dropdown-item value="value">Dropdown item</daikin-dropdown-item>
  * ```
  */
-@customElement("daikin-dropdown-item")
-export class DaikinDropdownItem extends LitElement {
+@ddsElement("daikin-dropdown-item")
+export class DaikinDropdownItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -194,6 +195,10 @@ export class DaikinDropdownItem extends LitElement {
         </button>`;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions): void {
     this._focusableElement?.focus(options);
   }

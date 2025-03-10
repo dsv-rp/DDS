@@ -1,9 +1,10 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import type { Ref } from "lit/directives/ref.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import { isSimpleKeyEvent } from "../../utils/is-simple-key";
 import {
@@ -22,6 +23,7 @@ export const cvaTreeChildren = cva(
     "py-3",
     "pr-4",
     "pl-[calc((var(--level)+1)*1rem)]",
+    "leading-[130%]",
 
     "focus-visible:outline",
     "focus-visible:outline-2",
@@ -57,6 +59,7 @@ export const cvaTreeChildren = cva(
           "before:size-5",
           "before:m-0.5",
           "before:transition-all",
+          "before:flex-none",
         ],
       },
       open: {
@@ -91,8 +94,8 @@ export const cvaTreeChildren = cva(
  * <daikin-tree-item>Tree item</daikin-tree-item>
  * ```
  */
-@customElement("daikin-tree-item")
-export class DaikinTreeItem extends LitElement {
+@ddsElement("daikin-tree-item")
+export class DaikinTreeItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -115,9 +118,7 @@ export class DaikinTreeItem extends LitElement {
 
   /**
    * Whether the tree item is selected.
-   * Ignored if disabled.
-   * Controlled by `daikin-tree` if its `selectable` is true.
-   * If the tree's `selected` is false, you can manually set this property to control the display of the selected state.
+   * Controlled by `daikin-tree`.
    */
   @property({ type: Boolean, reflect: true })
   selected: boolean = false;
@@ -133,6 +134,10 @@ export class DaikinTreeItem extends LitElement {
   level: number = 0;
 
   private readonly _focusableRef: Ref<HTMLElement> = createRef();
+
+  private get _selected(): boolean {
+    return this.selected && !this.disabled;
+  }
 
   private _handleKeyDown(event: KeyboardEvent) {
     if (!isSimpleKeyEvent(event)) {
@@ -177,13 +182,13 @@ export class DaikinTreeItem extends LitElement {
       ${ref(this._focusableRef)}
       class=${cvaTreeChildren({
         disabled: this.disabled,
-        selected: this.selected && !this.disabled,
+        selected: this._selected,
         icon: false,
         open: false,
       })}
       role="treeitem"
       aria-disabled=${this.disabled}
-      aria-selected=${this.selected && !this.disabled}
+      aria-selected=${this._selected}
       tabindex=${ifDefined(!this.disabled ? 0 : undefined)}
       style=${`--level:${this.level}`}
       @click=${() => emitTreeSelect(this)}
@@ -196,7 +201,6 @@ export class DaikinTreeItem extends LitElement {
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("disabled")) {
       if (this.disabled) {
-        this.selectItem(null);
         emitTreeUnselect(this);
       }
     }
@@ -228,22 +232,18 @@ export class DaikinTreeItem extends LitElement {
    * @param value Tree item value.
    * @private
    */
-  selectItem(value: string | null): void {
-    if (this.disabled && value != null) {
-      return;
-    }
-
-    this.selected = this.value === value;
+  selectItems(values: readonly string[]): void {
+    this.selected = !this.disabled && values.includes(this.value);
   }
 
   /**
-   * Returns `this.value` if selected, or `null` if not selected.
+   * Returns `[this.value]` if selected, or `[]` if not selected.
    *
-   * @returns `this.value` if selected. `null` if not selected.
+   * @returns `[this.value]` if selected. `[]` if not selected.
    * @private
    */
-  getSelectedItem(): string | null {
-    return !this.disabled && this.selected ? this.value : null;
+  getSelectedItems(): string[] {
+    return !this.disabled && this.selected ? [this.value] : [];
   }
 }
 

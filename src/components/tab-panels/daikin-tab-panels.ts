@@ -1,6 +1,7 @@
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
+import { DDSElement, ddsElement } from "../../base";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 
@@ -33,8 +34,8 @@ import tailwindStyles from "../../tailwind.css?inline";
  * </daikin-tab-panels>
  * ```
  */
-@customElement("daikin-tab-panels")
-export class DaikinTabPanels extends LitElement {
+@ddsElement("daikin-tab-panels")
+export class DaikinTabPanels extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
   `;

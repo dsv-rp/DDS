@@ -1,11 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements, state } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
 
@@ -63,9 +59,9 @@ const cvaSelect = cva(
       },
       error: {
         false: [
-          "var-color-ddt-color-common-neutral-default/color-base",
-          "hover:var-color-ddt-color-common-neutral-hover/color-base",
-          "active:var-color-ddt-color-common-neutral-press/color-base",
+          "slotted-[select:enabled]:var-color-ddt-color-common-neutral-default/color-base",
+          "slotted-[select:enabled:hover]:var-color-ddt-color-common-neutral-hover/color-base",
+          "slotted-[select:enabled:active]:var-color-ddt-color-common-neutral-press/color-base",
           "var-color-ddt-color-common-border-focus/color-focus",
         ],
         true: [
@@ -106,8 +102,8 @@ const cvaSelect = cva(
  * </daikin-select>
  * ```
  */
-@customElement("daikin-select")
-export class DaikinSelect extends LitElement {
+@ddsElement("daikin-select")
+export class DaikinSelect extends DDSElement {
   static override readonly styles = css`
     ::slotted(select) {
       box-sizing: border-box;
@@ -195,6 +191,10 @@ export class DaikinSelect extends LitElement {
     }
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;
