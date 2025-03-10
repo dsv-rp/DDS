@@ -81,9 +81,8 @@ export class DaikinAvatar extends LitElement {
     }
 
     :host {
-      padding: 0.25rem;
-      width: 3rem;
-      height: 3rem;
+      width: 2.5rem;
+      height: 2.5rem;
     }
   `;
 
