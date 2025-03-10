@@ -1,5 +1,5 @@
 ---
-"@daikin-oss/design-system-web-components": patch
+"@daikin-oss/design-system-web-components": minor
 ---
 
-Loading: Added a new loading component. (DDS-1716)
+Loading: Initial Implementation. (DDS-1716)
