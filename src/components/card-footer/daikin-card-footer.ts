@@ -1,5 +1,5 @@
-import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 /**
@@ -25,8 +25,8 @@ import tailwindStyles from "../../tailwind.css?inline";
  * </daikin-card-footer>
  * ```
  */
-@customElement("daikin-card-footer")
-export class DaikinCardFooter extends LitElement {
+@ddsElement("daikin-card-footer")
+export class DaikinCardFooter extends DDSElement {
   static override styles = css`
     ${unsafeCSS(tailwindStyles)}
 

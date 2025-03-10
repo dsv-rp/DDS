@@ -1,8 +1,9 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { repeat } from "lit/directives/repeat.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import { calculatePagination } from "./pagination-utils";
 
@@ -115,8 +116,8 @@ const cvaChevronButton = cva([
  * <daikin-pagination window="5" total="20" current="3"></daikin-pagination>
  * ```
  */
-@customElement("daikin-pagination")
-export class DaikinPagination extends LitElement {
+@ddsElement("daikin-pagination")
+export class DaikinPagination extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
