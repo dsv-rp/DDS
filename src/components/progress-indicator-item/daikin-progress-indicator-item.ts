@@ -1,9 +1,11 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, nothing, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+
 import "../icon/daikin-icon";
 
 const cvaContainer = cva(
@@ -42,6 +44,10 @@ type ProgressIndicatorItemVariantProps = MergeVariantProps<typeof cvaContainer>;
  *
  * @example
  *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator-item/index.js";
+ * ```
+ *
  * ```html
  * <daikin-progress-indicator-item state="unfinished">
  *   Progress indicator label
@@ -49,8 +55,8 @@ type ProgressIndicatorItemVariantProps = MergeVariantProps<typeof cvaContainer>;
  * </daikin-progress-indicator-item>
  * ```
  */
-@customElement("daikin-progress-indicator-item")
-export class DaikinProgressIndicatorItem extends LitElement {
+@ddsElement("daikin-progress-indicator-item")
+export class DaikinProgressIndicatorItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -62,19 +68,19 @@ export class DaikinProgressIndicatorItem extends LitElement {
   `;
 
   /**
-   * Status of the progress indicator item
+   * Status of the progress indicator item.
+   * Controlled by `daikin-progress-indicator`.
    */
   @property({ type: String, reflect: true })
   status: ProgressIndicatorItemVariantProps["status"] = "unfinished";
-
-  @property({ type: Boolean, reflect: true })
-  current: boolean = false;
 
   override render() {
     return html`<div
       class=${cvaContainer({ status: this.status })}
       role="listitem"
-      aria-current=${ifDefined(this.current ? "step" : undefined)}
+      aria-current=${ifDefined(
+        this.status === "inprogress" ? "step" : undefined
+      )}
     >
       <div class="flex flex-col gap-1 w-full">
         <slot class="font-bold leading-[130%]"></slot>

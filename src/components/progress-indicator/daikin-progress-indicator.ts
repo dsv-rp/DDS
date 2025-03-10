@@ -1,9 +1,6 @@
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
 
@@ -16,6 +13,11 @@ import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
  * @slot - A slot for progress indicator items. Place `daikin-progress-indicator-item` elements here.
  *
  * @example
+ *
+ * ```js
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator/index.js";
+ * import "@daikin-oss/design-system-web-components/components/progress-indicator-item/index.js";
+ * ```
  *
  * ```html
  * <daikin-progress-indicator>
@@ -34,8 +36,8 @@ import type { DaikinProgressIndicatorItem } from "../progress-indicator-item";
  * </daikin-progress-indicator>
  * ```
  */
-@customElement("daikin-progress-indicator")
-export class DaikinProgressIndicator extends LitElement {
+@ddsElement("daikin-progress-indicator")
+export class DaikinProgressIndicator extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -46,46 +48,30 @@ export class DaikinProgressIndicator extends LitElement {
   `;
 
   /**
-   * Specify the index number of the current location in the progress indicator.
+   * Specify the index of the step that is currently in progress, starting from 0. This will automatically set the status of each step.
+   * To mark all steps as upcoming, specify a number less or equal to -1. To mark all steps as completed, specify a number greater than or equal to the number of steps.
    */
   @property({ type: Number, attribute: "current-item", reflect: true })
-  currentItem: number | null = null;
+  currentItem = 0;
 
   @queryAssignedElements({ selector: "daikin-progress-indicator-item" })
-  private readonly _items!: readonly DaikinProgressIndicatorItem[] | null;
+  private readonly _items!: readonly DaikinProgressIndicatorItem[];
 
-  private _setCurrentItem() {
+  private _updateSteps() {
     const items = this._items;
 
-    if (!items || this.currentItem === null) {
-      return;
-    }
-
-    if (items.length - 1 < this.currentItem) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `Invalid 'current-item' property: ${this.currentItem}. The number of actual 'daikin-progress-indicator-item's exceeds the number of items.`
-        );
-      }
-
-      return;
-    }
-
-    if (this.currentItem < 0) {
-      if (import.meta.env.DEV) {
-        console.warn(
-          `Invalid 'current-item' property: ${this.currentItem}. Negative values cannot be set.`
-        );
-      }
-
-      return;
-    }
-
-    items.forEach((item, i) => (item.current = this.currentItem === i));
+    items.forEach((item, i) => {
+      item.status =
+        i < this.currentItem
+          ? "finished"
+          : i === this.currentItem
+            ? "inprogress"
+            : "unfinished";
+    });
   }
 
   private _handleSlotChange() {
-    this._setCurrentItem();
+    this._updateSteps();
   }
 
   override render() {
@@ -98,12 +84,12 @@ export class DaikinProgressIndicator extends LitElement {
   }
 
   protected override firstUpdated(): void {
-    this._setCurrentItem();
+    this._updateSteps();
   }
 
   protected override updated(changedProperties: PropertyValues): void {
     if (changedProperties.has("currentItem")) {
-      this._setCurrentItem();
+      this._updateSteps();
     }
   }
 }

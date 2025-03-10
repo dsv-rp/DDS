@@ -5,9 +5,8 @@ import {
   type ComputePositionConfig,
 } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
 import {
-  customElement,
   property,
   query,
   queryAssignedElements,
@@ -15,6 +14,7 @@ import {
 } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { DDSElement, ddsElement } from "../../base";
 import { ClickOutsideController } from "../../controllers/click-outside";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import tailwindStyles from "../../tailwind.css?inline";
@@ -131,8 +131,8 @@ const floatingPositionOptions: Partial<ComputePositionConfig> = {
  * </daikin-dropdown>
  * ```
  */
-@customElement("daikin-dropdown")
-export class DaikinDropdown extends LitElement {
+@ddsElement("daikin-dropdown")
+export class DaikinDropdown extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -525,6 +525,10 @@ export class DaikinDropdown extends LitElement {
     </div>`;
   }
 
+  /**
+   * Focuses on the inner button.
+   * @param options focus options
+   */
   override focus(options?: FocusOptions): void {
     this._button?.focus(options);
   }
@@ -586,6 +590,10 @@ export class DaikinDropdown extends LitElement {
     }
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;

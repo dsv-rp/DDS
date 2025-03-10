@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { css, html, LitElement, nothing, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const RADIO_CLASS_NAME = cva([
@@ -38,7 +39,7 @@ const cvaLabel = cva([], {
       true: ["text-ddt-color-common-disabled"],
     },
     hidden: {
-      false: ["inline-block", "pr-2"],
+      false: ["inline-block"],
       true: ["hidden"],
     },
   },
@@ -66,8 +67,8 @@ const cvaLabel = cva([], {
  *  <daikin-radio name="name" value="value" label="Radio button label"></daikin-radio>
  * ```
  */
-@customElement("daikin-radio")
-export class DaikinRadio extends LitElement {
+@ddsElement("daikin-radio")
+export class DaikinRadio extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -113,6 +114,15 @@ export class DaikinRadio extends LitElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled = false;
+
+  /**
+   * Specify the radio disabled state controlled by the parent component.
+   * Controlled by `daikin-radio-group`.
+   *
+   * @private
+   */
+  @property({ type: Boolean, reflect: true, attribute: false })
+  disabledByParent = false;
 
   /**
    * Whether the radio button can be focused.
@@ -161,6 +171,7 @@ export class DaikinRadio extends LitElement {
   }
 
   override render() {
+    const disabled = this.disabled || this.disabledByParent;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -174,7 +185,7 @@ export class DaikinRadio extends LitElement {
           name=${this.name}
           aria-label=${this._labelHidden ? this.label : nothing}
           tabindex=${ifDefined(this.skipTab ? "-1" : undefined)}
-          ?disabled=${this.disabled}
+          ?disabled=${disabled}
           .checked=${this.checked}
           .value=${this.value}
           @change=${this._handleChange}
@@ -182,7 +193,7 @@ export class DaikinRadio extends LitElement {
       </span>
       <slot
         class=${cvaLabel({
-          disabled: this.disabled,
+          disabled,
           hidden: this._labelHidden,
         })}
         ?hidden=${this._labelHidden}

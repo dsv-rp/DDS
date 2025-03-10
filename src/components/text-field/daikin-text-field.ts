@@ -1,7 +1,8 @@
 import { cva } from "class-variance-authority";
-import { LitElement, type PropertyValues, css, html, unsafeCSS } from "lit";
-import { customElement, property, state } from "lit/decorators.js";
+import { type PropertyValues, css, html, unsafeCSS } from "lit";
+import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { DaikinInputGroup } from "../input-group";
 
@@ -107,8 +108,8 @@ const cvaIcon = cva(
  * <daikin-text-field name="name"></daikin-text-field>
  * ```
  */
-@customElement("daikin-text-field")
-export class DaikinTextField extends LitElement {
+@ddsElement("daikin-text-field")
+export class DaikinTextField extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -274,6 +275,10 @@ export class DaikinTextField extends LitElement {
     this._internals.setFormValue(this.value);
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     const isError = !inputGroup.disabled && !!inputGroup.error;
     this.disabled = !!inputGroup.disabled;
