@@ -11,14 +11,14 @@ export const ReactDaikinLoading = createComponent({
 });
 
 export const metadata: Meta<DaikinLoadingStoryArgs> = {
-  component: ({ isVrt, ...props }: DaikinLoadingStoryArgs) => (
-    <div
-      data-testid="vrt-container"
-      className={
-        isVrt ? "size-fit p-1 bg-ddt-color-common-neutral-default" : "size-fit"
-      }
-    >
-      <ReactDaikinLoading {...props} />
+  component: ({ ...props }: DaikinLoadingStoryArgs) => (
+    <div data-testid="vrt-container" className="flex size-fit">
+      <div className="flex justify-center items-center size-48">
+        <ReactDaikinLoading {...props} />
+      </div>
+      <div className="flex justify-center items-center size-48 bg-ddt-color-common-neutral-default">
+        <ReactDaikinLoading {...props} />
+      </div>
     </div>
   ),
 };
