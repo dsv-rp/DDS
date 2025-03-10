@@ -65,7 +65,16 @@ const cvaButton = cva(
   }
 );
 
-type ButtonVariantProps = MergeVariantProps<typeof cvaButton>;
+const cvaIcon = cva([], {
+  variants: {
+    size: {
+      small: ["icon-size-4"],
+      medium: ["icon-size-6"],
+    },
+  },
+});
+
+type ButtonVariantProps = MergeVariantProps<typeof cvaButton | typeof cvaIcon>;
 
 /**
  * The button component is a versatile UI element that triggers actions or submits forms when clicked.
@@ -202,11 +211,11 @@ export class DaikinButton extends DDSElement {
         type=${this.type}
         role=${ifDefined(this.buttonRole ?? undefined)}
       >
-        <slot name="left-icon" class="icon-size-6">
+        <slot name="left-icon" class=${cvaIcon({ size: this.size })}>
           <span class="block -ml-1"></span>
         </slot>
         <span class="px-2"><slot></slot></span>
-        <slot name="right-icon" class="icon-size-6">
+        <slot name="right-icon" class=${cvaIcon({ size: this.size })}>
           <span class="block -mr-1"></span>
         </slot>
       </button>
