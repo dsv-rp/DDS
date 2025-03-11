@@ -76,6 +76,10 @@ const cvaLabel = cva([], {
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input type="checkbox">` element.
  *
+ * @slot - A slot for the checkbox label content.
+ *
+ * @csspart label - Change the style of checkbox label.
+ *
  * @example
  *
  * ```js
@@ -185,6 +189,7 @@ export class DaikinCheckbox extends DDSElement {
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
       class="group flex gap-2 items-center size-full font-daikinSerif"
+      part="label"
       @click=${this._handleClick}
     >
       <span class="p-2">
