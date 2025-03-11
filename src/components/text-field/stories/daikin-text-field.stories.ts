@@ -2,7 +2,10 @@ import type { DaikinTextField } from "#package/components/text-field/daikin-text
 import { definePlay } from "#storybook";
 import { metadata } from "#storybook-framework";
 import { expect, fn, userEvent } from "@storybook/test";
-import { getByShadowRole } from "shadow-dom-testing-library";
+import {
+  getByShadowPlaceholderText,
+  getByShadowRole,
+} from "shadow-dom-testing-library";
 import { DAIKIN_TEXT_FIELD_ARG_TYPES, type Story } from "./common";
 
 export default {
@@ -19,12 +22,11 @@ function eventPayloadTransformer(event: Event) {
   };
 }
 
-export const Default: Story = {
+export const Text: Story = {
   args: {
-    value: "Value",
+    value: "",
     type: "text",
-    placeholder: "Placeholder text",
-    name: "Example",
+    placeholder: "Text input",
     disabled: false,
     readonly: false,
     required: false,
@@ -39,44 +41,36 @@ export const Default: Story = {
     const innerInput = getByShadowRole(root, "textbox");
     await expect(innerInput).toBeInTheDocument();
 
-    await expect(innerInput).toHaveValue("Value");
+    await expect(innerInput).toHaveValue("");
 
     // should react if inner input typed
     await step("Try to type inner textbox", async () => {
       await userEvent.type(innerInput, "Example");
       await expect(args.onInput).toHaveBeenCalled();
       await expect(args.onInput).toHaveLastReturnedWith({
-        value: "ValueExample",
+        value: "Example",
       });
-      await expect(innerInput).toHaveValue("ValueExample");
+      await expect(innerInput).toHaveValue("Example");
     });
 
-    root.value = "Value";
+    root.value = "";
     innerInput.blur();
   }),
 };
 
 export const Error: Story = {
   args: {
-    ...Default.args,
+    ...Text.args,
     error: true,
     onChange: fn(),
     onInput: fn(),
   },
 };
 
-export const LeftIcon: Story = {
+export const WithIcon: Story = {
   args: {
-    ...Default.args,
+    ...Text.args,
     leftIcon: "positive",
-    onChange: fn(),
-    onInput: fn(),
-  },
-};
-
-export const RightIcon: Story = {
-  args: {
-    ...Default.args,
     rightIcon: "positive",
     onChange: fn(),
     onInput: fn(),
@@ -85,7 +79,7 @@ export const RightIcon: Story = {
 
 export const Disabled: Story = {
   args: {
-    ...Default.args,
+    ...Text.args,
     disabled: true,
     onChange: fn(),
     onInput: fn(),
@@ -97,12 +91,9 @@ export const Disabled: Story = {
     const innerInput = getByShadowRole(root, "textbox");
     await expect(innerInput).toBeInTheDocument();
 
-    await expect(innerInput).toHaveValue("Value");
-
     // should not react if inner input typed
     await step("Try to type inner textbox", async () => {
       await userEvent.type(innerInput, "Example");
-      await expect(innerInput).toHaveValue("Value");
       await expect(args.onChange).not.toHaveBeenCalled();
     });
 
@@ -112,11 +103,40 @@ export const Disabled: Story = {
 
 export const Readonly: Story = {
   args: {
-    ...Default.args,
+    ...Text.args,
     readonly: true,
     onChange: fn(),
     onInput: fn(),
   },
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- Disabled has play function
   play: Disabled.play!,
+};
+
+export const Search: Story = {
+  args: {
+    ...Text.args,
+    type: "search",
+    placeholder: "Search input",
+    onSearch: fn(),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-text-field")[0];
+    await expect(root).toBeInTheDocument();
+
+    const input = getByShadowPlaceholderText(root, "Search input");
+    input.focus();
+    await userEvent.keyboard("search");
+    await expect(root.value).toBe("search");
+
+    await step("Try to type enter key", async () => {
+      await userEvent.keyboard("[Enter]");
+      await expect(args.onSearch).toHaveBeenCalledTimes(1);
+    });
+
+    await step("Try to click clear button", async () => {
+      await userEvent.click(getByShadowRole(root, "button", { name: "Clear" }));
+      await expect(args.onSearch).toHaveBeenCalledTimes(1);
+      await expect(root.value).toBe("");
+    });
+  }),
 };

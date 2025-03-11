@@ -12,6 +12,7 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
     name,
     placeholder,
     maxlength,
+    minlength,
     autocomplete,
     leftIcon,
     rightIcon,
@@ -22,13 +23,15 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
     onChange,
     onInput,
     onKeyDown,
+    onSearch,
   }) => html`
     <div style="width:340px;">
       <daikin-text-field
         type=${type}
         name=${ifDefined(name)}
-        placeholder=${placeholder}
-        maxlength=${ifDefined(maxlength)}
+        placeholder=${ifDefined(placeholder ?? undefined)}
+        maxlength=${ifDefined(maxlength ?? undefined)}
+        minlength=${ifDefined(minlength ?? undefined)}
         autocomplete=${ifDefined(autocomplete)}
         .value=${value}
         ?disabled=${disabled}
@@ -38,6 +41,7 @@ export const metadata: Meta<DaikinTextFieldStoryArgs> = {
         @change=${onChange}
         @input=${onInput}
         @keydown=${onKeyDown}
+        @search=${onSearch}
       >
         ${leftIcon
           ? html`<daikin-icon
