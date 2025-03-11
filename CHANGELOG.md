@@ -92,7 +92,7 @@
 
 - [#152](https://github.com/dsv-rp/DDS/pull/152) [`65fb740`](https://github.com/dsv-rp/DDS/commit/65fb74071e23e13ca981b76662cff3877d051e79) Thanks [@poetrainy](https://github.com/poetrainy)! - Tabs: Updated appearance. (DDS-1931)
 
-- [#145](https://github.com/dsv-rp/DDS/pull/145) [`fcba2a4`](https://github.com/dsv-rp/DDS/commit/fcba2a4161f164c4301fba97c00097dbffe1ccc0) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Radio Group: Added support for reflecting the `disabled` property of the Input Gorup component. (DDS-1829)
+- [#145](https://github.com/dsv-rp/DDS/pull/145) [`fcba2a4`](https://github.com/dsv-rp/DDS/commit/fcba2a4161f164c4301fba97c00097dbffe1ccc0) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Radio Group: Added support for reflecting the `disabled` property of the Input Group component. (DDS-1829)
   Radio Group: Elements now wrap rather than overflow when placed horizontally. (DDS-1829)
 
 - [#136](https://github.com/dsv-rp/DDS/pull/136) [`a148bc4`](https://github.com/dsv-rp/DDS/commit/a148bc4fa4ea8ee2a44efc45f8739513d5dc6065) Thanks [@poetrainy](https://github.com/poetrainy)! - Table: Updated appearance. (DDS-1857)
@@ -178,7 +178,7 @@
 
 - [#88](https://github.com/dsv-rp/DDS/pull/88) [`90e1625`](https://github.com/dsv-rp/DDS/commit/90e1625f6455b60670920e397a51370eba70ace8) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Icon: The `size` attribute now defaults to `current`.
   Icon Button: Add Icon Button Component. (DDS-1536)
-  Icon: The `size` attribute now accepts `current`, which references `--dds-icon-size` CSS variable.
+  Icon: The `size` attribute now accepts `current` , which references `--dds-icon-size` CSS variable.
 
 - [#96](https://github.com/dsv-rp/DDS/pull/96) [`bdd827f`](https://github.com/dsv-rp/DDS/commit/bdd827fe1bc400de68f11a63bb6312d368cdadd9) Thanks [@poetrainy](https://github.com/poetrainy)! - Accordion: Update appearance.
 
@@ -207,14 +207,14 @@
 
 - [#74](https://github.com/dsv-rp/DDS/pull/74) [`3151097`](https://github.com/dsv-rp/DDS/commit/3151097362d40e58e18e70914c5dd2ee83f6c430) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tooltip: The `closeOnClick` attribute has been removed. (DDS-1501)
   **BREAKING CHANGE** Tooltip: The `trigger` and `tooltip` CSS parts have been removed. (DDS-1501)
-  **BREAKING CHANGE** Tooltip: The `tooltip` slot has been renamed to `description`. (DDS-1501)
-  Tooltip: The `trigger` attribute now accepts value of `"click"`. (DDS-1501)
+  **BREAKING CHANGE** Tooltip: The `tooltip` slot has been renamed to `description` . (DDS-1501)
+  Tooltip: The `trigger` attribute now accepts value of `"click"` . (DDS-1501)
   Tooltip: The `popover-value` attribute has been added. (DDS-1501)
 
 - [#64](https://github.com/dsv-rp/DDS/pull/64) [`d0c031d`](https://github.com/dsv-rp/DDS/commit/d0c031d28a6eeac5043546ee01209e86c9f5fc2a) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Text Area: Renamed Textarea (`daikin-textarea`) to Text Area (`daikin-text-area`). (DDS-1327)
   **BREAKING CHANGE** Text Area: The `maxlength` attribute have been removed. (DDS-1327)
   **BREAKING CHANGE** Input Group: The `textareaCounter` attribute has been removed and the `textareaMaxCount` attribute has been added. (DDS-1327)
-  Text Area: The `resizable`, `name` and `error` attributes has been added. (DDS-1327)
+  Text Area: The `resizable` , `name` and `error` attributes has been added. (DDS-1327)
   Text Area: Updated appearance. (DDS-1327)
 
 - [#62](https://github.com/dsv-rp/DDS/pull/62) [`94d6548`](https://github.com/dsv-rp/DDS/commit/94d65484625bebb2f17f023bb55b565d29d8c972) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Text Field: Renamed Text Input to Text Field. (DDS-1325)
@@ -242,35 +242,35 @@
 
 - [#60](https://github.com/dsv-rp/DDS/pull/60) [`b6d7d9f`](https://github.com/dsv-rp/DDS/commit/b6d7d9f4bb5286bb9a8dc719628624dcca3c0f75) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Checkbox: The `readonly`, `size` and `error` property has been removed. (DDS-1288)
   **BREAKING CHANGE** Checkbox: The `labelPosition` property now removed `"left"` value. (DDS-1288)
-  **BREAKING CHANGE** Checkbox: The `labelPosition` attribute (not property) has been renamed to `label-position`. (DDS-1288)
+  **BREAKING CHANGE** Checkbox: The `labelPosition` attribute (not property) has been renamed to `label-position` . (DDS-1288)
   Checkbox: The `labelPosition` property now accepts `"hidden"` value. (DDS-1288)
   Checkbox: Updated appearance. (DDS-1288)
 
 - [#75](https://github.com/dsv-rp/DDS/pull/75) [`3922068`](https://github.com/dsv-rp/DDS/commit/3922068e28efcd5786f576435f68c35983f252c2) Thanks [@rinjInTokyo](https://github.com/rinjInTokyo)! - Improve breadcrumb accessibility. (DDS-1482)
-  **BREAKING CHANGE** Remove `link` slot from `daikin-breadcrumb-item`.
+  **BREAKING CHANGE** Remove `link` slot from `daikin-breadcrumb-item` .
 
 - [#69](https://github.com/dsv-rp/DDS/pull/69) [`3fcbc38`](https://github.com/dsv-rp/DDS/commit/3fcbc38a1affb1f3d50dbfb4e1aeb1fd34f301a7) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Accordion: The `title` attribute has been removed and replaced with a `summary` slot. (DDS-1414)
   Accordion: Updated appearance. (DDS-1414)
   Accordion Item: Updated appearance. (DDS-1414)
 
 - [#61](https://github.com/dsv-rp/DDS/pull/61) [`36ef955`](https://github.com/dsv-rp/DDS/commit/36ef9551a504de318a51a738b9b6b58edfb7f6f9) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Radio: The `readonly`, `size` and `error` properties have been removed. (DDS-1350)
-  **BREAKING CHANGE** Radio: The `labelPosition` property no longer supports `"left"`. Instead, it now supports `"hidden"`. (DDS-1350)
-  **BREAKING CHANGE** Radio: The `labelPosition` attribute (not property) has been renamed to `label-position`.
+  **BREAKING CHANGE** Radio: The `labelPosition` property no longer supports `"left"` . Instead, it now supports `"hidden"` . (DDS-1350)
+  **BREAKING CHANGE** Radio: The `labelPosition` attribute (not property) has been renamed to `label-position` .
   Radio: Updated appearance. (DDS-1350)
 
 - [#56](https://github.com/dsv-rp/DDS/pull/56) [`a81916a`](https://github.com/dsv-rp/DDS/commit/a81916ac21c4fec5e85eb1e8bf9005137887a662) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Button: The `role` attribute/property is renamed to `button-role` attribute and `buttonRole` property to avoid conflicts with standard HTML attributes.
-  **BREAKING CHANGE** Button: The `variant` attribute now accepts values of `"fill"`, `"outline"` and `"ghost"`, instead of `"primary"`, `"secondary"`, `"tertiary"` and `"primaryDanger"`.
+  **BREAKING CHANGE** Button: The `variant` attribute now accepts values of `"fill"` , `"outline"` and `"ghost"` , instead of `"primary"` , `"secondary"` , `"tertiary"` and `"primaryDanger"` .
   **BREAKING CHANGE** Button: The `isLoading` attribute has been removed.
   **BREAKING CHANGE** Button: The `leftIcon` and `rightIcon` attributes have been renamed to `left-icon` and `right-icon` respectively.
-  **BREAKING CHANGE** Button: The `type` attribute now accepts `"link"`, and whether the button becomes a link is now determined by the `type` attribute, not by the presence of the `href` attribute. If `href` is omitted with `type="link"`, it is treated as a disabled state.
-  Button: Added `color` attribute that accepts values of `"default"` and `"danger"`.
+  **BREAKING CHANGE** Button: The `type` attribute now accepts `"link"` , and whether the button becomes a link is now determined by the `type` attribute, not by the presence of the `href` attribute. If `href` is omitted with `type="link"` , it is treated as a disabled state.
+  Button: Added `color` attribute that accepts values of `"default"` and `"danger"` .
   Button: Updated appearance. (DDS-1284)
 
 - [#50](https://github.com/dsv-rp/DDS/pull/50) [`4a34db7`](https://github.com/dsv-rp/DDS/commit/4a34db738bc08e347a790c0620bc602bbf1eac5b) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Notification: The `title` and `description` attributes have been removed, and their contents are now specified using slots with the same names.
 
 - [#67](https://github.com/dsv-rp/DDS/pull/67) [`d377f50`](https://github.com/dsv-rp/DDS/commit/d377f5043f8d12c37a28772e44173b0e2a778003) Thanks [@poetrainy](https://github.com/poetrainy)! - **BREAKING CHANGE** Tabs: The name of the component has been changed from `Tab Group` to `Tabs`. Use `<daikin-tabs>` instead of `<daikin-tab-group>`. (DDS-1450)
   **BREAKING CHANGE** Tabs: The signatures of the `beforechange` and `change` events have been updated to match those of other components. (DDS-1450)
-  **BREAKING CHANGE** Tab Panels: The name of the component has been changed from `Panel Switcher` to `Tab panels`. Use `<daikin-tab-panels>` instead of `<daikin-panel-switcher>`. (DDS-1450)
+  **BREAKING CHANGE** Tab Panels: The name of the component has been changed from `Panel Switcher` to `Tab panels` . Use `<daikin-tab-panels>` instead of `<daikin-panel-switcher>` . (DDS-1450)
   **BREAKING CHANGE** Tab: The `size` property has been removed. (DDS-1450)
   Tab: Updated appearance. (DDS-1450)
 
