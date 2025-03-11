@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import { storybookFrameworkLoader } from "./build/vite/storybook-framework-loader";
 import { getStorybookEnv } from "./storybook-env";
+import { storybookTokensPage } from "./build/vite/storybook-tokens-page";
 
 env.VITE_IS_STORYBOOK = "1";
 
@@ -53,5 +54,7 @@ export default defineConfig({
     react(),
     // "#storybook-framework" loader
     storybookFrameworkLoader(STORYBOOK_FW, frameworkPath),
+    // tokens.html
+    storybookTokensPage(),
   ],
 });

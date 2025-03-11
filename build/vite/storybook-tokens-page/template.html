@@ -181,6 +181,44 @@
         background: var(--value);
         border: solid 1px black;
       }
+
+      [data-category="borderWidth"] .value-box {
+        display: inline-block;
+        width: 0.75rem;
+        height: 0.75rem;
+        position: relative;
+      }
+
+      [data-category="borderWidth"] .value-box::before {
+        content: "";
+        display: inline-block;
+        width: 100%;
+        height: var(--value);
+        background: black;
+        position: absolute;
+        inset: 0;
+        margin: auto;
+      }
+
+      [data-category="spacing"] .value-box {
+        display: inline-block;
+        width: calc(var(--value) + 2px);
+        height: 0.75rem;
+        border-left: solid 1px black;
+        border-right: solid 1px black;
+        position: relative;
+      }
+
+      [data-category="spacing"] .value-box::before {
+        content: "";
+        display: inline-block;
+        width: 100%;
+        height: 1px;
+        background: black;
+        position: absolute;
+        inset: 0;
+        margin: auto;
+      }
     </style>
   </head>
   <body>
@@ -205,6 +243,7 @@
 
     <script>
       const sp = new URLSearchParams(location.search);
+
       const filter = sp.get("filter")?.split(",") ?? [];
       if (filter.length) {
         for (const row of document.querySelectorAll("tr[data-id]")) {
