@@ -79,7 +79,7 @@ const takeSnapshot = (args: StoryArgs) => {
   });
 
   test("disabled", async ({ page }) => {
-    await page.goto(getPageURL(args));
+    await page.goto(getPageURL({ ...args, disabled: true }));
 
     // wait for element to be visible
     const element = await page.waitForSelector("daikin-text-field", {
@@ -104,35 +104,48 @@ const takeSnapshot = (args: StoryArgs) => {
 };
 
 describeEach(["light", "dark"] as const, (theme) => {
-  describeEach(["text", "search"] as const, (type: "text" | "search") => {
-    describeEach(["normal", "error"] as const, (error) => {
-      describeEach(["empty", "placeholder", "filled"] as const, (content) => {
-        const baseArgs = {
-          $theme: theme,
-          type,
-          error: error === "error",
-          placeholder: content === "empty" ? "" : "Placeholder",
-          value: content === "filled" ? "Value" : "",
-        };
+  describeEach(
+    ["text", "password", "search"] as const,
+    (type: "text" | "password" | "search") => {
+      describeEach(["normal", "error"] as const, (error) => {
+        describeEach(["empty", "placeholder", "filled"] as const, (content) => {
+          const baseArgs = {
+            $theme: theme,
+            type,
+            error: error === "error",
+            placeholder: content === "empty" ? "" : "Placeholder",
+            value: content === "filled" ? "Value" : "",
+          };
 
-        if (type === "text") {
-          describeEach(["both", "none"] as const, (icon) => {
+          if (type === "text") {
+            describeEach(["both", "none"] as const, (icon) => {
+              const args = {
+                ...baseArgs,
+                ...(icon === "both" && iconObject),
+              };
+
+              takeSnapshot(args);
+            });
+          } else if (type === "password") {
+            describeEach(["show", "hidden"] as const, (password) => {
+              const args = {
+                ...baseArgs,
+                ...iconObject,
+                showPassword: password === "show",
+              };
+
+              takeSnapshot(args);
+            });
+          } else {
             const args = {
               ...baseArgs,
-              ...(icon === "both" && iconObject),
+              ...iconObject,
             };
 
             takeSnapshot(args);
-          });
-        } else {
-          const args = {
-            ...baseArgs,
-            ...iconObject,
-          };
-
-          takeSnapshot(args);
-        }
+          }
+        });
       });
-    });
-  });
+    }
+  );
 });

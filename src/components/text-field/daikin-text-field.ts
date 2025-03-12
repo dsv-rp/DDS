@@ -64,6 +64,7 @@ const cvaInput = cva(
       },
       type: {
         text: [],
+        password: [],
         email: [],
         tel: [],
         search: ["[&::-webkit-search-cancel-button]:appearance-none"],
@@ -94,6 +95,15 @@ const cvaIcon = cva(
   }
 );
 
+const cvaShowPasswordIcon = cva(["icon-size-6"], {
+  variants: {
+    showPassword: {
+      false: ["i-daikin-password-visible"],
+      true: ["i-daikin-password-hidden"],
+    },
+  },
+});
+
 /**
  * The text field component is a UI element that allows users to input single-line text data.
  * It functions similarly to the HTML `<input type="text">` tag, providing a simple and efficient way for users to enter and edit short pieces of texts, such as names, email addresses, or search queries.
@@ -106,6 +116,7 @@ const cvaIcon = cva(
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
  * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
  * @fires search - When `type="search"`, it emits when the enter key is pressed.
+ * @fires show - When `type="password"`, it emits depending on whether the password is displayed or not.
  *
  * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
  * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
@@ -142,7 +153,7 @@ export class DaikinTextField extends DDSElement {
    * Type of field.
    */
   @property({ type: String })
-  type: "text" | "email" | "tel" | "search" = "text";
+  type: "text" | "password" | "email" | "tel" | "search" = "text";
 
   /**
    * The current value of the input, submitted as a name/value pair with form data.
@@ -203,10 +214,22 @@ export class DaikinTextField extends DDSElement {
   maxlength: number | null = null;
 
   /**
+   * The pattern of value.
+   */
+  @property({ type: String, reflect: true })
+  pattern: string | null = null;
+
+  /**
    * Value of `autocomplete` attribute of the internal `<input>`.
    */
   @property({ type: String, reflect: true })
   autocomplete?: HTMLInputElement["autocomplete"];
+
+  /**
+   * When `type="password"`, whether to display the password with a black dot or as text.
+   */
+  @property({ type: Boolean, reflect: true, attribute: "show-password" })
+  showPassword = false;
 
   /**
    * The label text used as the value of aria-label.
@@ -222,8 +245,8 @@ export class DaikinTextField extends DDSElement {
   private _hasRightIcon = false;
 
   private _handleSlotChange(event: Event) {
-    if (["search"].includes(this.type)) {
-      //The search variant do not allow slot icons.
+    if (["password", "search"].includes(this.type)) {
+      //The password and search variants do not allow slot icons.
       return;
     }
 
@@ -257,10 +280,34 @@ export class DaikinTextField extends DDSElement {
     }
   }
 
+  private _handleShowPasswordClick(): void {
+    this.showPassword = !this.showPassword;
+    this.dispatchEvent(new Event("show"));
+  }
+
   override render() {
     const isError = !this.disabled && this.error;
+    const type =
+      this.type === "password" && this.showPassword ? "text" : this.type;
+
     const createIcon = (() => {
       switch (this.type) {
+        case "password":
+          return html`<daikin-icon-button
+            color="neutral"
+            variant="ghost"
+            ?disabled=${this.disabled}
+            button-aria-label=${this.showPassword
+              ? "Hidden password"
+              : "Show password"}
+            class="absolute right-3"
+            @click=${this._handleShowPasswordClick}
+          >
+            <span
+              class=${cvaShowPasswordIcon({ showPassword: this.showPassword })}
+            ></span>
+          </daikin-icon-button>`;
+
         case "search":
           return html`<span
               class=${cvaIcon({
@@ -319,11 +366,12 @@ export class DaikinTextField extends DDSElement {
           rightIcon: this._hasRightIcon,
           type: this.type,
         })}
-        type=${this.type}
+        type=${type}
         placeholder=${ifDefined(this.placeholder ?? undefined)}
         name=${ifDefined(this.name)}
         minlength=${ifDefined(this.minlength ?? undefined)}
         maxlength=${ifDefined(this.maxlength ?? undefined)}
+        pattern=${ifDefined(this.pattern ?? undefined)}
         autocomplete=${
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this.autocomplete as any)
@@ -342,6 +390,10 @@ export class DaikinTextField extends DDSElement {
 
   protected override firstUpdated(): void {
     switch (this.type) {
+      case "password":
+        this._hasRightIcon = true;
+        return;
+
       case "search":
         this._hasRightIcon = true;
         this._hasLeftIcon = true;
