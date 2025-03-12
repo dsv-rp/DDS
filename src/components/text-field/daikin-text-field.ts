@@ -244,6 +244,10 @@ export class DaikinTextField extends DDSElement {
   @state()
   private _hasRightIcon = false;
 
+  private _handleChange(event: Event) {
+    this.dispatchEvent(new Event("change", event));
+  }
+
   private _handleSlotChange(event: Event) {
     if (["password", "search"].includes(this.type)) {
       //The password and search variants do not allow slot icons.
@@ -381,7 +385,7 @@ export class DaikinTextField extends DDSElement {
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
-        @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+        @change=${this._handleChange}
         @input=${this._handleInput}
         @keydown=${this._handleKeyDown}
       />
