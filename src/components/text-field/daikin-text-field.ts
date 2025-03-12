@@ -55,18 +55,18 @@ const cvaInput = cva(
         true: ["enabled:var-color-ddt-color-common-danger-default/color-base"],
       },
       leftIcon: {
-        false: ["pl-4"],
+        false: [],
         true: ["pl-11"],
       },
       rightIcon: {
-        false: ["pr-4"],
+        false: [],
         true: ["pr-11"],
       },
       type: {
-        text: [],
-        email: [],
-        tel: [],
-        search: ["[&::-webkit-search-cancel-button]:appearance-none"],
+        text: ["px-4"],
+        email: ["px-4"],
+        tel: ["px-4"],
+        search: ["px-10", "[&::-webkit-search-cancel-button]:appearance-none"],
       },
     },
   }
@@ -343,18 +343,6 @@ export class DaikinTextField extends DDSElement {
         @keydown=${this._handleKeyDown}
       />
       ${createIcon}`;
-  }
-
-  protected override firstUpdated(): void {
-    switch (this.type) {
-      case "search":
-        this._hasRightIcon = true;
-        this._hasLeftIcon = true;
-        return;
-
-      default:
-        return;
-    }
   }
 
   override updated(changedProperties: PropertyValues<this>) {
