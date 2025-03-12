@@ -34,6 +34,10 @@ export default {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(200%)" },
         },
+        loading: {
+          "0%": { transform: "rotateZ(0)" },
+          "100%": { transform: "rotateZ(360deg)" },
+        },
       },
     },
   },
