@@ -79,7 +79,7 @@ const takeSnapshot = (args: StoryArgs) => {
   });
 
   test("disabled", async ({ page }) => {
-    await page.goto(getPageURL(args));
+    await page.goto(getPageURL({ ...args, disabled: true }));
 
     // wait for element to be visible
     const element = await page.waitForSelector("daikin-text-field", {
