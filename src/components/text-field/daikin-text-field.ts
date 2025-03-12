@@ -84,12 +84,6 @@ const cvaIcon = cva(
         false: ["text-ddt-color-common-text-primary"],
         true: ["text-ddt-color-common-disabled"],
       },
-      type: {
-        text: [],
-        email: [],
-        tel: [],
-        search: ["i-daikin-search", "size-6"],
-      },
     },
   }
 );
@@ -271,9 +265,10 @@ export class DaikinTextField extends DDSElement {
               class=${cvaIcon({
                 icon: "left",
                 disabled: this.disabled,
-                type: this.type,
               })}
-            ></span>
+            >
+              <span class="i-daikin-search size-6"></span>
+            </span>
             ${!!this.value && !!this.value.length
               ? html`<daikin-icon-button
                   color="neutral"
@@ -292,7 +287,6 @@ export class DaikinTextField extends DDSElement {
               class=${cvaIcon({
                 icon: "left",
                 disabled: this.disabled,
-                type: this.type,
               })}
             >
               <slot
@@ -305,7 +299,6 @@ export class DaikinTextField extends DDSElement {
               class=${cvaIcon({
                 icon: "right",
                 disabled: this.disabled,
-                type: this.type,
               })}
             >
               <slot
