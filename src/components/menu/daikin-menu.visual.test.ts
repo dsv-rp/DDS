@@ -10,7 +10,7 @@ import type { DAIKIN_MENU_ARG_TYPES } from "./stories/common";
 type StoryArgs = InferStorybookArgTypes<typeof DAIKIN_MENU_ARG_TYPES>;
 
 const getPageURL = (args: StoryArgs = {}) =>
-  getStorybookIframeURL("components-tooltip--default", args);
+  getStorybookIframeURL("components-menu--default", args);
 
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(["with divider", "without divider"] as const, (withDivider) => {
@@ -36,7 +36,7 @@ describeEach(["light", "dark"] as const, (theme) => {
           }
         );
 
-        const triggerElement = await page.waitForSelector("daikin-tooltip", {
+        const triggerElement = await page.waitForSelector("daikin-menu", {
           state: "visible",
         });
 
@@ -60,7 +60,7 @@ describeEach(["light", "dark"] as const, (theme) => {
           }
         );
 
-        const triggerElement = await page.waitForSelector("daikin-tooltip", {
+        const triggerElement = await page.waitForSelector("daikin-menu", {
           state: "visible",
         });
 
@@ -85,7 +85,7 @@ describeEach(["light", "dark"] as const, (theme) => {
           }
         );
 
-        const triggerElement = await page.waitForSelector("daikin-tooltip", {
+        const triggerElement = await page.waitForSelector("daikin-menu", {
           state: "visible",
         });
 
