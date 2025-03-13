@@ -17,6 +17,8 @@ export function storybookTokensPage(): Plugin {
             res.end(content);
           },
           (error: unknown) => {
+            console.error(error);
+
             res.writeHead(500, { "Content-Type": "text/plain; charset=UTF-8" });
             res.end(`Error: ${String(error)}`);
           }
