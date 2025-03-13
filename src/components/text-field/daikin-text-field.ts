@@ -258,7 +258,7 @@ export class DaikinTextField extends DDSElement {
     const error = !this.disabled && this.error;
     const leftIcon = this.type === "search" || this._hasLeftSlot;
     const rightIcon =
-      this._hasRightSlot || (this.type === "search" && !!this.value.length);
+      (this.type === "search" && !!this.value.length) || this._hasRightSlot;
 
     const createIcon = (() => {
       switch (this.type) {
