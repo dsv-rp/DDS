@@ -14,6 +14,7 @@ export const ReactDaikinTextField = createComponent({
     onInput: "input",
     onKeyDown: "keydown",
     onSearch: "search",
+    onShow: "show",
   },
 });
 

@@ -112,6 +112,41 @@ export const Readonly: Story = {
   play: Disabled.play!,
 };
 
+export const Password: Story = {
+  args: {
+    ...Text.args,
+    value: "password",
+    type: "password",
+    name: "Password input",
+    placeholder: "Password input",
+    showPassword: false,
+    onShow: fn(),
+  },
+  play: definePlay(async ({ args, canvasElement, step }) => {
+    const root = canvasElement.getElementsByTagName("daikin-text-field")[0];
+    await expect(root).toBeInTheDocument();
+
+    const input = getByShadowPlaceholderText(root, "Password input");
+    await expect(input).toHaveAttribute("type", "password");
+
+    await step("Try to click toggle button", async () => {
+      await userEvent.click(
+        getByShadowRole(root, "button", { name: "Show password" })
+      );
+      await expect(input).toHaveAttribute("type", "text");
+      await expect(args.onShow).toHaveBeenCalledTimes(1);
+
+      await userEvent.click(
+        getByShadowRole(root, "button", { name: "Hidden password" })
+      );
+      await expect(input).toHaveAttribute("type", "password");
+      await expect(args.onShow).toHaveBeenCalledTimes(2);
+    });
+
+    root.value = "";
+  }),
+};
+
 export const Search: Story = {
   args: {
     ...Text.args,
