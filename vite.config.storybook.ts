@@ -3,8 +3,8 @@ import { env, stderr } from "node:process";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import { storybookFrameworkLoader } from "./build/vite/storybook-framework-loader";
-import { getStorybookEnv } from "./storybook-env";
 import { storybookTokensPage } from "./build/vite/storybook-tokens-page";
+import { getStorybookEnv } from "./storybook-env";
 
 env.VITE_IS_STORYBOOK = "1";
 
