@@ -15,7 +15,6 @@ const cvaInput = cva(
     "h-full",
     "bg-ddt-color-common-background-default",
     "relative",
-    "px-2",
     "rounded",
     "overflow-hidden",
     "font-daikinSerif",
@@ -55,19 +54,19 @@ const cvaInput = cva(
         true: ["enabled:var-color-ddt-color-common-danger-default/color-base"],
       },
       leftIcon: {
-        false: [],
+        false: ["pl-4"],
         true: ["pl-11"],
       },
       rightIcon: {
-        false: [],
+        false: ["pr-4"],
         true: ["pr-11"],
       },
       type: {
-        text: ["px-4"],
-        password: ["pl-4", "pr-11"],
-        email: ["px-4"],
-        tel: ["px-4"],
-        search: ["px-10", "[&::-webkit-search-cancel-button]:appearance-none"],
+        text: [],
+        password: [],
+        email: [],
+        tel: [],
+        search: ["[&::-webkit-search-cancel-button]:appearance-none"],
       },
     },
   }
@@ -233,10 +232,10 @@ export class DaikinTextField extends DDSElement {
   private _label: string | null = null;
 
   @state()
-  private _hasLeftIcon = false;
+  private _hasLeftSlot = false;
 
   @state()
-  private _hasRightIcon = false;
+  private _hasRightSlot = false;
 
   private _handleChange(event: Event) {
     this.dispatchEvent(new Event("change", event));
@@ -254,11 +253,11 @@ export class DaikinTextField extends DDSElement {
 
     switch (name) {
       case "left-icon":
-        this._hasLeftIcon = hasIcon;
+        this._hasLeftSlot = hasIcon;
         break;
 
       case "right-icon":
-        this._hasRightIcon = hasIcon;
+        this._hasRightSlot = hasIcon;
         break;
     }
   }
@@ -359,8 +358,11 @@ export class DaikinTextField extends DDSElement {
     return html`<input
         class=${cvaInput({
           error: isError,
-          leftIcon: this._hasLeftIcon,
-          rightIcon: this._hasRightIcon,
+          leftIcon: this.type === "search" || this._hasLeftSlot,
+          rightIcon:
+            this._hasRightSlot ||
+            this.type === "password" ||
+            (this.type === "search" && !!this.value.length),
           type: this.type,
         })}
         type=${type}
