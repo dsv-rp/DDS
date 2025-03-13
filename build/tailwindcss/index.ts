@@ -24,9 +24,6 @@ export default {
   ],
   theme: {
     extend: {
-      boxShadow: {
-        dropdown: "0px 0px 8px 0px #00000033",
-      },
       keyframes: {
         "progress-bar-indeterminate": {
           // An animation where the block is outside the left area at the start and outside the right area at the end.
