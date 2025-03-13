@@ -358,7 +358,7 @@ function TokenPage({
                 <th>CSS Variable Name</th>
                 <th>Category</th>
                 <th>Value</th>
-                <th>Value (Dark Mode)</th>
+                <th>Value (Dark)</th>
               </thead>
               <tbody>
                 {tokens.map((token) => (

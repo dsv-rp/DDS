@@ -2,6 +2,7 @@ import { resolve } from "node:path/posix";
 import { normalizePath, type Plugin } from "vite";
 import type { StorybookFrameworkName } from "../../../storybook-env";
 import { createComponentDescription } from "./description";
+import { detectUsedTokens } from "./detect-tokens";
 import { createLinkMap } from "./linkify";
 import { createTSProgram } from "./tsc";
 import {
@@ -59,11 +60,14 @@ export function storybookFrameworkLoader(
       const wcaMarkdown = analyzerResult
         ? formatAnalyzerResultToMarkdown(program, analyzerResult)
         : "";
+      // detect used tokens
+      const tokens = await detectUsedTokens(componentFilepath);
       // adjust the rendered markdown for Storybook
       const componentDescription = createComponentDescription(
         wcaMarkdown,
         await linkMapPromise,
-        [basename]
+        [basename],
+        tokens
       );
 
       // create a map of attributes and types using analysis result

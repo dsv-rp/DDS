@@ -1,9 +1,18 @@
 import { linkify } from "./linkify";
 
+function escapeHTML(str: string): string {
+  // Not sure why but we cannot escape "&" in `src`.
+  return str
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
 export function createComponentDescription(
   wcaMarkdown: string,
   linkMap: ReadonlyMap<string, string>,
-  linkExcludes: readonly string[]
+  linkExcludes: readonly string[],
+  tokens: readonly string[]
 ): string {
   const tagName = /^\s*#+ (\S+)\n/.exec(wcaMarkdown)?.[1] ?? "";
 
@@ -15,7 +24,7 @@ There are three types of events, but in all cases \`event.target\` always points
 - A [retargeted](https://lit.dev/docs/components/events/#shadowdom-retargeting) event. This is a [composed](https://developer.mozilla.org/en-US/docs/Web/API/Event/composed) event of the HTML standard that is dispatched by an element inside the component. As this is an HTML standard event, it may not be fully covered in the table below.
 `.trim();
 
-  return linkify(
+  let content = linkify(
     wcaMarkdown
       // Remove component title. (e.g. `## daikin-checkbox`)
       .replace(/^\s*#+ \S+\n/, "")
@@ -29,4 +38,11 @@ There are three types of events, but in all cases \`event.target\` always points
     linkMap,
     linkExcludes
   );
+
+  if (tokens.length > 0) {
+    const tokensURL = `tokens.html?filter=${tokens.join(",")}&iframe=1`;
+    content += `\n\n### Design Tokens\n<details><summary>Show design tokens used by this component</summary><iframe style="width:100%;height:400px;overflow:auto;resize:vertical;" src="${escapeHTML(tokensURL)}"></iframe></details>`;
+  }
+
+  return content;
 }
