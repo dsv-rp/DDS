@@ -1,4 +1,4 @@
-import type { UnifiedTokenType } from "./unifyTokenType";
+import type { UnifiedTokenType } from "./unify-token-type";
 
 export const TYPE_DESCRIPTION_MAP = {
   border: {

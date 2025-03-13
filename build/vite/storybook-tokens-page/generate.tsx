@@ -6,12 +6,12 @@ import darkTokens from "@daikin-oss/dds-tokens/json/daikin/Dark/tokens.json" wit
 import baseTokens from "@daikin-oss/dds-tokens/json/daikin/Light/tokens.json" with { type: "json" };
 import { Fragment } from "hono/jsx/jsx-runtime";
 import { readFile } from "node:fs/promises";
-import { TYPE_DESCRIPTION_MAP } from "./tokenDescription";
+import { TYPE_DESCRIPTION_MAP } from "./token-description";
 import {
   unifyTokenType,
   type SDTokenType,
   type UnifiedTokenType,
-} from "./unifyTokenType";
+} from "./unify-token-type";
 
 const PAGE_CSS = `
   /* Preflight CSS from Tailwind CSS */
@@ -136,10 +136,11 @@ const PAGE_CSS = `
   }
 
   .container {
-    padding: 1rem;
     width: 100%;
-    height: 100%;
-    overflow: auto;
+    max-width: 1000px;
+
+    margin: auto;
+    padding: 1rem;
 
     display: flex;
     flex-flow: column nowrap;
@@ -154,24 +155,30 @@ const PAGE_CSS = `
     font-size: 2rem;
   }
 
-  #table {
+  .table-container {
+    width: 100%;
+    max-height: calc(100dvh - 12rem);
+    overflow: auto;
+  }
+
+  .table-container table {
     white-space: nowrap;
     flex: 1 1 0;
   }
 
-  thead th {
+  .table-container thead th {
     position: sticky;
-    top: -1rem;
+    top: 0;
     z-index: 1;
     background: var(--table-header-bg);
     color: var(--table-header-fg);
   }
 
-  th,
-  td {
+  .table-container th,
+  .table-container td {
     text-align: left;
-    padding-right: 0.5rem;
-    line-height: 2;
+    padding-right: 1.75rem;
+    line-height: 2.5;
   }
 
   code {
@@ -234,23 +241,28 @@ const PAGE_CSS = `
 
   /* Tailwind CSS Usage */
 
-  h2 {
+  .tw-container h2 {
     font-size: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: -0.5rem;
   }
 
-  h3 {
+  .tw-container h3 {
     font-size: 1.125rem;
     font-weight: bold;
-    margin-top: 1.5rem;
+    margin-top: 2.5rem;
   }
 
-  p {
+  .tw-container p {
     margin: 0.5rem 0;
   }
 
-  ul {
+  .tw-container ul {
     margin-left: 1.25rem;
+  }
+
+  .tw-container li:not(:last-of-type) {
+    margin-bottom: 0.25rem;
   }
 `;
 
@@ -258,6 +270,8 @@ const PAGE_JS = `
   const sp = new URLSearchParams(location.search);
 
   const filter = sp.get("filter")?.split(",") ?? [];
+  const iframe = sp.get("iframe") === "1";
+
   if (filter.length) {
     for (const row of document.querySelectorAll("tr[data-id]")) {
       if (filter.includes(row.dataset.id)) {
@@ -266,9 +280,15 @@ const PAGE_JS = `
 
       row.hidden = true;
     }
+
+    if (!iframe) {
+      const resetFilter = document.querySelector("a#reset-filter");
+      resetFilter.href = location.pathname;
+      resetFilter.hidden = false;
+    }
   }
 
-  if (sp.get("iframe") === "1") {
+  if (iframe) {
     const openInNewWindow = document.querySelector("a#open-in-new-window");
     openInNewWindow.href = \`\${location.pathname}\${filter.length ? \`?filter=\${filter.join(",")}\` : ""}\`;
     openInNewWindow.hidden = false;
@@ -328,43 +348,48 @@ function TokenPage({
           <a id="open-in-new-window" target="_blank" href="#" hidden>
             Open in new window
           </a>
-          <table id="table">
-            <thead>
-              <th>Token Name</th>
-              <th>CSS Variable Name</th>
-              <th>Category</th>
-              <th>Value</th>
-              <th>Value (Dark Mode)</th>
-            </thead>
-            <tbody>
-              {tokens.map((token) => (
-                <tr
-                  id={token.name}
-                  data-id={token.name}
-                  data-category={token.type}
-                >
-                  <td class="cell-token-name">
-                    <code>{token.name.replaceAll("-", ".")}</code>
-                  </td>
-                  <td class="cell-css-var-name">
-                    <code>--dds-{token.name}</code>
-                  </td>
-                  <td class="cell-category">
-                    <a href={`#${headingToId(token.typeName)}`}>
-                      {token.typeName}
-                    </a>
-                  </td>
-                  <td class="cell-value-base">
-                    <TokenValue value={token.baseValue} />
-                  </td>
-                  <td class="cell-value-dark">
-                    <TokenValue value={token.darkValue} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div>
+          <a id="reset-filter" href="." hidden>
+            Reset filter
+          </a>
+          <div class="table-container">
+            <table id="table">
+              <thead>
+                <th>Token Name</th>
+                <th>CSS Variable Name</th>
+                <th>Category</th>
+                <th>Value</th>
+                <th>Value (Dark Mode)</th>
+              </thead>
+              <tbody>
+                {tokens.map((token) => (
+                  <tr
+                    id={token.name}
+                    data-id={token.name}
+                    data-category={token.type}
+                  >
+                    <td class="cell-token-name">
+                      <code>{token.name.replaceAll("-", ".")}</code>
+                    </td>
+                    <td class="cell-css-var-name">
+                      <code>--dds-{token.name}</code>
+                    </td>
+                    <td class="cell-category">
+                      <a href={`#${headingToId(token.typeName)}`}>
+                        {token.typeName}
+                      </a>
+                    </td>
+                    <td class="cell-value-base">
+                      <TokenValue value={token.baseValue} />
+                    </td>
+                    <td class="cell-value-dark">
+                      <TokenValue value={token.darkValue} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div class="tw-container">
             <h2 id="tailwindcss">Tailwind CSS Usage</h2>
             {tailwindCategories.map((category) => (
               <Fragment key={category.name}>
@@ -389,7 +414,7 @@ function TokenPage({
             ))}
           </div>
         </div>
-        <style dangerouslySetInnerHTML={{ __html: PAGE_JS }}></style>
+        <script dangerouslySetInnerHTML={{ __html: PAGE_JS }}></script>
       </body>
     </html>
   );
