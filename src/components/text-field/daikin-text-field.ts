@@ -1,9 +1,10 @@
 import { cva } from "class-variance-authority";
-import { type PropertyValues, css, html, unsafeCSS } from "lit";
+import { type PropertyValues, css, html, nothing, unsafeCSS } from "lit";
 import { property, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
 import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
+import "../icon-button/daikin-icon-button";
 import type { DaikinInputGroup } from "../input-group";
 
 const cvaInput = cva(
@@ -14,7 +15,6 @@ const cvaInput = cva(
     "h-full",
     "bg-ddt-color-common-background-default",
     "relative",
-    "px-2",
     "rounded",
     "overflow-hidden",
     "font-daikinSerif",
@@ -30,13 +30,13 @@ const cvaInput = cva(
     "border",
     "border-[--color-border]",
 
+    // Update `--color-base` depending on the state.
+    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
     "enabled:text-ddt-color-common-text-primary",
     "enabled:hover:bg-ddt-color-common-surface-hover",
     "enabled:active:bg-ddt-color-common-surface-press",
     "focus-visible:outline-2",
 
-    // Update `--color-base` depending on the state.
-    // The default `--color-base` and `--color-state-focus` values are defined in `variants.error` because they differ depending on whether or not the input has an error state.
     "disabled:var-color-ddt-color-common-disabled/color-base",
     "disabled:text-ddt-color-common-disabled",
     "disabled:bg-ddt-color-common-background-default",
@@ -61,6 +61,12 @@ const cvaInput = cva(
         false: ["pr-4"],
         true: ["pr-11"],
       },
+      type: {
+        text: [],
+        email: [],
+        tel: [],
+        search: ["[&::-webkit-search-cancel-button]:appearance-none"],
+      },
     },
   }
 );
@@ -70,10 +76,9 @@ const cvaIcon = cva(
   {
     variants: {
       icon: {
-        left: "left-3",
-        right: "right-3",
+        left: ["left-3"],
+        right: ["right-3"],
       },
-
       disabled: {
         false: ["text-ddt-color-common-text-primary"],
         true: ["text-ddt-color-common-disabled"],
@@ -93,6 +98,7 @@ const cvaIcon = cva(
  *
  * @fires change - A cloned event of a [change event](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event) emitted from the inner `<input>` element.
  * @fires input - A retargeted event of a [input event](https://developer.mozilla.org/en-US/docs/Web/API/Element/input_event).
+ * @fires search - When `type="search"`, it emits when the enter key is pressed.
  *
  * @slot left-icon - Specify the icon you want to use on the left. You can also use something other than `daikin-icon`.
  * @slot right-icon - Specify the icon you want to use on the right. You can also use something other than `daikin-icon`.
@@ -178,15 +184,21 @@ export class DaikinTextField extends DDSElement {
   error = false;
 
   /**
+   * Minimum length of value.
+   */
+  @property({ type: Number, reflect: true })
+  minlength: number | null = null;
+
+  /**
    * Maximum length of value.
    */
-  @property({ type: Number })
-  maxlength?: number;
+  @property({ type: Number, reflect: true })
+  maxlength: number | null = null;
 
   /**
    * Value of `autocomplete` attribute of the internal `<input>`.
    */
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   autocomplete?: HTMLInputElement["autocomplete"];
 
   /**
@@ -197,74 +209,135 @@ export class DaikinTextField extends DDSElement {
   private _label: string | null = null;
 
   @state()
-  private _hasLeftIcon = false;
+  private _hasLeftSlot = false;
 
   @state()
-  private _hasRightIcon = false;
+  private _hasRightSlot = false;
+
+  private _handleChange(event: Event) {
+    this.dispatchEvent(new Event("change", event));
+  }
 
   private _handleSlotChange(event: Event) {
+    if (["search"].includes(this.type)) {
+      //The search variant do not allow slot icons.
+      return;
+    }
+
     const target = event.target as HTMLSlotElement;
     const name = target.name;
     const hasIcon = !!target.assignedNodes().length;
 
     switch (name) {
       case "left-icon":
-        this._hasLeftIcon = hasIcon;
+        this._hasLeftSlot = hasIcon;
         break;
 
       case "right-icon":
-        this._hasRightIcon = hasIcon;
+        this._hasRightSlot = hasIcon;
         break;
     }
   }
 
-  private _handleInput(e: InputEvent): void {
-    this.value = (e.target as HTMLInputElement).value;
+  private _handleInput(event: InputEvent): void {
+    this.value = (event.target as HTMLInputElement).value;
     this._internals.setFormValue(this.value);
   }
 
+  private _handleClearClick(): void {
+    this.value = "";
+  }
+
+  private _handleKeyDown(event: KeyboardEvent): void {
+    if (this.type === "search" && event.key === "Enter") {
+      this.dispatchEvent(new Event("search"));
+    }
+  }
+
   override render() {
-    const isError = !this.disabled && this.error;
+    const error = !this.disabled && this.error;
+    const leftIcon = this.type === "search" || this._hasLeftSlot;
+    const rightIcon =
+      (this.type === "search" && !!this.value.length) || this._hasRightSlot;
+
+    const createIcon = (() => {
+      switch (this.type) {
+        case "search":
+          return html`<span
+              class=${cvaIcon({
+                icon: "left",
+                disabled: this.disabled,
+              })}
+            >
+              <span class="i-daikin-search size-6"></span>
+            </span>
+            ${!!this.value && !!this.value.length
+              ? html`<daikin-icon-button
+                  color="neutral"
+                  variant="ghost"
+                  ?disabled=${this.disabled}
+                  button-aria-label="Clear"
+                  class="absolute right-3 size-6"
+                  @click=${this._handleClearClick}
+                >
+                  <span class="i-daikin-close"></span>
+                </daikin-icon-button>`
+              : nothing}`;
+
+        default:
+          return html`<div
+              class=${cvaIcon({
+                icon: "left",
+                disabled: this.disabled,
+              })}
+            >
+              <slot
+                name="left-icon"
+                class="icon-size-6"
+                @slotchange=${this._handleSlotChange}
+              ></slot>
+            </div>
+            <div
+              class=${cvaIcon({
+                icon: "right",
+                disabled: this.disabled,
+              })}
+            >
+              <slot
+                name="right-icon"
+                class="icon-size-6"
+                @slotchange=${this._handleSlotChange}
+              ></slot>
+            </div>`;
+      }
+    })();
 
     return html`<input
         class=${cvaInput({
-          error: isError,
-          leftIcon: this._hasLeftIcon,
-          rightIcon: this._hasRightIcon,
+          error,
+          leftIcon,
+          rightIcon,
+          type: this.type,
         })}
         type=${this.type}
         placeholder=${ifDefined(this.placeholder ?? undefined)}
         name=${ifDefined(this.name)}
-        maxlength=${ifDefined(this.maxlength)}
+        minlength=${ifDefined(this.minlength ?? undefined)}
+        maxlength=${ifDefined(this.maxlength ?? undefined)}
         autocomplete=${
           // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
           ifDefined(this.autocomplete as any)
         }
-        aria-label=${
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
-          ifDefined(this._label as any)
-        }
+        aria-label=${ifDefined(this._label ?? undefined)}
         .value=${this.value}
         ?disabled=${this.disabled}
         ?readonly=${this.readonly}
         ?required=${this.required}
-        @change=${(e: Event) => this.dispatchEvent(new Event("change", e))}
+        @change=${this._handleChange}
         @input=${this._handleInput}
+        @keydown=${this._handleKeyDown}
       />
-      <div class=${cvaIcon({ icon: "left", disabled: this.disabled })}>
-        <slot
-          name="left-icon"
-          class="icon-size-6"
-          @slotchange=${this._handleSlotChange}
-        ></slot>
-      </div>
-      <div class=${cvaIcon({ icon: "right", disabled: this.disabled })}>
-        <slot
-          name="right-icon"
-          class="icon-size-6"
-          @slotchange=${this._handleSlotChange}
-        ></slot>
-      </div>`;
+      ${createIcon}`;
   }
 
   override updated(changedProperties: PropertyValues<this>) {

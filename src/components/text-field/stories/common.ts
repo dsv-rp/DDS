@@ -10,6 +10,7 @@ export interface DaikinTextFieldStoryArgs
   onChange: (event: Event) => void;
   onInput: (event: Event) => void;
   onKeyDown: (event: Event) => void;
+  onSearch: (event: Event) => void;
 }
 
 export const DAIKIN_TEXT_FIELD_ARG_TYPES = {
@@ -21,7 +22,7 @@ export const DAIKIN_TEXT_FIELD_ARG_TYPES = {
   },
   type: {
     control: "radio",
-    options: ["text", "email", "tel"],
+    options: ["text", "email", "tel", "search"],
   },
   placeholder: {
     type: "string",
@@ -34,6 +35,9 @@ export const DAIKIN_TEXT_FIELD_ARG_TYPES = {
   },
   required: {
     type: "boolean",
+  },
+  minlength: {
+    type: "number",
   },
   maxlength: {
     type: "number",
@@ -53,6 +57,8 @@ export const DAIKIN_TEXT_FIELD_ARG_TYPES = {
   // Hide event listeners
   onChange: { name: "" },
   onInput: { name: "" },
+  onKeyDown: { name: "" },
+  onSearch: { name: "" },
 } satisfies Meta<DaikinTextFieldStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinTextFieldStoryArgs>;
