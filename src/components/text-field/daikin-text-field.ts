@@ -255,7 +255,10 @@ export class DaikinTextField extends DDSElement {
   }
 
   override render() {
-    const isError = !this.disabled && this.error;
+    const error = !this.disabled && this.error;
+    const leftIcon = this.type === "search" || this._hasLeftSlot;
+    const rightIcon =
+      this._hasRightSlot || (this.type === "search" && !!this.value.length);
 
     const createIcon = (() => {
       switch (this.type) {
@@ -311,11 +314,9 @@ export class DaikinTextField extends DDSElement {
 
     return html`<input
         class=${cvaInput({
-          error: isError,
-          leftIcon: this.type === "search" || this._hasLeftSlot,
-          rightIcon:
-            this._hasRightSlot ||
-            (this.type === "search" && !!this.value.length),
+          error,
+          leftIcon,
+          rightIcon,
           type: this.type,
         })}
         type=${this.type}
