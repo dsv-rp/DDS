@@ -286,8 +286,8 @@ export class DaikinTextField extends DDSElement {
     const error = !this.disabled && this.error;
     const leftIcon = this.type === "search" || this._hasLeftSlot;
     const rightIcon =
-      this.type === "password" ||
       (this.type === "search" && !!this.value.length) ||
+      this.type === "password" ||
       this._hasRightSlot;
     const type =
       this.type === "password" && this.showPassword ? "text" : this.type;
