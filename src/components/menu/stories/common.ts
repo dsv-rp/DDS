@@ -5,7 +5,6 @@ import { cva } from "class-variance-authority";
 
 export interface DaikinMenuStoryArgs
   extends Required<ElementProps<DaikinMenu>> {
-  hasSlot: boolean;
   viewArea: "small" | "full";
   onClick: (event: Event) => void;
   onToggle: (event: Event) => void;
@@ -18,15 +17,11 @@ export const DAIKIN_MENU_ARG_TYPES = {
     control: "radio",
     options: ["top", "bottom", "left", "right"],
   },
-  color: {
-    control: "radio",
-    options: ["default", "inverse"],
-  },
   open: {
     type: "boolean",
   },
-  description: {
-    type: "string",
+  divider: {
+    type: "boolean",
   },
   popoverValue: {
     control: "radio",
@@ -35,9 +30,6 @@ export const DAIKIN_MENU_ARG_TYPES = {
   trigger: {
     control: "radio",
     options: ["hover", "click", "manual"],
-  },
-  hasSlot: {
-    type: "boolean",
   },
   viewArea: {
     control: "radio",
@@ -50,9 +42,6 @@ export const DAIKIN_MENU_ARG_TYPES = {
 } as const satisfies Meta<DaikinMenuStoryArgs>["argTypes"];
 
 export type Story = StoryObj<DaikinMenuStoryArgs>;
-
-export const MENU_SLOT_TEXT =
-  "This is a description using a slot. It also supports content other than character strings.";
 
 export const cvaViewArea = cva(["overflow-auto", "border-[#ccc]"], {
   variants: {

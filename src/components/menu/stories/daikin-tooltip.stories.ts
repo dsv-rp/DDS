@@ -16,8 +16,6 @@ export const Default: Story = {
     placement: "bottom",
     color: "default",
     open: false,
-    description:
-      "This is a description using attributes.\nIt supports line breaks.",
     popoverValue: "auto",
     trigger: "hover",
     viewArea: "small",
@@ -58,20 +56,6 @@ export const Default: Story = {
       await waitFor(() => expect(root).not.toHaveAttribute("open"));
     });
   }),
-};
-
-export const Inverse: Story = {
-  args: {
-    ...Default.args,
-    color: "inverse",
-  },
-};
-
-export const SlotDescription: Story = {
-  args: {
-    ...Default.args,
-    hasSlot: true,
-  },
 };
 
 export const FullSizeView: Story = {

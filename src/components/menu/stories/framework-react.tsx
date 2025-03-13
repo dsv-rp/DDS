@@ -2,7 +2,7 @@ import { DaikinMenu } from "#package/components/menu/daikin-menu";
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
-import { ReactDaikinIconButton } from "../../icon-button/stories/framework-react";
+import { ReactDaikinButton } from "../../button/stories/framework-react";
 import { ReactDaikinListItem } from "../../list-item/stories/framework-react";
 import { ReactDaikinList } from "../../list/stories/framework-react";
 import { cvaContainer, cvaViewArea, type DaikinMenuStoryArgs } from "./common";
@@ -26,16 +26,12 @@ export const metadata: Meta<DaikinMenuStoryArgs> = {
     >
       <div className={cvaContainer({ isVrt: __vrtContainer__ })}>
         <ReactDaikinMenu {...props}>
-          <ReactDaikinIconButton button-aria-label="Trigger">
-            <span className="block size-6 i-daikin-status-information" />
-          </ReactDaikinIconButton>
-          <div slot="description" style={{ width: "360px" }}>
-            <ReactDaikinList>
-              <ReactDaikinListItem>List item label 1</ReactDaikinListItem>
-              <ReactDaikinListItem>List item label 2</ReactDaikinListItem>
-              <ReactDaikinListItem>List item label 3</ReactDaikinListItem>
-            </ReactDaikinList>
-          </div>
+          <ReactDaikinButton>Menu</ReactDaikinButton>
+          <ReactDaikinList slot="menu" style={{ width: "256px" }}>
+            <ReactDaikinListItem>List item label 1</ReactDaikinListItem>
+            <ReactDaikinListItem>List item label 2</ReactDaikinListItem>
+            <ReactDaikinListItem>List item label 3</ReactDaikinListItem>
+          </ReactDaikinList>
         </ReactDaikinMenu>
       </div>
     </div>

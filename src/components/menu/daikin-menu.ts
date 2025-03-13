@@ -1,60 +1,42 @@
 import { flip, offset, shift } from "@floating-ui/dom";
 import { cva } from "class-variance-authority";
 import { css, html, unsafeCSS, type PropertyValues } from "lit";
-import { property } from "lit/decorators.js";
+import { property, queryAssignedElements } from "lit/decorators.js";
 import { guard } from "lit/directives/guard.js";
+import { createRef, ref } from "lit/directives/ref.js";
 import { DDSElement, ddsElement } from "../../base";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
-import type { MergeVariantProps } from "../../type-utils";
 import { reDispatch } from "../../utils/re-dispatch";
+import type DaikinList from "../list/daikin-list";
 
-const cvaMenu = cva(
-  [
-    "left-[--floating-x,0]",
-    "top-[--floating-y,0]",
-    "w-max",
-    "text-sm",
-    "leading-[130%]",
-    "border",
-    "rounded",
-    "font-daikinSerif",
-    "absolute",
-    "floating-unready:hidden",
-  ],
-  {
-    variants: {
-      color: {
-        default: [
-          "text-ddt-color-common-text-primary",
-          "bg-ddt-color-common-background-default",
-          "border-ddt-color-common-neutral-default",
-        ],
-        inverse: [
-          "text-ddt-color-common-text-inverse",
-          "bg-ddt-color-common-surface-inverse",
-          "border-transparent",
-        ],
-      },
-    },
-  }
-);
+const cvaMenu = cva([
+  "left-[--floating-x,0]",
+  "top-[--floating-y,0]",
+  "w-max",
+  "py-2",
+  "border",
+  "rounded-lg",
+  "font-daikinSerif",
+  "absolute",
+  "floating-unready:hidden",
+  "bg-ddt-color-common-background-default",
+  "border-ddt-color-divider",
+]);
 
 const DEFAULT_MENU_SPACING = "0px";
 
-type MenuVariantProps = MergeVariantProps<typeof cvaMenu>;
-
 /**
- * A menu component is used to show brief information when a user interacts with an element.
+ * A menu component is used to show list information when a user interacts with an element.
  *
  * @fires beforetoggle - _Cancellable._ A event emitted when the menu is about to be opened or closed by user interaction.
  * @fires toggle - A event emitted when the menu is opened or closed.
  *
  * @slot - A slot for the element to which the menu is attached (the trigger element).
- * @slot description - A slot for the menu description content.
+ * @slot menu - A slot for the menu content (daikin-list component).
  *
- * @cssprop [--ddc-menu-spacing=20px] - Spacing between the menu and the trigger.
+ * @cssprop [--ddc-menu-spacing=0px] - Spacing between the menu and the trigger.
  *
  * @csspart menu - Change the style of menu.
  *
@@ -62,18 +44,19 @@ type MenuVariantProps = MergeVariantProps<typeof cvaMenu>;
  *
  * ```js
  * import "@daikin-oss/design-system-web-components/components/menu/index.js";
+ * import "@daikin-oss/design-system-web-components/components/button/index.js";
+ * import "@daikin-oss/design-system-web-components/components/list/index.js";
+ * import "@daikin-oss/design-system-web-components/components/list-item/index.js";
  * ```
  *
  * ```html
  * <daikin-menu>
- *   <span>Hover me</span>
- *   <span slot="description">This is a message</span>
- * </daikin-menu>
- * ```
- *
- * ```html
- * <daikin-menu description="This is a message">
- *   <span>Hover me</span>
+ *   <daikin-button>Click me</daikin-button>
+ *   <daikin-list slot="menu" style="width: 256px">
+ *     <daikin-list-item>List item label 1</daikin-list-item>
+ *     <daikin-list-item>List item label 2</daikin-list-item>
+ *     <daikin-list-item>List item label 3</daikin-list-item>
+ *   </daikin-list>
  * </daikin-menu>
  * ```
  */
@@ -102,17 +85,14 @@ export class DaikinMenu extends DDSElement {
     }
   `;
 
+  @queryAssignedElements({ slot: "menu", selector: "daikin-list" })
+  private readonly _lists!: Array<DaikinList>;
+
   /**
    * Specifies the position of the menu relative to the trigger.
    */
   @property({ type: String, reflect: true })
   placement: "top" | "bottom" | "left" | "right" = "bottom";
-
-  /**
-   * Specifies the menu theme.
-   */
-  @property({ type: String, reflect: true })
-  color: MenuVariantProps["color"] = "default";
 
   /**
    * Whether the menu is open.
@@ -121,11 +101,10 @@ export class DaikinMenu extends DDSElement {
   open = false;
 
   /**
-   * Specifies the content of the menu.
-   * Ignored if the `menu` slot exists.
+   * Whether the menu has divider.
    */
-  @property({ type: String })
-  description = "";
+  @property({ type: Boolean, reflect: true })
+  divider = false;
 
   /**
    * Specify the value of the popover attribute in the Popover API.
@@ -137,18 +116,28 @@ export class DaikinMenu extends DDSElement {
 
   /**
    * How the menu is controlled.
-   * - `hover`: The menu is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering. (default)
-   * - `click`: The menu is displayed when the mouse clicks on the trigger element, and hidden when you click on it again.
+   * - `hover`: The menu is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering trigger or menu. (default)
+   * - `click`: The menu is displayed when the mouse clicks on the trigger element, and hidden when you click on it again. (default)
    * - `manual`: The menu does not respond to user interaction. Use this to control the menu programmatically.
    */
   @property({ type: String, reflect: true })
   trigger: "hover" | "click" | "manual" = "hover";
 
+  private _menuRef = createRef<HTMLElement>();
+
+  private _triggerRef = createRef<HTMLElement>();
+
+  private _reflectSlotProperties(): void {
+    for (const daikinList of this._lists) {
+      daikinList.divider = this.divider;
+    }
+  }
+
   private _autoUpdateController = new FloatingUIAutoUpdateController(this);
 
   private _hostStyles = isClient ? window.getComputedStyle(this) : null;
 
-  private _handleClick(event: PointerEvent) {
+  private _handleTriggerClick(event: PointerEvent) {
     if (this.trigger === "click") {
       // Prevent the menu from closing via the Popover feature.
       event.preventDefault();
@@ -157,22 +146,33 @@ export class DaikinMenu extends DDSElement {
     }
   }
 
-  private _handleFocusIn() {
-    this.open = true;
-  }
-
-  private _handleFocusOut() {
-    this.open = false;
-  }
-
-  private _handleMouseEnter() {
+  private _handleTriggerFocusIn() {
     if (this.trigger === "hover") {
       this.open = true;
     }
   }
 
-  private _handleMouseLeave() {
+  private _handleTriggerFocusOut() {
+    this.open = false;
+  }
+
+  private _handleTriggerMouseEnter() {
     if (this.trigger === "hover") {
+      this.open = true;
+    }
+  }
+
+  private _handleTriggerMouseLeave() {
+    if (this.trigger === "hover" && !this._menuRef.value?.matches(":hover")) {
+      this.open = false;
+    }
+  }
+
+  private _handleMenuMouseLeave() {
+    if (
+      this.trigger === "hover" &&
+      !this._triggerRef.value?.matches(":hover")
+    ) {
       this.open = false;
     }
   }
@@ -206,27 +206,28 @@ export class DaikinMenu extends DDSElement {
         ${this._autoUpdateController.refReference()}
       >
         <slot
-          @click=${this._handleClick}
-          @focusin=${this._handleFocusIn}
-          @focusout=${this._handleFocusOut}
-          @mouseenter=${this._handleMouseEnter}
-          @mouseleave=${this._handleMouseLeave}
+          ${ref(this._triggerRef)}
+          @click=${this._handleTriggerClick}
+          @focusin=${this._handleTriggerFocusIn}
+          @focusout=${this._handleTriggerFocusOut}
+          @mouseenter=${this._handleTriggerMouseEnter}
+          @mouseleave=${this._handleTriggerMouseLeave}
         ></slot>
       </div>
       <span
         id="menu"
         role="menu"
+        ${ref(this._menuRef)}
         aria-labelledby="menu"
         part="menu"
-        class=${cvaMenu({ color: this.color })}
+        class=${cvaMenu()}
         popover=${this.popoverValue}
         @beforetoggle=${this._handleBeforeToggle}
         @toggle=${this._handleToggle}
+        @mouseleave=${this._handleMenuMouseLeave}
         ${this._autoUpdateController.refFloating()}
       >
-        <slot name="description">
-          <span class="whitespace-pre-line">${this.description}</span>
-        </slot>
+        <slot name="menu"></slot>
       </span>
       ${
         // Activate auto update only when the menu is open.
@@ -246,6 +247,9 @@ export class DaikinMenu extends DDSElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
+    if (changedProperties.has("divider")) {
+      this._reflectSlotProperties();
+    }
     if (changedProperties.has("open")) {
       this._autoUpdateController.floatingElement?.togglePopover(this.open);
     }

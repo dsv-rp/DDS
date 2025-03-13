@@ -1,24 +1,19 @@
-import "#package/components/icon-button/daikin-icon-button";
-import "#package/components/tooltip/daikin-tooltip";
+import "#package/components/button/daikin-button";
+import "#package/components/list-item/daikin-list-item";
+import "#package/components/list/daikin-list";
+import "#package/components/menu/daikin-menu";
 import type { Meta } from "@storybook/web-components";
-import { html, nothing } from "lit";
-import {
-  cvaContainer,
-  cvaViewArea,
-  MENU_SLOT_TEXT,
-  type DaikinMenuStoryArgs,
-} from "./common";
+import { html } from "lit";
+import { cvaContainer, cvaViewArea, type DaikinMenuStoryArgs } from "./common";
 
 export const metadata: Meta<DaikinMenuStoryArgs> = {
   render: ({
     placement,
-    color,
     open,
-    description,
     popoverValue,
     trigger,
     viewArea,
-    hasSlot,
+    divider,
     onToggle,
     onBeforeToggle,
     __vrtContainer__,
@@ -28,25 +23,22 @@ export const metadata: Meta<DaikinMenuStoryArgs> = {
       class=${cvaViewArea({ viewArea, isVrt: !!__vrtContainer__ })}
     >
       <div class=${cvaContainer({ isVrt: !!__vrtContainer__ })}>
-        <daikin-tooltip
+        <daikin-menu
           placement=${placement}
-          color=${color}
           ?open=${open}
-          description=${description}
           popover-value=${popoverValue}
           trigger=${trigger}
+          ?divider=${divider}
           @toggle=${onToggle}
           @beforetoggle=${onBeforeToggle}
         >
-          <daikin-icon-button button-aria-label="Trigger">
-            <span
-              class="inline-block size-6 i-daikin-status-information"
-            ></span>
-          </daikin-icon-button>
-          ${hasSlot
-            ? html`<span slot="description">${MENU_SLOT_TEXT}</span>`
-            : nothing}
-        </daikin-tooltip>
+          <daikin-button>Menu</daikin-button>
+          <daikin-list slot="menu" style="width:256px">
+            <daikin-list-item>List item label 1</daikin-list-item>
+            <daikin-list-item>List item label 2</daikin-list-item>
+            <daikin-list-item>List item label 3</daikin-list-item>
+          </daikin-list>
+        </daikin-menu>
       </div>
     </div>`,
   parameters: {

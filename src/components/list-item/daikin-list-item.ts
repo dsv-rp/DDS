@@ -36,6 +36,36 @@ const cvaContent = cva(["block", "pl-2", "pr-3", "text-left"], {
   },
 });
 
+const cvaWrapper = cva(
+  [
+    "group",
+    "flex",
+    "justify-between",
+    "items-center",
+    "w-full",
+    "min-h-12",
+    "p-3",
+    "text-left",
+    "relative",
+  ],
+  {
+    variants: {
+      divider: {
+        true: [
+          "after:absolute",
+          "after:content-['']",
+          "after:h-[1px]",
+          "after:w-full",
+          "after:bg-ddt-color-divider",
+          "after:inset-0",
+          "after:top-auto",
+        ],
+        false: [],
+      },
+    },
+  }
+);
+
 const cvaIcon = cva(["icon-size-6"], {
   variants: {
     position: {
@@ -82,6 +112,11 @@ const cvaIcon = cva(["icon-size-6"], {
 export class DaikinListItem extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
+
+    :host {
+      display: inline-block;
+      width: 100%;
+    }
   `;
 
   /**
@@ -107,6 +142,12 @@ export class DaikinListItem extends DDSElement {
    */
   @property({ type: Boolean, reflect: true })
   disabled: boolean = false;
+
+  /**
+   * Whether the list item has divider.
+   */
+  @property({ type: Boolean, reflect: true })
+  divider = false;
 
   @query("a,button")
   private _focusableElement!: HTMLAnchorElement | HTMLButtonElement | null;
@@ -168,7 +209,7 @@ export class DaikinListItem extends DDSElement {
 
     /* eslint-disable lit-a11y/click-events-have-key-events -- Since it's only used to suppress `click` events, listening for keyboard events is not necessary. */
     return html`<div
-      class="group flex justify-between items-center w-full min-h-12 p-3 text-left relative"
+      class=${cvaWrapper({ divider: this.divider })}
       role="listitem"
     >
       ${list}
