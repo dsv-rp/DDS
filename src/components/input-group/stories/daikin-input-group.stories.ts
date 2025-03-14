@@ -80,6 +80,13 @@ export const Error: Story = {
   },
 };
 
+export const DatePicker: Story = {
+  args: {
+    ...Default.args,
+    content: "DatePicker",
+  },
+};
+
 export const Dropdown: Story = {
   args: {
     ...Default.args,
