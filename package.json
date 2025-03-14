@@ -1,6 +1,6 @@
 {
   "name": "@daikin-oss/design-system-web-components",
-  "version": "0.7.0",
+  "version": "1.0.0",
   "description": "Design system using web components",
   "type": "module",
   "files": [
