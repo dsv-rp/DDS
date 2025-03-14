@@ -134,6 +134,15 @@ export class DaikinCheckbox extends DDSElement {
   @property({ type: Boolean, reflect: true })
   disabled = false;
 
+  /**
+   * Specify the checkbox disabled state controlled by the parent component.
+   * Controlled by `daikin-checkbox-group`.
+   *
+   * @private
+   */
+  @property({ type: Boolean, reflect: true, attribute: false })
+  disabledByParent = false;
+
   get checked(): boolean {
     return this.checkState === "checked";
   }
@@ -181,6 +190,7 @@ export class DaikinCheckbox extends DDSElement {
   }
 
   override render() {
+    const disabled = this.disabled || this.disabledByParent;
     // We have to attach event listener to the root element instead of `this` to access non-encapsulated `event.target`.
     // eslint-disable-next-line lit-a11y/click-events-have-key-events -- We're listening to "click" event only for suppressing purposes.
     return html`<label
@@ -192,8 +202,8 @@ export class DaikinCheckbox extends DDSElement {
           class=${CHECKBOX_CLASS_NAME}
           type="checkbox"
           name=${this.name}
+          ?disabled=${disabled}
           aria-label=${this._labelHidden ? this.label : nothing}
-          ?disabled=${this.disabled}
           .checked=${this.checked}
           .indeterminate=${this.checkState === "indeterminate"}
           .value=${this.value}
@@ -202,7 +212,7 @@ export class DaikinCheckbox extends DDSElement {
       </span>
       <slot
         class=${cvaLabel({
-          disabled: this.disabled,
+          disabled,
           hidden: this._labelHidden,
         })}
         ?hidden=${this._labelHidden}

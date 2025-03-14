@@ -4,6 +4,7 @@ import { property, queryAssignedElements, state } from "lit/decorators.js";
 import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import type { DaikinCheckboxGroup } from "../checkbox-group";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
@@ -13,6 +14,7 @@ import type { DaikinTextField } from "../text-field/daikin-text-field";
 type ControlElement =
   | DaikinDropdown
   | DaikinRadioGroup
+  | DaikinCheckboxGroup
   | DaikinSelect
   | DaikinTextField
   | DaikinTextArea;
@@ -123,6 +125,18 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  * </daikin-input-group>
  * ```
  *
+ * With Checkbox Group:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-checkbox-group>
+ *     <daikin-checkbox name="name1" value="value1" label="Checkbox Item 1"></daikin-checkbox>
+ *     <daikin-checkbox name="name2" value="value2" label="Checkbox Item 2"></daikin-checkbox>
+ *     <daikin-checkbox name="name3" value="value3" label="Checkbox Item 3"></daikin-checkbox>
+ *   </daikin-checkbox-group>
+ * </daikin-input-group>
+ * ```
+ *
  * With Select:
  *
  * ```html
@@ -229,7 +243,7 @@ export class DaikinInputGroup extends DDSElement {
 
   @queryAssignedElements({
     selector:
-      "daikin-dropdown,daikin-radio-group,daikin-select,daikin-text-field,daikin-text-area",
+      "daikin-dropdown,daikin-radio-group,daikin-checkbox-group,daikin-select,daikin-text-field,daikin-text-area",
   })
   private readonly _controls!: readonly ControlElement[];
 
