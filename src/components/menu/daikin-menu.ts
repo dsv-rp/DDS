@@ -4,11 +4,13 @@ import { css, html, unsafeCSS, type PropertyValues } from "lit";
 import { property, queryAssignedElements } from "lit/decorators.js";
 import { guard } from "lit/directives/guard.js";
 import { createRef, ref } from "lit/directives/ref.js";
+import { type KeyboardEvent } from "react";
 import { DDSElement, ddsElement } from "../../base";
 import { FloatingUIAutoUpdateController } from "../../controllers/floating-ui-auto-update";
 import { isClient } from "../../is-client";
 import tailwindStyles from "../../tailwind.css?inline";
 import { reDispatch } from "../../utils/re-dispatch";
+import DaikinListItem from "../list-item/daikin-list-item";
 import type DaikinList from "../list/daikin-list";
 
 const cvaMenu = cva([
@@ -116,12 +118,11 @@ export class DaikinMenu extends DDSElement {
 
   /**
    * How the menu is controlled.
-   * - `hover`: The menu is displayed when the mouse hovers over the trigger element, and hidden when the mouse is no longer hovering trigger or menu. (default)
    * - `click`: The menu is displayed when the mouse clicks on the trigger element, and hidden when you click on it again. (default)
    * - `manual`: The menu does not respond to user interaction. Use this to control the menu programmatically.
    */
   @property({ type: String, reflect: true })
-  trigger: "hover" | "click" | "manual" = "hover";
+  trigger: "click" | "manual" = "click";
 
   private _menuRef = createRef<HTMLElement>();
 
@@ -146,35 +147,87 @@ export class DaikinMenu extends DDSElement {
     }
   }
 
-  private _handleTriggerFocusIn() {
-    if (this.trigger === "hover") {
-      this.open = true;
-    }
-  }
-
-  private _handleTriggerFocusOut() {
-    this.open = false;
-  }
-
-  private _handleTriggerMouseEnter() {
-    if (this.trigger === "hover") {
-      this.open = true;
-    }
-  }
-
-  private _handleTriggerMouseLeave() {
-    if (this.trigger === "hover" && !this._menuRef.value?.matches(":hover")) {
+  private _handleMenuClick(event: PointerEvent) {
+    if (event.target instanceof DaikinListItem && !event.target.disabled) {
       this.open = false;
     }
   }
 
-  private _handleMenuMouseLeave() {
-    if (
-      this.trigger === "hover" &&
-      !this._triggerRef.value?.matches(":hover")
-    ) {
-      this.open = false;
+  private get _activeListItems(): DaikinListItem[] | undefined {
+    const activeListItems = this._lists[0]?.assignedSlot
+      ?.assignedElements()[0]
+      .shadowRoot?.querySelector("slot")
+      ?.assignedElements();
+    if (!activeListItems) {
+      return;
     }
+    return activeListItems as DaikinListItem[];
+  }
+
+  private _handleKeyUp(event: KeyboardEvent) {
+    if (event.key === " " || (event.key === "Enter" && this.open)) {
+      setTimeout(() => {
+        if (!this._activeListItems) {
+          return;
+        }
+        const firstListItem = this._activeListItems[0];
+        firstListItem.focus();
+      });
+    }
+  }
+
+  private handleKeyDown(event: KeyboardEvent) {
+    const direction = (
+      {
+        ArrowDown: "down",
+        ArrowUp: "up",
+        Home: "home",
+        End: "end",
+      } as const
+    )[event.key];
+
+    if (!direction) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const moveOffset = direction === "up" ? -1 : 1;
+
+    // Get focused item if any
+    if (!this._activeListItems) {
+      return;
+    }
+    const listItems = this._activeListItems.filter(({ disabled }) => !disabled);
+    const activeElement = document.activeElement;
+    const focusedItemIndex = activeElement
+      ? listItems.findIndex((item) => item === activeElement)
+      : -1;
+
+    // If there is no accordion focused, do nothing.
+    if (focusedItemIndex < 0) {
+      return;
+    }
+
+    // If click Home key focus the first active item.
+    if (direction === "home") {
+      const nextItem = listItems[0];
+      nextItem.focus();
+      return;
+    }
+    if (direction === "end") {
+      const nextItem = listItems[listItems.length - 1];
+      nextItem.focus();
+      return;
+    }
+
+    // Focus on the next enabled accordion item.
+    const nextItem =
+      listItems[
+        (focusedItemIndex + moveOffset + listItems.length) % listItems.length
+      ];
+
+    nextItem.focus();
   }
 
   private _handleBeforeToggle(event: ToggleEvent) {
@@ -195,7 +248,6 @@ export class DaikinMenu extends DDSElement {
     );
 
     // `aria-labelledby` in the menu is only for suppressing linting issues. I don't think it's harmful.
-    /* eslint-disable lit-a11y/click-events-have-key-events */
     return html`<div
       class="relative inline-block text-ddt-color-common-text-primary font-daikinSerif"
     >
@@ -208,10 +260,7 @@ export class DaikinMenu extends DDSElement {
         <slot
           ${ref(this._triggerRef)}
           @click=${this._handleTriggerClick}
-          @focusin=${this._handleTriggerFocusIn}
-          @focusout=${this._handleTriggerFocusOut}
-          @mouseenter=${this._handleTriggerMouseEnter}
-          @mouseleave=${this._handleTriggerMouseLeave}
+          @keyup=${this._handleKeyUp}
         ></slot>
       </div>
       <span
@@ -222,9 +271,10 @@ export class DaikinMenu extends DDSElement {
         part="menu"
         class=${cvaMenu()}
         popover=${this.popoverValue}
+        @click=${this._handleMenuClick}
         @beforetoggle=${this._handleBeforeToggle}
         @toggle=${this._handleToggle}
-        @mouseleave=${this._handleMenuMouseLeave}
+        @keydown=${this.handleKeyDown}
         ${this._autoUpdateController.refFloating()}
       >
         <slot name="menu"></slot>
@@ -243,7 +293,6 @@ export class DaikinMenu extends DDSElement {
         )
       }
     </div>`;
-    /* eslint-enable lit-a11y/click-events-have-key-events */
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {

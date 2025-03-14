@@ -29,7 +29,7 @@ export const DAIKIN_MENU_ARG_TYPES = {
   },
   trigger: {
     control: "radio",
-    options: ["hover", "click", "manual"],
+    options: ["click", "manual"],
   },
   viewArea: {
     control: "radio",
