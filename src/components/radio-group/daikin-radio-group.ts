@@ -1,22 +1,18 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS, type PropertyValues } from "lit";
-import {
-  customElement,
-  property,
-  queryAssignedElements,
-  state,
-} from "lit/decorators.js";
+import { css, html, unsafeCSS, type PropertyValues } from "lit";
+import { property, queryAssignedElements, state } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
 import type { DaikinInputGroup } from "../input-group";
 import { DaikinRadio } from "../radio/daikin-radio";
 
-const cvaRadioGroup = cva(["size-full", "flex"], {
+const cvaRadioGroup = cva(["size-full", "flex", "gap-x-3", "gap-y-2"], {
   variants: {
     orientation: {
-      horizontal: ["flex-row", "gap-3"],
-      vertical: ["flex-col", "gap-2"],
+      horizontal: ["flex-row", "flex-wrap"],
+      vertical: ["flex-col"],
     },
   },
 });
@@ -49,8 +45,8 @@ type RadioGroupProps = MergeVariantProps<typeof cvaRadioGroup>;
  * </daikin-radio-group>
  * ```
  */
-@customElement("daikin-radio-group")
-export class DaikinRadioGroup extends LitElement {
+@ddsElement("daikin-radio-group")
+export class DaikinRadioGroup extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
@@ -89,11 +85,24 @@ export class DaikinRadioGroup extends LitElement {
   required = false;
 
   /**
+   * Whether the radio group is disabled.
+   * Controlled by `daikin-input-group` when used within `daikin-input-group`.
+   */
+  @property({ type: Boolean, reflect: true })
+  disabled = false;
+
+  /**
    * The label text used as the value of aria-label.
    * Set automatically by `reflectInputGroup` method.
    */
   @state()
   private _label: string | null = null;
+
+  private _reflectSlotProperties(): void {
+    for (const radio of this._radios) {
+      radio.disabledByParent = this.disabled;
+    }
+  }
 
   private _updateRadios() {
     const radios = this._radios;
@@ -119,6 +128,7 @@ export class DaikinRadioGroup extends LitElement {
   };
 
   private _handleSlotChange(): void {
+    this._reflectSlotProperties();
     this._updateRadios();
   }
 
@@ -176,6 +186,7 @@ export class DaikinRadioGroup extends LitElement {
 
   override render() {
     return html`<fieldset
+      class=${cvaRadioGroup({ orientation: this.orientation })}
       role="radiogroup"
       aria-label=${
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
@@ -185,10 +196,13 @@ export class DaikinRadioGroup extends LitElement {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
         ifDefined(this.required as any)
       }
+      aria-disabled=${
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any -- workaround lit-analyzer checking
+        ifDefined(this.disabled as any)
+      }
       @keydown=${this._handleKeyDown}
     >
       <slot
-        class=${cvaRadioGroup({ orientation: this.orientation })}
         @slotchange=${this._handleSlotChange}
         @change=${this._handleRadioChange}
       >
@@ -197,14 +211,20 @@ export class DaikinRadioGroup extends LitElement {
   }
 
   protected override updated(changedProperties: PropertyValues<this>): void {
+    this._reflectSlotProperties();
     if (changedProperties.has("value") || changedProperties.has("name")) {
       this._updateRadios();
     }
   }
 
+  /**
+   * This method is used by `daikin-input-group` to reflect it's attributes to this component.
+   * @private
+   */
   reflectInputGroup(inputGroup: DaikinInputGroup): void {
     this._label = inputGroup.label;
     this.required = !!inputGroup.required;
+    this.disabled = inputGroup.disabled;
   }
 }
 

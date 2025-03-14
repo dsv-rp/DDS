@@ -1,10 +1,12 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
 import { ifDefined } from "lit/directives/if-defined.js";
+import { DDSElement, ddsElement } from "../../base";
 import type { ARIARole } from "../../lit-analyzer-types";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+
 import "../icon/daikin-icon";
 
 const cvaIconButton = cva(
@@ -95,8 +97,8 @@ type IconButtonVariantProps = MergeVariantProps<typeof cvaIconButton>;
  * </daikin-icon-button>
  * ```
  */
-@customElement("daikin-icon-button")
-export class DaikinIconButton extends LitElement {
+@ddsElement("daikin-icon-button")
+export class DaikinIconButton extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

@@ -1,13 +1,7 @@
 import { cva } from "class-variance-authority";
-import {
-  css,
-  html,
-  LitElement,
-  nothing,
-  unsafeCSS,
-  type PropertyValues,
-} from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { css, html, nothing, unsafeCSS, type PropertyValues } from "lit";
+import { property } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const CHECKBOX_CLASS_NAME = cva([
@@ -92,8 +86,8 @@ const cvaLabel = cva([], {
  * <daikin-checkbox label="Checkbox label" name="name" value="value"></daikin-checkbox>
  * ```
  */
-@customElement("daikin-checkbox")
-export class DaikinCheckbox extends LitElement {
+@ddsElement("daikin-checkbox")
+export class DaikinCheckbox extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 

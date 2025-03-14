@@ -1,5 +1,5 @@
-import { LitElement, html } from "lit";
-import { customElement } from "lit/decorators.js";
+import { html } from "lit";
+import { DDSElement, ddsElement } from "../../base";
 
 /**
  * The list component is used to list items using the list item component.
@@ -24,8 +24,8 @@ import { customElement } from "lit/decorators.js";
  * </daikin-list>
  * ```
  */
-@customElement("daikin-list")
-export class DaikinList extends LitElement {
+@ddsElement("daikin-list")
+export class DaikinList extends DDSElement {
   override render() {
     return html`<div role="list">
       <slot></slot>

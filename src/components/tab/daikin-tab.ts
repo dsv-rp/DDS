@@ -1,6 +1,7 @@
 import { cva } from "class-variance-authority";
-import { LitElement, css, html, unsafeCSS } from "lit";
-import { customElement, property, query } from "lit/decorators.js";
+import { css, html, unsafeCSS } from "lit";
+import { property, query } from "lit/decorators.js";
+import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 
 const cvaTab = cva(
@@ -20,7 +21,7 @@ const cvaTab = cva(
 
     "focus-visible:outline-none",
     "focus-visible:before:absolute",
-    "focus-visible:before:-inset-[3px]",
+    "focus-visible:before:-inset-1",
     "focus-visible:before:z-[1]",
     "focus-visible:before:border",
     "focus-visible:before:border-2",
@@ -83,8 +84,8 @@ const cvaTab = cva(
  * <daikin-tab value="foo">Foo tab</daikin-tab>
  * ```
  */
-@customElement("daikin-tab")
-export class DaikinTab extends LitElement {
+@ddsElement("daikin-tab")
+export class DaikinTab extends DDSElement {
   static override readonly styles = css`
     ${unsafeCSS(tailwindStyles)}
 
