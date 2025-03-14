@@ -4,6 +4,7 @@ import { property, queryAssignedElements, state } from "lit/decorators.js";
 import { DDSElement, ddsElement } from "../../base";
 import tailwindStyles from "../../tailwind.css?inline";
 import type { MergeVariantProps } from "../../type-utils";
+import type { DaikinDatePicker } from "../date-picker/daikin-date-picker";
 import type { DaikinDropdown } from "../dropdown/daikin-dropdown";
 import type { DaikinRadioGroup } from "../radio-group/daikin-radio-group";
 import type { DaikinSelect } from "../select/daikin-select";
@@ -11,6 +12,7 @@ import type { DaikinTextArea } from "../text-area/daikin-text-area";
 import type { DaikinTextField } from "../text-field/daikin-text-field";
 
 type ControlElement =
+  | DaikinDatePicker
   | DaikinDropdown
   | DaikinRadioGroup
   | DaikinSelect
@@ -71,6 +73,7 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  * This component is particularly useful for creating complex forms where clear communication and guidance are essential.
  *
  * Hierarchies:
+ * - `daikin-input-group` > `daikin-date-picker`
  * - `daikin-input-group` > `daikin-dropdown` > `daikin-dropdown-item`
  * - `daikin-input-group` > `daikin-radio-group` > `daikin-radio`
  * - `daikin-input-group` > `daikin-select`
@@ -84,6 +87,7 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  * ```js
  * import "@daikin-oss/design-system-web-components/components/input-group/index.js";
  * <!-- Import the following as necessary. -->
+ * import "@daikin-oss/design-system-web-components/components/date-picker/index.js";
  * import "@daikin-oss/design-system-web-components/components/dropdown/index.js";
  * import "@daikin-oss/design-system-web-components/components/dropdown-item/index.js";
  * import "@daikin-oss/design-system-web-components/components/radio/index.js";
@@ -91,6 +95,14 @@ type HelperType = MergeVariantProps<typeof cvaHelper>["type"];
  * import "@daikin-oss/design-system-web-components/components/select/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-area/index.js";
  * import "@daikin-oss/design-system-web-components/components/text-field/index.js";
+ * ```
+ *
+ * With Date Picker:
+ *
+ * ```html
+ * <daikin-input-group>
+ *   <daikin-date-picker></daikin-date-picker>
+ * </daikin-input-group>
  * ```
  *
  * With Dropdown:
@@ -229,7 +241,7 @@ export class DaikinInputGroup extends DDSElement {
 
   @queryAssignedElements({
     selector:
-      "daikin-dropdown,daikin-radio-group,daikin-select,daikin-text-field,daikin-text-area",
+      "daikin-date-picker,daikin-dropdown,daikin-radio-group,daikin-select,daikin-text-field,daikin-text-area",
   })
   private readonly _controls!: readonly ControlElement[];
 

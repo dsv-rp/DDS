@@ -1,3 +1,4 @@
+import "#package/components/date-picker/daikin-date-picker";
 import "#package/components/dropdown-item/daikin-dropdown-item";
 import "#package/components/dropdown/daikin-dropdown";
 import "#package/components/input-group/daikin-input-group";
@@ -32,6 +33,11 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
         textarea-max-count=${ifDefined(textareaMaxCount)}
         textarea-limit-exceed-error=${ifDefined(textareaLimitExceedError)}
       >
+        ${content === "DatePicker"
+          ? html`<daikin-date-picker
+              placeholder="Select a date"
+            ></daikin-date-picker>`
+          : nothing}
         ${content === "Dropdown"
           ? html`<daikin-dropdown placeholder="Choose an Option">
               <daikin-dropdown-item value="value1">

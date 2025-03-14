@@ -4,7 +4,13 @@ import type { Meta, StoryObj } from "@storybook/web-components";
 
 export interface DaikinInputGroupStoryArgs
   extends Required<ElementProps<DaikinInputGroup>> {
-  content: "Dropdown" | "RadioGroup" | "Select" | "TextField" | "TextArea";
+  content:
+    | "DatePicker"
+    | "Dropdown"
+    | "RadioGroup"
+    | "Select"
+    | "TextField"
+    | "TextArea";
   onChange: () => void;
   onInput: () => void;
   onKeyDown: () => void;
@@ -34,7 +40,14 @@ export const DAIKIN_INPUT_GROUP_ARG_TYPES = {
   },
   content: {
     control: "radio",
-    options: ["Dropdown", "RadioGroup", "Select", "TextArea", "TextField"],
+    options: [
+      "DatePicker",
+      "Dropdown",
+      "RadioGroup",
+      "Select",
+      "TextArea",
+      "TextField",
+    ],
     description: "Slot content to show",
   },
 } satisfies Meta<DaikinInputGroupStoryArgs>["argTypes"];

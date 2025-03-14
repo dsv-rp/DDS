@@ -13,6 +13,7 @@ const getPageURL = (args: StoryArgs = {}) =>
   getStorybookIframeURL("components-input-group--default", args);
 
 const innerContent = {
+  DatePicker: "daikin-date-picker",
   Dropdown: "daikin-dropdown",
   RadioGroup: "daikin-radio-group",
   Select: "daikin-select",
@@ -22,7 +23,14 @@ const innerContent = {
 
 describeEach(["light", "dark"] as const, (theme) => {
   describeEach(
-    ["Dropdown", "RadioGroup", "Select", "TextField", "TextArea"] as const,
+    [
+      "DatePicker",
+      "Dropdown",
+      "RadioGroup",
+      "Select",
+      "TextField",
+      "TextArea",
+    ] as const,
     (content) => {
       describeEach(["enabled", "disabled"] as const, (state) => {
         describeEach(["optional", "required"] as const, (required) => {

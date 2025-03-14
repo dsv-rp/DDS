@@ -2,6 +2,7 @@ import { DaikinInputGroup } from "#package/components/input-group/daikin-input-g
 import { createComponent } from "@lit/react";
 import type { Meta } from "@storybook/react";
 import React from "react";
+import { ReactDaikinDatePicker } from "../../date-picker/stories/framework-react";
 import { ReactDaikinDropdownItem } from "../../dropdown-item/stories/framework-react";
 import { ReactDaikinDropdown } from "../../dropdown/stories/framework-react";
 import { ReactDaikinRadioGroup } from "../../radio-group/stories/framework-react";
@@ -21,6 +22,9 @@ export const metadata: Meta<DaikinInputGroupStoryArgs> = {
   component: ({ content, ...props }: DaikinInputGroupStoryArgs) => (
     <div style={{ width: "360px" }}>
       <ReactDaikinInputGroup {...props}>
+        {content === "DatePicker" && (
+          <ReactDaikinDatePicker placeholder="Select a date" />
+        )}
         {content === "Dropdown" && (
           <ReactDaikinDropdown placeholder="Choose an Option">
             <ReactDaikinDropdownItem value="value1">
