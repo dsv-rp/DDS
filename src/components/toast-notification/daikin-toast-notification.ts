@@ -28,6 +28,8 @@ export type ToastNotificationVariantProps = MergeVariantProps<
  * Hierarchy:
  * - `daikin-toast-notification-manager` > `daikin-toast-notification`
  *
+ * @tokenImports ../../utils/notification-common.ts
+ *
  * @fires close - A custom event emitted when a user clicks the close button.
  *
  * @slot A slot for the toast notification description content.

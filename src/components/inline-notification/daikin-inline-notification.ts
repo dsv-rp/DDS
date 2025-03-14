@@ -18,6 +18,8 @@ import type { ToastNotificationVariantProps } from "../toast-notification";
  * An inline notification appears within the content of the application, usually embedded directly within a page or section.
  * Inline notification is more persistent than toast notification and are used to highlight important information or status updates that should remain visible to the user until they are acknowledged or the issue is resolved.
  *
+ * @tokenImports ../../utils/notification-common.ts
+ *
  * @fires close - A custom event emitted when a user clicks the close button.
  *
  * @slot title - A slot for the title content.

@@ -8,6 +8,9 @@
 
     "types": ["node"],
 
+    "jsx": "react-jsx",
+    "jsxImportSource": "hono/jsx",
+
     "exactOptionalPropertyTypes": false
   },
   "include": [

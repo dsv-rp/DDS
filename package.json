@@ -130,6 +130,7 @@
     "eslint-plugin-lit-a11y": "^4.1.4",
     "eslint-plugin-wc": "^2.2.0",
     "fast-glob": "^3.3.3",
+    "hono": "^4.7.4",
     "http-server": "^14.1.1",
     "husky": "^9.1.7",
     "jiti": "^2.4.2",

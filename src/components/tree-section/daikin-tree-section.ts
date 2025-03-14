@@ -24,6 +24,8 @@ import {
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-item`
  * - `daikin-tree` > `daikin-tree-section` > `daikin-tree-section` ...
  *
+ * @tokenImports ../tree-item/daikin-tree-item.ts
+ *
  * @fires toggle - _Cancellable._ A custom event emitted when the user clicks the header.
  * @fires tree-move-focus - _Internal use._ A custom event used to move the focus within a tree.
  *
