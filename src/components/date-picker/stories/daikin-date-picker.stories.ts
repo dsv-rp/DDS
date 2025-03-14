@@ -89,7 +89,9 @@ export const HasValue: Story = {
       async () => {
         await userEvent.click(getByShadowRole(root, "button", { name: "10" }));
         await expect(root).not.toHaveAttribute("open");
-        await expect(root).toHaveProperty("value", "2020-01-10");
+        await expect(
+          new Date(root.value ?? "").toLocaleDateString("en-US")
+        ).toBe("1/10/2020");
         await expect(input).toHaveProperty("value", "1/10/2020");
         await expect(args.onSelect).toBeCalledTimes(1);
       }

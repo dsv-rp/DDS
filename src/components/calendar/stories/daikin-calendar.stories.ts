@@ -34,6 +34,8 @@ export const HasValue: Story = {
   play: definePlay(async ({ args, canvasElement, step }) => {
     const root = canvasElement.getElementsByTagName("daikin-calendar")[0];
     await expect(root).toBeInTheDocument();
+    const formatDate = (date: string) =>
+      new Date(date).toLocaleDateString("en-US");
 
     const prevButton = getByShadowRole(root, "button", {
       name: "Previous month",
@@ -49,8 +51,9 @@ export const HasValue: Story = {
         await userEvent.keyboard("[ArrowUp]");
         await userEvent.keyboard("[ArrowUp]");
         await userEvent.keyboard("[Enter]");
+        console.log(formatDate(root.value ?? ""));
 
-        await expect(root).toHaveProperty("value", "2019-12-26");
+        await expect(formatDate(root.value ?? "")).toBe("12/26/2019");
         await expect(args.onSelect).toHaveBeenCalledTimes(1);
       }
     );
@@ -65,7 +68,7 @@ export const HasValue: Story = {
         await userEvent.keyboard("[ArrowUp]");
         await userEvent.keyboard("[ArrowLeft]");
         await userEvent.keyboard("[Enter]");
-        await expect(root).toHaveProperty("value", "2019-12-13");
+        await expect(formatDate(root.value ?? "")).toBe("12/13/2019");
         await expect(args.onSelect).toHaveBeenCalledTimes(2);
       }
     );
@@ -88,7 +91,7 @@ export const HasValue: Story = {
         }).focus();
         await userEvent.keyboard("[ArrowDown]");
         await userEvent.keyboard("[Enter]");
-        await expect(root).toHaveProperty("value", "2020-01-05");
+        await expect(formatDate(root.value ?? "")).toBe("1/5/2020");
         await expect(args.onSelect).toHaveBeenCalledTimes(3);
       }
     );
@@ -103,7 +106,7 @@ export const HasValue: Story = {
         await userEvent.keyboard("[ArrowDown]");
         await userEvent.keyboard("[ArrowRight]");
         await userEvent.keyboard("[Enter]");
-        await expect(root).toHaveProperty("value", "2020-02-05");
+        await expect(formatDate(root.value ?? "")).toBe("2/5/2020");
         await expect(args.onSelect).toHaveBeenCalledTimes(4);
       }
     );
