@@ -7,7 +7,7 @@ import { ReactDaikinIcon } from "../../icon/stories/framework-react";
 import { ReactDaikinListItem } from "../../list-item/stories/framework-react";
 import type { DaikinListStoryArgs } from "./common";
 
-const ReactDaikinList = createComponent({
+export const ReactDaikinList = createComponent({
   tagName: "daikin-list",
   elementClass: DaikinList,
   react: React,

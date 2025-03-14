@@ -18,6 +18,7 @@ export * from "./input-group";
 export * from "./link";
 export * from "./list";
 export * from "./list-item";
+export * from "./menu";
 export * from "./pagination";
 export * from "./progress-bar";
 export * from "./progress-indicator";
