@@ -24,3 +24,11 @@
 #storybook-docs .docblock-argstable tbody tr:has(td:first-child > span:empty) {
   display: none;
 }
+
+iframe.design-tokens-iframe {
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+  resize: vertical;
+  border: 1px solid hsla(203, 50%, 30%, 0.15);
+}

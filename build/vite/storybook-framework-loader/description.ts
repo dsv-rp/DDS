@@ -41,7 +41,7 @@ There are three types of events, but in all cases \`event.target\` always points
 
   if (tokens.length > 0) {
     const tokensURL = `tokens.html?filter=${tokens.join(",")}&iframe=1`;
-    content += `\n\n### Design Tokens\n<details><summary>Show design tokens used by this component</summary><iframe style="width:100%;height:400px;overflow:auto;resize:vertical;" src="${escapeHTML(tokensURL)}"></iframe></details>`;
+    content += `\n\n### Design Tokens\n<details><summary>Show design tokens used by this component</summary><iframe class="design-tokens-iframe" src="${escapeHTML(tokensURL)}"></iframe></details>`;
   }
 
   return content;

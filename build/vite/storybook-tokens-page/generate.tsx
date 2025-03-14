@@ -119,11 +119,11 @@ const PAGE_CSS = `
     height: 100%;
 
     --page-fg: #121212;
-    --page-bg: #fafafa;
+    --page-bg: #ffffff;
     --table-header-fg: inherit;
-    --table-header-bg: #fafafa;
+    --table-header-bg: var(--page-bg);
     --link-fg: #00689a;
-    --code-bg: rgba(0, 0, 0, 0.05);
+    --code-bg: rgba(0, 0, 0, 0.04);
   }
 
   :root {
@@ -158,7 +158,27 @@ const PAGE_CSS = `
   .table-container {
     width: 100%;
     max-height: calc(100dvh - 12rem);
+    min-height: 8rem;
     overflow: auto;
+  }
+
+  @media (min-width: 1016px) {
+    .table-container.expanded {
+      width: calc(100svw - 2rem);
+      margin: 0 calc(500px - 50svw);
+    }
+
+    .table-container.expanded table {
+      margin: auto;
+    }
+
+    #expand-table {
+      display: inline-block !important;
+      margin-top: 1rem;
+      background: none;
+      font-size: 1rem;
+      color: var(--link-fg);
+    }
   }
 
   .table-container table {
@@ -254,7 +274,7 @@ const PAGE_CSS = `
   }
 
   .tw-container p {
-    margin: 0.5rem 0;
+    margin: 1rem 0;
   }
 
   .tw-container ul {
@@ -268,7 +288,6 @@ const PAGE_CSS = `
 
 const PAGE_JS = `
   const sp = new URLSearchParams(location.search);
-
   const filter = sp.get("filter")?.split(",") ?? [];
   const iframe = sp.get("iframe") === "1";
 
@@ -293,6 +312,12 @@ const PAGE_JS = `
     openInNewWindow.href = \`\${location.pathname}\${filter.length ? \`?filter=\${filter.join(",")}\` : ""}\`;
     openInNewWindow.hidden = false;
   }
+
+  const expandTable = document.querySelector("button#expand-table");
+  expandTable.addEventListener("click", () => {
+    const tableContainer = document.querySelector(".table-container");
+    tableContainer.classList.toggle("expanded");
+  });
 `;
 
 interface TokenData {
@@ -351,43 +376,48 @@ function TokenPage({
           <a id="reset-filter" href="." hidden>
             Reset filter
           </a>
-          <div class="table-container">
-            <table id="table">
-              <thead>
-                <th>Token Name</th>
-                <th>CSS Variable Name</th>
-                <th>Category</th>
-                <th>Value</th>
-                <th>Value (Dark)</th>
-              </thead>
-              <tbody>
-                {tokens.map((token) => (
-                  <tr
-                    id={token.name}
-                    data-id={token.name}
-                    data-category={token.type}
-                  >
-                    <td class="cell-token-name">
-                      <code>{token.name.replaceAll("-", ".")}</code>
-                    </td>
-                    <td class="cell-css-var-name">
-                      <code>--dds-{token.name}</code>
-                    </td>
-                    <td class="cell-category">
-                      <a href={`#${headingToId(token.typeName)}`}>
-                        {token.typeName}
-                      </a>
-                    </td>
-                    <td class="cell-value-base">
-                      <TokenValue value={token.baseValue} />
-                    </td>
-                    <td class="cell-value-dark">
-                      <TokenValue value={token.darkValue} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div>
+            <div class="table-container">
+              <table id="table">
+                <thead>
+                  <th>Token Name</th>
+                  <th>CSS Variable Name</th>
+                  <th>Category</th>
+                  <th>Value</th>
+                  <th>Value (Dark)</th>
+                </thead>
+                <tbody>
+                  {tokens.map((token) => (
+                    <tr
+                      id={token.name}
+                      data-id={token.name}
+                      data-category={token.type}
+                    >
+                      <td class="cell-token-name">
+                        <code>{token.name.replaceAll("-", ".")}</code>
+                      </td>
+                      <td class="cell-css-var-name">
+                        <code>--dds-{token.name}</code>
+                      </td>
+                      <td class="cell-category">
+                        <a href={`#${headingToId(token.typeName)}`}>
+                          {token.typeName}
+                        </a>
+                      </td>
+                      <td class="cell-value-base">
+                        <TokenValue value={token.baseValue} />
+                      </td>
+                      <td class="cell-value-dark">
+                        <TokenValue value={token.darkValue} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <button id="expand-table" hidden>
+              Expand table
+            </button>
           </div>
           <div class="tw-container">
             <h2 id="tailwindcss">Tailwind CSS Usage</h2>
