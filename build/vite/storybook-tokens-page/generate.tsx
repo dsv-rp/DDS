@@ -113,25 +113,39 @@ const PAGE_CSS = `
 
   /* Our CSS */
 
-  :root,
-  body {
-    width: 100%;
-    height: 100%;
-
-    --page-fg: #121212;
+  :root {
+    --page-fg: #414141;
     --page-bg: #ffffff;
-    --table-header-fg: inherit;
-    --table-header-bg: var(--page-bg);
     --link-fg: #00689a;
     --code-bg: rgba(0, 0, 0, 0.04);
-  }
+    --box-border: #000000;
 
-  :root {
     background: var(--page-bg);
     color: var(--page-fg);
   }
 
+  :root.dark {
+    --page-fg: #dcdcdc;
+    --page-bg: #212121;
+    --link-fg: #76cff4;
+    --code-bg: rgba(255, 255, 255, 0.05);
+    --box-border: #ffffff;
+
+    color-scheme: dark;
+  }
+
+  :root, body {
+    width: 100%;
+    height: 100%;
+  }
+
   a {
+    color: var(--link-fg);
+  }
+
+  button {
+    background: none;
+    font-size: 1rem;
     color: var(--link-fg);
   }
 
@@ -149,6 +163,12 @@ const PAGE_CSS = `
 
   .container > * {
     flex: 0 0 auto;
+  }
+
+  .controls {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 0.75rem 2rem;
   }
 
   h1 {
@@ -175,9 +195,6 @@ const PAGE_CSS = `
     #expand-table {
       display: inline-block !important;
       margin-top: 1rem;
-      background: none;
-      font-size: 1rem;
-      color: var(--link-fg);
     }
   }
 
@@ -190,8 +207,7 @@ const PAGE_CSS = `
     position: sticky;
     top: 0;
     z-index: 1;
-    background: var(--table-header-bg);
-    color: var(--table-header-fg);
+    background: var(--page-bg);
   }
 
   .table-container th,
@@ -233,7 +249,7 @@ const PAGE_CSS = `
   [data-category="color"] .value-box {
     display: inline-block;
     background: var(--value);
-    border: solid 1px black;
+    border: solid 1px var(--box-border);
   }
 
   [data-category="borderWidth"] .value-box {
@@ -243,20 +259,20 @@ const PAGE_CSS = `
   [data-category="borderWidth"] .value-box::before {
     content: "";
     height: var(--value);
-    background: black;
+    background: var(--box-border);
   }
 
   [data-category="spacing"] .value-box {
     display: inline-block;
     width: calc(var(--value) + 2px);
-    border-left: solid 1px black;
-    border-right: solid 1px black;
+    border-left: solid 1px var(--box-border);
+    border-right: solid 1px var(--box-border);
   }
 
   [data-category="spacing"] .value-box::before {
     content: "";
     height: 1px;
-    background: black;
+    background: var(--box-border);
   }
 
   /* Tailwind CSS Usage */
@@ -318,6 +334,11 @@ const PAGE_JS = `
     const tableContainer = document.querySelector(".table-container");
     tableContainer.classList.toggle("expanded");
   });
+
+  const switchTheme = document.querySelector("button#switch-theme");
+  switchTheme.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+  });
 `;
 
 interface TokenData {
@@ -370,21 +391,24 @@ function TokenPage({
       <body>
         <div class="container">
           <h1 id="title">DDS Design Tokens v{tokensVersion}</h1>
-          <a id="open-in-new-window" target="_blank" href="#" hidden>
-            Open in new window
-          </a>
-          <a id="reset-filter" href="." hidden>
-            Reset filter
-          </a>
+          <div class="controls">
+            <a id="open-in-new-window" target="_blank" href="#" hidden>
+              Open in new window
+            </a>
+            <a id="reset-filter" href="." hidden>
+              Reset filter
+            </a>
+            <button id="switch-theme">Switch Theme</button>
+          </div>
           <div>
             <div class="table-container">
               <table id="table">
                 <thead>
-                  <th>Token Name</th>
-                  <th>CSS Variable Name</th>
-                  <th>Category</th>
-                  <th>Value</th>
-                  <th>Value (Dark)</th>
+                  <th class="cell-token-name">Token Name</th>
+                  <th class="cell-css-var-name">CSS Variable Name</th>
+                  <th class="cell-category">Category</th>
+                  <th class="cell-value-light">Value</th>
+                  <th class="cell-value-dark">Value (Dark)</th>
                 </thead>
                 <tbody>
                   {tokens.map((token) => (
@@ -404,7 +428,7 @@ function TokenPage({
                           {token.typeName}
                         </a>
                       </td>
-                      <td class="cell-value-base">
+                      <td class="cell-value-light">
                         <TokenValue value={token.baseValue} />
                       </td>
                       <td class="cell-value-dark">
@@ -485,5 +509,5 @@ export async function generateTokensHTML(): Promise<string> {
   );
 
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  return rendered.toString();
+  return "<!DOCTYPE html>" + rendered.toString();
 }
