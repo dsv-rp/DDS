@@ -596,7 +596,7 @@ export class DaikinCalendar extends LitElement {
               tabindex=${ifDefined(
                 !isCurrentMonth || focusable != date ? -1 : undefined
               )}
-              data-count=${count}
+              aria-current="date"
               @click=${() =>
                 this._handleCalendarClick(
                   this._getNewDateWithCounter(count, this.viewDate, date)
